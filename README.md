@@ -39,6 +39,11 @@ return [
 ```
 更改为你的数据库信息
 
+3. 后台
+
+你的域名/admin 
+用户名/密码:admin/111111
+
 
 如果你需要 `api` 开发请下载:  
 ThinkCMF5 API :https://github.com/thinkcmf/thinkcmfapi
