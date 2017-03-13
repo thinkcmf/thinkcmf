@@ -10,7 +10,7 @@ ThinkCMF 5.0 开发者预览版
 ### 安装步骤
 
 
-1.创建 thinkcmf5数据库(默认编码utfmb4),并导入 update/thinkcmf5.sql
+1.创建 thinkcmf5数据库(默认编码utf8mb4),并导入 update/thinkcmf5.sql
 
 2.在 data目录下创建 conf/database.php 文件,内容如下:
 
