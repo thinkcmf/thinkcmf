@@ -40,5 +40,8 @@ return [
 更改为你的数据库信息
 
 
+如果你需要 `api` 开发请下载:  
+ThinkCMF5 API :https://github.com/thinkcmf/thinkcmfapi
+
 QQ群:100828313 (付费)
 
