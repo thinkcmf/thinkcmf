@@ -1,0 +1,46 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>{:lang('USER_OAUTHADMIN_INDEX')}</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>{:lang('USER_FROM')}</th>
+                <th>{:lang('AVATAR')}</th>
+                <th>{:lang('BINGDING_ACCOUNT')}</th>
+                <th>{:lang('FIRST_LOGIN_TIME')}</th>
+                <th>{:lang('LAST_LOGIN_TIME')}</th>
+                <th>{:lang('LAST_LOGIN_IP')}</th>
+                <th>{:lang('LOGIN_TIMES')}</th>
+                <th align="center">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="lists" item="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.third_party}</td>
+                    <td><img width="25" height="25" src="{$vo.avatar}"/></td>
+                    <td>{$vo.user_nickname}</td>
+                    <td>{:date('Y-m-d H:i:s',$vo['create_time'])}</td>
+                    <td>{:date('Y-m-d H:i:s',$vo['last_login_time'])}</td>
+                    <td>{$vo.last_login_ip}</td>
+                    <td>{$vo.login_times}</td>
+                    <td>
+                        <a href="{:url('adminOauth/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <ul class="pagination">{$page}</ul>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

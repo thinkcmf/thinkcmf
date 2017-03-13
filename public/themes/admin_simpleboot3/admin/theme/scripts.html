@@ -1,0 +1,80 @@
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    function doSelectData(obj) {
+        var $obj              = $(obj);
+        var $realInput        = $obj.next();
+        var selectedObjectsId = $realInput.val();
+        var dataSource        = $obj.data('source');
+        var title             = $obj.data('title');
+        parent.open_iframe_layer("{:url('theme/dataSource')}?ids=" + selectedObjectsId + '&data_source=' + dataSource, title, {
+            area: ['700px', '90%'],
+            btn: ['确定', '取消'],
+            yes: function (index, layero) {
+                var iframeWin       = parent.window[layero.find('iframe')[0]['name']];
+                var selectedObjects = iframeWin.confirm();
+                if (selectedObjects.selectedObjectsId.length == 0) {
+                    layer.msg('您没有选择任何数据!');
+                    return;
+                }
+                $realInput.val(selectedObjects.selectedObjectsId.join(','));
+                $obj.val(selectedObjects.selectedObjectsName.join(','));
+                parent.layer.close(index); //如果设定了yes回调，需进行手工关闭
+            }
+        });
+    }
+
+    function doEditArrayData(obj) {
+        var $obj   = $(obj);
+        var mVar   = $obj.data('var');
+        var title  = $obj.data('title');
+        var widget = $obj.data('widget');
+        widget     = widget ? '&widget=' + widget : '';
+
+        parent.open_iframe_layer(
+            "{:url('theme/fileArrayData')}?tab={$tab}&file_id={$file_id}&" + 'var=' + mVar + widget,
+            title,
+            {
+                area: ['700px', '90%'],
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    var iframeWin       = parent.window[layero.find('iframe')[0]['name']];
+                    var selectedObjects = iframeWin.confirm();
+                    if (selectedObjects.selectedObjectsId.length == 0) {
+                        layer.msg('您没有选择任何数据!');
+                        return;
+                    }
+                    $realInput.val(selectedObjects.selectedObjectsId.join(','));
+                    $obj.val(selectedObjects.selectedObjectsName.join(','));
+                    parent.layer.close(index); //如果设定了yes回调，需进行手工关闭
+                }
+            }
+        );
+    }
+
+    function doSelectLocation(obj) {
+        var $obj       = $(obj);
+        var title      = $obj.data('title');
+        var $realInput = $obj.next();
+        var location   = $realInput.val();
+
+        parent.open_iframe_layer(
+            "{:url('dialog/map')}?location=" + location,
+            title,
+            {
+                area: ['700px', '90%'],
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    var iframeWin = parent.window[layero.find('iframe')[0]['name']];
+                    var location  = iframeWin.confirm();
+                    $realInput.val(location.lng + ',' + location.lat);
+                    $obj.val(location.address);
+                    parent.layer.close(index); //如果设定了yes回调，需进行手工关闭
+                }
+            }
+        );
+    }
+
+    function confirm() {
+        $('#submit-btn').click();
+    }
+</script>

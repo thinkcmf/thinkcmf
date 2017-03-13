@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<tc_include file="Public:head" />
+<style>
+	.address-select-wrap{
+		width: 32%;
+		float: left;
+		margin:0;
+	}
+	#address-city-select-wrap{
+		margin: 0 2%;
+	}
+</style>
+</head>
+<body class="body-white" style="padding: 0;">
+	<div class="container tc-main">
+		<div class="row">
+			<div class="col-md-12">
+				<form class="js-ajax-form" action="{:U('address/add_post')}" method="post">
+					<div class="form-group">
+						<label for="input-consignee">收件人</label>
+						<input type="text" class="form-control" id="input-consignee" placeholder="收件人" name="consignee">
+					</div>
+					<div class="form-group">
+						<label for="input-alias">别名</label>
+						<input type="text" class="form-control" id="input-alias" placeholder="地址别名，方便记忆，如:学校、公司、实验室" name="alias">
+					</div>
+					<div class="form-group">
+						<label class="control-label">收件地址</label>
+						<div class="js-address-select" data-url="{:U('user/address/getChildAreas')}">
+							<div class="address-select-wrap">
+								<select class="form-control js-address-province-select" name="province">
+									<option value="">请选择省市</option>
+									<foreach name="provinces" item="vo"> 
+										<option value="{$vo.id}">{$vo.name}</option>
+									</foreach>
+								</select>
+							</div>
+							<div class="address-select-wrap" id="address-city-select-wrap">
+								<select class="form-control js-address-city-select" name="city" style="display: none;">
+									<option value="" class="js-address-empty-option">请选择市或区</option>
+								</select>
+							</div>
+							<div class="address-select-wrap" id="address-district-select-wrap">
+								<select class="form-control js-address-district-select" name="district" style="display: none;">
+									<option value="" class="js-address-empty-option">请选择区县</option>
+								</select>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="input-address">详细地址</label>
+						<input class="form-control" type="text" id="input-address" placeholder="详细地址" name="address">
+					</div>
+					<div class="form-group">
+						<label for="input-zipcode">邮编</label> 
+						<input class="form-control" type="text" id="input-zipcode" placeholder="邮编" name="zipcode">
+					</div>
+					<div class="form-group">
+						<label for="input-mobile">手机</label> 
+						<input class="form-control" type="text" id="input-mobile" placeholder="手机" name="mobile">
+					</div>
+					<div class="form-group">
+						<label for="input-mobile2">备用联系方式</label> 
+						<input class="form-control" type="text" id="input-mobile2" placeholder="备用联系方式" name="mobile2">
+					</div>
+					<div class="form-actions" style="display: none;">
+						<button class="btn btn-primary js-ajax-submit" type="submit" data-success="successCallback">提交</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- /container -->
+
+	<tc_include file="Public:scripts" />
+	<script>
+		var submit=function(){
+			return false;
+		}
+		
+		var callback;
+		function successCallback(data, statusText, xhr, $form){
+			var origin = artDialog.open.origin;
+
+			if(data.status==1){
+				noty({text: data.message,
+            		type:'success',
+            		layout:'center'
+            	});
+				origin[callback]({id:data.id});
+				art.dialog.close();
+			}else{
+				noty({text: data.message,
+            		type:'error',
+            		layout:'center'
+            	});
+			}
+		}
+		Wind.use('artDialog','iframeTools',function(){
+			submit=function(param){
+				callback=param.callback;
+				$('.js-ajax-submit').click();
+				//art.dialog.close();
+			};
+		});
+	</script>
+</body>
+</html>

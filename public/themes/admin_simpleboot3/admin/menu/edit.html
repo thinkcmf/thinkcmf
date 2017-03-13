@@ -1,0 +1,96 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:url('menu/index')}">{:lang('ADMIN_MENU_INDEX')}</a></li>
+			<li><a href="{:url('menu/add')}">{:lang('ADMIN_MENU_ADD')}</a></li>
+			<li class="active"><a>编辑菜单</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('menu/editPost')}">
+			<div class="form-group">
+				<label for="input-parent_id" class="col-sm-2 control-label"><span class="form-required">*</span>上级</label>
+				<div class="col-md-6 col-sm-10">
+					<select class="form-control" name="parent_id" id="input-parent_id">
+						<option value="0">作为一级菜单</option>{$select_category}
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-name" class="col-sm-2 control-label"><span class="form-required">*</span>名称</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-name" name="name" value="{$data.name}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-app" class="col-sm-2 control-label"><span class="form-required">*</span>应用</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-app" name="app" value="{$data.app}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-controller" class="col-sm-2 control-label"><span class="form-required">*</span>控制器</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-controller" name="controller" value="{$data.controller}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-action" class="col-sm-2 control-label"><span class="form-required">*</span>方法</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-action" name="action" value="{$data.action}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-param" class="col-sm-2 control-label">参数</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-param" name="param" value="{$data.param}">
+					<p class="help-block">例:id=3&amp;p=3</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-icon" class="col-sm-2 control-label">图标</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-icon" name="icon" value="{$data.icon}">
+					<p class="help-block">
+						<a href="http://www.thinkcmf.com/font/icons" target="_blank">选择图标</a> 不带前缀fa-，如fa-user => user
+					</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-remark" class="col-sm-2 control-label">备注</label>
+				<div class="col-md-6 col-sm-10">
+					<textarea class="form-control" id="input-remark" name="remark">{$data.remark}</textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-status" class="col-sm-2 control-label">状态</label>
+				<div class="col-md-6 col-sm-10" id="input-status">
+					<select class="form-control" name="status">
+						<option value="1">显示</option>
+						<php>$status_selected=empty($data['status'])?"selected":"";</php>
+						<option value="0" {$status_selected}>隐藏</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-type" class="col-sm-2 control-label">类型</label>
+				<div class="col-md-6 col-sm-10">
+					<select class="form-control" name="type" id="input-type">
+						<option value="1">可访问菜单</option>
+						<php>$type_selected=empty($data['type'])?"selected":"";</php>
+						<option value="0" {$type_selected}>菜单</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<input type="hidden" name="id" value="{$data.id}" />
+					<button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+					<a class="btn btn-default" href="{:url('menu/index')}">{:lang('BACK')}</a>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

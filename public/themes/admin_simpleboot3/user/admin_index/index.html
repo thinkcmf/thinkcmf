@@ -1,0 +1,65 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a>{:lang('USER_INDEXADMIN_INDEX')}</a></li>
+		</ul>
+		<form class="well form-inline margin-top-20" method="post" action="{:url('user/adminIndex/index')}">
+			用户ID：
+			<input class="form-control" type="text" name="uid" style="width: 200px;" value="{:input('request.uid')}" placeholder="请输入用户ID">
+			关键字：
+			<input class="form-control" type="text" name="keyword" style="width: 200px;" value="{:input('request.keyword')}" placeholder="用户名/昵称/邮箱">
+			<input type="submit" class="btn btn-primary" value="搜索" />
+			<a class="btn btn-danger" href="{:url('user/adminIndex/index')}">清空</a>
+		</form>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>{:lang('USERNAME')}</th>
+						<th>{:lang('NICENAME')}</th>
+						<th>{:lang('AVATAR')}</th>
+						<th>{:lang('EMAIL')}</th>
+						<th>手机</th>
+						<th>{:lang('REGISTRATION_TIME')}</th>
+						<th>{:lang('LAST_LOGIN_TIME')}</th>
+						<th>{:lang('LAST_LOGIN_IP')}</th>
+						<th>{:lang('STATUS')}</th>
+						<th>{:lang('ACTIONS')}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<php>$user_statuses=array("0"=>lang('USER_STATUS_BLOCKED'),"1"=>lang('USER_STATUS_ACTIVATED'),"2"=>lang('USER_STATUS_UNVERIFIED'));</php>
+					<foreach name="list" item="vo">
+					<tr>
+						<td>{$vo.id}</td>
+						<td>{$vo['user_login']?$vo['user_login']:($vo['mobile']?$vo['mobile']:lang('THIRD_PARTY_USER'))}</td>
+						<td>{$vo['user_nicename']?$vo['user_nicename']:lang('NOT_FILLED')}</td>
+						<td><img width="25" height="25" src="{:url('user/public/avatar',array('id'=>$vo['id']))}" /></td>
+						<td>{$vo.user_email}</td>
+						<td>{$vo.mobile}</td>
+						<td>{:date('Y-m-d H:i:s',$vo['create_time'])}</td>
+						<td>{:date('Y-m-d H:i:s',$vo['last_login_time'])}</td>
+						<td>{$vo.last_login_ip}</td>
+						<td>{$user_statuses[$vo['user_status']]}</td>
+						<td>
+							<neq name="vo.id" value="1">
+								<a href="{:url('adminIndex/ban',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn" data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}">{:lang('BLOCK_USER')}</a>|
+								<a href="{:url('adminIndex/cancelban',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn" data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}">{:lang('ACTIVATE_USER')}</a>
+							<else/>
+								<a style="color: #ccc;">{:lang('BLOCK_USER')}</a>|
+								<a style="color: #ccc;">{:lang('ACTIVATE_USER')}</a>
+							</neq>
+						</td>
+					</tr>
+					</foreach>
+				</tbody>
+			</table>
+			<div class="pagination">{$page}</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

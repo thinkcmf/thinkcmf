@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>ThinkCMF {:lang('ADMIN_CENTER')}</title>
+        <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge" />
+        <meta name="renderer" content="webkit|ie-comp|ie-stand">
+        <meta name="robots" content="noindex,nofollow">
+        <link href="__TMPL__/public/assets/css/admin_login.css" rel="stylesheet" />
+        <link href="__STATIC__/js/artDialog/skins/default.css" rel="stylesheet" />
+        <style>
+            #login_btn_wraper{
+                text-align: center;
+            }
+            #login_btn_wraper .tips_success{
+                color:#fff;
+            }
+            #login_btn_wraper .tips_error{
+                color:#DFC05D;
+            }
+            #login_btn_wraper button:focus{outline:none;}
+        </style>
+        <script>
+            if (window.parent !== window.self) {
+                document.write = '';
+                window.parent.location.href = window.self.location.href;
+                setTimeout(function () {
+                    document.body.innerHTML = '';
+                }, 0);
+            }
+        </script>
+	</head>
+<body>
+	<div class="wrap">
+		<h1><a>ThinkCMF</a></h1>
+		<form method="post" name="login" action="{:url('public/doLogin')}" autoComplete="off" class="js-ajax-form">
+			<div class="login">
+				<ul>
+					<li>
+						<input class="input" id="js-admin-name" name="username" type="text" placeholder="{:lang('USERNAME_OR_EMAIL')}" title="{:lang('USERNAME_OR_EMAIL')}" value="{:cookie('admin_username')}" data-rule-required="true"  data-msg-required=""/>
+					</li>
+					<li>
+						<input class="input" id="admin_pwd" type="password" name="password" placeholder="{:lang('PASSWORD')}" title="{:lang('PASSWORD')}" data-rule-required="true"  data-msg-required=""/>
+					</li>
+
+				</ul>
+				<div id="login_btn_wraper">
+					<button type="submit" name="submit" class="btn js-ajax-submit" data-loadingmsg="{:lang('LOADING')}">{:lang('LOGIN')}</button>
+				</div>
+			</div>
+		</form>
+	</div>
+    <script type="text/javascript">
+        //全局变量
+        var GV = {
+            ROOT: "__ROOT__/",
+            WEB_ROOT: "__WEB_ROOT__/",
+            JS_ROOT: "static/js/",
+            APP:''/*当前应用名*/
+        };
+    </script>
+    <script src="__TMPL__/public/assets/simpleboot3/js/jquery-1.10.2.min.js"></script>
+    <script src="__STATIC__/js/wind.js"></script>
+    <script src="__STATIC__/js/admin.js"></script>
+    <script>
+        (function(){
+            document.getElementById('js-admin-name').focus();
+        })();
+    </script>
+</body>
+</html>

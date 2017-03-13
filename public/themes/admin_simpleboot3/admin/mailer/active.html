@@ -1,0 +1,42 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:url('mailer/index')}">{:lang('ADMIN_MAILER_INDEX')}</a></li>
+			<li class="active"><a href="#" data-toggle="tab">{:lang('ADMIN_MAILER_ACTIVE')}</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form margin-top-20" role="form" action="{:url('admin/mailer/activePost')}">
+			<div class="form-group">
+				<label for="input-title" class="col-sm-2 control-label">{:lang('EMAIL_SUBJECT')}</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" name="subject" id="input-title" value="{$subject|default=''}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-title" class="col-sm-2 control-label">{:lang('EMAIL_TEMPLATE')}</label>
+				<div class="col-md-10 col-sm-12">
+					<script type="text/plain" id="content" name="template">{$template|default=''}</script>
+					<span style="color: #ffb752;">{:lang('EMAIL_TEMPLATE_HELP_TEXT',array('link'=>'http://#link#','username'=>'#username#'))}</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+	<script type="text/javascript">
+		//编辑器路径定义
+		var editorURL = GV.WEB_ROOT;
+	</script>
+	<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+	<script type="text/javascript">
+		var editorcontent = new baidu.editor.ui.Editor();
+		editorcontent.render('content');
+	</script>
+</body>
+</html>

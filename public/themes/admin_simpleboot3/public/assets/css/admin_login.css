@@ -1,0 +1,181 @@
+/*
+===================
+@explain: 系统后台登录页面
+@copyright: Copyright 2012,phpwind.com
+@author: longwenid@gmail.com
+$Id: admin_login.css 22060 2012-12-19 03:01:55Z yanchixia $
+===================
+*/
+html{
+	padding:0;
+	margin:0;
+	background:#1262B7;
+}
+body {
+	padding:0;
+	margin:0;
+	font-family:Arial, "Microsoft Yahei";
+}
+.wrap {
+	width: 250px;
+	overflow:hidden;
+	margin: 180px auto 0;
+	-webkit-animation: bounceIn 600ms linear;
+	-moz-animation: bounceIn 600ms linear;
+	-o-animation: bounceIn 600ms linear;
+	animation: bounceIn 600ms linear;
+}
+
+h1 a {
+	display: block;
+	height: 50px;
+	width: 250px;
+	margin:auto;
+	overflow: hidden;
+	color:#fff;
+	font-size: 45px;
+    font-weight: normal;
+    text-align: center;
+    text-decoration: none;
+    line-height: 50px;
+}
+
+.login ul,
+.login li{
+	padding:0;
+	margin:0;
+	list-style:none;
+}
+.login ul{
+	background:#fff;
+	border:none;
+	box-shadow:1px 1px 1px #ccc inset;
+	border-radius:3px;
+	overflow:hidden;
+	margin-bottom:15px;
+	width:248px;
+	overflow:hidden;
+}
+.login li{
+	border-top:1px solid #d3d4d4;
+	padding:5px;
+}
+.login .verifycode-wrapper{
+	padding:0px;
+}
+.login li img{
+	vertical-align:top;
+}
+.login .input {
+	width: 225px;
+	padding: 5px;
+	vertical-align: middle;
+	border:0 none;
+	background:transparent;
+	font-size:18px;
+	font-family:Arial,"Microsoft Yahei";
+}
+.login .input:focus {
+	outline:0 none;
+}
+.btn {
+	width: 248px;
+	height: 38px;
+	padding: 0;
+	margin: 0;
+	vertical-align: middle;
+	background:#549fcc url(../images/btn.png) no-repeat;
+	overflow:visible;
+	color:#fff;
+	font-size:20px;
+	cursor:pointer;
+	font-family:Arial, "Microsoft Yahei";
+	border:none;
+	border-radius:3px;
+}
+.btn:hover{
+	background-position:0 -40px;
+}
+.btn:active {
+	background-position:0 -80px;
+}
+.placeholder{
+	color:#999;
+}
+/*登录框动画*/
+@-webkit-keyframes bounceIn {
+	0% {
+		opacity: 0;
+		-webkit-transform: scale(.3);
+	}
+
+	50% {
+		opacity: 1;
+		-webkit-transform: scale(1.05);
+	}
+
+	70% {
+		-webkit-transform: scale(.9);
+	}
+
+	100% {
+		-webkit-transform: scale(1);
+	}
+}
+@-moz-keyframes bounceIn {
+	0% {
+		opacity: 0;
+		-moz-transform: scale(.3);
+	}
+
+	50% {
+		opacity: 1;
+		-moz-transform: scale(1.05);
+	}
+
+	70% {
+		-moz-transform: scale(.9);
+	}
+
+	100% {
+		-moz-transform: scale(1);
+	}
+}
+@-o-keyframes bounceIn {
+	0% {
+		opacity: 0;
+		-o-transform: scale(.3);
+	}
+
+	50% {
+		opacity: 1;
+		-o-transform: scale(1.05);
+	}
+
+	70% {
+		-o-transform: scale(.9);
+	}
+
+	100% {
+		-o-transform: scale(1);
+	}
+}
+@keyframes bounceIn {
+	0% {
+		opacity: 0;
+		transform: scale(.3);
+	}
+
+	50% {
+		opacity: 1;
+		transform: scale(1.05);
+	}
+
+	70% {
+		transform: scale(.9);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}

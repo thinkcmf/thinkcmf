@@ -1,0 +1,18 @@
+{
+    "name": "文章页",
+    "action": "portal/Article/index",
+    "description": "文章页模板文件",
+    "order": 4.0,
+    "more": {
+        "vars": {
+            "hot_articles_category_id": {
+                "title": "Hot Articles分类ID",
+                "name": "hot_articles_category_id",
+                "value": "1",
+                "type": "text",
+                "tip": "",
+                "rule": []
+            }
+        }
+    }
+}

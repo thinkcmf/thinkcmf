@@ -1,0 +1,294 @@
+{
+    "name": "首页",
+    "action": "portal/Index/index",
+    "description": "首页模板文件",
+    "order": 6.0,
+    "more": {
+        "vars": {
+            "test_select": {
+                "title": "您常用的ThinkCMF应用",
+                "value": "2",
+                "type": "select",
+                "options": {
+                    "1": "ThinkCMFX",
+                    "2": "ThinkCMF",
+                    "3": "跟猫玩糗事",
+                    "4": "门户应用"
+                },
+                "tip": "",
+                "rule": {
+                    "require": "require"
+                }
+            },
+            "last_news_category_id": {
+                "title": "最新资讯分类ID",
+                "value": "",
+                "type": "text",
+                "dataSource": {
+                    "api": "portal/category/index",
+                    "multi": true
+                },
+                "placeholder": "请选择分类",
+                "tip": "",
+                "rule": {
+                    "require": true
+                }
+            },
+            "features": {
+                "title": "特性介绍",
+                "value": [],
+                "type": "array",
+                "item": {
+                    "title": {
+                        "title": "标题",
+                        "value": "",
+                        "type": "text"
+                    },
+                    "icon": {
+                        "title": "图标",
+                        "value": "",
+                        "type": "text"
+                    },
+                    "content": {
+                        "title": "描述",
+                        "value": "",
+                        "type": "text"
+                    }
+                },
+                "tip": "",
+                "rule": {
+                    "require": true
+                }
+            }
+        },
+        "widgets": {
+            "all_widget": {
+                "title": "所有组件演示",
+                "name": "all_widget",
+                "display": "1",
+                "vars": {
+                    "text": {
+                        "title": "测试 text",
+                        "value": "1",
+                        "type": "text",
+                        "tip": "这是一个text",
+                        "rule": {
+                            "require": true
+                        }
+                    },
+                    "data_source": {
+                        "title": "测试 数据源",
+                        "value": "1",
+                        "type": "text",
+                        "dataSource": {
+                            "api": "portal/category/index",
+                            "multi": true
+                        },
+                        "tip": "这是一个数据源text",
+                        "rule": {
+                            "require": true
+                        }
+                    },
+                    "textarea": {
+                        "title": "测试textarea",
+                        "value": "1",
+                        "type": "textarea",
+                        "tip": "这是一个测试",
+                        "rule": {
+                            "require": true
+                        },
+                        "message": {
+                            "require": "测试textarea不能为空"
+                        }
+                    },
+                    "date": {
+                        "title": "测试date",
+                        "value": "",
+                        "type": "date",
+                        "tip": "这是一个测试",
+                        "rule": {
+                            "require": true
+                        },
+                        "message": {
+                            "require": "测试date不能为空"
+                        }
+                    },
+                    "datetime": {
+                        "title": "测试datetime",
+                        "value": "",
+                        "type": "datetime",
+                        "tip": "这是一个测试",
+                        "rule": {
+                            "require": true
+                        }
+                    },
+                    "image": {
+                        "title": "测试image",
+                        "value": "",
+                        "type": "image",
+                        "tip": "这是一个测试",
+                        "rule": {
+                            "require": true
+                        }
+                    },
+                    "gallery": {
+                        "title": "测试gallery",
+                        "value": "",
+                        "type": "gallery",
+                        "tip": "这是一个测试",
+                        "rule": {
+                            "require": true
+                        }
+                    },
+                    "number": {
+                        "title": "测试number",
+                        "value": "1",
+                        "type": "number",
+                        "tip": "这是一个测试",
+                        "rule": {
+                            "require": true
+                        }
+                    },
+                    "location": {
+                        "title": "测试location",
+                        "value": "",
+                        "type": "location",
+                        "tip": "这是一个测试",
+                        "rule": {
+                            "require": true
+                        }
+                    },
+                    "file": {
+                        "title": "测试file",
+                        "value": "",
+                        "type": "file",
+                        "tip": "这是一个测试",
+                        "rule": {
+                            "require": true
+                        }
+                    },
+                    "color": {
+                        "title": "测试color",
+                        "value": "",
+                        "type": "color",
+                        "tip": "",
+                        "rule": {
+                            "require": true
+                        }
+                    },
+                    "select": {
+                        "title": "测试 select",
+                        "value": "2",
+                        "type": "select",
+                        "options": {
+                            "1": "ThinkCMFX",
+                            "2": "ThinkCMF",
+                            "3": "跟猫玩糗事",
+                            "4": "门户应用"
+                        },
+                        "tip": "这是一个测试",
+                        "rule": {
+                            "require": true
+                        }
+                    },
+                    "features": {
+                        "title": "测试array",
+                        "value": [],
+                        "type": "array",
+                        "item": {
+                            "title": {
+                                "title": "标题",
+                                "value": "",
+                                "type": "text",
+                                "tip": "这是一个测试",
+                                "rule": {
+                                    "require": true
+                                }
+                            },
+                            "icon": {
+                                "title": "图标",
+                                "value": "",
+                                "type": "text",
+                                "tip": "这是一个测试",
+                                "rule": {
+                                    "require": true
+                                }
+                            },
+                            "content": {
+                                "title": "描述",
+                                "value": "",
+                                "type": "text",
+                                "tip": "这是一个测试",
+                                "rule": {
+                                    "require": true
+                                }
+                            }
+                        },
+                        "tip": "这是一个测试",
+                        "rule": {
+                            "require": true
+                        }
+                    }
+                }
+            },
+            "all_widget_data_source": {
+                "title": "所有组件数据源演示",
+                "name": "all_widget_data_source",
+                "display": "1",
+                "vars": {
+                    "data_source": {
+                        "title": "测试 数据源",
+                        "name": "data_source",
+                        "value": "",
+                        "type": "text",
+                        "dataSource": {
+                            "api": "portal/category/index",
+                            "multi": true
+                        },
+                        "tip": "这是一个测试",
+                        "rule": {
+                            "require": true
+                        }
+                    },
+                    "data_source_filter": {
+                        "title": "测试数据源过滤器",
+                        "name": "data_source_filter",
+                        "value": "",
+                        "type": "text",
+                        "dataSource": {
+                            "api": "portal/category/index",
+                            "multi": true,
+                            "filters": {
+                                "keyword": {
+                                    "title": "关键字",
+                                    "type": "text",
+                                    "placeholder": "请输入关键字..."
+                                },
+                                "keyword2": {
+                                    "title": "关键字2",
+                                    "type": "text",
+                                    "placeholder": "请输入关键字2..."
+                                },
+                                "nav_id": {
+                                    "title": "导航",
+                                    "type": "select",
+                                    "placeholder": "请选择导航",
+                                    "api": "portal/category/index"
+                                },
+                                "keyword3": {
+                                    "title": "关键字3",
+                                    "type": "text",
+                                    "placeholder": "请输入关键字3..."
+                                }
+                            }
+                        },
+                        "tip": "这是一个测试",
+                        "rule": {
+                            "require": true
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

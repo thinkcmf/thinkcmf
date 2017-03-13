@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+
+.input-order {
+	width: 30px;
+}
+
+.wrap {
+	padding: 20px 20px 70px;
+}
+
+.margin-top-10 {
+	margin-top: 10px !important;
+}
+
+.margin-top-20 {
+	margin-top: 20px !important;
+}

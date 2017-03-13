@@ -1,0 +1,71 @@
+<include file="public@header" />
+<style>.expander{margin-left: -20px;}</style>
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:url('rbac/index')}">{:lang('ADMIN_RBAC_INDEX')}</a></li>
+			<li><a href="{:url('rbac/roleAdd')}">{:lang('ADMIN_RBAC_ROLEADD')}</a></li>
+			<li class="active"><a href="javascript:;">{:lang('ADMIN_RBAC_AUTHORIZE')}</a></li>
+		</ul>
+		<form class="js-ajax-form margin-top-20"  action="{:url('rbac/authorizePost')}" method="post">
+			<div class="table_full">
+				<table class="table table-bordered" id="authrule-tree">
+					<tbody>
+						{$category}
+					</tbody>
+				</table>
+			</div>
+			<div class="form-actions">
+				<input type="hidden" name="roleId" value="{$roleId}" />
+				<button class="btn btn-primary js-ajax-submit" type="submit">{:lang('SAVE')}</button>
+				<a class="btn btn-default" href="{:url('admin/rbac/index')}">{:lang('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function () {
+		Wind.css('treeTable');
+	    Wind.use('treeTable', function () {
+	        $("#authrule-tree").treeTable({
+	            indent: 20
+	        });
+	    });
+	});
+
+    function checknode(obj) {
+        var chk = $("input[type='checkbox']");
+        var count = chk.length;
+
+        var num = chk.index(obj);
+        var level_top = level_bottom = chk.eq(num).attr('level');
+        for (var i = num; i >= 0; i--) {
+            var le = chk.eq(i).attr('level');
+            if (le <level_top) {
+                chk.eq(i).prop("checked", true);
+                var level_top = level_top - 1;
+            }
+        }
+        for (var j = num + 1; j < count; j++) {
+            var le = chk.eq(j).attr('level');
+            if (chk.eq(num).prop("checked")) {
+
+                if (le > level_bottom){
+                    chk.eq(j).prop("checked", true);
+                }
+                else if (le == level_bottom){
+                    break;
+                }
+            } else {
+                if (le >level_bottom){
+                    chk.eq(j).prop("checked", false);
+                }else if(le == level_bottom){
+                    break;
+                }
+            }
+        }
+    }
+	</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:url('user/index')}">{:lang('ADMIN_USER_INDEX')}</a></li>
+			<li class="active"><a href="{:url('user/add')}">{:lang('ADMIN_USER_ADD')}</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('user/addpost')}">
+			<div class="form-group">
+				<label for="input-user_login" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('USERNAME')}</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-user_login" name="user_login">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-user_pass" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('PASSWORD')}</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-user_pass" name="user_pass" placeholder="******">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-user_email" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('EMAIL')}</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-user_email" name="user_email">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input-user_email" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('ROLE')}</label>
+				<div class="col-md-6 col-sm-10">
+					<foreach name="roles" item="vo">
+						<label class="checkbox-inline">
+							<input value="{$vo.id}" type="checkbox" name="role_id[]" <if condition="cmf_get_current_admin_id() neq 1 && $vo['id'] eq 1">disabled="true"</if>>{$vo.name}
+						</label>
+					</foreach>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

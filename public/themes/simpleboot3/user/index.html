@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$site_name}</title>
+<meta name="keywords" content="{$site_seo_keywords}" />
+<meta name="description" content="{$site_seo_description}">
+<tc_include file="Public:head" />
+<style>
+.control-label{
+	font-weight: bold;
+	float: left;
+	width: 70px;
+}
+</style>
+</head>
+<body class="body-white" id="top">
+	<tc_include file="Public:nav" />
+
+		<div class="container tc-main">
+                <div class="row">
+                
+                <div class="tabs col-md-offset-2 col-md-8">
+                               <!-- <ul class="nav nav-tabs">
+                                   <li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-list-alt"></i>个人中心</a></li>
+                               </ul> -->
+                               <div class="tab-content">
+                                   <div class="tab-pane active" id="one">
+                                   		<div class="col-md-3">
+						                	<a href="javascript:;">
+						                	<if condition="empty($avatar)">
+								            <img src="__TMPL__Public/assets/images/headicon_128.png" class="headicon"/>
+								            <else/>
+								            <img src="{:sp_get_user_avatar_url($avatar)}" class="headicon"/>
+								            </if>
+								          	</a>
+							          	</div>
+							          	<div class="col-md-3">
+					               			<div class="control-group">
+					               				<label class="control-label" for="input-user_nicename">昵称</label>
+					               				<div class="controls">
+					               					{$user_nicename|default='未填写'}
+					               				</div>
+					               			</div>
+					               			<div class="control-group">
+					               				<label class="control-label" for="input-sex">性别</label>
+					               				<div class="controls">
+					               				<php>
+					               				$sexs=array("0"=>"保密","1"=>"程序猿","2"=>"程序媛");
+					               				
+					               				</php>
+					               					{$sexs[$sex]}
+					               				</div>
+					               			</div>
+					               			<div class="control-group">
+					               				<label class="control-label" for="input-birthday">生日</label>
+					               				<div class="controls">
+					               					{$birthday|default='未填写'}
+					               				</div>
+					               			</div>
+					               			<div class="control-group">
+					               				<label class="control-label" for="input-user_url">个人网址</label>
+					               				<div class="controls">
+					               					{$user_url|default='未填写'}
+					               				</div>
+					               			</div>
+					               			<div class="control-group">
+					               				<label class="control-label" for="input-signature">个性签名</label>
+					               				<div class="controls">
+					               					{$signature|default='未填写'}
+					               				</div>
+					               			</div>
+					               		</div>
+                                   </div>
+                               </div>							
+                 </div>
+                </div>
+
+		<tc_include file="Public:footer" />
+
+	</div>
+	<!-- /container -->
+
+	<tc_include file="Public:scripts" />
+</body>
+</html>

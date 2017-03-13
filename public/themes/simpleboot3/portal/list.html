@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$category.name}</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="">
+    <include file="public@head"/>
+</head>
+<body class="body-white">
+<include file="public@nav"/>
+<div class="container">
+    <php>$demo_time=2;</php>
+    <h2>{$category.name}</h2>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="">
+                <php>
+                    $where=[
+                    'post.create_time'=>['egt',0]
+                    ];
+                </php>
+                <articles item="vo" field="*" where="$where" limit="0,8" order="post.create_time DESC" page="10"
+                          relation="categories"
+                          categoryIds="$category.id">
+                    <php>
+                        $more=json_decode($vo['more'], true);
+                    </php>
+
+                    <div class="list-boxes">
+                        <h2><a href="{:url('article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}">{$vo.post_title}</a>
+                        </h2>
+                        <p>{$vo.post_excerpt}</p>
+                        <div>
+                            <div class="pull-left">
+                                <div class="list-actions">
+                                    <a href="javascript:;"><i class="fa fa-eye"></i><span>{$vo.post_hits}</span></a>
+                                    <a href="{:url('article/do_like',array('id'=>$vo['id']))}"
+                                       class="js-count-btn"><i class="fa fa-thumbs-up"></i><span class="count">{$vo.post_like}</span></a>
+                                    <a href="{:url('user/favorite/do_favorite',array('id'=>$vo['id']))}"
+                                       class="js-favorite-btn" data-title="{$vo.post_title}"
+                                       data-url="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}"
+                                    >
+                                        <i class="fa fa-star-o"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <a class="btn btn-warning pull-right"
+                               href="{:url('article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}">查看更多</a>
+                        </div>
+                    </div>
+                </articles>
+
+            </div>
+            <ul class="pagination">
+                <page/>
+            </ul>
+        </div>
+        <div class="col-md-3">
+
+            <div class="tc-box first-box">
+                <div class="headtitle">
+                    <h2>热门文章</h2>
+                </div>
+                <div class="ranking">
+                    <php>
+                        $hot_articles=[];
+                    </php>
+                    <ul class="list-unstyled">
+                        <articles limit="5" order="post.post_hits DESC">
+                            <php>$top=$key<3?"top3":"";</php>
+                            <li class="{$top}">
+                                <i>{$key+1}</i>
+                                <a title="{$vo.post_title}"
+                                   href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$vo.category_id))}">
+                                    {$vo.post_title}
+                                </a>
+                            </li>
+                        </articles>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tc-box">
+                <div class="headtitle">
+                    <h2>最新发布</h2>
+                </div>
+                <div class="posts">
+                    <articles limit="5" order="post.published_time DESC">
+                        <php>$more=json_decode($vo['more'],true);</php>
+                        <dl class="dl-horizontal">
+                            <dt>
+                                <a class="img-wraper"
+                                   href="{:url('portal/article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">
+                                    <if condition="empty($more['thumbnail'])">
+                                        <img src="__TMPL__/public/assets/images/default_tupian4.png"
+                                             class="img-responsive" alt="{$vo.post_title}"/>
+                                        <else/>
+                                        <img src="__TMPL__/public/assets/images/default_tupian4.png"
+                                             class="img-responsive" alt="{$vo.post_title}"/>
+                                    </if>
+                                </a>
+                            </dt>
+                            <dd>
+                                <a href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$vo.category_id))}">{$vo.post_title}</a>
+                            </dd>
+                        </dl>
+                    </articles>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <include file="public@footer"/>
+</div>
+
+<include file="public@scripts"/>
+</body>
+</html>

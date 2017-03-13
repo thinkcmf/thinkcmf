@@ -1,0 +1,216 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#A" data-toggle="tab">{:lang('WEB_SITE_INFOS')}</a></li>
+			<li><a href="#B" data-toggle="tab">{:lang('SEO_SETTING')}</a></li>
+			<li><a href="#C" data-toggle="tab">{:lang('URL_SETTING')}</a></li>
+			<li><a href="#E" data-toggle="tab">{:lang('COMMENT_SETTING')}</a></li>
+			<li><a href="#F" data-toggle="tab">{:lang("USERNAME_FILTER")}</a></li>
+			<li><a href="#G" data-toggle="tab">CDN设置</a></li>
+		</ul>
+		<form class="form-horizontal js-ajax-form margin-top-20" role="form" action="{:url('setting/sitePost')}" method="post">
+			<fieldset>
+				<div class="tabbable">
+					<div class="tab-content">
+						<div class="tab-pane active" id="A">
+							<div class="form-group">
+								<label for="input-site-name" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('WEBSITE_NAME')}</label>
+								<div class="col-md-6 col-sm-10">
+									<input type="text" class="form-control" id="input-site-name" name="options[site_name]" value="{$site_name|default=''}">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="input-admin_url_password" class="col-sm-2 control-label">后台地址加密码</label>
+								<div class="col-md-6 col-sm-10">
+									<input type="text" class="form-control" id="input-admin_url_password" name="options[site_admin_url_password]" value="{$site_admin_url_password|default=''}" id="js-site-admin-url-password">
+									<p class="help-block" style="color: red;">设置加密码后必须通过以下地址访问后台,请劳记此地址，为了安全，您也可以定期更换此加密码!</p>
+									<php>$site_admin_url_password =config("SP_SITE_ADMIN_URL_PASSWORD");</php>
+									<if condition="!empty($site_admin_url_password)">
+									<p class="help-block">后台地址：<span id="js-site-admin-url">{:sp_get_host()}__ROOT__?g=admin&upw={:config('SP_SITE_ADMIN_URL_PASSWORD')}</span></p>
+									</if>
+								</div>
+							</div>
+							<!--
+							<div class="form-group">
+								<label for="input-site_tpl" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('WEBSITE_THEME')}</label>
+								<div class="col-md-6 col-sm-10">
+									<select class="form-control" name="options[site_tpl]" id="input-site_tpl" >
+										<foreach name="templates" item="vo">
+										<php>$tpl_selected=$site_tpl==$vo?"selected":"";</php>
+										<option value="{$vo}" {$tpl_selected}>{$vo}</option>
+										</foreach>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="input-mobile_tpl_enabled" class="col-sm-2 control-label">{:lang('ENABLE_MOBILE_THEME')}</label>
+								<div class="col-md-6 col-sm-10">
+									<php>$mobile_tpl_enabled_checked=empty($mobile_tpl_enabled)?'':'checked';</php>
+									<div class="checkbox">
+										<label><input type="checkbox" name="options[mobile_tpl_enabled]" value="1" id="input-mobile_tpl_enabled" {$mobile_tpl_enabled_checked}></label>
+									</div>
+								</div>
+							</div>
+							-->
+							<div class="form-group">
+								<label for="input-site_adminstyle" class="col-sm-2 control-label">{:lang('WEBSITE_ADMIN_THEME')}</label>
+								<div class="col-md-6 col-sm-10">
+									<php>$site_adminstyle=empty($site_adminstyle)?'flat':$site_adminstyle;</php>
+									<select class="form-control" name="options[site_adminstyle]" id="input-site_adminstyle">
+										<foreach name="adminstyles" item="vo">
+										<php>$adminstyle_selected=$site_adminstyle==$vo?"selected":"";</php>
+										<option value="{$vo}" {$adminstyle_selected}>{$vo}</option>
+										</foreach>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="input-html_cache_on" class="col-sm-2 control-label">{:lang('HTML_CACHE')}</label>
+								<div class="col-md-6 col-sm-10">
+									<php>$html_cache_on_checked=empty($html_cache_on)?'':'checked';</php>
+									<div class="checkbox">
+										<label><input type="checkbox" name="options[mobile_tpl_enabled]" value="1" id="input-html_cache_on" {$html_cache_on_checked}></label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="input-site_icp" class="col-sm-2 control-label">{:lang('WEBSITE_ICP')}</label>
+								<div class="col-md-6 col-sm-10">
+									<input type="text" class="form-control" id="input-site_icp" name="options[site_icp]" value="{$site_icp|default=''}">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="input-site_admin_email" class="col-sm-2 control-label">{:lang('WEBMASTER_EMAIL')}</label>
+								<div class="col-md-6 col-sm-10">
+									<input type="text" class="form-control" id="input-site_admin_email" name="options[site_admin_email]" value="{$site_admin_email|default=''}">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="input-site_analytics" class="col-sm-2 control-label">{:lang('WEBSITE_STATISTICAL_CODE')}</label>
+								<div class="col-md-6 col-sm-10">
+									<textarea class="form-control" id="input-site_analytics" name="options[site_analytics]">{$site_analytics|default=''}</textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="input-site_copyright" class="col-sm-2 control-label">{:lang('WEBSITE_COPYRIGHT_INFOMATION')}</label>
+								<div class="col-md-6 col-sm-10">
+									<input type="text" class="form-control" id="input-site_copyright" name="options[site_copyright]" value="{$site_copyright|default=''}">
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="B">
+							<div class="form-group">
+								<label for="input-site_seo_title" class="col-sm-2 control-label">{:lang('WEBSITE_SEO_TITLE')}</label>
+								<div class="col-md-6 col-sm-10">
+									<input type="text" class="form-control" id="input-site_seo_title" name="options[site_seo_title]" value="{$site_seo_title|default=''}">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="input-site_seo_keywords" class="col-sm-2 control-label">{:lang('WEBSITE_SEO_KEYWORDS')}</label>
+								<div class="col-md-6 col-sm-10">
+									<input type="text" class="form-control" id="input-site_seo_keywords" name="options[site_seo_keywords]" value="{$site_seo_keywords|default=''}">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="input-site_seo_description" class="col-sm-2 control-label">{:lang('WEBSITE_SEO_DESCRIPTION')}</label>
+								<div class="col-md-6 col-sm-10">
+									<textarea class="form-control" id="input-site_seo_description" name="options[site_seo_description]">{$site_seo_description|default=''}</textarea>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="C">
+							<div class="form-group">
+								<label for="input-urlmode" class="col-sm-2 control-label">{:lang('URL_MODE')}</label>
+								<div class="col-md-6 col-sm-10">
+									<php>$urlmodes=array( "0"=>lang('URL_NORMAL_MODE'), "1"=>lang('URL_PATHINFO_MODE'), "2"=>lang('URL_REWRITE_MODE'));</php>
+									<select class="form-control" name="options[urlmode]" id="input-urlmode">
+										<foreach name="urlmodes" item="vo">
+										<php>$urlmode_selected=isset($urlmode)&&$key==$urlmode?"selected":"";</php>
+										<option value="{$key}" {$urlmode_selected}>{$vo}</option>
+										</foreach>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="input-html_suffix" class="col-sm-2 control-label">{:lang('URL_REWRITE_SUFFIX')}</label>
+								<div class="col-md-6 col-sm-10">
+									<input type="text" class="form-control" id="input-html_suffix" name="options[html_suffix]" value="{$html_suffix|default=''}">
+									<p class="help-block">{:lang('URL_REWRITE_SUFFIX_HELP_TEXT')}</p>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="E">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{:lang('COMMENT_CHECK')}</label>
+								<div class="col-md-6 col-sm-10">
+									<php>$comment_need_checked=empty($comment_need_check)?"":"checked";</php>
+									<div class="checkbox">
+										<label><input type="checkbox" name="options[comment_need_check]" value="1" {$comment_need_checked}></label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="input-comment_time_interval" class="col-sm-2 control-label">{:lang('COMMENT_TIME_INTERVAL')}</label>
+								<div class="col-md-6 col-sm-10">
+									<input type="text" class="form-control" id="input-comment_time_interval" name="options[comment_time_interval]" value="{$comment_time_interval|default=60}">
+									<p class="help-block">单位秒</p>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="F">
+							<div class="form-group">
+								<label for="input-banned_usernames" class="col-sm-2 control-label">{:lang('SPECAIL_USERNAME')}</label>
+								<div class="col-md-6 col-sm-10">
+									<textarea class="form-control" id="input-banned_usernames" name="cmf_settings[banned_usernames]">{$cmf_settings.banned_usernames}</textarea>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="G">
+							<div class="form-group">
+								<label for="input-cdn_static_root" class="col-sm-2 control-label">静态资源cdn地址</label>
+								<div class="col-md-6 col-sm-10">
+									<input type="text" class="form-control" id="input-cdn_static_root" name="cdn_settings[cdn_static_root]" value="{$cdn_settings.cdn_static_root|default=''}">
+									<p class="help-block">
+										不能以/结尾；设置这个地址后，请将ThinkCMF下的静态资源文件放在其下面；<br>
+										ThinkCMF下的静态资源文件大致包含以下(如果你自定义后，请自行增加)：<br>
+										admin/themes/simplebootx/Public/assets<br>
+										public<br>
+										themes/simplebootx/Public/assets<br>
+										例如未设置cdn前：jquery的访问地址是/public/js/jquery.js, 设置cdn是后它的访问地址就是：静态资源cdn地址+/public/js/jquery.js
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+
+	</div>
+	<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+	<script>
+		$(function(){
+			$("#urlmode-select").change(function(){
+				if($(this).val()==1){
+					alert("更改后，若发现前台链接不能正常访问，可能是您的服务器不支持PATHINFO，请先修改data/conf/config.php文件的URL_MODEL为0保证网站正常运行,在配置服务器PATHINFO功能后再更新为PATHINFO模式！");
+				}
+				
+				if($(this).val()==2){
+					alert("更改后，若发现前台链接不能正常访问，可能是您的服务器不支持REWRITE，请先修改data/conf/config.php文件的URL_MODEL为0保证网站正常运行，在开启服务器REWRITE功能后再更新为REWRITE模式！");
+				}
+			});
+			$("#js-site-admin-url-password").change(function(){
+				$(this).data("changed",true);
+			});
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$site_name}</title>
+<meta name="keywords" content="{$site_seo_keywords}" />
+<meta name="description" content="{$site_seo_description}">
+<tc_include file="Public:head" />
+</head>
+
+<body class="body-white" id="top">
+	<tc_include file="Public:nav" />
+
+	<div class="container tc-main">
+		<div class="row">
+			<div class="col-md-3">
+				<tc_include file="Public:usernav" />
+			</div>
+			<div class="col-md-9">
+				<div class="tabs">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-star"></i> 我的收藏</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="one">
+							<br>
+							<table class="table table-bordered table-striped table-hover">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>标题</th>
+										<th>描述</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<foreach name="favorites" item="vo">
+									<tr>
+										<td>{$vo.id}</td>
+										<td>{$vo.title}</td>
+										<td>{$vo.description}</td>
+										<td>
+											<a href="{$vo.url}">查看</a> | 
+											<a class="js-ajax-dialog-btn" href="{:U('user/favorite/delete_favorite',array('id'=>$vo['id']))}" data-msg="您确定要取消收藏吗？" data-ok="" data-cacel="取消">取消收藏</a>
+										</td>
+									</tr>
+									</foreach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<tc_include file="Public:footer" />
+
+	</div>
+
+	<tc_include file="Public:scripts" />
+</body>
+</html>

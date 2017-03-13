@@ -1,0 +1,109 @@
+<include file="public@header" />
+<style>
+    .home-info li em {
+        float: left;
+        width: 120px;
+        font-style: normal;
+        font-weight: bold;
+    }
+
+    .home-info ul {
+        padding: 0;
+        margin: 0;
+    }
+</style>
+</head>
+<body>
+	<div class="wrap">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{:lang('SYSTEM_NOTIFICATIONS')}</h3>
+        </div>
+        <div class="panel-body home-info">
+            <ul id="thinkcmf-notices" class="list-unstyled">
+                <li>
+                    <img src="__TMPL__/public/assets/images/loading.gif" style="vertical-align: middle;"/>
+                    <span style="display: inline-block; vertical-align: middle;">加载中...</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{:lang('SYSTEM_INFORMATIONS')}</h3>
+        </div>
+        <div class="panel-body home-info">
+            <ul class="list-unstyled">
+                <volist name="server_info" id="vo">
+                    <li><em>{$key}</em> <span>{$vo}</span></li>
+                </volist>
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{:lang('INITIATE_TEAM')}</h3>
+        </div>
+        <div class="panel-body home-info">
+            <ul class="list-unstyled">
+                <li><em>核心开发者</em> <span>老猫,Sam,Tuolaji,Codefans,睡不醒的猪,小夏,Powerless</span></li>
+                <li><em>{:lang('TEAM_MEMBERS')}</em> <span>老猫,Sam,Tuolaji,Smile,Codefans,睡不醒的猪,Jack,日本那只猫</span></li>
+                <li><em>{:lang('CONTACT_EMAIL')}</em> <span>thinkcmf@126.com</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{:lang('CONTRIBUTORS')}</h3>
+        </div>
+        <div class="panel-body home-info">
+            <ul class="list-inline">
+                <li>Kin Ho</li>
+                <li><a href="http://wzx.thinkcmf.com" target="_blank">Powerless</a></li>
+                <li>Jess</li>
+                <li>木兰情</li>
+                <li><a href="http://www.91freeweb.com/" target="_blank">Labulaka</a></li>
+                <li><a href="http://www.syousoft.com/" target="_blank">WelKinVan</a></li>
+                <li><a href="http://blog.sina.com.cn/u/1918098881" target="_blank">Jeson</a></li>
+                <li>Yim</li>
+                <li><a href="http://www.jamlee.cn/" target="_blank">Jamlee</a></li>
+                <li><a>香香咸蛋黄</a></li>
+                <li><a>小夏</a></li>
+                <li><a href="http://www.xdmeng.cn" target="_blank">小凯</a></li>
+                <li><a href="https://www.devmsg.com" target="_blank">Co</a></li>
+                <li>Rainfer</li>
+            </ul>
+        </div>
+    </div>
+</div>
+	<script src="__STATIC__/js/admin.js"></script>
+	<php>
+		$lang_set=defined('LANG_SET')?LANG_SET:'';
+		$thinkcmf_version=defined('THINKCMF_VERSION')?THINKCMF_VERSION:'';
+	</php>
+	<script>
+	
+		//获取官方通知
+		$.getJSON("http://www.thinkcmf.com/service/sms_jsonp.php?lang={$lang_set}&v={$thinkcmf_version}&callback=?",
+		function(data) {
+			var tpl = '<li><em class="title"></em><span class="content"></span></li>';
+            var $notices = $("#thinkcmf-notices");
+            $notices.empty();
+			if (data.length > 0) {
+				$.each(data, function(i, n) {
+					var $tpl = $(tpl);
+					$(".title", $tpl).html(n.title);
+					$(".content", $tpl).html(n.content);
+                    $notices.append($tpl);
+				});
+			} else {
+                $notices.append("<li>^_^,{:lang('NO_NOTICE')}~~</li>");
+			}
+
+		});
+	</script>
+</body>
+</html>

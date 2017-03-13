@@ -1,0 +1,47 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('nav/index')}">{:lang('ADMIN_NAV_INDEX')}</a></li>
+        <li><a href="{:url('nav/add')}">{:lang('ADMIN_NAV_ADD')}</a></li>
+        <li class="active" ><a>{:lang('ADMIN_NAV_EDIT')}</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('nav/editPost')}">
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><span class="form-required">*</span>分类名称:</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="hidden" name="id" value="{$id}">
+                <input type="text" class="form-control" name="name" value="{$name}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">备注:</label>
+            <div class="col-md-6 col-sm-10">
+                <textarea class="form-control" name="remark" >{$remark}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">主菜单:</label>
+            <div class="col-md-6 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <php>$strMainMenuChecked=$is_main?"checked":"";</php>
+                        <input  type="checkbox" name="is_main" value="1" {$strMainMenuChecked} >
+                    </label>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary   js-ajax-submit">{:lang("SAVE")}</button>
+            <a class="btn" href="__URL__">返回</a>
+        </div>
+    </form>
+
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

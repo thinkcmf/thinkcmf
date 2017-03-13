@@ -1,0 +1,121 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li><a href="{:url('AdminPage/index')}">所有页面</a></li>
+		<li class="active"><a href="{:url('AdminPage/add')}">添加页面</a></li>
+	</ul>
+	<form action="{:url('AdminPage/addPost')}" method="post" class="form-horizontal js-ajax-forms margin-top-20">
+		<div class="row">
+			<div class="col-md-9">
+				<table class="table table-bordered">
+					<tr>
+						<th width="100">标题<span class="form-required">*</span></th>
+						<td>
+							<input class="form-control" type="text" style="width: 400px;" name="post[post_title]" placeholder="请输入标题" />
+						</td>
+					</tr>
+					<tr>
+						<th>模版</th>
+						<td>
+							<php>
+								$tpl_list=[];
+								unset($tpl_list['page']);
+							</php>
+							<select class="form-control"  style="width: 400px;" name="smeta[template]">
+								<option value="page">page.html</option>
+								<foreach name="tpl_list" item="vo">
+									<php>$template_selected=$smeta['template']==$vo?"selected":"";</php>
+									<option value="{$vo}"{$template_selected}>{$vo}.html</option>
+								</foreach>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>关键词</th>
+						<td>
+							<input class="form-control" type="text" name="post[post_keywords]" style="width:400px" placeholder="请输入关键字">
+							<p class="help-block">多关键词之间用空格隔开</p>
+						</td>
+					</tr>
+					<tr>
+						<th>摘要</th>
+						<td><textarea class="form-control" name="post[post_excerpt]" style="height: 50px;"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>内容</th>
+						<td>
+							<script type="text/plain" id="content" name="post[post_content]"></script>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-3">
+				<table class="table table-bordered">
+					<tr>
+						<th>缩略图</th>
+					</tr>
+					<tr>
+						<td>
+							<div style="text-align: center;">
+								<input type='hidden' name='smeta[thumb]' id='thumb' value="{$smeta.thumb|default=''}">
+								<a href="javascript:upload_one_image('图片上传','#thumb');">
+									<img src="__TMPL__/public/assets/images/default-thumbnail.png" id='thumb-preview' width='135' height='113' style='cursor: hand' />
+								</a>
+								<input type="button" class="btn btn-sm" onclick="$('#thumb-preview').attr('src','__TMPL__Public/assets/images/default-thumbnail.png');$('#thumb').val('');return false;" value="取消图片">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>发布时间</th>
+					</tr>
+					<tr>
+						<td><input class="form-control js-bootstrap-datetime" type="text" name="post[published_time]" value="{:date('Y-m-d H:i',time())}"></td>
+					</tr>
+					<tr>
+						<th>状态</th>
+					</tr>
+					<tr>
+						<td>
+							<div class="radio">
+								<label><input type="radio" name="post[post_status]" value="1" checked>发布</label>
+							</div>
+							<div class="radio">
+								<label><input type="radio" name="post[post_status]" value="0">待发布</label>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+				<a class="btn btn-default" href="{:url('AdminPage/index')}">{:lang('BACK')}</a>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        editorcontent = new baidu.editor.ui.Editor();
+        editorcontent.render('content');
+        try {
+            editorcontent.sync();
+        } catch (err) {
+        }
+    });
+</script>
+</body>
+</html>

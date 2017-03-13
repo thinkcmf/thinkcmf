@@ -1,0 +1,32 @@
+{
+    "name": "thinkcmf/cmfx",
+    "description": "ThinkCMF based on ThinkPHP 5.0 , it is a free and open source Content Management Framework(CMF)",
+    "type": "project",
+    "keywords": [
+    	"cmf",
+    	"thinkcmf",
+        "framework",
+        "thinkphp",
+        "ORM"
+    ],
+    "homepage": "http://www.thinkcmf.com/",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "thinkcmf",
+            "email": "zxxjjforever@163.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "topthink/think-helper":">=1.0",
+        "topthink/think-captcha": "^1.0",
+        "phpmailer/phpmailer": "^5.2"
+    },
+    "extra": {
+    },
+    "config": {
+        "preferred-install": "dist",
+        "vendor-dir":"simplewind/vendor"
+    }
+}

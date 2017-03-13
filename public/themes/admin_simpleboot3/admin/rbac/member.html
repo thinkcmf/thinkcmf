@@ -1,0 +1,37 @@
+<admintpl file="header" />
+</head>
+<body style="min-width: 600px;">
+	<div class="wrap">
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th align="center">ID</th>
+						<th>用户名</th>
+						<th>昵称</th>
+						<th>E-mail</th>
+						<th>角色名称</th>
+						<th align='center'>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<foreach name="lists" item="vo">
+					<tr>
+						<td align="center">{$vo.id}</td>
+						<td>{$vo.user_login}</td>
+						<td>{$vo.user_nicename}</td>
+						<td>{$vo.user_email}</td>
+						<!-- <td>{:date('Y-m-d H:i:s', $vo['create_time'])}</td> -->
+						<td>{$vo.name}</td>
+						<td align="center">
+							<a href="{:U('user/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">删除</a>
+						</td>
+					</tr>
+					</foreach>
+				</tbody>
+			</table>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

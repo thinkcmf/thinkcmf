@@ -1,0 +1,19 @@
+{
+    "name": "导航条",
+    "action": "portal/Public/nav",
+    "description": "导航条模板文件",
+    "is_public": "1",
+    "order": 8.0,
+    "more": {
+        "vars": {
+            "company_name": {
+                "title": "公司名称",
+                "name": "company_name",
+                "value": "ThinkCMF",
+                "type": "text",
+                "tip": "",
+                "rule": []
+            }
+        }
+    }
+}

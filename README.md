@@ -1,2 +1,3 @@
-# thinkcmf
-ThinkCMF5  is a content manage framework ,base on ThinkPHP5
+ThinkCMF 5.0 开发者预览版
+===============
+

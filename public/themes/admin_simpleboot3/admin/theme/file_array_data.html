@@ -1,0 +1,40 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>所有数据</a></li>
+        <li><a href="{:url('theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget])}">添加数据</a>
+        </li>
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20">
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <foreach name="array_item" item="vo">
+                    <th>{$vo.title}</th>
+                </foreach>
+                <th width="120">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="array_items" item="item" key="itemKey">
+                <tr>
+                    <foreach name="array_item" item="vo">
+                        <td>{$item[$key]|default=''}</td>
+                    </foreach>
+                    <td>
+                        <a href="{:url('theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'item_index'=>$itemKey])}">编辑</a>
+                        |
+                        <a href="{:url('theme/fileArrayDataDelete',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'item_index'=>$itemKey])}"
+                           class="js-ajax-delete">删除</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

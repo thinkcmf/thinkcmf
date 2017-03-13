@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <title>{$site_name} 账号激活</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <tc_include file="Public:css" />
+</head>
+<body>
+<tc_include file="Public:menu" />
+<div class="wrapper">
+	<tc_include file="Public:header" />
+	
+    <div class="slice bg-3 section">
+        <div class="w-section inverse">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
+                        <div class="w-section inverse">                       
+                            <div class="w-box sign-in-wr bg-5">
+                                
+                                <div class="form-header">
+                                    <h2>用户登录</h2>
+                                </div>
+                                <div class="form-body">
+                                    <p>您的账号还没激活，
+                                    	<a id="resend" href="javascript:;">重新发送激活邮件</a>&nbsp;
+                                    	<a href="{$goto}" target="blank">进入邮件</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <tc_include file="Public:footer" />
+</div>
+
+<tc_include file="Public:scripts" />
+<script>
+$(function(){
+	$("#resend").click(function(){
+		$.get('{:U("member/index/disable")}',
+		{'control':'sendmail'},
+		function(data){
+			alert(data.info);
+		},'json')
+	});
+});
+</script>
+
+</body>
+</html>

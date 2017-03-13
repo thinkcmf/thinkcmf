@@ -1,0 +1,224 @@
+<?php
+// +----------------------------------------------------------------------
+// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: 小夏 < 449134904@qq.com>
+// +----------------------------------------------------------------------
+namespace app\admin\controller;
+
+use cmf\controller\AdminBaseController;
+use think\Db;
+use tree\Tree;
+
+class MenuController extends AdminBaseController
+{
+    public function index()
+    {
+        session('admin_menu_index', 'Menu/index');
+        $result     = Db::name('AdminMenu')->order(["list_order" => "ASC"])->select()->toArray();
+        $tree       = new Tree();
+        $tree->icon = ['&nbsp;&nbsp;&nbsp;│ ', '&nbsp;&nbsp;&nbsp;├─ ', '&nbsp;&nbsp;&nbsp;└─ '];
+        $tree->nbsp = '&nbsp;&nbsp;&nbsp;';
+
+        $newMenus = [];
+        foreach ($result as $m) {
+            $newMenus[$m['id']] = $m;
+        }
+        foreach ($result as $key => $value) {
+
+            $result[$key]['parent_id_node'] = ($value['parent_id']) ? ' class="child-of-node-' . $value['parent_id'] . '"' : '';
+            $result[$key]['style']          = empty($value['parent_id']) ? '' : 'display:none;';
+            $result[$key]['str_manage']     = '<a href="' . url("Menu/add", ["parent_id" => $value['id'], "menu_id" => $this->request->param("menu_id")])
+                . '">' . lang('ADD_SUB_MENU') . '</a> | <a href="' . url("Menu/edit", ["id" => $value['id'], "menu_id" => $this->request->param("menu_id")])
+                . '">' . lang('EDIT') . '</a> | <a class="js-ajax-delete" href="' . url("Menu/delete", ["id" => $value['id'], "menu_id" => $this->request->param("menu_id")]) . '">' . lang('DELETE') . '</a> ';
+            $result[$key]['status']         = $value['status'] ? lang('DISPLAY') : lang('HIDDEN');
+            if (APP_DEBUG) {
+                $result[$key]['app'] = $value['app'] . "/" . $value['controller'] . "/" . $value['action'];
+            }
+        }
+
+        $tree->init($result);
+        $str      = "<tr id='node-\$id' \$parent_id_node style='\$style'>
+                        <td style='padding-left:20px;'><input name='list_orders[\$id]' type='text' size='3' value='\$list_order' class='input input-order'></td>
+                        <td>\$id</td>
+                        <td>\$app</td>
+                        <td>\$spacer\$name</td>
+                        <td>\$status</td>
+                        <td>\$str_manage</td>
+                    </tr>";
+        $category = $tree->getTree(0, $str);
+        $this->assign("category", $category);
+        return $this->fetch();
+    }
+
+    // 后台所有菜单列表
+    public function lists()
+    {
+        session('admin_menu_index', 'Menu/lists');
+        $result = Db::name('AdminMenu')->order(["app" => "ASC", "controller" => "ASC", "action" => "ASC"])->select();
+        $this->assign("menus", $result);
+        return $this->fetch();
+    }
+
+    // 后台菜单添加
+    public function add()
+    {
+        $tree     = new Tree();
+        $parentId = $this->request->request("parent_id", 0, 'intval');
+        $result   = Db::name('AdminMenu')->order(["list_order" => "ASC"])->select();
+        $array    = [];
+        foreach ($result as $r) {
+            $r['selected'] = $r['id'] == $parentId ? 'selected' : '';
+            $array[]       = $r;
+        }
+        $str = "<option value='\$id' \$selected>\$spacer \$name</option>";
+        $tree->init($array);
+        $selectCategory = $tree->getTree(0, $str);
+        $this->assign("select_category", $selectCategory);
+        return $this->fetch();
+    }
+
+    // 后台菜单添加提交
+    public function addPost()
+    {
+        if ($this->request->isPost()) {
+            $result = $this->validate($this->request->param(), 'AdminMenu');
+            if ($result !== true) {
+                $this->error($result);
+            } else {
+                $data   = $this->request->param();
+                $result = Db::name('AdminMenu')->insert($data);
+
+                if ($result !== false) {
+                    $app        = $this->request->param("app");
+                    $controller = $this->request->param("controller");
+                    $action     = $this->request->param("action");
+                    $name       = strtolower("$app/$controller/$action");
+                    $menuName   = $this->request->param("name");
+                    $mWhere     = ["name" => $name];
+
+                    $find_rule_count = Db::name('AuthRule')->where($mWhere)->count();
+                    if (empty($find_rule_count)) {
+                        Db::name('AuthRule')->insert(["name" => $name, "app" => $app, "type" => "admin_url", "title" => $menuName]);//type 1-admin rule;2-user rule
+                    }
+                    $sessionAdminMenuIndex = session('admin_menu_index');
+                    $to                    = empty($sessionAdminMenuIndex) ? "Menu/index" : $sessionAdminMenuIndex;
+                    $this->_exportAppMenuDefaultLang($app);
+                    $this->success("添加成功！", url($to));
+                } else {
+                    $this->error("添加失败！");
+                }
+            }
+        }
+    }
+
+    // 后台菜单编辑
+    public function edit()
+    {
+        $tree   = new Tree();
+        $id     = $this->request->param("id", 0, 'intval');
+        $rs     = Db::name('AdminMenu')->where(["id" => $id])->find();
+        $result = Db::name('AdminMenu')->order(["list_order" => "ASC"])->select();
+        $array  = [];
+        foreach ($result as $r) {
+            $r['selected'] = $r['id'] == $rs['parent_id'] ? 'selected' : '';
+            $array[]       = $r;
+        }
+        $str = "<option value='\$id' \$selected>\$spacer \$name</option>";
+        $tree->init($array);
+        $selectCategory = $tree->getTree(0, $str);
+        $this->assign("data", $rs);
+        $this->assign("select_category", $selectCategory);
+        return $this->fetch();
+    }
+
+    // 后台菜单编辑提交
+    public function editPost()
+    {
+        if ($this->request->isPost()) {
+            $id      = $this->request->param('id', 0, 'intval');
+            $oldMenu = Db::name('AdminMenu')->where(['id' => $id])->find();
+
+            $result = $this->validate($this->request->param(), 'AdminMenu.edit');
+
+            if ($result !== true) {
+                $this->error($result);
+            } else {
+                if (Db::name('AdminMenu')->update($this->request->param()) !== false) {
+                    $app      = $this->request->param("app");
+                    $model    = $this->request->param("controller");
+                    $action   = $this->request->param("action");
+                    $name     = strtolower("$app/$model/$action");
+                    $menuName = $this->request->param("name");
+                    $mWhere   = ["name" => $name];
+
+                    $find_rule_count = Db::name('AuthRule')->where($mWhere)->count();
+                    if (empty($find_rule_count)) {
+                        $oldApp        = $oldMenu['app'];
+                        $oldModel      = $oldMenu['controller'];
+                        $oldAction     = $oldMenu['action'];
+                        $oldName       = strtolower("$oldApp/$oldModel/$oldAction");
+                        $findOldRuleId = Db::name('AuthRule')->where(["name" => $oldName])->value('id');
+                        if (empty($findOldRuleId)) {
+                            Db::name('AuthRule')->insert(["name" => $name, "app" => $app, "type" => "admin_url", "title" => $menuName]);//type 1-admin rule;2-user rule
+                        } else {
+                            Db::name('AuthRule')->where(['id' => $findOldRuleId])->insert(["name" => $name, "app" => $app, "type" => "admin_url", "title" => $menuName]);//type 1-admin rule;2-user rule
+                        }
+                    } else {
+                        Db::name('AuthRule')->where($mWhere)->insert(["name" => $name, "app" => $app, "type" => "admin_url", "title" => $menuName]);//type 1-admin rule;2-user rule
+                    }
+                    $this->_exportAppMenuDefaultLang($app);
+                    $this->success("保存成功！");
+                } else {
+                    $this->error("保存失败！");
+                }
+            }
+        }
+    }
+
+    // 后台菜单删除
+    public function delete()
+    {
+        $id    = $this->request->param("id", 0, 'intval');
+        $count = Db::name('AdminMenu')->where(["parent_id" => $id])->count();
+        if ($count > 0) {
+            $this->error("该菜单下还有子菜单，无法删除！");
+        }
+        if (Db::name('AdminMenu')->delete($id) !== false) {
+            $this->success("删除菜单成功！");
+        } else {
+            $this->error("删除失败！");
+        }
+    }
+
+    /**
+     *  导出后台菜单语言包
+     * @param string $app
+     */
+    private function _exportAppMenuDefaultLang($app)
+    {
+        $menus         = Db::name('AdminMenu')->where(["app" => $app])->order(["list_order" => "ASC", "app" => "ASC", "controller" => "ASC", "action" => "ASC"])->select();
+        $lang_dir      = config('DEFAULT_LANG');
+        $adminMenuLang = ROOT_PATH . "data/lang/$app/Lang/" . $lang_dir . "/admin_menu.php";
+
+        if (!empty($adminMenuLang) && !file_exists_case($adminMenuLang)) {
+            mkdir(dirname($adminMenuLang), 0777, true);
+        }
+
+        $lang = [];
+
+        foreach ($menus as $menu) {
+            $lang_key        = strtoupper($menu['app'] . '_' . $menu['controller'] . '_' . $menu['action']);
+            $lang[$lang_key] = $menu['name'];
+        }
+
+        $lang_str = var_export($lang, true);
+        $lang_str = preg_replace("/\s+\d+\s=>\s(\n|\r)/", "\n", $lang_str);
+
+        if (!empty($adminMenuLang)) {
+            file_put_contents($adminMenuLang, "<?php\nreturn $lang_str;");
+        }
+    }
+}

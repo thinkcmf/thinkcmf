@@ -1,0 +1,59 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:url('menu/index')}">后台菜单</a></li>
+			<li><a href="{:url('menu/add')}">添加菜单</a></li>
+			<li class="active"><a href="{:url('menu/lists')}">所有菜单</a></li>
+		</ul>
+		<form class="form-horizontal js-ajax-form" action="{:url('menu/listorders')}" method="post">
+			<div class="table-actions">
+				<a class="btn btn-primary btn-sm js-ajax-dialog-btn" href="{:url('menu/restoreMenu')}" data-msg="您确定恢复已备份菜单吗？它将覆盖您已经更新的菜单！">恢复菜单</a>
+				<a class="btn btn-primary btn-sm js-ajax-dialog-btn" href="{:url('menu/backupMenu')}" data-msg="您确定备份菜单吗？">备份菜单</a>
+				<a class="btn btn-primary btn-sm js-ajax-dialog-btn" href="{:url('menu/exportMenuLang')}" data-msg="您确定生成菜单多语言包吗？请确保应用目录下Lang目录可写！">生成菜单多语言包</a>
+				<a class="btn btn-warning btn-sm" href="{:url('menu/getactions')}">导入新菜单</a>
+			</div>
+			<div class="alert alert-warning" style="margin: 0 0 5px 0;">
+				 请在开发人员指导下进行以上操作！
+			</div>
+			<table class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="50">ID</th>
+						<th>菜单英文名称</th>
+						<th width="50">状态</th>
+						<th width="90">管理操作</th>
+					</tr>
+				</thead>
+				<foreach name="menus" item="vo">
+				<tr>
+					<td>{$vo.id}</td>
+					<td>{$vo.name}:{$vo.app}/{$vo.controller}/{$vo.action}</td>
+					<td>
+					<if condition="$vo['status'] eq 1">
+					显示
+					<else />
+					隐藏
+					</if>
+					</td>
+					<td>
+						<a href="{:url('menu/edit',array('id'=>$vo['id']))}">修改</a> |
+						<a class="js-ajax-delete" href="{:url('menu/delete',array('id'=>$vo['id']))}">删除</a>
+					</td>
+				</tr>
+				</foreach>
+				<tfoot>
+					<tr>
+						<th width="50">ID</th>
+						<th>菜单英文名称</th>
+						<th width="40">状态</th>
+						<th width="80">管理操作</th>
+					</tr>
+				</tfoot>
+			</table>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

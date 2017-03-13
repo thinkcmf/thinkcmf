@@ -1,0 +1,27 @@
+#!/usr/bin/env php
+<?php
+// +----------------------------------------------------------------------
+// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: Dean <zxxjjforever@163.com>
+// +----------------------------------------------------------------------
+// 调试模式开关
+define("APP_DEBUG", true);
+
+// 定义项目路径
+define('APP_PATH', __DIR__ . '/app/');
+
+// 定义CMF目录
+define('CMF_PATH', __DIR__ . '/simplewind/cmf');
+
+// 定义扩展目录
+define('EXTEND_PATH', __DIR__ . '/simplewind/extend');
+define('VENDOR_PATH', __DIR__ . '/simplewind/vendor');
+
+// 定义应用的运行时目录
+define('RUNTIME_PATH',__DIR__.'/data/runtime/');
+
+// 加载框架引导文件
+require __DIR__.'/simplewind/thinkphp/console.php';

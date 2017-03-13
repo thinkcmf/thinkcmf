@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$article.post_title}</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="">
+    <include file="public@head"/>
+    <style>
+        #article_content img {
+            height: auto !important
+        }
+
+        #article_content {
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body class="body-white">
+<include file="public@nav"/>
+<div class="container tc-main">
+    <div class="row">
+        <div class="col-md-9">
+
+            <div class="tc-box first-box article-box">
+                <h2>{$article.post_title}</h2>
+                <div class="article-infobox">
+                    <span>{:date('Y-m-d H:i',$article.published_time)} by {$article.user.user_nickname}</span>
+                    <span>
+		    			<a href="javascript:;"><i class="fa fa-eye"></i><span>{$article.post_hits}</span></a>
+						<a href="{:url('article/do_like',array('id'=>$article['id']))}" class="js-count-btn"><i
+                                class="fa fa-thumbs-up"></i><span class="count">{$article.post_like}</span></a>
+						<a href="{:url('user/favorite/do_favorite',array('id'=>$article['id']))}"
+                           class="js-favorite-btn"
+                           data-title="{$article.post_title}"
+                           data-url="{:url('article/index',array('id'=>$article['id'],'cid'=>$category['id']))}"
+                           data-key="">
+							<i class="fa fa-star-o"></i>
+						</a>
+					</span>
+                </div>
+                <hr>
+                <div id="article_content">
+                    {$article.post_content}
+                </div>
+                <if condition="!empty($article['post_source'])">
+                    <div>
+                        <b>注：本文转载自{$article.post_source}，转载目的在于传递更多信息，并不代表本网赞同其观点和对其真实性负责。如有侵权行为，请联系我们，我们会及时删除。</b>
+                    </div>
+                </if>
+
+                <php>
+                    $comment_hook_param=[
+                    'post_id'=>$article['id'],
+                    'post_table'=>'portal_post',
+                    'post_title'=>$article['post_title']
+                    ];
+                </php>
+
+                {:hook('comment',$comment_hook_param)}
+            </div>
+
+
+        </div>
+        <div class="col-md-3">
+            <div class="tc-box first-box">
+                <div class="headtitle">
+                    <h2>热门文章</h2>
+                </div>
+                <div class="ranking">
+                    <php>
+                        $hot_articles=[];
+                    </php>
+                    <ul class="list-unstyled">
+                        <articles limit="5" order="post.post_hits DESC">
+                            <php>$top=$key<3?"top3":"";</php>
+                            <li class="{$top}">
+                                <i>{$key+1}</i>
+                                <a title="{$vo.post_title}"
+                                   href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$vo.category_id))}">
+                                    {$vo.post_title}
+                                </a>
+                            </li>
+                        </articles>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <include file="public@footer"/>
+</div>
+
+<include file="public@scripts"/>
+</body>
+</html>

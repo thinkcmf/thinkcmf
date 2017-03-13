@@ -1,0 +1,17 @@
+<admintpl file="header" />
+</head>
+<body>
+	<div class="wrap">
+		<form method="post" class="js-ajax-form">
+			<div>
+				<label>分类：</label>
+				<select name="term_id">
+					{$terms_tree}
+				</select>
+			</div>
+			<button class="btn btn-primary js-ajax-submit" type="submit">移动</button>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

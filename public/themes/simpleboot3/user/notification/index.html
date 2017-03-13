@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$site_name}</title>
+<meta name="keywords" content="{$site_seo_keywords}" />
+<meta name="description" content="{$site_seo_description}">
+<tc_include file="Public:head" />
+</head>
+
+<body class="body-white" id="top">
+	<tc_include file="Public:nav" />
+
+	<div class="container tc-main">
+		<div class="row">
+			<div class="col-md-3">
+				<tc_include file="Public:usernav" />
+			</div>
+			<div class="col-md-9">
+				<div class="tabs">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#one" data-toggle="tab"><i
+								class="fa fa-envelope-o"></i> 消息中心</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="one">
+							<table class="table table-bordered table-striped table-hover">
+								<thead>
+									<tr>
+										<th>内容</th>
+										<th width="150">时间</th>
+										<th width="150">操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<foreach name="notifications" item="vo">
+									<php>
+									$object=json_decode($vo['object'],true);
+									</php>
+									<tr>
+										<switch name="vo.type" >
+											<case value="1" break="1">
+												<td><a href="{:U('user/index/index',array('id'=>$vo['sender_id']))}">{$vo.sender_name}</a> 在<a href="__ROOT__/{$object.url}">{$object.title|default=$vo['content']}</a> 评论了您 </td>
+										
+											</case>
+											<case value="2" break="1">	
+												<td><a href="{:U('user/index/index',array('id'=>$vo['sender_id']))}">{$vo.sender_name}</a> 在<a href="__ROOT__/{$object.url}">{$object.title}</a>回复了您</td>
+											</case>
+										</switch>
+										<td>{:date('Y-m-d H:i',$vo['create_time'])}</td>
+										<td><a href="__ROOT__/{$object.url}">查看原文</a>
+											<!-- | <a class="js-ajax-dialog-btn" href="{:U('user/favorite/delete_favorite',array('id'=>$vo['id']))}" data-msg="您确定要取消收藏吗？" data-ok="" data-cacel="取消">取消收藏</a> -->
+										</td>
+									</tr>
+									</foreach>
+								</tbody>
+							</table>
+						</div>
+
+						<ul class="pagination">{$pager}</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<tc_include file="Public:footer" />
+
+	</div>
+	<!-- /container -->
+
+	<tc_include file="Public:scripts" />
+</body>
+</html>
