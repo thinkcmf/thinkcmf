@@ -48,6 +48,9 @@ return [
 如果你需要 `api` 开发请下载:  
 ThinkCMF5 API :https://github.com/thinkcmf/thinkcmfapi
 
+### 开发手册
+http://www.kancloud.cn/thinkcmf/doc
+
 ### QQ群:
 ThinkCMF VIP技术群:100828313 (付费)
 
