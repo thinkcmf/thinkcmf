@@ -45,9 +45,12 @@ return [
 你的域名/admin  
 用户名/密码:admin/111111
 
-
 如果你需要 `api` 开发请下载:  
 ThinkCMF5 API :https://github.com/thinkcmf/thinkcmfapi
 
-QQ群:100828313 (付费)
+### QQ群:
+ThinkCMF VIP技术群:100828313 (付费)
+
+### 反馈问题
+https://github.com/thinkcmf/thinkcmf/issues
 
