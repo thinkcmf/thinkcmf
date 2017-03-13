@@ -39,8 +39,9 @@ return [
 ```
 更改为你的数据库信息
 
-3.后台
+3.把 public目录做为网站根目录,入口文件在 public/index.php
 
+4.后台
 你的域名/admin  
 用户名/密码:admin/111111
 
