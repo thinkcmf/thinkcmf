@@ -6,10 +6,10 @@
 // +----------------------------------------------------------------------
 // | Author: kane <chengjin005@163.com> 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
-    namespace app\admin\controller;
+namespace app\admin\controller;
 
-    use cmf\controller\AdminBaseController;
-    use app\admin\model\NavModel;
+use cmf\controller\AdminBaseController;
+use app\admin\model\NavModel;
 
 
 /**
