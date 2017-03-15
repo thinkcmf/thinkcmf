@@ -1,12 +1,12 @@
 <?php
 namespace app\admin\controller;
 
-use cmf\controller\AdminbaseController;
+use cmf\controller\AdminBaseController;
 use app\admin\model\ThemeModel;
 use think\Db;
 use think\Validate;
 
-class ThemeController extends AdminbaseController
+class ThemeController extends AdminBaseController
 {
     // 模板列表
     public function index()
