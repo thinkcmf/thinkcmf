@@ -518,10 +518,10 @@ function cmf_get_nav4admin($navcatname, $datas, $navrule)
 
         $nav['items'][] = [
             "label"    => $t[$navrule['label']],
-            "url"      => U($action, $urlrule['param']),
+            "url"      => url($action, $urlrule['param']),
             "rule"     => base64_encode(serialize($urlrule)),
             "parentid" => empty($navrule['parentid']) ? 0 : $t[$navrule['parentid']],
-            "id"       => $t[$navrule['id']],
+            "id"       => $t[$navrule['param']['id']],
         ];
     }
     return $nav;
@@ -1741,4 +1741,84 @@ function sp_get_theme()
     }
 
     return $theme;
+}
+
+
+/**
+ *
+ * 返回符合条件的所有分类
+ * @param string $tag 查询标签，以字符串方式传入,例："ids:1,2;field:term_id,name,description,seo_title;limit:0,8;order:path asc,listorder desc;where:term_id>0;"<br>
+ * 	ids:调用指定id的一个或多个数据,如 1,2,3
+ * 	field:调用terms表里的指定字段,如(term_id,name...) 默认全部，用*代表全部
+ * 	limit:数据条数,默认值为10,可以指定从第几条开始,如3,8(表示共调用8条,从第3条开始)
+ * 	order:排序方式，如：path desc,listorder asc<br>
+ * 	where:查询条件，字符串形式，和sql语句一样
+ * @todo 老代码修改过来，做nav.php url 共享的时候用到，不清楚新系统还用不用。
+ * @todo limit 是否还有存在的价值？
+ * @return array 返回符合条件的所有分类
+ *
+ */
+function cmf_get_terms($tag){
+
+    $where = array();
+    $tag   = cmf_param_lable($tag);
+    $field = !empty($tag['field']) ? $tag['field'] : '*';
+    $limit = !empty($tag['limit']) ? $tag['limit'] : '';
+    $order = !empty($tag['order']) ? $tag['order'] : 'id';
+
+    //根据参数生成查询条件
+    $where['status'] = array('eq',1);
+
+    if (isset($tag['ids'])) {
+        $where['id'] = array('in',$tag['ids']);
+    }
+
+    if (isset($tag['where'])) {
+        $where['_string'] = $tag['where'];
+    }
+
+    $portalCategoryModel = new \app\portal\model\PortalCategoryModel();
+    $objterms            =  $portalCategoryModel->field($field)->where($where)->order($order)->limit($limit)->select();
+    return $objterms?$objterms->toArray():array();
+}
+
+
+/**
+ * 获取指定条件的页面列表
+ * @param string $tag 查询标签，以字符串方式传入,例："ids:1,2;field:post_title,post_content;limit:0,8;order:post_date desc,listorder desc;where:id>0;"<br>
+ * 	ids:调用指定id的一个或多个数据,如 1,2,3<br>
+ * 	field:调用post指定字段,如(id,post_title...) 默认全部<br>
+ * 	limit:数据条数,默认值为10,可以指定从第几条开始,如3,8(表示共调用8条,从第3条开始)<br>
+ * 	order:排序方式，如：post_date desc<br>
+ *	where:查询条件，字符串形式，和sql语句一样
+ * @todo 老代码修改过来，做nav.php url 共享的时候用到，不清楚新系统还用不用。
+ * @todo limit 是否还有存在的价值？
+ * @return array 返回符合条件的所有页面
+ */
+function cmf_sql_pages($tag){
+    $where = array();
+    $tag   = cmf_param_lable($tag);
+    $field = !empty($tag['field']) ? $tag['field'] : '*';
+    $limit = !empty($tag['limit']) ? $tag['limit'] : '';
+    $order = !empty($tag['order']) ? $tag['order'] : 'update_time';
+
+    //根据参数生成查询条件
+    $where['post_status'] = array('eq',1);
+    $where['post_type'] = array('eq',2);
+
+    if (isset($tag['ids'])) {
+        $where['id'] = array('in',$tag['ids']);
+    }
+
+    if (isset($tag['where'])) {
+        $where['_string'] = $tag['where'];
+    }
+
+    $portalPostModel = new \app\portal\model\PortalPostModel();
+    $objterms        = $portalPostModel->field($field)->where($where)->order($order)->limit($limit)->select();
+    return $objterms?$objterms->toArray():array();;
+}
+
+function cmf_is_serialized($str) {
+    return ($str == serialize(false) || @unserialize($str) !== false);
 }

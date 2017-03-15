@@ -1,0 +1,31 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('NavMenu/index',['nav_id'=>$navcid])}">前台菜单</a></li>
+        <li><a href="{:url('NavMenu/add',['nav_id'=>$navcid])}">添加菜单</a></li>
+    </ul>
+    <form action="{:url('NavMenu/listOrder')}" method="post" class="margin-top-20">
+        <div class="table-actions">
+            <button type="submit" class="btn btn-primary btn-small btn_submit J_ajax_submit_btn">排序</button>
+        </div>
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="50">排序</th>
+                <th width="50">ID</th>
+                <th>菜单名称</th>
+                <th width="80">状态</th>
+                <th width="150">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {$categorys}
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

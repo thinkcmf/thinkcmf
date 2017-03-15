@@ -6,10 +6,10 @@
 // +----------------------------------------------------------------------
 // | Author: kane <chengjin005@163.com> 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
-namespace app\admin\controller;
+    namespace app\admin\controller;
 
-use cmf\controller\AdminBaseController;
-use app\admin\model\NavModel;
+    use cmf\controller\AdminBaseController;
+    use app\admin\model\NavModel;
 
 
 /**
@@ -55,12 +55,9 @@ class NavController extends AdminBaseController
             $navModel->where("is_main",1)->update(array("is_main"=>0));
         }
 
-        if ( $navModel->allowField(true)->insert($arrData) !== false)
-        {
-            $this->success(lang("EDIT_SUCCESS"), url("nav/index"));
-        } else {
-            $this->error(lang("EDIT_FAILED").$navModel->getError());
-        }
+        $navModel->allowField(true)->insert($arrData) ;
+        $this->success(lang("EDIT_SUCCESS"), url("nav/index"));
+
     }
 
     /**
@@ -104,7 +101,7 @@ class NavController extends AdminBaseController
     }
 
     /**
-     * 处理删除导航请求
+     * 删除导航
      */
     public function delete()
     {

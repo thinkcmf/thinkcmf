@@ -69,6 +69,7 @@ return [
     'ADMIN_MENU_ADD'                     => '添加菜单',
     'ADMIN_MENU_ADD_POST'                => '提交添加',
     'ADMIN_MENU_BACKUP_MENU'             => '备份菜单',
+    'ADMIN_MENU_EDIT'                    => '编辑菜单',
     'ADMIN_MENU_EDIT_POST'               => '提交编辑',
     'ADMIN_MENU_EXPORT_MENU_LANG'        => '导出后台菜单多语言包',
     'ADMIN_MENU_GETACTIONS'              => '导入新菜单',

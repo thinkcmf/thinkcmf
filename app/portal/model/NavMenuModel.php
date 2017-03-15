@@ -58,6 +58,32 @@ class NavMenuModel extends Model
 
         return $navMenusTree;
     }
+    /**
+     * 获取共享nav数据
+     * @return array
+     */
+    public function selectUrl(){
+        $apps = cmf_scan_dir(APP_PATH."*");
+        $navs = array();
+        foreach ($apps as $a){
 
+            if(is_dir(APP_PATH.$a)){
+                if(!(strpos($a, ".") === 0)){
+                    $navfile=APP_PATH.$a."/nav.php";
+                    $app=$a;
+                    if(file_exists($navfile)){
+                        $navgeturls=include $navfile;
+                        foreach ($navgeturls as $url){
+                            $nav= file_get_contents(url("$app/$url",array(),false,true));
+                            $nav=json_decode($nav,true);
+                            $navs[]=$nav;
+                        }
+                    }
+
+                }
+            }
+        }
+        return $navs;
+    }
 
 }

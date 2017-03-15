@@ -28,7 +28,7 @@
                     <td>
                         <a href="{:url('nav/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>|
                         <a class="js-ajax-delete" href="{:url('nav/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>|
-                        <a href="{:url('NavMenu/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                        <a href="{:url('NavMenu/index',array('nav_id'=>$vo['id']))}">{:lang('ADMIN_NAVCAT_DEFAULT1')}</a>
                     </td>
                 </tr>
             </foreach>
