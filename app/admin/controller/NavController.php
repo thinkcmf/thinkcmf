@@ -29,6 +29,7 @@ class NavController extends AdminBaseController
         return $this->fetch();
 
     }
+
     /**
      * 添加导航
      * @return mixed
@@ -45,17 +46,16 @@ class NavController extends AdminBaseController
     public function addPost()
     {
 
-        $navModel    = new NavModel();
-        $arrData     = $this->request->post();
+        $navModel = new NavModel();
+        $arrData  = $this->request->post();
 
-        if(empty($arrData["is_main"]))
-        {
+        if (empty($arrData["is_main"])) {
             $arrData["is_main"] = 0;
         } else {
-            $navModel->where("is_main",1)->update(array("is_main"=>0));
+            $navModel->where("is_main", 1)->update(["is_main" => 0]);
         }
 
-        $navModel->allowField(true)->insert($arrData) ;
+        $navModel->allowField(true)->insert($arrData);
         $this->success(lang("EDIT_SUCCESS"), url("nav/index"));
 
     }
@@ -67,16 +67,15 @@ class NavController extends AdminBaseController
 
     public function edit()
     {
-        $navModel    = new NavModel();
-        $intId       = $this->request->param("id",0,'intval');
+        $navModel = new NavModel();
+        $intId    = $this->request->param("id", 0, 'intval');
 
-        $objNavCat   = $navModel->where(array("id"=>$intId))->find();
-        $arrNavCat   = $objNavCat?$objNavCat->toArray():array();
+        $objNavCat = $navModel->where(["id" => $intId])->find();
+        $arrNavCat = $objNavCat ? $objNavCat->toArray() : [];
 
         $this->assign($arrNavCat);
         return $this->fetch();
     }
-
 
 
     /**
@@ -85,17 +84,16 @@ class NavController extends AdminBaseController
     public function editPost()
     {
 
-        $navModel    = new NavModel();
-        $arrData     = $this->request->post();
+        $navModel = new NavModel();
+        $arrData  = $this->request->post();
 
-        if(empty($arrData["is_main"]))
-        {
+        if (empty($arrData["is_main"])) {
             $arrData["is_main"] = 0;
         } else {
-            $navModel->where("is_main",1)->update(array("is_main"=>0));
+            $navModel->where("is_main", 1)->update(["is_main" => 0]);
         }
 
-        $navModel->allowField(true)->where(["id"=>$arrData["id"]])->update($arrData) ;
+        $navModel->allowField(true)->where(["id" => $arrData["id"]])->update($arrData);
         $this->success(lang("EDIT_SUCCESS"), url("nav/index"));
 
     }
@@ -105,19 +103,17 @@ class NavController extends AdminBaseController
      */
     public function delete()
     {
-        $navModel    = new NavModel();
-        $intId       = $this->request->param("id",0,"intval");
+        $navModel = new NavModel();
+        $intId    = $this->request->param("id", 0, "intval");
 
-        if(empty($intId))
-        {
+        if (empty($intId)) {
             $this->error(lang("NO_ID"));
         }
 
-        $navModel->where(["id"=>$intId])->delete();
+        $navModel->where(["id" => $intId])->delete();
         $this->success(lang("DELETE_SUCCESS"), url("nav/index"));
 
     }
-
 
 
 }
