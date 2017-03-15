@@ -25,7 +25,7 @@
 						<tr>
 							<td>{$vo.id}</td>
 							<td>{$vo.name}</td>
-							<td>{$vo.status}</td>
+							<td>{$arrStatus[$vo['status']]}</td>
 							<td>{$vo.post_count}</td>
 							<td>
 								<if ($vo['status']==1)>

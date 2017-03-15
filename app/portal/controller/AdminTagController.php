@@ -30,6 +30,7 @@ class AdminTagController extends AdminBaseController
         $portalTagModel =  new PortalTagModel();
         $objResult      =  $portalTagModel->select();
 
+        $this->assign("arrStatus",$portalTagModel::$STATUS);
         $this->assign( "arrData" , $objResult?$objResult->toArray():array());
         return $this->fetch();
     }
