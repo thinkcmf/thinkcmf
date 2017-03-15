@@ -3,7 +3,7 @@ namespace app\portal\api;
 
 use app\portal\model\NavMenuModel;
 
-class NavApi
+class NavMenuApi
 {
     // 分类列表 用于模板设计
     public function index($param = [])
