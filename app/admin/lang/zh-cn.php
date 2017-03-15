@@ -261,7 +261,7 @@ return [
     "ADD_FAILED"                         => '添加失败！',
     "EDIT_SUCCESS"                       => '保存成功！',
     "EDIT_FAILED"                        => '保存失败！',
-    "DELETE_SUCCESS"                     => '删除失败！',
+    "DELETE_SUCCESS"                     => '删除成功！',
     "DELETE_FAILED"                      => '删除失败！',
     "NO_ID"                              => '编号不存在！',
     "NO_DATA"                            => '没有数据',
