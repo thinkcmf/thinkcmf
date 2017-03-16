@@ -2,6 +2,7 @@
 namespace app\user\controller;
 
 use cmf\controller\UserBaseController;
+use think\Db;
 
 class IndexController extends UserBaseController
 {
@@ -10,13 +11,14 @@ class IndexController extends UserBaseController
     public function index()
     {
 
-        $id = I("get.id", 0, 'intval');
+        $id = input("get.id", 0, 'intval');
 
-        $users_model = M("Users");
+        $users_model = Db::name("User");
 
-        $user = $users_model->where(["id" => $id])->find();
+        $user = $users_model->where('id',$id)->find();
 
         if (empty($user)) {
+            session('user',null);
             $this->error("查无此人！");
         }
 

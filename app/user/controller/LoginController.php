@@ -1,12 +1,17 @@
 <?php
 namespace app\user\controller;
 
+use think\Log;
+use think\Validate;
 use cmf\controller\HomeBaseController;
+use app\user\model\LoginModel;
 
 class LoginController extends HomeBaseController
 {
 
-    // 前台用户登录
+    /**
+     * 登录
+     */
     public function index()
     {
         $redirect = $this->request->param("redirect");
@@ -16,13 +21,69 @@ class LoginController extends HomeBaseController
             $redirect = base64_decode($redirect);
         }
         session('login_http_referer', $redirect);
-
         if (cmf_is_user_login()) { //已经登录时直接跳到首页
-            return redirect(__ROOT__ . "/");
+            return redirect($this->request->root(). "/");
         } else {
             return $this->fetch(":login");
         }
     }
+
+    /**
+     * 登录验证提交
+     */
+    public function dologin()
+    {
+        $validate = new Validate([
+            'username' => 'require|min:5|max:32',
+            'password' => 'require|min:6|max:32',
+            'verify' => 'require',
+        ]);
+        $validate->message([
+            'username.require' => '用户名不能为空',
+            'username.max' => '用户名不能超过32个字符',
+            'username.min' => '用户名不能小于6个字符',
+            'password.require' => '密码不能为空',
+            'password.max' => '密码不能超过32个字符',
+            'password.min' => '密码不能小于6个字符',
+            'verify.require' => '验证码不能为空',
+        ]);
+
+        $data = $this->request->param();
+        if (!$validate->check($data)) {
+            $this->error($validate->getError());
+        }
+        if(!cmf_captcha_check($data['verify'])){
+            $this->error('验证码错误');
+        }
+        $login = new LoginModel();
+        $user['user_pass']   = $data['password'];
+        if ($validate::is($data['username'], 'email')) {
+            $user['user_email'] = $data['username'];
+            $log = $login->doEmail($user);
+        } else if (preg_match('/(^(13\d|15[^4\D]|17[13678]|18\d)\d{8}|170[^346\D]\d{7})$/', $data['username'])) {
+            $user['mobile'] = $data['username'];
+            $log = $login->doMobile($user);
+        } else {
+            $user['user_login'] = $data['username'];
+            $log = $login->doName($user);
+        }
+        $session_login_http_referer = session('login_http_referer');
+        $redirect                   = empty($session_login_http_referer) ? $this->request->root() : $session_login_http_referer;
+        switch ($log){
+            case 0:
+                $this->success('登录成功',$redirect);
+                break;
+            case 1:
+                $this->error('登录密码错误');
+                break;
+            case 2:
+                $this->error('账户不存在');
+                break;
+            default :
+                $this->error('未受理的请求');
+        }
+    }
+
 
     // 前台用户邮箱激活
     public function active()
@@ -55,7 +116,7 @@ class LoginController extends HomeBaseController
     // 前台用户忘记密码提交(邮件方式找回)
     public function doforgot_password()
     {
-        if (IS_POST) {
+        if ($this->request->isPost()) {
             if (!sp_check_verify_code()) {
                 $this->error("验证码错误！");
             } else {
@@ -88,7 +149,7 @@ class LoginController extends HomeBaseController
     // 前台用户忘记密码提交(手机方式找回)
     public function do_mobile_forgot_password()
     {
-        if (IS_POST) {
+        if ($this->request->isPost()) {
 
             if (!sp_check_verify_code()) {
                 $this->error("验证码错误！");
@@ -183,7 +244,7 @@ hello;
     // 前台密码重置提交
     public function dopassword_reset()
     {
-        if (IS_POST) {
+        if ($this->request->isPost()) {
             if (!sp_check_verify_code()) {
                 $this->error("验证码错误！");
             } else {
@@ -212,189 +273,5 @@ hello;
 
             }
         }
-    }
-
-
-    // 登录验证提交
-    public function dologin()
-    {
-
-        if (!sp_check_verify_code()) {
-            $this->error("验证码错误！");
-        }
-
-        $users_model = M("Users");
-        $rules       = [
-            //array(验证字段,验证规则,错误提示,验证条件,附加规则,验证时间)
-            ['username', 'require', '手机号/邮箱/用户名不能为空！', 1],
-            ['password', 'require', '密码不能为空！', 1],
-
-        ];
-        if ($users_model->validate($rules)->create() === false) {
-            $this->error($users_model->getError());
-        }
-
-        $username = I('post.username');
-
-        if (preg_match('/(^(13\d|15[^4\D]|17[13678]|18\d)\d{8}|170[^346\D]\d{7})$/', $username)) {//手机号登录
-            $this->_do_mobile_login();
-        } else {
-            $this->_do_email_login(); // 用户名或者邮箱登录
-        }
-
-    }
-
-    // 处理前台用户手机登录
-    private function _do_mobile_login()
-    {
-        $users_model     = M('Users');
-        $where           = ["user_status" => 1];
-        $where['mobile'] = I('post.username');
-        $password        = I('post.password');
-        $result          = $users_model->where($where)->find();
-
-        if (!empty($result)) {
-            if (sp_compare_password($password, $result['user_pass'])) {
-                session('user', $result);
-                //写入此次登录信息
-                $data = [
-                    'last_login_time' => date("Y-m-d H:i:s"),
-                    'last_login_ip'   => get_client_ip(0, true),
-                ];
-                $users_model->where(['id' => $result["id"]])->save($data);
-                $session_login_http_referer = session('login_http_referer');
-                $redirect                   = empty($session_login_http_referer) ? __ROOT__ . "/" : $session_login_http_referer;
-                session('login_http_referer', '');
-
-                $this->success("登录验证成功！", $redirect);
-            } else {
-                $this->error("密码错误！");
-            }
-        } else {
-            $this->error("用户名不存在或已被拉黑！");
-        }
-    }
-
-    // 处理前台用户邮件或者用户登录
-    private function _do_email_login()
-    {
-
-        $username = I('post.username');
-        $password = I('post.password');
-        $where    = ["user_status" => 1];
-        if (strpos($username, "@") > 0) {//邮箱登陆
-            $where['user_email'] = $username;
-        } else {
-            $where['user_login'] = $username;
-        }
-        $users_model = M('Users');
-        $result      = $users_model->where($where)->find();
-        $ucenter_syn = C("UCENTER_ENABLED");
-
-        $ucenter_old_user_login = false;
-
-        $ucenter_login_ok = false;
-        if ($ucenter_syn) {
-            cookie("thinkcmf_auth", "");
-            include UC_CLIENT_ROOT . "client.php";
-            list($uc_uid, $username, $password, $email) = uc_user_login($username, $password);
-
-            if ($uc_uid > 0) {
-                if (!$result) {
-                    $data       = [
-                        'user_login'      => $username,
-                        'user_email'      => $email,
-                        'user_pass'       => sp_password($password),
-                        'last_login_ip'   => get_client_ip(0, true),
-                        'create_time'     => time(),
-                        'last_login_time' => time(),
-                        'user_status'     => '1',
-                        'user_type'       => 2,
-                    ];
-                    $id         = $users_model->add($data);
-                    $data['id'] = $id;
-                    $result     = $data;
-                }
-
-            } else {
-
-                switch ($uc_uid) {
-                    case "-1"://用户不存在，或者被删除
-                        if ($result) {//本应用已经有这个用户
-                            if (sp_compare_password($password, $result['user_pass'])) {//本应用已经有这个用户,且密码正确，同步用户
-                                $uc_uid2 = uc_user_register($username, $password, $result['user_email']);
-                                if ($uc_uid2 < 0) {
-                                    $uc_register_errors = [
-                                        "-1" => "用户名不合法",
-                                        "-2" => "包含不允许注册的词语",
-                                        "-3" => "用户名已经存在",
-                                        "-4" => "Email格式有误",
-                                        "-5" => "Email不允许注册",
-                                        "-6" => "该Email已经被注册",
-                                    ];
-                                    $this->error("同步用户失败--" . $uc_register_errors[$uc_uid2]);
-
-
-                                }
-                                $uc_uid = $uc_uid2;
-                            } else {
-                                $this->error("密码错误！");
-                            }
-                        }
-
-                        break;
-                    case -2://密码错
-                        if ($result) {//本应用已经有这个用户
-                            if (sp_compare_password($password, $result['user_pass'])) {//本应用已经有这个用户,且密码正确，同步用户
-                                $uc_user_edit_status = uc_user_edit($username, "", $password, "", 1);
-                                if ($uc_user_edit_status <= 0) {
-                                    $this->error("登陆错误！");
-                                }
-                                list($uc_uid2) = uc_get_user($username);
-                                $uc_uid                 = $uc_uid2;
-                                $ucenter_old_user_login = true;
-                            } else {
-                                $this->error("密码错误！");
-                            }
-                        } else {
-                            $this->error("密码错误！");
-                        }
-
-                        break;
-
-                }
-            }
-            $ucenter_login_ok = true;
-            echo uc_user_synlogin($uc_uid);
-        }
-        //exit();
-        if (!empty($result)) {
-            if (sp_compare_password($password, $result['user_pass']) || $ucenter_login_ok) {
-                session('user', $result);
-                //写入此次登录信息
-                $data = [
-                    'last_login_time' => date("Y-m-d H:i:s"),
-                    'last_login_ip'   => get_client_ip(0, true),
-                ];
-                $users_model->where("id=" . $result["id"])->save($data);
-
-                $session_login_http_referer = session('login_http_referer');
-                $redirect                   = empty($session_login_http_referer) ? __ROOT__ . "/" : $session_login_http_referer;
-                session('login_http_referer', '');
-                $ucenter_old_user_login_msg = "";
-
-                if ($ucenter_old_user_login) {
-                    //$ucenter_old_user_login_msg="老用户请在跳转后，再次登陆";
-                }
-
-                $this->success("登录验证成功！", $redirect);
-            } else {
-                $this->error("密码错误！");
-            }
-        } else {
-            $this->error("用户名不存在或已被拉黑！");
-        }
-
-
     }
 }
