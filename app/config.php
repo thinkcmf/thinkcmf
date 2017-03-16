@@ -121,7 +121,13 @@ return [
     ],
 
     // 视图输出字符串内容替换
-    'view_replace_str'      => [],
+    'view_replace_str'       => [
+        '__CSS__'   => '/assets/css',
+        '__JS__'    => '/assets/js',
+        '__IMG__'   => '/assets/images',
+        '__UP__'  => '/up_files/',
+        '__CDN__'=>"/",
+    ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl' => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
     'dispatch_error_tmpl'   => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',

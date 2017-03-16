@@ -1816,9 +1816,36 @@ function cmf_sql_pages($tag){
 
     $portalPostModel = new \app\portal\model\PortalPostModel();
     $objterms        = $portalPostModel->field($field)->where($where)->order($order)->limit($limit)->select();
-    return $objterms?$objterms->toArray():array();;
+    return $objterms?$objterms->toArray():array();
 }
 
 function cmf_is_serialized($str) {
     return ($str == serialize(false) || @unserialize($str) !== false);
+}
+
+
+
+/**
+ * 获取当前登录前台用户id
+ * @return int
+ */
+function cmf_get_current_userid(){
+
+    if(!empty(session('user'))){
+        return session('user.id');
+    }else{
+        return 0;
+    }
+}
+/**
+ * 判断是否SSL协议
+ * @return boolean
+ */
+function cmf_is_ssl() {
+    if(isset($_SERVER['HTTPS']) && ('1' == $_SERVER['HTTPS'] || 'on' == strtolower($_SERVER['HTTPS']))){
+        return true;
+    }elseif(isset($_SERVER['SERVER_PORT']) && ('443' == $_SERVER['SERVER_PORT'] )) {
+        return true;
+    }
+    return false;
 }

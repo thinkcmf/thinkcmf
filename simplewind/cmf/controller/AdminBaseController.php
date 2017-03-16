@@ -51,6 +51,7 @@ class AdminBaseController extends BaseController
         ];
 
         //config('template.view_path', "$themePath/");
+        $viewReplaceStr = array_merge(config('view_replace_str'),$viewReplaceStr);
         config('template.view_base', "$themePath/");
         config('view_replace_str', $viewReplaceStr);
     }
