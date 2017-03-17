@@ -73,11 +73,13 @@ class AssetController extends AdminBaseController {
 
             }
         } else {
-            if( in_array($this->request->param("module"),array("worker_master_register","create_order")) )
+            if( !empty($this->request->param("multi"))  )
             {
                 $this->assign("file_upload_limit",3);
+            }else{
+                $this->assign("file_upload_limit",1);
             }
-            $this->assign("file_upload_limit",1);
+
             $this->assign("module",$this->request->param("module"));
             return $this->fetch(":plupload");
 

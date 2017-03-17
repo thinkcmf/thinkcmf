@@ -210,7 +210,7 @@
               <a id="pickfiles"  class="btn btn-default" href="javascript:;;">选择图片</a>
               <a id="uploadfiles" class="btn btn-primary" href="javascript:;">点击上传</a>
             </div>
-            <span class="num">最多上传<em>{$file_upload_limit<=1 ?1:$file_upload_limit}</em> 个附件,单文件最大 <em>20240 KB</em>，<em style="cursor: help;" title="可上传格式：jpg,jpeg,gif,png,bmp">支持格式？</em></span>
+            <span class="num">可以上传<em>{$file_upload_limit<=1 ?1:"多"}</em> 个附件,单文件最大 <em>20240 KB</em>，<em style="cursor: help;" title="可上传格式：jpg,jpeg,gif,png,bmp">支持格式？</em></span>
           </div>
           <div class="eidt_uphoto">
             <ul id="fsUploadProgress" class="container">
@@ -246,11 +246,17 @@
     var number  = jQuery("#fsUploadProgress li").size();
     for ( var i=0 ;i<number;i++)
     {
+
       var file         = new Object();
       file.filepath    = jQuery("#fsUploadProgress li").eq(i).attr("url");
       file.preview_url =  file.filepath;
       file.url         =  file.filepath;
       file.name        = jQuery("#fsUploadProgress li").eq(i).attr("img_name");
+      if(file.url == "undefined")
+      {
+        alert("没有上传完成或者还没有点击开始上传！");
+        return false;
+      }
       files.push(file) ;
     }
 
@@ -308,7 +314,7 @@
     url : "{:url('asset/Asset/plupload')}",
     flash_swf_url : '__STATIC__/js/plupload/Moxie.swf',
     silverlight_xap_url : '__STATIC__/js/plupload/Moxie.xap',
-
+    multi_selection: {$file_upload_limit<=1 ? 0 : 1 },
     filters : {
       max_file_size : '2mb',
       mime_types: [
