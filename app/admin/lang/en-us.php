@@ -2,7 +2,7 @@
 
 return [
     'ADMIN_CENTER'            => 'Admin Center',
-    'WELCOME_USER'            => 'Welcome, {$username}',
+    'WELCOME_USER'            => 'Welcome, {:user_nickname}',
     'REFRESH_CURRENT_PAGE'    => 'Refresh Current Page',
     'WEBSITE_HOME_PAGE'       => 'Website Home Page',
     "SAVE"                    => 'Save',

@@ -2,7 +2,7 @@
 
 return [
     'ADMIN_CENTER'                       => '后台管理中心',
-    'WELCOME_USER'                       => '欢迎, {$username}',
+    'WELCOME_USER'                       => '欢迎, {:user_nickname}',
     'WEBSITE_HOME_PAGE'                  => '网站首页',
     "NICKNAME"                           => '昵称',
     'GENDER'                             => '性别',

@@ -118,12 +118,13 @@ class UserController extends AdminBaseController
                 $role_ids = $this->request->param('role_id/a');
                 unset($_POST['role_id']);
                 $result = $this->validate($this->request->param(), 'User.edit');
+
                 if ($result !== true) {
                     // 验证失败 输出错误信息
                     $this->error($result);
                 } else {
                     $result = DB::name('user')->update($_POST);
-                    if (!empty($result)) {
+                    if ($result!==false) {
                         $uid = $this->request->param('id', 0, 'intval');
                         DB::name("RoleUser")->where(["user_id" => $uid])->delete();
                         foreach ($role_ids as $role_id) {

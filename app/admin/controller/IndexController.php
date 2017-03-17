@@ -24,14 +24,12 @@ class IndexController extends AdminBaseController
     public function index()
     {
         $adminMenuModel = new AdminMenuModel();
-        $menus = $adminMenuModel->menuTree();
+        $menus          = $adminMenuModel->menuTree();
 
         $this->assign("menus", $menus);
 
         $admin = Db::name("user")->where('id', 1)->find();
         $this->assign('admin', $admin);
-
-
         return $this->fetch();
     }
 }

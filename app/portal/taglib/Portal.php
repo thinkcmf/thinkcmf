@@ -417,15 +417,16 @@ parse;
     public function tagCaptcha($tag, $content)
     {
         //height,width,font-size,length,bg,id
-        $id       = empty($tag['id']) ? '' : 'id=' . $tag['id'];
-        $height   = empty($tag['height']) ? '' : 'height=' . $tag['height'];
-        $width    = empty($tag['width']) ? '' : 'width=' . $tag['width'];
-        $fontSize = empty($tag['font-size']) ? '' : 'font_size=' . $tag['font-size'];
-        $length   = empty($tag['length']) ? '' : 'length=' . $tag['length'];
-        $bg       = empty($tag['bg']) ? '' : 'bg=' . $tag['bg'];
+        $id       = empty($tag['id']) ? '' : '&id=' . $tag['id'];
+        $height   = empty($tag['height']) ? '' : '&height=' . $tag['height'];
+        $width    = empty($tag['width']) ? '' : '&width=' . $tag['width'];
+        $fontSize = empty($tag['font-size']) ? '' : '&font_size=' . $tag['font-size'];
+        $length   = empty($tag['length']) ? '' : '&length=' . $tag['length'];
+        $bg       = empty($tag['bg']) ? '' : '&bg=' . $tag['bg'];
         $title    = empty($tag['title']) ? '换一张' : $tag['title'];
+        $params   = ltrim("{$id}{$height}{$width}{$fontSize}{$length}{$bg}", '&');
         $parse    = <<<parse
-<php>\$__CAPTCHA_SRC=url('/captcha/new').'?{$id}{$height}{$width}{$fontSize}{$length}{$bg}';</php>
+<php>\$__CAPTCHA_SRC=url('/captcha/new').'?{$params}';</php>
 <img src="{\$__CAPTCHA_SRC}" onclick="this.src='{\$__CAPTCHA_SRC}&time='+Math.random();" title="{$title}" class="captcha captcha-img" style="cursor: pointer;"/>{$content}
 parse;
         return $parse;
@@ -440,7 +441,7 @@ parse;
         $once  = empty($tag['once']) ? 'false' : 'true';
 
         if (empty($param)) {
-            $param     = '$temp' . uniqid();
+            $param = '$temp' . uniqid();
         } else if (strpos($param, '$') === false) {
             $this->autoBuildVar($param);
         }

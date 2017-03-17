@@ -12,7 +12,7 @@ use cmf\controller\AdminBaseController;
 use app\portal\model\PortalPostModel;
 use app\portal\service\PostService;
 use app\portal\model\PortalCategoryModel;
-
+use think\Db;
 class AdminArticleController extends AdminBaseController
 {
     // 文章列表
@@ -99,9 +99,18 @@ class AdminArticleController extends AdminBaseController
 
         if (isset($param['id'])) {
             $id = $this->request->param('id', 0, 'intval');
-
-            $portalPostModel->where(['id' => $id])->update(['post_status' => 3, 'delete_time' => time()]);
-
+            $result = $portalPostModel->where(['id' => $id])->find();
+            $data = [
+                'object_id'=>$result['id'],
+                'create_time'=> time(),
+                'table_name' => 'portal_post',
+                'name'=>$result['post_title'],
+                'data' =>$result->tojson()
+            ];
+            $resultPortal = $portalPostModel->where(['id' => $id])->update(['post_status' => 3, 'delete_time' => time()]);
+            if ($resultPortal){
+                Db::name('recycleBin')->insert($data);
+            }
             $this->success("删除成功！");
 
         }

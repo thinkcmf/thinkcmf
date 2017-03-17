@@ -50,16 +50,12 @@
         <php>if(empty($menu['items'])){</php>
         <a href="javascript:openapp('{$menu.url}','{$menu.id}','{$menu_name}',true);">
             <i class="fa fa-{$menu.icon|default='desktop'}"></i>
-            <span class="menu-text">
-									{$menu_name}
-								</span>
+            <span class="menu-text"> {$menu_name} </span>
         </a>
         <php>}else{</php>
         <a href="#" class="dropdown-toggle">
             <i class="fa fa-{$menu.icon|default='desktop'} normal"></i>
-            <span class="menu-text normal">
-									{$menu_name}
-								</span>
+            <span class="menu-text normal"> {$menu_name} </span>
             <b class="arrow fa fa-angle-right normal"></b>
             <i class="fa fa-reply back"></i>
             <span class="menu-text back">返回</span>
@@ -178,6 +174,12 @@
                     </a>
                 </if>
 
+                <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/recycle/index')">
+                    <a class="btn btn-sm btn-danger" href="javascript:openapp('{:url('admin/recycle/index')}','index_recycle','{:lang('ADMIN_MENU_INDEX')}');" title="{:lang('ADMIN_MENU_INDEX')}">
+                        <i class="fa fa-list"></i>
+                    </a>
+                </if>
+
                 <if condition="APP_DEBUG">
                     <a class="btn btn-sm btn-default" href="javascript:openapp('{:url('admin/menu/index')}','index_menu','{:lang('ADMIN_MENU_INDEX')}');" title="{:lang('ADMIN_MENU_INDEX')}">
                         <i class="fa fa-list"></i>
@@ -207,7 +209,7 @@
                             <img class="nav-user-photo" width="30" height="30" src="__TMPL__public/assets/images/logo-18.png" alt="{$admin.user_login|default=''}">
                         </if>
                         <span class="user-info">
-								{:lang('WELCOME_USER',array('username'=>empty($admin['user_nicename'])?$admin['user_login']:$admin['user_nicename']))}
+								{:lang('WELCOME_USER',array('user_nickname' => empty($admin['user_nickname'] )? $admin['user_login'] : $admin['user_nickname']))}
 							</span>
                         <i class="fa fa-caret-down"></i>
                     </a>
