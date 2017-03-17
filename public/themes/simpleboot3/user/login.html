@@ -14,7 +14,7 @@
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4">
 				<h2 class="text-center">用户登录</h2>
-				<form class="js-ajax-form" action="{:url('user/login/dologin')}" method="post">
+				<form class="js-ajax-form" action="{:url('user/login/doLogin')}" method="post">
 					<div class="form-group">
 						<input type="text" id="input_username" name="username" placeholder="手机号/邮箱/用户名" class="form-control">
 					</div>
@@ -25,8 +25,8 @@
 
 					<div class="form-group">
 						<div style="position: relative;">
-							<input type="text" name="verify" placeholder="验证码" class="form-control" style="width: 160px;float: left;">
-							<captcha height="38" width="170" font-size="20"/>
+							<input type="text" name="verify" placeholder="验证码" class="form-control" style="width: 170px;float: left;margin-right: 30px">
+							<captcha height="38" width="160" font-size="20"/>
 						</div>
 					</div>
 
