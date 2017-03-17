@@ -1,10 +1,9 @@
 <?php
 namespace app\user\controller;
 
-use think\Log;
 use think\Validate;
 use cmf\controller\HomeBaseController;
-use app\user\model\LoginModel;
+use app\user\model\UserModel;
 
 class LoginController extends HomeBaseController
 {
@@ -22,7 +21,7 @@ class LoginController extends HomeBaseController
         }
         session('login_http_referer', $redirect);
         if (cmf_is_user_login()) { //已经登录时直接跳到首页
-            return redirect($this->request->root(). "/");
+            return redirect($this->request->root());
         } else {
             return $this->fetch(":login");
         }
@@ -31,7 +30,7 @@ class LoginController extends HomeBaseController
     /**
      * 登录验证提交
      */
-    public function dologin()
+    public function doLogin()
     {
         $validate = new Validate([
             'username' => 'require|min:5|max:32',
@@ -55,7 +54,7 @@ class LoginController extends HomeBaseController
         if(!cmf_captcha_check($data['verify'])){
             $this->error('验证码错误');
         }
-        $login = new LoginModel();
+        $login = new UserModel();
         $user['user_pass']   = $data['password'];
         if ($validate::is($data['username'], 'email')) {
             $user['user_email'] = $data['username'];
