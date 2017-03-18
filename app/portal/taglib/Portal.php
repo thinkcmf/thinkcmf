@@ -10,10 +10,10 @@ class Portal extends TagLib
      */
     protected $tags = [
         // 标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次
-        'articles'            => ['attr' => 'field,where,limit,order,page,relation,pageVarName,categoryIds', 'close' => 1],
+        'articles'            => ['attr' => 'field,where,limit,order,page,relation,pageVarName,categoryIds', 'close' => 1],//非必须属性item
         'page'                => ['attr' => '', 'close' => 0],//非必须属性name
         'widget'              => ['attr' => 'name', 'close' => 1],
-        'navigation'          => ['attr' => 'nav-id,root,id,class', 'close' => 1],
+        'navigation'          => ['attr' => '', 'close' => 1],//非必须属性nav-id,root,id,class
         'navigationmenu'      => ['attr' => '', 'close' => 1],//root,class
         'navigationfolder'    => ['attr' => '', 'close' => 1],//root,class,dropdown,dropdown-class
         'subnavigation'       => ['attr' => 'parent,root,id,class', 'close' => 1],
@@ -219,7 +219,7 @@ parse;
         //root,class,dropdown,dropdown-class
         $root          = isset($tag['root']) ? $tag['root'] : 'li';
         $class         = isset($tag['class']) ? $tag['class'] : 'dropdown';
-        $dropdown      = isset($tag['dropdown']) ? $tag['dropdown'] : 'dropdown';
+        $dropdown      = isset($tag['dropdown']) ? $tag['dropdown'] : 'ul';
         $dropdownClass = isset($tag['dropdown-class']) ? $tag['dropdown-class'] : 'dropdown-menu';
 
         $parse = <<<parse
@@ -434,7 +434,6 @@ parse;
 
     public function tagHook($tag, $content)
     {
-        //height,width,font-size,length,bg,id
         $name  = empty($tag['name']) ? '' : $tag['name'];
         $param = empty($tag['param']) ? '' : $tag['param'];
         $extra = empty($tag['extra']) ? '' : $tag['extra'];

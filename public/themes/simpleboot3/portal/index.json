@@ -64,7 +64,6 @@
         "widgets": {
             "all_widget": {
                 "title": "所有组件演示",
-                "name": "all_widget",
                 "display": "1",
                 "vars": {
                     "text": {
@@ -233,7 +232,6 @@
             },
             "all_widget_data_source": {
                 "title": "所有组件数据源演示",
-                "name": "all_widget_data_source",
                 "display": "1",
                 "vars": {
                     "data_source": {
