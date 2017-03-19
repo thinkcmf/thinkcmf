@@ -27,14 +27,14 @@
                             </a>
                             <label class="checkbox-inline pull-right">
                                 <php>$display_checked=empty($widget['display'])?'':'checked';</php>
-                                <input type="checkbox" name="widget[{$widget.name}][display]" value="1"
+                                <input type="checkbox" name="widget[{$widgetName}][display]" value="1"
                                        {$display_checked}>
                                 显示
                             </label>
                         </div>
                         <div id="collapse-{$widgetName}" class="panel-collapse collapse {$index===1?'in':''}" role="tabpanel">
                             <div class="panel-body">
-                                {:_parse_vars($widget.vars,'widget_vars['.$widget.name.']',1,$widget.name)}
+                                {:_parse_vars($widget.vars,'widget_vars['.$widgetName.']',1,$widgetName)}
                             </div>
                         </div>
                     </div>
