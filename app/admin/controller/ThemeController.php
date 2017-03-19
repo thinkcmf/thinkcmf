@@ -80,7 +80,7 @@ class ThemeController extends AdminBaseController
         if ($themeCount === 0) {
             $this->error('主题未安装!');
         }
-        $result = $themeModel->installTheme($theme);
+        $result = $themeModel->updateTheme($theme);
         if ($result === false) {
             $this->error('主题不存在!');
         }
