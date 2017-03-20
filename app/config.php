@@ -6,8 +6,13 @@
 // +----------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+if (file_exists(CMF_ROOT . "data/conf/config.php")) {
+    $runtimeConfig = include CMF_ROOT . "data/conf/config.php";
+} else {
+    $runtimeConfig = [];
+}
 
-return [
+$configs = [
     // +----------------------------------------------------------------------
     // | 应用设置
     // +----------------------------------------------------------------------
@@ -121,12 +126,12 @@ return [
     ],
 
     // 视图输出字符串内容替换
-    'view_replace_str'       => [
-        '__CSS__'   => '/assets/css',
-        '__JS__'    => '/assets/js',
-        '__IMG__'   => '/assets/images',
+    'view_replace_str'      => [
+        '__CSS__' => '/assets/css',
+        '__JS__'  => '/assets/js',
+        '__IMG__' => '/assets/images',
         '__UP__'  => '/up_files/',
-        '__CDN__'=>"/",
+        '__CDN__' => "/",
     ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl' => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
@@ -251,3 +256,5 @@ return [
     'cmf_admin_theme_path'    => 'themes/',
     'cmf_admin_default_theme' => 'admin_simpleboot3',
 ];
+
+return array_merge($configs, $runtimeConfig);

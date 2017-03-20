@@ -3,19 +3,19 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('theme/index')}">所有主题</a></li>
-        <li class="active"><a>安装主题</a></li>
+        <li><a href="{:url('theme/index')}">所有模板</a></li>
+        <li class="active"><a>安装模板</a></li>
     </ul>
     <form method="post" class="js-ajax-form margin-top-20">
         <php> $status=array("1"=>lang('DISPLAY'),"0"=>lang('HIDDEN'));</php>
         <table class="table table-hover table-bordered table-list">
             <thead>
             <tr>
-                <th>主题</th>
-                <th>主题名称</th>
+                <th>模板</th>
+                <th>模板名称</th>
                 <th>版本号</th>
                 <th>作者</th>
-                <th>主题描述</th>
+                <th>模板描述</th>
                 <th width="120">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
@@ -35,11 +35,11 @@
             </tbody>
             <tfoot>
             <tr>
-                <th>主题</th>
-                <th>主题名称</th>
+                <th>模板</th>
+                <th>模板名称</th>
                 <th>版本号</th>
                 <th>作者</th>
-                <th>主题描述</th>
+                <th>模板描述</th>
                 <th width="120">{:lang('ACTIONS')}</th>
             </tr>
             </tfoot>
