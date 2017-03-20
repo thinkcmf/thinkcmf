@@ -6,9 +6,9 @@
         <li class="active"><a href="{:url('NavMenu/index',['nav_id'=>$navcid])}">前台菜单</a></li>
         <li><a href="{:url('NavMenu/add',['nav_id'=>$navcid])}">添加菜单</a></li>
     </ul>
-    <form action="{:url('NavMenu/listOrder')}" method="post" class="margin-top-20">
+    <form class="js-ajax-form margin-top-20" action="{:url('NavMenu/listOrder')}" method="post" >
         <div class="table-actions">
-            <button type="submit" class="btn btn-primary btn-small btn_submit J_ajax_submit_btn">排序</button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">排序</button>
         </div>
         <table class="table table-hover table-bordered">
             <thead>
@@ -17,7 +17,7 @@
                 <th width="50">ID</th>
                 <th>菜单名称</th>
                 <th width="80">状态</th>
-                <th width="150">{:lang('ACTIONS')}</th>
+                <th width="180">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
