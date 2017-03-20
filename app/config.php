@@ -115,7 +115,7 @@ return [
         'taglib_begin'    => '<',
         // 标签库标签结束标记
         'taglib_end'      => '>',
-        'taglib_build_in' => 'app\portal\taglib\Portal,cx',
+        'taglib_build_in' => 'app\portal\taglib\Portal,cmf\lib\taglib\Cmf,cx',
         'tpl_cache'       => APP_DEBUG ? false : true,
         'tpl_deny_php'    => false
     ],
