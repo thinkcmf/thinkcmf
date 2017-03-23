@@ -423,8 +423,7 @@ class UeditorController  extends HomeBaseController {
 
         $config['imageMaxSize']=$upload_setting['image']['upload_max_filesize']*1024;
         $config['imageAllowFiles']= array_map(array($this,'ueditorExtension'), explode(",", $upload_setting['image']['extensions']));
-
-//        $config['scrawlMaxSize']=$upload_setting['image']['upload_max_filesize']*1024;
+        $config['scrawlMaxSize']=$upload_setting['image']['upload_max_filesize']*1024;
 //
         $config['catcherMaxSize']=$upload_setting['image']['upload_max_filesize']*1024;
         $config['catcherAllowFiles']= array_map(array($this,'ueditorExtension'), explode(",", $upload_setting['image']['extensions']));
