@@ -1849,3 +1849,34 @@ function cmf_is_ssl() {
     }
     return false;
 }
+
+
+/**
+ * 获取CMF系统的设置，此类设置用于全局
+ * @param string $key 设置key，为空时返回所有配置信息
+ * @return mixed
+ */
+function cmf_get_cmf_settings($key=""){
+    $cmfSettings = cache("cmf_settings");
+    if(empty($cmfSettings)){
+        $objOptions = new \app\admin\model\OptionModel();
+        $objResult = $objOptions->where("option_name",'cmf_settings')->find();
+        $arrOption = $objResult?$objResult->toArray():array();
+        if($arrOption){
+            $cmfSettings = json_decode($arrOption['option_value'],true);
+        }else{
+            $cmfSettings = array();
+        }
+        cache("cmf_settings", $cmfSettings);
+    }
+
+    if(!empty($key) ){
+        if(isset($cmfSettings[$key]))
+        {
+            return $cmfSettings[$key];
+        }else{
+            return false;
+        }
+    }
+    return $cmfSettings;
+}
