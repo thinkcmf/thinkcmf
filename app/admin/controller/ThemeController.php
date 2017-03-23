@@ -1,4 +1,11 @@
 <?php
+// +----------------------------------------------------------------------
+// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: 老猫 <zxxjjforever@163.com>
+// +----------------------------------------------------------------------
 namespace app\admin\controller;
 
 use cmf\controller\AdminBaseController;
@@ -8,15 +15,22 @@ use think\Validate;
 
 class ThemeController extends AdminBaseController
 {
-    // 模板列表
+    /**
+     * 已安装模板列表
+     */
     public function index()
     {
+
         $themeModel = new ThemeModel();
         $themes     = $themeModel->select();
         $this->assign("themes", $themes);
+        $this->assign('default_theme', config('cmf_default_theme'));
         return $this->fetch();
     }
 
+    /**
+     * 未安装模板列表
+     */
     public function install()
     {
         $themesDirs = cmf_scan_dir("themes/*", GLOB_ONLYDIR);
@@ -42,6 +56,9 @@ class ThemeController extends AdminBaseController
         return $this->fetch();
     }
 
+    /**
+     * 卸载模板
+     */
     public function uninstall()
     {
         $theme      = $this->request->param('theme');
@@ -55,6 +72,9 @@ class ThemeController extends AdminBaseController
 
     }
 
+    /**
+     * 安装模板
+     */
     public function installTheme()
     {
         $theme      = $this->request->param('theme');
@@ -62,15 +82,18 @@ class ThemeController extends AdminBaseController
         $themeCount = $themeModel->where('theme', $theme)->count();
 
         if ($themeCount > 0) {
-            $this->error('主题已经安装!');
+            $this->error('模板已经安装!');
         }
         $result = $themeModel->installTheme($theme);
         if ($result === false) {
-            $this->error('主题不存在!');
+            $this->error('模板不存在!');
         }
         $this->success("安装成功", url("theme/index"));
     }
 
+    /**
+     * 更新模板
+     */
     public function update()
     {
         $theme      = $this->request->param('theme');
@@ -78,15 +101,41 @@ class ThemeController extends AdminBaseController
         $themeCount = $themeModel->where('theme', $theme)->count();
 
         if ($themeCount === 0) {
-            $this->error('主题未安装!');
+            $this->error('模板未安装!');
         }
-        $result = $themeModel->installTheme($theme);
+        $result = $themeModel->updateTheme($theme);
         if ($result === false) {
-            $this->error('主题不存在!');
+            $this->error('模板不存在!');
         }
         $this->success("更新成功", url("theme/index"));
     }
 
+    /**
+     * 启用模板
+     */
+    public function active()
+    {
+        $theme      = $this->request->param('theme');
+        $themeModel = new ThemeModel();
+        $themeCount = $themeModel->where('theme', $theme)->count();
+
+        if ($themeCount === 0) {
+            $this->error('模板未安装!');
+        }
+
+        $result = cmf_set_dynamic_config(['cmf_default_theme' => $theme]);
+
+        if ($result === false) {
+            $this->error('配置写入失败!');
+        }
+
+        $this->success("模板已启用");
+
+    }
+
+    /**
+     * 模板文件列表
+     */
     public function files()
     {
         $theme = $this->request->param('theme');
@@ -95,6 +144,9 @@ class ThemeController extends AdminBaseController
         return $this->fetch();
     }
 
+    /**
+     * 模板文件设置
+     */
     public function fileSetting()
     {
         $tab                 = $this->request->param('tab', 'widget');
@@ -113,6 +165,9 @@ class ThemeController extends AdminBaseController
         return $this->fetch($tpl);
     }
 
+    /**
+     * 模板文件数组数据列表
+     */
     public function fileArrayData()
     {
         $tab                 = $this->request->param('tab', 'widget');
@@ -169,6 +224,9 @@ class ThemeController extends AdminBaseController
         return $this->fetch('file_array_data');
     }
 
+    /**
+     * 模板文件数组数据添加编辑
+     */
     public function fileArrayDataEdit()
     {
         $tab        = $this->request->param('tab', 'widget');
@@ -312,6 +370,9 @@ class ThemeController extends AdminBaseController
         }
     }
 
+    /**
+     * 模板文件数组数据删除
+     */
     public function fileArrayDataDelete()
     {
         $tab        = $this->request->param('tab', 'widget');
@@ -367,6 +428,9 @@ class ThemeController extends AdminBaseController
         $this->success("删除成功！", url('theme/fileArrayData', ['tab' => $tab, 'var' => $varName, 'file_id' => $fileId, 'widget' => $widgetName]));
     }
 
+    /**
+     * 模板文件编辑提交保存
+     */
     public function settingPost()
     {
         if ($this->request->isPost()) {
@@ -410,7 +474,7 @@ class ThemeController extends AdminBaseController
 
                         if (isset($mVar['message'])) {
                             foreach ($mVar['message'] as $rule => $msg) {
-                                 $messages[$mVarName . '.' . $rule] = $msg;
+                                $messages[$mVarName . '.' . $rule] = $msg;
                             }
                         }
 
@@ -423,11 +487,11 @@ class ThemeController extends AdminBaseController
                         }
                     }
 
-                    if($widget['display']){
+                    if ($widget['display']) {
                         $validate = new Validate($rules, $messages);
                         $result   = $validate->check($post['widget_vars'][$mWidgetName]);
                         if (!$result) {
-                            $this->error($widget['title'].':'.$validate->getError());
+                            $this->error($widget['title'] . ':' . $validate->getError());
                         }
                     }
 
@@ -465,6 +529,9 @@ class ThemeController extends AdminBaseController
         return $newRules;
     }
 
+    /**
+     * 模板文件设置数据源
+     */
     public function dataSource()
     {
         $dataSource = $this->request->param('data_source');

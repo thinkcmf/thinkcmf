@@ -32,6 +32,22 @@ class ThemeModel extends Model
         }
     }
 
+    public function updateTheme($theme)
+    {
+        $manifest = "themes/$theme/manifest.json";
+        if (file_exists_case($manifest)) {
+            $manifest           = file_get_contents($manifest);
+            $themeData          = json_decode($manifest, true);
+
+            $this->updateThemeFiles($theme);
+
+            $this->save($themeData,['theme'=>$theme]);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private function updateThemeFiles($theme, $suffix = 'html')
     {
         $dir                = 'themes/' . $theme;
@@ -67,8 +83,8 @@ class ThemeModel extends Model
             $findFile   = Db::name('theme_file')->where(['theme' => $theme, 'file' => $file])->find();
             $isPublic   = empty($config['is_public']) ? 0 : 1;
             $listOrder  = empty($config['order']) ? 0 : floatval($config['order']);
-            $more       = empty($config['more']) ? [] : json_encode($config['more']);
-            $oldMore    = $more;
+            $configMore = empty($config['more']) ? [] : $config['more'];
+            $more       = $configMore;
 
             if (empty($findFile)) {
                 Db::name('theme_file')->insert(
@@ -77,21 +93,23 @@ class ThemeModel extends Model
                         'action'      => $config['action'],
                         'file'        => $file,
                         'name'        => $config['name'],
-                        'more'        => $more,
-                        'config_more' => $oldMore,
+                        'more'        => json_encode($more),
+                        'config_more' => json_encode($configMore),
                         'description' => $config['description'],
                         'is_public'   => $isPublic,
                         'list_order'  => $listOrder
                     ]);
-            } else {
+            } else { // 更新文件
+                $moreInDb = json_decode($findFile['more'], true);
+                $more     = array_replace_recursive($configMore, $moreInDb);
                 Db::name('theme_file')->where(['theme' => $theme, 'file' => $file])->update(
                     [
                         'theme'       => $theme,
                         'action'      => $config['action'],
                         'file'        => $file,
                         'name'        => $config['name'],
-                        'more'        => $more,
-                        'config_more' => $oldMore,
+                        'more'        => json_encode($more),
+                        'config_more' => json_encode($configMore),
                         'description' => $config['description'],
                         'is_public'   => $isPublic,
                         'list_order'  => $listOrder
@@ -99,5 +117,6 @@ class ThemeModel extends Model
             }
         }
     }
+
 
 }
