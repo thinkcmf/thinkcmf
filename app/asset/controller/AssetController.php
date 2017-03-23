@@ -43,6 +43,12 @@ class AssetController extends AdminBaseController {
         if ($this->request->isPost()) {
 
 
+
+
+            //$intPostMaxSize       = ini_get("post_max_size");
+            //$intUploadMaxFileSize = ini_get("upload_max_filesize");
+
+
             $fileImage   = $this->request->file("file");
             $strWebPath  = $this->request->root() . DS."up_files". DS;
             $strFilePath = ROOT_PATH . 'public' . DS."up_files". DS ;
@@ -72,8 +78,12 @@ class AssetController extends AdminBaseController {
 
 
             if(!$fileImage->validate(['size'=>$intUploadMaxFileSize*1024,'ext'=>$arrAllowedExts])->check()) {
-                die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "'.$fileImage->getError().'"}, "id" : "'.$strId.'"}');
+                die ('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "'.$fileImage->getError().'"}, "id" : "'.$strId.'"}') ;
             }
+
+
+
+
 
           //  $url=$first['url'];
             $storageSetting=cmf_get_cmf_settings('storage');
@@ -91,9 +101,10 @@ class AssetController extends AdminBaseController {
 
                 if(!$info)
                 {
-                    die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "'. $fileImage->getError().'"}, "id" : "'.$strId.'"}');
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "'. $fileImage->getError().'"}, "id" : "'.$strId.'"}') ;
                 }else{
                     $arrInfo["url"]         = $this->request->domain().$strWebPath.$info->getSaveName();
+                    $arrInfo["SaveName"]    = $info->getSaveName();
                     $arrInfo["user_id"]     = $userid;
                     $arrInfo["file_size"]   = $info->getSize();
                     $arrInfo["create_time"] = time();
@@ -101,7 +112,7 @@ class AssetController extends AdminBaseController {
                     $arrInfo["file_sha1"]   = sha1_file($strFilePath.$info->getSaveName());
                     $arrInfo["file_key"]    = $arrInfo["file_md5"].md5($arrInfo["file_sha1"]);
                     $arrInfo["filename"]    = $info->getInfo("name");
-                    $arrInfo["file_path"]   = $strWebPath.$info->getSaveName("name");
+                    $arrInfo["file_path"]   = $strWebPath.$info->getSaveName();
                     $arrInfo["suffix"]      = $info->getExtension();
 
                 }
@@ -109,10 +120,20 @@ class AssetController extends AdminBaseController {
             }
 
 
-            $assetModel = new AssetModel();
-            $assetModel->data($arrInfo)->allowField(true)->save();
 
-            die('{"jsonrpc" : "2.0", "result" : "'.$arrInfo["url"] .'", "id" : "'.$strId.'","name":"'.$arrInfo["filename"].'"}');
+            //检查文件是否已经存在
+            $assetModel = new AssetModel();
+            $objAsset   = $assetModel->where( ["user_id"=>$userid,"file_key"=>$arrInfo["file_key"]])->find();
+            if($objAsset)
+            {
+                $arrAsset = $objAsset->toArray();
+                $arrInfo["url"] = $this->request->domain().$arrAsset["file_path"];
+                @unlink($strFilePath.$arrInfo["SaveName"] );
+            }else{
+                $assetModel->data($arrInfo)->allowField(true)->save();
+            }
+
+            die('{"jsonrpc" : "2.0", "result" : "'.$arrInfo["url"] .'", "id" : "'.$strId.'","name":"'.$arrInfo["filename"].'"}') ;
 
         } else {
             $arrMimeType = array();
