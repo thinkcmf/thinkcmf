@@ -14,15 +14,6 @@
     <div class="tab-content ">
       <div  class="tab-pane active" id="wrapper">
 
-          <!--<div class="edit_uping">-->
-            <!--&lt;!&ndash;选择按钮&ndash;&gt;-->
-            <!--<div id="container">-->
-              <!--&lt;!&ndash;<a id="filePicker"  class="btn btn-default" href="javascript:;;">选择图片</a>&ndash;&gt;-->
-              <!--&lt;!&ndash;<a id="uploadfiles" class="btn btn-primary" href="javascript:;">点击上传</a>&ndash;&gt;-->
-            <!--</div>-->
-            <!--<span class="num">可以上传<em>{$file_upload_limit<=1 ?1:"多"}</em> 个附件,单文件最大 <em>2048 KB</em>，<em style="cursor: help;" title="可上传格式：jpg,jpeg,gif,png,bmp">支持格式？</em></span>-->
-          <!--</div>-->
-
           <div id="container">
             <!--头部，相册选择和格式选择-->
 
@@ -46,10 +37,6 @@
             </div>
           </div>
 
-
-            <!--<ul id="fsUploadProgress" class="container">-->
-              <!--&lt;!&ndash;<li class="J_empty"><div class="no">暂无</div></li>&ndash;&gt;-->
-            <!--</ul>-->
 
 
       </div>
@@ -274,9 +261,9 @@
         dnd: '#dndArea',
         paste: '#uploader',
         swf: GV.DIMAUB+GV.JS_ROOT+'webuploader-0.1.5/dist/Uploader.swf',
-        chunked: false,
+        chunked: true,//开启分片
         auto: true,
-        chunkSize: 512 * 1024,
+        chunkSize: 512* 1024,
         server: 'http://cmf5.dev.cn/asset/Asset/webuploader',
         // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
         disableGlobalDnd: true,
