@@ -11,7 +11,7 @@
  Target Server Version : 50717
  File Encoding         : utf-8
 
- Date: 03/25/2017 11:26:48 AM
+ Date: 03/25/2017 15:44:30 PM
 */
 
 SET NAMES utf8;
@@ -66,13 +66,13 @@ CREATE TABLE `cmf_asset` (
   `suffix` varchar(10) NOT NULL DEFAULT '' COMMENT '文件后缀名,不包括点',
   `more` text COMMENT '其它详细信息,JSON格式',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='资源表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='资源表';
 
 -- ----------------------------
 --  Records of `cmf_asset`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmf_asset` VALUES ('1', '1', '187605', '1484471763', '1', '0', '48be1fa01012ad8f3176009344ed40f8bd0648ae7963a5f3da8a3fa0775acf07', 'beian.png', '20170115/1f9b5945942aad475156fb9bd0e6bedd.png', '48be1fa01012ad8f3176009344ed40f8', '357babee016a8d7e98b7f310a44c760e03fee126', 'png', null);
+INSERT INTO `cmf_asset` VALUES ('1', '1', '135086', '1490415261', '1', '0', 'a8075a29adfd9de99e480a1edbe42cffe91fc45e28b9157a1ebbb591d7b68a5e', 'hdImg_5c4d7cf6f6cc9b7b7dff3b0b4d7eccc214646007082.jpg', '/upload/20170325/cc1cdc71e0ed84306f0e52cc81f9523b.jpg', 'a8075a29adfd9de99e480a1edbe42cff', '9a1672713312cbd0bca1a484e8458671d1fd9764', 'jpg', null), ('2', '1', '40218', '1490415562', '1', '0', '7d9d81229f77dd3d1419cdd5bf5fb7b3ab425928b9ac74fda6c84336374a3c7e', 'untitled1.png', '/upload/20170325/ad620e3d7c069a5547a412acf688e6e0.png', '7d9d81229f77dd3d1419cdd5bf5fb7b3', 'd42da02afc2ee3ee47314b2024c50ea27abae825', 'png', null), ('3', '1', '28801', '1490415588', '1', '0', '8513968ce05dbf74aad19aee90b9530d26dc0058160cf7e53f056356baf59672', 'untitled1.png', '/upload/20170325/402e6e18222c6cb28090ac36784a094f.png', '8513968ce05dbf74aad19aee90b9530d', 'aabd27c1470d0f69539c2845b00c8787bfe17d40', 'png', null), ('4', '1', '15681', '1490415924', '1', '0', '963e5e6edb61783b542b7ae3ce9f8e62805e265f2d47a19d92ecfdcc3068183e', 'hdImg_5c4d7cf6f6cc9b7b7dff3b0b4d7eccc214646007082.png', '/upload/ueditor/20170325/a006f47482539c0b3919f2653f009728.png', '963e5e6edb61783b542b7ae3ce9f8e62', '57860f91294334fabad98f9d52ede15d4c1b49cc', 'png', null), ('5', '1', '224014', '1490415945', '1', '0', 'cf89e813f99e838b1fe244893cfc3a40ec1cdc6fd90e86ba548c8408244ff010', 'hdImg_5c4d7cf6f6cc9b7b7dff3b0b4d7eccc214646007082.jpg', '/upload/ueditor/20170325/9d23d3c185261d48e4a67b401d9cdc45.jpg', 'cf89e813f99e838b1fe244893cfc3a40', 'e6087e72cb6e3a75b6fff6806fde437663db2e4d', 'jpg', null);
 COMMIT;
 
 -- ----------------------------
@@ -128,11 +128,19 @@ CREATE TABLE `cmf_hook` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '钩子类型(1:系统钩子;2:应用钩子;3:模板钩子)',
   `once` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '是否只允许一个插件运行(0:多个;1:一个)',
-  `hook` varchar(20) NOT NULL DEFAULT '' COMMENT '钩子名',
+  `name` varchar(30) NOT NULL DEFAULT '' COMMENT '钩子名称',
+  `hook` varchar(20) NOT NULL DEFAULT '' COMMENT '钩子',
   `app` varchar(20) NOT NULL DEFAULT '' COMMENT '应用名(只有应用钩子才用)',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子表';
+
+-- ----------------------------
+--  Records of `cmf_hook`
+-- ----------------------------
+BEGIN;
+INSERT INTO `cmf_hook` VALUES ('1', '1', '0', '应用初始化', 'app_init', 'system', '应用初始化'), ('2', '3', '0', '模板底部钩子', 'footer', '', '');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `cmf_hook_plugin`
@@ -145,7 +153,14 @@ CREATE TABLE `cmf_hook_plugin` (
   `hook` varchar(20) NOT NULL DEFAULT '' COMMENT '钩子名',
   `plugin` varchar(30) NOT NULL DEFAULT '' COMMENT '插件',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子插件表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子插件表';
+
+-- ----------------------------
+--  Records of `cmf_hook_plugin`
+-- ----------------------------
+BEGIN;
+INSERT INTO `cmf_hook_plugin` VALUES ('1', '10', '1', 'footer', 'Demo');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `cmf_link`
@@ -234,7 +249,7 @@ CREATE TABLE `cmf_option` (
 --  Records of `cmf_option`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmf_option` VALUES ('1', '1', 'smtp_setting', '{\"from\":\"ddd\",\"from_name\":\"dd\",\"host\":\"dd\",\">smtp_secure\":\"ssl\",\"port\":\"dd\",\"username\":\"dd\",\"password\":\"dd\",\"smtp_secure\":\"tls\"}'), ('2', '1', 'email_template_user_activation', '{\"subject\":\"dd\",\"template\":\"<p>ddd<\\/p>\"}'), ('3', '1', 'upload_setting', '{\"image\":{\"upload_max_filesize\":\"10240\",\"extensions\":\"jpg,jpeg,png,gif,bmp4\"},\"video\":{\"upload_max_filesize\":\"102403\",\"extensions\":\"mp4,avi,wmv,rm,rmvb,mkv\"},\"audio\":{\"upload_max_filesize\":\"10240\",\"extensions\":\"mp3,wma,wav\"},\"file\":{\"upload_max_filesize\":\"10240\",\"extensions\":\"txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar\"}}'), ('4', '1', 'site_info', '{\"site_name\":\"\",\"site_admin_url_password\":\"\",\"site_icp\":\"\",\"site_admin_email\":\"\",\"site_analytics\":\"\",\"site_copyright\":\"\",\"site_seo_title\":\"\",\"site_seo_keywords\":\"\",\"site_seo_description\":\"\",\"urlmode\":\"0\",\"html_suffix\":\"\",\"comment_time_interval\":\"60\"}'), ('5', '1', 'cmf_settings', '{\"banned_usernames\":\"\"}'), ('6', '1', 'cdn_settings', '{\"cdn_static_root\":\"\"}');
+INSERT INTO `cmf_option` VALUES ('1', '1', 'smtp_setting', '{\"from\":\"ddd\",\"from_name\":\"dd\",\"host\":\"dd\",\">smtp_secure\":\"ssl\",\"port\":\"dd\",\"username\":\"dd\",\"password\":\"dd\",\"smtp_secure\":\"tls\"}'), ('2', '1', 'email_template_user_activation', '{\"subject\":\"dd\",\"template\":\"<p>ddd<\\/p>\"}'), ('3', '1', 'upload_setting', '{\"image\":{\"upload_max_filesize\":\"10240\",\"extensions\":\"jpg,jpeg,png,gif,bmp4\"},\"video\":{\"upload_max_filesize\":\"10240\",\"extensions\":\"mp4,avi,wmv,rm,rmvb,mkv\"},\"audio\":{\"upload_max_filesize\":\"10240\",\"extensions\":\"mp3,wma,wav\"},\"file\":{\"upload_max_filesize\":\"10240\",\"extensions\":\"txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar\"}}'), ('4', '1', 'site_info', '{\"site_name\":\"\",\"site_admin_url_password\":\"\",\"site_icp\":\"\",\"site_admin_email\":\"\",\"site_analytics\":\"\",\"site_copyright\":\"\",\"site_seo_title\":\"\",\"site_seo_keywords\":\"\",\"site_seo_description\":\"\",\"urlmode\":\"0\",\"html_suffix\":\"\",\"comment_time_interval\":\"60\"}'), ('5', '1', 'cmf_settings', '{\"banned_usernames\":\"\"}'), ('6', '1', 'cdn_settings', '{\"cdn_static_root\":\"\"}');
 COMMIT;
 
 -- ----------------------------
@@ -256,13 +271,13 @@ CREATE TABLE `cmf_plugin` (
   `description` varchar(255) NOT NULL COMMENT '插件描述',
   `config` text COMMENT '插件配置',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='插件表';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='插件表';
 
 -- ----------------------------
 --  Records of `cmf_plugin`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmf_plugin` VALUES ('7', '0', '1', '0', '0', '0', 'Demo', '插件演示', 'footer', 'ThinkCMF', '1.0', '插件演示', '{\"text\":\"hello,ThinkCMF!\",\"password\":\"\",\"select\":\"1\",\"checkbox\":[\"1\"],\"radio\":\"1\",\"radio2\":\"1\",\"textarea\":\"\\u8fd9\\u91cc\\u662f\\u4f60\\u8981\\u586b\\u5199\\u7684\\u5185\\u5bb92\"}');
+INSERT INTO `cmf_plugin` VALUES ('8', '1', '1', '1', '0', '0', 'Demo', '插件演示', 'footer', 'ThinkCMF', '1.0', '插件演示', '{\"text\":\"hello,ThinkCMF!\",\"password\":\"\",\"select\":\"1\",\"checkbox\":1,\"radio\":\"1\",\"radio2\":\"1\",\"textarea\":\"\\u8fd9\\u91cc\\u662f\\u4f60\\u8981\\u586b\\u5199\\u7684\\u5185\\u5bb9\"}');
 COMMIT;
 
 -- ----------------------------
@@ -294,6 +309,7 @@ CREATE TABLE `cmf_portal_category` (
   `parent_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '分类父id',
   `post_count` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '分类文章数',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:发布,0:不发布',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `list_order` float NOT NULL DEFAULT '0' COMMENT '排序',
   `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '分类名称',
   `description` varchar(255) NOT NULL COMMENT '分类描述',
@@ -310,7 +326,7 @@ CREATE TABLE `cmf_portal_category` (
 --  Records of `cmf_portal_category`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmf_portal_category` VALUES ('1', '0', '0', '1', '0', '列表演示6', '大', '0-1', '', '', '', 'list', 'article'), ('2', '1', '0', '1', '0', '瀑布流', '', '0-1-2', '', '', '', 'list_masonry', 'article'), ('6', '0', '0', '1', '0', 'asf', 'asdfyyy', '0-6', 'asdf', 'asf', 'afsd', 'list', 'article'), ('7', '0', '0', '1', '0', 'ddd', '', '', '', '', '', 'list', 'article'), ('8', '0', '0', '1', '0', 'testddd', 'test', '', '', '', '', 'list', 'article');
+INSERT INTO `cmf_portal_category` VALUES ('1', '0', '0', '1', '0', '0', '列表演示6', '大', '0-1', '', '', '', 'list', 'article'), ('2', '1', '0', '1', '0', '0', '瀑布流', '', '0-1-2', '', '', '', 'list_masonry', 'article'), ('6', '0', '0', '1', '0', '0', 'asf', 'asdfyyy', '0-6', 'asdf', 'asf', 'afsd', 'list', 'article'), ('7', '0', '0', '1', '0', '0', 'ddd', '', '', '', '', '', 'list', 'article'), ('8', '0', '0', '1', '0', '0', 'testddd', 'test', '', '', '', '', 'list', 'article');
 COMMIT;
 
 -- ----------------------------
@@ -418,7 +434,6 @@ CREATE TABLE `cmf_recycle_bin` (
   `create_time` int(10) unsigned DEFAULT '0' COMMENT '创建时间',
   `table_name` varchar(60) DEFAULT '' COMMENT '删除内容所在表名',
   `name` varchar(255) DEFAULT '' COMMENT '删除内容名称',
-  `data` text COMMENT '删除内容原始数据,json格式',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=' 回收站';
 
@@ -444,7 +459,7 @@ CREATE TABLE `cmf_role` (
 --  Records of `cmf_role`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmf_role` VALUES ('1', '0', '1', '1329633709', '1329633709', '0', '超级管理员', '拥有网站最高管理员权限！'), ('2', '0', '1', '1329633709', '1329633709', '0', '普通管理员', '权限由最高管理员分配！'), ('3', '0', '1', '1478339957', '0', '0', '11hhh', 'hhh');
+INSERT INTO `cmf_role` VALUES ('1', '0', '1', '1329633709', '1329633709', '0', '超级管理员', '拥有网站最高管理员权限！'), ('2', '0', '1', '1329633709', '1329633709', '0', '普通管理员', '权限由最高管理员分配！');
 COMMIT;
 
 -- ----------------------------
@@ -464,7 +479,7 @@ CREATE TABLE `cmf_role_user` (
 --  Records of `cmf_role_user`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmf_role_user` VALUES ('1', '2', '2'), ('2', '2', '3');
+INSERT INTO `cmf_role_user` VALUES ('2', '2', '3');
 COMMIT;
 
 -- ----------------------------
@@ -609,14 +624,7 @@ CREATE TABLE `cmf_third_party_user` (
   `union_id` varchar(64) NOT NULL DEFAULT '' COMMENT '第三方用户多个产品中的惟一 id,(如:微信平台)',
   `more` text COMMENT '扩展信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='第三方用户表';
-
--- ----------------------------
---  Records of `cmf_third_party_user`
--- ----------------------------
-BEGIN;
-INSERT INTO `cmf_third_party_user` VALUES ('1', '7', '1486973992', '0', '1486973992', '1', '1', 'wxapp', 'wxfec0466cec53dea5', '127.0.0.1', '', 'okhTr0O6JBwKndjKb3hYW3WUMufA', '', '{\"openId\":\"okhTr0O6JBwKndjKb3hYW3WUMufA\",\"nickName\":\"\\u8d75\\u5fd7\\u6d77\",\"gender\":1,\"language\":\"zh_CN\",\"city\":\"\",\"province\":\"Madrid\",\"country\":\"\",\"avatarUrl\":\"http:\\/\\/wx.qlogo.cn\\/mmopen\\/vi_32\\/Q0j4TwGTfTJqOfZtATvnVLOBP8QDt0oGXRJjm2tlYAZwERFrJLTG0uWrYU5X9xaXtezmGYZjlAhKo9iblSmo4Tg\\/0\",\"sessionKey\":\"fWBagws8oJ3XGExKA8HpMw==\"}');
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='第三方用户表';
 
 -- ----------------------------
 --  Table structure for `cmf_user`
@@ -651,7 +659,7 @@ CREATE TABLE `cmf_user` (
 --  Records of `cmf_user`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmf_user` VALUES ('1', '1', '1', '1476460800', '1490395561', '0', '0', '1472092080', '1', 'admin', '###806c01b52809c23d49935a0c014a0b27', 'admin', 'zxxjjforever@163.com', '44422u11', 'avatar/580c703ab7a12.png', 'ddd4444411', '127.0.0.1', '', ''), ('2', '1', '0', '0', '946656000', '0', '0', '1476571871', '1', 'dd', '###788b14b51bd038f4aa68cab50d774f5f', '', '28750421@qq.com', '', '', '', '', '', ''), ('3', '1', '0', '0', '1477299995', '0', '0', '1476572010', '1', 'test', '###f6707a0f4ddae0d8a0c09cd0c827459a', '', 'test@1.com', '', '', '', '127.0.0.1', '', ''), ('4', '2', '0', '0', '1477805939', '0', '0', '1477805939', '1', 'dd_11_com', '###f6707a0f4ddae0d8a0c09cd0c827459a', 'ddd', 'dd@11.com', '', 'avatar/5815878e76317.jpg', '', '127.0.0.1', '', ''), ('6', '2', '0', '0', '0', '0', '0', '1484223267', '1', '', '###f6707a0f4ddae0d8a0c09cd0c827459a', '', '', '', '', '', '', '', '15121002429'), ('7', '2', '1', '0', '1486973992', '0', '0', '1486973992', '1', '', '', '赵志海', '', '', 'http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJqOfZtATvnVLOBP8QDt0oGXRJjm2tlYAZwERFrJLTG0uWrYU5X9xaXtezmGYZjlAhKo9iblSmo4Tg/0', '', '127.0.0.1', '', '');
+INSERT INTO `cmf_user` VALUES ('1', '1', '1', '1476460800', '1490422013', '0', '0', '1472092080', '1', 'admin', '###806c01b52809c23d49935a0c014a0b27', 'admin', 'zxxjjforever@163.com', '44422u11', 'avatar/580c703ab7a12.png', 'ddd4444411', '127.0.0.1', '', ''), ('3', '1', '0', '0', '1477299995', '0', '0', '1476572010', '1', 'test', '###f6707a0f4ddae0d8a0c09cd0c827459a', '', 'test@1.com', '', '', '', '127.0.0.1', '', ''), ('4', '2', '0', '0', '1477805939', '0', '0', '1477805939', '1', 'dd_11_com', '###f6707a0f4ddae0d8a0c09cd0c827459a', 'ddd', 'dd@11.com', '', 'avatar/5815878e76317.jpg', '', '127.0.0.1', '', ''), ('6', '2', '0', '0', '0', '0', '0', '1484223267', '1', '', '###f6707a0f4ddae0d8a0c09cd0c827459a', '', '', '', '', '', '', '', '15121002429'), ('7', '2', '1', '0', '1486973992', '0', '0', '1486973992', '1', '', '', '赵志海', '', '', 'http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJqOfZtATvnVLOBP8QDt0oGXRJjm2tlYAZwERFrJLTG0uWrYU5X9xaXtezmGYZjlAhKo9iblSmo4Tg/0', '', '127.0.0.1', '', '');
 COMMIT;
 
 -- ----------------------------
