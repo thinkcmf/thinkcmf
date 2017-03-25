@@ -18,7 +18,7 @@ class AdminBaseController extends BaseController
         parent::_initialize();
         $session_admin_id = session('ADMIN_ID');
         if (!empty($session_admin_id)) {
-            $user = Db::name('user')->where(array('id' => $session_admin_id))->find();
+            $user = Db::name('user')->where(['id' => $session_admin_id])->find();
 
             if (!$this->checkAccess($session_admin_id)) {
                 $this->error("您没有访问权限！");
@@ -51,7 +51,7 @@ class AdminBaseController extends BaseController
         ];
 
         //config('template.view_path', "$themePath/");
-        $viewReplaceStr = array_merge(config('view_replace_str'),$viewReplaceStr);
+        $viewReplaceStr = array_merge(config('view_replace_str'), $viewReplaceStr);
         config('template.view_base', "$themePath/");
         config('view_replace_str', $viewReplaceStr);
     }
@@ -75,12 +75,12 @@ class AdminBaseController extends BaseController
             return true;
         }
 //
-        $module              = $this->request->module();
-        $controller          = $this->request->controller();
-        $action              = $this->request->action();
-        $rule                = $module . $controller . $action;
+        $module     = $this->request->module();
+        $controller = $this->request->controller();
+        $action     = $this->request->action();
+        $rule       = $module . $controller . $action;
 
-        $notRequire = array("adminIndexindex", "adminMainindex");
+        $notRequire = ["adminIndexindex", "adminMainindex"];
         if (!in_array($rule, $notRequire)) {
             return cmf_auth_check($uid);
         } else {
@@ -88,21 +88,4 @@ class AdminBaseController extends BaseController
         }
     }
 
-    /**
-     *  排序 排序字段为listorders数组 POST 排序字段为：listorder
-     */
-    protected function listOrders(  $model ) {
-        if (!is_object($model)) {
-            return false;
-        }
-        $pk = $model->getPk(); //获取主键名称
-
-        $ids = $this->request->post("list_orders/a");
-        foreach ($ids as $key => $r)
-        {
-            $data['list_order'] = $r;
-            $model->isUpdate(true)->save($data,[$pk => $key]);
-        }
-        return true;
-    }
 }

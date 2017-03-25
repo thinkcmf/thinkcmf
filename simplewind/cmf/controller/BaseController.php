@@ -53,6 +53,24 @@ class BaseController extends Controller
     {
     }
 
+    /**
+     *  排序 排序字段为listorders数组 POST 排序字段为：list_order
+     */
+    protected function listOrders($model)
+    {
+        if (!is_object($model)) {
+            return false;
+        }
+        $pk = $model->getPk(); //获取主键名称
+
+        $ids = $this->request->post("list_orders/a");
+        foreach ($ids as $key => $r) {
+            $data['list_order'] = $r;
+            $model->isUpdate(true)->save($data, [$pk => $key]);
+        }
+        return true;
+    }
+
 
 
 }
