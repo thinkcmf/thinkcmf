@@ -91,55 +91,6 @@
     </noslides>
 </ul>
 
-<php>$params=['test'=>1];</php>
-{:hook('footer',$params)}
-<ol class="breadcrumb">
-    <li><a href="#">首页</a></li>
-    <breadcrumb cid="2" self="true">
-        <li><a href="#">{$vo.name}</a></li>
-    </breadcrumb>
-</ol>
-
-<captcha height="50" width="200" font-size="20"/>
-<hook name="test" param="test"/>
-
-<navigation nav-id="1" root="ul" id="main-navigation" class="nav navbar-nav navbar-nav-custom">
-    <navigationMenu root="li" class="menu-item menu-item-level-{$level}">
-        <a href="{$menu.href|default=''}" target="{$menu.target|default=''}">{$menu.label|default=''}</a>
-    </navigationMenu>
-    <navigationFolder root="li" class="dropdown dropdown-custom dropdown-custom-level-{$level}" dropdown="ul"
-                      dropdown-class="dropdown-menu dropdown-menu-level-{$level}">
-        <a href="#" class="dropdown-toggle dropdown-toggle-{$level}" data-toggle="dropdown">
-            {$menu.label|default=''}<span class="caret"></span>
-        </a>
-    </navigationFolder>
-</navigation>
-
-<ul id="main-navigation" class="nav navbar-nav navbar-nav-custom">
-    <navigation nav-id="1" root="">
-        <navigationMenu root="li" class="menu-item menu-item-level-{$level}">
-            <a href="{$menu.href|default=''}" target="{$menu.target|default=''}">{$menu.label|default=''}</a>
-        </navigationMenu>
-        <navigationFolder root="li" class="dropdown dropdown-custom dropdown-custom-level-{$level}" dropdown="ul"
-                          dropdown-class="dropdown-menu dropdown-menu-level-{$level}">
-            <a href="#" class="dropdown-toggle dropdown-toggle-{$level}" data-toggle="dropdown">
-                {$menu.label|default=''}<span class="caret"></span>
-            </a>
-        </navigationFolder>
-    </navigation>
-</ul>
-
-<subNavigation parent="3" root="ul" id="main-navigation" class="nav navbar-nav navbar-nav-custom">
-    <subNavigationMenu root="li" class="menu-item">
-        <a href="{$menu.href|default=''}" target="{$menu.target|default=''}">{$menu.label|default=''}</a>
-    </subNavigationMenu>
-    <subNavigationFolder root="li" class="dropdown dropdown-custom" dropdown="ul" dropdown-class="dropdown-menu">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            {$menu.label|default=''}<span class="caret"></span>
-        </a>
-    </subNavigationFolder>
-</subNavigation>
-
 <div class="container">
     <div>
         <h1 class="text-center">快速了解ThinkCMF</h1>

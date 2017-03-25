@@ -8,7 +8,6 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\admin\model\NavModel;
 use app\admin\model\NavMenuModel;
 use cmf\controller\AdminBaseController;
 use tree\Tree;
@@ -25,14 +24,11 @@ class NavMenuController extends AdminBaseController
      */
     public function index()
     {
-
-        $intNavId = $this->request->param("nav_id");
-        //$intId       = $this->request->param("id");
-        //$intParentId = $this->request->param("parentid");
+        $intNavId     = $this->request->param("nav_id");
         $navMenuModel = new NavMenuModel();
 
         if (empty($intNavId)) {
-            $intNavId = $navMenuModel->value("nav_id");
+            $this->error("请指定导航!");
         }
 
         $objResult = $navMenuModel->where("nav_id", $intNavId)->order(["list_order" => "ASC"])->select();
@@ -45,25 +41,24 @@ class NavMenuController extends AdminBaseController
         $array = [];
         foreach ($arrResult as $r) {
             $r['str_manage'] = '<a href="' . url("NavMenu/add", ["parent_id" => $r['id'], "nav_id" => $r['nav_id']]) . '">添加子菜单</a> | <a href="'
-                . url("NavMenu/edit", ["id" => $r['id'], "parent_id" => $r['parent_id'], "nav_id" => $r['nav_id']]) . '">修改</a> | <a class="js-ajax-delete" href="' . url("NavMenu/delete", ["id" => $r['id']]) . '">删除</a> ';
+                . url("NavMenu/edit", ["id" => $r['id'], "parent_id" => $r['parent_id'], "nav_id" => $r['nav_id']]) . '">修改</a> | <a class="js-ajax-delete" href="' . url("NavMenu/delete", ["id" => $r['id'], 'nav_id' => $r['nav_id']]) . '">删除</a> ';
             $r['status']     = $r['status'] ? "显示" : "隐藏";
             $array[]         = $r;
         }
 
         $tree->init($array);
-        $str       = "<tr>
+        $str = "<tr>
             <td><input name='list_orders[\$id]' type='text' size='3' value='\$list_order' class='input input-order'></td>
             <td>\$id</td>
-            <td >\$spacer\$label</td>
+            <td >\$spacer\$name</td>
             <td>\$status</td>
             <td>\$str_manage</td>
         </tr>";
-        $categorys = $tree->getTree(0, $str);
-        $this->assign("categorys", $categorys);
 
-        $objResult = $navMenuModel->select();
-        $this->assign("navcats", $objResult ? $objResult->toArray() : []);
-        $this->assign("navcid", $intNavId);
+        $categories = $tree->getTree(0, $str);
+
+        $this->assign("categories", $categories);
+        $this->assign('nav_id', $intNavId);
 
         return $this->fetch();
     }
@@ -94,7 +89,7 @@ class NavMenuController extends AdminBaseController
         }
 
         $tree->init($array);
-        $str      = "<option value='\$id' \$selected>\$spacer\$label</option>";
+        $str      = "<option value='\$id' \$selected>\$spacer\$name</option>";
         $navTrees = $tree->getTree(0, $str);
         $this->assign("nav_trees", $navTrees);
 
@@ -110,39 +105,19 @@ class NavMenuController extends AdminBaseController
      */
     public function addPost()
     {
-
-
         $navMenuModel = new NavMenuModel();
         $arrData      = $this->request->post();
 
-
-        if ($arrData['isSysUrl']) {
-            if (strpos($arrData['href_select'], "http")) {
-                $this->error("地址不能包含http字符");
-            }
-            $arrData['href'] = $arrData['href_select'];
+        if (isset($arrData['external_href'])) {
+            $arrData['href'] = htmlspecialchars_decode($arrData['external_href']);
         } else {
-            if (strpos($arrData['href_input'], "http") === false) {
-                $this->error("地址没有包含http字符!");
-            }
-            $arrData['href'] = $arrData['href_input'];
+            $arrData['href'] = htmlspecialchars_decode($arrData['href']);
+            $arrData['href'] = base64_decode($arrData['href']);
         }
 
         $navMenuModel->allowField(true)->isUpdate(false)->save($arrData);
-        $intResultId = $navMenuModel->getLastInsID();
 
-        $intParentId = $arrData['parent_id'] == 0 ? "0" : $arrData['parent_id'];
-        $data        = [];
-        if (empty($intParentId)) {
-            $data['path'] = "0-$intResultId";
-        } else {
-            $objParent    = $navMenuModel->where("id", $intParentId)->find();
-            $arrParent    = $objParent ? $objParent->toArray() : [];
-            $data['path'] = $arrParent["path"] . "-$intResultId";
-        }
-
-        $navMenuModel->where(["id" => $intResultId])->update($data);
-        $this->success(lang("EDIT_SUCCESS"), url("NavMenu/index"));
+        $this->success(lang("EDIT_SUCCESS"), url("NavMenu/index", ['nav_id' => $arrData['nav_id']]));
 
     }
 
@@ -154,7 +129,6 @@ class NavMenuController extends AdminBaseController
     public function edit()
     {
         $navMenuModel = new NavMenuModel();
-        $navModel     = new NavModel();
         $intNavId     = $this->request->param("nav_id");
         $intId        = $this->request->param("id");
         $intParentId  = $this->request->param("parent_id");
@@ -175,50 +149,26 @@ class NavMenuController extends AdminBaseController
         }
 
         $tree->init($array);
-
-        $str       = "<option value='\$id' \$selected>\$spacer\$label</option>";
+        $str       = "<option value='\$id' \$selected>\$spacer\$name</option>";
         $nav_trees = $tree->getTree(0, $str);
         $this->assign("nav_trees", $nav_trees);
-
-
-        $objCats = $navModel->select();
-
-        $this->assign("navcats", $objCats ? $objCats->toArray() : []);
 
         $objNav = $navMenuModel->where("id", $intId)->find();
         $arrNav = $objNav ? $objNav->toArray() : [];
 
-        $arrNav['hrefold'] = stripslashes($arrNav['href']);
+        $arrNav['href_old'] = $arrNav['href'];
 
-        if (cmf_is_serialized($arrNav['hrefold'])) {
-            $href = unserialize($arrNav['hrefold']);
+        if (strpos($arrNav['href'], "http") === false) {
+            $arrNav['href'] = base64_encode($arrNav['href']);
         }
-
-        if (empty($href)) {
-            if ($arrNav['hrefold'] == "home") {
-                $href = $this->request->root() . "/";
-            } else {
-                $href = $arrNav['hrefold'];
-            }
-        } else {
-            $default_app = strtolower(config("DEFAULT_GROUP"));
-            $href        = url($href['action'], $href['param']);
-            $g           = config("VAR_GROUP");
-            $href        = preg_replace("/\/$default_app\//", "/", $href);
-            $href        = preg_replace("/$g=$default_app&/", "", $href);
-        }
-
-
-        $arrNav['href']     = $href;
-        $arrNav['isSysUrl'] = strpos($arrNav['href'], "http") === false ? 1 : 0;
 
         $this->assign($arrNav);
 
         $navs = $navMenuModel->selectNavs();
         $this->assign('navs', $navs);
 
-        $this->assign("navcid", $intNavId);
-        $this->assign("intParentId", $intParentId);
+        $this->assign("nav_id", $intNavId);
+        $this->assign("parent_id", $intParentId);
 
         return $this->fetch();
     }
@@ -230,34 +180,19 @@ class NavMenuController extends AdminBaseController
     public function editPost()
     {
         $navMenuModel = new NavMenuModel();
-        $intId        = $this->request->post('id');
+        $intId        = $this->request->param('id', 0, 'intval');
         $arrData      = $this->request->post();
 
-        $intParentId = empty($this->request->post('parent_id')) ? "0" : $this->request->post('parent_id');
-        if (empty($parentid)) {
-            $this->request->post('path', "0-" . $intId);
+        if (isset($arrData['external_href'])) {
+            $arrData['href'] = htmlspecialchars_decode($arrData['external_href']);
         } else {
-            $objParent = $navMenuModel->where("id", $intParentId)->find();
-            $arrParent = $objParent ? $objParent->toArray() : [];
-            $this->request->post('path', $arrParent['path'] . "-" . $intId);
-
+            $arrData['href'] = htmlspecialchars_decode($arrData['href']);
+            $arrData['href'] = base64_decode($arrData['href']);
         }
 
-        if ($arrData['isSysUrl']) {
-            if (strpos($arrData['href_select'], "http")) {
-                $this->error("地址不能包含http字符");
-            }
-            $arrData['href'] = $arrData['href_select'];
-        } else {
-            if (strpos($arrData['href_input'], "http") === false) {
-                $this->error("地址没有包含http字符!");
-            }
-            $arrData['href'] = $arrData['href_input'];
-        }
-        $arrData['href'] = htmlspecialchars_decode($arrData['href']);
+        $navMenuModel->update($arrData, ["id" => $intId], true);
 
-        $navMenuModel->update($arrData, ["id" => $arrData["id"]], true);
-        $this->success(lang("EDIT_SUCCESS"), url("NavMenu/index"));
+        $this->success(lang("EDIT_SUCCESS"), url("NavMenu/index", ['nav_id' => $arrData['nav_id']]));
 
     }
 
@@ -268,7 +203,8 @@ class NavMenuController extends AdminBaseController
     {
         $navMenuModel = new NavMenuModel();
 
-        $intId = $this->request->param("id", 0, "intval");
+        $intId    = $this->request->param("id", 0, "intval");
+        $intNavId = $this->request->param("nav_id", 0, "intval");
 
         if (empty($intId)) {
             $this->error(lang("NO_ID"));
@@ -280,7 +216,7 @@ class NavMenuController extends AdminBaseController
         }
 
         $navMenuModel->where(["id" => $intId])->delete();
-        $this->success(lang("DELETE_SUCCESS"), url("NavMenu/index"));
+        $this->success(lang("DELETE_SUCCESS"), url("NavMenu/index", ['nav_id' => $intNavId]));
 
     }
 

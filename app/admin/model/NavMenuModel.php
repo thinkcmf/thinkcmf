@@ -5,6 +5,7 @@ use think\Exception;
 use think\Model;
 use tree\Tree;
 use think\Db;
+use think\Request;
 
 class NavMenuModel extends Model
 {
@@ -23,7 +24,7 @@ class NavMenuModel extends Model
         $navMenusTree = [];
         if (!empty($navMenus)) {
             $tree = new Tree();
-
+            $this->parseNavMenu4Home($navMenus);
             $tree->init($navMenus);
 
             $navMenusTree = $tree->getTreeArray(0);
@@ -52,12 +53,33 @@ class NavMenuModel extends Model
         if (!empty($navMenus)) {
             $tree = new Tree();
 
+            $this->parseNavMenu4Home($navMenus);
             $tree->init($navMenus);
 
             $navMenusTree = $tree->getTreeArray($menuId);
         }
 
         return $navMenusTree;
+    }
+
+    private function parseNavMenu4Home(&$navMenus)
+    {
+        foreach ($navMenus as $key => $navMenu) {
+            $href    = htmlspecialchars_decode($navMenu['href']);
+            $hrefOld = $href;
+            if (strpos($hrefOld, "{")!==false) {
+                $href = json_decode($navMenu['href'],true);
+                $href = url($href['action'], $href['param']);
+            } else {
+                if ($hrefOld == "home") {
+                    $href = Request::instance()->root() . "/";
+                } else {
+                    $href = $hrefOld;
+                }
+            }
+            $navMenu['href'] = $href;
+            $navMenus[$key]  = $navMenu;
+        }
     }
 
     /**
@@ -75,7 +97,7 @@ class NavMenuModel extends Model
 
         foreach ($navs as $key => $navData) {
             $tree->init($navData['items']);
-            $tpl                = "<option value='\$rule' >\$spacer\$name</option>";
+            $tpl                = "<option value='\$rule' data-name='\$name'>\$spacer\$name</option>";
             $html               = $tree->getTree(0, $tpl);
             $navs[$key]['html'] = $html;
         }
@@ -169,8 +191,6 @@ class NavMenuModel extends Model
             }
 
         }
-
-
     }
 
 }
