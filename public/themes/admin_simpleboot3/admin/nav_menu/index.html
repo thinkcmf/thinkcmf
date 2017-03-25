@@ -3,10 +3,10 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('NavMenu/index',['nav_id'=>$navcid])}">导航菜单</a></li>
-        <li><a href="{:url('NavMenu/add',['nav_id'=>$navcid])}">添加菜单</a></li>
+        <li class="active"><a href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">导航菜单</a></li>
+        <li><a href="{:url('NavMenu/add',['nav_id'=>$nav_id])}">添加菜单</a></li>
     </ul>
-    <form class="js-ajax-form margin-top-20" action="{:url('NavMenu/listOrder')}" method="post" >
+    <form class="js-ajax-form margin-top-20" action="{:url('NavMenu/listOrder')}" method="post">
         <div class="table-actions">
             <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">排序</button>
         </div>
@@ -21,7 +21,7 @@
             </tr>
             </thead>
             <tbody>
-            {$categorys}
+            {$categories}
             </tbody>
         </table>
     </form>
