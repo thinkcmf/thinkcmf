@@ -10,6 +10,7 @@ namespace app\admin\controller;
 
 use cmf\controller\AdminBaseController;
 use app\admin\model\PluginModel;
+use app\admin\model\HookPluginModel;
 
 class PluginController extends AdminBaseController
 {
@@ -155,6 +156,11 @@ class PluginController extends AdminBaseController
 
         $this->pluginModel->data($info)->allowField(true)->save();
 
+        $hookPluginModel = new HookPluginModel();
+        foreach ($pluginHooks as $pluginHook) {
+            $hookPluginModel->data(['hook' => $pluginHook, 'plugin' => $pluginName])->isUpdate(false)->save();
+        }
+
         $this->success('安装成功!');
     }
 
@@ -208,10 +214,8 @@ class PluginController extends AdminBaseController
         $this->pluginModel = new PluginModel();
         $id                = $this->request->param('id', 0, 'intval');
         $findPlugin        = $this->pluginModel->find($id);
-        echo $findPlugin['name'];
-        $class = cmf_get_plugin_class($findPlugin['name']);
+        $class             = cmf_get_plugin_class($findPlugin['name']);
 
-        echo $class;
         if (class_exists($class)) {
             $plugins = new $class;
 

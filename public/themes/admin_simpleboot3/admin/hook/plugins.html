@@ -1,0 +1,74 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <form action="{:url('hook/listOrder')}" method="post">
+        <php>
+            $types = ["1"=>'系统钩子','2'=>'应用钩子','3'=>'模板钩子'];
+            $status=array("1"=>'开启',"0"=>'禁用',"3"=>'未安装');
+        </php>
+        <div class="table-actions">
+            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+        </div>
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="50">排序</th>
+                <th>插件名称</th>
+                <th>插件标识</th>
+                <th>钩子</th>
+                <th>描述</th>
+                <th>作者</th>
+                <th width="60">状态</th>
+                <th width="150">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="plugins" item="vo">
+                <tr>
+                    <td><input name="list_orders[{$vo.id}]" type="text" size="3" value="{$vo.list_order}"
+                               class="input input-order"></td>
+                    <td>{$vo.title}</td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.hooks|default=''}</td>
+                    <td>{$vo.description}</td>
+                    <td>{$vo.author}</td>
+                    <td>{$status[$vo['hook_plugin_status']]}</td>
+                    <td>
+                        <if condition="$vo['status']==3">
+                            <a href="{:url('plugin/install',array('name'=>$vo['name']))}" class="js-ajax-dialog-btn"
+                               data-msg="确定安装该插件吗？">安装</a>
+                            <else/>
+                            <php>$config=json_decode($vo['config'],true);</php>
+                            <if condition="!empty($config)">
+                                <a href="{:url('plugin/setting',array('id'=>$vo['id']))}">设置</a>|
+                                <else/>
+                                <a href="javascript:;" style="color: #ccc;">设置</a>|
+                            </if>
+
+                            <if condition="!empty($vo['has_admin'])">
+                                <a href="javascript:parent.openapp('{:cmf_plugin_url($vo['name'].'://AdminIndex/index')}','plugin_{$vo.name}','{$vo.title}')">管理</a>|
+                                <else/>
+                                <a href="javascript:;" style="color: #ccc;">管理</a>|
+                            </if>
+
+
+                            <if condition="$vo['hook_plugin_status']==0">
+                                <a href="{:url('hook/pluginToggle',array('hook'=>$vo['hook'],'plugin'=>$vo['name'],'enable'=>1))}"
+                                   class="js-ajax-dialog-btn" data-msg="确定启用该插件吗？">启用</a>
+                                <else/>
+                                <a href="{:url('hook/pluginToggle',array('hook'=>$vo['hook'],'plugin'=>$vo['name'],'disable'=>1))}"
+                                   class="js-ajax-dialog-btn" data-msg="确定禁用该插件吗？">禁用</a>
+                            </if>
+
+                        </if>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>
