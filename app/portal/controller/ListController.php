@@ -20,20 +20,4 @@ class ListController extends HomeBaseController
         return $this->fetch('/' . $listTpl);
     }
 
-    /**
-     * 获取共享ur，后台用
-     * @todo 这个地方有可能会修改，临时兼容用下，老猫，你要改的时候再改吧。。
-     */
-    public function nav_index(){
-        $navcatname="文章分类";
-        $datas=cmf_get_terms("field:id,name");
-        $navrule=array(
-            "action"=>"List/index",
-            "param"=>array(
-                "id"=>"id"
-            ),
-            "label"=>"name");
-        exit(json_encode(cmf_get_nav4admin($navcatname,$datas,$navrule)));
-
-    }
 }
