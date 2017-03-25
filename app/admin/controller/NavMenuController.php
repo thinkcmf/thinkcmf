@@ -9,7 +9,7 @@
 namespace app\admin\controller;
 
 use app\admin\model\NavModel;
-use app\portal\model\NavMenuModel;
+use app\admin\model\NavMenuModel;
 use cmf\controller\AdminBaseController;
 use tree\Tree;
 
@@ -20,10 +20,8 @@ use tree\Tree;
  */
 class NavMenuController extends AdminBaseController
 {
-
-
     /**
-     *  显示前台菜单
+     *  导航菜单
      */
     public function index()
     {
@@ -71,11 +69,10 @@ class NavMenuController extends AdminBaseController
     }
 
     /**
-     *  添加前台菜单
+     *  添加导航菜单
      */
     public function add()
     {
-        $navModel     = new NavModel();
         $navMenuModel = new NavMenuModel();
         $intNavId     = $this->request->param("nav_id");
         $intParentId  = $this->request->param("parent_id");
@@ -97,29 +94,19 @@ class NavMenuController extends AdminBaseController
         }
 
         $tree->init($array);
-        $str      = "<tr>
-            <td><input name='list_orders[\$id]' type='text' size='3' value='\$list_order' class='input'></td>
-            <td>\$id</td>
-            <td >\$spacer\$label</td>
-            <td>\$status</td>
-            <td>\$str_manage</td>
-        </tr>";
         $str      = "<option value='\$id' \$selected>\$spacer\$label</option>";
         $navTrees = $tree->getTree(0, $str);
         $this->assign("nav_trees", $navTrees);
 
-        $objCats = $navModel->select();
-        $this->assign("navcats", $objCats ? $objCats->toArray() : []);
+        $navs = $navMenuModel->selectNavs();
+        $this->assign('navs', $navs);
 
-        // $objResult = $navMenuModel->select();
-        //$this->assign("navcats",$objResult?$objResult->toArray():array());
-        $this->assign('navs', $navMenuModel->selectUrl());
-        $this->assign("navcid", $intNavId);
+        $this->assign("nav_id", $intNavId);
         return $this->fetch();
     }
 
     /**
-     * 执行新增请求
+     * 添加导航菜单提交保存
      */
     public function addPost()
     {
@@ -160,8 +147,7 @@ class NavMenuController extends AdminBaseController
     }
 
     /**
-     * 编辑前台菜单
-     * @todo $str 如果用不到就删除掉吧
+     * 编辑导航菜单
      * @return mixed
      */
 
@@ -190,13 +176,6 @@ class NavMenuController extends AdminBaseController
 
         $tree->init($array);
 
-        $str       = "<tr>
-            <td><input name='listorders[\$id]' type='text' size='3' value='\$listorder' class='input'></td>
-            <td>\$id</td>
-            <td >\$spacer\$label</td>
-            <td>\$status</td>
-            <td>\$str_manage</td>
-        </tr>";
         $str       = "<option value='\$id' \$selected>\$spacer\$label</option>";
         $nav_trees = $tree->getTree(0, $str);
         $this->assign("nav_trees", $nav_trees);
@@ -234,7 +213,10 @@ class NavMenuController extends AdminBaseController
         $arrNav['isSysUrl'] = strpos($arrNav['href'], "http") === false ? 1 : 0;
 
         $this->assign($arrNav);
-        $this->assign('navs', $navMenuModel->selectUrl());
+
+        $navs = $navMenuModel->selectNavs();
+        $this->assign('navs', $navs);
+
         $this->assign("navcid", $intNavId);
         $this->assign("intParentId", $intParentId);
 
@@ -243,14 +225,13 @@ class NavMenuController extends AdminBaseController
 
 
     /**
-     *  编辑前台菜单提交保存
+     *  编辑导航菜单提交保存
      */
     public function editPost()
     {
         $navMenuModel = new NavMenuModel();
         $intId        = $this->request->post('id');
         $arrData      = $this->request->post();
-
 
         $intParentId = empty($this->request->post('parent_id')) ? "0" : $this->request->post('parent_id');
         if (empty($parentid)) {
@@ -281,7 +262,7 @@ class NavMenuController extends AdminBaseController
     }
 
     /**
-     * 删除前台菜单
+     * 删除导航菜单
      */
     public function delete()
     {
@@ -293,12 +274,10 @@ class NavMenuController extends AdminBaseController
             $this->error(lang("NO_ID"));
         }
 
-
         $count = $navMenuModel->where(["parent_id" => $intId])->count();
         if ($count > 0) {
             $this->error("该菜单下还有子菜单，无法删除！");
         }
-
 
         $navMenuModel->where(["id" => $intId])->delete();
         $this->success(lang("DELETE_SUCCESS"), url("NavMenu/index"));

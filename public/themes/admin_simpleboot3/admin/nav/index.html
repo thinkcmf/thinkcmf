@@ -15,7 +15,7 @@
                 <th>名称</th>
                 <th width="60">主导航</th>
                 <th>描述</th>
-                <th width="150">{:lang('ACTIONS')}</th>
+                <th width="160">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -28,7 +28,7 @@
                     <td>
                         <a href="{:url('nav/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>|
                         <a class="js-ajax-delete" href="{:url('nav/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>|
-                        <a href="{:url('NavMenu/index',array('nav_id'=>$vo['id']))}">{:lang('ADMIN_NAVCAT_DEFAULT1')}</a>
+                        <a href="javascript:parent.open_iframe_layer('{:url('NavMenu/index',array('nav_id'=>$vo['id']))}','{$vo.name}菜单管理',{});">菜单管理</a>
                     </td>
                 </tr>
             </foreach>

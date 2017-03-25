@@ -19,6 +19,7 @@ class ListController extends HomeBaseController
 
         return $this->fetch('/' . $listTpl);
     }
+
     /**
      * 获取共享ur，后台用
      * @todo 这个地方有可能会修改，临时兼容用下，老猫，你要改的时候再改吧。。

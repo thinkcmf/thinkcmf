@@ -1,7 +1,7 @@
 <?php
 namespace app\portal\api;
 
-use app\portal\model\NavModel;
+use app\admin\model\NavModel;
 
 class NavApi
 {

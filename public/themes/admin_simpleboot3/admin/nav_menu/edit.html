@@ -3,51 +3,41 @@
 <body>
 <div class="wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('NavMenu/index',['nav_id'=>$navcid])}">{:lang('ADMIN_NAVCAT_DEFAULT1')}</a></li>
-        <li><a href="{:url('NavMenu/add',['nav_id'=>$navcid,'parent_id'=>$intParentId])}">{:lang('ADMIN_MENU_ADD')}</a></li>
-        <li class="active" ><a>{:lang('ADMIN_MENU_EDIT')}</a></li>
+        <li><a href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">导航菜单</a></li>
+        <li><a href="{:url('NavMenu/add',['nav_id'=>$nav_id])}">{:lang('ADMIN_MENU_ADD')}</a>
+        </li>
+        <li class="active"><a>{:lang('ADMIN_MENU_EDIT')}</a></li>
     </ul>
     <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('NavMenu/editPost')}">
         <fieldset>
             <div class="form-group">
-                <label class="col-sm-2 control-label">菜单分类:</label>
-                <div class="col-md-6 col-sm-10">
-                    <select name="nav_id" id="navcid_select" class="normal_select">
-                        <foreach name="navcats" item="vo">
-                            <php>$navcid_selected=$navcid==$vo['id']?"selected":"";</php>
-                            <option value="{$vo.id}" {$navcid_selected}>{$vo.name}</option>
-                        </foreach>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-sm-2 control-label">上级:</label>
                 <div class="col-md-6 col-sm-10">
-                    <select name="parent_id" class="normal_select">
+                    <select name="parent_id" class="form-control">
                         <option value="0">/</option>
                         {$nav_trees}
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">标签:</label>
+                <label class="col-sm-2 control-label"><span class="form-required">*</span>标签:</label>
                 <div class="col-md-6 col-sm-10">
-                    <input type="text" class="input" name="label" value="{$label}"><span class="must_red">*</span>
+                    <input type="text" class="form-control" name="label" value="{$label}">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group form-inline">
                 <label class="col-sm-2 control-label">地址:</label>
                 <div class="col-md-6 col-sm-10">
-                    <input type="radio"  name="isSysUrl" {$isSysUrl?"":"checked"}  id="outlink" value="0">
-                    <input type="text" class="input" name="href_input" id="outlink_input" value="{$isSysUrl?'http://':$href} ">
-                    <input type="radio" name="isSysUrl" {$isSysUrl?"checked":""} id="selecturl" value="1">
-                    <select name="href_select" id="selecthref" class="normal_select">
-                        <!--<option disabled>默认</option>-->
-                        <option value="home">首页</option>
+                    <input type="radio" name="isSysUrl" {$isSysUrl?'':'checked'} id="outlink" value="0">
+                    <input type="text" class="form-control" name="href_input" id="outlink_input"
+                           value="{$isSysUrl?'http://':$href} ">
+                    <input type="radio" name="isSysUrl" {$isSysUrl?'checked':''} id="selecturl" value="1">
+                    <select name="href_select" id="selecthref" class="form-control">
                         <foreach name="navs" item="vo">
-                            <!--<option disabled>{$vo.name}</option>-->
-                            <foreach name="vo['items']" item="voo">
-                                <option   {$voo['rule']==$href?"selected":""}  value='{$voo.rule}'>{$voo.label}</option>
+                            <foreach name="navs" item="vo">
+                                <optgroup label="{$vo.name}">
+                                    {$vo.html}
+                                </optgroup>
                             </foreach>
                         </foreach>
                     </select>
@@ -56,22 +46,22 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">打开方式:</label>
                 <div class="col-md-6 col-sm-10">
-                    <select name="target">
-                        <option   value="">默认方式</option>
-                        <option {$target == "_blank" ?"selected":""} value="_blank">新窗口打开</option>
+                    <select name="target" class="form-control">
+                        <option value="">默认方式</option>
+                        <option {$target=='_blank'?'selected':''} value="_blank">新窗口打开</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">图标:</label>
                 <div class="col-md-6 col-sm-10">
-                    <input type="text" class="input" name="icon" value="{$icon}">
+                    <input type="text" class="form-control" name="icon" value="{$icon}">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">显示:</label>
                 <div class="col-md-6 col-sm-10">
-                    <select name="status" class="normal_select">
+                    <select name="status" class="form-control">
                         <option value="1">显示</option>
                         <php>$status_selected=empty($status)?"selected":"";</php>
                         <option value="0" {$status_selected}>隐藏</option>
@@ -81,9 +71,10 @@
         </fieldset>
 
         <div class="col-sm-offset-2 col-sm-10">
-            <input type="hidden" class="input" name="id" value="{$id}">
-            <button type="submit" class="btn btn-primary   js-ajax-submit">{:lang("SAVE")}</button>
-            <a class="btn" href="__URL__">返回</a>
+            <input type="hidden" name="id" value="{$id}">
+            <input type="hidden" name="nav_id" value="{$nav_id}">
+            <button type="submit" class="btn btn-primary js-ajax-submit">{:lang("SAVE")}</button>
+            <a class="btn btn-default" href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">返回</a>
         </div>
     </form>
 

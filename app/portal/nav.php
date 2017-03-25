@@ -1,5 +1,5 @@
 <?php
-return array(
-		"List/nav_index",
-		"Page/nav_index",
-);
+
+return [
+    ['name' => '文章分类', 'api' => "Category/nav"]
+];
