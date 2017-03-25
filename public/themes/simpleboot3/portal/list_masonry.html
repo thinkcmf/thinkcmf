@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{$name} {$seo_title} {$site_name}</title>
-    <meta name="keywords" content="{$seo_keywords}"/>
-    <meta name="description" content="{$seo_description}">
-    <tc_include file="Public:head"/>
+    <title>{$category.name}</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="">
+    <include file="public@head"/>
 </head>
 <body class="body-white">
-<tc_include file="Public:nav"/>
+<include file="public@nav"/>
 <div class="container">
+    <h2>{$category.name}</h2>
 
-
-    <h2>{$name}</h2>
-
-    <php> $lists = sp_sql_posts_paged("cid:$cat_id;order:post_date DESC;",20);
-    </php>
     <div id="container" class="masonary-container">
         <div class="grid-sizer"></div>
-        <volist name="lists['posts']" id="vo">
+        <php>
+            $where=[
+            'post.create_time'=>['egt',0]
+            ];
+        </php>
+        <articles item="vo" field="*" where="$where" limit="0,8" order="post.create_time DESC" page="10"
+                  relation="categories"
+                  categoryIds="$category.id">
             <php>
-                $smeta=json_decode($vo['smeta'], true);
+                $more=json_decode($vo['more'], true);
             </php>
 
             <div class="item">
                 <div class="tc-gridbox">
                     <div class="header">
 
-                        <if condition="!empty($smeta['thumb'])">
+                        <if condition="!empty($more['thumbnail'])">
                             <div class="item-image">
-                                <a href="{:leuu('article/index',array('id'=>$vo['object_id'],'cid'=>$vo['term_id']))}">
-                                    <img src="{:sp_get_asset_upload_path($smeta['thumb'])}"
+                                <a href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}">
+                                    <img src="{:sp_get_asset_upload_path($more['thumbnail'])}"
                                          class="img-responsive" alt="{$vo.post_title}">
                                 </a>
                             </div>
@@ -37,50 +40,43 @@
                         </if>
 
                         <h3>
-                            <a href="{:leuu('article/index',array('id'=>$vo['object_id'],'cid'=>$vo['term_id']))}">{$vo.post_title}</a>
+                            <a href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}">{$vo.post_title}</a>
                         </h3>
                         <hr>
                     </div>
                     <div class="body">
-                        <a href="{:leuu('article/index',array('id'=>$vo['object_id'],'cid'=>$vo['term_id']))}">{$vo.post_excerpt|msubstr=0,256}</a>
+                        <a href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}">{$vo.post_excerpt}</a>
                     </div>
                     <div class="footer">
                         <div class="pull-left">
-                            <span class="meta">{$vo.post_date}</span>
+                            <span class="meta">{:date('Y-m-d H:i:s',$vo.create_time)}</span>
                         </div>
                         <div class="pull-right">
                             <a href="javascript:;"><i class="fa fa-eye"></i><span>{$vo.post_hits}</span></a>
-                            <a href="{:U('article/do_like',array('id'=>$vo['object_id']))}"
+                            <a href="{:url('article/do_like',array('id'=>$vo['id']))}"
                                class="js-count-btn"><i class="fa fa-thumbs-up"></i><span
                                     class="count">{$vo.post_like}</span></a>
-                            <a href="{:U('user/favorite/do_favorite',array('id'=>$vo['object_id']))}"
-                               class="js-favorite-btn" data-title="{$vo.post_title}"
-                               data-url="{:leuu('portal/article/index',array('id'=>$vo['object_id'],'cid'=>$vo['term_id']))}"
-                               data-key="{:sp_get_favorite_key('posts',$vo['object_id'])}">
-                                <i class="fa fa-star-o"></i>
-                            </a>
                         </div>
                         <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
-        </volist>
+        </articles>
     </div>
-    <!--<ul class="pagination">{$lists['page']}</ul>-->
 
     <div class="js-infinite-scroll-loading text-center" style="display: none;">正在加载...</div>
     <div id="nextpage"></div>
 
 
-    <tc_include file="Public:footer"/>
+    <include file="public@footer"/>
 </div>
 
 
 <!-- JavaScript -->
-<tc_include file="Public:scripts"/>
-<script src="__TMPL__Public/assets/js/imagesloaded.pkgd.min.js"></script>
-<script src="__TMPL__Public/assets/js/masonry.pkgd.min.js"></script>
-<script src="__TMPL__Public/assets/js/jquery.infiniteScroll.js"></script>
+<include file="public@scripts"/>
+<script src="__TMPL__/public/assets/js/imagesloaded.pkgd.min.js"></script>
+<script src="__TMPL__/public/assets/js/masonry.pkgd.min.js"></script>
+<script src="__TMPL__/public/assets/js/jquery.infiniteScroll.js"></script>
 <script>
     $(function(){
         var $container= $('#container').masonry({
@@ -98,7 +94,7 @@
 
         $('#nextpage').infiniteScroll({
             loading:'.js-infinite-scroll-loading',
-            total_pages:{$lists['total_pages']},
+            total_pages:1,
             success:function(content){
                 var $items=$(content).find('#container .item');
                 if($items.length>0){
