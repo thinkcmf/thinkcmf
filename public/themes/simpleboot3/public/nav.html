@@ -1,6 +1,5 @@
 <nav class="navbar navbar-default navbar-fixed-top active">
     <div class="container active">
-        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -16,10 +15,12 @@
             <ul id="main-menu" class="nav navbar-nav">
                 <navigation nav-id="1" root="" id="main-navigation" class="nav navbar-nav navbar-nav-custom">
                     <navigationMenu root="li" class="menu-item menu-item-level-{$level}">
-                        <a href="{$menu.href|default=''}"
-                           target="{$menu.target|default=''}">{$menu.name|default=''}</a>
+                        <a href="{$menu.href|default=''}" target="{$menu.target|default=''}">
+                            {$menu.name|default=''}
+                        </a>
                     </navigationMenu>
-                    <navigationFolder root="li" class="dropdown dropdown-custom dropdown-custom-level-{$level}"
+                    <navigationFolder root="li"
+                                      class="dropdown dropdown-custom dropdown-custom-level-{$level}"
                                       dropdown="ul"
                                       dropdown-class="dropdown-menu dropdown-menu-level-{$level}">
                         <a href="#" class="dropdown-toggle dropdown-toggle-{$level}" data-toggle="dropdown">
@@ -28,21 +29,22 @@
                     </navigationFolder>
                 </navigation>
             </ul>
-            <!--
             <ul class="nav navbar-nav navbar-right" id="main-menu-user">
+                <!--
                 <li class="login">
                     <a class="dropdown-toggle notifactions" href="/index.php/user/notification/index"> <i
                             class="fa fa-envelope"></i> <span class="count">0</span></a>
                 </li>
+                -->
                 <li class="dropdown user login">
                     <a class="dropdown-toggle user" data-toggle="dropdown" href="#">
                         <img src="/themes/simpleboot3/Public/assets/images/headicon.png" class="headicon">
-                        <span class="user-nicename"></span><b class="caret"></b>
+                        <span class="user-nickname"></span><b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu pull-right">
-                        <li><a href="/index.php/user/center/index"><i class="fa fa-user"></i> &nbsp;个人中心</a></li>
+                        <li><a href="{:url('user/center/index')}"><i class="fa fa-user"></i> &nbsp;个人中心</a></li>
                         <li class="divider"></li>
-                        <li><a href="/index.php/user/index/logout"><i class="fa fa-sign-out"></i> &nbsp;退出</a></li>
+                        <li><a href="{:url('user/index/logout')}"><i class="fa fa-sign-out"></i> &nbsp;退出</a></li>
                     </ul>
                 </li>
                 <li class="dropdown user offline" style="display: list-item;">
@@ -51,16 +53,12 @@
                             class="caret"></b>
                     </a>
                     <ul class="dropdown-menu pull-right">
-                        <li><a href="/index.php/api/oauth/login/type/sina"><i class="fa fa-weibo"></i> &nbsp;微博登录</a>
-                        </li>
-                        <li><a href="/index.php/api/oauth/login/type/qq"><i class="fa fa-qq"></i> &nbsp;QQ登录</a></li>
-                        <li><a href="/index.php/user/login/index"><i class="fa fa-sign-in"></i> &nbsp;登录</a></li>
+                        <li><a href="{:url('user/login/index')}"><i class="fa fa-sign-in"></i> &nbsp;登录</a></li>
                         <li class="divider"></li>
-                        <li><a href="/index.php/user/register/index"><i class="fa fa-user"></i> &nbsp;注册</a></li>
+                        <li><a href="{:url('user/register/index')}"><i class="fa fa-user"></i> &nbsp;注册</a></li>
                     </ul>
                 </li>
             </ul>
-            -->
         </div>
     </div>
 </nav>

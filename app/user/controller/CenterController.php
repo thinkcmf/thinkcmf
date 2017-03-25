@@ -6,7 +6,7 @@ use cmf\controller\UserBaseController;
 class CenterController extends UserBaseController
 {
 
-    function _initialize()
+    public function _initialize()
     {
         parent::_initialize();
     }
@@ -14,7 +14,6 @@ class CenterController extends UserBaseController
     // 会员中心首页
     public function index()
     {
-        $this->assign($this->user);
-        $this->display(':center');
+        return $this->fetch(':center');
     }
 }

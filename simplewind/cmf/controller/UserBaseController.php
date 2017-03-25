@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
-class UserBaseController extends BaseController
+class UserBaseController extends HomeBaseController
 {
 
     public function _initialize()

@@ -22,7 +22,7 @@ class RegisterController extends HomeBaseController
         session('login_http_referer', $redirect);
 
         if (cmf_is_user_login()) {
-            return redirect($this->request->root());
+            return redirect($this->request->root().'/');
         } else {
             return $this->fetch(":register");
         }

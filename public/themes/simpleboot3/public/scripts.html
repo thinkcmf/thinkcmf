@@ -28,25 +28,25 @@ var GV = {
 			}
 		});
 		
-		$.post("{:url('user/index/is_login')}",{},function(data){
-			if(data.status==1){
-				if(data.user.avatar){
+		$.post("{:url('user/index/isLogin')}",{},function(data){
+		    console.log(data);
+			if(data.code==1){
+				if(data.data.user.avatar){
 				}
-				
-				$("#main-menu-user .user-nicename").text(data.user.user_nicename!=""?data.user.user_nicename:data.user.user_login);
+
+				$("#main-menu-user span.user-nickname").text(data.data.user.user_nickname?data.data.user.user_nickname:data.data.user.user_login);
 				$("#main-menu-user li.login").show();
-				
+                $("#main-menu-user li.offline").hide();
+
 			}
-			if(data.status==0){
+
+			if(data.code==0){
+                $("#main-menu-user li.login").hide();
 				$("#main-menu-user li.offline").show();
 			}
 
 		});
-        $.post("{:url('chem/cart/getCount')}",{},function(data){
-            if(data.status==1){
-                $('#js-cart-count').text(data.count);
-            }
-        });
+
         ;(function($){
 			$.fn.totop=function(opt){
 				var scrolling=false;
