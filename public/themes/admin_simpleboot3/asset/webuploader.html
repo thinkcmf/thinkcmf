@@ -96,8 +96,7 @@
         $(function () {
             var $wrap             = $('#uploader'),
                 // 图片容器
-                $queue            = $('<ul class="filelist"></ul>')
-                    .appendTo($wrap.find('.queueList')),
+                $queue            = $('<ul class="filelist"></ul>').appendTo($wrap.find('.queueList')),
                 // 状态栏，包括进度和控制按钮
                 $statusBar        = $wrap.find('.statusBar'),
                 // 文件总体选择信息。
@@ -140,8 +139,7 @@
                         version = version.description;
                     } catch (ex) {
                         try {
-                            version = new ActiveXObject('ShockwaveFlash.ShockwaveFlash')
-                                .GetVariable('$version');
+                            version = new ActiveXObject('ShockwaveFlash.ShockwaveFlash').GetVariable('$version');
                         } catch (ex2) {
                             version = '0.0';
                         }
