@@ -34,7 +34,7 @@ class HookController extends AdminBaseController
     {
         $hook        = $this->request->param('hook');
         $pluginModel = new PluginModel();
-        $plugins     = $pluginModel->field('a.*,b.hook,b.plugin,b.status as hook_plugin_status')->alias('a')->join('__HOOK_PLUGIN__ b', 'a.name = b.plugin')->where('b.hook', $hook)->select();
+        $plugins     = $pluginModel->field('a.*,b.hook,b.plugin,b.list_order,b.status as hook_plugin_status,b.id as hook_plugin_id')->alias('a')->join('__HOOK_PLUGIN__ b', 'a.name = b.plugin')->where('b.hook', $hook)->select();
         $this->assign('plugins', $plugins);
         return $this->fetch();
     }
@@ -60,6 +60,13 @@ class HookController extends AdminBaseController
             $hookPluginModel->save(['status' => 0], ['hook' => $hook, 'plugin' => $plugin]);
             $this->success("禁用成功！");
         }
+    }
+
+    public function pluginListOrder(){
+        $hookPluginModel = new HookPluginModel();
+        parent::listOrders($hookPluginModel);
+
+        $this->success("排序更新成功！");
     }
 
 

@@ -2,7 +2,7 @@
 </head>
 <body>
 <div class="wrap js-check-wrap">
-    <form action="{:url('hook/listOrder')}" method="post">
+    <form action="{:url('hook/pluginListOrder')}" method="post" class="js-ajax-form">
         <php>
             $types = ["1"=>'系统钩子','2'=>'应用钩子','3'=>'模板钩子'];
             $status=array("1"=>'开启',"0"=>'禁用',"3"=>'未安装');
@@ -26,7 +26,7 @@
             <tbody>
             <foreach name="plugins" item="vo">
                 <tr>
-                    <td><input name="list_orders[{$vo.id}]" type="text" size="3" value="{$vo.list_order}"
+                    <td><input name="list_orders[{$vo.hook_plugin_id}]" type="text" size="3" value="{$vo.list_order}"
                                class="input input-order"></td>
                     <td>{$vo.title}</td>
                     <td>{$vo.name}</td>
