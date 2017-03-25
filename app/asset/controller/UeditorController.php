@@ -354,8 +354,8 @@ class UeditorController  extends HomeBaseController {
 
 
         $allowedExts = explode(',', $uploadSetting[$filetype]);
-        $strWebPath  = $this->request->root() . DS."up_files". DS."ueditor".DS;
-        $strFilePath = ROOT_PATH . 'public' . DS."up_files". DS."ueditor".DS ;
+        $strWebPath  = $this->request->root() . DS."upload". DS."ueditor".DS;
+        $strFilePath = ROOT_PATH . 'public' . DS."upload". DS."ueditor".DS ;
         $arrResponse = array();
 
 
