@@ -11,6 +11,7 @@ namespace app\portal\controller;
 use cmf\controller\AdminBaseController;
 use app\portal\model\PortalPostModel;
 use app\portal\service\PostService;
+use think\Db;
 
 class AdminPageController extends AdminBaseController
 {
@@ -80,16 +81,28 @@ class AdminPageController extends AdminBaseController
     // 页面删除
     public function delete()
     {
-        //TODO 放入回收站
         $param           = $this->request->param();
         $portalPostModel = new PortalPostModel();
 
         if (isset($param['id'])) {
-            $id = $this->request->param('id', 0, 'intval');
+            $id  = $this->request->param('id', 0, 'intval');
+            $res = $portalPostModel->where(['id' => $id])->find();
 
-            $portalPostModel->where(['id' => $id])->update(['post_status' => 3, 'delete_time' => time()]);
+            $data   = [
+                'object_id'   => $res['id'],
+                'create_time' => time(),
+                'table_name'  => 'portal_post',
+                'name'        => $res['post_title'],
+                'data'        => $res->tojson()
+            ];
+            $result = $portalPostModel
+                ->where(['id' => $id])
+                ->update(['delete_time' => time()]);
+            if ($result) {
+                Db::name('recycleBin')->insert($data);
+                $this->success("删除成功！");
+            }
 
-            $this->success("删除成功！");
 
         }
 

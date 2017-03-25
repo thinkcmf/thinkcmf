@@ -10,6 +10,7 @@ namespace app\portal\controller;
 
 use cmf\controller\AdminBaseController;
 use app\portal\model\PortalCategoryModel;
+use think\Db;
 
 class AdminCategoryController extends AdminBaseController
 {
@@ -19,7 +20,7 @@ class AdminCategoryController extends AdminBaseController
         $portalCategoryModel = new PortalCategoryModel();
         $categoryTree        = $portalCategoryModel->adminCategoryTree();
 
-        $categories = $portalCategoryModel->where([])->select();
+        $categories = $portalCategoryModel->where(['delete_time'=>0])->select();
 
         $this->assign('categories', $categories);
         $this->assign('category_tree', $categoryTree);
@@ -100,5 +101,28 @@ class AdminCategoryController extends AdminBaseController
         $this->assign('selectedIds', explode(',', $ids));
         $this->assign('category_tree', $categoryTree);
         return $this->fetch();
+    }
+    //文章分类删除
+    public function delete()
+    {
+        $portalCategoryModel = new PortalCategoryModel();
+        $id = $this->request->param('id');
+        //获取删除的内容
+        $res = $portalCategoryModel->where('id',$id)->find();
+        $data = [
+            'object_id'=>$res['id'],
+            'create_time'=> time(),
+            'table_name' => 'portal_category',
+            'name'=>$res['name']
+        ];
+        $result = $portalCategoryModel
+            ->where('id',$id)
+            ->update(['delete_time' => time()]);
+        if ($result){
+            Db::name('recycleBin')->insert($data);
+            $this->success('删除成功!');
+        }else{
+                $this->error('删除失败');
+        }
     }
 }

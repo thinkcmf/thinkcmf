@@ -13,6 +13,7 @@ use app\portal\model\PortalPostModel;
 use app\portal\service\PostService;
 use app\portal\model\PortalCategoryModel;
 use think\Db;
+
 class AdminArticleController extends AdminBaseController
 {
     // 文章列表
@@ -93,22 +94,22 @@ class AdminArticleController extends AdminBaseController
     // 文章删除
     public function delete()
     {
-        //TODO 放入回收站
         $param           = $this->request->param();
         $portalPostModel = new PortalPostModel();
 
         if (isset($param['id'])) {
-            $id = $this->request->param('id', 0, 'intval');
-            $result = $portalPostModel->where(['id' => $id])->find();
-            $data = [
-                'object_id'=>$result['id'],
-                'create_time'=> time(),
-                'table_name' => 'portal_post',
-                'name'=>$result['post_title'],
-                'data' =>$result->tojson()
+            $id           = $this->request->param('id', 0, 'intval');
+            $result       = $portalPostModel->where(['id' => $id])->find();
+            $data         = [
+                'object_id'   => $result['id'],
+                'create_time' => time(),
+                'table_name'  => 'portal_post',
+                'name'        => $result['post_title']
             ];
-            $resultPortal = $portalPostModel->where(['id' => $id])->update(['post_status' => 3, 'delete_time' => time()]);
-            if ($resultPortal){
+            $resultPortal = $portalPostModel
+                ->where(['id' => $id])
+                ->update(['delete_time' => time()]);
+            if ($resultPortal) {
                 Db::name('recycleBin')->insert($data);
             }
             $this->success("删除成功！");
@@ -116,12 +117,21 @@ class AdminArticleController extends AdminBaseController
         }
 
         if (isset($param['ids'])) {
-            $ids = $this->request->param('ids/a');
-
-            $portalPostModel->where(['id' => ['in', $ids]])->update(['post_status' => 3, 'delete_time' => time()]);
-
-            $this->success("删除成功！");
-
+            $ids     = $this->request->param('ids/a');
+            $recycle = $portalPostModel->where(['id' => ['in', $ids]])->select();
+            $result  = $portalPostModel->where(['id' => ['in', $ids]])->update(['delete_time' => time()]);
+            if ($result) {
+                foreach ($recycle as $value) {
+                    $data = [
+                        'object_id'   => $value['id'],
+                        'create_time' => time(),
+                        'table_name'  => 'portal_post',
+                        'name'        => $value['post_title']
+                    ];
+                    Db::name('recycleBin')->insert($data);
+                }
+                $this->success("删除成功！");
+            }
         }
     }
 

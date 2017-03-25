@@ -31,12 +31,13 @@ class RecycleController extends AdminBaseController
         $id     = $this->request->param('id');
         $result = Db::name('recycleBin')->where(array('id' => $id))->find();
         //还原文章
-        if ($result['table_name'] == 'portal_post') {
-            $data = json_decode($result['data'], TRUE);
-            $re   = Db::name('portal_post')->insert($data);
-            if ($re) {
-                $res = Db::name('recycleBin')->where('id', $id)->delete();
-                if ($res) {
+        if ($result) {
+            $res = Db::name($result['table_name'])
+                ->where(['id'=>$result['object_id']])
+                ->update(['delete_time' => '0']);
+            if ($res){
+                $re = Db::name('recycleBin')->where('id', $id)->delete();
+                if ($re){
                     $this->success("还原成功！");
                 }
             }
@@ -49,8 +50,8 @@ class RecycleController extends AdminBaseController
         $id     = $this->request->param('id');
         $result = Db::name('recycleBin')->where(array('id' => $id))->find();
         //删除文章
-        if ($result['table_name'] == 'portal_post') {
-            $re = Db::name('portal_post')->where('id', $result['object_id'])->delete();
+        if ($result) {
+            $re = Db::name($result['table_name'])->where('id', $result['object_id'])->delete();
             if ($re) {
                 $res = Db::name('recycleBin')->where('id', $id)->delete();
                 if ($res) {

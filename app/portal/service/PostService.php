@@ -21,7 +21,7 @@ class PostService
 
         $where = [
             'a.create_time' => ['>=', 0],
-            'a.post_status' => ['neq', 3]
+            'a.delete_time' => ['eq', 0]
         ];
 
         $join = [
