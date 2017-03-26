@@ -7,14 +7,14 @@ use think\Db;
 class IndexController extends Controller
 {
 
-    function _initialize()
+    public function _initialize()
     {
 //        if (file_exists_case("./data/install.lock")) {
 //            redirect(__ROOT__ . "/");
 //        }
     }
 
-    //首页
+    // 安装首页
     public function index()
     {
         return $this->fetch(":index");
@@ -99,7 +99,7 @@ class IndexController extends Controller
             $err++;
         }
 
-        $folders     = [
+        $folders    = [
             'data',
             'data/conf',
             'data/runtime',
@@ -109,24 +109,24 @@ class IndexController extends Controller
             'data/runtime/Temp',
             'data/upload',
         ];
-        $new_folders = [];
+        $newFolders = [];
         foreach ($folders as $dir) {
             $testDir = "./" . $dir;
             sp_dir_create($testDir);
             if (sp_testwrite($testDir)) {
-                $new_folders[$dir]['w'] = true;
+                $newFolders[$dir]['w'] = true;
             } else {
-                $new_folders[$dir]['w'] = false;
+                $newFolders[$dir]['w'] = false;
                 $err++;
             }
             if (is_readable($testDir)) {
-                $new_folders[$dir]['r'] = true;
+                $newFolders[$dir]['r'] = true;
             } else {
-                $new_folders[$dir]['r'] = false;
+                $newFolders[$dir]['r'] = false;
                 $err++;
             }
         }
-        $data['folders'] = $new_folders;
+        $data['folders'] = $newFolders;
 
         $this->assign($data);
         return $this->fetch(":step2");
@@ -183,18 +183,16 @@ class IndexController extends Controller
     {
         if (session("_install_step") == 4) {
             @touch('./data/install.lock');
-            $this->display(":step5");
+            return $this->fetch(":step5");
         } else {
             $this->error("非法安装！");
         }
-
-
     }
 
-    public function testdbpwd()
+    public function testDbPwd()
     {
-        if (IS_POST) {
-            $dbConfig            = I("POST.");
+        if ($this->request->isPost()) {
+            $dbConfig            = $this->request->param();
             $dbConfig['DB_TYPE'] = "mysql";
             $db                  = Db::getInstance($dbConfig);
             try {

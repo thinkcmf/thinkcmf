@@ -2,7 +2,7 @@
 function sp_testwrite($d)
 {
     $tfile = "_test.txt";
-    $fp = @fopen($d . "/" . $tfile, "w");
+    $fp    = @fopen($d . "/" . $tfile, "w");
     if (!$fp) {
         return false;
     }
@@ -19,10 +19,10 @@ function sp_dir_create($path, $mode = 0777)
     if (is_dir($path))
         return true;
     $ftp_enable = 0;
-    $path = sp_dir_path($path);
-    $temp = explode('/', $path);
-    $cur_dir = '';
-    $max = count($temp) - 1;
+    $path       = sp_dir_path($path);
+    $temp       = explode('/', $path);
+    $cur_dir    = '';
+    $max        = count($temp) - 1;
     for ($i = 0; $i < $max; $i++) {
         $cur_dir .= $temp[$i] . '/';
         if (@is_dir($cur_dir))
@@ -50,7 +50,7 @@ function sp_execute_sql($db, $file, $tablepre)
 
     //替换表前缀
     $default_tablepre = "cmf_";
-    $sql = str_replace(" `{$default_tablepre}", " `{$tablepre}", $sql);
+    $sql              = str_replace(" `{$default_tablepre}", " `{$tablepre}", $sql);
 
     //开始安装
     sp_show_msg('开始安装数据库...');
@@ -60,7 +60,7 @@ function sp_execute_sql($db, $file, $tablepre)
         preg_match('/CREATE TABLE `([^ ]*)`/', $item, $matches);
         if ($matches) {
             $table_name = $matches[1];
-            $msg = "创建数据表{$table_name}";
+            $msg        = "创建数据表{$table_name}";
             if (false !== $db->execute($item)) {
                 sp_show_msg($msg . ' 完成');
             } else {
@@ -86,12 +86,12 @@ function sp_show_msg($msg, $class = '')
 
 function sp_update_site_configs($db, $table_prefix)
 {
-    $sitename = I("post.sitename");
-    $email = I("post.manager_email");
-    $siteurl = I("post.siteurl");
-    $seo_keywords = I("post.sitekeywords");
+    $sitename        = I("post.sitename");
+    $email           = I("post.manager_email");
+    $siteurl         = I("post.siteurl");
+    $seo_keywords    = I("post.sitekeywords");
     $seo_description = I("post.siteinfo");
-    $site_options = <<<helllo
+    $site_options    = <<<helllo
             {
             		"site_name":"$sitename",
             		"site_host":"$siteurl",
@@ -105,19 +105,19 @@ function sp_update_site_configs($db, $table_prefix)
             		"site_seo_description":"$seo_description"
         }
 helllo;
-    $sql = "INSERT INTO `{$table_prefix}options` (option_value,option_name) VALUES ('$site_options','site_options')";
+    $sql             = "INSERT INTO `{$table_prefix}options` (option_value,option_name) VALUES ('$site_options','site_options')";
     $db->execute($sql);
     sp_show_msg("网站信息配置成功!");
 }
 
 function sp_create_admin_account($db, $table_prefix, $authcode)
 {
-    $username = I("post.manager");
-    $password = sp_password(I("post.manager_pwd"), $authcode);
-    $email = I("post.manager_email");
+    $username    = I("post.manager");
+    $password    = sp_password(I("post.manager_pwd"), $authcode);
+    $email       = I("post.manager_email");
     $create_date = date("Y-m-d h:i:s");
-    $ip = get_client_ip(0, true);
-    $sql = <<<hello
+    $ip          = get_client_ip(0, true);
+    $sql         = <<<hello
     INSERT INTO `{$table_prefix}users` 
     (id,user_login,user_pass,user_nicename,user_email,user_url,create_time,user_activation_key,user_status,last_login_ip,last_login_time) VALUES 
     ('1', '{$username}', '{$password}', 'admin', '{$email}', '', '{$create_date}', '', '1', '{$ip}','{$create_date}');;
