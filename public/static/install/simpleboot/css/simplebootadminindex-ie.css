@@ -1,0 +1,8 @@
+@CHARSET "UTF-8";
+.sidebar {
+	*left: 0
+}
+
+.sidebar:before {
+	display: none
+}

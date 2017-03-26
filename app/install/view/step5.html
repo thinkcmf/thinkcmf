@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+<include file="Public:head" />
+<script src="__PUBLIC__/js/jquery.js"></script>
+</head>
+<body>
+	<div class="wrap">
+		<include file="Public:header" />
+		<section class="section">
+			<div style="padding: 40px 20px;">
+				<div class="text-center">
+					<a style="font-size: 18px;">恭喜您，安装完成！</a>
+					<br>
+					<br>
+					<div class="alert alert-danger" style="width: 350px;display: inline-block;">
+						为了您站点的安全，安装完成后即可将网站application目录下的“Install”文件夹删除!
+						另请对data/conf/db.php文件做好备份，以防丢失！
+					</div>
+					<br>
+					<a class="btn btn-success" href="__ROOT__/">进入前台</a> 
+					<a class="btn btn-success" href="__ROOT__/admin">进入后台</a> 
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<include file="Public:footer" />
+	<script>
+		$(function() {
+			return;
+			$.ajax({
+				type : "POST",
+				url : "http://www.thinkcmf.com/service/installinfo.php",
+				data : {
+					host : '<?php echo $host;?>',
+					ip : '<?php echo $ip?>'
+				},
+				dataType : 'json',
+				success : function() {
+				}
+			});
+		});
+	</script>
+</body>
+</html>
