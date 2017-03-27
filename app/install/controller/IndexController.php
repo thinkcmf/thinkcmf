@@ -139,38 +139,39 @@ class IndexController extends Controller
 
     public function step4()
     {
-        if (IS_POST) {
+        if ($this->request->isPost()) {
             //创建数据库
-            $dbConfig            = [];
-            $dbConfig['DB_TYPE'] = "mysql";
-            $dbConfig['DB_HOST'] = I('post.dbhost');
-            $dbConfig['DB_USER'] = I('post.dbuser');
-            $dbConfig['DB_PWD']  = I('post.dbpw');
-            $dbConfig['DB_PORT'] = I('post.dbport');
-            $db                  = Db::getInstance($dbConfig);
-            $dbName              = strtolower(I('post.dbname'));
-            $sql                 = "CREATE DATABASE IF NOT EXISTS `{$dbName}` DEFAULT CHARACTER SET utf8";
+            $dbConfig             = [];
+            $dbConfig['type']     = "mysql";
+            $dbConfig['hostname'] = $this->request->param('dbhost');
+            $dbConfig['username'] = $this->request->param('dbuser');
+            $dbConfig['password'] = $this->request->param('dbpw');
+            $dbConfig['hostport'] = $this->request->param('dbport');
+            $db                   = Db::connect($dbConfig);
+            $dbName               = $this->request->param('dbname');
+            $sql                  = "CREATE DATABASE IF NOT EXISTS `{$dbName}` DEFAULT CHARACTER SET utf8mb4";
             $db->execute($sql) || $this->error($db->getError());
 
-            $this->display(":step4");
+            echo $this->fetch(":step4");
 
             //创建数据表
-            $dbConfig['DB_NAME']   = $dbName;
-            $dbConfig['DB_PREFIX'] = trim(I('post.dbprefix'));
-            $db                    = Db::getInstance($dbConfig);
+            $dbConfig['database'] = $dbName;
+            $dbConfig['prefix']   = $this->request->param('post.dbprefix', '', 'trim');
+            $db                   = Db::connect($dbConfig);
 
-            $tablePrefix = I("post.dbprefix");
+            $tablePrefix = $this->request->param('dbprefix');
             sp_execute_sql($db, "thinkcmf.sql", $tablePrefix);
 
-            //更新配置信息
-            sp_update_site_configs($db, $tablePrefix);
 
-            $authCode = sp_random_string(18);
-            //创建管理员
-            sp_create_admin_account($db, $tablePrefix, $authCode);
-
-            //生成网站配置文件
-            sp_create_config($dbConfig, $authCode);
+//            //更新配置信息
+//            sp_update_site_configs($db, $tablePrefix);
+//
+//            $authCode = sp_random_string(18);
+//            //创建管理员
+//            sp_create_admin_account($db, $tablePrefix, $authCode);
+//
+//            //生成网站配置文件
+//            sp_create_config($dbConfig, $authCode);
             session("_install_step", 4);
             sleep(1);
             $this->redirect("step5");
@@ -192,11 +193,11 @@ class IndexController extends Controller
     public function testDbPwd()
     {
         if ($this->request->isPost()) {
-            $dbConfig            = $this->request->param();
-            $dbConfig['DB_TYPE'] = "mysql";
-            $db                  = Db::getInstance($dbConfig);
+            $dbConfig         = $this->request->param();
+            $dbConfig['type'] = "mysql";
+
             try {
-                $db->query("show databases;");
+                Db::connect($dbConfig);
             } catch (\Exception $e) {
                 die("");
             }

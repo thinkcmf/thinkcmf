@@ -41,16 +41,16 @@ function sp_dir_path($path)
     return $path;
 }
 
-function sp_execute_sql($db, $file, $tablepre)
+function sp_execute_sql($db, $file, $tablePre)
 {
     //读取SQL文件
-    $sql = file_get_contents(MODULE_PATH . 'Data/' . $file);
+    $sql = file_get_contents(APP_PATH . 'install/data/' . $file);
     $sql = str_replace("\r", "\n", $sql);
     $sql = explode(";\n", $sql);
 
     //替换表前缀
-    $default_tablepre = "cmf_";
-    $sql              = str_replace(" `{$default_tablepre}", " `{$tablepre}", $sql);
+    $defaultTablePre = "cmf_";
+    $sql              = str_replace(" `{$defaultTablePre}", " `{$tablePre}", $sql);
 
     //开始安装
     sp_show_msg('开始安装数据库...');
