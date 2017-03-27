@@ -1,0 +1,29 @@
+{
+    "name": "mindplay/annotations",
+    "type": "library",
+    "description": "Industrial-strength annotations for PHP",
+    "keywords": ["annotations", "framework"],
+    "homepage": "http://blog.mindplay.dk/",
+    "license": "LGPL-3.0+",
+    "authors": [
+        {
+            "name": "Rasmus Schultz",
+            "email": "rasmus@mindplay.dk"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "phpunit/php-code-coverage": "~1.2.1",
+        "phpunit/php-file-iterator": ">=1.3.0@stable"
+    },
+    "autoload": {
+        "psr-4": { "mindplay\\annotations\\": "src\\annotations" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.2.x-dev"
+        }
+    }
+}

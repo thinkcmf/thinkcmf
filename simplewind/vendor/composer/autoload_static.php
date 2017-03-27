@@ -17,6 +17,10 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
             'think\\helper\\' => 13,
             'think\\captcha\\' => 14,
         ),
+        'm' => 
+        array (
+            'mindplay\\annotations\\' => 21,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -27,6 +31,10 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         'think\\captcha\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-captcha/src',
+        ),
+        'mindplay\\annotations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mindplay/annotations/src/annotations',
         ),
     );
 

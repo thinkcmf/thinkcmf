@@ -1,0 +1,110 @@
+property levels:
+- page 
+- class
+- method
+- property
+- function
+- variable
+- define
+
+defined property types:
+
+- 'bool', 'int', 'float', 'string', 'mixed', 'object', 'resource', 'array'
+
+additional PHP property types / aliases:
+
+- 'res' (alias of 'resource')
+- 'boolean' (alias of 'bool')
+- 'integer' (alias of 'int')
+- 'double' (alias of 'float)
+- 'number' (alternative to 'int', 'float' or 'double')
+- 'callback' (e.g. array($object|$class, $method) or 'function-name')
+
+defined tags:
+
+  @access {private|public} : used on classes to make them private/public in documentation
+  @abstract : PHP4 equivalent of the abstract keyword for classes
+  @author {name} <{email}> : indicates who the author of a class is
+  @category : used at "page" level (e.g. file) - organizes packages into categories
+  @copyright {statement} : associates a copyright statement with any taggable element
+  @deprecated {statement} : defines a short statement explaining why a document was deprecated (works everywhere except at page-level)
+  @example {path} : defines a path to an example script (relative paths are allowed)
+  @final : PHP4 equivalent of the final keyword for classes
+  @filesource : similar to @example, but uses the path of the current file - used at page-level
+  @global {type} {$name} : defines a global variable
+  @global {type} {description} : defines the use of a global variable
+  @ignore : suppresses documentation of the element it's applied to
+  @internal {text} : declares internal documentation (excluded from public version of documentation)
+  @license {url} {title} : declares a link to a license agreement
+  @link {url} {text} : any url (including http, mailto, ftp, etc.) and optional description
+  @method {type} {description} : defines a magic/virtual method
+  @name {$varname} : used in conjunction with @global to "rename" a global variable
+  @package {name} : associates a file or class with a package-name
+  @param {type} {$name} {description} : describes a function-parameter's type and description
+  @param {type1|type2} {$name} {description} : defines a function accepting multiple types of arguments
+  @property {type} {$name} {description} : defines a magic/virtual property's type, name and description
+  @property-read {type} {$name} {description} : same for read-only properties
+  @property-write {type} {$name} {description} : same for write-only properties
+  @return {type} {description} : defines the type and description of a function or method's return-value
+  @return {type1|type2} {description} : for mixed return types
+  @see {element} : adds internal documentation links, e.g. "path/file.php", "class::methodname()", "class::$varname", etc.
+  @since {description} : adds historical version information - typically includes a version number
+  @static : marks a method or property as static - PHP4 equivalent to the static keyword in PHP5
+  @staticvar {type} {$name} : documents the use of a static variable in a method or function
+  @subpackage {name} : used together with @package to define a sub-package name
+  @todo {text} : defines a todo-list item for the programmer
+  @tutorial package/subpackage/tutorialname.ext#section.subsection description : defines a link to a tutorial
+  @uses {element} {description} : similar to @see, but adds a reverse @usedby tag to the destination element
+  @var {type} {description} : used on properties to declare the type and description
+
+important tags for run-time reflection:
+
+  @method {type} {func(type arg, type arg, ...)} {description} : defines a magic/virtual method
+  @param {type} {$name} {description} : defines a method or function parameter's type
+  @param {type1|type2} {$name} {description} : defines a method or function parameter's type as mixed
+  @property {type} {$name} {description} : defines a magic/virtual property and it's type
+  @property-read {type} {$name} {description} : defines a magic/virtual property, it's type and visibility
+  @property-write {type} {$name} {description} : defines a magic/virtual property, it's type and visibility
+  @return {type} {description} : defines the return-type of a function or method
+  @return {type1|type2} {description} : defines the return-type of a function or method as mixed
+  @var {type} {description} : defines property types
+
+other potentially useful tags for run-time reflection:
+
+  @author : for admin/about screens
+  @category : for admin/about screens
+  @copyright : for admin/about screens
+  @license : for admin/about screens
+  @package : for admin/about screens
+  @subpackage : for admin/about screens
+  @uses : possible used in autoloaders, etc.
+
+useless tags:
+
+  @access : outdated
+  @abstract : outdated
+  @deprecated : not relevant at run-time
+  @example : not relevant at run-time
+  @final : outdated
+  @filesource : not relevant at run-time
+  @global : not relevant at run-time
+  @ignore : documentation only
+  @internal : documentation only
+  @link : documentation only
+  @name : documentation only
+  @see : documentation only
+  @since : documentation only
+  @static : outdated
+  @staticvar : documentation only
+  @todo : documentation only
+  @tutorial : documentation only
+
+tags that must be inherited by subclasses:
+
+  @author
+  @version
+  @copyright
+  @package
+  @subpackage
+  (short description)
+  (long description)

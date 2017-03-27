@@ -8,4 +8,5 @@ $baseDir = dirname(dirname($vendorDir));
 return array(
     'think\\helper\\' => array($vendorDir . '/topthink/think-helper/src'),
     'think\\captcha\\' => array($vendorDir . '/topthink/think-captcha/src'),
+    'mindplay\\annotations\\' => array($vendorDir . '/mindplay/annotations/src/annotations'),
 );

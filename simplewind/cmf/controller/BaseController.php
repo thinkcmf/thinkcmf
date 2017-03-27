@@ -15,8 +15,6 @@ use think\Config;
 
 class BaseController extends Controller
 {
-    /** @noinspection PhpMissingParentConstructorInspection */
-
     /**
      * 构造函数
      * @param Request $request Request对象
