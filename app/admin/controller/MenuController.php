@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\model\AdminMenuModel;
 use cmf\controller\AdminBaseController;
 use think\Db;
 use tree\Tree;
@@ -191,6 +192,13 @@ class MenuController extends AdminBaseController
         } else {
             $this->error("删除失败！");
         }
+    }
+
+    public function listOrder()
+    {
+        $adminMenuModel = new AdminMenuModel();
+        parent::listOrders($adminMenuModel);
+        $this->success("排序更新成功！");
     }
 
     /**
