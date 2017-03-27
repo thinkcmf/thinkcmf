@@ -13,7 +13,12 @@ use app\admin\model\LinkModel;
 
 class LinkController extends AdminBaseController
 {
-    // 友情链接列表
+    /**
+     * 友情链接列表
+     * @menu('name'=>'友情链接管理',
+     *     'icon'=>'menu',
+     *     'remark'=>'友情链接列表')
+     */
     public function index()
     {
         $linkModel = new LinkModel();
@@ -22,4 +27,5 @@ class LinkController extends AdminBaseController
 
         return $this->fetch();
     }
+
 }

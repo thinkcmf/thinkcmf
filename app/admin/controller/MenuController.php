@@ -12,6 +12,7 @@ use app\admin\model\AdminMenuModel;
 use cmf\controller\AdminBaseController;
 use think\Db;
 use tree\Tree;
+use mindplay\annotations\Annotations;
 
 class MenuController extends AdminBaseController
 {
@@ -194,11 +195,35 @@ class MenuController extends AdminBaseController
         }
     }
 
+    /**
+     * 排序
+     */
     public function listOrder()
     {
         $adminMenuModel = new AdminMenuModel();
         parent::listOrders($adminMenuModel);
         $this->success("排序更新成功！");
+    }
+
+    public function getActions()
+    {
+        $reflect = new \ReflectionClass('app\admin\controller\LinkController');
+
+        $method = $reflect->getMethod('index');
+
+        Annotations::$config['cache'] = false;
+
+        $annotationManager = Annotations::getManager();
+
+        $annotationManager->registry['menu'] = 'app\admin\annotation\MenuAnnotation';
+        $annotationManager->registry['nav'] = 'app\admin\annotation\NavAnnotation';
+
+        $methodAnnotations = Annotations::ofMethod('app\admin\controller\LinkController', 'index','@menu');
+
+        print_r($methodAnnotations);
+
+        //print_r($method->getDocComment());
+        //print_r($reflect->getMethods(\ReflectionMethod::IS_PUBLIC));
     }
 
     /**
