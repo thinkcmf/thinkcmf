@@ -47,5 +47,6 @@ return [
     "EDIT_SUCCESS"            => 'Save success！',
     "EDIT_FAILED"             => 'Save failed！',
     "NO_DATA"                 => 'No data!',
-    "MOBILE"                  => 'Mobile'
+    "MOBILE"                  => 'Mobile',
+    "CATEGORY_KEY_HELP_TEXT" => 'ALPHANUM or Underscores'
 ];

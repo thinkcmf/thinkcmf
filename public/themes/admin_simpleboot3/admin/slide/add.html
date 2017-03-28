@@ -1,0 +1,41 @@
+<include file="public@header"/>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:url('slide/index')}">{:lang('ADMIN_SLIDECAT_INDEX')}</a></li>
+			<li class="active"><a href="{:url('slide/add')}">{:lang('ADMIN_SLIDECAT_ADD')}</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('slide/addPost')}">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">{:lang('ADMIN_SLIDE_NAME')}</label>
+					<div class="controls">
+						<input type="text" name="name">
+						<span class="form-required">*</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{:lang('CATEGORY_KEY')}</label>
+					<div class="controls">
+						<input type="text" name="name_id">
+						<span class="form-required">*</span>
+						<span style="margin-left: 15px;">{:lang('CATEGORY_KEY_HELP_TEXT')}</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{:lang('DESCRIPTION')}</label>
+					<div class="controls">
+						<textarea name="remark" rows="5" cols="57"></textarea>
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+				<a class="btn" href="javascript:history.back(-1);">{:lang('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>
