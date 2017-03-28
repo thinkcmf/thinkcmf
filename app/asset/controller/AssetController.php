@@ -196,7 +196,7 @@ class AssetController extends AdminBaseController
                               "error" => 0,
                               "size"  => $fileImage->getSize(),
                 ];
-                $fileImage->isTest(true);
+                //$fileImage->isTest(true);
                 $fileImage->setUploadInfo($arrInfo);
 
             } else {
