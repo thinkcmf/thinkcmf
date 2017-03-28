@@ -16,13 +16,13 @@ class LinkController extends AdminBaseController
     /**
      * 友情链接列表
      * @adminMenu(
-     *     'name'=>'友情链接管理',
-     *     'parent'=>'admin/Setting/default',
-     *     'display'=>true,
-     *     'order'=>10000,
-     *     'icon'=>'',
-     *     'remark'=>'友情链接列表',
-     *     'param'=>''
+     *     'name'   => '友情链接管理',
+     *     'parent' => 'admin/Setting/default',
+     *     'display'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '友情链接列表',
+     *     'param'  => ''
      * )
      */
     public function index()
@@ -37,13 +37,13 @@ class LinkController extends AdminBaseController
     /**
      *  添加友情链接
      * @adminMenu(
-     *     'name'=>'添加友情链接',
-     *     'parent'=>'index',
-     *     'display'=>false,
-     *     'order'=>10000,
-     *     'icon'=>'',
-     *     'remark'=>'添加友情链接',
-     *     'param'=>''
+     *     'name'   => '添加友情链接',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加友情链接',
+     *     'param'  => ''
      * )
      */
     public function add()

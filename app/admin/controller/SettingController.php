@@ -15,7 +15,15 @@ use think\Db;
 /**
  * Class SettingController
  * @package app\admin\controller
- * @adminMenuRoot('name'=>'设置','icon'=>'cogs','action'=>'default','remark'=>'系统设置入口')
+ * @adminMenuRoot(
+ *     'name'   =>'设置',
+ *     'action' =>'default',
+ *     'parent' =>'',
+ *     'display'=> true,
+ *     'order'  => 10000,
+ *     'icon'   =>'cogs',
+ *     'remark' =>'系统设置入口'
+ * )
  */
 class SettingController extends AdminBaseController
 {
