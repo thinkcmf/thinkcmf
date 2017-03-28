@@ -1,0 +1,38 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap">
+		<div id="error_tips">
+			<h2>应用{$app}菜单导入成功！</h2>
+			<div class="error_cont">
+				<ul>
+					<if condition="!empty($new_menus)">
+						<foreach name="new_menus" item="vo">
+						<li>{$vo}</li>
+						</foreach>
+					<else />
+						<li>应用{$app}没有新菜单导入！</li>
+					</if>
+				</ul>
+				<if condition="!empty($next_app)">
+					<script>
+						setTimeout(function() {
+							location.href = "{:url('admin/menu/getactions',array('app'=>$next_app))}";
+						}, 1000);
+					</script>
+					<div class="error_return">
+						<a href="{:url('admin/menu/getActions',array('app'=>$next_app))}" class="btn btn-primary">下一个应用</a>
+						<a href="{:url('admin/menu/index')}" class="btn btn-default" style="margin-left: 10px;">返回</a>
+					</div>
+				<else />
+					<div>全部导入成功！</div>
+					<div class="error_return">
+						<a href="{:url('menu/index')}" class="btn btn-default">返回</a>
+					</div>
+				</if>
+			</div>
+		</div>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>
