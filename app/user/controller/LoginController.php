@@ -1,4 +1,11 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Powerless
+ * Date: 17/03/15
+ * Time: 12:46
+ */
+
 namespace app\user\controller;
 
 use think\Validate;

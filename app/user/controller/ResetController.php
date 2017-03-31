@@ -1,4 +1,11 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Powerless
+ * Date: 17/03/30
+ * Time: 11:46
+ */
+
 namespace app\user\controller;
 
 use cmf\controller\HomeBaseController;
@@ -8,13 +15,17 @@ use app\user\model\UserModel;
 class ResetController extends HomeBaseController
 {
 
-    // 前台用户忘记密码
+    /**
+     * 前台用户忘记密码
+     */
     public function index()
     {
         return $this->fetch(":reset");
     }
 
-    // 前台用户忘记密码提交
+    /**
+     * 前台用户忘记密码提交
+     */
     public function doReset()
     {
         if ($this->request->isPost()) {
