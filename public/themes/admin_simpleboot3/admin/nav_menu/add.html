@@ -31,13 +31,11 @@
                     <input type="text" class="form-control" name="href" id="external-link-input">
                     <input type="radio" id="select-href-radio">
                     <select name="href" id="select-href" class="form-control">
-                        <option value="{:base64_encode('home')}" data-label="首页">首页</option>
+                        <option value="{:base64_encode('home')}" data-name="首页">首页</option>
                         <foreach name="navs" item="vo">
-                            <foreach name="navs" item="vo">
-                                <optgroup label="{$vo.name}">
-                                    {$vo.html}
-                                </optgroup>
-                            </foreach>
+                            <optgroup label="{$vo.name}">
+                                {$vo.html}
+                            </optgroup>
                         </foreach>
                     </select>
                 </div>
