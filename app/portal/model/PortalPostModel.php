@@ -9,7 +9,7 @@ class PortalPostModel extends Model
 
     public function user()
     {
-        return $this->belongsTo('app\user\model\UserModel', 'user_id')->setEagerlyType(0);
+        return $this->belongsTo('UserModel', 'user_id')->setEagerlyType(0);
     }
 
     public function categories()
