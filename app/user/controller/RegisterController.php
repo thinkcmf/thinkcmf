@@ -91,29 +91,4 @@ class RegisterController extends HomeBaseController
         }
 
     }
-    public function send()
-    {
-        if ($this->request->isPost()) {
-            $data = $this->request->param();
-            $code = cmf_get_verification_code($data['username']);
-            if (empty($code)) {
-                $this->error("验证码发送过多,请明天再试!");
-            }
-            $validate = new Validate();
-            $code = rand(100000,999999);
-            if ($validate::is($data['username'], 'email')) {
-
-                //TODO 实现邮箱验证码发送
-                cmf_verification_code_log($data['username'],$code);
-
-            } else if (preg_match('/(^(13\d|15[^4\D]|17[13678]|18\d)\d{8}|170[^346\D]\d{7})$/', $data['username'])) {
-
-                //TODO 实现手机验证码发送
-                cmf_verification_code_log($data['username'],$code);
-            }
-            $this->success("验证码已经发送成功!");
-        } else {
-            $this->error("请求错误");
-        }
-    }
 }
