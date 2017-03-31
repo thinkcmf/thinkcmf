@@ -377,18 +377,24 @@
                 fileVal: editor.getOpt('imageFieldName'),
                 duplicate: true,
                 fileSingleSizeLimit: imageMaxSize,    // 默认 2 M
-                compress: editor.getOpt('imageCompressEnable') ? {
-                    width: imageCompressBorder,
-                    height: imageCompressBorder,
-                    // 图片质量，只有type为`image/jpeg`的时候才有效。
-                    quality: 90,
-                    // 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false.
-                    allowMagnify: false,
-                    // 是否允许裁剪。
-                    crop: false,
-                    // 是否保留头部meta信息。
-                    preserveHeaders: true
-                }:false
+
+                chunked: true,//开启分片
+                auto: true,
+                chunkSize: 512 * 1024,
+                runtimeOrder: 'html5',
+                compress:false,
+                // compress: editor.getOpt('imageCompressEnable') ? {
+                //     width: imageCompressBorder,
+                //     height: imageCompressBorder,
+                //     // 图片质量，只有type为`image/jpeg`的时候才有效。
+                //     quality: 90,
+                //     // 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false.
+                //     allowMagnify: false,
+                //     // 是否允许裁剪。
+                //     crop: false,
+                //     // 是否保留头部meta信息。
+                //     preserveHeaders: true
+                // }:false
             });
             uploader.addButton({
                 id: '#filePickerBlock'

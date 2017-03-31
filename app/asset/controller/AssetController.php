@@ -78,6 +78,7 @@ class AssetController extends AdminBaseController
             $strWebPath      = $this->request->root() . DS . "upload" . DS;
             $strSaveFilePath = ROOT_PATH . 'public' . DS . "upload" . DS;
             $strId           = $this->request->post("id");
+            $strDate         = date('Ymd');
 
             $adminId   = cmf_get_current_admin_id();
             $userId    = cmf_get_current_userid();
@@ -85,6 +86,10 @@ class AssetController extends AdminBaseController
             $targetDir = RUNTIME_PATH . "upload" . DS . $userId . DS; // 断点续传 need
             if (!file_exists($targetDir)) {
                 mkdir($targetDir, 0777, true);
+            }
+            $strSaveFilePath = $strSaveFilePath.$strDate .DS;
+            if (!file_exists($strSaveFilePath)) {
+                mkdir($strSaveFilePath, 0777, true);
             }
 
             $arrAllowedExts = [];
@@ -104,20 +109,36 @@ class AssetController extends AdminBaseController
             /**
              * 断点续传 need
              */
-            $strFilePath = $fileImage->getInfo("name");// md5($fileImage->getInfo("name"));
+            $strFilePath = $fileImage->getInfo("name");
             $chunk       = $this->request->param("chunk", 0, "intval");// isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
             $chunks      = $this->request->param("chunks", 1, "intval");//isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 1;
 
+            
             if (!$fileImage->isValid()) {
-                die ('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "非法文件！"}, "id" : "' . $strId . '"}');
+                $arrResponse = [];
+                $arrResponse["jsonrpc"]    = '2.0';
+                $arrResponse["error"]      = '"code": 101, "message": "非法文件！"';
+                $arrResponse["id"]    = $strId;
+                die(json_encode($arrResponse));
+
             }
             if (!$fileImage->checkExt($arrAllowedExts)) {
-                die ('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "文件类型不正确！"}, "id" : "' . $strId . '"}');
+                $arrResponse = [];
+                $arrResponse["jsonrpc"]    = '2.0';
+                $arrResponse["error"]      = '"code": 101, "message": "文件类型不正确！"';
+                $arrResponse["id"]    = $strId;
+                die(json_encode($arrResponse));
+
             }
 
             if ($cleanupTargetDir) {
                 if (!is_dir($targetDir) || !$dir = opendir($targetDir)) {
-                    die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Failed to open temp directory."}, "id" : "' . $strId . '"}');
+                    $arrResponse = [];
+                    $arrResponse["jsonrpc"]    = '2.0';
+                    $arrResponse["error"]      = '"code": 100, "message": "Failed to open temp directory！"';
+                    $arrResponse["id"]    = $strId;
+                    die(json_encode($arrResponse));
+
                 }
 
                 while (($file = readdir($dir)) !== false) {
@@ -134,11 +155,21 @@ class AssetController extends AdminBaseController
 
             // Open temp file
             if (!$out = @fopen($targetDir . "{$strFilePath}_{$chunk}.parttmp", "wb")) {
-                die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "' . $strId . '"}');
+                $arrResponse = [];
+                $arrResponse["jsonrpc"]    = '2.0';
+                $arrResponse["error"]      = '"code": 102, "message": "Failed to open output stream！"';
+                $arrResponse["id"]    = $strId;
+                die(json_encode($arrResponse));
+
             }
             // Read binary input stream and append it to temp file
             if (!$in = @fopen($fileImage->getInfo("tmp_name"), "rb")) {
-                die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "' . $strId . '"}');
+                $arrResponse = [];
+                $arrResponse["jsonrpc"]    = '2.0';
+                $arrResponse["error"]      = '"code": 101, "message": "Failed to open input stream！"';
+                $arrResponse["id"]    = $strId;
+                die(json_encode($arrResponse));
+
             }
 
             while ($buff = fread($in, 4096)) {
@@ -150,12 +181,7 @@ class AssetController extends AdminBaseController
 
             rename($targetDir . "{$strFilePath}_{$chunk}.parttmp", $targetDir . "{$strFilePath}_{$chunk}.part");
 
-            //$fileImage->isTest();
-            //$info = $fileImage->move($targetDir,"{$strFilePath}_{$chunk}.part");//开始上传
-            //if(!$info)
-            //{
-            //    die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "'. $fileImage->getError().'"}, "id" : "'.$strId.'"}') ;
-            //}
+
 
 
             $done = true;
@@ -166,9 +192,17 @@ class AssetController extends AdminBaseController
                 }
             }
             if ($done) {
-                if (!$out = @fopen($targetDir . $strFilePath, "wb")) {
+
+                $savename = $strSaveFilePath . md5(microtime(true)).".".pathinfo($strFilePath, PATHINFO_EXTENSION);
+
+                if (!$out = @fopen($savename, "wb")) {
                     //mkdir($uploadPath);
-                    die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "' . $strId . '"}');
+                    $arrResponse = [];
+                    $arrResponse["jsonrpc"]    = '2.0';
+                    $arrResponse["error"]      = '"code": 121, "message": "Failed to open output stream！"';
+                    $arrResponse["id"]    = $strId;
+                    die(json_encode($arrResponse));
+
                 }
 
                 if (flock($out, LOCK_EX)) {
@@ -190,13 +224,16 @@ class AssetController extends AdminBaseController
 
                 @fclose($out);
 
-                $fileImage = new File($targetDir . $strFilePath);
+                $fileImage = new File($savename,'r');
                 $arrInfo   = ["name"  => $fileImage->getFilename(),
                               "type"  => $fileImage->getMime(),
+                              "tmp_name"=>$strSaveFilePath . $strFilePath,
                               "error" => 0,
                               "size"  => $fileImage->getSize(),
                 ];
-                //$fileImage->isTest(true);
+
+                $fileImage->isTest(true);
+                $fileImage->setSaveName( $strDate.DS.$fileImage->getFilename());
                 $fileImage->setUploadInfo($arrInfo);
 
             } else {
@@ -209,7 +246,15 @@ class AssetController extends AdminBaseController
              */
 
             if (!$fileImage->validate(['size' => $intUploadMaxFileSize * 1024, 'ext' => $arrAllowedExts])->check()) {
-                die ('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "' . $fileImage->getError() . '"}, "id" : "' . $strId . '"}');
+                $erorr =  $fileImage->getError();
+                unset($fileImage);
+                unlink($savename);
+                $arrResponse = [];
+                $arrResponse["jsonrpc"]    = '2.0';
+                $arrResponse["error"]      = '"code": 101, "message": "' . $erorr. '"';
+                $arrResponse["id"]    = $strId;
+                die(json_encode($arrResponse));
+
             }
 
             //  $url=$first['url'];
@@ -225,22 +270,27 @@ class AssetController extends AdminBaseController
                 // $url= $url.$qiniuSetting['style_separator'].$qiniuSetting['styles']['watermark'];
             } else {
 
-                $info = $fileImage->move($strSaveFilePath);//开始上传
+                //$info = $fileImage->move($strSaveFilePath);//开始上传
 
-                if (!$info) {
-                    die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "' . $fileImage->getError() . '"}, "id" : "' . $strId . '"}');
+                if (!$fileImage) {
+                    $arrResponse = [];
+                    $arrResponse["jsonrpc"]    = '2.0';
+                    $arrResponse["error"]      = '"code": 100, "message": "' . $fileImage->getError() . '"';
+                    $arrResponse["id"]    = $strId;
+                    die(json_encode($arrResponse));
+
                 } else {
-                    $arrInfo["url"]         = $this->request->domain() . $strWebPath . $info->getSaveName();
-                    $arrInfo["SaveName"]    = $info->getSaveName();
+                    $arrInfo["url"]         = $this->request->domain() . $strWebPath . $fileImage->getSaveName();
+                    $arrInfo["SaveName"]    = $fileImage->getFilename();
                     $arrInfo["user_id"]     = $userId;
-                    $arrInfo["file_size"]   = $info->getSize();
+                    $arrInfo["file_size"]   = $fileImage->getSize();
                     $arrInfo["create_time"] = time();
-                    $arrInfo["file_md5"]    = md5_file($strSaveFilePath . $info->getSaveName());
-                    $arrInfo["file_sha1"]   = sha1_file($strSaveFilePath . $info->getSaveName());
+                    $arrInfo["file_md5"]    = md5_file($strSaveFilePath . $fileImage->getFilename());
+                    $arrInfo["file_sha1"]   = sha1_file($strSaveFilePath . $fileImage->getFilename());
                     $arrInfo["file_key"]    = $arrInfo["file_md5"] . md5($arrInfo["file_sha1"]);
-                    $arrInfo["filename"]    = $info->getInfo("name");
-                    $arrInfo["file_path"]   = $strWebPath . $info->getSaveName();
-                    $arrInfo["suffix"]      = $info->getExtension();
+                    $arrInfo["filename"]    = $fileImage->getInfo("name");
+                    $arrInfo["file_path"]   = $strWebPath . $fileImage->getSaveName();
+                    $arrInfo["suffix"]      = $fileImage->getExtension();
 
                 }
 
@@ -257,8 +307,14 @@ class AssetController extends AdminBaseController
             } else {
                 $assetModel->data($arrInfo)->allowField(true)->save();
             }
+            $arrResponse = [];
+            $arrResponse["jsonrpc"]    = '2.0';
+            $arrResponse["result"]      = $arrInfo["url"];
+            $arrResponse["id"]    = $strId;
+            $arrResponse["name"] =  $arrInfo["filename"];
 
-            die('{"jsonrpc" : "2.0", "result" : "' . $arrInfo["url"] . '", "id" : "' . $strId . '","name":"' . $arrInfo["filename"] . '"}');
+            die(json_encode($arrResponse));
+
 
         } else {
             $arrMimeType = [];
