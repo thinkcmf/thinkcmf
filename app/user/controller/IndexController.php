@@ -1,11 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Powerless
- * Date: 17/04/01
- * Time: 11:46
- */
-
+// +----------------------------------------------------------------------
+// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: Powerless < wzxaini9@gmail.com>
+// +----------------------------------------------------------------------
 namespace app\user\controller;
 
 use cmf\controller\UserBaseController;

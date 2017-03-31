@@ -1,11 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Powerless
- * Date: 17/03/15
- * Time: 12:46
- */
-
+// +----------------------------------------------------------------------
+// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: Powerless < wzxaini9@gmail.com>
+// +----------------------------------------------------------------------
 namespace app\user\controller;
 
 use think\Validate;
