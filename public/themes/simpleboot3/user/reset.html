@@ -21,7 +21,7 @@
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane active" id="mobile">
-						<form class="js-ajax-form" action="{:url('user/login/doFindPassword')}" method="post">
+						<form class="js-ajax-form" action="{:url('user/reset/doReset')}" method="post">
 		
 							<div class="form-group">
 								<input type="text" name="mobile" placeholder="手机号" class="form-control" id="js-mobile-input">
@@ -30,7 +30,7 @@
 							<div class="form-group">
 								<div style="position: relative;">
 									<input type="text" name="mobile_code" placeholder="手机验证码" style="width:170px;" class="form-control">
-									<a class="btn btn-success js-get-mobile-code" style="width: 163px;position: absolute;top:0;right: 0;" data-wait-msg="[second]后才能再次获取" data-mobile-input="#js-mobile-input" data-url="{:url('api/mobileverify/send')}">获取手机验证码</a>
+									<a class="btn btn-success js-get-mobile-code" style="width: 163px;position: absolute;top:0;right: 0;" data-wait-msg="[second]后才能再次获取" data-mobile-input="#js-mobile-input" data-url="{:url('user/public/sendCode')}">获取手机验证码</a>
 								</div>
 							</div>
 							
@@ -58,9 +58,21 @@
 						</form>
 					</div>
 					<div class="tab-pane" id="email">
-						<form class="js-ajax-form" action="{:url('user/login/doFindPassword')}" method="post">
+						<form class="js-ajax-form" action="{:url('user/reset/doReset')}" method="post">
+
 							<div class="form-group">
-								<input type="email" id="input_email" name="email" class="form-control" placeholder="注册邮箱">
+								<input type="text" name="username" placeholder="邮箱" class="form-control">
+							</div>
+
+							<div class="form-group">
+								<div style="position: relative;">
+									<input type="text" name="code" placeholder="邮件验证码" style="width:170px;" class="form-control">
+									<a class="btn btn-success js-get-mobile-code" style="width: 163px;position: absolute;top:0;right: 0;" data-wait-msg="[second]后才能再次获取" data-mobile-input="#js-mobile-input" data-url="{:url('user/public/sendCode')}" data-init-second-left="60">获取邮箱验证码</a>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<input type="password" name="password" placeholder="密码" class="form-control">
 							</div>
 
 							<div class="form-group">

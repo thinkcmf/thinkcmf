@@ -19,8 +19,6 @@ use app\portal\model\PortalPostModel;
  */
 class AdminTagController extends AdminBaseController
 {
-
-
     /**
      * 标签管理列表
      * @return mixed

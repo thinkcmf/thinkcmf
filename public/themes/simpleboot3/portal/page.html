@@ -1,98 +1,73 @@
 <!DOCTYPE html>
-	<html>
-	<head>
-		<title>{$post_title} {$site_name} </title>
-		<meta name="keywords" content="{$post_keywords}" />
-		<meta name="description" content="{$post_excerpt}">
-		<tc_include file="Public:head" />
-		<style>
-			#article_content img{height:auto !important}
-		</style>
-	</head>
-<body class="">
-<tc_include file="Public:nav" />
+<html>
+<head>
+    <title>{$page.post_title}</title>
+    <meta name="keywords" content="{$page.post_keywords}"/>
+    <meta name="description" content="{$page.post_excerpt}">
+    <include file="public@head"/>
+    <style>
+        #article_content img {
+            height: auto !important
+        }
+    </style>
+</head>
+<body class="body-white">
+<include file="public@nav"/>
 <div class="container tc-main">
-	<div class="row">
-		<div class="col-md-9">
-			
-			<div class="tc-box first-box article-box">
-		    	<h2>{$post_title}</h2>
-		    	<hr>
-		    	<div id="article_content">
-		    	{$post_content}
-		    	</div>
-		    	
-		    	{:hook('comment',array(
-		    		'post_id'=>$id,
-		    		'post_table'=>'posts',
-		    		'post_title'=>$post_title
-		    	))}
-		    </div>
-		    
-		</div>
-		<div class="col-md-3">
-			<div class="tc-box first-box">
-				<div class="headtitle">
-	          		<h2>分享</h2>
-	          	</div>
-	          	<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a></div>
-<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"32"},"share":{},"image":{"viewList":["weixin","tsina","qzone","tqq","renren"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","tsina","qzone","tqq","renren"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
-        	</div>
-        	
-        	<div class="tc-box">
-	        	<div class="headtitle">
-	        		<h2>热门文章</h2>
-	        	</div>
-	        	<div class="ranking">
-	        		<php>
-						$hot_articles=sp_sql_posts("cid:$portal_index_lastnews;field:post_title,post_excerpt,object_id,term_id,smeta;order:post_hits desc;limit:5;"); 
-					</php>
-		        	<ul class="unstyled">
-		        		<foreach name="hot_articles" item="vo">
-		        			<php>$top=$key<3?"top3":"";</php>
-							<li class="{$top}"><i>{$key+1}</i><a title="{$vo.post_title}" href="{:leuu('article/index',array('id'=>$vo['object_id'],'cid'=>$vo['term_id']))}">{$vo.post_title}</a></li>
-						</foreach>
-					</ul>
-				</div>
-			</div>
-			
-			<php>$ad=sp_getad("portal_page_right_aside");</php>
-			<if condition="!empty($ad)">
-        	<div class="tc-box">
-	        	<div class="headtitle">
-	        		<h2>赞助商</h2>
-	        	</div>
-	        	<div>
-		        	{$ad}
-		        </div>
-			</div>
-			</if>
-			
-			<div class="tc-box">
-	        	<div class="headtitle">
-	        		<h2>最新评论</h2>
-	        	</div>
-	        	<div class="comment-ranking">
-	        		<php>$last_comments=sp_get_comments("field:*;limit:0,5;order:createtime desc;");</php>
-	        		<foreach name="last_comments" item="vo">
-	                    <div class="comment-ranking-inner">
-	                        <i class="fa fa-comment"></i>
-	                        <a href="{:U('user/index/index',array('id'=>$vo['uid']))}">{$vo.full_name}:</a>
-	                        <span>{$vo.content}</span>
-	                        <a href="__ROOT__/{$vo.url}#comment{$vo.id}">查看原文</a>
-	                        <span class="comment-time">{:date('m月d日  H:i',strtotime($vo['createtime']))}</span>
-	                    </div>
-                    </foreach>
+    <div class="row">
+        <div class="col-md-9">
+
+            <div class="tc-box first-box article-box">
+                <h2>{$page.post_title|default=''}</h2>
+                <hr>
+                <div id="article_content">
+                    {$page.post_content|default=''}
                 </div>
-			</div>
-        	
-		</div>
-		
-	</div>
-              
-<tc_include file="Public:footer"/>
+
+                <php>
+                    $comment_hook_param=[
+                    'post_id'=>$page['id'],
+                    'post_table'=>'portal_post',
+                    'post_title'=>$page['post_title']
+                    ];
+                </php>
+
+                {:hook('comment',$comment_hook_param)}
+            </div>
+
+        </div>
+        <div class="col-md-3">
+            <div class="tc-box first-box">
+                <div class="headtitle">
+                    <h2>热门文章</h2>
+                </div>
+                <div class="ranking">
+                    <php>
+                        $hot_articles=[];
+                    </php>
+                    <ul class="list-unstyled">
+                        <articles limit="5" order="post.post_hits DESC">
+                            <php>$top=$key<3?"top3":"";</php>
+                            <li class="{$top}">
+                                <i>{$key+1}</i>
+                                <a title="{$vo.post_title}"
+                                   href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$vo.category_id))}">
+                                    {$vo.post_title}
+                                </a>
+                            </li>
+                        </articles>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <include file="public@footer"/>
 </div>
 
-<tc_include file="Public:scripts"/>
+<include file="public@scripts"/>
 </body>
 </html>

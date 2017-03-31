@@ -6,7 +6,7 @@
 			<li class="active"><a href="{:url('AdminTag/index')}">标签管理</a></li>
 			<li><a href="{:url('AdminTag/add')}">添加标签</a></li>
 		</ul>
-		<form method="post" class="js-ajax-form" action="{:url('AdminTag/listorders')}">
+		<form method="post" class="js-ajax-form margin-top-20">
 			<div class="table-actions">
 				<!--<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>-->
 			</div>
@@ -16,7 +16,6 @@
 						<th width="50">ID</th>
 						<th>标签名称</th>
 						<th>状态</th>
-						<th>使用次数</th>
 						<th width="160">操作</th>
 					</tr>
 				</thead>
@@ -26,7 +25,6 @@
 							<td>{$vo.id}</td>
 							<td>{$vo.name}</td>
 							<td>{$arrStatus[$vo['status']]}</td>
-							<td>{$vo.post_count}</td>
 							<td>
 								<if ($vo['status']==1)>
 								<a class="js-ajax-dialog-btn"  href="{:url('AdminTag/upStatus',['id'=>$vo['id'],'status'=>0])}">禁用</a> |
@@ -43,7 +41,6 @@
 					<th width="50">ID</th>
 					<th>标签名称</th>
 					<th>状态</th>
-					<th>使用次数</th>
 					<th width="160">操作</th>
 				</tr>
 				</tfoot>
