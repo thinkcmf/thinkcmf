@@ -32,7 +32,7 @@ class CategoryApi
     {
         $portalCategoryModel = new PortalCategoryModel();
 
-        $where = [];
+        $where = ['delete_time' => 0];
 
         $categories = $portalCategoryModel->where($where)->select();
 
