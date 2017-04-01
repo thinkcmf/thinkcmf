@@ -119,7 +119,7 @@ function cmf_get_user_avatar_url($avatar)
 {
 
     //TODO FIX
-    if ($avatar) {
+    if (!empty($avatar)) {
         if (strpos($avatar, "http") === 0) {
             return $avatar;
         } else {
