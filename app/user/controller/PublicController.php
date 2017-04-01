@@ -1,4 +1,11 @@
 <?php
+// +----------------------------------------------------------------------
+// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: Powerless < wzxaini9@gmail.com>
+// +----------------------------------------------------------------------
 namespace app\user\controller;
 
 use cmf\controller\HomeBaseController;
@@ -70,7 +77,9 @@ class PublicController extends HomeBaseController
 
     }
 
-
+    /**
+     * 验证码发送
+     */
     public function sendCode()
     {
         if ($this->request->isPost()) {
@@ -83,12 +92,10 @@ class PublicController extends HomeBaseController
             $code = rand(100000,999999);
             if ($validate::is($data['username'], 'email')) {
 
-                //TODO 实现邮箱验证码发送
                 cmf_verification_code_log($data['username'],$code);
 
             } else if (preg_match('/(^(13\d|15[^4\D]|17[13678]|18\d)\d{8}|170[^346\D]\d{7})$/', $data['username'])) {
 
-                //TODO 实现手机验证码发送
                 cmf_verification_code_log($data['username'],$code);
             }
             $this->success("验证码已经发送成功!");

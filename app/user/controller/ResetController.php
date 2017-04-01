@@ -1,4 +1,11 @@
 <?php
+// +----------------------------------------------------------------------
+// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: Powerless < wzxaini9@gmail.com>
+// +----------------------------------------------------------------------
 namespace app\user\controller;
 
 use cmf\controller\HomeBaseController;
@@ -8,13 +15,17 @@ use app\user\model\UserModel;
 class ResetController extends HomeBaseController
 {
 
-    // 前台用户忘记密码
+    /**
+     * 前台用户忘记密码
+     */
     public function index()
     {
         return $this->fetch(":reset");
     }
 
-    // 前台用户忘记密码提交
+    /**
+     * 前台用户忘记密码提交
+     */
     public function doReset()
     {
         if ($this->request->isPost()) {

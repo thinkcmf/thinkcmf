@@ -1824,20 +1824,20 @@ function cmf_is_serialized($str)
     return ($str == serialize(false) || @unserialize($str) !== false);
 }
 
-
 /**
  * 获取当前登录前台用户id
  * @return int
  */
 function cmf_get_current_userid()
 {
-
-    if (!empty(session('user'))) {
-        return session('user.id');
+    $sessionUserId = session('user.id');
+    if (!empty($sessionUserId)) {
+        return $sessionUserId;
     } else {
         return 0;
     }
 }
+
 
 /**
  * 判断是否SSL协议
@@ -1881,4 +1881,36 @@ function cmf_get_cmf_settings($key=""){
         }
     }
     return $cmfSettings;
+}
+
+/**
+ * 判读是否sae环境
+ * @return bool
+ */
+function cmf_is_sae(){
+    if(function_exists('saeAutoLoader')){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+/**
+ * 文件写入
+ * @todo sae环境还没有测试，你们如果有人有机会测试，测试完了帮忙删掉todo
+ * @param $file
+ * @param $content
+ * @return bool|int
+ */
+function cmf_file_write($file,$content){
+
+    if(cmf_is_sae()){
+        $s=new SaeStorage();
+        $arr=explode('/',ltrim($file,'./'));
+        $domain=array_shift($arr);
+        $save_path=implode('/',$arr);
+        return $s->write($domain,$save_path,$content);
+    }else{
+        return file_put_contents($file, $content);
+    }
 }
