@@ -8,7 +8,9 @@
 // +----------------------------------------------------------------------
 namespace app\user\controller;
 
+use think\Validate;
 use cmf\controller\UserBaseController;
+use app\user\model\UserModel;
 
 class ProfileController extends UserBaseController
 {
@@ -18,38 +20,38 @@ class ProfileController extends UserBaseController
         parent::_initialize();
     }
 
+    // 会员中心首页
+    public function center()
+    {
+        $this->assign(cmf_get_current_user());
+        return $this->fetch();
+    }
     // 编辑用户资料
     public function edit()
     {
-        $this->assign($this->user);
-        $this->display();
+        $this->assign(cmf_get_current_user());
+        return $this->fetch();
     }
 
     // 编辑用户资料提交
     public function edit_post()
     {
-        if (IS_POST) {
-            $_POST['id'] = $this->userid;
-            if ($this->users_model->field('id,user_nicename,sex,birthday,user_url,signature')->create() !== false) {
-                if ($this->users_model->save() !== false) {
-                    $this->user = $this->users_model->find($this->userid);
-                    sp_update_current_user($this->user);
-                    $this->success("保存成功！", U("user/profile/edit"));
-                } else {
-                    $this->error("保存失败！");
-                }
-            } else {
-                $this->error($this->users_model->getError());
-            }
+        $data      = $this->request->post();
+        $editData = new UserModel();
+        if($editData->editData($data)){
+            $this->success("保存成功！", url("profile/center"));
+        }else{
+            $this->error("修改失败！");
         }
+
 
     }
 
     // 个人中心修改密码
     public function password()
     {
-        $this->assign($this->user);
-        $this->display();
+        $this->assign(cmf_get_current_user());
+        return $this->fetch();
     }
 
     // 个人中心修改密码提交
@@ -104,14 +106,14 @@ class ProfileController extends UserBaseController
             $new_oauths[strtolower($oa['from'])] = $oa;
         }
         $this->assign("oauths", $new_oauths);
-        $this->display();
+        return $this->fetch();
     }
 
     // 用户头像编辑
     public function avatar()
     {
-        $this->assign($this->user);
-        $this->display();
+        $this->assign(cmf_get_current_user());
+        return $this->fetch();
     }
 
     // 用户头像上传
