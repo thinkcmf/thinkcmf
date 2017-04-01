@@ -8,15 +8,15 @@
 		</ul>
 		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Admin/mailer/indexPost')}">
 			<div class="form-group">
-				<label for="input-sender" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('SENDER_NAME')}</label>
+				<label for="input-from_name" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('SENDER_NAME')}</label>
 				<div class="col-md-6 col-sm-10">
-					<input type="text" class="form-control" id="input-sender" name="from" value="{$from|default=''}">
+					<input type="text" class="form-control" id="input-from_name" name="from_name" value="{$from_name|default=''}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="input-from_name" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('SENDER_EMAIL_ADDRESS')}</label>
+				<label for="input-from" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('SENDER_EMAIL_ADDRESS')}</label>
 				<div class="col-md-6 col-sm-10">
-					<input type="text" class="form-control" id="input-from_name" name="from_name" value="{$from_name|default=''}">
+					<input type="text" class="form-control" id="input-from" name="from" value="{$from|default=''}">
 				</div>
 			</div>
 			<div class="form-group">

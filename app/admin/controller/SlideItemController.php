@@ -7,13 +7,12 @@
 // | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
-
-use app\admin\model\SlideModel;
+use think\Db;
 use cmf\controller\AdminBaseController;
 
-class SlideController extends AdminBaseController
+class SlideItemController extends AdminBaseController
 {
-    //幻灯片列表
+    /**幻灯片列表**/
     public function index()
     {
         $slidePostModel = new SlideModel();
@@ -21,26 +20,27 @@ class SlideController extends AdminBaseController
         $this->assign('list', $list);
         return $this->fetch();
     }
-
-    //  幻灯片
+    /**幻灯片添加**/
     public function add()
     {
+        $categories = Db::name('slide')->where('status',1)->select();
+        $this->assign('categories',$categories);
         return $this->fetch();
     }
 
-    //幻灯片提交
+    /**幻灯片分类提交**/
     public function addPost()
     {
         $data           = $this->request->param();
-        $slidePostModel = new SlideModel();
-        $result         = $slidePostModel->validate(true)->save($data);
-        if ($result === false) {
-            $this->error($slidePostModel->getError());
+        $result = Db::name('slideItem')->insert($data['post']);
+        if ($result) {
+            $this->success("添加成功！", url("slideItem/index"));
+        }else{
+            $this->error("添加失败！", url("slideItem/add"));
         }
-        $this->success("添加成功！", url("slide/index"));
     }
 
-    //编辑
+    /**分类编辑**/
     public function edit()
     {
         $id             = $this->request->param('id');
@@ -50,7 +50,7 @@ class SlideController extends AdminBaseController
         return $this->fetch();
     }
 
-    //编辑提交
+    /**分类编辑提交**/
     public function editPost()
     {
         $data           = $this->request->param();
@@ -62,7 +62,7 @@ class SlideController extends AdminBaseController
         $this->success("修改成功！", url("slide/index"));
     }
 
-    //删除幻灯片
+    /**删除幻灯片**/
     public function delete()
     {
         $id             = $this->request->param();
