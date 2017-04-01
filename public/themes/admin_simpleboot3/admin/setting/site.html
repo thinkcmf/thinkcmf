@@ -5,8 +5,8 @@
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#A" data-toggle="tab">{:lang('WEB_SITE_INFOS')}</a></li>
 			<li><a href="#B" data-toggle="tab">{:lang('SEO_SETTING')}</a></li>
-			<li><a href="#C" data-toggle="tab">{:lang('URL_SETTING')}</a></li>
-			<li><a href="#E" data-toggle="tab">{:lang('COMMENT_SETTING')}</a></li>
+			<!--<li><a href="#C" data-toggle="tab">{:lang('URL_SETTING')}</a></li>-->
+			<!--<li><a href="#E" data-toggle="tab">{:lang('COMMENT_SETTING')}</a></li>-->
 			<li><a href="#F" data-toggle="tab">{:lang("USERNAME_FILTER")}</a></li>
 			<li><a href="#G" data-toggle="tab">CDN设置</a></li>
 		</ul>
@@ -21,6 +21,7 @@
 									<input type="text" class="form-control" id="input-site-name" name="options[site_name]" value="{$site_name|default=''}">
 								</div>
 							</div>
+							<!--
 							<div class="form-group">
 								<label for="input-admin_url_password" class="col-sm-2 control-label">后台地址加密码</label>
 								<div class="col-md-6 col-sm-10">
@@ -32,6 +33,7 @@
 									</if>
 								</div>
 							</div>
+							-->
 							<!--
 							<div class="form-group">
 								<label for="input-site_tpl" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('WEBSITE_THEME')}</label>
@@ -54,6 +56,7 @@
 								</div>
 							</div>
 							-->
+							<!--
 							<div class="form-group">
 								<label for="input-site_adminstyle" class="col-sm-2 control-label">{:lang('WEBSITE_ADMIN_THEME')}</label>
 								<div class="col-md-6 col-sm-10">
@@ -66,6 +69,8 @@
 									</select>
 								</div>
 							</div>
+							-->
+							<!--
 							<div class="form-group">
 								<label for="input-html_cache_on" class="col-sm-2 control-label">{:lang('HTML_CACHE')}</label>
 								<div class="col-md-6 col-sm-10">
@@ -75,6 +80,7 @@
 									</div>
 								</div>
 							</div>
+							-->
 							<div class="form-group">
 								<label for="input-site_icp" class="col-sm-2 control-label">{:lang('WEBSITE_ICP')}</label>
 								<div class="col-md-6 col-sm-10">
@@ -124,11 +130,11 @@
 							<div class="form-group">
 								<label for="input-urlmode" class="col-sm-2 control-label">{:lang('URL_MODE')}</label>
 								<div class="col-md-6 col-sm-10">
-									<php>$urlmodes=array( "0"=>lang('URL_NORMAL_MODE'), "1"=>lang('URL_PATHINFO_MODE'), "2"=>lang('URL_REWRITE_MODE'));</php>
+									<php>$url_modes=array( "1"=>lang('URL_PATHINFO_MODE'), "2"=>lang('URL_REWRITE_MODE'));</php>
 									<select class="form-control" name="options[urlmode]" id="input-urlmode">
-										<foreach name="urlmodes" item="vo">
-										<php>$urlmode_selected=isset($urlmode)&&$key==$urlmode?"selected":"";</php>
-										<option value="{$key}" {$urlmode_selected}>{$vo}</option>
+										<foreach name="url_modes" item="vo">
+										<php>$url_mode_selected=isset($urlmode)&&$key==$urlmode?"selected":"";</php>
+										<option value="{$key}" {$url_mode_selected}>{$vo}</option>
 										</foreach>
 									</select>
 								</div>
@@ -137,10 +143,10 @@
 								<label for="input-html_suffix" class="col-sm-2 control-label">{:lang('URL_REWRITE_SUFFIX')}</label>
 								<div class="col-md-6 col-sm-10">
 									<input type="text" class="form-control" id="input-html_suffix" name="options[html_suffix]" value="{$html_suffix|default=''}">
-									<p class="help-block">{:lang('URL_REWRITE_SUFFIX_HELP_TEXT')}</p>
 								</div>
 							</div>
 						</div>
+						<!--
 						<div class="tab-pane" id="E">
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{:lang('COMMENT_CHECK')}</label>
@@ -159,6 +165,7 @@
 								</div>
 							</div>
 						</div>
+						-->
 						<div class="tab-pane" id="F">
 							<div class="form-group">
 								<label for="input-banned_usernames" class="col-sm-2 control-label">{:lang('SPECAIL_USERNAME')}</label>
@@ -175,10 +182,11 @@
 									<p class="help-block">
 										不能以/结尾；设置这个地址后，请将ThinkCMF下的静态资源文件放在其下面；<br>
 										ThinkCMF下的静态资源文件大致包含以下(如果你自定义后，请自行增加)：<br>
-										admin/themes/simplebootx/Public/assets<br>
-										public<br>
-										themes/simplebootx/Public/assets<br>
-										例如未设置cdn前：jquery的访问地址是/public/js/jquery.js, 设置cdn是后它的访问地址就是：静态资源cdn地址+/public/js/jquery.js
+										themes/admin_simplebootx/public/assets<br>
+										static<br>
+										themes/simplebootx/public/assets<br>
+										例如未设置cdn前：jquery的访问地址是/static/js/jquery.js, <br>
+										设置cdn是后它的访问地址就是：静态资源cdn地址/static/js/jquery.js
 									</p>
 								</div>
 							</div>

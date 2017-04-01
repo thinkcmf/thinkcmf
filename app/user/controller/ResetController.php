@@ -12,33 +12,21 @@ use cmf\controller\HomeBaseController;
 use think\Validate;
 use app\user\model\UserModel;
 
-class RegisterController extends HomeBaseController
+class ResetController extends HomeBaseController
 {
 
     /**
-     * 前台用户注册
+     * 前台用户忘记密码
      */
     public function index()
     {
-        $redirect = $this->request->param("redirect");
-        if (empty($redirect)) {
-            $redirect = $this->request->server('HTTP_REFERER');
-        } else {
-            $redirect = base64_decode($redirect);
-        }
-        session('login_http_referer', $redirect);
-
-        if (cmf_is_user_login()) {
-            return redirect($this->request->root().'/');
-        } else {
-            return $this->fetch(":register");
-        }
+        return $this->fetch(":reset");
     }
 
     /**
-     * 前台用户注册提交
+     * 前台用户忘记密码提交
      */
-    public function doRegister()
+    public function doReset()
     {
         if ($this->request->isPost()) {
             $validate = new Validate([
@@ -70,21 +58,19 @@ class RegisterController extends HomeBaseController
             $user['user_pass']   = $data['password'];
             if ($validate::is($data['username'], 'email')) {
                 $user['user_email'] = $data['username'];
-                $log = $register->registerEmail($user);
+                $log = $register->resetEmail($user);
             } else if (preg_match('/(^(13\d|15[^4\D]|17[13678]|18\d)\d{8}|170[^346\D]\d{7})$/', $data['username'])) {
                 $user['mobile'] = $data['username'];
-                $log = $register->registerMobile($user);
+                $log = $register->resetMobile($user);
             } else {
                 $log = 2;
             }
-            $session_login_http_referer = session('login_http_referer');
-            $redirect                   = empty($session_login_http_referer) ? $this->request->root() : $session_login_http_referer;
             switch ($log){
                 case 0:
-                    $this->success('注册成功',$redirect);
+                    $this->success('密码重置成功',$this->request->root());
                     break;
                 case 1:
-                    $this->error("您的账户已注册过");
+                    $this->error("您的账户尚未注册");
                     break;
                 case 2:
                     $this->error("您输入的账号格式错误");

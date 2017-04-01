@@ -9,7 +9,7 @@ class PortalPostModel extends Model
 
     public function user()
     {
-        return $this->belongsTo('app\user\model\UserModel', 'user_id')->setEagerlyType(0);
+        return $this->belongsTo('UserModel', 'user_id')->setEagerlyType(0);
     }
 
     public function categories()
@@ -71,19 +71,24 @@ class PortalPostModel extends Model
 
     }
 
-    public function adminEditPage($categories, $data)
+    /**
+     * @todo 里面的代码是我注释的，个人理解应该时不需要的，测试人员测试后可以删除注释代码和本todo
+     * @param $data
+     * @return $this
+     */
+    public function adminEditPage( $data)
     {
         $data['user_id']   = cmf_get_current_admin_id();
         $data['post_type'] = 2;
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
 
-        if (is_string($categories)) {
-            $categories = explode(',', $categories);
-        }
-
-        $this->categories()->detach();
-
-        $this->categories()->save($categories);
+//        if (is_string($categories)) {
+//            $categories = explode(',', $categories);
+//        }
+//
+//        $this->categories()->detach();
+//
+//        $this->categories()->save($categories);
 
         return $this;
     }

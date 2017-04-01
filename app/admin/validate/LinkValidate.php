@@ -4,24 +4,22 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: Powerless < wzxaini9@gmail.com>
+// | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
-namespace app\user\controller;
+namespace app\admin\validate;
 
-use cmf\controller\UserBaseController;
+use think\Validate;
 
-class CenterController extends UserBaseController
+class LinkValidate extends Validate
 {
+    protected $rule = [
+        'name' => 'require',
+        'url'  => 'require',
+    ];
 
-    public function _initialize()
-    {
-        parent::_initialize();
-    }
+    protected $message = [
+        'name.require' => '名称不能为空',
+        'url.require'  => '链接地址不能为',
+    ];
 
-    // 会员中心首页
-    public function index()
-    {
-        $this->assign(session('user'));
-        return $this->fetch(':center');
-    }
 }

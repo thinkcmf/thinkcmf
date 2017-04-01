@@ -93,4 +93,22 @@ class PostService
         return $article;
     }
 
+    public function publishedPage($pageId)
+    {
+
+        $where = [
+            'post_type'      => 2,
+            'published_time' => [['< time', time()], ['> time', 0]],
+            'post_status'    => ['eq', 1],
+            'id'             => $pageId
+        ];
+
+        $portalPostModel = new PortalPostModel();
+        $page            = $portalPostModel
+            ->where($where)
+            ->find();
+
+        return $page;
+    }
+
 }

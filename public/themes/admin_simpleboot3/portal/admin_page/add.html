@@ -23,10 +23,10 @@
 								$tpl_list=[];
 								unset($tpl_list['page']);
 							</php>
-							<select class="form-control"  style="width: 400px;" name="smeta[template]">
+							<select class="form-control"  style="width: 400px;" name="more[template]">
 								<option value="page">page.html</option>
 								<foreach name="tpl_list" item="vo">
-									<php>$template_selected=$smeta['template']==$vo?"selected":"";</php>
+									<php>$template_selected=$more['template']==$vo?"selected":"";</php>
 									<option value="{$vo}"{$template_selected}>{$vo}.html</option>
 								</foreach>
 							</select>
@@ -61,7 +61,7 @@
 					<tr>
 						<td>
 							<div style="text-align: center;">
-								<input type='hidden' name='smeta[thumb]' id='thumb' value="{$smeta.thumb|default=''}">
+								<input type='hidden' name='more[thumb]' id='thumb' value="{$more.thumb|default=''}">
 								<a href="javascript:upload_one_image('图片上传','#thumb');">
 									<img src="__TMPL__/public/assets/images/default-thumbnail.png" id='thumb-preview' width='135' height='113' style='cursor: hand' />
 								</a>

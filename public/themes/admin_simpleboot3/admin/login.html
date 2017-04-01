@@ -42,6 +42,12 @@
 						<input class="input" id="admin_pwd" type="password" name="password" placeholder="{:lang('PASSWORD')}" title="{:lang('PASSWORD')}" data-rule-required="true"  data-msg-required=""/>
 					</li>
 
+					<li class="verifycode-wrapper">
+						<captcha height="42" width="248" font-size="20" length="4"/>
+					</li>
+					<li>
+						<input class="input" type="text" name="captcha" placeholder="{:lang('ENTER_VERIFY_CODE')}" />
+					</li>
 				</ul>
 				<div id="login_btn_wraper">
 					<button type="submit" name="submit" class="btn js-ajax-submit" data-loadingmsg="{:lang('LOADING')}">{:lang('LOGIN')}</button>
