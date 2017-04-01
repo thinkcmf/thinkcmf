@@ -98,34 +98,29 @@ class SettingController extends AdminBaseController
         if ($this->request->isPost()) {
 
             $data = $this->request->param();
-            if (empty($data['oldPassword'])) {
+            if (empty($data['old_password'])) {
                 $this->error("原始密码不能为空！");
             }
             if (empty($data['password'])) {
                 $this->error("新密码不能为空！");
             }
-            $user_obj = Db::name('Users');
-            $uid      = 1;//TODO
 
-            $admin = $user_obj->where(["id" => $uid])->find();
+            $userId = cmf_get_current_admin_id();
 
-            $oldPassword = input('post.oldPassword');
-            $password    = input('post.password');
+            $admin = Db::name('user')->where(["id" => $userId])->find();
+
+            $oldPassword = $data['old_password'];
+            $password    = $data['password'];
+            $rePassword  = $data['re_password'];
 
             if (cmf_compare_password($oldPassword, $admin['user_pass'])) {
-                if ($password == input('post.rePassword')) {
+                if ($password == $rePassword) {
 
                     if (cmf_compare_password($password, $admin['user_pass'])) {
                         $this->error("新密码不能和原始密码相同！");
                     } else {
-                        $data['user_pass'] = cmf_password($password);
-                        $data['id']        = $uid;
-                        $r                 = $user_obj->update($data);
-                        if ($r !== false) {
-                            $this->success("修改成功！");
-                        } else {
-                            $this->error("修改失败！");
-                        }
+                        Db::name('user')->where('id', $userId)->update(['user_pass' => cmf_password($password)]);
+                        $this->success("修改成功！");
                     }
                 } else {
                     $this->error("密码输入不一致！");
