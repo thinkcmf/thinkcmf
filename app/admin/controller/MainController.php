@@ -14,7 +14,6 @@ use app\admin\model\Menu;
 
 class MainController extends AdminBaseController
 {
-    protected $menuDb;
 
     public function _initialize()
     {
