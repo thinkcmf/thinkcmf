@@ -7,9 +7,13 @@ use tree\Tree;
 class PortalCategoryModel extends Model
 {
 
-    public function adminCategoryTree($currentCid=0)
+    public function adminCategoryTree($currentCid = 0)
     {
-        $categories = $this->order("list_order ASC")->select()->toArray();
+        $where      = ['delete_time' => 0];
+        if(!empty($currentCid)){
+            $where['id']=['neq',$currentCid];
+        }
+        $categories = $this->order("list_order ASC")->where($where)->select()->toArray();
 
         $tree       = new Tree();
         $tree->icon = ['&nbsp;&nbsp;│', '&nbsp;&nbsp;├─', '&nbsp;&nbsp;└─'];

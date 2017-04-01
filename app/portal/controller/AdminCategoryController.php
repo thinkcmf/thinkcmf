@@ -63,7 +63,11 @@ class AdminCategoryController extends AdminBaseController
         if ($id > 0) {
             $category = PortalCategoryModel::get($id)->toArray();
             $this->assign($category);
-            $this->assign('categories_tree', '');
+
+            $portalCategoryModel = new PortalCategoryModel();
+            $categoriesTree      = $portalCategoryModel->adminCategoryTree($id);
+
+            $this->assign('categories_tree', $categoriesTree);
             return $this->fetch();
         } else {
             $this->error('操作错误!');
