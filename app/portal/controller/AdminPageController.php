@@ -47,7 +47,8 @@ class AdminPageController extends AdminBaseController
 
         $data = $this->request->param();
 
-        $portalPostModel = new PortalPostModel();
+        $portalPostModel         = new PortalPostModel();
+        $data['post']['more']    = json_encode($data['more']);
 
         $portalPostModel->adminAddPage($data['post']);
 
@@ -63,7 +64,9 @@ class AdminPageController extends AdminBaseController
 
         $portalPostModel = new PortalPostModel();
         $post            = $portalPostModel->where('id', $id)->find();
+        $more            = json_decode($post['more'],true);
 
+        $this->assign('more', $more);
         $this->assign('post', $post);
 
         return $this->fetch();
@@ -77,7 +80,10 @@ class AdminPageController extends AdminBaseController
 
         $portalPostModel = new PortalPostModel();
 
-        $portalPostModel->adminEditPost($data['post']);
+
+        $data['post']['more']    = json_encode($data['more']);
+
+        $portalPostModel->adminEditPage($data['post']);
 
         $this->success(lang('SAVE_SUCCESS'));
 
@@ -85,6 +91,7 @@ class AdminPageController extends AdminBaseController
 
 
     /**
+     * @todo db操作不应该放模型里面更好么？
      * 页面管理删除方法
      * @copyright [copyright]
      * @license   [license]

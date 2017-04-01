@@ -25,10 +25,10 @@
 									$tpl_list=[];
 									unset($tpl_list['page']);
 								</php>
-								<select class="form-control"  style="width: 400px;" name="smeta[template]">
+								<select class="form-control"  style="width: 400px;" name="more[template]">
 									<option value="page">page.html</option>
 									<foreach name="tpl_list" item="vo">
-										<php>$template_selected=$smeta['template']==$vo?"selected":"";</php>
+										<php>$template_selected=$more['template']==$vo?"selected":"";</php>
 										<option value="{$vo}"{$template_selected}>{$vo}.html</option>
 									</foreach>
 								</select>
@@ -63,12 +63,12 @@
 						<tr>
 							<td>
 								<div style="text-align: center;">
-									<input type='hidden' name='smeta[thumb]' id='thumb' value="{$smeta.thumb|default=''}">
+									<input type='hidden' name='more[thumb]' id='thumb' value="{$more.thumb|default=''}">
 									<a href="javascript:upload_one_image('图片上传','#thumb');">
-										<if condition="empty($smeta['thumb'])">
+										<if condition="empty($more['thumb'])">
 											<img src="__TMPL__Public/assets/images/default-thumbnail.png" id='thumb-preview' width='135' height='113' style='cursor: hand' />
 										<else />
-											<img src="{:sp_get_image_preview_url($smeta['thumb'])}" id='thumb-preview' width='135' height='113' style='cursor: hand' />
+											<img src="{:cmf_get_image_preview_url($more['thumb'])}" id='thumb-preview' width='135' height='113' style='cursor: hand' />
 										</if>
 									</a>
 									<input type="button" class="btn btn-sm" onclick="$('#thumb-preview').attr('src','__TMPL__Public/assets/images/default-thumbnail.png');$('#thumb').val('');return false;" value="取消图片">
