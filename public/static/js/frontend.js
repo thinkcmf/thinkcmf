@@ -557,7 +557,7 @@
     				url:url,
     				type:'POST',
     				dataType:'json',
-    				data:{mobile:mobile},
+    				data:{username:mobile},
     				success:function(data){
     					if(data.code==1){
     						noty({text: data.msg,

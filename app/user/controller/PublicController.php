@@ -10,6 +10,7 @@ namespace app\user\controller;
 
 use cmf\controller\HomeBaseController;
 use app\user\model\UserModel;
+use think\Validate;
 
 class PublicController extends HomeBaseController
 {
@@ -45,7 +46,7 @@ class PublicController extends HomeBaseController
             }
             $validate = new Validate();
             $code     = rand(100000, 999999);
-            if ($validate::is($data['username'], 'email')) {
+            if ($validate->check($data['username'], ['email'])) {
 
                 cmf_verification_code_log($data['username'], $code);
 
