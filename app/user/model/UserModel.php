@@ -8,14 +8,15 @@
 namespace app\user\model;
 
 use think\Db;
+use think\Model;
 
-class UserModel
+class UserModel extends Model
 {
     public function doMobile($user)
     {
         $userQuery = Db::name("user");
 
-        $result = $userQuery->where('mobile',$user['mobile'])->find();
+        $result = $userQuery->where('mobile', $user['mobile'])->find();
 
         if (!empty($result)) {
             if (cmf_compare_password($user['user_pass'], $result['user_pass'])) {
@@ -24,7 +25,7 @@ class UserModel
                     'last_login_time' => time(),
                     'last_login_ip'   => get_client_ip(0, true),
                 ];
-                $userQuery->where('id',$result["id"])->update($data);
+                $userQuery->where('id', $result["id"])->update($data);
                 return 0;
             }
             return 1;
@@ -36,7 +37,7 @@ class UserModel
     {
         $userQuery = Db::name("user");
 
-        $result = $userQuery->where('user_login',$user['user_login'])->find();
+        $result = $userQuery->where('user_login', $user['user_login'])->find();
 
         if (!empty($result)) {
             if (cmf_compare_password($user['user_pass'], $result['user_pass'])) {
@@ -45,7 +46,7 @@ class UserModel
                     'last_login_time' => time(),
                     'last_login_ip'   => get_client_ip(0, true),
                 ];
-                $userQuery->where('id',$result["id"])->update($data);
+                $userQuery->where('id', $result["id"])->update($data);
                 return 0;
             }
             return 1;
@@ -57,14 +58,14 @@ class UserModel
     {
         $userQuery = Db::name("user");
 
-        $result = $userQuery->where('user_email',$user['user_email'])->find();
+        $result = $userQuery->where('user_email', $user['user_email'])->find();
 
         if (!empty($result)) {
             if (cmf_compare_password($user['user_pass'], $result['user_pass'])) {
                 session('user', $result);
                 $data = [
                     'last_login_time' => time(),
-                    'last_login_ip' => get_client_ip(0, true),
+                    'last_login_ip'   => get_client_ip(0, true),
                 ];
                 $userQuery->where('id', $result["id"])->update($data);
                 return 0;
@@ -77,7 +78,7 @@ class UserModel
     public function registerEmail($user)
     {
         $userQuery = Db::name("user");
-        $result = $userQuery->where('user_email',$user['user_email'])->find();
+        $result    = $userQuery->where('user_email', $user['user_email'])->find();
         if (empty($result)) {
             $data = [
                 'user_login'      => '',
@@ -100,9 +101,9 @@ class UserModel
     public function registerMobile($user)
     {
         $userQuery = Db::name("user");
-        $result = $userQuery->where('mobile',$user['mobile'])->find();
+        $result    = $userQuery->where('mobile', $user['mobile'])->find();
         if (empty($result)) {
-            $data = [
+            $data       = [
                 'user_login'      => '',
                 'user_email'      => '',
                 'mobile'          => $user['mobile'],
@@ -114,7 +115,7 @@ class UserModel
                 'user_status'     => 1,
                 "user_type"       => 2,
             ];
-            $uid = $userQuery->insertGetId($data);
+            $uid        = $userQuery->insertGetId($data);
             $data['id'] = $uid;
             session('user', $data);
             return 0;
@@ -126,14 +127,14 @@ class UserModel
     public function resetEmail($user)
     {
         $userQuery = Db::name("user");
-        $result = $userQuery->where('user_email',$user['user_email'])->find();
+        $result    = $userQuery->where('user_email', $user['user_email'])->find();
         if (!empty($result)) {
             $data = [
                 'user_pass'       => cmf_password($user['password']),
                 'last_login_ip'   => get_client_ip(0, true),
                 'last_login_time' => time(),
             ];
-            $userQuery->where('user_email',$user['user_email'])->update($data);
+            $userQuery->where('user_email', $user['user_email'])->update($data);
             return 0;
         }
         return 1;
@@ -142,14 +143,14 @@ class UserModel
     public function resetMobile($user)
     {
         $userQuery = Db::name("user");
-        $result = $userQuery->where('mobile',$user['mobile'])->find();
+        $result    = $userQuery->where('mobile', $user['mobile'])->find();
         if (!empty($result)) {
             $data = [
                 'user_pass'       => cmf_password($user['password']),
                 'last_login_ip'   => get_client_ip(0, true),
                 'last_login_time' => time(),
             ];
-            $userQuery->where('mobile',$user['mobile'])->update($data);
+            $userQuery->where('mobile', $user['mobile'])->update($data);
             return 0;
         }
         return 1;

@@ -43,6 +43,16 @@ class PublicController extends AdminBaseController
 //        if (!$login_page_showed_success) {
 //            $this->error('login error!');
 //        }
+
+        $captcha = $this->request->param('captcha');
+        if (empty($captcha)) {
+            $this->error(lang('CAPTCHA_REQUIRED'));
+        }
+        //验证码
+        if (!cmf_captcha_check($captcha)) {
+            $this->error(lang('CAPTCHA_NOT_RIGHT'));
+        }
+
         $name = $this->request->param("username");
         if (empty($name)) {
             $this->error(lang('USERNAME_OR_EMAIL_EMPTY'));
@@ -84,9 +94,11 @@ class PublicController extends AdminBaseController
             $this->error(lang('USERNAME_NOT_EXIST'));
         }
     }
+
     //登出
-    public function logout(){
-        session('ADMIN_ID',null);
+    public function logout()
+    {
+        session('ADMIN_ID', null);
         $this->redirect('admin/public/login');
     }
 }

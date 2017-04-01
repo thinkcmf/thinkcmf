@@ -118,15 +118,17 @@ function cmf_get_theme_path()
 function cmf_get_user_avatar_url($avatar)
 {
 
-    return $avatar;
     //TODO FIX
-    if ($avatar) {
+    if (!empty($avatar)) {
         if (strpos($avatar, "http") === 0) {
             return $avatar;
         } else {
             if (strpos($avatar, 'avatar/') === false) {
                 $avatar = 'avatar/' . $avatar;
             }
+
+            return cmf_get_asset_url($avatar);
+
             $url = cmf_get_asset_upload_path($avatar, false);
             if (C('FILE_UPLOAD_TYPE') == 'Qiniu') {
                 $storage_setting = cmf_get_cmf_settings('storage');
@@ -582,7 +584,8 @@ function cmf_strip_chars($str, $chars = '?<*.>\'\"')
  */
 function cmf_send_email($address, $subject, $message)
 {
-    $mail = new \PHPMailer();
+    $smtpSetting = cmf_get_option('smtp_setting');
+    $mail        = new \PHPMailer();
     // 设置PHPMailer使用SMTP服务器发送Email
     $mail->IsSMTP();
     $mail->IsHTML(true);
@@ -593,29 +596,29 @@ function cmf_send_email($address, $subject, $message)
     // 设置邮件正文
     $mail->Body = $message;
     // 设置邮件头的From字段。
-    $mail->From = C('cmf_MAIL_ADDRESS');
+    $mail->From = $smtpSetting['from'];
     // 设置发件人名字
-    $mail->FromName = C('cmf_MAIL_SENDER');;
+    $mail->FromName = $smtpSetting['from_name'];
     // 设置邮件标题
     $mail->Subject = $subject;
     // 设置SMTP服务器。
-    $mail->Host = C('cmf_MAIL_SMTP');
+    $mail->Host = $smtpSetting['host'];
     //by Rainfer
     // 设置SMTPSecure。
-    $Secure           = C('cmf_MAIL_SECURE');
+    $Secure           = $smtpSetting['smtp_secure'];
     $mail->SMTPSecure = empty($Secure) ? '' : $Secure;
     // 设置SMTP服务器端口。
-    $port       = C('cmf_MAIL_SMTP_PORT');
+    $port       = $smtpSetting['port'];
     $mail->Port = empty($port) ? "25" : $port;
     // 设置为"需要验证"
     $mail->SMTPAuth = true;
     // 设置用户名和密码。
-    $mail->Username = C('cmf_MAIL_LOGINNAME');
-    $mail->Password = C('cmf_MAIL_PASSWORD');
+    $mail->Username = $smtpSetting['username'];
+    $mail->Password = $smtpSetting['password'];
     // 发送邮件。
     if (!$mail->Send()) {
-        $mailerror = $mail->ErrorInfo;
-        return ["error" => 1, "message" => $mailerror];
+        $mailError = $mail->ErrorInfo;
+        return ["error" => 1, "message" => $mailError];
     } else {
         return ["error" => 0, "message" => "success"];
     }
@@ -635,6 +638,8 @@ function cmf_get_asset_url($file, $style = '')
     } else if (strpos($file, "/") === 0) {
         return $file;
     } else {
+        return request()->root() . '/upload/' . $file;
+        //TODO 七牛处理
         $filePath = C("TMPL_PARSE_STRING.__UPLOAD__") . $file;
         if (C('FILE_UPLOAD_TYPE') == 'Local') {
             if (strpos($filePath, "http") !== 0) {
@@ -1843,7 +1848,8 @@ function cmf_get_current_userid()
  * 判断是否SSL协议
  * @return boolean
  */
-function cmf_is_ssl(){
+function cmf_is_ssl()
+{
     if (isset($_SERVER['HTTPS']) && ('1' == $_SERVER['HTTPS'] || 'on' == strtolower($_SERVER['HTTPS']))) {
         return true;
     } elseif (isset($_SERVER['SERVER_PORT']) && ('443' == $_SERVER['SERVER_PORT'])) {
@@ -1858,25 +1864,25 @@ function cmf_is_ssl(){
  * @param string $key 设置key，为空时返回所有配置信息
  * @return mixed
  */
-function cmf_get_cmf_settings($key=""){
+function cmf_get_cmf_settings($key = "")
+{
     $cmfSettings = cache("cmf_settings");
-    if(empty($cmfSettings)){
+    if (empty($cmfSettings)) {
         $objOptions = new \app\admin\model\OptionModel();
-        $objResult = $objOptions->where("option_name",'cmf_settings')->find();
-        $arrOption = $objResult?$objResult->toArray():array();
-        if($arrOption){
-            $cmfSettings = json_decode($arrOption['option_value'],true);
-        }else{
-            $cmfSettings = array();
+        $objResult  = $objOptions->where("option_name", 'cmf_settings')->find();
+        $arrOption  = $objResult ? $objResult->toArray() : [];
+        if ($arrOption) {
+            $cmfSettings = json_decode($arrOption['option_value'], true);
+        } else {
+            $cmfSettings = [];
         }
         cache("cmf_settings", $cmfSettings);
     }
 
-    if(!empty($key) ){
-        if(isset($cmfSettings[$key]))
-        {
+    if (!empty($key)) {
+        if (isset($cmfSettings[$key])) {
             return $cmfSettings[$key];
-        }else{
+        } else {
             return false;
         }
     }
@@ -1887,10 +1893,11 @@ function cmf_get_cmf_settings($key=""){
  * 判读是否sae环境
  * @return bool
  */
-function cmf_is_sae(){
-    if(function_exists('saeAutoLoader')){
+function cmf_is_sae()
+{
+    if (function_exists('saeAutoLoader')) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
@@ -1902,15 +1909,16 @@ function cmf_is_sae(){
  * @param $content
  * @return bool|int
  */
-function cmf_file_write($file,$content){
+function cmf_file_write($file, $content)
+{
 
-    if(cmf_is_sae()){
-        $s=new SaeStorage();
-        $arr=explode('/',ltrim($file,'./'));
-        $domain=array_shift($arr);
-        $save_path=implode('/',$arr);
-        return $s->write($domain,$save_path,$content);
-    }else{
+    if (cmf_is_sae()) {
+        $s         = new SaeStorage();
+        $arr       = explode('/', ltrim($file, './'));
+        $domain    = array_shift($arr);
+        $save_path = implode('/', $arr);
+        return $s->write($domain, $save_path, $content);
+    } else {
         return file_put_contents($file, $content);
     }
 }

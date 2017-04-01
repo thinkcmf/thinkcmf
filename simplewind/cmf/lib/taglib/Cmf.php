@@ -340,7 +340,7 @@ parse;
         $params   = ltrim("{$id}{$height}{$width}{$fontSize}{$length}{$bg}", '&');
         $parse    = <<<parse
 <php>\$__CAPTCHA_SRC=url('/captcha/new').'?{$params}';</php>
-<img src="{\$__CAPTCHA_SRC}" onclick="this.src='{\$__CAPTCHA_SRC}&time='+Math.random();" title="{$title}" class="captcha captcha-img" style="cursor: pointer;"/>{$content}
+<img src="{\$__CAPTCHA_SRC}" onclick="this.src='{\$__CAPTCHA_SRC}&time='+Math.random();" title="{$title}" class="captcha captcha-img verify_img" style="cursor: pointer;"/>{$content}
 parse;
         return $parse;
     }
