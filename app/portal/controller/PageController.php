@@ -2,23 +2,29 @@
 namespace app\portal\controller;
 
 use cmf\controller\HomeBaseController;
+use app\portal\service\PostService;
 
 class PageController extends HomeBaseController
 {
     public function index()
     {
-        return $this->fetch('/page');
+        $postService = new PostService();
+        $pageId      = $this->request->param('id', 0, 'intval');
+        $page        = $postService->publishedPage($pageId);
+
+        if (empty($page)) {
+            abort(404, ' 页面不存在!');
+        }
+
+        $more = json_decode($page['more'], true);
+
+        $page['more'] = $more;
+
+        $this->assign('page', $page);
+
+        $tplName = empty($more['template']) ? 'page' : $more['template'];
+
+        return $this->fetch("/$tplName");
     }
 
-    public function nav_index(){
-        $navcatname="页面";
-        $datas=cmf_sql_pages("field:id,post_title;");
-        $navrule=array(
-            "action"=>"Page/index",
-            "param"=>array(
-                "id"=>"id"
-            ),
-            "label"=>"post_title");
-        exit( json_encode(cmf_get_nav4admin($navcatname,$datas,$navrule)) );
-    }
 }

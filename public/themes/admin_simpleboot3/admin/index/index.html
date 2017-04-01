@@ -136,7 +136,7 @@
 <body style="min-width:900px;">
 <div id="loading"><i class="loadingicon"></i><span>{:lang('LOADING')}</span></div>
 <div id="right_tools_wrapper">
-    <!--<span id="right_tools_clearcache" title="清除缓存" onclick="javascript:openapp('{:url('admin/setting/clearcache')}','right_tool_clearcache','清除缓存');"><i class="fa fa-trash-o right_tool_icon"></i></span>-->
+    <!--<span id="right_tools_clearcache" title="清除缓存" onclick="javascript:openapp('{:url('admin/Setting/clearcache')}','right_tool_clearcache','清除缓存');"><i class="fa fa-trash-o right_tool_icon"></i></span>-->
     <span id="refresh_wrapper" title="{:lang('REFRESH_CURRENT_PAGE')}" ><i class="fa fa-refresh right_tool_icon"></i></span>
 </div>
 <div class="navbar navbar-default">
@@ -155,33 +155,34 @@
                 <a class="btn btn-sm btn-warning" href="__ROOT__/" title="{:lang('WEBSITE_HOME_PAGE')}" target="_blank">
                     <i class="fa fa-home"></i>
                 </a>
-
-                <if condition="cmf_auth_check(cmf_get_current_admin_id(),'portal/AdminTerm/index')">
-                    <a class="btn btn-sm btn-success" href="javascript:openapp('{:url('portal/AdminTerm/index')}','index_termlist','{:lang('PORTAL_ADMINTERM_INDEX')}');" title="{:lang('PORTAL_ADMINTERM_INDEX')}">
+                <!--
+                <if condition="cmf_auth_check(cmf_get_current_admin_id(),'portal/AdminCategory/index')">
+                    <a class="btn btn-sm btn-success" href="javascript:openapp('{:url('portal/AdminCategory/index')}','index_termlist','文章分类管理');" title="文章分类管理">
                         <i class="fa fa-th"></i>
                     </a>
                 </if>
 
-                <if condition="cmf_auth_check(cmf_get_current_admin_id(),'portal/AdminPost/index')">
-                    <a class="btn btn-sm btn-info" href="javascript:openapp('{:url('portal/AdminPost/index')}','index_postlist','{:lang('PORTAL_ADMINPOST_INDEX')}');" title="{:lang('PORTAL_ADMINPOST_INDEX')}">
+                <if condition="cmf_auth_check(cmf_get_current_admin_id(),'portal/AdminArticle/index')">
+                    <a class="btn btn-sm btn-info" href="javascript:openapp('{:url('portal/AdminArticle/index')}','index_postlist','文章管理');" title="文章管理">
                         <i class="fa fa-pencil"></i>
                     </a>
                 </if>
+                -->
 
-                <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/setting/clearcache')">
-                    <a class="btn btn-sm btn-danger" href="javascript:openapp('{:url('admin/setting/clearcache')}','index_clearcache','{:lang('ADMIN_SETTING_CLEARCACHE')}');" title="{:lang('ADMIN_SETTING_CLEARCACHE')}">
+                <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/Setting/clearcache')">
+                    <a class="btn btn-sm btn-danger" href="javascript:openapp('{:url('admin/Setting/clearcache')}','index_clearcache','{:lang('ADMIN_SETTING_CLEARCACHE')}');" title="{:lang('ADMIN_SETTING_CLEARCACHE')}">
                         <i class="fa fa-trash-o"></i>
                     </a>
                 </if>
 
-                <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/recycle/index')">
-                    <a class="btn btn-sm btn-danger" href="javascript:openapp('{:url('admin/recycle/index')}','index_recycle','回收站');" title="回收站">
+                <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/Recycle/index')">
+                    <a class="btn btn-sm btn-danger" href="javascript:openapp('{:url('admin/Recycle/index')}','index_recycle','回收站');" title="回收站">
                         <i class="fa fa-recycle"></i>
                     </a>
                 </if>
 
                 <if condition="APP_DEBUG">
-                    <a class="btn btn-sm btn-default" href="javascript:openapp('{:url('admin/menu/index')}','index_menu','{:lang('ADMIN_MENU_INDEX')}');" title="{:lang('ADMIN_MENU_INDEX')}">
+                    <a class="btn btn-sm btn-default" href="javascript:openapp('{:url('admin/Menu/index')}','index_menu','{:lang('ADMIN_MENU_INDEX')}');" title="{:lang('ADMIN_MENU_INDEX')}">
                         <i class="fa fa-list"></i>
                     </a>
                 </if>
@@ -214,13 +215,13 @@
                         <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
-                        <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/setting/site')">
+                        <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/Setting/site')">
                             <li><a href="javascript:openapp('{:url('setting/site')}','index_site','{:lang('ADMIN_SETTING_SITE')}');"><i class="fa fa-cog"></i> {:lang('ADMIN_SETTING_SITE')}</a></li>
                         </if>
                         <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/user/userinfo')">
                             <li><a href="javascript:openapp('{:url('user/userinfo')}','index_userinfo','{:lang('ADMIN_USER_USERINFO')}');"><i class="fa fa-user"></i> {:lang('ADMIN_USER_USERINFO')}</a></li>
                         </if>
-                        <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/setting/password')">
+                        <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/Setting/password')">
                             <li><a href="javascript:openapp('{:url('setting/password')}','index_password','{:lang('ADMIN_SETTING_PASSWORD')}');"><i class="fa fa-lock"></i> {:lang('ADMIN_SETTING_PASSWORD')}</a></li>
                         </if>
                         <li><a href="{:url('Public/logout')}"><i class="fa fa-sign-out"></i> {:lang('LOGOUT')}</a></li>

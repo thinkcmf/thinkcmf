@@ -207,23 +207,242 @@ class MenuController extends AdminBaseController
 
     public function getActions()
     {
-        $reflect = new \ReflectionClass('app\admin\controller\LinkController');
+        Annotations::$config['cache']                 = false;
+        $annotationManager                            = Annotations::getManager();
+        $annotationManager->registry['adminMenu']     = 'app\admin\annotation\AdminMenuAnnotation';
+        $annotationManager->registry['adminMenuRoot'] = 'app\admin\annotation\AdminMenuRootAnnotation';
+        $newMenus                                     = [];
 
-        $method = $reflect->getMethod('index');
+        $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
 
-        Annotations::$config['cache'] = false;
+        $app = $this->request->param('app', '');
+        if (empty($app)) {
+            $app = $apps[0];
+        }
 
-        $annotationManager = Annotations::getManager();
+        if (!in_array($app, $apps)) {
+            $this->error('应用' . $app . '不存在!');
+        }
 
-        $annotationManager->registry['menu'] = 'app\admin\annotation\MenuAnnotation';
-        $annotationManager->registry['nav'] = 'app\admin\annotation\NavAnnotation';
+        if ($app == 'admin') {
+            $filePatten = APP_PATH . $app . '/controller/*Controller.php';
+        } else {
+            $filePatten = APP_PATH . $app . '/controller/Admin*Controller.php';
+        }
 
-        $methodAnnotations = Annotations::ofMethod('app\admin\controller\LinkController', 'index','@menu');
+        $controllers = cmf_scan_dir($filePatten);
 
-        print_r($methodAnnotations);
+        if (!empty($controllers)) {
+            foreach ($controllers as $controller) {
+                $controller      = preg_replace('/\.php$/', '', $controller);
+                $controllerName  = preg_replace('/\Controller$/', '', $controller);
+                $controllerClass = "app\\$app\\controller\\$controller";
 
-        //print_r($method->getDocComment());
-        //print_r($reflect->getMethods(\ReflectionMethod::IS_PUBLIC));
+                $menuAnnotations = Annotations::ofClass($controllerClass, '@adminMenuRoot');
+
+                if (!empty($menuAnnotations)) {
+                    foreach ($menuAnnotations as $menuAnnotation) {
+
+                        $name      = $menuAnnotation->name;
+                        $icon      = $menuAnnotation->icon;
+                        $type      = 0;//1:权限认证+菜单,0:只作为菜单
+                        $action    = $menuAnnotation->action;
+                        $status    = empty($menuAnnotation->display) ? 0 : 1;
+                        $listOrder = floatval($menuAnnotation->order);
+                        $param     = $menuAnnotation->param;
+                        $remark    = $menuAnnotation->remark;
+
+                        if (empty($menuAnnotation->parent)) {
+                            $parentId = 0;
+                        } else {
+                            $parent = explode('/', $menuAnnotation->parent);
+
+                            if (count($parent) != 3) {
+                                throw new \Exception($controllerClass . ': @adminMenuRoot parent格式不正确!');
+                            }
+
+                            $findParentAdminMenu = Db::name('admin_menu')->where([
+                                'app'        => $parent[0],
+                                'controller' => $parent[1],
+                                'action'     => $parent[2]
+                            ])->find();
+
+                            if (empty($findParentAdminMenu)) {
+                                $parentId = Db::name('admin_menu')->insertGetId([
+                                    'app'        => $parent[0],
+                                    'controller' => $parent[1],
+                                    'action'     => $parent[2]
+                                ]);
+                            } else {
+                                $parentId = $findParentAdminMenu['id'];
+                            }
+                        }
+
+                        $findAdminMenu = Db::name('admin_menu')->where([
+                            'app'        => $app,
+                            'controller' => $controllerName,
+                            'action'     => $action
+                        ])->find();
+
+                        if (empty($findAdminMenu)) {
+
+                            Db::name('admin_menu')->insert([
+                                'parent_id'  => $parentId,
+                                'type'       => $type,
+                                'status'     => $status,
+                                'list_order' => $listOrder,
+                                'app'        => $app,
+                                'controller' => $controllerName,
+                                'action'     => $action,
+                                'param'      => $param,
+                                'name'       => $name,
+                                'icon'       => $icon,
+                                'remark'     => $remark
+                            ]);
+
+                            array_push($newMenus, "$app/$controllerName/$action 已导入");
+
+                        } else {
+
+                            // 只关注菜单层级关系
+                            Db::name('admin_menu')->where([
+                                'app'        => $app,
+                                'controller' => $controllerName,
+                                'action'     => $action
+                            ])->update([
+                                'parent_id' => $parentId
+                            ]);
+
+                            array_push($newMenus, "$app/$controllerName/$action 已更新");
+                        }
+
+                    }
+                }
+
+                $reflect = new \ReflectionClass($controllerClass);
+                $methods = $reflect->getMethods(\ReflectionMethod::IS_PUBLIC);
+
+                if (!empty($methods)) {
+                    foreach ($methods as $method) {
+
+                        if ($method->class == $controllerClass && strpos($method->name, '_') !== 0) {
+                            $menuAnnotations = Annotations::ofMethod($controllerClass, $method->name, '@adminMenu');
+
+                            if (!empty($menuAnnotations)) {
+
+                                $menuAnnotation = $menuAnnotations[0];
+
+                                $name      = $menuAnnotation->name;
+                                $icon      = $menuAnnotation->icon;
+                                $type      = 1;//1:权限认证+菜单,0:只作为菜单
+                                $action    = $method->name;
+                                $status    = empty($menuAnnotation->display) ? 0 : 1;
+                                $listOrder = floatval($menuAnnotation->order);
+                                $param     = $menuAnnotation->param;
+                                $remark    = $menuAnnotation->remark;
+
+                                if (empty($menuAnnotation->parent)) {
+                                    $parentId = 0;
+                                } else {
+                                    $parent      = explode('/', $menuAnnotation->parent);
+                                    $countParent = count($parent);
+                                    if ($countParent > 3) {
+                                        throw new \Exception($controllerClass . ':' . $action . '  @menuRoot parent格式不正确!');
+                                    }
+
+                                    $parentApp        = $app;
+                                    $parentController = $controllerName;
+                                    $parentAction     = '';
+
+                                    switch ($countParent) {
+                                        case 1:
+                                            $parentAction = $parent[0];
+                                            break;
+                                        case 2:
+                                            $parentController = $parent[0];
+                                            $parentAction     = $parent[1];
+                                            break;
+                                        case 3:
+                                            $parentApp        = $parent[0];
+                                            $parentController = $parent[1];
+                                            $parentAction     = $parent[2];
+                                            break;
+                                    }
+
+                                    $findParentAdminMenu = Db::name('admin_menu')->where([
+                                        'app'        => $parentApp,
+                                        'controller' => $parentController,
+                                        'action'     => $parentAction
+                                    ])->find();
+
+                                    if (empty($findParentAdminMenu)) {
+                                        $parentId = Db::name('admin_menu')->insertGetId([
+                                            'app'        => $parentApp,
+                                            'controller' => $controllerName,
+                                            'action'     => $parentAction
+                                        ]);
+                                    } else {
+                                        $parentId = $findParentAdminMenu['id'];
+                                    }
+                                }
+
+                                $findAdminMenu = Db::name('admin_menu')->where([
+                                    'app'        => $app,
+                                    'controller' => $controllerName,
+                                    'action'     => $action
+                                ])->find();
+
+                                if (empty($findAdminMenu)) {
+
+                                    Db::name('admin_menu')->insert([
+                                        'parent_id'  => $parentId,
+                                        'type'       => $type,
+                                        'status'     => $status,
+                                        'list_order' => $listOrder,
+                                        'app'        => $app,
+                                        'controller' => $controllerName,
+                                        'action'     => $action,
+                                        'param'      => $param,
+                                        'name'       => $name,
+                                        'icon'       => $icon,
+                                        'remark'     => $remark
+                                    ]);
+
+                                    array_push($newMenus, "$app/$controllerName/$action 已导入");
+
+                                } else {
+
+                                    // 只关注菜单层级关系
+                                    Db::name('admin_menu')->where([
+                                        'app'        => $app,
+                                        'controller' => $controllerName,
+                                        'action'     => $action
+                                    ])->update([
+                                        'parent_id' => $parentId
+                                    ]);
+
+                                    array_push($newMenus, "$app/$controllerName/$action 已更新");
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+            }
+        }
+
+        $index     = array_search($app, $apps);
+        $nextIndex = $index + 1;
+        $nextIndex = $nextIndex >= count($apps) ? 0 : $nextIndex;
+        if ($nextIndex) {
+            $this->assign("next_app", $apps[$nextIndex]);
+        }
+        $this->assign("app", $app);
+        $this->assign("new_menus", $newMenus);
+
+        return $this->fetch();
+
     }
 
     /**

@@ -122,4 +122,37 @@ class UserModel
         return 1;
     }
 
+
+    public function resetEmail($user)
+    {
+        $userQuery = Db::name("user");
+        $result = $userQuery->where('user_email',$user['user_email'])->find();
+        if (!empty($result)) {
+            $data = [
+                'user_pass'       => cmf_password($user['password']),
+                'last_login_ip'   => get_client_ip(0, true),
+                'last_login_time' => time(),
+            ];
+            $userQuery->where('user_email',$user['user_email'])->update($data);
+            return 0;
+        }
+        return 1;
+    }
+
+    public function resetMobile($user)
+    {
+        $userQuery = Db::name("user");
+        $result = $userQuery->where('mobile',$user['mobile'])->find();
+        if (!empty($result)) {
+            $data = [
+                'user_pass'       => cmf_password($user['password']),
+                'last_login_ip'   => get_client_ip(0, true),
+                'last_login_time' => time(),
+            ];
+            $userQuery->where('mobile',$user['mobile'])->update($data);
+            return 0;
+        }
+        return 1;
+    }
+
 }

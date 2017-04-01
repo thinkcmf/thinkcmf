@@ -4,24 +4,13 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: Powerless < wzxaini9@gmail.com>
+// | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
-namespace app\user\controller;
+namespace app\admin\model;
 
-use cmf\controller\UserBaseController;
+use think\Model;
 
-class CenterController extends UserBaseController
+class SlideModel extends Model
 {
 
-    public function _initialize()
-    {
-        parent::_initialize();
-    }
-
-    // 会员中心首页
-    public function index()
-    {
-        $this->assign(session('user'));
-        return $this->fetch(':center');
-    }
 }

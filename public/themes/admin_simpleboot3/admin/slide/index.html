@@ -1,0 +1,41 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:url('slide/index')}">分类列表</a></li>
+			<li><a href="{:url('slide/add')}">添加分类</a></li>
+		</ul>
+		<table class="table table-hover table-bordered">
+			<thead>
+				<tr>
+					<th width="50">ID</th>
+					<th>状态</th>
+					<th>幻灯片分类</th>
+					<th>幻灯片分类标识</th>
+					<th width="130">{:lang('ACTIONS')}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<php>$user_statuses=array("0"=>lang('USER_STATUS_BLOCKED'),"1"=>lang('USER_STATUS_ACTIVATED'),"2"=>lang('USER_STATUS_UNVERIFIED'));</php>
+				<foreach name="list" item="vo">
+				<tr>
+					<td>{$vo.id}</td>
+					<td>
+                        {$vo.status}
+                    </td>
+					<td>{$vo.name}</td>
+					<td>{$vo.name_id}</td>
+					<td>
+                        <a href="{:url('slide/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a> |
+                        <a href="{:url('slide/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
+                    </td>
+				</tr>
+				</foreach>
+			</tbody>
+		</table>
+
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

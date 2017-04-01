@@ -3,36 +3,78 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('link/index')}">所有链接</a></li>
-        <li><a href="{:url('link/add')}">添加链接</a></li>
+        <li class="active"><a href="{:url('link/index')}">所有友情链接</a></li>
+        <li><a href="{:url('link/add')}">添加友情链接</a></li>
     </ul>
-    <form action="{:url('Rbac/listorders')}" method="post" class="margin-top-20">
-        <php> $is_main=array("1"=>'是',"0"=>'否');</php>
-        <table class="table table-hover table-bordered">
+    <form method="post" class="js-ajax-form margin-top-20" action="{:url('Link/listOrder')}">
+        <div class="table-actions">
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">{:lang('SORT')}</button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('link/toggle',array('display'=>1))}" data-subcheck="true">{:lang('DISPLAY')}
+            </button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('link/toggle',array('hide'=>1))}" data-subcheck="true">{:lang('HIDE')}
+            </button>
+        </div>
+        <php>$status=array("1"=>lang('DISPLAY'),"0"=>lang('HIDDEN'));</php>
+        <table class="table table-hover table-bordered table-list">
             <thead>
             <tr>
-                <th width="40">ID</th>
-                <th>名称</th>
-                <th width="60">主导航</th>
-                <th>描述</th>
-                <th width="150">{:lang('ACTIONS')}</th>
+                <th width="16"><label><input type="checkbox" class="js-check-all" data-direction="x"
+                                             data-checklist="js-check-x"></label></th>
+                <th width="50">{:lang('SORT')}</th>
+                <th width="50">ID</th>
+                <th>{:lang('NAME')}</th>
+                <th>链接地址</th>
+                <th width="45">{:lang('STATUS')}</th>
+                <th width="120">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
             <foreach name="links" item="vo">
                 <tr>
+                    <td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]"
+                               value="{$vo.id}"></td>
+                    <td><input name='list_orders[{$vo.id}]' class="input input-order mr5" type='text' size='3'
+                               value='{$vo.list_order}'></td>
                     <td>{$vo.id}</td>
                     <td>{$vo.name}</td>
-                    <td>{$is_main[$vo.is_main]}</td>
-                    <td>{$vo.remark}</td>
+                    <td><a href="{$vo.url}" target="_blank">{$vo.url}</a></td>
+                    <td>{$status[$vo['status']]}</td>
                     <td>
-                        <a href="{:url('nav/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>|
-                        <a class="js-ajax-delete" href="{:url('Rbac/roledelete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+                        <a href="{:url('link/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>|
+                        <a href="{:url('link/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">
+                            {:lang('DELETE')}
+                        </a>
                     </td>
                 </tr>
             </foreach>
             </tbody>
+            <tfoot>
+            <tr>
+                <th width="16">
+                    <label>
+                        <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                    </label>
+                </th>
+                <th width="50">{:lang('SORT')}</th>
+                <th width="50">ID</th>
+                <th>{:lang('NAME')}</th>
+                <th>链接地址</th>
+                <th width="45">{:lang('STATUS')}</th>
+                <th width="120">{:lang('ACTIONS')}</th>
+            </tr>
+            </tfoot>
         </table>
+        <div class="table-actions">
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">{:lang('SORT')}</button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('link/toggle',array('display'=>1))}" data-subcheck="true">{:lang('DISPLAY')}
+            </button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('link/toggle',array('hide'=>1))}" data-subcheck="true">{:lang('HIDE')}
+            </button>
+        </div>
     </form>
 </div>
 <script src="__STATIC__/js/admin.js"></script>

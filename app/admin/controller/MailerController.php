@@ -14,7 +14,18 @@ use think\Db;
 class MailerController extends AdminBaseController
 {
 
-    // SMTP配置
+    /**
+     * 邮箱配置
+     * @adminMenu(
+     *     'name'   => '邮箱配置',
+     *     'parent' => 'admin/Setting/default',
+     *     'display'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '邮箱配置',
+     *     'param'  => ''
+     * )
+     */
     public function index()
     {
         $emailSetting = cmf_get_option('smtp_setting');
