@@ -1,4 +1,4 @@
-ThinkCMF 5.0 开发者预览版
+ThinkCMF 5.0 RC1 愚人节版
 ===============
 ### 环境推荐
 > php5.5+
@@ -101,4 +101,5 @@ ThinkCMF VIP技术群:100828313 (付费)
 
 ### 反馈问题
 https://github.com/thinkcmf/thinkcmf/issues
+
 
