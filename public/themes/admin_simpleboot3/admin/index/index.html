@@ -207,7 +207,7 @@
                         <if condition="isset($admin['avatar']) && $admin['avatar']">
                             <img class="nav-user-photo" width="30" height="30" src="{:cmf_get_user_avatar_url($admin['avatar'])}" alt="{$admin.user_login}">
                             <else />
-                            <img class="nav-user-photo" width="30" height="30" src="__TMPL__public/assets/images/logo-18.png" alt="{$admin.user_login|default=''}">
+                            <img class="nav-user-photo" width="30" height="30" src="__TMPL__/public/assets/images/logo-18.png" alt="{$admin.user_login|default=''}">
                         </if>
                         <span class="user-info">
 								{:lang('WELCOME_USER',array('user_nickname' => empty($admin['user_nickname'] )? $admin['user_login'] : $admin['user_nickname']))}
