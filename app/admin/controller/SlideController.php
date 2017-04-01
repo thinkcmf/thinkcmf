@@ -65,11 +65,11 @@ class SlideController extends AdminBaseController
     //删除幻灯片
     public function delete()
     {
-        $id             = $this->request->param();
+        $id     = $this->request->param();
         $result = SlideModel::destroy($id);
         if ($result) {
             $this->success("删除成功！", url("slide/index"));
-        }else{
+        } else {
             $this->error("删除失败！");
         }
     }
