@@ -156,4 +156,13 @@ class UserModel extends Model
         return 1;
     }
 
+    public function editData($user)
+    {
+        $userQuery = Db::name("user");
+        $userQuery->where('id', $user['id'])->update($user);
+        if(1){
+            return 1;
+        }
+        return 0;
+    }
 }

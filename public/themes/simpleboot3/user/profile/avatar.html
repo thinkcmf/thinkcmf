@@ -63,7 +63,7 @@
 	<script type="text/javascript">
 		function update_avatar() {
 			var area = $(".uploaded_avatar_area img").data("area");
-			$.post("{:U('profile/avatar_update')}", area, function(data) {
+			$.post("{:url('profile/avatar_update')}", area, function(data) {
 				if (data.status == 1) {
 					reloadPage(window);
 				}
@@ -81,7 +81,7 @@
 			Wind.css("jcrop");
 			Wind.use("ajaxfileupload", "jcrop", "noty", function() {
 				$.ajaxFileUpload({
-					url : "{:U('profile/avatar_upload')}",
+					url : "{:url('profile/avatar_upload')}",
 					secureuri : false,
 					fileElementId : "avatar_uploder",
 					dataType : 'json',
