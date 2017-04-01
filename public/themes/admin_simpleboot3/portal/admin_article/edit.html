@@ -79,15 +79,15 @@
                         <th>相册图集</th>
                         <td>
                             <ul id="photos" class="pic-list unstyled">
-                                <notempty name="smeta['photo']">
-                                    <foreach name="smeta['photo']" item="vo">
-                                        <php>$img_url=sp_get_image_preview_url($vo['url']);</php>
+                                <notempty name="more['photo']">
+                                    <foreach name="more['photo']" item="vo">
+                                        <php>$img_url=cmf_get_image_preview_url($vo['url']);</php>
                                         <li id="savedimage{$key}">
                                             <input id="photo-{$key}" type="hidden" name="photos_url[]"
                                                    value="{$img_url}">
                                             <input id="photo-{$key}-name" type="text" name="photos_alt[]"
                                                    value="{$vo.alt}" style="width: 200px;" title="图片名称">
-                                            <img id="photo-{$key}-preview" src="{:sp_get_image_preview_url($vo['url'])}"
+                                            <img id="photo-{$key}-preview" src="{:cmf_get_image_preview_url($vo['url'])}"
                                                  style="height:36px;width: 36px;"
                                                  onclick="parent.image_preview_dialog(this.src);">
                                             <a href="javascript:upload_one_image('图片上传','#photo-{$key}');">替换</a>
@@ -110,13 +110,13 @@
                     <tr>
                         <td>
                             <div style="text-align: center;">
-                                <input type="hidden" name="smeta[thumb]" id="thumb" value="{$smeta.thumb|default=''}">
+                                <input type="hidden" name="more[thumb]" id="thumb" value="{$more.thumb|default=''}">
                                 <a href="javascript:upload_one_image('图片上传','#thumb');">
-                                    <if condition="empty($smeta['thumb'])">
+                                    <if condition="empty($more['thumb'])">
                                         <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumb-preview"
                                              width="135" style="cursor: hand"/>
                                         <else/>
-                                        <img src="{:sp_get_image_preview_url($smeta['thumb'])}" id="thumb-preview"
+                                        <img src="{:cmf_get_image_preview_url($more['thumb'])}" id="thumb-preview"
                                              width="135" style="cursor: hand"/>
                                     </if>
                                 </a>

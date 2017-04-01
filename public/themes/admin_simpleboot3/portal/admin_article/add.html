@@ -88,7 +88,7 @@
                     <tr>
                         <td>
                             <div style="text-align: center;">
-                                <input type="hidden" name="smeta[thumb]" id="thumb" value="">
+                                <input type="hidden" name="more[thumb]" id="thumb" value="">
                                 <a href="javascript:upload_one_image('图片上传','#thumb');">
                                     <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumb-preview"
                                          width="135" style="cursor: hand"/>
@@ -150,7 +150,7 @@
                                 $tpl_list=[];
                                 /*unset($tpl_list['page']);*/
                             </php>
-                            <select class="form-control" name="smeta[template]">
+                            <select class="form-control" name="more[template]">
                                 <option value="">请选择模板</option>
                                 <foreach name="tpl_list" item="vo">
                                     <option value="{$vo}">{$vo}{:C("TMPL_TEMPLATE_SUFFIX")}</option>

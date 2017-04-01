@@ -686,7 +686,7 @@ function cmf_get_image_url($file, $style = '')
 }
 
 /**
- * TODO
+ * TODO qiniu 的可能有问题，没有测试过，如果你们测试好了，可以把todo删除
  * 获取图片预览链接
  * @param string $file 文件路径，相对于upload
  * @param string $style 图片样式，只有七牛可以用
@@ -694,7 +694,7 @@ function cmf_get_image_url($file, $style = '')
  */
 function cmf_get_image_preview_url($file, $style = 'watermark')
 {
-    if (C('FILE_UPLOAD_TYPE') == 'Qiniu') {
+    if (config('FILE_UPLOAD_TYPE') == 'Qiniu') {
         $storage_setting = cmf_get_cmf_settings('storage');
         $qiniu_setting   = $storage_setting['Qiniu']['setting'];
         $filePath        = $qiniu_setting['protocol'] . '://' . $storage_setting['Qiniu']['domain'] . "/" . $file;
@@ -1912,5 +1912,40 @@ function cmf_file_write($file,$content){
         return $s->write($domain,$save_path,$content);
     }else{
         return file_put_contents($file, $content);
+    }
+}
+
+
+
+/**
+ * 转化数据库保存的文件路径，为可以访问的url
+ * @param string $file
+ * @param mixed $style  样式(七牛)
+ * @return string
+ */
+function cmf_get_asset_upload_path($file,$style=''){
+    if(strpos($file,"http")===0){
+        return $file;
+    }else if(strpos($file,"/")===0){
+        return $file;
+    }else{
+        //$filepath=C("TMPL_PARSE_STRING.__UPLOAD__").$file;
+        $HttpRequst = Request::instance();
+
+        $filepath  = $file;
+        if(config('FILE_UPLOAD_TYPE')=='Local'){
+            if(strpos($filepath,"http")!==0){
+                $filepath=$HttpRequst->host().$filepath;
+            }
+        }
+
+        if(config('FILE_UPLOAD_TYPE')=='Qiniu'){
+            $storage_setting=cmf_get_cmf_settings('storage');
+            $qiniu_setting=$storage_setting['Qiniu']['setting'];
+            $filepath=$qiniu_setting['protocol'].'://'.$storage_setting['Qiniu']['domain']."/".$file.$style;
+        }
+
+        return $filepath;
+
     }
 }
