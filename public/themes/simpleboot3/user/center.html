@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title> - 个人中心</title>
+<title>{$user_login} - 个人中心</title>
 <meta name="keywords" content=""/>
 <meta name="description" content="">
 <include file="public@head"/>
@@ -15,7 +15,6 @@
 </head>
 <body class="body-white" id="top">
 <include file="public@nav" />
-
 	<div class="container tc-main">
 		<div class="row">
 			<div class="col-md-3">
@@ -42,17 +41,17 @@
 							<div class="col-md-9">
 								<div class="form-group">
 									<label class="control-label" for="input-user_nicename">昵称</label>
-									<div>{$user_nicename|default='未填写'}</div>
+									<div>{$user_nickname|default='未填写'}</div>
 								</div>
 								<div class="form-group">
 									<label class="control-label" for="input-sex">性别</label>
 									<div>
-										<php> $sexs=array("0"=>"保密","1"=>"程序猿","2"=>"程序媛"); </php>
+										<php> $sexs=array("0"=>"保密","1"=>"程序猿","2"=>"程序媛");echo $sexs[$sex]; </php>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="control-label" for="input-birthday">生日</label>
-									<div>{$birthday|default='未填写'}</div>
+									<div>{:date('Y-m-d',$birthday)}</div>
 								</div>
 								<div class="form-group">
 									<label class="control-label" for="input-user_url">个人网址</label>
