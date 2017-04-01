@@ -584,7 +584,8 @@ function cmf_strip_chars($str, $chars = '?<*.>\'\"')
  */
 function cmf_send_email($address, $subject, $message)
 {
-    $mail = new \PHPMailer();
+    $smtpSetting = cmf_get_option('smtp_setting');
+    $mail        = new \PHPMailer();
     // 设置PHPMailer使用SMTP服务器发送Email
     $mail->IsSMTP();
     $mail->IsHTML(true);
@@ -595,29 +596,29 @@ function cmf_send_email($address, $subject, $message)
     // 设置邮件正文
     $mail->Body = $message;
     // 设置邮件头的From字段。
-    $mail->From = C('cmf_MAIL_ADDRESS');
+    $mail->From = $smtpSetting['from'];
     // 设置发件人名字
-    $mail->FromName = C('cmf_MAIL_SENDER');;
+    $mail->FromName = $smtpSetting['from_name'];
     // 设置邮件标题
     $mail->Subject = $subject;
     // 设置SMTP服务器。
-    $mail->Host = C('cmf_MAIL_SMTP');
+    $mail->Host = $smtpSetting['host'];
     //by Rainfer
     // 设置SMTPSecure。
-    $Secure           = C('cmf_MAIL_SECURE');
+    $Secure           = $smtpSetting['smtp_secure'];
     $mail->SMTPSecure = empty($Secure) ? '' : $Secure;
     // 设置SMTP服务器端口。
-    $port       = C('cmf_MAIL_SMTP_PORT');
+    $port       = $smtpSetting['port'];
     $mail->Port = empty($port) ? "25" : $port;
     // 设置为"需要验证"
     $mail->SMTPAuth = true;
     // 设置用户名和密码。
-    $mail->Username = C('cmf_MAIL_LOGINNAME');
-    $mail->Password = C('cmf_MAIL_PASSWORD');
+    $mail->Username = $smtpSetting['username'];
+    $mail->Password = $smtpSetting['password'];
     // 发送邮件。
     if (!$mail->Send()) {
-        $mailerror = $mail->ErrorInfo;
-        return ["error" => 1, "message" => $mailerror];
+        $mailError = $mail->ErrorInfo;
+        return ["error" => 1, "message" => $mailError];
     } else {
         return ["error" => 0, "message" => "success"];
     }
