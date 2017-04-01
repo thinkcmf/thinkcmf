@@ -165,7 +165,7 @@ class AdminArticleController extends AdminBaseController
 
             $portalPostModel->where(['id' => ['in', $ids]])->update(['post_status' => 1, 'published_time' => time()]);
 
-            $this->success("审核成功！");
+            $this->success("发布成功！");
         }
 
         if (isset($param['ids']) && isset($param["no"])) {
@@ -173,7 +173,7 @@ class AdminArticleController extends AdminBaseController
 
             $portalPostModel->where(['id' => ['in', $ids]])->update(['post_status' => 0]);
 
-            $this->success("取消审核成功！");
+            $this->success("取消发布成功！");
         }
 
     }
