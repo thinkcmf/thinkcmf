@@ -38,7 +38,7 @@ class MailerController extends AdminBaseController
      * @adminMenu(
      *     'name'   => '邮箱配置提交保存',
      *     'parent' => 'index',
-     *     'display'=> true,
+     *     'display'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
      *     'remark' => '邮箱配置提交保存',
@@ -82,7 +82,7 @@ class MailerController extends AdminBaseController
      * @adminMenu(
      *     'name'   => '会员注册邮件模板提交',
      *     'parent' => 'index',
-     *     'display'=> true,
+     *     'display'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
      *     'remark' => '会员注册邮件模板提交',
