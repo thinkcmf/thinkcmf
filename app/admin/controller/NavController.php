@@ -18,7 +18,18 @@ use think\Db;
  */
 class NavController extends AdminBaseController
 {
-    // 导航列表
+    /**
+     * 导航管理
+     * @adminMenu(
+     *     'name'   => '导航管理',
+     *     'parent' => 'admin/Setting/default',
+     *     'display'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '导航管理',
+     *     'param'  => ''
+     * )
+     */
     public function index()
     {
         $navModel = new NavModel();
@@ -32,9 +43,16 @@ class NavController extends AdminBaseController
 
     /**
      * 添加导航
-     * @return mixed
+     * @adminMenu(
+     *     'name'   => '添加导航',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加导航',
+     *     'param'  => ''
+     * )
      */
-
     public function add()
     {
         return $this->fetch();
@@ -42,6 +60,15 @@ class NavController extends AdminBaseController
 
     /**
      * 添加导航提交保存
+     * @adminMenu(
+     *     'name'   => '添加导航提交保存',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加导航提交保存',
+     *     'param'  => ''
+     * )
      */
     public function addPost()
     {
@@ -62,9 +89,16 @@ class NavController extends AdminBaseController
 
     /**
      * 编辑导航
-     * @return mixed
+     * @adminMenu(
+     *     'name'   => '编辑导航',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑导航',
+     *     'param'  => ''
+     * )
      */
-
     public function edit()
     {
         $navModel = new NavModel();
@@ -80,6 +114,15 @@ class NavController extends AdminBaseController
 
     /**
      * 编辑导航提交保存
+     * @adminMenu(
+     *     'name'   => '编辑导航提交保存',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑导航提交保存',
+     *     'param'  => ''
+     * )
      */
     public function editPost()
     {
@@ -100,6 +143,15 @@ class NavController extends AdminBaseController
 
     /**
      * 删除导航
+     * @adminMenu(
+     *     'name'   => '删除导航',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '删除导航',
+     *     'param'  => ''
+     * )
      */
     public function delete()
     {

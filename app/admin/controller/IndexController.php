@@ -21,6 +21,9 @@ class IndexController extends AdminBaseController
 
     }
 
+    /**
+     * 后台首页
+     */
     public function index()
     {
         $adminMenuModel = new AdminMenuModel();

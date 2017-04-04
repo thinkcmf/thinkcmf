@@ -12,7 +12,6 @@ use app\admin\model\NavMenuModel;
 use cmf\controller\AdminBaseController;
 use tree\Tree;
 
-
 /**
  * Class NavMenuController 前台菜单管理控制器
  * @package app\admin\controller
@@ -20,7 +19,16 @@ use tree\Tree;
 class NavMenuController extends AdminBaseController
 {
     /**
-     *  导航菜单
+     * 导航菜单
+     * @adminMenu(
+     *     'name'   => '导航菜单',
+     *     'parent' => 'admin/Nav/index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '导航菜单',
+     *     'param'  => ''
+     * )
      */
     public function index()
     {
@@ -64,7 +72,16 @@ class NavMenuController extends AdminBaseController
     }
 
     /**
-     *  添加导航菜单
+     * 添加导航菜单
+     * @adminMenu(
+     *     'name'   => '添加导航菜单',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加导航菜单',
+     *     'param'  => ''
+     * )
      */
     public function add()
     {
@@ -102,6 +119,15 @@ class NavMenuController extends AdminBaseController
 
     /**
      * 添加导航菜单提交保存
+     * @adminMenu(
+     *     'name'   => '添加导航菜单提交保存',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加导航菜单提交保存',
+     *     'param'  => ''
+     * )
      */
     public function addPost()
     {
@@ -123,9 +149,16 @@ class NavMenuController extends AdminBaseController
 
     /**
      * 编辑导航菜单
-     * @return mixed
+     * @adminMenu(
+     *     'name'   => '编辑导航菜单',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑导航菜单',
+     *     'param'  => ''
+     * )
      */
-
     public function edit()
     {
         $navMenuModel = new NavMenuModel();
@@ -173,9 +206,17 @@ class NavMenuController extends AdminBaseController
         return $this->fetch();
     }
 
-
     /**
-     *  编辑导航菜单提交保存
+     * 编辑导航菜单提交保存
+     * @adminMenu(
+     *     'name'   => '编辑导航菜单提交保存',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑导航菜单提交保存',
+     *     'param'  => ''
+     * )
      */
     public function editPost()
     {
@@ -198,6 +239,15 @@ class NavMenuController extends AdminBaseController
 
     /**
      * 删除导航菜单
+     * @adminMenu(
+     *     'name'   => '删除导航菜单',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '删除导航菜单',
+     *     'param'  => ''
+     * )
      */
     public function delete()
     {
@@ -221,7 +271,16 @@ class NavMenuController extends AdminBaseController
     }
 
     /**
-     * 排序
+     * 导航菜单排序
+     * @adminMenu(
+     *     'name'   => '导航菜单排序',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '导航菜单排序',
+     *     'param'  => ''
+     * )
      */
     public function listOrder()
     {

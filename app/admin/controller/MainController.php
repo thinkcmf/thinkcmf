@@ -20,6 +20,18 @@ class MainController extends AdminBaseController
         parent::_initialize();
     }
 
+    /**
+     *  后台欢迎页
+     * @adminMenu(
+     *     'name'   => '后台欢迎页',
+     *     'parent' => '',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '后台欢迎页',
+     *     'param'  => ''
+     * )
+     */
     public function index()
     {
         $mysql = Db::query("select VERSION() as version");

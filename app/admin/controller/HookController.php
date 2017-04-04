@@ -62,7 +62,8 @@ class HookController extends AdminBaseController
         }
     }
 
-    public function pluginListOrder(){
+    public function pluginListOrder()
+    {
         $hookPluginModel = new HookPluginModel();
         parent::listOrders($hookPluginModel);
 

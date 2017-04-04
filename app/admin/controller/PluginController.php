@@ -12,6 +12,19 @@ use cmf\controller\AdminBaseController;
 use app\admin\model\PluginModel;
 use app\admin\model\HookPluginModel;
 
+/**
+ * Class PluginController
+ * @package app\admin\controller
+ * @adminMenuRoot(
+ *     'name'   =>'插件管理',
+ *     'action' =>'default',
+ *     'parent' =>'',
+ *     'display'=> true,
+ *     'order'  => 10000,
+ *     'icon'   =>'cloud',
+ *     'remark' =>'插件管理'
+ * )
+ */
 class PluginController extends AdminBaseController
 {
 
@@ -22,7 +35,18 @@ class PluginController extends AdminBaseController
         parent::_initialize();
     }
 
-    // 后台插件列表
+    /**
+     * 插件列表
+     * @adminMenu(
+     *     'name'   => '插件列表',
+     *     'parent' => 'admin/Plugin/default',
+     *     'display'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '插件列表',
+     *     'param'  => ''
+     * )
+     */
     public function index()
     {
         $this->pluginModel = new PluginModel();
@@ -31,7 +55,18 @@ class PluginController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 插件启用/禁用
+    /**
+     * 插件启用/禁用
+     * @adminMenu(
+     *     'name'   => '插件启用禁用',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '插件启用禁用',
+     *     'param'  => ''
+     * )
+     */
     public function toggle()
     {
         $this->pluginModel = new PluginModel();
@@ -53,7 +88,18 @@ class PluginController extends AdminBaseController
         }
     }
 
-    // 插件设置
+    /**
+     * 插件设置
+     * @adminMenu(
+     *     'name'   => '插件设置',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '插件设置',
+     *     'param'  => ''
+     * )
+     */
     public function setting()
     {
         $id = $this->request->param('id', 0, 'intval');
@@ -99,7 +145,18 @@ class PluginController extends AdminBaseController
 
     }
 
-    // 插件设置提交
+    /**
+     * 插件设置提交
+     * @adminMenu(
+     *     'name'   => '插件设置提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '插件设置提交',
+     *     'param'  => ''
+     * )
+     */
     public function settingPost()
     {
         if ($this->request->isPost()) {
@@ -112,7 +169,18 @@ class PluginController extends AdminBaseController
         }
     }
 
-    // 插件安装
+    /**
+     * 插件安装
+     * @adminMenu(
+     *     'name'   => '插件安装',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '插件安装',
+     *     'param'  => ''
+     * )
+     */
     public function install()
     {
         $pluginName = $this->request->param('name', '', 'trim');
@@ -164,7 +232,18 @@ class PluginController extends AdminBaseController
         $this->success('安装成功!');
     }
 
-    // 插件更新
+    /**
+     * 插件更新
+     * @adminMenu(
+     *     'name'   => '插件更新',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '插件更新',
+     *     'param'  => ''
+     * )
+     */
     public function update()
     {
         $pluginName = $this->request->param('name', '', 'trim');
@@ -208,7 +287,18 @@ class PluginController extends AdminBaseController
         $this->success('更新成功!');
     }
 
-    // 卸载插件
+    /**
+     * 卸载插件
+     * @adminMenu(
+     *     'name'   => '卸载插件',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '卸载插件',
+     *     'param'  => ''
+     * )
+     */
     public function uninstall()
     {
         $this->pluginModel = new PluginModel();
