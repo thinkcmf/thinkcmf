@@ -21,7 +21,7 @@ $.noty.defaults = {
 	        easing: 'swing',
 	        speed: 500 // opening & closing animation speed
 	    },
-	    timeout: 1500, // delay for closing event. Set false for sticky notifications
+	    timeout: 1000, // delay for closing event. Set false for sticky notifications
 	    force: false, // adds notification to the beginning of queue when set to true
 	    modal: false,
 	    maxVisible: 5, // you can set max visible notification for dismissQueue true option,

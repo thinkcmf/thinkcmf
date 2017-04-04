@@ -198,9 +198,8 @@
 
                                 //按钮文案、状态修改
                                 $btn.removeClass('disabled').prop('disabled', false).text(text.replace('中...', '')).parent().find('span').remove();
-                                if (data.code == '1') {
-                                    $('<span class="tips_success">' + data.msg + '</span>').appendTo($btn.parent()).fadeIn('slow').delay(1000).fadeOut(function () {
-                                    });
+                                if (data.code == 1) {
+                                    //$('<span class="tips_success">' + data.msg + '</span>').appendTo($btn.parent()).fadeIn('slow').delay(1000).fadeOut(function () {});
                                     noty({
                                         text: data.msg,
                                         type: 'success',
@@ -220,7 +219,7 @@
                                     var $verify_input = $form.find("[name='verify']");
                                     $verify_input.val("");
 
-                                    $('<span class="tips_error">' + data.msg + '</span>').appendTo($btn.parent()).fadeIn('fast');
+                                    //$('<span class="tips_error">' + data.msg + '</span>').appendTo($btn.parent()).fadeIn('fast');
                                     $btn.removeProp('disabled').removeClass('disabled');
                                     noty({
                                         text: data.msg,
