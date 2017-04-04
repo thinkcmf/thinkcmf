@@ -13,7 +13,18 @@ use think\Db;
 
 class RecycleController extends AdminBaseController
 {
-    //回收站列表
+    /**
+     * 回收站
+     * @adminMenu(
+     *     'name'   => '回收站',
+     *     'parent' => '',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '回收站',
+     *     'param'  => ''
+     * )
+     */
     function index()
     {
         $list = Db::name('recycleBin')->paginate(10);
@@ -24,7 +35,18 @@ class RecycleController extends AdminBaseController
         return $this->fetch();
     }
 
-    //还原
+    /**
+     * 回收站还原
+     * @adminMenu(
+     *     'name'   => '回收站还原',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '回收站还原',
+     *     'param'  => ''
+     * )
+     */
     function restore()
     {
 
@@ -44,7 +66,18 @@ class RecycleController extends AdminBaseController
         }
     }
 
-    //删除
+    /**
+     * 回收站彻底删除
+     * @adminMenu(
+     *     'name'   => '回收站彻底删除',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '回收站彻底删除',
+     *     'param'  => ''
+     * )
+     */
     function delete()
     {
         $id     = $this->request->param('id');

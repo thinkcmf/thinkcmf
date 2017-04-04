@@ -9,7 +9,6 @@
 namespace app\admin\controller;
 
 use cmf\controller\AdminBaseController;
-use think\Db;
 
 class DialogController extends AdminBaseController
 {

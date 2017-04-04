@@ -22,15 +22,6 @@ class MainController extends AdminBaseController
 
     /**
      *  后台欢迎页
-     * @adminMenu(
-     *     'name'   => '后台欢迎页',
-     *     'parent' => '',
-     *     'display'=> false,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '后台欢迎页',
-     *     'param'  => ''
-     * )
      */
     public function index()
     {

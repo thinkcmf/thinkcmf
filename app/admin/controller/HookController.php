@@ -20,7 +20,16 @@ use app\admin\model\HookPluginModel;
 class HookController extends AdminBaseController
 {
     /**
-     * 钩子列表
+     * 钩子管理
+     * @adminMenu(
+     *     'name'   => '钩子管理',
+     *     'parent' => 'admin/Plugin/default',
+     *     'display'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '钩子管理',
+     *     'param'  => ''
+     * )
      */
     public function index()
     {
@@ -30,6 +39,18 @@ class HookController extends AdminBaseController
         return $this->fetch();
     }
 
+    /**
+     * 钩子插件管理
+     * @adminMenu(
+     *     'name'   => '钩子插件管理',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '钩子插件管理',
+     *     'param'  => ''
+     * )
+     */
     public function plugins()
     {
         $hook        = $this->request->param('hook');
@@ -40,7 +61,16 @@ class HookController extends AdminBaseController
     }
 
     /**
-     * 插件启用/禁用
+     * 钩子插件启用禁用
+     * @adminMenu(
+     *     'name'   => '钩子插件启用禁用',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '钩子插件启用禁用',
+     *     'param'  => ''
+     * )
      */
     public function pluginToggle()
     {
@@ -62,6 +92,18 @@ class HookController extends AdminBaseController
         }
     }
 
+    /**
+     * 钩子插件排序
+     * @adminMenu(
+     *     'name'   => '钩子插件排序',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '钩子插件排序',
+     *     'param'  => ''
+     * )
+     */
     public function pluginListOrder()
     {
         $hookPluginModel = new HookPluginModel();

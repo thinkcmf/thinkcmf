@@ -15,10 +15,11 @@ class PublicController extends AdminBaseController
 {
     public function _initialize()
     {
-
     }
 
-    //后台登陆界面
+    /**
+     * 后台登陆界面
+     */
     public function login()
     {
         $admin_id = session('ADMIN_ID');
@@ -36,7 +37,9 @@ class PublicController extends AdminBaseController
         }
     }
 
-    //登录验证
+    /**
+     * 登录验证
+     */
     public function doLogin()
     {
 //        $login_page_showed_success = session("__CMF_ADMIN_LOGIN_PAGE_SHOWED_SUCCESS__");
@@ -95,7 +98,9 @@ class PublicController extends AdminBaseController
         }
     }
 
-    //登出
+    /**
+     * 后台管理员退出
+     */
     public function logout()
     {
         session('ADMIN_ID', null);

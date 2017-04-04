@@ -28,7 +28,18 @@ use think\Db;
 class SettingController extends AdminBaseController
 {
 
-    // 网站信息
+    /**
+     * 网站信息
+     * @adminMenu(
+     *     'name'   => '网站信息',
+     *     'parent' => 'default',
+     *     'display'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '网站信息',
+     *     'param'  => ''
+     * )
+     */
     public function site()
     {
         //$option=$this->options_model->where("option_name='site_info'")->find();
@@ -63,7 +74,18 @@ class SettingController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 网站信息设置提交
+    /**
+     * 网站信息设置提交
+     * @adminMenu(
+     *     'name'   => '网站信息设置提交',
+     *     'parent' => 'site',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '网站信息设置提交',
+     *     'param'  => ''
+     * )
+     */
     public function sitePost()
     {
         if ($this->request->isPost()) {
@@ -86,13 +108,35 @@ class SettingController extends AdminBaseController
         }
     }
 
-    // 密码修改
+    /**
+     * 密码修改
+     * @adminMenu(
+     *     'name'   => '密码修改',
+     *     'parent' => 'default',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '密码修改',
+     *     'param'  => ''
+     * )
+     */
     public function password()
     {
         return $this->fetch();
     }
 
-    // 密码修改提交
+    /**
+     * 密码修改提交
+     * @adminMenu(
+     *     'name'   => '密码修改提交',
+     *     'parent' => 'password',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '密码修改提交',
+     *     'param'  => ''
+     * )
+     */
     public function passwordPost()
     {
         if ($this->request->isPost()) {
@@ -132,7 +176,18 @@ class SettingController extends AdminBaseController
         }
     }
 
-    // 上传限制设置界面
+    /**
+     * 上传限制设置界面
+     * @adminMenu(
+     *     'name'   => '上传设置',
+     *     'parent' => 'default',
+     *     'display'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '上传设置',
+     *     'param'  => ''
+     * )
+     */
     public function upload()
     {
         $uploadSetting = cmf_get_upload_setting();
@@ -140,7 +195,18 @@ class SettingController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 上传限制设置界面提交
+    /**
+     * 上传限制设置界面提交
+     * @adminMenu(
+     *     'name'   => '上传设置提交',
+     *     'parent' => 'upload',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '上传设置提交',
+     *     'param'  => ''
+     * )
+     */
     public function uploadPost()
     {
         if ($this->request->isPost()) {
@@ -153,7 +219,18 @@ class SettingController extends AdminBaseController
 
     }
 
-    // 清除缓存
+    /**
+     * 清除缓存
+     * @adminMenu(
+     *     'name'   => '清除缓存',
+     *     'parent' => 'default',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '清除缓存',
+     *     'param'  => ''
+     * )
+     */
     public function clearCache()
     {
         cmf_clear_cache();

@@ -16,7 +16,16 @@ use think\Validate;
 class ThemeController extends AdminBaseController
 {
     /**
-     * 已安装模板列表
+     * 模板管理
+     * @adminMenu(
+     *     'name'   => '模板管理',
+     *     'parent' => 'admin/Setting/default',
+     *     'display'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '模板管理',
+     *     'param'  => ''
+     * )
      */
     public function index()
     {
@@ -29,7 +38,16 @@ class ThemeController extends AdminBaseController
     }
 
     /**
-     * 未安装模板列表
+     * 安装模板
+     * @adminMenu(
+     *     'name'   => '安装模板',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '安装模板',
+     *     'param'  => ''
+     * )
      */
     public function install()
     {
@@ -58,6 +76,15 @@ class ThemeController extends AdminBaseController
 
     /**
      * 卸载模板
+     * @adminMenu(
+     *     'name'   => '卸载模板',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '卸载模板',
+     *     'param'  => ''
+     * )
      */
     public function uninstall()
     {
@@ -73,7 +100,16 @@ class ThemeController extends AdminBaseController
     }
 
     /**
-     * 安装模板
+     * 模板安装
+     * @adminMenu(
+     *     'name'   => '模板安装',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '模板安装',
+     *     'param'  => ''
+     * )
      */
     public function installTheme()
     {
@@ -92,7 +128,16 @@ class ThemeController extends AdminBaseController
     }
 
     /**
-     * 更新模板
+     * 模板更新
+     * @adminMenu(
+     *     'name'   => '模板更新',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '模板更新',
+     *     'param'  => ''
+     * )
      */
     public function update()
     {
@@ -112,6 +157,15 @@ class ThemeController extends AdminBaseController
 
     /**
      * 启用模板
+     * @adminMenu(
+     *     'name'   => '启用模板',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '启用模板',
+     *     'param'  => ''
+     * )
      */
     public function active()
     {
@@ -135,6 +189,15 @@ class ThemeController extends AdminBaseController
 
     /**
      * 模板文件列表
+     * @adminMenu(
+     *     'name'   => '模板文件列表',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '启用模板',
+     *     'param'  => ''
+     * )
      */
     public function files()
     {
@@ -146,6 +209,15 @@ class ThemeController extends AdminBaseController
 
     /**
      * 模板文件设置
+     * @adminMenu(
+     *     'name'   => '模板文件设置',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '模板文件设置',
+     *     'param'  => ''
+     * )
      */
     public function fileSetting()
     {
@@ -167,6 +239,15 @@ class ThemeController extends AdminBaseController
 
     /**
      * 模板文件数组数据列表
+     * @adminMenu(
+     *     'name'   => '模板文件数组数据列表',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '模板文件数组数据列表',
+     *     'param'  => ''
+     * )
      */
     public function fileArrayData()
     {
@@ -226,6 +307,15 @@ class ThemeController extends AdminBaseController
 
     /**
      * 模板文件数组数据添加编辑
+     * @adminMenu(
+     *     'name'   => '模板文件数组数据添加编辑',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '模板文件数组数据添加编辑',
+     *     'param'  => ''
+     * )
      */
     public function fileArrayDataEdit()
     {
@@ -372,6 +462,15 @@ class ThemeController extends AdminBaseController
 
     /**
      * 模板文件数组数据删除
+     * @adminMenu(
+     *     'name'   => '模板文件数组数据删除',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '模板文件数组数据删除',
+     *     'param'  => ''
+     * )
      */
     public function fileArrayDataDelete()
     {
@@ -430,6 +529,15 @@ class ThemeController extends AdminBaseController
 
     /**
      * 模板文件编辑提交保存
+     * @adminMenu(
+     *     'name'   => '模板文件编辑提交保存',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '模板文件编辑提交保存',
+     *     'param'  => ''
+     * )
      */
     public function settingPost()
     {
@@ -531,6 +639,15 @@ class ThemeController extends AdminBaseController
 
     /**
      * 模板文件设置数据源
+     * @adminMenu(
+     *     'name'   => '模板文件设置数据源',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '模板文件设置数据源',
+     *     'param'  => ''
+     * )
      */
     public function dataSource()
     {

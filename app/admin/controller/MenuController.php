@@ -16,6 +16,18 @@ use mindplay\annotations\Annotations;
 
 class MenuController extends AdminBaseController
 {
+    /**
+     * 后台菜单管理
+     * @adminMenu(
+     *     'name'   => '后台菜单管理',
+     *     'parent' => 'admin/Setting/default',
+     *     'display'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '后台菜单管理',
+     *     'param'  => ''
+     * )
+     */
     public function index()
     {
         session('admin_menu_index', 'Menu/index');
@@ -55,7 +67,18 @@ class MenuController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 后台所有菜单列表
+    /**
+     * 后台所有菜单列表
+     * @adminMenu(
+     *     'name'   => '后台所有菜单列表',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '后台所有菜单列表',
+     *     'param'  => ''
+     * )
+     */
     public function lists()
     {
         session('admin_menu_index', 'Menu/lists');
@@ -64,7 +87,18 @@ class MenuController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 后台菜单添加
+    /**
+     * 后台菜单添加
+     * @adminMenu(
+     *     'name'   => '后台菜单添加',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '后台菜单添加',
+     *     'param'  => ''
+     * )
+     */
     public function add()
     {
         $tree     = new Tree();
@@ -82,7 +116,18 @@ class MenuController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 后台菜单添加提交
+    /**
+     * 后台菜单添加提交保存
+     * @adminMenu(
+     *     'name'   => '后台菜单添加提交保存',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '后台菜单添加提交保存',
+     *     'param'  => ''
+     * )
+     */
     public function addPost()
     {
         if ($this->request->isPost()) {
@@ -116,7 +161,18 @@ class MenuController extends AdminBaseController
         }
     }
 
-    // 后台菜单编辑
+    /**
+     * 后台菜单编辑
+     * @adminMenu(
+     *     'name'   => '后台菜单编辑',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '后台菜单编辑',
+     *     'param'  => ''
+     * )
+     */
     public function edit()
     {
         $tree   = new Tree();
@@ -136,7 +192,18 @@ class MenuController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 后台菜单编辑提交
+    /**
+     * 后台菜单编辑提交保存
+     * @adminMenu(
+     *     'name'   => '后台菜单编辑提交保存',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '后台菜单编辑提交保存',
+     *     'param'  => ''
+     * )
+     */
     public function editPost()
     {
         if ($this->request->isPost()) {
@@ -180,7 +247,18 @@ class MenuController extends AdminBaseController
         }
     }
 
-    // 后台菜单删除
+    /**
+     * 后台菜单删除
+     * @adminMenu(
+     *     'name'   => '后台菜单删除',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '后台菜单删除',
+     *     'param'  => ''
+     * )
+     */
     public function delete()
     {
         $id    = $this->request->param("id", 0, 'intval');
@@ -196,7 +274,16 @@ class MenuController extends AdminBaseController
     }
 
     /**
-     * 排序
+     * 后台菜单排序
+     * @adminMenu(
+     *     'name'   => '后台菜单排序',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '后台菜单排序',
+     *     'param'  => ''
+     * )
      */
     public function listOrder()
     {
@@ -205,6 +292,18 @@ class MenuController extends AdminBaseController
         $this->success("排序更新成功！");
     }
 
+    /**
+     * 导入新后台菜单
+     * @adminMenu(
+     *     'name'   => '导入新后台菜单',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '导入新后台菜单',
+     *     'param'  => ''
+     * )
+     */
     public function getActions()
     {
         Annotations::$config['cache']                 = false;
