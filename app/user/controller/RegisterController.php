@@ -20,7 +20,7 @@ class RegisterController extends HomeBaseController
      */
     public function index()
     {
-        $redirect = $this->request->param("redirect");
+        $redirect = $this->request->post("redirect");
         if (empty($redirect)) {
             $redirect = $this->request->server('HTTP_REFERER');
         } else {
@@ -54,7 +54,7 @@ class RegisterController extends HomeBaseController
                 'verify.require' => '验证码不能为空',
             ]);
 
-            $data = $this->request->param();
+            $data = $this->request->post();
             if (!$validate->check($data)) {
                 $this->error($validate->getError());
             }
