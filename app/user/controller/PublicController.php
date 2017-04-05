@@ -18,7 +18,7 @@ class PublicController extends HomeBaseController
     // 用户头像api
     public function avatar()
     {
-        $id   = $this->request->post("id", 0, "intval");
+        $id   = $this->request->param("id", 0, "intval");
         $user = UserModel::get($id);
 
         $avatar='';
