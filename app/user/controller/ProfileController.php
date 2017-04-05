@@ -36,7 +36,7 @@ class ProfileController extends UserBaseController
     }
 
     // 编辑用户资料提交
-    public function DataPost()
+    public function dataPost()
     {
         $data = $this->request->post();
         $editData = new UserModel();
