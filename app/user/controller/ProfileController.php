@@ -23,74 +23,79 @@ class ProfileController extends UserBaseController
     // 会员中心首页
     public function center()
     {
-        $this->assign(cmf_get_current_user());
+        $user = cmf_get_current_user();
+        $this->assign($user);
         return $this->fetch();
     }
     // 编辑用户资料
-    public function edit()
+    public function editData()
     {
-        $this->assign(cmf_get_current_user());
+        $user = cmf_get_current_user();
+        $this->assign($user);
         return $this->fetch();
     }
 
     // 编辑用户资料提交
-    public function edit_post()
+    public function DataPost()
     {
-        $data      = $this->request->post();
+        $data = $this->request->post();
         $editData = new UserModel();
         if($editData->editData($data)){
-            $this->success("保存成功！", url("profile/center"));
+            $this->success("保存成功！", url("user/profile/center"));
         }else{
-            $this->error("修改失败！");
+            $this->error("没有新的修改信息！");
         }
-
-
     }
 
     // 个人中心修改密码
-    public function password()
+    public function editPass()
     {
-        $this->assign(cmf_get_current_user());
         return $this->fetch();
     }
 
     // 个人中心修改密码提交
-    public function password_post()
+    public function passPost()
     {
-        if (IS_POST) {
-            $old_password = I('post.old_password');
-            if (empty($old_password)) {
-                $this->error("原始密码不能为空！");
-            }
+        $validate = new Validate([
+            'old_password' => 'require|min:6|max:32',
+            'password1' => 'require|min:6|max:32',
+            'password2' => 'require|min:6|max:32',
+            'verify' =>'require',
+        ]);
+        $validate->message([
+            'old_password.require' => '旧密码不能为空',
+            'old_password.max'     => '旧密码不能超过32个字符',
+            'old_password.min'     => '旧密码不能小于6个字符',
+            'password1.require' => '新密码不能为空',
+            'password1.max'     => '新密码不能超过32个字符',
+            'password1.min'     => '新密码不能小于6个字符',
+            'password2.require' => '重复密码不能为空',
+            'password2.max'     => '重复密码不能超过32个字符',
+            'password2.min'     => '重复密码不能小于6个字符',
+            'verify.require'   => '验证码不能为空',
+        ]);
 
-            $password = I('post.password');
-            if (empty($password)) {
-                $this->error("新密码不能为空！");
-            }
-
-            $uid   = sp_get_current_userid();
-            $admin = $this->users_model->where(['id' => $uid])->find();
-            if (sp_compare_password($old_password, $admin['user_pass'])) {
-                if ($password == I('post.repassword')) {
-                    if (sp_compare_password($password, $admin['user_pass'])) {
-                        $this->error("新密码不能和原始密码相同！");
-                    } else {
-                        $data['user_pass'] = sp_password($password);
-                        $data['id']        = $uid;
-                        $r                 = $this->users_model->save($data);
-                        if ($r !== false) {
-                            $this->success("修改成功！");
-                        } else {
-                            $this->error("修改失败！");
-                        }
-                    }
-                } else {
-                    $this->error("密码输入不一致！");
-                }
-
-            } else {
-                $this->error("原始密码不正确！");
-            }
+        $data = $this->request->param();
+        if (!$validate->check($data)) {
+            $this->error($validate->getError());
+        }
+        if (!cmf_captcha_check($data['verify'])) {
+            $this->error('验证码错误');
+        }
+        $login  = new UserModel();
+        $log    = $login->editPass($data);
+        switch ($log) {
+            case 0:
+                $this->success('修改成功');
+                break;
+            case 1:
+                $this->error('密码输入不一致');
+                break;
+            case 2:
+                $this->error('原始密码不正确');
+                break;
+            default :
+                $this->error('未受理的请求');
         }
 
     }
@@ -112,7 +117,8 @@ class ProfileController extends UserBaseController
     // 用户头像编辑
     public function avatar()
     {
-        $this->assign(cmf_get_current_user());
+        $user = cmf_get_current_user();
+        $this->assign($user);
         return $this->fetch();
     }
 
