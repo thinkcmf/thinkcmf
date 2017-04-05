@@ -11,6 +11,19 @@ namespace app\admin\controller;
 use cmf\controller\AdminBaseController;
 use think\Db;
 
+/**
+ * Class UserController
+ * @package app\admin\controller
+ * @adminMenuRoot(
+ *     'name'   => '管理组',
+ *     'action' => 'default',
+ *     'parent' => 'user/AdminIndex/default',
+ *     'display'=> true,
+ *     'order'  => 10000,
+ *     'icon'   => '',
+ *     'remark' => '管理组'
+ * )
+ */
 class UserController extends AdminBaseController
 {
 
@@ -112,7 +125,7 @@ class UserController extends AdminBaseController
             if (!empty($_POST['role_id']) && is_array($_POST['role_id'])) {
                 if (empty($_POST['user_pass'])) {
                     unset($_POST['user_pass']);
-                }else{
+                } else {
                     $_POST['user_pass'] = cmf_password($_POST['user_pass']);
                 }
                 $role_ids = $this->request->param('role_id/a');
@@ -124,7 +137,7 @@ class UserController extends AdminBaseController
                     $this->error($result);
                 } else {
                     $result = DB::name('user')->update($_POST);
-                    if ($result!==false) {
+                    if ($result !== false) {
                         $uid = $this->request->param('id', 0, 'intval');
                         DB::name("RoleUser")->where(["user_id" => $uid])->delete();
                         foreach ($role_ids as $role_id) {

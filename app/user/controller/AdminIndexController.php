@@ -12,6 +12,28 @@ namespace app\user\controller;
 use cmf\controller\AdminBaseController;
 use think\Db;
 
+/**
+ * Class AdminIndexController
+ * @package app\user\controller
+ * @adminMenuRoot(
+ *     'name'   =>'用户管理',
+ *     'action' =>'default',
+ *     'parent' =>'',
+ *     'display'=> true,
+ *     'order'  => 10000,
+ *     'icon'   =>'group',
+ *     'remark' =>'用户管理'
+ * )
+ * @adminMenuRoot(
+ *     'name'   =>'用户组',
+ *     'action' =>'default1',
+ *     'parent' =>'user/AdminIndex/default',
+ *     'display'=> true,
+ *     'order'  => 10000,
+ *     'icon'   =>'',
+ *     'remark' =>'用户组'
+ * )
+ */
 class AdminIndexController extends AdminBaseController
 {
 
