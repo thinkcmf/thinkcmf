@@ -37,7 +37,7 @@ class LinkController extends AdminBaseController
     }
 
     /**
-     *  添加友情链接
+     * 添加友情链接
      * @adminMenu(
      *     'name'   => '添加友情链接',
      *     'parent' => 'index',
@@ -55,7 +55,7 @@ class LinkController extends AdminBaseController
     }
 
     /**
-     *  添加友情链接提交保存
+     * 添加友情链接提交保存
      * @adminMenu(
      *     'name'   => '添加友情链接提交保存',
      *     'parent' => 'index',
@@ -79,7 +79,7 @@ class LinkController extends AdminBaseController
     }
 
     /**
-     *  编辑友情链接
+     * 编辑友情链接
      * @adminMenu(
      *     'name'   => '编辑友情链接',
      *     'parent' => 'index',
@@ -100,7 +100,7 @@ class LinkController extends AdminBaseController
     }
 
     /**
-     *  编辑友情链接提交保存
+     * 编辑友情链接提交保存
      * @adminMenu(
      *     'name'   => '编辑友情链接提交保存',
      *     'parent' => 'index',
@@ -124,7 +124,7 @@ class LinkController extends AdminBaseController
     }
 
     /**
-     *  删除友情链接
+     * 删除友情链接
      * @adminMenu(
      *     'name'   => '删除友情链接',
      *     'parent' => 'index',
@@ -144,7 +144,7 @@ class LinkController extends AdminBaseController
     }
 
     /**
-     *  友情链接排序
+     * 友情链接排序
      * @adminMenu(
      *     'name'   => '友情链接排序',
      *     'parent' => 'index',
@@ -163,7 +163,7 @@ class LinkController extends AdminBaseController
     }
 
     /**
-     *  友情链接显示隐藏
+     * 友情链接显示隐藏
      * @adminMenu(
      *     'name'   => '友情链接显示隐藏',
      *     'parent' => 'index',

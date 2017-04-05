@@ -13,7 +13,19 @@ use cmf\controller\AdminBaseController;
 
 class SlideController extends AdminBaseController
 {
-    //幻灯片列表
+
+    /**
+     * 幻灯片列表
+     * @adminMenu(
+     *     'name'   => '幻灯片管理',
+     *     'parent' => 'admin/Setting/default',
+     *     'display'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '幻灯片管理',
+     *     'param'  => ''
+     * )
+     */
     public function index()
     {
         $slidePostModel = new SlideModel();
@@ -22,13 +34,35 @@ class SlideController extends AdminBaseController
         return $this->fetch();
     }
 
-    //  幻灯片
+    /**
+     * 添加幻灯片
+     * @adminMenu(
+     *     'name'   => '添加幻灯片',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加幻灯片',
+     *     'param'  => ''
+     * )
+     */
     public function add()
     {
         return $this->fetch();
     }
 
-    //幻灯片提交
+    /**
+     * 添加幻灯片提交
+     * @adminMenu(
+     *     'name'   => '添加幻灯片提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加幻灯片提交',
+     *     'param'  => ''
+     * )
+     */
     public function addPost()
     {
         $data           = $this->request->param();
@@ -40,7 +74,18 @@ class SlideController extends AdminBaseController
         $this->success("添加成功！", url("slide/index"));
     }
 
-    //编辑
+    /**
+     * 编辑幻灯片
+     * @adminMenu(
+     *     'name'   => '编辑幻灯片',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑幻灯片',
+     *     'param'  => ''
+     * )
+     */
     public function edit()
     {
         $id             = $this->request->param('id');
@@ -50,7 +95,18 @@ class SlideController extends AdminBaseController
         return $this->fetch();
     }
 
-    //编辑提交
+    /**
+     * 编辑幻灯片提交
+     * @adminMenu(
+     *     'name'   => '编辑幻灯片提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑幻灯片提交',
+     *     'param'  => ''
+     * )
+     */
     public function editPost()
     {
         $data           = $this->request->param();
@@ -62,7 +118,18 @@ class SlideController extends AdminBaseController
         $this->success("修改成功！", url("slide/index"));
     }
 
-    //删除幻灯片
+    /**
+     * 删除幻灯片
+     * @adminMenu(
+     *     'name'   => '删除幻灯片',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '删除幻灯片',
+     *     'param'  => ''
+     * )
+     */
     public function delete()
     {
         $id     = $this->request->param();
