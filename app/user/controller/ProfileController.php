@@ -37,7 +37,7 @@ class ProfileController extends UserBaseController
     {
         $user = cmf_get_current_user();
         $this->assign($user);
-        return $this->fetch();
+        return $this->fetch('edit');
     }
 
     /**
@@ -59,7 +59,7 @@ class ProfileController extends UserBaseController
      */
     public function editPass()
     {
-        return $this->fetch();
+        return $this->fetch('password');
     }
 
     /**
