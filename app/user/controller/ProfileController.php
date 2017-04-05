@@ -45,12 +45,16 @@ class ProfileController extends UserBaseController
      */
     public function dataPost()
     {
-        $data = $this->request->post();
-        $editData = new UserModel();
-        if($editData->editData($data)){
-            $this->success("保存成功！", url("user/profile/center"));
-        }else{
-            $this->error("没有新的修改信息！");
+        if ($this->request->isPost()) {
+            $data = $this->request->post();
+            $editData = new UserModel();
+            if($editData->editData($data)){
+                $this->success("保存成功！", url("user/profile/center"));
+            }else{
+                $this->error("没有新的修改信息！");
+            }
+        } else {
+            $this->error("请求错误");
         }
     }
 
@@ -59,6 +63,8 @@ class ProfileController extends UserBaseController
      */
     public function editPass()
     {
+        $user = cmf_get_current_user();
+        $this->assign($user);
         return $this->fetch('password');
     }
 
@@ -67,62 +73,52 @@ class ProfileController extends UserBaseController
      */
     public function passPost()
     {
-        $validate = new Validate([
-            'old_password' => 'require|min:6|max:32',
-            'password1' => 'require|min:6|max:32',
-            'password2' => 'require|min:6|max:32',
-            'verify' =>'require',
-        ]);
-        $validate->message([
-            'old_password.require' => '旧密码不能为空',
-            'old_password.max'     => '旧密码不能超过32个字符',
-            'old_password.min'     => '旧密码不能小于6个字符',
-            'password1.require' => '新密码不能为空',
-            'password1.max'     => '新密码不能超过32个字符',
-            'password1.min'     => '新密码不能小于6个字符',
-            'password2.require' => '重复密码不能为空',
-            'password2.max'     => '重复密码不能超过32个字符',
-            'password2.min'     => '重复密码不能小于6个字符',
-            'verify.require'   => '验证码不能为空',
-        ]);
+        if ($this->request->isPost()) {
+            $validate = new Validate([
+                'old_password' => 'require|min:6|max:32',
+                'password1' => 'require|min:6|max:32',
+                'password2' => 'require|min:6|max:32',
+                'verify' =>'require',
+            ]);
+            $validate->message([
+                'old_password.require' => '旧密码不能为空',
+                'old_password.max'     => '旧密码不能超过32个字符',
+                'old_password.min'     => '旧密码不能小于6个字符',
+                'password1.require' => '新密码不能为空',
+                'password1.max'     => '新密码不能超过32个字符',
+                'password1.min'     => '新密码不能小于6个字符',
+                'password2.require' => '重复密码不能为空',
+                'password2.max'     => '重复密码不能超过32个字符',
+                'password2.min'     => '重复密码不能小于6个字符',
+                'verify.require'   => '验证码不能为空',
+            ]);
 
-        $data = $this->request->param();
-        if (!$validate->check($data)) {
-            $this->error($validate->getError());
-        }
-        if (!cmf_captcha_check($data['verify'])) {
-            $this->error('验证码错误');
-        }
-        $login  = new UserModel();
-        $log    = $login->editPass($data);
-        switch ($log) {
-            case 0:
-                $this->success('修改成功');
-                break;
-            case 1:
-                $this->error('密码输入不一致');
-                break;
-            case 2:
-                $this->error('原始密码不正确');
-                break;
-            default :
-                $this->error('未受理的请求');
+            $data = $this->request->post();
+            if (!$validate->check($data)) {
+                $this->error($validate->getError());
+            }
+            if (!cmf_captcha_check($data['verify'])) {
+                $this->error('验证码错误');
+            }
+            $login  = new UserModel();
+            $log    = $login->editPass($data);
+            switch ($log) {
+                case 0:
+                    $this->success('修改成功');
+                    break;
+                case 1:
+                    $this->error('密码输入不一致');
+                    break;
+                case 2:
+                    $this->error('原始密码不正确');
+                    break;
+                default :
+                    $this->error('未受理的请求');
+            }
+        } else {
+            $this->error("请求错误");
         }
 
-    }
-
-    // 第三方账号绑定
-    public function bang()
-    {
-        $oauth_user_model = M("OauthUser");
-        $uid              = sp_get_current_userid();
-        $oauths           = $oauth_user_model->where(["uid" => $uid])->select();
-        $new_oauths       = [];
-        foreach ($oauths as $oa) {
-            $new_oauths[strtolower($oa['from'])] = $oa;
-        }
-        $this->assign("oauths", $new_oauths);
-        return $this->fetch();
     }
 
     // 用户头像编辑
@@ -225,5 +221,19 @@ class ProfileController extends UserBaseController
             sp_delete_avatar($imgurl);
         }
         $this->ajaxReturn($res);
+    }
+
+    // 第三方账号绑定
+    public function bang()
+    {
+        $oauth_user_model = M("OauthUser");
+        $uid              = sp_get_current_userid();
+        $oauths           = $oauth_user_model->where(["uid" => $uid])->select();
+        $new_oauths       = [];
+        foreach ($oauths as $oa) {
+            $new_oauths[strtolower($oa['from'])] = $oa;
+        }
+        $this->assign("oauths", $new_oauths);
+        return $this->fetch();
     }
 }
