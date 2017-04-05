@@ -20,14 +20,19 @@ class ProfileController extends UserBaseController
         parent::_initialize();
     }
 
-    // 会员中心首页
+    /**
+     * 会员中心首页
+     */
     public function center()
     {
         $user = cmf_get_current_user();
         $this->assign($user);
         return $this->fetch();
     }
-    // 编辑用户资料
+
+    /**
+     * 编辑用户资料
+     */
     public function editData()
     {
         $user = cmf_get_current_user();
@@ -35,7 +40,9 @@ class ProfileController extends UserBaseController
         return $this->fetch();
     }
 
-    // 编辑用户资料提交
+    /**
+     * 编辑用户资料提交
+     */
     public function dataPost()
     {
         $data = $this->request->post();
@@ -47,13 +54,17 @@ class ProfileController extends UserBaseController
         }
     }
 
-    // 个人中心修改密码
+    /**
+     * 个人中心修改密码
+     */
     public function editPass()
     {
         return $this->fetch();
     }
 
-    // 个人中心修改密码提交
+    /**
+     * 个人中心修改密码提交
+     */
     public function passPost()
     {
         $validate = new Validate([
