@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$user_login}</title>
+<meta name="keywords" content="" />
+<meta name="description" content="">
+<include file="public@head"/>
+<style>
+.control-label{
+	font-weight: bold;
+	float: left;
+	width: 70px;
+}
+</style>
+</head>
+<body class="body-white" id="top">
+<include file="public@nav" />
+
+		<div class="container tc-main">
+                <div class="row">
+                <div class="tabs col-md-offset-2 col-md-8">
+                               <div class="tab-content">
+                                   <div class="tab-pane active" id="one">
+                                   		<div class="col-md-3">
+						                	<a href="javascript:;">
+												<if condition="empty($avatar)">
+													<img src="/themes/simpleboot3/Public/assets/images/headicon_128.png" class="headicon" width="128" />
+													<else />
+													<img src="__ROOT__/upload/{$avatar}" class="headicon" width="128"/>
+												</if>
+								          	</a>
+							          	</div>
+							          	<div class="col-md-9">
+											<div class="form-group">
+												<label class="control-label" for="input-user_nicename">昵称</label>
+												<div>{$user_nickname|default='未填写'}</div>
+											</div>
+											<div class="form-group">
+												<label class="control-label" for="input-sex">性别</label>
+												<div>
+													<php> $sexs=array("0"=>"保密","1"=>"程序猿","2"=>"程序媛");echo $sexs[$sex]; </php>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="control-label" for="input-birthday">生日</label>
+												<div>{:date('Y-m-d',$birthday)}</div>
+											</div>
+											<div class="form-group">
+												<label class="control-label" for="input-user_url">个人网址</label>
+												<div>{$user_url|default='未填写'}</div>
+											</div>
+											<div class="form-group">
+												<label class="control-label" for="input-signature">个性签名</label>
+												<div>{$signature|default='未填写'}</div>
+											</div>
+					               		</div>
+                                   </div>
+                               </div>							
+                 </div>
+                </div>
+			<include file="public@footer" />
+		</div>
+<!-- /container -->
+<include file="public@scripts" />
+</body>
+</html>
