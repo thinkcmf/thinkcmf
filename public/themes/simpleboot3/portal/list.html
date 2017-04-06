@@ -16,10 +16,10 @@
             <div class="">
                 <php>
                     $where=[
-                    'post.create_time'=>['egt',0]
+                        'post.create_time'=>['egt',0]
                     ];
                 </php>
-                <articles item="vo" field="*" where="$where" order="post.create_time DESC" page="1"
+                <articles item="vo" field="*" where="$where" order="post.create_time DESC" page="10"
                           relation="categories"
                           categoryIds="$category.id"
                           returnVarName="articles_data">
