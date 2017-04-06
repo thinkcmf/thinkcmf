@@ -42,7 +42,7 @@
 							<if condition="empty($avatar)"> 
 								<img src="__TMPL__Public/assets/images/headicon_128.png" class="headicon" width="128" /> 
 							<else /> 
-								<img src="{:sp_get_user_avatar_url($avatar)}?t={:time()}" class="headicon" width="128" /> 
+								<img src="__ROOT__/upload/{$avatar}?t={:time()}" class="headicon" width="128" />
 							</if>
 							<input type="file" onchange="avatar_upload(this)" id="avatar_uploder" name="file" />
 							<div class="uploaded_avatar_area">
