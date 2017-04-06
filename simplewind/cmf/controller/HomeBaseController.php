@@ -16,6 +16,8 @@ class HomeBaseController extends BaseController
     public function _initialize()
     {
         parent::_initialize();
+        $siteInfo = cmf_get_site_info();
+        $this->assign('site_info', $siteInfo);
     }
 
     public function _initializeView()
@@ -35,7 +37,7 @@ class HomeBaseController extends BaseController
             '__STATIC__'   => "{$root}/static",
             '__WEB_ROOT__' => $root
         ];
-        $viewReplaceStr = array_merge(config('view_replace_str'),$viewReplaceStr);
+        $viewReplaceStr = array_merge(config('view_replace_str'), $viewReplaceStr);
         config('template.view_base', "{$themePath}/");
         config('view_replace_str', $viewReplaceStr);
 
