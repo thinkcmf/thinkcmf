@@ -91,7 +91,7 @@ class AdminPageController extends AdminBaseController
 
 
     /**
-     * @todo db操作不应该放模型里面更好么？
+     *
      * 页面管理删除方法
      * @copyright [copyright]
      * @license   [license]
@@ -104,98 +104,15 @@ class AdminPageController extends AdminBaseController
     {
 
         $portalPostModel = new PortalPostModel();
-        if(input('?param.id')){
-            $id  = input('param.id/d'); //获取删除id
-
-            $res = $portalPostModel->where(['id' => $id])->find();
-            if($res){
-                $res =  json_decode(json_encode($res),true); //转换为数组
-                $recycleData   = [
-                    'object_id'   => $res['id'],
-                    'create_time' => time(),
-                    'table_name'  => 'portal_post',
-                    'name'        => $res['post_title'],
-                    'data'        => json_encode($res)
-                ];
-                Db::startTrans(); //开启事务
-                $transStatus = false;
-                try{
-                    Db::name('portal_post')->where(['id' => $id])->update([
-                                                    'post_status' => 3,
-                                                    'delete_time' => time()
-                                                  ]);
-                    Db::name('recycle_bin')->insert($recycleData);
-
-                    $transStatus = true;
-                    // 提交事务
-                    Db::commit();
-                } catch (\Exception $e) {
-                    $transStatus = false;
-                    // 回滚事务
-                    Db::rollback();
+        $data = $this->request->param();
 
 
-                }
+        $result = $portalPostModel->adminDeletePage($data);
+        if( $result )
+        {
 
-                if($transStatus){
-                    $this->success(lang('DELETE_SUCCESS'));
-                }else{
-                    $this->error(lang('DELETE_FAILED'));
-                }
-
-            }else{
-                $this->error(lang('DELETE_FAILED'));
-            }
-        }elseif(input('?param.ids')){
-            $ids = input('param.ids/a');
-            $res = $portalPostModel->where(['id' => ['in',$ids]])
-                                   ->select();
-
-            if($res){
-                $res =  json_decode(json_encode($res),true);
-                foreach ($res as $key => $value) {
-                    $recycleData[$key]['object_id'] = $value['id'];
-                    $recycleData[$key]['create_time'] = time();
-                    $recycleData[$key]['table_name'] = 'portal_post';
-                    $recycleData[$key]['name'] = $value['post_title'];
-                    $recycleData[$key]['data'] = json_encode($value);
-                }
-
-                Db::startTrans(); //开启事务
-                $transStatus = false;
-                try{
-                    Db::name('portal_post')->where(['id' => ['in',$ids]])
-                                              ->update([
-                                                    'post_status' => 3,
-                                                    'delete_time' => time()
-                                                  ]);
-
-
-                    Db::name('recycle_bin')->insertAll($recycleData);
-
-                    $transStatus = true;
-                    // 提交事务
-                    Db::commit();
-
-                } catch (\Exception $e) {
-                    $transStatus = false;
-
-                    // 回滚事务
-                    Db::rollback();
-
-
-                }
-                if($transStatus){
-                    $this->success(lang('DELETE_SUCCESS'));
-                }else{
-                    $this->error(lang('DELETE_FAILED'));
-                }
-
-            }else{
-                $this->error(lang('DELETE_FAILED'));
-            }
-
-        }else{
+            $this->success(lang('DELETE_SUCCESS'));
+        } else {
             $this->error(lang('DELETE_FAILED'));
         }
 
