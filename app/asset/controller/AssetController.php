@@ -24,7 +24,7 @@ class AssetController extends AdminBaseController
         function _initialize()
         {
             $adminId = cmf_get_current_admin_id();
-            $userId  = cmf_get_current_userid();
+            $userId  = cmf_get_current_user_id();
             if (empty($adminId) && empty($userId)) {
                 exit("非法上传！");
             }
@@ -81,7 +81,7 @@ class AssetController extends AdminBaseController
             $strDate         = date('Ymd');
 
             $adminId   = cmf_get_current_admin_id();
-            $userId    = cmf_get_current_userid();
+            $userId    = cmf_get_current_user_id();
             $userId    = empty($adminId) ? $userId : $adminId;
             $targetDir = RUNTIME_PATH . "upload" . DS . $userId . DS; // 断点续传 need
             if (!file_exists($targetDir)) {

@@ -43,7 +43,7 @@ class UeditorController extends HomeBaseController
     function _initialize()
     {
         $adminId = cmf_get_current_admin_id();
-        $userId  = cmf_get_current_userid();
+        $userId  = cmf_get_current_user_id();
         if (empty($adminId) && empty($userId)) {
             exit("非法上传！");
         }
@@ -290,7 +290,7 @@ class UeditorController extends HomeBaseController
         $uploadMaxFileSize = empty($uploadMaxFileSize) ? 2097152 : $uploadMaxFileSize;//默认2M
 
         $adminId = cmf_get_current_admin_id();
-        $userId  = cmf_get_current_userid();
+        $userId  = cmf_get_current_user_id();
         $userId  = empty($adminId) ? $userId : $adminId;
         $strId   = $this->request->post("id");
 
