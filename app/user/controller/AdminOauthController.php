@@ -14,7 +14,18 @@ use think\Db;
 class AdminOauthController extends AdminBaseController
 {
 
-    // 后台第三方用户列表
+    /**
+     * 后台第三方用户列表
+     * @adminMenu(
+     *     'name'   => '第三方用户',
+     *     'parent' => 'user/AdminIndex/default1',
+     *     'display'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '第三方用户',
+     *     'param'  => ''
+     * )
+     */
     public function index()
     {
         $oauthUserQuery = Db::name('third_party_user');
@@ -28,7 +39,18 @@ class AdminOauthController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 后台删除第三方用户绑定
+    /**
+     * 后台删除第三方用户绑定
+     * @adminMenu(
+     *     'name'   => '删除第三方用户绑定',
+     *     'parent' => 'index',
+     *     'display'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '删除第三方用户绑定',
+     *     'param'  => ''
+     * )
+     */
     public function delete()
     {
         $id = input('param.id', 0, 'intval');

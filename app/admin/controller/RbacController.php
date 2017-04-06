@@ -16,7 +16,18 @@ use app\admin\model\AdminMenuModel;
 class RbacController extends AdminBaseController
 {
 
-    // 角色管理列表
+    /**
+     * 角色管理列表
+     * @adminMenu(
+     *     'name'   => '角色管理',
+     *     'parent' => 'admin/User/default',
+     *     'display'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '角色管理',
+     *     'param'  => ''
+     * )
+     */
     public function index()
     {
         $data = Db::name('role')->order(["list_order" => "ASC", "id" => "DESC"])->select();
@@ -24,13 +35,35 @@ class RbacController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 添加角色
+    /**
+     * 添加角色
+     * @adminMenu(
+     *     'name'   => '添加角色',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加角色',
+     *     'param'  => ''
+     * )
+     */
     public function roleAdd()
     {
         return $this->fetch();
     }
 
-    // 添加角色提交
+    /**
+     * 添加角色提交
+     * @adminMenu(
+     *     'name'   => '添加角色提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加角色提交',
+     *     'param'  => ''
+     * )
+     */
     public function roleAddPost()
     {
         if ($this->request->isPost()) {
@@ -51,27 +84,18 @@ class RbacController extends AdminBaseController
         }
     }
 
-    // 删除角色
-    public function roleDelete()
-    {
-        $id = $this->request->param("id", 0, 'intval');
-        if ($id == 1) {
-            $this->error("超级管理员角色不能被删除！");
-        }
-        $count = Db::name('RoleUser')->where(['role_id' => $id])->count();
-        if ($count > 0) {
-            $this->error("该角色已经有用户！");
-        } else {
-            $status = Db::name('role')->delete($id);
-            if (!empty($status)) {
-                $this->success("删除成功！", url('rbac/index'));
-            } else {
-                $this->error("删除失败！");
-            }
-        }
-    }
-
-    // 编辑角色
+    /**
+     * 编辑角色
+     * @adminMenu(
+     *     'name'   => '编辑角色',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑角色',
+     *     'param'  => ''
+     * )
+     */
     public function roleEdit()
     {
         $id = $this->request->param("id", 0, 'intval');
@@ -86,7 +110,18 @@ class RbacController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 编辑角色提交
+    /**
+     * 编辑角色提交
+     * @adminMenu(
+     *     'name'   => '编辑角色提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑角色提交',
+     *     'param'  => ''
+     * )
+     */
     public function roleEditPost()
     {
         $id = $this->request->param("id", 0, 'intval');
@@ -110,7 +145,49 @@ class RbacController extends AdminBaseController
         }
     }
 
-    // 设置权限
+    /**
+     * 删除角色
+     * @adminMenu(
+     *     'name'   => '删除角色',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '删除角色',
+     *     'param'  => ''
+     * )
+     */
+    public function roleDelete()
+    {
+        $id = $this->request->param("id", 0, 'intval');
+        if ($id == 1) {
+            $this->error("超级管理员角色不能被删除！");
+        }
+        $count = Db::name('RoleUser')->where(['role_id' => $id])->count();
+        if ($count > 0) {
+            $this->error("该角色已经有用户！");
+        } else {
+            $status = Db::name('role')->delete($id);
+            if (!empty($status)) {
+                $this->success("删除成功！", url('rbac/index'));
+            } else {
+                $this->error("删除失败！");
+            }
+        }
+    }
+
+    /**
+     * 设置角色权限
+     * @adminMenu(
+     *     'name'   => '设置角色权限',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '设置角色权限',
+     *     'param'  => ''
+     * )
+     */
     public function authorize()
     {
         $AuthAccess     = Db::name("AuthAccess");
@@ -153,7 +230,18 @@ class RbacController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 角色授权提交
+    /**
+     * 角色授权提交
+     * @adminMenu(
+     *     'name'   => '角色授权提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '角色授权提交',
+     *     'param'  => ''
+     * )
+     */
     public function authorizePost()
     {
         if ($this->request->isPost()) {

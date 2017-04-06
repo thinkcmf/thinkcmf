@@ -27,9 +27,17 @@ use think\Db;
 class UserController extends AdminBaseController
 {
 
-    // 管理员列表
     /**
-     * @return mixed
+     * 管理员列表
+     * @adminMenu(
+     *     'name'   => '管理员',
+     *     'parent' => 'default',
+     *     'display'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '管理员管理',
+     *     'param'  => ''
+     * )
      */
     public function index()
     {
@@ -64,7 +72,18 @@ class UserController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 管理员添加
+    /**
+     * 管理员添加
+     * @adminMenu(
+     *     'name'   => '管理员添加',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '管理员添加',
+     *     'param'  => ''
+     * )
+     */
     public function add()
     {
         $roles = Db::name('role')->where(['status' => 1])->order("id DESC")->select();
@@ -72,7 +91,18 @@ class UserController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 管理员添加提交
+    /**
+     * 管理员添加提交
+     * @adminMenu(
+     *     'name'   => '管理员添加提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '管理员添加提交',
+     *     'param'  => ''
+     * )
+     */
     public function addPost()
     {
         if ($this->request->isPost()) {
@@ -104,7 +134,18 @@ class UserController extends AdminBaseController
         }
     }
 
-    // 管理员编辑
+    /**
+     * 管理员编辑
+     * @adminMenu(
+     *     'name'   => '管理员编辑',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '管理员编辑',
+     *     'param'  => ''
+     * )
+     */
     public function edit()
     {
         $id    = $this->request->param('id', 0, 'intval');
@@ -118,8 +159,19 @@ class UserController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 管理员编辑提交
-    public function edit_post()
+    /**
+     * 管理员编辑提交
+     * @adminMenu(
+     *     'name'   => '管理员编辑提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '管理员编辑提交',
+     *     'param'  => ''
+     * )
+     */
+    public function editPost()
     {
         if ($this->request->isPost()) {
             if (!empty($_POST['role_id']) && is_array($_POST['role_id'])) {
@@ -158,7 +210,18 @@ class UserController extends AdminBaseController
         }
     }
 
-    // 管理员个人信息修改
+    /**
+     * 管理员个人信息修改
+     * @adminMenu(
+     *     'name'   => '管理员个人信息修改',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '管理员个人信息修改',
+     *     'param'  => ''
+     * )
+     */
     public function userInfo()
     {
         $id   = cmf_get_current_admin_id();//TODO
@@ -168,7 +231,18 @@ class UserController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 管理员个人信息修改提交
+    /**
+     * 管理员个人信息修改提交
+     * @adminMenu(
+     *     'name'   => '管理员个人信息修改提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '管理员个人信息修改提交',
+     *     'param'  => ''
+     * )
+     */
     public function userInfoPost()
     {
         if ($this->request->isPost()) {
@@ -185,7 +259,18 @@ class UserController extends AdminBaseController
         }
     }
 
-    // 管理员删除
+    /**
+     * 管理员删除
+     * @adminMenu(
+     *     'name'   => '管理员删除',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '管理员删除',
+     *     'param'  => ''
+     * )
+     */
     public function delete()
     {
         $id = $this->request->param('id', 0, 'intval');
@@ -201,7 +286,18 @@ class UserController extends AdminBaseController
         }
     }
 
-    // 停用管理员
+    /**
+     * 停用管理员
+     * @adminMenu(
+     *     'name'   => '停用管理员',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '停用管理员',
+     *     'param'  => ''
+     * )
+     */
     public function ban()
     {
         $id = $this->request->param('id', 0, 'intval');
@@ -217,7 +313,18 @@ class UserController extends AdminBaseController
         }
     }
 
-    // 启用管理员
+    /**
+     * 启用管理员
+     * @adminMenu(
+     *     'name'   => '启用管理员',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '启用管理员',
+     *     'param'  => ''
+     * )
+     */
     public function cancelBan()
     {
         $id = $this->request->param('id', 0, 'intval');
