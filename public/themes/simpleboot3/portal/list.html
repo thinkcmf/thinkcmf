@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,9 +19,10 @@
                     'post.create_time'=>['egt',0]
                     ];
                 </php>
-                <articles item="vo" field="*" where="$where" limit="0,8" order="post.create_time DESC" page="10"
+                <articles item="vo" field="*" where="$where" order="post.create_time DESC" page="1"
                           relation="categories"
-                          categoryIds="$category.id">
+                          categoryIds="$category.id"
+                          returnVarName="articles_data">
                     <php>
                         $more=json_decode($vo['more'], true);
                     </php>
