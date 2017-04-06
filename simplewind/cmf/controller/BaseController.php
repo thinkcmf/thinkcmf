@@ -52,7 +52,7 @@ class BaseController extends Controller
     }
 
     /**
-     *  排序 排序字段为listorders数组 POST 排序字段为：list_order
+     *  排序 排序字段为list_orders数组 POST 排序字段为：list_order
      */
     protected function listOrders($model)
     {

@@ -14,9 +14,9 @@ class UserBaseController extends HomeBaseController
     public function _initialize()
     {
         parent::_initialize();
-        $user = cmf_get_current_user();
-        if(!$user){
-            $this->error("用户尚未登录",url("user/login/index"));
+        $userId = cmf_get_current_user_id();
+        if (empty($userId)) {
+            $this->error("用户尚未登录", url("user/login/index"));
         }
     }
 

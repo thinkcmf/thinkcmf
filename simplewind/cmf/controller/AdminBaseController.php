@@ -65,13 +65,13 @@ class AdminBaseController extends BaseController
 
     /**
      *  检查后台用户访问权限
-     * @param int $uid 后台用户id
+     * @param int $userId 后台用户id
      * @return boolean 检查通过返回true
      */
-    private function checkAccess($uid)
+    private function checkAccess($userId)
     {
-//        如果用户角色是1，则无需判断
-        if ($uid == 1) {
+//        如果用户id是1，则无需判断
+        if ($userId == 1) {
             return true;
         }
 //
@@ -82,7 +82,7 @@ class AdminBaseController extends BaseController
 
         $notRequire = ["adminIndexindex", "adminMainindex"];
         if (!in_array($rule, $notRequire)) {
-            return cmf_auth_check($uid);
+            return cmf_auth_check($userId);
         } else {
             return true;
         }

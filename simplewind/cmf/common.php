@@ -129,7 +129,7 @@ function cmf_get_user_avatar_url($avatar)
 
             return cmf_get_asset_url($avatar);
 
-            $url = cmf_get_asset_upload_path($avatar, false);
+            $url = cmf_get_asset_url($avatar, false);
             if (C('FILE_UPLOAD_TYPE') == 'Qiniu') {
                 $storage_setting = cmf_get_cmf_settings('storage');
                 $qiniu_setting   = $storage_setting['Qiniu']['setting'];
@@ -490,75 +490,6 @@ function cmf_get_content_images($content)
     return $imgsData;
 }
 
-
-/**
- * TODO
- * @param unknown_type $navcatname
- * @param unknown_type $datas
- * @param unknown_type $navrule
- * @return string
- */
-function cmf_get_nav4admin($navcatname, $datas, $navrule)
-{
-    $nav            = [];
-    $nav['name']    = $navcatname;
-    $nav['urlrule'] = $navrule;
-    $nav['items']   = [];
-
-    foreach ($datas as $t) {
-        $urlrule           = [];
-        $action            = $navrule['action'];
-        $urlrule['action'] = $action;
-        $urlrule['param']  = [];
-        if (isset($navrule['param'])) {
-            foreach ($navrule['param'] as $key => $val) {
-                $urlrule['param'][$key] = $t[$val];
-            }
-        }
-
-        $nav['items'][] = [
-            "label"    => $t[$navrule['label']],
-            "url"      => url($action, $urlrule['param']),
-            "rule"     => base64_encode(serialize($urlrule)),
-            "parentid" => empty($navrule['parentid']) ? 0 : $t[$navrule['parentid']],
-            "id"       => $t[$navrule['param']['id']],
-        ];
-    }
-    return $nav;
-}
-
-/**
- * @deprecated
- * @param $tplname
- * @param $default_tplname
- * @param string $defaultTheme
- * @return string
- */
-function cmf_get_app_home_tpl($tplname, $default_tplname, $defaultTheme = "")
-{
-    $theme = C('cmf_DEFAULT_THEME');
-    if (C('TMPL_DETECT_THEME')) {// 自动侦测模板主题
-        $t = C('VAR_TEMPLATE');
-        if (isset($_GET[$t])) {
-            $theme = $_GET[$t];
-        } elseif (cookie('think_template')) {
-            $theme = cookie('think_template');
-        }
-    }
-    $theme     = empty($defaultTheme) ? $theme : $defaultTheme;
-    $themepath = C("cmf_TMPL_PATH") . $theme . "/" . MODULE_NAME . "/";
-    $tplpath   = cmf_add_template_file_suffix($themepath . $tplname);
-    $defaultpl = cmf_add_template_file_suffix($themepath . $default_tplname);
-    if (file_exists_case($tplpath)) {
-    } else if (file_exists_case($defaultpl)) {
-        $tplname = $default_tplname;
-    } else {
-        $tplname = "404";
-    }
-    return $tplname;
-}
-
-
 /**
  * 去除字符串中的指定字符
  * @param string $str 待处理字符串
@@ -703,7 +634,7 @@ function cmf_get_image_preview_url($file, $style = 'watermark')
         $storage_setting = cmf_get_cmf_settings('storage');
         $qiniu_setting   = $storage_setting['Qiniu']['setting'];
         $filePath        = $qiniu_setting['protocol'] . '://' . $storage_setting['Qiniu']['domain'] . "/" . $file;
-        $url             = cmf_get_asset_upload_path($file, false);
+        $url             = cmf_get_asset_url($file, false);
         if ($qiniu_setting['enable_picture_protect']) {
             $url = $url . $qiniu_setting['style_separator'] . $qiniu_setting['styles'][$style];
         }
@@ -711,7 +642,7 @@ function cmf_get_image_preview_url($file, $style = 'watermark')
         return $url;
 
     } else {
-        return cmf_get_asset_upload_path($file, false);
+        return cmf_get_asset_url($file, false);
     }
 }
 
@@ -728,7 +659,7 @@ function cmf_get_file_download_url($file, $expires = 3600)
         $storage_setting = cmf_get_cmf_settings('storage');
         $qiniu_setting   = $storage_setting['Qiniu']['setting'];
         $filePath        = $qiniu_setting['protocol'] . '://' . $storage_setting['Qiniu']['domain'] . "/" . $file;
-        $url             = cmf_get_asset_upload_path($file, false);
+        $url             = cmf_get_asset_url($file, false);
 
         if ($qiniu_setting['enable_picture_protect']) {
             $qiniuStorage = new \Think\Upload\Driver\Qiniu\QiniuStorage(C('UPLOAD_TYPE_CONFIG'));
@@ -738,7 +669,7 @@ function cmf_get_file_download_url($file, $expires = 3600)
         return $url;
 
     } else {
-        return cmf_get_asset_upload_path($file, false);
+        return cmf_get_asset_url($file, false);
     }
 }
 
@@ -880,7 +811,7 @@ function cmf_check_user_action($object = "", $count_limit = 1, $ip_limit = false
 }
 
 /**
- * @deprecated
+ * TODO
  * 用于生成收藏内容用的key
  * @param string $table 收藏内容所在表
  * @param int $object_id 收藏内容的id
@@ -1323,27 +1254,6 @@ function cmf_captcha_check($value, $id = "")
 }
 
 /**
- * @deprecated
- * 手机验证码检查，验证完后销毁验证码增加安全性 ,<br>返回true验证码正确，false验证码错误
- * @return boolean <br>true：手机验证码正确，false：手机验证码错误
- */
-function cmf_check_mobile_verify_code($mobile = '', $verifycode = '')
-{
-    $session_mobile_code = session('mobile_code');
-    $verifycode          = empty($verifycode) ? I('request.mobile_code') : $verifycode;
-    $mobile              = empty($mobile) ? I('request.mobile') : $mobile;
-
-    $result = false;
-
-    if (!empty($session_mobile_code) && $session_mobile_code['code'] == md5($mobile . $verifycode . C('AUTHCODE')) && $session_mobile_code['expire_time'] > time()) {
-        $result = true;
-    }
-
-    return $result;
-}
-
-
-/**
  * TODO
  * 执行SQL文件  sae 环境下file_get_contents() 函数好像有间歇性bug。
  * @param string $sqlPath sql文件路径
@@ -1380,7 +1290,7 @@ function cmf_execute_sql_file($sqlPath)
  * @param array $params 调用参数
  * @author 5iymt <1145769693@qq.com>
  */
-function cmf_get_plugins_return($url, $params = [])
+function cmf_get_plugin_return($url, $params = [])
 {
     $url        = parse_url($url);
     $case       = C('URL_CASE_INSENSITIVE');
@@ -1920,40 +1830,5 @@ function cmf_file_write($file, $content)
         return $s->write($domain, $save_path, $content);
     } else {
         return file_put_contents($file, $content);
-    }
-}
-
-
-
-/**
- * 转化数据库保存的文件路径，为可以访问的url
- * @param string $file
- * @param mixed $style  样式(七牛)
- * @return string
- */
-function cmf_get_asset_upload_path($file,$style=''){
-    if(strpos($file,"http")===0){
-        return $file;
-    }else if(strpos($file,"/")===0){
-        return $file;
-    }else{
-        //$filepath=C("TMPL_PARSE_STRING.__UPLOAD__").$file;
-        $HttpRequst = Request::instance();
-
-        $filepath  = $file;
-        if(config('FILE_UPLOAD_TYPE')=='Local'){
-            if(strpos($filepath,"http")!==0){
-                $filepath=$HttpRequst->host().$filepath;
-            }
-        }
-
-        if(config('FILE_UPLOAD_TYPE')=='Qiniu'){
-            $storage_setting=cmf_get_cmf_settings('storage');
-            $qiniu_setting=$storage_setting['Qiniu']['setting'];
-            $filepath=$qiniu_setting['protocol'].'://'.$storage_setting['Qiniu']['domain']."/".$file.$style;
-        }
-
-        return $filepath;
-
     }
 }
