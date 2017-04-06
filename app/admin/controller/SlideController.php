@@ -29,7 +29,7 @@ class SlideController extends AdminBaseController
     public function index()
     {
         $slidePostModel = new SlideModel();
-        $slides         = $slidePostModel->select();
+        $slides         = $slidePostModel->where(['delete_time' => ['eq', 0]])->select();
         $this->assign('slides', $slides);
         return $this->fetch();
     }
@@ -115,7 +115,7 @@ class SlideController extends AdminBaseController
         if ($result === false) {
             $this->error($slidePostModel->getError());
         }
-        $this->success("修改成功！", url("slide/index"));
+        $this->success("保存成功！", url("slide/index"));
     }
 
     /**

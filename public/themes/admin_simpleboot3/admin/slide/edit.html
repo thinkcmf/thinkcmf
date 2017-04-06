@@ -3,37 +3,28 @@
 <body>
 	<div class="wrap">
 		<ul class="nav nav-tabs">
-			<li><a href="{:url('slide/index')}">{:lang('ADMIN_SLIDECAT_INDEX')}</a></li>
-			<li class="active"><a href="{:url('slide/edit')}">分类编辑</a></li>
+			<li><a href="{:url('slide/index')}">幻灯片列表</a></li>
+			<li class="active"><a>编辑幻灯片</a></li>
 		</ul>
 		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('slide/editPost')}">
-			<fieldset>
-				<div class="control-group">
-					<label class="control-label">{:lang('ADMIN_SLIDE_NAME')}</label>
-					<div class="controls">
-						<input type="hidden" name="id" value="{$result.id}">
-						<input type="text" name="name" value="{$result.name}">
-						<span class="form-required">*</span>
-					</div>
+			<div class="form-group">
+				<label for="input-name" class="col-sm-2 control-label">名称<span class="form-required">*</span></label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-name" name="name" value="{$result.name}">
 				</div>
-				<div class="control-group">
-					<label class="control-label">{:lang('CATEGORY_KEY')}</label>
-					<div class="controls">
-						<input type="text" name="name_id" value="{$result.name_id}">
-						<span class="form-required">*</span>
-						<span style="margin-left: 15px;">{:lang('CATEGORY_KEY_HELP_TEXT')}</span>
-					</div>
+			</div>
+			<div class="form-group">
+				<label for="input-remark" class="col-sm-2 control-label">{:lang('DESCRIPTION')}</label>
+				<div class="col-md-6 col-sm-10">
+					<textarea class="form-control" id="input-remark" name="remark">{$result.remark}</textarea>
 				</div>
-				<div class="control-group">
-					<label class="control-label">{:lang('DESCRIPTION')}</label>
-					<div class="controls">
-						<textarea name="remark" rows="5" cols="57">{$result.remark}</textarea>
-					</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<input type="hidden" name="id" value="{$result.id}">
+					<button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+					<a class="btn btn-default" href="{:url('slide/index')}">{:lang('BACK')}</a>
 				</div>
-			</fieldset>
-			<div class="form-actions">
-				<button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
-				<a class="btn" href="javascript:history.back(-1);">{:lang('BACK')}</a>
 			</div>
 		</form>
 	</div>
