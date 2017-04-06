@@ -29,8 +29,8 @@ class SlideController extends AdminBaseController
     public function index()
     {
         $slidePostModel = new SlideModel();
-        $list           = $slidePostModel->select();
-        $this->assign('list', $list);
+        $slides         = $slidePostModel->select();
+        $this->assign('slides', $slides);
         return $this->fetch();
     }
 
@@ -132,12 +132,10 @@ class SlideController extends AdminBaseController
      */
     public function delete()
     {
-        $id     = $this->request->param();
-        $result = SlideModel::destroy($id);
-        if ($result) {
-            $this->success("删除成功！", url("slide/index"));
-        } else {
-            $this->error("删除失败！");
-        }
+        $id             = $this->request->param('id', 0, 'intval');
+        $slidePostModel = new SlideModel();
+        $slidePostModel->save(['delete_time' => time()], ['id' => $id]);
+        //TODO 放进回收站
+        $this->success("删除成功！", url("slide/index"));
     }
 }
