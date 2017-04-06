@@ -22,11 +22,10 @@
                                <div class="tab-content">
                                    <div class="tab-pane active" id="one">
                                    		<br>
-                                   		<form class="js-ajax-form" action="{:url('user/profile/edit_post')}" method="post">
+                                   		<form class="js-ajax-form" action="{:url('user/profile/dataPost')}" method="post">
                                    			<div class="form-group">
-                                   				<label for="input-user_nicename">昵称</label>
-												<input type="hidden"  name="uid" value="{$id}"/>
-                                   				<input type="text" class="form-control" id="input-user_nicename" placeholder="昵称" name="user_nicename" value="{$user_nickname}">
+                                   				<label for="input-user_nickname">昵称</label>
+                                   				<input type="text" class="form-control" id="input-user_nickname" placeholder="昵称" name="user_nickname" value="{$user_nickname}">
                                    			</div>
                                    			<div class="form-group">
                                    				<label for="input-sex">性别</label>
@@ -64,6 +63,6 @@
 			<include file="public@footer" />
 		</div>
 	<!-- /container -->
-	<!--<include file="public@scripts" />-->
+	<include file="public@scripts" />
 </body>
 </html>

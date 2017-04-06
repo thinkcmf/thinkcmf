@@ -8,33 +8,32 @@
 // +----------------------------------------------------------------------
 namespace app\user\controller;
 
-use cmf\controller\UserBaseController;
+use cmf\controller\HomeBaseController;
 use think\Db;
 
-class IndexController extends UserBaseController
+class IndexController extends HomeBaseController
 {
 
-    // 前台用户首页 (公开)
+    /**
+     * 前台用户首页(公开)
+     */
     public function index()
     {
-
-        $id = input("get.id", 0, 'intval');
-
-        $users_model = Db::name("User");
-
-        $user = $users_model->where('id',$id)->find();
-
+        $id   = $this->request->param("id", 0, "intval");
+        $userQuery = Db::name("User");
+        $user = $userQuery->where('id',$id)->find();
         if (empty($user)) {
             session('user',null);
             $this->error("查无此人！");
         }
-
         $this->assign($user);
-        $this->display(":index");
+        return $this->fetch(":index");
 
     }
 
-    // 前台ajax 判断用户登录状态接口
+    /**
+     * 前台ajax 判断用户登录状态接口
+     */
     function isLogin()
     {
         if (cmf_is_user_login()) {
@@ -44,7 +43,9 @@ class IndexController extends UserBaseController
         }
     }
 
-    //退出
+    /**
+     * 退出登录
+    */
     public function logout()
     {
         session("user", null);//只有前台用户退出

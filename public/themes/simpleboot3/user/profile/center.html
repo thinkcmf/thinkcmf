@@ -32,7 +32,7 @@
 								<div class="col-md-3">
 								<a href="{:url('profile/avatar')}">
 									<if condition="empty($avatar)"> 
-										<img src="__ROOT__Public/assets/images/headicon_128.png" class="headicon" width="128" />
+										<img src="/themes/simpleboot3/Public/assets/images/headicon_128.png" class="headicon" width="128" />
 									<else />
 										<img src="__ROOT__/upload/{$avatar}" class="headicon" width="128"/>
 									</if>
@@ -62,7 +62,7 @@
 									<div>{$signature|default='未填写'}</div>
 								</div>
 								<div class="form-group">
-									<a href="{:url('user/profile/edit')}" type="submit" class="btn btn-primary">编辑</a>
+									<a href="{:url('user/profile/editData')}" type="submit" class="btn btn-primary">编辑</a>
 								</div>
 							</div>
 							</div>

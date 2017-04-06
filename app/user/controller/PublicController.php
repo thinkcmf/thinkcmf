@@ -39,7 +39,7 @@ class PublicController extends HomeBaseController
     public function sendCode()
     {
         if ($this->request->isPost()) {
-            $data = $this->request->param();
+            $data = $this->request->post();
             $code = cmf_get_verification_code($data['username']);
             if (empty($code)) {
                 $this->error("验证码发送过多,请明天再试!");

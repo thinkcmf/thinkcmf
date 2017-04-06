@@ -17,7 +17,7 @@
 			format 		: 'yyyy-mm-dd',
 			selectors 	: true,
 			time		: false,
-			yearRange 	: [-200, 200],
+			yearRange 	: [-50, 20],
 			lang 		: 'zh-CN',
 			offset : [0, 0],
 			speed : 0,

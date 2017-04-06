@@ -42,7 +42,7 @@ class ResetController extends HomeBaseController
                 'verify.require' => '验证码不能为空',
             ]);
 
-            $data = $this->request->param();
+            $data = $this->request->post();
             if (!$validate->check($data)) {
                 $this->error($validate->getError());
             }
