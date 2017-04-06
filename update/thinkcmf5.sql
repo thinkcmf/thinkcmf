@@ -11,7 +11,7 @@
  Target Server Version : 50717
  File Encoding         : utf-8
 
- Date: 04/06/2017 11:24:49 AM
+ Date: 04/06/2017 17:44:17 PM
 */
 
 SET NAMES utf8;
@@ -26,7 +26,7 @@ CREATE TABLE `cmf_admin_menu` (
   `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '父菜单id',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '菜单类型;1:权限认证+菜单,0:只作为菜单',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '状态;1:显示,0:不显示',
-  `list_order` float unsigned NOT NULL DEFAULT '0' COMMENT '排序ID',
+  `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序ID',
   `app` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '应用名',
   `controller` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '控制器名',
   `action` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '操作名称',
@@ -87,13 +87,13 @@ CREATE TABLE `cmf_auth_access` (
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`),
   KEY `rule_name` (`rule_name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=530 DEFAULT CHARSET=utf8 COMMENT='权限授权表';
+) ENGINE=InnoDB AUTO_INCREMENT=704 DEFAULT CHARSET=utf8 COMMENT='权限授权表';
 
 -- ----------------------------
 --  Records of `cmf_auth_access`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmf_auth_access` VALUES ('334', '2', 'portal/admindefault/default', 'admin_url'), ('335', '2', 'portal/adminarticle/index', 'admin_url'), ('336', '2', 'portal/adminpost/listorders', 'admin_url'), ('337', '2', 'portal/adminpost/top', 'admin_url'), ('338', '2', 'portal/adminpost/recommend', 'admin_url'), ('339', '2', 'portal/adminpost/move', 'admin_url'), ('340', '2', 'portal/adminpost/check', 'admin_url'), ('341', '2', 'portal/adminpost/delete', 'admin_url'), ('342', '2', 'portal/adminpost/edit', 'admin_url'), ('343', '2', 'portal/adminpost/edit_post', 'admin_url'), ('344', '2', 'portal/adminpost/add', 'admin_url'), ('345', '2', 'portal/adminpost/add_post', 'admin_url'), ('346', '2', 'portal/adminpost/copy', 'admin_url'), ('347', '2', 'portal/admincategory/index', 'admin_url'), ('348', '2', 'portal/adminterm/listorders', 'admin_url'), ('349', '2', 'portal/adminterm/delete', 'admin_url'), ('350', '2', 'portal/adminterm/edit', 'admin_url'), ('351', '2', 'portal/adminterm/edit_post', 'admin_url'), ('352', '2', 'portal/adminterm/add', 'admin_url'), ('353', '2', 'portal/adminterm/add_post', 'admin_url'), ('354', '2', 'portal/adminpage/index', 'admin_url'), ('355', '2', 'portal/adminpage/listorders', 'admin_url'), ('356', '2', 'portal/adminpage/delete', 'admin_url'), ('357', '2', 'portal/adminpage/edit', 'admin_url'), ('358', '2', 'portal/adminpage/edit_post', 'admin_url'), ('359', '2', 'portal/adminpage/add', 'admin_url'), ('360', '2', 'portal/adminpage/add_post', 'admin_url'), ('361', '2', 'admin/plugin/index', 'admin_url'), ('362', '2', 'admin/plugin/toggle', 'admin_url'), ('363', '2', 'admin/plugin/setting', 'admin_url'), ('364', '2', 'admin/plugin/setting_post', 'admin_url'), ('365', '2', 'admin/plugin/install', 'admin_url'), ('366', '2', 'admin/plugin/uninstall', 'admin_url'), ('367', '2', 'admin/plugin/update', 'admin_url'), ('368', '2', 'admin/setting/default', 'admin_url'), ('369', '2', 'admin/menu/index', 'admin_url'), ('370', '2', 'admin/menu/add', 'admin_url'), ('371', '2', 'admin/menu/add_post', 'admin_url'), ('372', '2', 'admin/menu/listorders', 'admin_url'), ('373', '2', 'admin/menu/export_menu', 'admin_url'), ('374', '2', 'admin/menu/edit', 'admin_url'), ('375', '2', 'admin/menu/edit_post', 'admin_url'), ('376', '2', 'admin/menu/delete', 'admin_url'), ('377', '2', 'admin/menu/lists', 'admin_url'), ('378', '2', 'admin/menu/backup_menu', 'admin_url'), ('379', '2', 'admin/menu/export_menu_lang', 'admin_url'), ('380', '2', 'admin/menu/restore_menu', 'admin_url'), ('381', '2', 'admin/menu/getactions', 'admin_url'), ('382', '2', 'admin/user/userinfo', 'admin_url'), ('383', '2', 'admin/user/userinfo_post', 'admin_url'), ('384', '2', 'admin/setting/password', 'admin_url'), ('385', '2', 'admin/setting/password_post', 'admin_url'), ('386', '2', 'admin/setting/site', 'admin_url'), ('387', '2', 'admin/setting/site_post', 'admin_url'), ('388', '2', 'admin/route/index', 'admin_url'), ('389', '2', 'admin/route/add', 'admin_url'), ('390', '2', 'admin/route/add_post', 'admin_url'), ('391', '2', 'admin/route/edit', 'admin_url'), ('392', '2', 'admin/route/edit_post', 'admin_url'), ('393', '2', 'admin/route/delete', 'admin_url'), ('394', '2', 'admin/route/ban', 'admin_url'), ('395', '2', 'admin/route/open', 'admin_url'), ('396', '2', 'admin/route/listorders', 'admin_url'), ('397', '2', 'admin/mailer/index', 'admin_url'), ('398', '2', 'admin/mailer/index_post', 'admin_url'), ('399', '2', 'admin/mailer/active', 'admin_url'), ('400', '2', 'admin/mailer/active_post', 'admin_url'), ('401', '2', 'admin/mailer/test', 'admin_url'), ('402', '2', 'admin/setting/clearcache', 'admin_url'), ('403', '2', 'admin/storage/index', 'admin_url'), ('404', '2', 'admin/storage/setting_post', 'admin_url'), ('405', '2', 'admin/setting/upload', 'admin_url'), ('406', '2', 'admin/setting/upload_post', 'admin_url'), ('407', '2', 'user/admin_index/default', 'admin_url'), ('408', '2', 'user/admin_index/default1', 'admin_url'), ('409', '2', 'user/admin_index/index', 'admin_url'), ('410', '2', 'user/admin_index/ban', 'admin_url'), ('411', '2', 'user/admin_index/cancelban', 'admin_url'), ('412', '2', 'user/admin_oauth/index', 'admin_url'), ('413', '2', 'user/admin_oauth/delete', 'admin_url'), ('414', '2', 'user/admin_oauth/default3', 'admin_url'), ('415', '2', 'admin/rbac/index', 'admin_url'), ('416', '2', 'admin/rbac/member', 'admin_url'), ('417', '2', 'admin/rbac/authorize', 'admin_url'), ('418', '2', 'admin/rbac/authorize_post', 'admin_url'), ('419', '2', 'admin/rbac/roleedit', 'admin_url'), ('420', '2', 'admin/rbac/roleedit_post', 'admin_url'), ('421', '2', 'admin/rbac/roledelete', 'admin_url'), ('422', '2', 'admin/rbac/roleadd', 'admin_url'), ('423', '2', 'admin/rbac/roleadd_post', 'admin_url'), ('424', '2', 'admin/user/index', 'admin_url'), ('425', '2', 'admin/user/delete', 'admin_url'), ('426', '2', 'admin/user/edit', 'admin_url'), ('427', '2', 'admin/user/edit_post', 'admin_url'), ('428', '2', 'admin/user/add', 'admin_url'), ('429', '2', 'admin/user/add_post', 'admin_url'), ('430', '2', 'admin/user/ban', 'admin_url'), ('431', '2', 'admin/user/cancelban', 'admin_url'), ('432', '3', 'portal/admindefault/default', 'admin_url'), ('433', '3', 'portal/adminarticle/index', 'admin_url'), ('434', '3', 'portal/adminpost/listorders', 'admin_url'), ('435', '3', 'portal/adminpost/top', 'admin_url'), ('436', '3', 'portal/adminpost/recommend', 'admin_url'), ('437', '3', 'portal/adminpost/move', 'admin_url'), ('438', '3', 'portal/adminpost/check', 'admin_url'), ('439', '3', 'portal/adminpost/delete', 'admin_url'), ('440', '3', 'portal/adminpost/edit', 'admin_url'), ('441', '3', 'portal/adminpost/edit_post', 'admin_url'), ('442', '3', 'portal/adminpost/add', 'admin_url'), ('443', '3', 'portal/adminpost/add_post', 'admin_url'), ('444', '3', 'portal/adminpost/copy', 'admin_url'), ('445', '3', 'portal/admincategory/index', 'admin_url'), ('446', '3', 'portal/adminterm/listorders', 'admin_url'), ('447', '3', 'portal/adminterm/delete', 'admin_url'), ('448', '3', 'portal/adminterm/edit', 'admin_url'), ('449', '3', 'portal/adminterm/edit_post', 'admin_url'), ('450', '3', 'portal/adminterm/add', 'admin_url'), ('451', '3', 'portal/adminterm/add_post', 'admin_url'), ('452', '3', 'portal/adminpage/index', 'admin_url'), ('453', '3', 'portal/adminpage/listorders', 'admin_url'), ('454', '3', 'portal/adminpage/delete', 'admin_url'), ('455', '3', 'portal/adminpage/edit', 'admin_url'), ('456', '3', 'portal/adminpage/edit_post', 'admin_url'), ('457', '3', 'portal/adminpage/add', 'admin_url'), ('458', '3', 'portal/adminpage/add_post', 'admin_url'), ('459', '3', 'admin/plugin/index', 'admin_url'), ('460', '3', 'admin/plugin/toggle', 'admin_url'), ('461', '3', 'admin/plugin/setting', 'admin_url'), ('462', '3', 'admin/plugin/setting_post', 'admin_url'), ('463', '3', 'admin/plugin/install', 'admin_url'), ('464', '3', 'admin/plugin/uninstall', 'admin_url'), ('465', '3', 'admin/plugin/update', 'admin_url'), ('466', '3', 'admin/setting/default', 'admin_url'), ('467', '3', 'admin/menu/index', 'admin_url'), ('468', '3', 'admin/menu/add', 'admin_url'), ('469', '3', 'admin/menu/add_post', 'admin_url'), ('470', '3', 'admin/menu/listorders', 'admin_url'), ('471', '3', 'admin/menu/export_menu', 'admin_url'), ('472', '3', 'admin/menu/edit', 'admin_url'), ('473', '3', 'admin/menu/edit_post', 'admin_url'), ('474', '3', 'admin/menu/delete', 'admin_url'), ('475', '3', 'admin/menu/lists', 'admin_url'), ('476', '3', 'admin/menu/backup_menu', 'admin_url'), ('477', '3', 'admin/menu/export_menu_lang', 'admin_url'), ('478', '3', 'admin/menu/restore_menu', 'admin_url'), ('479', '3', 'admin/menu/getactions', 'admin_url'), ('480', '3', 'admin/user/userinfo', 'admin_url'), ('481', '3', 'admin/user/userinfo_post', 'admin_url'), ('482', '3', 'admin/setting/password', 'admin_url'), ('483', '3', 'admin/setting/password_post', 'admin_url'), ('484', '3', 'admin/setting/site', 'admin_url'), ('485', '3', 'admin/setting/site_post', 'admin_url'), ('486', '3', 'admin/route/index', 'admin_url'), ('487', '3', 'admin/route/add', 'admin_url'), ('488', '3', 'admin/route/add_post', 'admin_url'), ('489', '3', 'admin/route/edit', 'admin_url'), ('490', '3', 'admin/route/edit_post', 'admin_url'), ('491', '3', 'admin/route/delete', 'admin_url'), ('492', '3', 'admin/route/ban', 'admin_url'), ('493', '3', 'admin/route/open', 'admin_url'), ('494', '3', 'admin/route/listorders', 'admin_url'), ('495', '3', 'admin/mailer/index', 'admin_url'), ('496', '3', 'admin/mailer/index_post', 'admin_url'), ('497', '3', 'admin/mailer/active', 'admin_url'), ('498', '3', 'admin/mailer/active_post', 'admin_url'), ('499', '3', 'admin/mailer/test', 'admin_url'), ('500', '3', 'admin/setting/clearcache', 'admin_url'), ('501', '3', 'admin/storage/index', 'admin_url'), ('502', '3', 'admin/storage/setting_post', 'admin_url'), ('503', '3', 'admin/setting/upload', 'admin_url'), ('504', '3', 'admin/setting/upload_post', 'admin_url'), ('505', '3', 'user/admin_index/default', 'admin_url'), ('506', '3', 'user/admin_index/default1', 'admin_url'), ('507', '3', 'user/admin_index/index', 'admin_url'), ('508', '3', 'user/admin_index/ban', 'admin_url'), ('509', '3', 'user/admin_index/cancelban', 'admin_url'), ('510', '3', 'user/admin_oauth/index', 'admin_url'), ('511', '3', 'user/admin_oauth/delete', 'admin_url'), ('512', '3', 'user/admin_oauth/default3', 'admin_url'), ('513', '3', 'admin/rbac/index', 'admin_url'), ('514', '3', 'admin/rbac/member', 'admin_url'), ('515', '3', 'admin/rbac/authorize', 'admin_url'), ('516', '3', 'admin/rbac/authorize_post', 'admin_url'), ('517', '3', 'admin/rbac/roleedit', 'admin_url'), ('518', '3', 'admin/rbac/roleedit_post', 'admin_url'), ('519', '3', 'admin/rbac/roledelete', 'admin_url'), ('520', '3', 'admin/rbac/roleadd', 'admin_url'), ('521', '3', 'admin/rbac/roleadd_post', 'admin_url'), ('522', '3', 'admin/user/index', 'admin_url'), ('523', '3', 'admin/user/delete', 'admin_url'), ('524', '3', 'admin/user/edit', 'admin_url'), ('525', '3', 'admin/user/edit_post', 'admin_url'), ('526', '3', 'admin/user/add', 'admin_url'), ('527', '3', 'admin/user/add_post', 'admin_url'), ('528', '3', 'admin/user/ban', 'admin_url'), ('529', '3', 'admin/user/cancelban', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('432', '3', 'portal/admindefault/default', 'admin_url'), ('433', '3', 'portal/adminarticle/index', 'admin_url'), ('434', '3', 'portal/adminpost/listorders', 'admin_url'), ('435', '3', 'portal/adminpost/top', 'admin_url'), ('436', '3', 'portal/adminpost/recommend', 'admin_url'), ('437', '3', 'portal/adminpost/move', 'admin_url'), ('438', '3', 'portal/adminpost/check', 'admin_url'), ('439', '3', 'portal/adminpost/delete', 'admin_url'), ('440', '3', 'portal/adminpost/edit', 'admin_url'), ('441', '3', 'portal/adminpost/edit_post', 'admin_url'), ('442', '3', 'portal/adminpost/add', 'admin_url'), ('443', '3', 'portal/adminpost/add_post', 'admin_url'), ('444', '3', 'portal/adminpost/copy', 'admin_url'), ('445', '3', 'portal/admincategory/index', 'admin_url'), ('446', '3', 'portal/adminterm/listorders', 'admin_url'), ('447', '3', 'portal/adminterm/delete', 'admin_url'), ('448', '3', 'portal/adminterm/edit', 'admin_url'), ('449', '3', 'portal/adminterm/edit_post', 'admin_url'), ('450', '3', 'portal/adminterm/add', 'admin_url'), ('451', '3', 'portal/adminterm/add_post', 'admin_url'), ('452', '3', 'portal/adminpage/index', 'admin_url'), ('453', '3', 'portal/adminpage/listorders', 'admin_url'), ('454', '3', 'portal/adminpage/delete', 'admin_url'), ('455', '3', 'portal/adminpage/edit', 'admin_url'), ('456', '3', 'portal/adminpage/edit_post', 'admin_url'), ('457', '3', 'portal/adminpage/add', 'admin_url'), ('458', '3', 'portal/adminpage/add_post', 'admin_url'), ('459', '3', 'admin/plugin/index', 'admin_url'), ('460', '3', 'admin/plugin/toggle', 'admin_url'), ('461', '3', 'admin/plugin/setting', 'admin_url'), ('462', '3', 'admin/plugin/setting_post', 'admin_url'), ('463', '3', 'admin/plugin/install', 'admin_url'), ('464', '3', 'admin/plugin/uninstall', 'admin_url'), ('465', '3', 'admin/plugin/update', 'admin_url'), ('466', '3', 'admin/setting/default', 'admin_url'), ('467', '3', 'admin/menu/index', 'admin_url'), ('468', '3', 'admin/menu/add', 'admin_url'), ('469', '3', 'admin/menu/add_post', 'admin_url'), ('470', '3', 'admin/menu/listorders', 'admin_url'), ('471', '3', 'admin/menu/export_menu', 'admin_url'), ('472', '3', 'admin/menu/edit', 'admin_url'), ('473', '3', 'admin/menu/edit_post', 'admin_url'), ('474', '3', 'admin/menu/delete', 'admin_url'), ('475', '3', 'admin/menu/lists', 'admin_url'), ('476', '3', 'admin/menu/backup_menu', 'admin_url'), ('477', '3', 'admin/menu/export_menu_lang', 'admin_url'), ('478', '3', 'admin/menu/restore_menu', 'admin_url'), ('479', '3', 'admin/menu/getactions', 'admin_url'), ('480', '3', 'admin/user/userinfo', 'admin_url'), ('481', '3', 'admin/user/userinfo_post', 'admin_url'), ('482', '3', 'admin/setting/password', 'admin_url'), ('483', '3', 'admin/setting/password_post', 'admin_url'), ('484', '3', 'admin/setting/site', 'admin_url'), ('485', '3', 'admin/setting/site_post', 'admin_url'), ('486', '3', 'admin/route/index', 'admin_url'), ('487', '3', 'admin/route/add', 'admin_url'), ('488', '3', 'admin/route/add_post', 'admin_url'), ('489', '3', 'admin/route/edit', 'admin_url'), ('490', '3', 'admin/route/edit_post', 'admin_url'), ('491', '3', 'admin/route/delete', 'admin_url'), ('492', '3', 'admin/route/ban', 'admin_url'), ('493', '3', 'admin/route/open', 'admin_url'), ('494', '3', 'admin/route/listorders', 'admin_url'), ('495', '3', 'admin/mailer/index', 'admin_url'), ('496', '3', 'admin/mailer/index_post', 'admin_url'), ('497', '3', 'admin/mailer/active', 'admin_url'), ('498', '3', 'admin/mailer/active_post', 'admin_url'), ('499', '3', 'admin/mailer/test', 'admin_url'), ('500', '3', 'admin/setting/clearcache', 'admin_url'), ('501', '3', 'admin/storage/index', 'admin_url'), ('502', '3', 'admin/storage/setting_post', 'admin_url'), ('503', '3', 'admin/setting/upload', 'admin_url'), ('504', '3', 'admin/setting/upload_post', 'admin_url'), ('505', '3', 'user/admin_index/default', 'admin_url'), ('506', '3', 'user/admin_index/default1', 'admin_url'), ('507', '3', 'user/admin_index/index', 'admin_url'), ('508', '3', 'user/admin_index/ban', 'admin_url'), ('509', '3', 'user/admin_index/cancelban', 'admin_url'), ('510', '3', 'user/admin_oauth/index', 'admin_url'), ('511', '3', 'user/admin_oauth/delete', 'admin_url'), ('512', '3', 'user/admin_oauth/default3', 'admin_url'), ('513', '3', 'admin/rbac/index', 'admin_url'), ('514', '3', 'admin/rbac/member', 'admin_url'), ('515', '3', 'admin/rbac/authorize', 'admin_url'), ('516', '3', 'admin/rbac/authorize_post', 'admin_url'), ('517', '3', 'admin/rbac/roleedit', 'admin_url'), ('518', '3', 'admin/rbac/roleedit_post', 'admin_url'), ('519', '3', 'admin/rbac/roledelete', 'admin_url'), ('520', '3', 'admin/rbac/roleadd', 'admin_url'), ('521', '3', 'admin/rbac/roleadd_post', 'admin_url'), ('522', '3', 'admin/user/index', 'admin_url'), ('523', '3', 'admin/user/delete', 'admin_url'), ('524', '3', 'admin/user/edit', 'admin_url'), ('525', '3', 'admin/user/edit_post', 'admin_url'), ('526', '3', 'admin/user/add', 'admin_url'), ('527', '3', 'admin/user/add_post', 'admin_url'), ('528', '3', 'admin/user/ban', 'admin_url'), ('529', '3', 'admin/user/cancelban', 'admin_url'), ('617', '2', 'portal/admindefault/default', 'admin_url'), ('618', '2', 'portal/adminarticle/index', 'admin_url'), ('619', '2', 'portal/adminpost/listorders', 'admin_url'), ('620', '2', 'portal/adminpost/top', 'admin_url'), ('621', '2', 'portal/adminpost/recommend', 'admin_url'), ('622', '2', 'portal/adminpost/move', 'admin_url'), ('623', '2', 'portal/adminpost/check', 'admin_url'), ('624', '2', 'portal/adminpost/delete', 'admin_url'), ('625', '2', 'portal/adminpost/edit', 'admin_url'), ('626', '2', 'portal/adminpost/edit_post', 'admin_url'), ('627', '2', 'portal/adminpost/add', 'admin_url'), ('628', '2', 'portal/adminpost/add_post', 'admin_url'), ('629', '2', 'portal/adminpost/copy', 'admin_url'), ('630', '2', 'portal/admincategory/index', 'admin_url'), ('631', '2', 'portal/adminterm/listorders', 'admin_url'), ('632', '2', 'portal/adminterm/delete', 'admin_url'), ('633', '2', 'portal/adminterm/edit', 'admin_url'), ('634', '2', 'portal/adminterm/edit_post', 'admin_url'), ('635', '2', 'portal/adminterm/add', 'admin_url'), ('636', '2', 'portal/adminterm/add_post', 'admin_url'), ('637', '2', 'portal/adminpage/index', 'admin_url'), ('638', '2', 'portal/adminpage/listorders', 'admin_url'), ('639', '2', 'portal/adminpage/delete', 'admin_url'), ('640', '2', 'portal/adminpage/edit', 'admin_url'), ('641', '2', 'portal/adminpage/edit_post', 'admin_url'), ('642', '2', 'portal/adminpage/add', 'admin_url'), ('643', '2', 'portal/adminpage/add_post', 'admin_url'), ('644', '2', 'admin/setting/default', 'admin_url'), ('645', '2', 'admin/menu/index', 'admin_url'), ('646', '2', 'admin/menu/add', 'admin_url'), ('647', '2', 'admin/menu/add_post', 'admin_url'), ('648', '2', 'admin/menu/listorders', 'admin_url'), ('649', '2', 'admin/menu/export_menu', 'admin_url'), ('650', '2', 'admin/menu/edit', 'admin_url'), ('651', '2', 'admin/menu/edit_post', 'admin_url'), ('652', '2', 'admin/menu/delete', 'admin_url'), ('653', '2', 'admin/menu/lists', 'admin_url'), ('654', '2', 'admin/menu/backup_menu', 'admin_url'), ('655', '2', 'admin/menu/export_menu_lang', 'admin_url'), ('656', '2', 'admin/menu/restore_menu', 'admin_url'), ('657', '2', 'admin/menu/getactions', 'admin_url'), ('658', '2', 'admin/setting/password', 'admin_url'), ('659', '2', 'admin/setting/password_post', 'admin_url'), ('660', '2', 'admin/setting/site', 'admin_url'), ('661', '2', 'admin/setting/site_post', 'admin_url'), ('662', '2', 'admin/route/index', 'admin_url'), ('663', '2', 'admin/route/add', 'admin_url'), ('664', '2', 'admin/route/add_post', 'admin_url'), ('665', '2', 'admin/route/edit', 'admin_url'), ('666', '2', 'admin/route/edit_post', 'admin_url'), ('667', '2', 'admin/route/delete', 'admin_url'), ('668', '2', 'admin/route/ban', 'admin_url'), ('669', '2', 'admin/route/open', 'admin_url'), ('670', '2', 'admin/route/listorders', 'admin_url'), ('671', '2', 'admin/mailer/index', 'admin_url'), ('672', '2', 'admin/mailer/index_post', 'admin_url'), ('673', '2', 'admin/mailer/active', 'admin_url'), ('674', '2', 'admin/mailer/active_post', 'admin_url'), ('675', '2', 'admin/mailer/test', 'admin_url'), ('676', '2', 'admin/setting/clearcache', 'admin_url'), ('677', '2', 'admin/storage/index', 'admin_url'), ('678', '2', 'admin/storage/setting_post', 'admin_url'), ('679', '2', 'admin/setting/upload', 'admin_url'), ('680', '2', 'admin/setting/upload_post', 'admin_url'), ('681', '2', 'admin/plugin/index', 'admin_url'), ('682', '2', 'admin/plugin/toggle', 'admin_url'), ('683', '2', 'admin/plugin/setting', 'admin_url'), ('684', '2', 'admin/plugin/setting_post', 'admin_url'), ('685', '2', 'admin/plugin/install', 'admin_url'), ('686', '2', 'admin/plugin/uninstall', 'admin_url'), ('687', '2', 'admin/plugin/update', 'admin_url'), ('688', '2', 'admin/rbac/index', 'admin_url'), ('689', '2', 'admin/rbac/member', 'admin_url'), ('690', '2', 'admin/rbac/authorize', 'admin_url'), ('691', '2', 'admin/rbac/authorize_post', 'admin_url'), ('692', '2', 'admin/rbac/roleedit', 'admin_url'), ('693', '2', 'admin/rbac/roleedit_post', 'admin_url'), ('694', '2', 'admin/rbac/roledelete', 'admin_url'), ('695', '2', 'admin/rbac/roleadd', 'admin_url'), ('696', '2', 'admin/rbac/roleadd_post', 'admin_url'), ('697', '2', 'admin/user/index', 'admin_url'), ('698', '2', 'admin/user/add', 'admin_url'), ('699', '2', 'admin/user/edit', 'admin_url'), ('700', '2', 'admin/user/userinfo', 'admin_url'), ('701', '2', 'admin/user/delete', 'admin_url'), ('702', '2', 'admin/user/ban', 'admin_url'), ('703', '2', 'admin/user/cancelban', 'admin_url');
 COMMIT;
 
 -- ----------------------------
@@ -133,13 +133,13 @@ CREATE TABLE `cmf_hook` (
   `app` varchar(20) NOT NULL DEFAULT '' COMMENT '应用名(只有应用钩子才用)',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子表';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子表';
 
 -- ----------------------------
 --  Records of `cmf_hook`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmf_hook` VALUES ('1', '1', '0', '应用初始化', 'app_init', 'system', '应用初始化'), ('2', '3', '0', '模板底部钩子', 'footer', '', '');
+INSERT INTO `cmf_hook` VALUES ('1', '1', '0', '应用初始化', 'app_init', 'cmf', '应用初始化'), ('2', '1', '0', '应用开始标签位', 'app_begin', 'cmf', '应用开始标签位'), ('3', '1', '0', '模块初始化标签位', 'module_init', 'cmf', '模块初始化标签位'), ('4', '1', '0', '控制器开始标签位', 'action_begin', 'cmf', '控制器开始标签位'), ('5', '1', '0', '视图输出过滤标签位', 'view_filter', 'cmf', '视图输出过滤标签位'), ('6', '1', '0', '应用结束标签位', 'app_end', 'cmf', '应用结束标签位'), ('7', '1', '0', '日志write方法标签位', 'log_write', 'cmf', '日志write方法标签位'), ('8', '1', '0', '输出结束标签位', 'response_end', 'cmf', '输出结束标签位');
 COMMIT;
 
 -- ----------------------------
@@ -148,7 +148,7 @@ COMMIT;
 DROP TABLE IF EXISTS `cmf_hook_plugin`;
 CREATE TABLE `cmf_hook_plugin` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `list_order` float NOT NULL DEFAULT '0' COMMENT '排序',
+  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态(0:禁用,1:启用)',
   `hook` varchar(20) NOT NULL DEFAULT '' COMMENT '钩子名',
   `plugin` varchar(30) NOT NULL DEFAULT '' COMMENT '插件',
@@ -170,7 +170,7 @@ CREATE TABLE `cmf_link` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态;1:显示;0:不显示',
   `rating` int(11) NOT NULL DEFAULT '0' COMMENT '友情链接评级',
-  `list_order` float NOT NULL DEFAULT '0' COMMENT '排序',
+  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '友情链接描述',
   `url` varchar(255) NOT NULL DEFAULT '' COMMENT '友情链接地址',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '友情链接名称',
@@ -216,20 +216,20 @@ CREATE TABLE `cmf_nav_menu` (
   `nav_id` int(11) NOT NULL COMMENT '导航 id',
   `parent_id` int(11) NOT NULL COMMENT '父 id',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态;1:显示;0:隐藏',
-  `list_order` float NOT NULL DEFAULT '0' COMMENT '排序',
+  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '菜单名称',
   `target` varchar(50) NOT NULL DEFAULT '' COMMENT '打开方式',
   `href` varchar(255) NOT NULL DEFAULT '' COMMENT '链接',
   `icon` varchar(255) NOT NULL DEFAULT '' COMMENT '图标',
   `path` varchar(255) NOT NULL DEFAULT '' COMMENT '层级关系',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='前台导航菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COMMENT='前台导航菜单表';
 
 -- ----------------------------
 --  Records of `cmf_nav_menu`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmf_nav_menu` VALUES ('1', '1', '0', '1', '0', '首页', '', 'home', '', '0-1'), ('2', '1', '0', '1', '0', '列表演示', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":1}}', 'icon', '0-2'), ('9', '1', '0', '1', '0', '页面演示', '', '{\"action\":\"portal\\/Page\\/index\",\"param\":{\"id\":13}}', '', '');
+INSERT INTO `cmf_nav_menu` VALUES ('1', '1', '0', '1', '0', '首页', '', 'home', '', '0-1'), ('2', '1', '0', '1', '0', '列表演示', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":1}}', 'icon', '0-2'), ('9', '1', '0', '1', '0', '页面演示', '', '{\"action\":\"portal\\/Page\\/index\",\"param\":{\"id\":13}}', '', ''), ('10', '1', '0', '1', '10000', '联系我们', '', '{\"action\":\"portal\\/Page\\/index\",\"param\":{\"id\":14}}', '', '');
 COMMIT;
 
 -- ----------------------------
@@ -309,7 +309,7 @@ CREATE TABLE `cmf_portal_category` (
   `post_count` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '分类文章数',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:发布,0:不发布',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `list_order` float NOT NULL DEFAULT '0' COMMENT '排序',
+  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
   `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '分类名称',
   `description` varchar(255) NOT NULL COMMENT '分类描述',
   `path` varchar(500) NOT NULL DEFAULT '' COMMENT '分类层级关系路径',
@@ -336,7 +336,7 @@ CREATE TABLE `cmf_portal_category_post` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `post_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '文章id',
   `category_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '分类id',
-  `list_order` float NOT NULL DEFAULT '0' COMMENT '排序',
+  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:发布;0:不发布',
   PRIMARY KEY (`id`),
   KEY `term_taxonomy_id` (`category_id`)
@@ -382,13 +382,13 @@ CREATE TABLE `cmf_portal_post` (
   KEY `post_parent` (`parent_id`),
   KEY `post_author` (`user_id`),
   KEY `post_date` (`create_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='portal应用 文章表';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='portal应用 文章表';
 
 -- ----------------------------
 --  Records of `cmf_portal_post`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmf_portal_post` VALUES ('1', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1488176000', '1487928493', 'tesat磊', '磊test', 'test', 'testdd', '&lt;p&gt;ddddddddddddd在磊城标城磊大&lt;br/&gt;&lt;/p&gt;', null, null), ('2', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1488176000', '1487928552', 'dddd', 'dddd', 'ddd', 'dd', '&lt;p&gt;ddd在&lt;/p&gt;', null, null), ('3', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '1491024623', 'ddd', '', '', '', null, null, null), ('4', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024540', '0', 'dddd空间克隆就离开', '', '', '', null, null, '{\"thumb\":\"\"}'), ('5', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '0', 'ddd', 'dd', '', '', null, null, null), ('6', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '0', 'adsf', '', '', '', null, null, null), ('7', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '0', '磊', '', '', '', null, null, null), ('8', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '0', 'ddd', '', '', '', null, null, null), ('9', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '0', 'ddd', '', '', '', null, null, null), ('10', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '0', 'ddd', '', '', '', null, null, null), ('11', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '0', 'ddd', 'dd', '', 'dd', null, null, null), ('12', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '0', 'dddd', 'ddd', 'dd', 'dd', '&lt;p&gt;ddd&lt;/p&gt;', null, null), ('13', '0', '2', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1488175620', '0', '页面演示', 'dd', 'dd', '', '&lt;p&gt;dd&lt;/p&gt;', null, null);
+INSERT INTO `cmf_portal_post` VALUES ('1', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1488176000', '1487928493', 'tesat磊', '磊test', 'test', 'testdd', '&lt;p&gt;ddddddddddddd在磊城标城磊大&lt;br/&gt;&lt;/p&gt;', null, null), ('2', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1488176000', '1487928552', 'dddd', 'dddd', 'ddd', 'dd', '&lt;p&gt;ddd在&lt;/p&gt;', null, null), ('3', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '1491024623', 'ddd', '', '', '', null, null, null), ('4', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024540', '0', 'dddd空间克隆就离开', '', '', '', null, null, '{\"thumb\":\"\"}'), ('5', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '0', 'ddd', 'dd', '', '', null, null, null), ('6', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '0', 'adsf', '', '', '', null, null, null), ('7', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '0', '磊', '', '', '', null, null, null), ('8', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '0', 'ddd', '', '', '', null, null, null), ('9', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '0', 'ddd', '', '', '', null, null, null), ('10', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '0', 'ddd', '', '', '', null, null, null), ('11', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '0', 'ddd', 'dd', '', 'dd', null, null, null), ('12', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491024596', '0', 'dddd', 'ddd', 'dd', 'dd', '&lt;p&gt;ddd&lt;/p&gt;', null, null), ('13', '0', '2', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1488175620', '0', '页面演示', 'dd', 'dd', '', '&lt;p&gt;dd&lt;/p&gt;', null, null), ('14', '0', '2', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1491471360', '0', '联系我们', '联系我们', '联系我们', '', '&lt;p&gt;联系我们&lt;/p&gt;', null, '{\"template\":\"contact\",\"thumb\":\"\"}');
 COMMIT;
 
 -- ----------------------------
@@ -494,7 +494,7 @@ COMMIT;
 DROP TABLE IF EXISTS `cmf_route`;
 CREATE TABLE `cmf_route` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '路由id',
-  `list_order` float NOT NULL DEFAULT '0' COMMENT '排序',
+  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态;1:启用,0:不启用',
   `full_url` varchar(255) NOT NULL DEFAULT '' COMMENT '完整url',
   `url` varchar(255) NOT NULL DEFAULT '' COMMENT '实际显示的url',
@@ -519,13 +519,13 @@ CREATE TABLE `cmf_slide` (
   `name` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '幻灯片分类',
   `remark` varchar(500) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '分类备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='幻灯片表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='幻灯片表';
 
 -- ----------------------------
 --  Records of `cmf_slide`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmf_slide` VALUES ('1', '1', '0', 'DD', ''), ('2', '1', '0', 'test', '');
+INSERT INTO `cmf_slide` VALUES ('1', '1', '0', '首页幻灯片', '');
 COMMIT;
 
 -- ----------------------------
@@ -536,7 +536,7 @@ CREATE TABLE `cmf_slide_item` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `slide_id` int(11) NOT NULL DEFAULT '0' COMMENT '幻灯片id',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:显示;0:隐藏',
-  `list_order` float NOT NULL DEFAULT '0' COMMENT '排序',
+  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
   `title` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '幻灯片名称',
   `picture` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '幻灯片图片',
   `url` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '幻灯片链接',
@@ -590,7 +590,7 @@ DROP TABLE IF EXISTS `cmf_theme_file`;
 CREATE TABLE `cmf_theme_file` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `is_public` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否公共的模板文件',
-  `list_order` float NOT NULL DEFAULT '0' COMMENT '排序',
+  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
   `theme` varchar(50) NOT NULL DEFAULT '' COMMENT '模板名称',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '模板文件名',
   `action` varchar(50) NOT NULL DEFAULT '' COMMENT '操作',
@@ -664,7 +664,7 @@ CREATE TABLE `cmf_user` (
 --  Records of `cmf_user`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmf_user` VALUES ('1', '1', '1', '1476460800', '1491432507', '0', '0', '1472092080', '1', 'admin', '###806c01b52809c23d49935a0c014a0b27', 'admin', 'zxxjjforever@163.com', '44422u11', '', 'ddd4444411', '127.0.0.1', '', ''), ('3', '1', '0', '0', '1477299995', '0', '0', '1476572010', '1', 'test', '###f6707a0f4ddae0d8a0c09cd0c827459a', '', 'test@1.com', '', '', '', '127.0.0.1', '', ''), ('4', '2', '0', '0', '1477805939', '0', '0', '1477805939', '1', 'dd_11_com', '###f6707a0f4ddae0d8a0c09cd0c827459a', 'ddd', 'dd@11.com', '', '', '', '127.0.0.1', '', ''), ('6', '2', '0', '0', '0', '0', '0', '1484223267', '1', '', '###f6707a0f4ddae0d8a0c09cd0c827459a', '', '', '', '', '', '', '', '15121002429');
+INSERT INTO `cmf_user` VALUES ('1', '1', '1', '1476460800', '1491470850', '0', '0', '1472092080', '1', 'admin', '###806c01b52809c23d49935a0c014a0b27', 'admin', 'zxxjjforever@163.com', '44422u11', '', 'ddd4444411', '127.0.0.1', '', ''), ('3', '1', '0', '0', '1477299995', '0', '0', '1476572010', '1', 'test', '###f6707a0f4ddae0d8a0c09cd0c827459a', '', 'test@1.com', '', '', '', '127.0.0.1', '', ''), ('4', '2', '0', '0', '1477805939', '0', '0', '1477805939', '1', 'dd_11_com', '###f6707a0f4ddae0d8a0c09cd0c827459a', 'ddd', 'dd@11.com', '', '', '', '127.0.0.1', '', ''), ('6', '2', '0', '0', '0', '0', '0', '1484223267', '1', '', '###f6707a0f4ddae0d8a0c09cd0c827459a', '', '', '', '', '', '', '', '15121002429');
 COMMIT;
 
 -- ----------------------------
