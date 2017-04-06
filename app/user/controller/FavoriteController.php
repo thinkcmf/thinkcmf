@@ -16,7 +16,7 @@ class FavoriteController extends UserBaseController
     // 前台个人中心我的收藏列表
     public function index()
     {
-        $uid                  = sp_get_current_userid();
+        $uid                  = cmf_get_current_user_id();
         $user_favorites_model = M("UserFavorites");
         $where                = ["uid" => $uid];
 
