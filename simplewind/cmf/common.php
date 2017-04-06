@@ -1740,21 +1740,6 @@ function cmf_is_serialized($str)
 }
 
 /**
- * 获取当前登录前台用户id
- * @return int
- */
-function cmf_get_current_user_id()
-{
-    $sessionUserId = session('user.id');
-    if (!empty($sessionUserId)) {
-        return $sessionUserId;
-    } else {
-        return 0;
-    }
-}
-
-
-/**
  * 判断是否SSL协议
  * @return boolean
  */
