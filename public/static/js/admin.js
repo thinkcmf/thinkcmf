@@ -61,6 +61,7 @@
     // 所有的ajax form提交,由于大多业务逻辑都是一样的，故统一处理
     var ajaxForm_list = $('form.js-ajax-form');
     if (ajaxForm_list.length) {
+        Wind.css('artDialog');
         Wind.use('ajaxForm', 'artDialog', 'noty', 'validate', function () {
             var $btn;
             $('button.js-ajax-submit').on('click', function (e) {
@@ -210,7 +211,7 @@
                                             }
                                         }
                                     });
-                                } else if (data.code == '0') {
+                                } else if (data.code == 0) {
                                     var $verify_img = $form.find(".verify_img");
                                     if ($verify_img.length) {
                                         $verify_img.attr("src", $verify_img.attr("src") + "&refresh=" + Math.random());
