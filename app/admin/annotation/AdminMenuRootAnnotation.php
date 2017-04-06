@@ -14,7 +14,7 @@ use mindplay\annotations\Annotation;
 /**
  * Specifies validation of a string, requiring a minimum and/or maximum length.
  *
- * @usage('class'=>true, 'inherited'=>true)
+ * @usage('class'=>true, 'inherited'=>true, 'multiple'=>true)
  */
 class AdminMenuRootAnnotation extends Annotation
 {
