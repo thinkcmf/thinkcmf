@@ -354,23 +354,44 @@ class MenuController extends AdminBaseController
                         if (empty($menuAnnotation->parent)) {
                             $parentId = 0;
                         } else {
-                            $parent = explode('/', $menuAnnotation->parent);
 
-                            if (count($parent) != 3) {
-                                throw new \Exception($controllerClass . ': @adminMenuRoot parent格式不正确!');
+                            $parent = explode('/', $menuAnnotation->parent);
+                            $countParent = count($parent);
+                            if ($countParent > 3) {
+                                throw new \Exception($controllerClass . ':' . $action . '  @adminMenuRoot parent格式不正确!');
+                            }
+
+                            $parentApp        = $app;
+                            $parentController = $controllerName;
+                            $parentAction     = '';
+
+                            switch ($countParent) {
+                                case 1:
+                                    $parentAction = $parent[0];
+                                    break;
+                                case 2:
+                                    $parentController = $parent[0];
+                                    $parentAction     = $parent[1];
+                                    break;
+                                case 3:
+                                    $parentApp        = $parent[0];
+                                    $parentController = $parent[1];
+                                    $parentAction     = $parent[2];
+                                    break;
                             }
 
                             $findParentAdminMenu = Db::name('admin_menu')->where([
-                                'app'        => $parent[0],
-                                'controller' => $parent[1],
-                                'action'     => $parent[2]
+                                'app'        => $parentApp,
+                                'controller' => $parentController,
+                                'action'     => $parentAction
                             ])->find();
 
                             if (empty($findParentAdminMenu)) {
                                 $parentId = Db::name('admin_menu')->insertGetId([
-                                    'app'        => $parent[0],
-                                    'controller' => $parent[1],
-                                    'action'     => $parent[2]
+                                    'app'        => $parentApp,
+                                    'controller' => $parentController,
+                                    'action'     => $parentAction,
+                                    'name'       => '--new--'
                                 ]);
                             } else {
                                 $parentId = $findParentAdminMenu['id'];
@@ -403,14 +424,32 @@ class MenuController extends AdminBaseController
 
                         } else {
 
-                            // 只关注菜单层级关系
-                            Db::name('admin_menu')->where([
-                                'app'        => $app,
-                                'controller' => $controllerName,
-                                'action'     => $action
-                            ])->update([
-                                'parent_id' => $parentId
-                            ]);
+                            if ($findAdminMenu['name'] == '--new--') {
+                                Db::name('admin_menu')->where([
+                                    'app'        => $app,
+                                    'controller' => $controllerName,
+                                    'action'     => $action
+                                ])->update([
+                                    'parent_id'  => $parentId,
+                                    'type'       => $type,
+                                    'status'     => $status,
+                                    'list_order' => $listOrder,
+                                    'param'      => $param,
+                                    'name'       => $name,
+                                    'icon'       => $icon,
+                                    'remark'     => $remark
+                                ]);
+                            } else {
+                                // 只关注菜单层级关系
+                                Db::name('admin_menu')->where([
+                                    'app'        => $app,
+                                    'controller' => $controllerName,
+                                    'action'     => $action
+                                ])->update([
+                                    'parent_id' => $parentId
+                                ]);
+                            }
+
 
                             array_push($newMenus, "$app/$controllerName/$action 已更新");
                         }
@@ -477,8 +516,9 @@ class MenuController extends AdminBaseController
                                     if (empty($findParentAdminMenu)) {
                                         $parentId = Db::name('admin_menu')->insertGetId([
                                             'app'        => $parentApp,
-                                            'controller' => $controllerName,
-                                            'action'     => $parentAction
+                                            'controller' => $parentController,
+                                            'action'     => $parentAction,
+                                            'name'       => '--new--'
                                         ]);
                                     } else {
                                         $parentId = $findParentAdminMenu['id'];
@@ -510,15 +550,33 @@ class MenuController extends AdminBaseController
                                     array_push($newMenus, "$app/$controllerName/$action 已导入");
 
                                 } else {
+                                    if ($findAdminMenu['name'] == '--new--') {
+                                        echo "ddd---------------\n";
+                                        Db::name('admin_menu')->where([
+                                            'app'        => $app,
+                                            'controller' => $controllerName,
+                                            'action'     => $action
+                                        ])->update([
+                                            'parent_id'  => $parentId,
+                                            'type'       => $type,
+                                            'status'     => $status,
+                                            'list_order' => $listOrder,
+                                            'param'      => $param,
+                                            'name'       => $name,
+                                            'icon'       => $icon,
+                                            'remark'     => $remark
+                                        ]);
+                                    }else{
+                                        // 只关注菜单层级关系
+                                        Db::name('admin_menu')->where([
+                                            'app'        => $app,
+                                            'controller' => $controllerName,
+                                            'action'     => $action
+                                        ])->update([
+                                            'parent_id' => $parentId
+                                        ]);
+                                    }
 
-                                    // 只关注菜单层级关系
-                                    Db::name('admin_menu')->where([
-                                        'app'        => $app,
-                                        'controller' => $controllerName,
-                                        'action'     => $action
-                                    ])->update([
-                                        'parent_id' => $parentId
-                                    ]);
 
                                     array_push($newMenus, "$app/$controllerName/$action 已更新");
                                 }
