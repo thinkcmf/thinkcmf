@@ -6,22 +6,11 @@
 // +----------------------------------------------------------------------
 // | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
-namespace app\admin\validate;
+namespace app\admin\model;
 
-use think\Validate;
+use think\Model;
 
-class SlideValidate extends Validate
+class SlideItemModel extends Model
 {
-    protected $rule = [
-        'name' => 'require',
-    ];
 
-    protected $message = [
-        'name.require' => '分类名称必须',
-    ];
-
-    protected $scene = [
-        'add'  => ['name'],
-        'edit' => ['name'],
-    ];
 }
