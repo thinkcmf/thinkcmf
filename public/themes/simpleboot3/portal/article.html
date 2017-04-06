@@ -2,8 +2,8 @@
 <html>
 <head>
     <title>{$article.post_title}</title>
-    <meta name="keywords" content=""/>
-    <meta name="description" content="">
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
     <include file="public@head"/>
     <style>
         #article_content img {
