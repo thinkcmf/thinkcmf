@@ -9,11 +9,9 @@
         <thead>
         <tr>
             <th width="50">ID</th>
-            <th>删除内容 id</th>
-            <th>创建时间</th>
+            <th>内容名称</th>
             <th>删除内容所在表名</th>
-            <th>删除内容名称</th>
-            <!--<th>删除内容原始数据</th>-->
+            <th>删除时间</th>
             <th width="130">{:lang('ACTIONS')}</th>
         </tr>
         </thead>
@@ -21,10 +19,9 @@
         <foreach name="list" item="vo">
             <tr>
                 <td>{$vo.id}</td>
-                <td>{$vo.object_id}</td>
-                <td> {:date('Y-m-d H:i:s',$vo['create_time'])}</td>
-                <td>{$vo.table_name}</td>
                 <td>{$vo.name}</td>
+                <td>{$vo.table_name}</td>
+                <td> {:date('Y-m-d H:i:s',$vo['create_time'])}</td>
                 <td>
                     <a href="{:url('recycle/restore',array('id'=>$vo['id']))}" class="js-ajax-delete">还原</a> |
                     <a href="{:url('recycle/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
