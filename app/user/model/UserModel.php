@@ -197,6 +197,8 @@ class UserModel extends Model
 
     public function addFavorite($id)
     {
+        $portalQuery = Db::name("PortalPost");
+        $portal = $portalQuery->where('id',$id)->find();
         $uid = cmf_get_current_user_id();
         $userQuery = Db::name("UserFavorite");
         $where['user_id'] = $uid;
@@ -204,8 +206,6 @@ class UserModel extends Model
         if($userQuery->where($where)->find()){
             return 2;
         }
-        $portalQuery = Db::name("PortalPost");
-        $portal = $portalQuery->where('id',$id)->find();
         $where['title'] = $portal['post_title'];
         $where['url'] = $_SERVER['HTTP_REFERER'];
         $where['description'] = $portal['post_excerpt'];
@@ -224,6 +224,16 @@ class UserModel extends Model
         $where['id'] = $id;
         $where['user_id'] = $uid;
         $data = $userQuery->where($where)->delete();
+        return $data;
+    }
+
+    public function comments()
+    {
+        $uid = cmf_get_current_user_id();
+        $userQuery = Db::name("Comment");
+        $favorites = $userQuery->where(array('user_id'=>$uid))->paginate(10);
+        $data['page'] = $favorites->render();
+        $data['lists'] = $favorites->items();
         return $data;
     }
 }

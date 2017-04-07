@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$user_login}  - 我的评论</title>
+<meta name="keywords" content=""/>
+<meta name="description" content="">
+<include file="public@head"/>
+</head>
+
+<body class="body-white" id="top">
+<include file="public@nav" />
+
+	<div class="container tc-main">
+		<div class="row">
+			<div class="col-md-3">
+				<include file="public@usernav" />
+			</div>
+			<div class="col-md-9">
+				<div class="tabs">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-comments-o"></i> 我的评论</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="one">
+							<table class="table table-bordered table-striped table-hover">
+								<thead>
+								<tr>
+									<th>#</th>
+									<th>评论内容</th>
+									<th width="150">评论时间</th>
+									<th width="150">操作</th>
+								</tr>
+								</thead>
+								<tbody>
+								<foreach name="lists" item="vo">
+									<tr>
+										<td>{$vo.id}</td>
+										<td>{$vo.content}</td>
+										<td>{$vo.createtime}</td>
+										<td>
+											<a href="__ROOT__/{$vo.url}#comment{$vo.id}">查看原文</a>
+											<!-- | <a class="js-ajax-dialog-btn" href="{:U('user/favorite/delete_favorite',array('id'=>$vo['id']))}" data-msg="您确定要取消收藏吗？" data-ok="" data-cacel="取消">取消收藏</a> -->
+										</td>
+									</tr>
+								</foreach>
+								</tbody>
+							</table>
+						</div>
+
+						<div class="pagination"><ul>{$page}</ul></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<include file="public@footer" />
+	</div>
+<!-- /container -->
+<include file="public@scripts" />
+</body>
+</html>
