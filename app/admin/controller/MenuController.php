@@ -355,7 +355,7 @@ class MenuController extends AdminBaseController
                             $parentId = 0;
                         } else {
 
-                            $parent = explode('/', $menuAnnotation->parent);
+                            $parent      = explode('/', $menuAnnotation->parent);
                             $countParent = count($parent);
                             if ($countParent > 3) {
                                 throw new \Exception($controllerClass . ':' . $action . '  @adminMenuRoot parent格式不正确!');
@@ -420,6 +420,8 @@ class MenuController extends AdminBaseController
                                 'remark'     => $remark
                             ]);
 
+                            $menuName = $name;
+
                             array_push($newMenus, "$app/$controllerName/$action 已导入");
 
                         } else {
@@ -439,6 +441,7 @@ class MenuController extends AdminBaseController
                                     'icon'       => $icon,
                                     'remark'     => $remark
                                 ]);
+                                $menuName = $name;
                             } else {
                                 // 只关注菜单层级关系
                                 Db::name('admin_menu')->where([
@@ -448,10 +451,36 @@ class MenuController extends AdminBaseController
                                 ])->update([
                                     'parent_id' => $parentId
                                 ]);
+                                $menuName = $findAdminMenu['name'];
                             }
 
+                            array_push($newMenus, "$app/$controllerName/$action 层级关系已更新");
+                        }
 
-                            array_push($newMenus, "$app/$controllerName/$action 已更新");
+                        $authRuleName      = "{$app}/{$controllerName}/{$action}";
+                        $findAuthRuleCount = Db::name('auth_rule')->where([
+                            'app'  => $app,
+                            'name' => $authRuleName,
+                            'type' => 'admin_url'
+                        ])->count();
+
+                        if ($findAuthRuleCount == 0) {
+                            Db::name('auth_rule')->insert([
+                                'app'   => $app,
+                                'name'  => $authRuleName,
+                                'type'  => 'admin_url',
+                                'param' => $param,
+                                'title' => $menuName
+                            ]);
+                        } else {
+                            Db::name('auth_rule')->where([
+                                'app'  => $app,
+                                'name' => $authRuleName,
+                                'type' => 'admin_url',
+                            ])->update([
+                                'param' => $param,
+                                'title' => $menuName
+                            ]);
                         }
 
                     }
@@ -547,11 +576,12 @@ class MenuController extends AdminBaseController
                                         'remark'     => $remark
                                     ]);
 
+                                    $menuName = $name;
+
                                     array_push($newMenus, "$app/$controllerName/$action 已导入");
 
                                 } else {
                                     if ($findAdminMenu['name'] == '--new--') {
-                                        echo "ddd---------------\n";
                                         Db::name('admin_menu')->where([
                                             'app'        => $app,
                                             'controller' => $controllerName,
@@ -566,7 +596,8 @@ class MenuController extends AdminBaseController
                                             'icon'       => $icon,
                                             'remark'     => $remark
                                         ]);
-                                    }else{
+                                        $menuName = $name;
+                                    } else {
                                         // 只关注菜单层级关系
                                         Db::name('admin_menu')->where([
                                             'app'        => $app,
@@ -575,10 +606,37 @@ class MenuController extends AdminBaseController
                                         ])->update([
                                             'parent_id' => $parentId
                                         ]);
+                                        $menuName = $findAdminMenu['name'];
                                     }
 
 
                                     array_push($newMenus, "$app/$controllerName/$action 已更新");
+                                }
+
+                                $authRuleName      = "{$app}/{$controllerName}/{$action}";
+                                $findAuthRuleCount = Db::name('auth_rule')->where([
+                                    'app'  => $app,
+                                    'name' => $authRuleName,
+                                    'type' => 'admin_url'
+                                ])->count();
+
+                                if ($findAuthRuleCount == 0) {
+                                    Db::name('auth_rule')->insert([
+                                        'app'   => $app,
+                                        'name'  => $authRuleName,
+                                        'type'  => 'admin_url',
+                                        'param' => $param,
+                                        'title' => $menuName
+                                    ]);
+                                } else {
+                                    Db::name('auth_rule')->where([
+                                        'app'  => $app,
+                                        'name' => $authRuleName,
+                                        'type' => 'admin_url',
+                                    ])->update([
+                                        'param' => $param,
+                                        'title' => $menuName
+                                    ]);
                                 }
                             }
 
