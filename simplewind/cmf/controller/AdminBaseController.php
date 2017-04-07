@@ -70,11 +70,11 @@ class AdminBaseController extends BaseController
      */
     private function checkAccess($userId)
     {
-//        如果用户id是1，则无需判断
+        // 如果用户id是1，则无需判断
         if ($userId == 1) {
             return true;
         }
-//
+
         $module     = $this->request->module();
         $controller = $this->request->controller();
         $action     = $this->request->action();
