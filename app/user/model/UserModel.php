@@ -195,6 +195,28 @@ class UserModel extends Model
         return $data;
     }
 
+    public function addFavorite($id)
+    {
+        $uid = cmf_get_current_user_id();
+        $userQuery = Db::name("UserFavorite");
+        $where['user_id'] = $uid;
+        $where['object_id'] = $id;
+        if($userQuery->where($where)->find()){
+            return 2;
+        }
+        $portalQuery = Db::name("PortalPost");
+        $portal = $portalQuery->where('id',$id)->find();
+        $where['title'] = $portal['post_title'];
+        $where['url'] = $_SERVER['HTTP_REFERER'];
+        $where['description'] = $portal['post_excerpt'];
+        $where['table_name'] = 'PortalPost';
+        $where['create_time'] = time();
+        if($userQuery->insert($where)){
+            return 0;
+        }
+        return 1;
+    }
+
     public function deleteFavorite($id)
     {
         $uid = cmf_get_current_user_id();

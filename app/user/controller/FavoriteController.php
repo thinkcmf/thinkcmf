@@ -35,8 +35,8 @@ class FavoriteController extends UserBaseController
     public function delete()
     {
         $id   = $this->request->param("id", 0, "intval");
-        $editData = new UserModel();
-        $data = $editData->deleteFavorite($id);
+        $delete = new UserModel();
+        $data = $delete->deleteFavorite($id);
         if ($data) {
             $this->success("取消收藏成功！");
         } else {
@@ -50,42 +50,20 @@ class FavoriteController extends UserBaseController
     public function add()
     {
         $id   = $this->request->param("id", 0, "intval");
-        $editData = new UserModel();
-        $data = $editData->addFavorite($id);
-        $key = sp_authcode(I('post.key'));
-        if ($key) {
-            $authkey  = C("AUTHCODE");
-            $key      = explode(" ", $key);
-            $authcode = $key[0];
-            if ($authcode == C("AUTHCODE")) {
-                $table     = $key[1];
-                $object_id = $key[2];
-                $post      = I("post.");
-                unset($post['key']);
-                $post['table']     = $table;
-                $post['object_id'] = $object_id;
-
-                $uid                  = sp_get_current_userid();
-                $post['uid']          = $uid;
-                $user_favorites_model = M("UserFavorites");
-                $find_favorite        = $user_favorites_model->where(['table' => $table, 'object_id' => $object_id, 'uid' => $uid])->find();
-                if ($find_favorite) {
-                    $this->error("亲，您已收藏过啦！");
-                } else {
-                    $post['createtime'] = time();
-                    $result             = $user_favorites_model->add($post);
-                    if ($result) {
-                        $this->success("收藏成功！");
-                    } else {
-                        $this->error("收藏失败！");
-                    }
-                }
-            } else {
-                $this->error("非法操作，无合法密钥！");
-            }
-        } else {
-            $this->error("非法操作，无密钥！");
+        $add = new UserModel();
+        $data = $add->addFavorite($id);
+        switch ($data){
+            case 0:
+                $this->success('收藏成功');
+                break;
+            case 1:
+                $this->error("收藏失败");
+                break;
+            case 2:
+                $this->error("您已收藏过啦");
+                break;
+            default :
+                $this->error('未受理的请求');
         }
-
     }
 }
