@@ -9,6 +9,7 @@ namespace app\user\model;
 
 use think\Db;
 use think\Model;
+use app\portal\service\PostService;
 
 class UserModel extends Model
 {
@@ -183,5 +184,15 @@ class UserModel extends Model
         $data['user_pass'] = cmf_password($user['password1']);
         $userQuery->where('id',$uid)->update($data);
         return 0;
+    }
+
+    public function favorites()
+    {
+        $uid = cmf_get_current_user_id();
+        $userQuery = Db::name("UserFavorite");
+        $favorites = $userQuery->where(array('user_id'=>$uid))->paginate(10);
+        $data['page'] = $favorites->render();
+        $data['lists'] = $favorites->items();
+        return $data;
     }
 }

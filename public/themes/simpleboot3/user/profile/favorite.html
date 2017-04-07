@@ -33,19 +33,20 @@
 									</tr>
 								</thead>
 								<tbody>
-									<foreach name="favorites" item="vo">
+									<foreach name="lists" item="vo">
 									<tr>
 										<td>{$vo.id}</td>
 										<td>{$vo.title}</td>
 										<td>{$vo.description}</td>
 										<td>
-											<a href="{$vo.url}">查看</a> | 
+											<a href="{$vo.url}">查看</a> |
 											<a class="js-ajax-dialog-btn" href="{:url('user/favorite/delete_favorite',array('id'=>$vo['id']))}" data-msg="您确定要取消收藏吗？" data-ok="" data-cacel="取消">取消收藏</a>
 										</td>
 									</tr>
 									</foreach>
 								</tbody>
 							</table>
+							<div class="pagination">{$page|default=''}</div>
 						</div>
 					</div>
 				</div>
