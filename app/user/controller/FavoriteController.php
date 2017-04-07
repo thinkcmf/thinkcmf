@@ -15,7 +15,9 @@ use app\user\model\UserModel;
 class FavoriteController extends UserBaseController
 {
 
-    // 前台个人中心我的收藏列表
+    /**
+     * 个人中心我的收藏列表
+     */
     public function index()
     {
         $editData = new UserModel();
@@ -27,7 +29,9 @@ class FavoriteController extends UserBaseController
         return $this->fetch("profile/favorite");
     }
 
-    // 用户收藏
+    /**
+     * 用户收藏
+     */
     public function do_favorite()
     {
         $key = sp_authcode(I('post.key'));
@@ -67,15 +71,15 @@ class FavoriteController extends UserBaseController
 
     }
 
-    // 用户取消收藏
-    public function delete_favorite()
+    /**
+     * 用户取消收藏
+     */
+    public function deleteFavorite()
     {
-        $id                   = I("get.id", 0, "intval");
-        $uid                  = sp_get_current_userid();
-        $post['uid']          = $uid;
-        $user_favorites_model = M("UserFavorites");
-        $result               = $user_favorites_model->where(['id' => $id, 'uid' => $uid])->delete();
-        if ($result) {
+        $id   = $this->request->param("id", 0, "intval");
+        $editData = new UserModel();
+        $data = $editData->deleteFavorite($id);
+        if ($data) {
             $this->success("取消收藏成功！");
         } else {
             $this->error("取消收藏失败！");

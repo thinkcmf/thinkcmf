@@ -40,7 +40,7 @@
 										<td>{$vo.description}</td>
 										<td>
 											<a href="{$vo.url}">查看</a> |
-											<a class="js-ajax-dialog-btn" href="{:url('user/favorite/delete_favorite',array('id'=>$vo['id']))}" data-msg="您确定要取消收藏吗？" data-ok="" data-cacel="取消">取消收藏</a>
+											<a class="js-ajax-dialog-btn" href="{:url('user/favorite/deleteFavorite',array('id'=>$vo['id']))}" data-msg="您确定要取消收藏吗？" data-ok="" data-cacel="取消">取消收藏</a>
 										</td>
 									</tr>
 									</foreach>

@@ -9,7 +9,6 @@ namespace app\user\model;
 
 use think\Db;
 use think\Model;
-use app\portal\service\PostService;
 
 class UserModel extends Model
 {
@@ -193,6 +192,16 @@ class UserModel extends Model
         $favorites = $userQuery->where(array('user_id'=>$uid))->paginate(10);
         $data['page'] = $favorites->render();
         $data['lists'] = $favorites->items();
+        return $data;
+    }
+
+    public function deleteFavorite($id)
+    {
+        $uid = cmf_get_current_user_id();
+        $userQuery = Db::name("UserFavorite");
+        $where['id'] = $id;
+        $where['user_id'] = $uid;
+        $data = $userQuery->where($where)->delete();
         return $data;
     }
 }
