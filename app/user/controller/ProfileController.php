@@ -130,7 +130,7 @@ class ProfileController extends UserBaseController
     }
 
     // 用户头像上传
-    public function avatar_upload()
+    public function avatarUpload()
     {
         $config = [
             'rootPath' => './' . C("UPLOADPATH"),
@@ -157,7 +157,7 @@ class ProfileController extends UserBaseController
     }
 
     // 用户头像裁剪
-    public function avatar_update()
+    public function avatarUpdate()
     {
         $session_avatar = session('avatar');
         if (!empty($session_avatar)) {

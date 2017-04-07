@@ -39,12 +39,12 @@
 					<div class="tab-content">
 						<div class="tab-pane active" id="one">
 							<br>
-							<if condition="empty($avatar)"> 
-								<img src="__TMPL__Public/assets/images/headicon_128.png" class="headicon" width="128" /> 
+							<if condition="empty($avatar)">
+								<img src="__TMPL__/Public/assets/images/headicon_128.png" class="headicon" width="128" />
 							<else /> 
 								<img src="__ROOT__/upload/{$avatar}?t={:time()}" class="headicon" width="128" />
 							</if>
-							<input type="file" onchange="avatar_upload(this)" id="avatar_uploder" name="file" />
+							<input type="file" onchange="avatarUpload(this)" id="avatar_uploder" name="file" />
 							<div class="uploaded_avatar_area">
 								<div class="uploaded_avatar_btns">
 									<a class="btn btn-primary confirm_avatar_btn" onclick="update_avatar()">确定</a> 
@@ -63,7 +63,7 @@
 	<script type="text/javascript">
 		function update_avatar() {
 			var area = $(".uploaded_avatar_area img").data("area");
-			$.post("{:url('profile/avatar_update')}", area, function(data) {
+			$.post("{:url('profile/avatarUpdate')}", area, function(data) {
 				if (data.status == 1) {
 					reloadPage(window);
 				}
@@ -71,7 +71,7 @@
 			}, "json");
 
 		}
-		function avatar_upload(obj) {
+		function avatarUpload(obj) {
 			var $fileinput = $(obj);
 			/* $(obj)
 			.show()
@@ -81,7 +81,7 @@
 			Wind.css("jcrop");
 			Wind.use("ajaxfileupload", "jcrop", "noty", function() {
 				$.ajaxFileUpload({
-					url : "{:url('profile/avatar_upload')}",
+					url : "{:url('profile/avatarUpload')}",
 					secureuri : false,
 					fileElementId : "avatar_uploder",
 					dataType : 'json',
