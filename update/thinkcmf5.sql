@@ -98,7 +98,7 @@ CREATE TABLE `cmf_auth_rule` (
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '是否有效(0:无效,1:有效)',
   `app` varchar(20) NOT NULL COMMENT '规则所属module',
   `type` varchar(30) NOT NULL DEFAULT '' COMMENT '权限规则分类，请加应用前缀,如admin_',
-  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '规则唯一英文标识,全小写',
+  `name` varchar(100) NOT NULL DEFAULT '' COMMENT '规则唯一英文标识,全小写',
   `param` varchar(255) NOT NULL DEFAULT '' COMMENT '额外url参数',
   `title` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '规则描述',
   `condition` varchar(300) NOT NULL DEFAULT '' COMMENT '规则附加条件',
