@@ -39,14 +39,14 @@
                 <li class="dropdown user login">
                     <a class="dropdown-toggle user" data-toggle="dropdown" href="#">
                             <if condition="empty($avatar)">
-                                <img src="/themes/simpleboot3/Public/assets/images/headicon.png" class="headicon">
+                                <img src="__TMPL__/Public/assets/images/headicon.png" class="headicon">
                                 <else />
                                 <img src="__ROOT__/upload/{$avatar}" class="headicon" width="30"/>
                             </if>
                         <span class="user-nickname"></span><b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu pull-right">
-                        <!--<li><a href="{:url('user/center/index')}"><i class="fa fa-user"></i> &nbsp;个人中心</a></li>-->
+                        <!--<li><a href="{:url('user/Profile/center')}"><i class="fa fa-user"></i> &nbsp;个人中心</a></li>-->
                         <!--<li class="divider"></li>-->
                         <li><a href="{:url('user/index/logout')}"><i class="fa fa-sign-out"></i> &nbsp;退出</a></li>
                     </ul>
