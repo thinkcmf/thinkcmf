@@ -20,7 +20,11 @@ class SlideItemController extends AdminBaseController
     {
         $id = $this->request->param('slide_id');
         $slideId = !empty($id) ?$id :1;
-        $result = Db::name('slideItem')->where(array('slide_id'=>$slideId))->select();
+        $result = Db::name('slideItem')->where(array('slide_id'=>$slideId))->select()->toArray();
+        foreach ($result as $key=>$value){
+            $result[$key]['picture'] = preg_replace('/\\\\/', '/', $value['picture']);
+        }
+
         $status = [
             '隐藏',
             '开启'
