@@ -30,10 +30,28 @@ class FavoriteController extends UserBaseController
     }
 
     /**
+     * 用户取消收藏
+     */
+    public function delete()
+    {
+        $id   = $this->request->param("id", 0, "intval");
+        $editData = new UserModel();
+        $data = $editData->deleteFavorite($id);
+        if ($data) {
+            $this->success("取消收藏成功！");
+        } else {
+            $this->error("取消收藏失败！");
+        }
+    }
+
+    /**
      * 用户收藏
      */
-    public function do_favorite()
+    public function add()
     {
+        $id   = $this->request->param("id", 0, "intval");
+        $editData = new UserModel();
+        $data = $editData->addFavorite($id);
         $key = sp_authcode(I('post.key'));
         if ($key) {
             $authkey  = C("AUTHCODE");
@@ -69,20 +87,5 @@ class FavoriteController extends UserBaseController
             $this->error("非法操作，无密钥！");
         }
 
-    }
-
-    /**
-     * 用户取消收藏
-     */
-    public function deleteFavorite()
-    {
-        $id   = $this->request->param("id", 0, "intval");
-        $editData = new UserModel();
-        $data = $editData->deleteFavorite($id);
-        if ($data) {
-            $this->success("取消收藏成功！");
-        } else {
-            $this->error("取消收藏失败！");
-        }
     }
 }
