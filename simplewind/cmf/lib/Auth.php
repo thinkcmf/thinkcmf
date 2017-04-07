@@ -12,6 +12,7 @@
 namespace cmf\lib;
 
 use think\Db;
+
 /**
  * ThinkCMF权限认证类
  */
@@ -19,7 +20,7 @@ class Auth
 {
 
     //默认配置
-    protected $_config = array();
+    protected $_config = [];
 
     public function __construct()
     {
@@ -41,19 +42,28 @@ class Auth
         if ($uid == 1) {
             return true;
         }
+
+        $findAuthRuleCount = Db::name('auth_rule')->where([
+            'name' => $name
+        ])->count();
+
+        if ($findAuthRuleCount == 0) {//没有规则时,不验证!
+            return true;
+        }
+
         if (is_string($name)) {
             $name = strtolower($name);
             if (strpos($name, ',') !== false) {
                 $name = explode(',', $name);
             } else {
-                $name = array($name);
+                $name = [$name];
             }
         }
-        $list = array(); //保存验证通过的规则名
+        $list   = []; //保存验证通过的规则名
         $groups = Db::name('RoleUser')
             ->alias("a")
-            ->join('__ROLE__ r','a.role_id = r.id')
-            ->where(array("a.user_id" => $uid, "r.status" => 1))
+            ->join('__ROLE__ r', 'a.role_id = r.id')
+            ->where(["a.user_id" => $uid, "r.status" => 1])
             ->column("role_id");
 
         if (in_array(1, $groups)) {
@@ -65,8 +75,8 @@ class Auth
         }
         $rules = Db::name('AuthAccess')
             ->alias("a")
-            ->join('__AUTH_RULE__ b ',' a.rule_name = b.name')
-            ->where(array("a.role_id" => array("in", $groups), "b.name" => array("in", $name)))
+            ->join('__AUTH_RULE__ b ', ' a.rule_name = b.name')
+            ->where(["a.role_id" => ["in", $groups], "b.name" => ["in", $name]])
             ->select();
         foreach ($rules as $rule) {
             if (!empty($rule['condition'])) { //根据condition进行验证
@@ -100,9 +110,9 @@ class Auth
      */
     private function getUserInfo($uid)
     {
-        static $userInfo = array();
+        static $userInfo = [];
         if (!isset($userInfo[$uid])) {
-            $userInfo[$uid] = Db::name('user')->where(array('id' => $uid))->find();
+            $userInfo[$uid] = Db::name('user')->where(['id' => $uid])->find();
         }
         return $userInfo[$uid];
     }
