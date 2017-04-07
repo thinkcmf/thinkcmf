@@ -18,9 +18,16 @@ class SlideItemController extends AdminBaseController
      */
     public function index()
     {
-        $slidePostModel = new SlideModel();
-        $list           = $slidePostModel->select();
-        $this->assign('list', $list);
+        $id = $this->request->param('slide_id');
+        $slideId = !empty($id) ?$id :1;
+        $result = Db::name('slideItem')->where(array('slide_id'=>$slideId))->select();
+        $status = [
+            '隐藏',
+            '开启'
+
+        ];
+        $this->assign('result',$result);
+        $this->assign('status',$status);
         return $this->fetch();
     }
 
@@ -50,8 +57,9 @@ class SlideItemController extends AdminBaseController
     public function edit()
     {
         $id             = $this->request->param('id');
-        $slidePostModel = new SlideModel();
-        $result         = $slidePostModel->where('id', $id)->find();
+        $result = Db::name('slideItem')->where(array('id'=>$id))->find();
+        $categories = Db::name('slide')->where('status', 1)->select();
+        $this->assign('categories', $categories);
         $this->assign('result', $result);
         return $this->fetch();
     }
@@ -61,14 +69,17 @@ class SlideItemController extends AdminBaseController
      */
     public function editPost()
     {
-        $data           = $this->request->param();
-        $slidePostModel = new SlideModel();
-        $result         = $slidePostModel->validate(true)->save($data, ['id' => $data['id']]);
-        if ($result === false) {
-            $this->error($slidePostModel->getError());
+        $data = $this->request->param();
+        if ($data['more']['thumb']){
+            $data['post']['picture'] = $data['more']['thumb'];
+        }
+        $result = Db::name('slideItem')->update($data['post']);
+        if ($result){
+            $this->success("修改成功！", url("SlideItem/index"));
+        }else{
+            $this->error('修改失败！');
         }
 
-        $this->success("修改成功！", url("slide/index"));
     }
 
     /**
@@ -77,7 +88,41 @@ class SlideItemController extends AdminBaseController
     public function delete()
     {
         $id = $this->request->param('id', 0, 'intval');
-        SlideModel::destroy($id);
-        $this->success("删除成功！", url("slide/index"));
+        $result = Db::name('slideItem')->delete($id);
+        if ($result){
+            $this->success("删除成功！", url("SlideItem/index"));
+        }else{
+            $this->error('删除失败！');
+        }
+
+    }
+    // 幻灯片隐藏
+    public function ban(){
+        $id = $this->request->param('id', 0, 'intval');
+        if ($id) {
+            $rst = Db::name('slideItem')->where(array('id'=>$id))->update(array('status'=>0));
+            if ($rst) {
+                $this->success("幻灯片隐藏成功！");
+            } else {
+                $this->error('幻灯片隐藏失败！');
+            }
+        } else {
+            $this->error('数据传入失败！');
+        }
+    }
+
+    // 幻灯片启用
+    public function cancelBan(){
+        $id = $this->request->param('id', 0, 'intval');
+        if ($id) {
+            $result = Db::name('slideItem')->where(array('id'=>$id))->update(array('status'=>1));
+            if ($result) {
+                $this->success("幻灯片启用成功！");
+            } else {
+                $this->error('幻灯片启用失败！');
+            }
+        } else {
+            $this->error('数据传入失败！');
+        }
     }
 }

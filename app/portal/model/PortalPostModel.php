@@ -59,6 +59,107 @@ class PortalPostModel extends Model
         return $this;
 
     }
+    public function adminDeletePage($data)
+    {
+
+        if(isset($data['id'])){
+            $id  = $data['id']; //获取删除id
+
+            $res = $this->where(['id' => $id])->find();
+
+            if($res){
+                $res =  json_decode(json_encode($res),true); //转换为数组
+
+                $recycleData   = [
+                    'object_id'   => $res['id'],
+                    'create_time' => time(),
+                    'table_name'  => 'portal_post',
+                    'name'        => $res['post_title'],
+
+                ];
+
+                Db::startTrans(); //开启事务
+                $transStatus = false;
+                try{
+                    Db::name('portal_post')->where(['id' => $id])->update([
+                                                    'post_status' => 3,
+                                                    'delete_time' => time()
+                                                  ]);
+                    Db::name('recycle_bin')->insert($recycleData);
+
+                    $transStatus = true;
+                    // 提交事务
+                    Db::commit();
+                } catch (\Exception $e) {
+
+                    $transStatus = false;
+                    // 回滚事务
+                    Db::rollback();
+
+
+                }
+                return $transStatus;
+
+
+
+
+            } else {
+                return  false;
+            }
+        } elseif (isset($data['ids'])){
+            $ids = $data['ids'];
+
+            $res = $this->where(['id' => ['in',$ids]])
+                                   ->select();
+
+            if($res){
+                $res =  json_decode(json_encode($res),true);
+                foreach ($res as $key => $value) {
+                    $recycleData[$key]['object_id'] = $value['id'];
+                    $recycleData[$key]['create_time'] = time();
+                    $recycleData[$key]['table_name'] = 'portal_post';
+                    $recycleData[$key]['name'] = $value['post_title'];
+
+                }
+
+                Db::startTrans(); //开启事务
+                $transStatus = false;
+                try{
+                    Db::name('portal_post')->where(['id' => ['in',$ids]])
+                                              ->update([
+                                                    'post_status' => 3,
+                                                    'delete_time' => time()
+                                                  ]);
+
+
+                    Db::name('recycle_bin')->insertAll($recycleData);
+
+                    $transStatus = true;
+                    // 提交事务
+                    Db::commit();
+
+                } catch (\Exception $e) {
+
+                    $transStatus = false;
+
+                    // 回滚事务
+                    Db::rollback();
+
+
+                }
+                return $transStatus;
+
+
+            }else{
+                return  false;
+              //  $this->error(lang('DELETE_FAILED'));
+            }
+
+        }else{
+            return  false;
+            //$this->error(lang('DELETE_FAILED'));
+        }
+    }
 
 
     public function adminAddPage($data)

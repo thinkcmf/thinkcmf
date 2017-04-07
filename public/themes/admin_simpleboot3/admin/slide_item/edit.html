@@ -1,0 +1,105 @@
+<include file="public@header"/>
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+<script type="text/html" id="photos-item-wrapper">
+    <li id="savedimage{id}">
+        <input id="photo-{id}" type="hidden" name="photos_url[]" value="{filepath}">
+        <input id="photo-{id}-name" type="text" name="photos_alt[]" value="{name}" style="width: 160px;" title="图片名称">
+        <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
+             onclick="parent.image_preview_dialog(this.src);">
+        <a href="javascript:upload_one_image('图片上传','#photo-{id}');">替换</a>
+        <a href="javascript:$('#savedimage{id}').remove();">移除</a>
+    </li>
+</script>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('SlideItem/index')}">幻灯片列表</a></li>
+        <li class="active"><a href="{:url('SlideItem/add')}" target="_self">编辑幻灯片</a></li>
+    </ul>
+    <form action="{:url('SlideItem/editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+        <div class="row">
+            <div class="col-md-9">
+                <table class="table table-bordered">
+                    <tr>
+                        <th width="100">分类</th>
+                        <td>
+                            <select name="post[slide_id]">
+                                <option value="0">默认分类</option>
+                                <foreach name="categories" item="vo">
+                                    <option value="{$vo.id}" <if condition ="$vo['id'] eq $result['slide_id']">selected</if>>{$vo.name}</option>
+                                </foreach>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span class="form-required">*</span>排序</th>
+                        <td>
+                            <input class="form-control" type="hidden" style="width:400px;" name="post[id]" id="id" required value="{$result.id}" />
+                            <input class="form-control" type="text" style="width:400px;" name="post[list_order]" id="list_order" required value="{$result.list_order}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span class="form-required">*</span>标题</th>
+                        <td>
+                            <input class="form-control" type="text" style="width:400px;" name="post[title]" id="title" required value="{$result.title}" placeholder="请输入标题"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>链接</th>
+                        <td>
+                            <input class="form-control" type="text" name="post[url]" id="keywords" value="{$result.url}" style="width: 400px" placeholder="请输入链接">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>描述</th>
+                        <td><input class="form-control" type="text" name="post[description]" id="source" value="{$result.description}" style="width: 400px" placeholder="请输入描述"></td>
+                    </tr>
+                    <tr>
+                        <th>幻灯片内容</th>
+                        <td>
+                            <textarea class="form-control" name="post[content]" id="description"  style="width: 47%; height: 100px;" placeholder="请填写幻灯片内容">{$result.content}</textarea>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-3">
+                <table class="table table-bordered">
+                    <tr>
+                        <th><b>缩略图</b></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="text-align: center;">
+                                <input type="hidden" name="more[thumb]" id="thumb" value="{$more.thumb|default=''}">
+                                <a href="javascript:upload_one_image('图片上传','#thumb');">
+                                    <if condition="empty($result['picture'])">
+                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumb-preview"  width="135" style="cursor: hand"/>
+                                        <else/>
+                                        <img src="{:cmf_get_image_preview_url($result['picture'])}" id="thumb-preview" width="135" style="cursor: hand"/>
+                                    </if>
+                                </a>
+                                <input type="button" class="btn btn-sm"
+                                       onclick="$('#thumb-preview').attr('src','__TMPL__/public/assets/images/default-thumbnail.png');$('#thumb').val('');return false;"
+                                       value="取消图片">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+                <a class="btn btn-default" href="{:url('AdminArticle/index')}">{:lang('BACK')}</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

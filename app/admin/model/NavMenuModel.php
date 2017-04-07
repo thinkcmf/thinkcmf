@@ -20,7 +20,6 @@ class NavMenuModel extends Model
             $navId = Db::name('nav')->where('is_main', 1)->value('id');
         }
         $navMenus = $this->where('nav_id', $navId)->where('status', 1)->order('list_order ASC')->select()->toArray();
-
         $navMenusTree = [];
         if (!empty($navMenus)) {
             $tree = new Tree();
