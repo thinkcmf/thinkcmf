@@ -4,15 +4,16 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: iyting < iyting@fixmail.com>
+// | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
-namespace app\portal\controller;
+namespace app\blog\controller;
 
-class ErrorCode
+use cmf\controller\HomeBaseController;
+
+class IndexController extends HomeBaseController
 {
-	const DELETE_SUCCESS = '删除成功';
-	const DELETE_FAILED  = '删除失败';
-	const ADD_SUCCESS    = '添加成功';
-	const ADD_FAILED     = '添加失败';
+    public function index()
+    {
+        return $this->fetch();
+    }
 }
-
