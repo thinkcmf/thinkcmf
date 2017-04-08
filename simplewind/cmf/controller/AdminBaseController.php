@@ -41,7 +41,7 @@ class AdminBaseController extends BaseController
 
         $themePath = "{$cmfAdminThemePath}{$cmfAdminDefaultTheme}";
 
-        $root = $this->request->root();
+        $root = cmf_get_root();
 
         $viewReplaceStr = [
             '__ROOT__'     => $root,

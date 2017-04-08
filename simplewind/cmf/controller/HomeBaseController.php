@@ -27,9 +27,7 @@ class HomeBaseController extends BaseController
 
         $themePath = "{$cmfThemePath}{$cmfDefaultTheme}";
 
-        $root = $this->request->root();
-
-        $root = str_replace('/index.php', '', $root);
+        $root = cmf_get_root();
 
         $viewReplaceStr = [
             '__ROOT__'     => $root,
