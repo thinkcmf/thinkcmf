@@ -20,6 +20,7 @@ class AdminOauthController extends AdminBaseController
      *     'name'   => '第三方用户',
      *     'parent' => 'user/AdminIndex/default1',
      *     'display'=> true,
+     *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
      *     'remark' => '第三方用户',
@@ -44,7 +45,8 @@ class AdminOauthController extends AdminBaseController
      * @adminMenu(
      *     'name'   => '删除第三方用户绑定',
      *     'parent' => 'index',
-     *     'display'=> true,
+     *     'display'=> false,
+     *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
      *     'remark' => '删除第三方用户绑定',
