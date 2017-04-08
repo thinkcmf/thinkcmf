@@ -16,8 +16,8 @@
             <tr>
                 <th width="80">{:lang('SORT')}</th>
                 <th width="50">ID</th>
-                <th>{:lang('APP')}</th>
                 <th>{:lang('NAME')}</th>
+                <th>操作</th>
                 <th width="80">{:lang('STATUS')}</th>
                 <th width="180">{:lang('ACTIONS')}</th>
             </tr>
@@ -29,8 +29,8 @@
             <tr>
                 <th width="80">{:lang('SORT')}</th>
                 <th width="50">ID</th>
-                <th>{:lang('APP')}</th>
                 <th>{:lang('NAME')}</th>
+                <th>操作</th>
                 <th width="80">{:lang('STATUS')}</th>
                 <th width="180">{:lang('ACTIONS')}</th>
             </tr>
@@ -51,14 +51,6 @@
             });
         });
     });
-
-    setInterval(function() {
-        var refersh_time = getCookie('refersh_time_admin_menu_index');
-        if (refersh_time == 1) {
-            reloadPage(window);
-        }
-    }, 1000);
-    setCookie('refersh_time_admin_menu_index', 0);
 </script>
 </body>
 </html>

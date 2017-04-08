@@ -58,8 +58,8 @@ class MenuController extends AdminBaseController
         $str      = "<tr id='node-\$id' \$parent_id_node style='\$style'>
                         <td style='padding-left:20px;'><input name='list_orders[\$id]' type='text' size='3' value='\$list_order' class='input input-order'></td>
                         <td>\$id</td>
-                        <td>\$app</td>
                         <td>\$spacer\$name</td>
+                        <td>\$app</td>
                         <td>\$status</td>
                         <td>\$str_manage</td>
                     </tr>";
