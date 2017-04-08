@@ -87,32 +87,62 @@ function cmf_get_domain()
 }
 
 /**
- * TODO
- * 获取前台模板根目录
+ * 获取程序web根目录
+ * @return string web根目录
  */
-function cmf_get_theme_path()
+function cmf_get_root()
 {
-    // 获取当前主题名称
-    $tmpl_path = C("cmf_TMPL_PATH");
-    $theme     = C('cmf_DEFAULT_THEME');
-    if (C('TMPL_DETECT_THEME')) {// 自动侦测模板主题
-        $t = C('VAR_TEMPLATE');
-        if (isset($_GET[$t])) {
-            $theme = $_GET[$t];
-        } elseif (cookie('think_template')) {
-            $theme = cookie('think_template');
-        }
-        if (!file_exists($tmpl_path . "/" . $theme)) {
-            $theme = C('cmf_DEFAULT_THEME');
-        }
-        cookie('think_template', $theme, 864000);
-    }
-
-    return __ROOT__ . '/' . $tmpl_path . $theme . "/";
+    $request = Request::instance();
+    $root    = $request->root();
+    $root    = str_replace('/index.php', '', $root);
+    return $root;
 }
 
 /**
- * TODO
+ * @TODO 增加主题切换时获取当然主题
+ * 获取当前主题名
+ * @return string
+ */
+function cmf_get_current_theme()
+{
+//    $tmpl_path = C("SP_TMPL_PATH");
+//    $theme     = C('SP_DEFAULT_THEME');
+//    if (C('TMPL_DETECT_THEME')) {
+//        $t = C('VAR_TEMPLATE');
+//        if (isset($_GET[$t])) {
+//            $theme = $_GET[$t];
+//        } elseif (cookie('think_template')) {
+//            $theme = cookie('think_template');
+//        }
+//        if (!file_exists($tmpl_path . "/" . $theme)) {
+//            $theme = C('SP_DEFAULT_THEME');
+//        }
+//        cookie('think_template', $theme, 864000);
+//    }
+
+    $theme = config('cmf_default_theme');
+
+    return $theme;
+}
+
+/**
+ * 获取前台模板根目录
+ * @param string $theme
+ * @return string 前台模板根目录
+ */
+function cmf_get_theme_path($theme = null)
+{
+    $themePath = config('cmf_theme_path');
+    if ($theme === null) {
+        // 获取当前主题名称
+        $theme = cmf_get_current_theme();
+    }
+
+    return './' . $themePath . $theme;
+}
+
+/**
+ * @TODO
  * 获取用户头像相对网站根目录的地址
  */
 function cmf_get_user_avatar_url($avatar)
@@ -189,7 +219,11 @@ function cmf_compare_password($password, $password_in_db)
     }
 }
 
-
+/**
+ * 文件日志
+ * @param $content 要写入的内容
+ * @param string $file 日志文件,在web 入口目录
+ */
 function cmf_log($content, $file = "log.txt")
 {
     file_put_contents($file, $content, FILE_APPEND);
@@ -220,14 +254,11 @@ function cmf_random_string($len = 6)
 }
 
 /**
- * TODO
  * 清空系统缓存
  */
 function cmf_clear_cache()
 {
-
-    $dirs = [];
-    // runtime/
+    $dirs     = [];
     $rootDirs = cmf_scan_dir(RUNTIME_PATH . "*");
     //$noNeedClear=array(".","..","Data");
     $noNeedClear = [".", ".."];
@@ -466,28 +497,29 @@ function cmf_get_upload_setting()
 }
 
 /**
- * TODO
  * 获取html文本里的img
  * @param string $content
  * @return array
  */
 function cmf_get_content_images($content)
 {
+    import('phpQuery.phpQuery', EXTEND_PATH);
     \phpQuery::newDocumentHTML($content);
-    $pq       = pq();
-    $imgs     = $pq->find("img");
-    $imgsData = [];
-    if ($imgs->length()) {
-        foreach ($imgs as $img) {
-            $img         = pq($img);
-            $im['src']   = $img->attr("src");
-            $im['title'] = $img->attr("title");
-            $im['alt']   = $img->attr("alt");
-            $imgsData[]  = $im;
+    $pq         = pq(null);
+    $images     = $pq->find("img");
+    $imagesData = [];
+    if ($images->length) {
+        foreach ($images as $img) {
+            $img            = pq($img);
+            $image          = [];
+            $image['src']   = $img->attr("src");
+            $image['title'] = $img->attr("title");
+            $image['alt']   = $img->attr("alt");
+            array_push($imagesData, $image);
         }
     }
     \phpQuery::$documents = null;
-    return $imgsData;
+    return $imagesData;
 }
 
 /**
@@ -556,7 +588,7 @@ function cmf_send_email($address, $subject, $message)
 }
 
 /**
- * TODO
+ * TODO 增加七牛及其它云存储处理
  * 转化数据库保存的文件路径，为可以访问的url
  * @param string $file
  * @param mixed $style 样式(七牛)
@@ -569,20 +601,20 @@ function cmf_get_asset_url($file, $style = '')
     } else if (strpos($file, "/") === 0) {
         return $file;
     } else {
-        return request()->root() . '/upload/' . $file;
+        return cmf_get_root() . '/upload/' . $file;
         //TODO 七牛处理
-        $filePath = C("TMPL_PARSE_STRING.__UPLOAD__") . $file;
-        if (C('FILE_UPLOAD_TYPE') == 'Local') {
-            if (strpos($filePath, "http") !== 0) {
-                $filePath = cmf_get_host() . $filePath;
-            }
-        }
-
-        if (C('FILE_UPLOAD_TYPE') == 'Qiniu') {
-            $storage_setting = cmf_get_cmf_settings('storage');
-            $qiniu_setting   = $storage_setting['Qiniu']['setting'];
-            $filePath        = $qiniu_setting['protocol'] . '://' . $storage_setting['Qiniu']['domain'] . "/" . $file . $style;
-        }
+//        $filePath = C("TMPL_PARSE_STRING.__UPLOAD__") . $file;
+//        if (C('FILE_UPLOAD_TYPE') == 'Local') {
+//            if (strpos($filePath, "http") !== 0) {
+//                $filePath = cmf_get_host() . $filePath;
+//            }
+//        }
+//
+//        if (C('FILE_UPLOAD_TYPE') == 'Qiniu') {
+//            $storage_setting = cmf_get_cmf_settings('storage');
+//            $qiniu_setting   = $storage_setting['Qiniu']['setting'];
+//            $filePath        = $qiniu_setting['protocol'] . '://' . $storage_setting['Qiniu']['domain'] . "/" . $file . $style;
+//        }
 
         return $filePath;
 
@@ -590,7 +622,7 @@ function cmf_get_asset_url($file, $style = '')
 }
 
 /**
- * TODO
+ * @TODO 增加七牛及其它云存储处理
  * 转化数据库保存图片的文件路径，为可以访问的url
  * @param string $file
  * @param mixed $style 样式(七牛)
@@ -603,21 +635,23 @@ function cmf_get_image_url($file, $style = '')
     } else if (strpos($file, "/") === 0) {
         return $file;
     } else {
-        $filePath = C("TMPL_PARSE_STRING.__UPLOAD__") . $file;
-        if (C('FILE_UPLOAD_TYPE') == 'Local') {
-            if (strpos($filePath, "http") !== 0) {
-                $filePath = cmf_get_host() . $filePath;
-            }
-        }
 
-        if (C('FILE_UPLOAD_TYPE') == 'Qiniu') {
-            $storage_setting = cmf_get_cmf_settings('storage');
-            $qiniu_setting   = $storage_setting['Qiniu']['setting'];
-            $filePath        = $qiniu_setting['protocol'] . '://' . $storage_setting['Qiniu']['domain'] . "/" . $file . $style;
-        }
+        return cmf_get_root() . '/upload/' . $file;
+//        $filePath = C("TMPL_PARSE_STRING.__UPLOAD__") . $file;
+//        if (C('FILE_UPLOAD_TYPE') == 'Local') {
+//            if (strpos($filePath, "http") !== 0) {
+//                $filePath = cmf_get_host() . $filePath;
+//            }
+//        }
+//
+//        if (C('FILE_UPLOAD_TYPE') == 'Qiniu') {
+//            $storage_setting = cmf_get_cmf_settings('storage');
+//            $qiniu_setting   = $storage_setting['Qiniu']['setting'];
+//            $filePath        = $qiniu_setting['protocol'] . '://' . $storage_setting['Qiniu']['domain'] . "/" . $file . $style;
+//        }
 
-        return $filePath;
-
+//        return $filePath;
+//
     }
 }
 
@@ -655,30 +689,38 @@ function cmf_get_image_preview_url($file, $style = 'watermark')
  */
 function cmf_get_file_download_url($file, $expires = 3600)
 {
-    if (C('FILE_UPLOAD_TYPE') == 'Qiniu') {
-        $storage_setting = cmf_get_cmf_settings('storage');
-        $qiniu_setting   = $storage_setting['Qiniu']['setting'];
-        $filePath        = $qiniu_setting['protocol'] . '://' . $storage_setting['Qiniu']['domain'] . "/" . $file;
-        $url             = cmf_get_asset_url($file, false);
-
-        if ($qiniu_setting['enable_picture_protect']) {
-            $qiniuStorage = new \Think\Upload\Driver\Qiniu\QiniuStorage(C('UPLOAD_TYPE_CONFIG'));
-            $url          = $qiniuStorage->privateDownloadUrl($url, $expires);
-        }
-
-        return $url;
-
-    } else {
-        return cmf_get_asset_url($file, false);
-    }
+    return cmf_get_asset_url($file, false);
+//    if (C('FILE_UPLOAD_TYPE') == 'Qiniu') {
+//        $storage_setting = cmf_get_cmf_settings('storage');
+//        $qiniu_setting   = $storage_setting['Qiniu']['setting'];
+//        $filePath        = $qiniu_setting['protocol'] . '://' . $storage_setting['Qiniu']['domain'] . "/" . $file;
+//        $url             = cmf_get_asset_url($file, false);
+//
+//        if ($qiniu_setting['enable_picture_protect']) {
+//            $qiniuStorage = new \Think\Upload\Driver\Qiniu\QiniuStorage(C('UPLOAD_TYPE_CONFIG'));
+//            $url          = $qiniuStorage->privateDownloadUrl($url, $expires);
+//        }
+//
+//        return $url;
+//
+//    } else {
+//        return cmf_get_asset_url($file, false);
+//    }
 }
 
-
-function cmf_authcode($string, $operation = 'DECODE', $key = '', $expiry = 0)
+/**
+ * @deprecated
+ * @param $string
+ * @param string $operation
+ * @param string $key
+ * @param int $expiry
+ * @return string
+ */
+function cmf_auth_code($string, $operation = 'DECODE', $key = '', $expiry = 0)
 {
     $ckey_length = 4;
 
-    $key  = md5($key ? $key : C("AUTHCODE"));
+    $key  = md5($key ? $key : config("authcode"));
     $keya = md5(substr($key, 0, 16));
     $keyb = md5(substr($key, 16, 16));
     $keyc = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length) : substr(md5(microtime()), -$ckey_length)) : '';
@@ -725,12 +767,16 @@ function cmf_authcode($string, $operation = 'DECODE', $key = '', $expiry = 0)
 
 }
 
-function cmf_authencode($string)
+/**
+ * @deprecated
+ * @param $string
+ * @return string
+ */
+function cmf_auth_encode($string)
 {
-    return cmf_authcode($string, "ENCODE");
+    return cmf_auth_code($string, "ENCODE");
 }
 
-/*修复缩略图使用网络地址时，会出现的错误。5iymt 2015年7月10日*/
 /**
  * TODO
  * 获取文件相对路径
@@ -742,7 +788,7 @@ function cmf_asset_relative_url($asset_url)
     if (strpos($asset_url, "http") === 0) {
         return $asset_url;
     } else {
-        return str_replace(C("TMPL_PARSE_STRING.__UPLOAD__"), "", $asset_url);
+        return str_replace('/upload/', '', $asset_url);
     }
 }
 
@@ -812,20 +858,6 @@ function cmf_check_user_action($object = "", $count_limit = 1, $ip_limit = false
 
 /**
  * TODO
- * 用于生成收藏内容用的key
- * @param string $table 收藏内容所在表
- * @param int $object_id 收藏内容的id
- */
-function cmf_get_favorite_key($table, $object_id)
-{
-    $auth_code = C("AUTHCODE");
-    $string    = "$auth_code $table $object_id";
-
-    return cmf_authencode($string);
-}
-
-/**
- * TODO
  * @deprecated
  * @param $url
  * @return mixed|string
@@ -847,36 +879,6 @@ function cmf_get_relative_url($url)
         }
     }
     return $url;
-}
-
-/**
- * TODO
- * @param string $tag
- * @param array $where
- * @return array
- */
-function cmf_get_users($tag = "field:*;limit:0,8;order:create_time desc;", $where = [])
-{
-    $where = [];
-    $tag   = cmf_param_lable($tag);
-    $field = !empty($tag['field']) ? $tag['field'] : '*';
-    $limit = !empty($tag['limit']) ? $tag['limit'] : '8';
-    $order = !empty($tag['order']) ? $tag['order'] : 'create_time desc';
-
-    //根据参数生成查询条件
-    $mwhere['user_status'] = ['eq', 1];
-    $mwhere['user_type']   = ['eq', 2];//default user
-
-    if (is_array($where)) {
-        $where = array_merge($mwhere, $where);
-    } else {
-        $where = $mwhere;
-    }
-
-    $users_model = M("Users");
-
-    $users = $users_model->field($field)->where($where)->order($order)->limit($limit)->select();
-    return $users;
 }
 
 /**
@@ -1307,16 +1309,6 @@ function cmf_get_plugin_return($url, $params = [])
 }
 
 /**
- * 获取当前主题名
- * @param string $defaultTheme 指定的默认模板名
- * @return string
- */
-function cmf_get_current_theme($defaultTheme = '')
-{
-    return config('cmf_default_theme');
-}
-
-/**
  * TODO
  * 判断模板文件是否存在，区分大小写
  * @param string $file 模板文件路径，相对于当前模板根目录，不带模板后缀名
@@ -1631,31 +1623,6 @@ function cmf_curl_get($url)
 
     return $content;
 }
-
-/**
- * 获取当前主题名
- * @return string
- */
-function sp_get_theme()
-{
-    $tmpl_path = C("SP_TMPL_PATH");
-    $theme     = C('SP_DEFAULT_THEME');
-    if (C('TMPL_DETECT_THEME')) {
-        $t = C('VAR_TEMPLATE');
-        if (isset($_GET[$t])) {
-            $theme = $_GET[$t];
-        } elseif (cookie('think_template')) {
-            $theme = cookie('think_template');
-        }
-        if (!file_exists($tmpl_path . "/" . $theme)) {
-            $theme = C('SP_DEFAULT_THEME');
-        }
-        cookie('think_template', $theme, 864000);
-    }
-
-    return $theme;
-}
-
 
 /**
  *
