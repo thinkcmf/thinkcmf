@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>{$user_login}  - 我的收藏</title>
+<title>{$user_login}  - 我的评论</title>
 <meta name="keywords" content=""/>
 <meta name="description" content="">
 <include file="public@head"/>
@@ -18,36 +18,36 @@
 			<div class="col-md-9">
 				<div class="tabs">
 					<ul class="nav nav-tabs">
-						<li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-star"></i> 我的收藏</a></li>
+						<li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-comments-o"></i> 我的评论</a></li>
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane active" id="one">
-							<br>
 							<table class="table table-bordered table-striped table-hover">
 								<thead>
-									<tr>
-										<th>#</th>
-										<th>标题</th>
-										<th>描述</th>
-										<th>操作</th>
-									</tr>
+								<tr>
+									<th>#</th>
+									<th>评论内容</th>
+									<th width="150">评论时间</th>
+									<th width="150">操作</th>
+								</tr>
 								</thead>
 								<tbody>
-									<foreach name="lists" item="vo">
+								<foreach name="lists" item="vo">
 									<tr>
 										<td>{$vo.id}</td>
-										<td>{$vo.title}</td>
-										<td>{$vo.description}</td>
+										<td>{$vo.content}</td>
+										<td>{$vo.createtime}</td>
 										<td>
-											<a href="{$vo.url}">查看</a> |
-											<a class="js-ajax-dialog-btn" href="{:url('user/favorite/delete',array('id'=>$vo['id']))}" data-msg="您确定要取消收藏吗？" data-ok="" data-cacel="取消">取消收藏</a>
+											<a href="__ROOT__/{$vo.url}#comment{$vo.id}">查看原文</a>
+											<!-- | <a class="js-ajax-dialog-btn" href="{:U('user/favorite/delete_favorite',array('id'=>$vo['id']))}" data-msg="您确定要取消收藏吗？" data-ok="" data-cacel="取消">取消收藏</a> -->
 										</td>
 									</tr>
-									</foreach>
+								</foreach>
 								</tbody>
 							</table>
-							<div class="pagination">{$page|default=''}</div>
 						</div>
+
+						<div class="pagination"><ul>{$page}</ul></div>
 					</div>
 				</div>
 			</div>
