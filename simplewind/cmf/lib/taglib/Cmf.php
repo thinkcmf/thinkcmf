@@ -116,7 +116,7 @@ if(!function_exists('__parse_navigation')){
     \$navMenuModel = new \app\admin\model\NavMenuModel();
     \$menus = \$navMenuModel->navMenusTreeArray({$navId});
 ?>
-<if condition="empty('{$root}')">
+<if condition="'{$root}'==''">
     {:__parse_navigation(\$menus)}
 <else/>
     <{$root} id="{$id}" class="{$class}">
@@ -209,7 +209,7 @@ if(!function_exists('__parse_sub_navigation')){
     \$navMenuModel = new \app\admin\model\NavMenuModel();
     \$menus = \$navMenuModel->subNavMenusTreeArray({$parent});
 ?>
-<if condition="empty('{$root}')">
+<if condition="'{$root}'==''">
     {:__parse_sub_navigation(\$menus)}
 <else/>
     <{$root} id="{$id}" class="{$class}">
