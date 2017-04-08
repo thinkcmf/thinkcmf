@@ -8,29 +8,19 @@
 // +----------------------------------------------------------------------
 namespace app\admin\annotation;
 
-use mindplay\annotations\AnnotationException;
 use mindplay\annotations\Annotation;
 
 /**
  * Specifies validation of a string, requiring a minimum and/or maximum length.
  *
- * @usage('method'=>true, 'inherited'=>true)
+ * @usage('method'=>true, 'inherited'=>true, 'multiple'=>false)
  */
 class AdminMenuAnnotation extends Annotation
 {
-    /**
-     * @var int|null Minimum string length (or null, if no minimum)
-     */
     public $remark = '';
 
-    /**
-     * @var int|null Maximum string length (or null, if no maximum)
-     */
     public $icon = '';
 
-    /**
-     * @var int|null Minimum string length (or null, if no minimum)
-     */
     public $name = '';
 
     public $param = '';
@@ -40,6 +30,8 @@ class AdminMenuAnnotation extends Annotation
     public $display = false;
 
     public $order = 10000;
+
+    public $hasView = true;
 
     /**
      * Initialize the annotation.

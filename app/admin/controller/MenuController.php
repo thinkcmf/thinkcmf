@@ -344,7 +344,7 @@ class MenuController extends AdminBaseController
 
                         $name      = $menuAnnotation->name;
                         $icon      = $menuAnnotation->icon;
-                        $type      = 0;//1:权限认证+菜单,0:只作为菜单
+                        $type      = 0;//1:有界面可访问菜单,2:无界面可访问菜单,0:只作为菜单
                         $action    = $menuAnnotation->action;
                         $status    = empty($menuAnnotation->display) ? 0 : 1;
                         $listOrder = floatval($menuAnnotation->order);
@@ -501,7 +501,7 @@ class MenuController extends AdminBaseController
 
                                 $name      = $menuAnnotation->name;
                                 $icon      = $menuAnnotation->icon;
-                                $type      = 1;//1:权限认证+菜单,0:只作为菜单
+                                $type      = $menuAnnotation->hasView ? 1 : 2;//1:有界面可访问菜单,2:无界面可访问菜单,0:只作为菜单
                                 $action    = $method->name;
                                 $status    = empty($menuAnnotation->display) ? 0 : 1;
                                 $listOrder = floatval($menuAnnotation->order);
