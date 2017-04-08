@@ -443,13 +443,14 @@ class MenuController extends AdminBaseController
                                 ]);
                                 $menuName = $name;
                             } else {
-                                // 只关注菜单层级关系
+                                // 只关注菜单层级关系,是否有视图
                                 Db::name('admin_menu')->where([
                                     'app'        => $app,
                                     'controller' => $controllerName,
                                     'action'     => $action
                                 ])->update([
-                                    'parent_id' => $parentId
+                                    'parent_id' => $parentId,
+                                    'type'      => $type,
                                 ]);
                                 $menuName = $findAdminMenu['name'];
                             }
@@ -598,13 +599,14 @@ class MenuController extends AdminBaseController
                                         ]);
                                         $menuName = $name;
                                     } else {
-                                        // 只关注菜单层级关系
+                                        // 只关注菜单层级关系,是否有视图
                                         Db::name('admin_menu')->where([
                                             'app'        => $app,
                                             'controller' => $controllerName,
                                             'action'     => $action
                                         ])->update([
-                                            'parent_id' => $parentId
+                                            'parent_id' => $parentId,
+                                            'type'      => $type,
                                         ]);
                                         $menuName = $findAdminMenu['name'];
                                     }
