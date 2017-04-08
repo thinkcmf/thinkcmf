@@ -133,7 +133,7 @@
 
         <div class="row">
             <?php  $widget["vars"]["last_news_category_id"] = empty($widget["vars"]["last_news_category_id"])?1:$widget["vars"]["last_news_category_id"];?>
-            <articles limit="4" order="post.published_time DESC" categoryIds="$widget.vars.last_news_category_id">
+            <portal:articles limit="4" order="post.published_time DESC" categoryIds="$widget.vars.last_news_category_id">
                 <div class="col-md-3">
                     <div class="tc-gridbox">
                         <div class="header">
@@ -156,7 +156,7 @@
                         </div>
                     </div>
                 </div>
-            </articles>
+            </portal:articles>
         </div>
     </widget>
     <include file="public@footer" />

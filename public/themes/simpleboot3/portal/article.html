@@ -71,7 +71,7 @@
                         $hot_articles=[];
                     </php>
                     <ul class="list-unstyled">
-                        <articles limit="5" order="post.post_hits DESC">
+                        <portal:articles limit="5" order="post.post_hits DESC">
                             <php>$top=$key<3?"top3":"";</php>
                             <li class="{$top}">
                                 <i>{$key+1}</i>
@@ -80,7 +80,7 @@
                                     {$vo.post_title}
                                 </a>
                             </li>
-                        </articles>
+                        </portal:articles>
                     </ul>
                 </div>
             </div>

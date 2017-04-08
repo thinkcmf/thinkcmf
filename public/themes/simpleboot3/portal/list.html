@@ -19,7 +19,7 @@
                         'post.create_time'=>['egt',0]
                     ];
                 </php>
-                <articles item="vo" field="*" where="$where" order="post.create_time DESC" page="10"
+                <portal:articles item="vo" field="*" where="$where" order="post.create_time DESC" page="10"
                           relation="categories"
                           categoryIds="$category.id"
                           returnVarName="articles_data">
@@ -49,7 +49,7 @@
                                href="{:url('article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}">查看更多</a>
                         </div>
                     </div>
-                </articles>
+                </portal:articles>
 
             </div>
             <ul class="pagination">
