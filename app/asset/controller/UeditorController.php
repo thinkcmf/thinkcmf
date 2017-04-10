@@ -296,7 +296,8 @@ class UeditorController extends HomeBaseController
 
 
         $allowedExts = explode(',', $uploadSetting[$fileType]["extensions"]);
-        $strWebPath  = $this->request->root() . DS . "upload" . DS . "ueditor" . DS;
+        //$strWebPath  = $this->request->root() . DS . "upload" . DS . "ueditor" . DS;
+        $strWebPath  =  "ueditor" . DS;
         $strSaveFilePath = ROOT_PATH . 'public' . DS . "upload" . DS . "ueditor" . DS;
         $targetDir = RUNTIME_PATH . "upload" . DS . "ueditor" . DS. $userId . DS; // 断点续传 need
         $strDate   = date('Ymd');
@@ -451,7 +452,7 @@ class UeditorController extends HomeBaseController
                 $arrReturn['state'] = $fileImage->getError();
                 return json_encode($arrReturn);
             } else {
-                $arrInfo["url"]         = $this->request->domain() . $strWebPath . $fileImage->getSaveName();
+                //$arrInfo["url"]         = $this->request->domain() . $strWebPath . $fileImage->getSaveName();
                 $arrInfo["SaveName"]    = $fileImage->getFilename();
                 $arrInfo["user_id"]     = $userId;
                 $arrInfo["file_size"]   = $fileImage->getSize();
@@ -460,7 +461,7 @@ class UeditorController extends HomeBaseController
                 $arrInfo["file_sha1"]   = sha1_file($strSaveFilePath . $fileImage->getFilename());
                 $arrInfo["file_key"]    = $arrInfo["file_md5"] . md5($arrInfo["file_sha1"]);
                 $arrInfo["filename"]    = $fileImage->getInfo("name");
-                $arrInfo["file_path"]   = $strWebPath . $fileImage->getSaveName();
+                $arrInfo["file_path"]   = $strWebPath.$fileImage->getSaveName();
                 $arrInfo["suffix"]      = $fileImage->getExtension();
 
             }
@@ -470,15 +471,15 @@ class UeditorController extends HomeBaseController
         $assetModel = new AssetModel();
         $objAsset   = $assetModel->where(["user_id" => $userId, "file_key" => $arrInfo["file_key"]])->find();
         if ($objAsset) {
-            $arrAsset       = $objAsset->toArray();
-            $arrInfo["url"] = $this->request->domain() . $arrAsset["file_path"];
+            $arrAsset             = $objAsset->toArray();
+            $arrInfo["file_path"] = $arrAsset["file_path"];
             @unlink($strSaveFilePath . $arrInfo["SaveName"]);
         } else {
             $assetModel->data($arrInfo)->allowField(true)->save();
         }
         $arrResponse = [];
         $arrResponse["state"]    = 'SUCCESS';
-        $arrResponse["url"]      = $arrInfo["url"];
+        $arrResponse["url"]      = cmf_get_asset_url($arrInfo["file_path"]);
         $arrResponse["title"]    = $arrInfo["filename"];
         $arrResponse["original"] = $arrInfo["filename"];
 

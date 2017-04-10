@@ -599,6 +599,7 @@ function cmf_get_asset_url($file, $style = '')
     if (strpos($file, "http") === 0) {
         return $file;
     } else if (strpos($file, "/") === 0) {
+
         return $file;
     } else {
         return cmf_get_root() . '/upload/' . $file;

@@ -60,7 +60,7 @@
 
 <script type="text/javascript">
 
-
+    var httpUrl = "{:cmf_get_asset_url('')}";
     function get_selected_files() {
         var files = [];
 
@@ -76,9 +76,9 @@
             for (var i = 0; i < number; i++) {
 
                 var file         = new Object();
-                file.filepath    = jQuery(".filelist li .imgWrap img").eq(i).attr("src");
-                file.preview_url = file.filepath;
-                file.url         = file.filepath;
+                file.filepath    = jQuery(".filelist li .imgWrap img").eq(i).attr("lang");
+                file.preview_url = jQuery(".filelist li .imgWrap img").eq(i).attr("src");//httpUrl+file.filepath;
+                file.url         = file.preview_url;
                 file.name        = jQuery(".filelist li .title").eq(i).html();
                 if (file.url == "undefined") {
                     alert("没有上传完成或者还没有点击开始上传！");
@@ -603,7 +603,8 @@
                     case 'uploadSuccess':
                         //var MsgO = jQuery.parseJSON(msg._raw)
                         // alert(MsgO.result);
-                        jQuery("#" + msg.id + " img").attr("src", msg.result);
+                        jQuery("#" + msg.id + " img").attr("lang",msg.result);
+                        jQuery("#" + msg.id + " img").attr("src", httpUrl+msg.result);
                         break;
                     case 'uploadFinished':
                         setState('confirm');
