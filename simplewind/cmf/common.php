@@ -781,15 +781,15 @@ function cmf_auth_encode($string)
 /**
  * TODO
  * 获取文件相对路径
- * @param string $asset_url 文件的URL
+ * @param string $assetUrl 文件的URL
  * @return string
  */
-function cmf_asset_relative_url($asset_url)
+function cmf_asset_relative_url($assetUrl)
 {
-    if (strpos($asset_url, "http") === 0) {
-        return $asset_url;
+    if (strpos($assetUrl, "http") === 0) {
+        return $assetUrl;
     } else {
-        return str_replace('/upload/', '', $asset_url);
+        return str_replace('/upload/', '', $assetUrl);
     }
 }
 

@@ -16,28 +16,20 @@
 						<th width="50">排序</th>
 						<th width="50">ID</th>
 						<th>分类名称</th>
-						<th width="160">操作</th>
+						<th>描述</th>
+						<th width="180">操作</th>
 					</tr>
 				</thead>
 				<tbody>
-					<foreach name="categories" item="vo">
-						<tr>
-							<td><input name="list_orders[{$vo.id}]" type="text" size="3" value="{$vo.list_order}" class="input input-order"></td>
-							<td>{$vo.id}</td>
-							<td>{$vo.name}</td>
-							<td>
-								<a href="{:url('AdminCategory/edit',['id'=>$vo['id']])}">修改</a> |
-								<a class="js-ajax-delete" href="{:url('AdminCategory/delete',['id'=>$vo['id']])}">删除</a>
-							</td>
-						</tr>
-					</foreach>
+					{$category_tree}
 				</tbody>
 				<tfoot>
 					<tr>
 						<th width="50">排序</th>
 						<th width="50">ID</th>
 						<th>分类名称</th>
-						<th width="160">操作</th>
+						<th>描述</th>
+						<th width="180">操作</th>
 					</tr>
 				</tfoot>
 			</table>

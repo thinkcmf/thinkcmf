@@ -6,14 +6,25 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
-namespace app\portal\model;
+namespace app\portal\controller;
 
-use think\Model;
+use cmf\controller\AdminBaseController;
 
-class PortalTagModel extends Model
+/**
+ * Class AdminIndexController
+ * @package app\portal\controller
+ * @adminMenuRoot(
+ *     'name'   =>'门户管理',
+ *     'action' =>'default',
+ *     'parent' =>'',
+ *     'display'=> true,
+ *     'order'  => 10000,
+ *     'icon'   =>'th',
+ *     'remark' =>'门户管理'
+ * )
+ */
+class AdminIndexController extends AdminBaseController
 {
-    public static   $STATUS = array(
-        0=>"未启用",
-        1=>"已启用",
-    );
+
+
 }

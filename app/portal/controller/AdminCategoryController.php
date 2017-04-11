@@ -14,20 +14,41 @@ use think\Db;
 
 class AdminCategoryController extends AdminBaseController
 {
-    // 文章分类列表
+    /**
+     * 文章分类列表
+     * @adminMenu(
+     *     'name'   => '分类管理',
+     *     'parent' => 'portal/AdminIndex/default',
+     *     'display'=> true,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '文章分类列表',
+     *     'param'  => ''
+     * )
+     */
     public function index()
     {
         $portalCategoryModel = new PortalCategoryModel();
-        $categoryTree        = $portalCategoryModel->adminCategoryTree();
+        $categoryTree        = $portalCategoryModel->adminCategoryTableTree();
 
-        $categories = $portalCategoryModel->where(['delete_time'=>0])->select();
-
-        $this->assign('categories', $categories);
         $this->assign('category_tree', $categoryTree);
         return $this->fetch();
     }
 
-    // 添加分类
+    /**
+     * 添加文章分类
+     * @adminMenu(
+     *     'name'   => '添加文章分类',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加文章分类',
+     *     'param'  => ''
+     * )
+     */
     public function add()
     {
         $portalCategoryModel = new PortalCategoryModel();
@@ -37,7 +58,19 @@ class AdminCategoryController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 添加分类提交保存
+    /**
+     * 添加文章分类提交
+     * @adminMenu(
+     *     'name'   => '添加文章分类提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加文章分类提交',
+     *     'param'  => ''
+     * )
+     */
     public function addPost()
     {
         $portalCategoryModel = new PortalCategoryModel();
@@ -52,11 +85,23 @@ class AdminCategoryController extends AdminBaseController
 
         $portalCategoryModel->insert($data);
 
-        $this->success('添加成功!',url('AdminCategory/index'));
+        $this->success('添加成功!', url('AdminCategory/index'));
 
     }
 
-    // 编辑分类
+    /**
+     * 编辑文章分类
+     * @adminMenu(
+     *     'name'   => '编辑文章分类',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑文章分类',
+     *     'param'  => ''
+     * )
+     */
     public function edit()
     {
         $id = $this->request->param('id', 0, 'intval');
@@ -75,7 +120,19 @@ class AdminCategoryController extends AdminBaseController
 
     }
 
-    // 编辑分类提交保存
+    /**
+     * 编辑文章分类提交
+     * @adminMenu(
+     *     'name'   => '编辑文章分类提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑文章分类提交',
+     *     'param'  => ''
+     * )
+     */
     public function editPost()
     {
         $data = $this->request->param();
@@ -92,41 +149,67 @@ class AdminCategoryController extends AdminBaseController
         $this->success('保存成功!');
     }
 
-    // 文章分类选择对话框
+    /**
+     * 文章分类选择对话框
+     * @adminMenu(
+     *     'name'   => '文章分类选择对话框',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '文章分类选择对话框',
+     *     'param'  => ''
+     * )
+     */
     public function select()
     {
         $ids                 = $this->request->param('ids');
         $portalCategoryModel = new PortalCategoryModel();
         $categoryTree        = $portalCategoryModel->adminCategoryTree();
 
-        $categories = $portalCategoryModel->where([])->select();
+        $where      = ['delete_time' => 0];
+        $categories = $portalCategoryModel->where($where)->select();
 
         $this->assign('categories', $categories);
         $this->assign('selectedIds', explode(',', $ids));
         $this->assign('category_tree', $categoryTree);
         return $this->fetch();
     }
-    //文章分类删除
+
+    /**
+     * 删除文章分类
+     * @adminMenu(
+     *     'name'   => '删除文章分类',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '删除文章分类',
+     *     'param'  => ''
+     * )
+     */
     public function delete()
     {
         $portalCategoryModel = new PortalCategoryModel();
-        $id = $this->request->param('id');
+        $id                  = $this->request->param('id');
         //获取删除的内容
-        $res = $portalCategoryModel->where('id',$id)->find();
-        $data = [
-            'object_id'=>$res['id'],
-            'create_time'=> time(),
-            'table_name' => 'portal_category',
-            'name'=>$res['name']
+        $res    = $portalCategoryModel->where('id', $id)->find();
+        $data   = [
+            'object_id'   => $res['id'],
+            'create_time' => time(),
+            'table_name'  => 'portal_category',
+            'name'        => $res['name']
         ];
         $result = $portalCategoryModel
-            ->where('id',$id)
+            ->where('id', $id)
             ->update(['delete_time' => time()]);
-        if ($result){
+        if ($result) {
             Db::name('recycleBin')->insert($data);
             $this->success('删除成功!');
-        }else{
-                $this->error('删除失败');
+        } else {
+            $this->error('删除失败');
         }
     }
 }

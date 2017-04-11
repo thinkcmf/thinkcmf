@@ -16,7 +16,19 @@ use think\Db;
 
 class AdminArticleController extends AdminBaseController
 {
-    // 文章列表
+    /**
+     * 文章列表
+     * @adminMenu(
+     *     'name'   => '文章管理',
+     *     'parent' => 'portal/AdminIndex/default',
+     *     'display'=> true,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '文章列表',
+     *     'param'  => ''
+     * )
+     */
     public function index()
     {
         $param = $this->request->param();
@@ -40,13 +52,37 @@ class AdminArticleController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 添加文章
+    /**
+     * 添加文章
+     * @adminMenu(
+     *     'name'   => '添加文章',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加文章',
+     *     'param'  => ''
+     * )
+     */
     public function add()
     {
         return $this->fetch();
     }
 
-    // 添加文章提交保存
+    /**
+     * 添加文章提交
+     * @adminMenu(
+     *     'name'   => '添加文章提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加文章提交',
+     *     'param'  => ''
+     * )
+     */
     public function addPost()
     {
 
@@ -68,7 +104,19 @@ class AdminArticleController extends AdminBaseController
 
     }
 
-    // 编辑文章
+    /**
+     * 编辑文章
+     * @adminMenu(
+     *     'name'   => '编辑文章',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑文章',
+     *     'param'  => ''
+     * )
+     */
     public function edit()
     {
         $id = $this->request->param('id', 0, 'intval');
@@ -87,7 +135,19 @@ class AdminArticleController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 编辑文章提交保存
+    /**
+     * 编辑文章提交
+     * @adminMenu(
+     *     'name'   => '编辑文章提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑文章提交',
+     *     'param'  => ''
+     * )
+     */
     public function editPost()
     {
 
@@ -110,7 +170,19 @@ class AdminArticleController extends AdminBaseController
 
     }
 
-    // 文章删除
+    /**
+     * 文章删除
+     * @adminMenu(
+     *     'name'   => '文章删除',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '文章删除',
+     *     'param'  => ''
+     * )
+     */
     public function delete()
     {
         $param           = $this->request->param();
@@ -154,7 +226,19 @@ class AdminArticleController extends AdminBaseController
         }
     }
 
-    // 文章发布
+    /**
+     * 文章发布
+     * @adminMenu(
+     *     'name'   => '文章发布',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '文章发布',
+     *     'param'  => ''
+     * )
+     */
     public function publish()
     {
         $param           = $this->request->param();
@@ -178,7 +262,19 @@ class AdminArticleController extends AdminBaseController
 
     }
 
-    // 文章置顶
+    /**
+     * 文章置顶
+     * @adminMenu(
+     *     'name'   => '文章置顶',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '文章置顶',
+     *     'param'  => ''
+     * )
+     */
     public function top()
     {
         $param           = $this->request->param();
@@ -202,7 +298,19 @@ class AdminArticleController extends AdminBaseController
         }
     }
 
-    // 文章推荐
+    /**
+     * 文章推荐
+     * @adminMenu(
+     *     'name'   => '文章推荐',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '文章推荐',
+     *     'param'  => ''
+     * )
+     */
     public function recommend()
     {
         $param           = $this->request->param();
