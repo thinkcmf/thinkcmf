@@ -17,7 +17,19 @@ use think\Db;
 class AdminPageController extends AdminBaseController
 {
 
-    // 页面列表
+    /**
+     * 页面管理
+     * @adminMenu(
+     *     'name'   => '页面管理',
+     *     'parent' => 'portal/AdminIndex/default',
+     *     'display'=> true,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '页面管理',
+     *     'param'  => ''
+     * )
+     */
     public function index()
     {
 
@@ -34,21 +46,45 @@ class AdminPageController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 添加页面
+    /**
+     * 添加页面
+     * @adminMenu(
+     *     'name'   => '添加页面',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加页面',
+     *     'param'  => ''
+     * )
+     */
     public function add()
     {
         return $this->fetch();
     }
 
-    // 添加页面提交保存
+    /**
+     * 添加页面提交
+     * @adminMenu(
+     *     'name'   => '添加页面提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加页面提交',
+     *     'param'  => ''
+     * )
+     */
     public function addPost()
     {
 
 
         $data = $this->request->param();
 
-        $portalPostModel         = new PortalPostModel();
-        $data['post']['more']    = json_encode($data['more']);
+        $portalPostModel      = new PortalPostModel();
+        $data['post']['more'] = json_encode($data['more']);
 
         $portalPostModel->adminAddPage($data['post']);
 
@@ -57,14 +93,26 @@ class AdminPageController extends AdminBaseController
 
     }
 
-    // 编辑页面
+    /**
+     * 编辑页面
+     * @adminMenu(
+     *     'name'   => '编辑页面',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑页面',
+     *     'param'  => ''
+     * )
+     */
     public function edit()
     {
         $id = $this->request->param('id', 0, 'intval');
 
         $portalPostModel = new PortalPostModel();
         $post            = $portalPostModel->where('id', $id)->find();
-        $more            = json_decode($post['more'],true);
+        $more            = json_decode($post['more'], true);
 
         $this->assign('more', $more);
         $this->assign('post', $post);
@@ -72,7 +120,19 @@ class AdminPageController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 编辑页面提交保存
+    /**
+     * 编辑页面提交
+     * @adminMenu(
+     *     'name'   => '编辑页面提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑页面提交',
+     *     'param'  => ''
+     * )
+     */
     public function editPost()
     {
 
@@ -81,7 +141,7 @@ class AdminPageController extends AdminBaseController
         $portalPostModel = new PortalPostModel();
 
 
-        $data['post']['more']    = json_encode($data['more']);
+        $data['post']['more'] = json_encode($data['more']);
 
         $portalPostModel->adminEditPage($data['post']);
 
@@ -89,49 +149,35 @@ class AdminPageController extends AdminBaseController
 
     }
 
-
     /**
-     *
-     * 页面管理删除方法
-     * @copyright [copyright]
-     * @license   [license]
-     * @version   [version]
+     * 删除页面
      * @author    iyting@foxmail.com
-     * @time      2017-03-28T11:02:47+0800
-     * @return    [type]
+     * @adminMenu(
+     *     'name'   => '删除页面',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '删除页面',
+     *     'param'  => ''
+     * )
      */
     public function delete()
     {
 
         $portalPostModel = new PortalPostModel();
-        $data = $this->request->param();
+        $data            = $this->request->param();
 
 
         $result = $portalPostModel->adminDeletePage($data);
-        if( $result )
-        {
+        if ($result) {
 
             $this->success(lang('DELETE_SUCCESS'));
         } else {
             $this->error(lang('DELETE_FAILED'));
         }
 
-    }
-    /**
-     * 后台页面回收站
-     * @copyright [copyright]
-     * @license   [license]
-     * @version   [version]
-     * @author
-     * @time      2017-03-31T13:45:31+0800
-     * @return    [type]
-     */
-    public function recyclebin(){
-
-        //$this->_lists(array('post_status'=>array('eq',3)));
-
-
-        return $this->fetch();
     }
 
 }

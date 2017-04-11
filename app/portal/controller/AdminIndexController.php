@@ -1,0 +1,30 @@
+<?php
+// +----------------------------------------------------------------------
+// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: 老猫 <thinkcmf@126.com>
+// +----------------------------------------------------------------------
+namespace app\portal\controller;
+
+use cmf\controller\AdminBaseController;
+
+/**
+ * Class AdminIndexController
+ * @package app\portal\controller
+ * @adminMenuRoot(
+ *     'name'   =>'门户管理',
+ *     'action' =>'default',
+ *     'parent' =>'',
+ *     'display'=> true,
+ *     'order'  => 10000,
+ *     'icon'   =>'th',
+ *     'remark' =>'门户管理'
+ * )
+ */
+class AdminIndexController extends AdminBaseController
+{
+
+
+}
