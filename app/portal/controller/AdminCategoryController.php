@@ -51,8 +51,9 @@ class AdminCategoryController extends AdminBaseController
      */
     public function add()
     {
+        $parentId            = $this->request->param('parent', 0, 'intval');
         $portalCategoryModel = new PortalCategoryModel();
-        $categoriesTree      = $portalCategoryModel->adminCategoryTree();
+        $categoriesTree      = $portalCategoryModel->adminCategoryTree($parentId);
 
         $this->assign('categories_tree', $categoriesTree);
         return $this->fetch();
@@ -110,7 +111,7 @@ class AdminCategoryController extends AdminBaseController
             $this->assign($category);
 
             $portalCategoryModel = new PortalCategoryModel();
-            $categoriesTree      = $portalCategoryModel->adminCategoryTree($id);
+            $categoriesTree      = $portalCategoryModel->adminCategoryTree($category['parent_id'], $id);
 
             $this->assign('categories_tree', $categoriesTree);
             return $this->fetch();

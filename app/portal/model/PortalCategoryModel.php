@@ -14,7 +14,13 @@ use tree\Tree;
 class PortalCategoryModel extends Model
 {
 
-    public function adminCategoryTree($currentCid = 0)
+    /**
+     * 生成分类 select树形结构
+     * @param int $selectId 需要选中的分类 id
+     * @param int $currentCid 需要隐藏的分类 id
+     * @return string
+     */
+    public function adminCategoryTree($selectId = 0, $currentCid = 0)
     {
         $where = ['delete_time' => 0];
         if (!empty($currentCid)) {
@@ -28,7 +34,7 @@ class PortalCategoryModel extends Model
 
         $newCategories = [];
         foreach ($categories as $item) {
-            $item['selected'] = $currentCid == $item['id'] ? "selected" : "";
+            $item['selected'] = $selectId == $item['id'] ? "selected" : "";
 
             array_push($newCategories, $item);
         }
@@ -54,8 +60,8 @@ class PortalCategoryModel extends Model
 
         $newCategories = [];
         foreach ($categories as $item) {
-            $item['selected']   = $currentCid == $item['id'] ? "selected" : "";
-            $item['url']        = '';
+            $item['selected'] = $currentCid == $item['id'] ? "selected" : "";
+            $item['url']      = url('portal/List/index', ['id' => $item['id']]);;
             $item['str_action'] = '<a href="' . url("AdminCategory/add", ["parent" => $item['id']]) . '">添加子分类</a> | <a href="' . url("AdminCategory/edit", ["id" => $item['id']]) . '">' . lang('EDIT') . '</a> | <a class="js-ajax-delete" href="' . url("AdminCategory/delete", ["id" => $item['id']]) . '">' . lang('DELETE') . '</a> ';
             array_push($newCategories, $item);
         }

@@ -67,7 +67,7 @@
                         $hot_articles=[];
                     </php>
                     <ul class="list-unstyled">
-                        <articles limit="5" order="post.post_hits DESC">
+                        <portal:articles limit="5" order="post.post_hits DESC">
                             <php>$top=$key<3?"top3":"";</php>
                             <li class="{$top}">
                                 <i>{$key+1}</i>
@@ -76,7 +76,7 @@
                                     {$vo.post_title}
                                 </a>
                             </li>
-                        </articles>
+                        </portal:articles>
                     </ul>
                 </div>
             </div>
@@ -86,7 +86,7 @@
                     <h2>最新发布</h2>
                 </div>
                 <div class="posts">
-                    <articles limit="5" order="post.published_time DESC">
+                    <portal:articles limit="5" order="post.published_time DESC">
                         <php>$more=json_decode($vo['more'],true);</php>
                         <dl class="dl-horizontal">
                             <dt>
@@ -105,7 +105,7 @@
                                 <a href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$vo.category_id))}">{$vo.post_title}</a>
                             </dd>
                         </dl>
-                    </articles>
+                    </portal:articles>
                 </div>
             </div>
 
