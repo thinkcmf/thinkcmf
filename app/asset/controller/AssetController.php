@@ -75,7 +75,8 @@ class AssetController extends AdminBaseController
 
 
             $fileImage       = $this->request->file("file");
-            $strWebPath      = $this->request->root() . DS . "upload" . DS;
+            //$strWebPath      = $this->request->root() . DS . "upload" . DS;
+            $strWebPath      =  "";//"upload" . DS;
             $strSaveFilePath = ROOT_PATH . 'public' . DS . "upload" . DS;
             $strId           = $this->request->post("id");
             $strDate         = date('Ymd');
@@ -280,7 +281,8 @@ class AssetController extends AdminBaseController
                     die(json_encode($arrResponse));
 
                 } else {
-                    $arrInfo["url"]         = $this->request->domain() . $strWebPath . $fileImage->getSaveName();
+                    //$arrInfo["url"]         = $this->request->domain() . $strWebPath . $fileImage->getSaveName();
+                    //$arrInfo["url"]         = $fileImage->getSaveName();
                     $arrInfo["SaveName"]    = $fileImage->getFilename();
                     $arrInfo["user_id"]     = $userId;
                     $arrInfo["file_size"]   = $fileImage->getSize();
@@ -289,7 +291,8 @@ class AssetController extends AdminBaseController
                     $arrInfo["file_sha1"]   = sha1_file($strSaveFilePath . $fileImage->getFilename());
                     $arrInfo["file_key"]    = $arrInfo["file_md5"] . md5($arrInfo["file_sha1"]);
                     $arrInfo["filename"]    = $fileImage->getInfo("name");
-                    $arrInfo["file_path"]   = $strWebPath . $fileImage->getSaveName();
+                    //$arrInfo["file_path"]   = $strWebPath . $fileImage->getSaveName();
+                    $arrInfo["file_path"]   = $strWebPath.$fileImage->getSaveName();
                     $arrInfo["suffix"]      = $fileImage->getExtension();
 
                 }
@@ -302,16 +305,17 @@ class AssetController extends AdminBaseController
             $objAsset   = $assetModel->where(["user_id" => $userId, "file_key" => $arrInfo["file_key"]])->find();
             if ($objAsset) {
                 $arrAsset       = $objAsset->toArray();
-                $arrInfo["url"] = $this->request->domain() . $arrAsset["file_path"];
+                //$arrInfo["url"] = $this->request->domain() . $arrAsset["file_path"];
+                $arrInfo["file_path"] = $arrAsset["file_path"];
                 @unlink($strSaveFilePath . $arrInfo["SaveName"]);
             } else {
                 $assetModel->data($arrInfo)->allowField(true)->save();
             }
             $arrResponse = [];
             $arrResponse["jsonrpc"]    = '2.0';
-            $arrResponse["result"]      = $arrInfo["url"];
-            $arrResponse["id"]    = $strId;
-            $arrResponse["name"] =  $arrInfo["filename"];
+            $arrResponse["result"]     = $arrInfo["file_path"];
+            $arrResponse["id"]         = $strId;
+            $arrResponse["name"]       = $arrInfo["filename"];
 
             die(json_encode($arrResponse));
 
@@ -342,6 +346,7 @@ class AssetController extends AdminBaseController
 //            }
             $this->assign('maxUp', $arrData["multi"] ? 5 : 1);
             $this->assign('multi', $arrData["multi"]);
+            $this->assign('app', $arrData["app"]);
             $this->assign('app', $arrData["app"]);
             //$this->assign("module",$this->request->param("module"));
 
