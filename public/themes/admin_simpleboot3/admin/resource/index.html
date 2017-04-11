@@ -12,6 +12,7 @@
 					<th>用户</th>
 					<th>文件大小</th>
 					<th>文件名</th>
+					<th>图像</th>
 					<th>文件路径</th>
 					<th>状态</th>
 					<th width="160">{:lang('ACTIONS')}</th>
@@ -22,15 +23,18 @@
 				<tr>
 					<td>{$vo.id}</td>
 					<td>{$vo.user_id}</td>
-					<td>{$vo.file_size}</td>
+					<td>{$vo.file_size}KB</td>
 					<td>{$vo.filename}</td>
+					<td><a href="javascript:image_preview_dialog('{:cmf_get_image_preview_url($vo['file_path'])}');">
+						<i class="fa fa-photo fa-fw"></i>
+					</a>
+					</td>
 					<td>{$vo.file_path}</td>
 					<td>{$status[$vo['status']]}</td>
 					<td>
-						<a href="{:url('resource/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
 						<a href="{:url('resource/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
 						<if condition="empty($vo['status']) eq 1">
-							<a href="{:url('SlideItem/cancelban',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn" data-msg="确定显示此幻灯片吗？">{:lang('DISPLAY')}</a>
+							<a href="{:url('resource/cancelBan',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn" data-msg="确定显示此幻灯片吗？">{:lang('DISPLAY')}</a>
 							<else />
 							<a href="{:url('resource/ban',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn" data-msg="确定隐藏此幻灯片吗？">{:lang('HIDE')}</a>
 						</if>
