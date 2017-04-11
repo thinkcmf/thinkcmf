@@ -30,11 +30,8 @@ class AdminCategoryController extends AdminBaseController
     public function index()
     {
         $portalCategoryModel = new PortalCategoryModel();
-        $categoryTree        = $portalCategoryModel->adminCategoryTree();
+        $categoryTree        = $portalCategoryModel->adminCategoryTableTree();
 
-        $categories = $portalCategoryModel->where(['delete_time'=>0])->select();
-
-        $this->assign('categories', $categories);
         $this->assign('category_tree', $categoryTree);
         return $this->fetch();
     }
@@ -88,7 +85,7 @@ class AdminCategoryController extends AdminBaseController
 
         $portalCategoryModel->insert($data);
 
-        $this->success('添加成功!',url('AdminCategory/index'));
+        $this->success('添加成功!', url('AdminCategory/index'));
 
     }
 
@@ -171,7 +168,8 @@ class AdminCategoryController extends AdminBaseController
         $portalCategoryModel = new PortalCategoryModel();
         $categoryTree        = $portalCategoryModel->adminCategoryTree();
 
-        $categories = $portalCategoryModel->where([])->select();
+        $where      = ['delete_time' => 0];
+        $categories = $portalCategoryModel->where($where)->select();
 
         $this->assign('categories', $categories);
         $this->assign('selectedIds', explode(',', $ids));
@@ -195,23 +193,23 @@ class AdminCategoryController extends AdminBaseController
     public function delete()
     {
         $portalCategoryModel = new PortalCategoryModel();
-        $id = $this->request->param('id');
+        $id                  = $this->request->param('id');
         //获取删除的内容
-        $res = $portalCategoryModel->where('id',$id)->find();
-        $data = [
-            'object_id'=>$res['id'],
-            'create_time'=> time(),
-            'table_name' => 'portal_category',
-            'name'=>$res['name']
+        $res    = $portalCategoryModel->where('id', $id)->find();
+        $data   = [
+            'object_id'   => $res['id'],
+            'create_time' => time(),
+            'table_name'  => 'portal_category',
+            'name'        => $res['name']
         ];
         $result = $portalCategoryModel
-            ->where('id',$id)
+            ->where('id', $id)
             ->update(['delete_time' => time()]);
-        if ($result){
+        if ($result) {
             Db::name('recycleBin')->insert($data);
             $this->success('删除成功!');
-        }else{
-                $this->error('删除失败');
+        } else {
+            $this->error('删除失败');
         }
     }
 }
