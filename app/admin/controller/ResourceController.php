@@ -13,6 +13,19 @@ use cmf\controller\AdminBaseController;
 
 class ResourceController extends AdminBaseController
 {
+    /**
+     * 资源管理列表
+     * @adminMenu(
+     *     'name'   => '资源管理页面列表',
+     *     'parent' => 'admin/resource/index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '资源管理列表',
+     *     'param'  => ''
+     * )
+     */
     public function index()
     {
         $result = Db::name('asset')->select();
@@ -20,15 +33,25 @@ class ResourceController extends AdminBaseController
         $this->assign('status', ['不可用', '可用']);
         return $this->fetch();
     }
-
+    /**
+     * 资源管理页面删除
+     * @adminMenu(
+     *     'name'   => '资源管理页面删除',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '资源管理页面删除',
+     *     'param'  => ''
+     * )
+     */
     public function delete()
     {
         $id   = $this->request->param('id');
         $file_filePath = Db::name('asset')->where('id', $id)->value('file_path');
-        $file = 'upload/'.$file_filePath;
-       // var_dump(file_exists('upload/'.$file));exit;
+        $file = 'upload/' . $file_filePath;
         if (file_exists($file)) {
-//            print_r(1111);exit;
             $res = unlink($file);
             if ($res) {
                 Db::name('asset')->where('id', $id)->delete();
@@ -39,7 +62,19 @@ class ResourceController extends AdminBaseController
         }
     }
 
-
+    /**
+     * 资源管理页面显示
+     * @adminMenu(
+     *     'name'   => '资源管理页面显示',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '资源管理页面显示',
+     *     'param'  => ''
+     * )
+     */
     public function cancelBan()
     {
         $id     = $this->request->param('id');
@@ -50,7 +85,19 @@ class ResourceController extends AdminBaseController
             $this->error('隐藏失败');
         }
     }
-
+    /**
+     * 资源管理页面隐藏
+     * @adminMenu(
+     *     'name'   => '资源管理页面隐藏',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '资源管理页面隐藏',
+     *     'param'  => ''
+     * )
+     */
     public function ban()
     {
         $id     = $this->request->param('id');
