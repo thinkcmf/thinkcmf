@@ -11,8 +11,7 @@ namespace app\portal\controller;
 use cmf\controller\AdminBaseController;
 use app\portal\model\PortalPostModel;
 use app\portal\service\PostService;
-
-use think\Db;
+use app\admin\model\ThemeModel;
 
 class AdminPageController extends AdminBaseController
 {
@@ -61,6 +60,9 @@ class AdminPageController extends AdminBaseController
      */
     public function add()
     {
+        $themeModel     = new ThemeModel();
+        $pageThemeFiles = $themeModel->getActionThemeFiles('portal/Page/index');
+        $this->assign('page_theme_files', $pageThemeFiles);
         return $this->fetch();
     }
 
@@ -114,6 +116,10 @@ class AdminPageController extends AdminBaseController
         $post            = $portalPostModel->where('id', $id)->find();
         $more            = json_decode($post['more'], true);
 
+        $themeModel     = new ThemeModel();
+        $pageThemeFiles = $themeModel->getActionThemeFiles('portal/Page/index');
+
+        $this->assign('page_theme_files', $pageThemeFiles);
         $this->assign('more', $more);
         $this->assign('post', $post);
 

@@ -19,15 +19,11 @@
 					<tr>
 						<th>模版</th>
 						<td>
-							<php>
-								$tpl_list=[];
-								unset($tpl_list['page']);
-							</php>
 							<select class="form-control"  style="width: 400px;" name="more[template]">
-								<option value="page">page.html</option>
-								<foreach name="tpl_list" item="vo">
-									<php>$template_selected=$more['template']==$vo?"selected":"";</php>
-									<option value="{$vo}"{$template_selected}>{$vo}.html</option>
+								<!--<option value="page">portal/page.html(默认)</option>-->
+								<foreach name="page_theme_files" item="vo">
+									<php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
+									<option value="{$value}">{$vo.file}.html</option>
 								</foreach>
 							</select>
 						</td>
