@@ -139,28 +139,34 @@ class MenuController extends AdminBaseController
             if ($result !== true) {
                 $this->error($result);
             } else {
-                $data   = $this->request->param();
-                $result = Db::name('AdminMenu')->insert($data);
+                $data = $this->request->param();
+                Db::name('AdminMenu')->field(true)->insert($data);
 
-                if ($result !== false) {
-                    $app        = $this->request->param("app");
-                    $controller = $this->request->param("controller");
-                    $action     = $this->request->param("action");
-                    $name       = strtolower("$app/$controller/$action");
-                    $menuName   = $this->request->param("name");
-                    $mWhere     = ["name" => $name];
+                $app          = $this->request->param("app");
+                $controller   = $this->request->param("controller");
+                $action       = $this->request->param("action");
+                $param        = $this->request->param("param");
+                $authRuleName = "$app/$controller/$action";
+                $menuName     = $this->request->param("name");
 
-                    $find_rule_count = Db::name('AuthRule')->where($mWhere)->count();
-                    if (empty($find_rule_count)) {
-                        Db::name('AuthRule')->insert(["name" => $name, "app" => $app, "type" => "admin_url", "title" => $menuName]);//type 1-admin rule;2-user rule
-                    }
-                    $sessionAdminMenuIndex = session('admin_menu_index');
-                    $to                    = empty($sessionAdminMenuIndex) ? "Menu/index" : $sessionAdminMenuIndex;
-                    $this->_exportAppMenuDefaultLang($app);
-                    $this->success("添加成功！", url($to));
-                } else {
-                    $this->error("添加失败！");
+                $findAuthRuleCount = Db::name('auth_rule')->where([
+                    'app'  => $app,
+                    'name' => $authRuleName,
+                    'type' => 'admin_url'
+                ])->count();
+                if (empty($findAuthRuleCount)) {
+                    Db::name('AuthRule')->insert([
+                        "name"  => $authRuleName,
+                        "app"   => $app,
+                        "type"  => "admin_url", //type 1-admin rule;2-user rule
+                        "title" => $menuName,
+                        'param' => $param,
+                    ]);
                 }
+                $sessionAdminMenuIndex = session('admin_menu_index');
+                $to                    = empty($sessionAdminMenuIndex) ? "Menu/index" : $sessionAdminMenuIndex;
+                $this->_exportAppMenuDefaultLang($app);
+                $this->success("添加成功！", url($to));
             }
         }
     }
@@ -221,34 +227,50 @@ class MenuController extends AdminBaseController
             if ($result !== true) {
                 $this->error($result);
             } else {
-                if (Db::name('AdminMenu')->update($this->request->param()) !== false) {
-                    $app      = $this->request->param("app");
-                    $model    = $this->request->param("controller");
-                    $action   = $this->request->param("action");
-                    $name     = strtolower("$app/$model/$action");
-                    $menuName = $this->request->param("name");
-                    $mWhere   = ["name" => $name];
+                Db::name('AdminMenu')->field(true)->update($this->request->param());
+                $app          = $this->request->param("app");
+                $controller   = $this->request->param("controller");
+                $action       = $this->request->param("action");
+                $param        = $this->request->param("param");
+                $authRuleName = "$app/$controller/$action";
+                $menuName     = $this->request->param("name");
 
-                    $find_rule_count = Db::name('AuthRule')->where($mWhere)->count();
-                    if (empty($find_rule_count)) {
-                        $oldApp        = $oldMenu['app'];
-                        $oldModel      = $oldMenu['controller'];
-                        $oldAction     = $oldMenu['action'];
-                        $oldName       = strtolower("$oldApp/$oldModel/$oldAction");
-                        $findOldRuleId = Db::name('AuthRule')->where(["name" => $oldName])->value('id');
-                        if (empty($findOldRuleId)) {
-                            Db::name('AuthRule')->insert(["name" => $name, "app" => $app, "type" => "admin_url", "title" => $menuName]);//type 1-admin rule;2-user rule
-                        } else {
-                            Db::name('AuthRule')->where(['id' => $findOldRuleId])->insert(["name" => $name, "app" => $app, "type" => "admin_url", "title" => $menuName]);//type 1-admin rule;2-user rule
-                        }
+                $findAuthRuleCount = Db::name('auth_rule')->where([
+                    'app'  => $app,
+                    'name' => $authRuleName,
+                    'type' => 'admin_url'
+                ])->count();
+                if (empty($findAuthRuleCount)) {
+                    $oldApp        = $oldMenu['app'];
+                    $oldController = $oldMenu['controller'];
+                    $oldAction     = $oldMenu['action'];
+                    $oldName       = "$oldApp/$oldController/$oldAction";
+                    $findOldRuleId = Db::name('AuthRule')->where(["name" => $oldName])->value('id');
+                    if (empty($findOldRuleId)) {
+                        Db::name('AuthRule')->insert([
+                            "name"  => $authRuleName,
+                            "app"   => $app,
+                            "type"  => "admin_url",
+                            "title" => $menuName,
+                            "param" => $param
+                        ]);//type 1-admin rule;2-user rule
                     } else {
-                        Db::name('AuthRule')->where($mWhere)->insert(["name" => $name, "app" => $app, "type" => "admin_url", "title" => $menuName]);//type 1-admin rule;2-user rule
+                        Db::name('AuthRule')->where(['id' => $findOldRuleId])->update([
+                            "name"  => $authRuleName,
+                            "app"   => $app,
+                            "type"  => "admin_url",
+                            "title" => $menuName,
+                            "param" => $param]);//type 1-admin rule;2-user rule
                     }
-                    $this->_exportAppMenuDefaultLang($app);
-                    $this->success("保存成功！");
                 } else {
-                    $this->error("保存失败！");
+                    Db::name('AuthRule')->where([
+                        'app'  => $app,
+                        'name' => $authRuleName,
+                        'type' => 'admin_url'
+                    ])->update(["title" => $menuName, 'param' => $param]);//type 1-admin rule;2-user rule
                 }
+                $this->_exportAppMenuDefaultLang($app);
+                $this->success("保存成功！");
             }
         }
     }
