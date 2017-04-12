@@ -46,7 +46,12 @@ class PortalCategoryModel extends Model
         return $treeStr;
     }
 
-    public function adminCategoryTableTree($currentCid = 0)
+    /**
+     * @param int|array $currentIds
+     * @param string $tpl
+     * @return string
+     */
+    public function adminCategoryTableTree($currentIds = 0, $tpl = '')
     {
         $where = ['delete_time' => 0];
 //        if (!empty($currentCid)) {
@@ -58,23 +63,30 @@ class PortalCategoryModel extends Model
         $tree->icon = ['&nbsp;&nbsp;│', '&nbsp;&nbsp;├─', '&nbsp;&nbsp;└─'];
         $tree->nbsp = '&nbsp;&nbsp;';
 
+        if (!is_array($currentIds)) {
+            $currentIds = [$currentIds];
+        }
+
         $newCategories = [];
         foreach ($categories as $item) {
-            $item['selected'] = $currentCid == $item['id'] ? "selected" : "";
-            $item['url']      = url('portal/List/index', ['id' => $item['id']]);;
+            $item['checked'] = in_array($item['id'], $currentIds) ? "checked" : "";
+            $item['url']     = url('portal/List/index', ['id' => $item['id']]);;
             $item['str_action'] = '<a href="' . url("AdminCategory/add", ["parent" => $item['id']]) . '">添加子分类</a> | <a href="' . url("AdminCategory/edit", ["id" => $item['id']]) . '">' . lang('EDIT') . '</a> | <a class="js-ajax-delete" href="' . url("AdminCategory/delete", ["id" => $item['id']]) . '">' . lang('DELETE') . '</a> ';
             array_push($newCategories, $item);
         }
 
         $tree->init($newCategories);
-        $str     = "<tr>
+
+        if (empty($tpl)) {
+            $tpl = "<tr>
 					<td><input name='list_orders[\$id]' type='text' size='3' value='\$list_order' class='input-order'></td>
 					<td>\$id</td>
 					<td>\$spacer <a href='\$url' target='_blank'>\$name</a></td>
 					<td>\$description</td>
 					<td>\$str_action</td>
 				</tr>";
-        $treeStr = $tree->getTree(0, $str);
+        }
+        $treeStr = $tree->getTree(0, $tpl);
 
         return $treeStr;
     }
