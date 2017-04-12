@@ -164,9 +164,7 @@ parse;
         {$content}
         <{$dropdown} class="{$dropdownClass}">
             <php>\$level++;</php>
-            <foreach name="menu.children" item="subMenu">
-                {:__parse_navigation(\$menu.children,\$level)}
-            </foreach>
+            {:__parse_navigation(\$menu.children,\$level)}
         </{$dropdown}>
     </{$root}>
 </if>
@@ -257,9 +255,7 @@ parse;
         {$content}
         <{$dropdown} class="{$dropdownClass}">
             <php>\$level++;</php>
-            <foreach name="menu.children" item="subMenu">
-                {:__parse_sub_navigation(\$menu.children)}
-            </foreach>
+            {:__parse_sub_navigation(\$menu.children)}
         </{$dropdown}>
     </{$root}>
 </if>
