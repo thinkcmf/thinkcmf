@@ -6,22 +6,22 @@
 // +----------------------------------------------------------------------
 // | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
-namespace app\admin\controller;
+namespace app\asset\controller;
 
 use think\Db;
 use cmf\controller\AdminBaseController;
 
-class ResourceController extends AdminBaseController
+class AdminIndexController extends AdminBaseController
 {
     /**
      * 资源管理列表
      * @adminMenu(
-     *     'name'   => '资源管理页面列表',
-     *     'parent' => 'admin/resource/index',
+     *     'name'   => '资源管理',
+     *     'parent' => '',
      *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
-     *     'icon'   => '',
+     *     'icon'   => 'file',
      *     'remark' => '资源管理列表',
      *     'param'  => ''
      * )
@@ -34,15 +34,15 @@ class ResourceController extends AdminBaseController
         return $this->fetch();
     }
     /**
-     * 资源管理页面删除
+     * 删除文件
      * @adminMenu(
-     *     'name'   => '资源管理页面删除',
+     *     'name'   => '删除文件',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '资源管理页面删除',
+     *     'remark' => '删除文件',
      *     'param'  => ''
      * )
      */
@@ -62,50 +62,4 @@ class ResourceController extends AdminBaseController
         }
     }
 
-    /**
-     * 资源管理页面显示
-     * @adminMenu(
-     *     'name'   => '资源管理页面显示',
-     *     'parent' => 'index',
-     *     'display'=> false,
-     *     'hasView'=> false,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '资源管理页面显示',
-     *     'param'  => ''
-     * )
-     */
-    public function cancelBan()
-    {
-        $id     = $this->request->param('id');
-        $result = Db::name('asset')->where('id', $id)->update(['status' => 1]);
-        if ($result) {
-            $this->success('隐藏成功');
-        } else {
-            $this->error('隐藏失败');
-        }
-    }
-    /**
-     * 资源管理页面隐藏
-     * @adminMenu(
-     *     'name'   => '资源管理页面隐藏',
-     *     'parent' => 'index',
-     *     'display'=> false,
-     *     'hasView'=> false,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '资源管理页面隐藏',
-     *     'param'  => ''
-     * )
-     */
-    public function ban()
-    {
-        $id     = $this->request->param('id');
-        $result = Db::name('asset')->where('id', $id)->update(['status' => 0]);
-        if ($result) {
-            $this->success('隐藏成功');
-        } else {
-            $this->error('隐藏失败');
-        }
-    }
 }
