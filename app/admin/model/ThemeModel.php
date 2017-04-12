@@ -36,16 +36,27 @@ class ThemeModel extends Model
     {
         $manifest = "themes/$theme/manifest.json";
         if (file_exists_case($manifest)) {
-            $manifest           = file_get_contents($manifest);
-            $themeData          = json_decode($manifest, true);
+            $manifest  = file_get_contents($manifest);
+            $themeData = json_decode($manifest, true);
 
             $this->updateThemeFiles($theme);
 
-            $this->save($themeData,['theme'=>$theme]);
+            $this->save($themeData, ['theme' => $theme]);
             return true;
         } else {
             return false;
         }
+    }
+
+    /**
+     * 获取当前前台模板某操作下的模板文件
+     * @param $action 控制器操作
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getActionThemeFiles($action)
+    {
+        $theme = config('cmf_default_theme');
+        return Db::name('theme_file')->where(['theme' => $theme, 'action' => $action])->select();
     }
 
     private function updateThemeFiles($theme, $suffix = 'html')

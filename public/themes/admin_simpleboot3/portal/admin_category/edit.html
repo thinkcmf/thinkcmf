@@ -65,14 +65,11 @@
 						<div class="form-group">
 							<label for="input-list_tpl"><span class="form-required">*</span>列表模板</label>
 							<div>
-								<php>
-									$list_tpls=$tpl_list;
-									unset($list_tpls['list']);
-								</php>
 								<select class="form-control" name="list_tpl" id="input-list_tpl">
-									<option value="list">list.html</option>
-									<foreach name="list_tpls" item="vo">
-										<option value="{$vo}">{$vo}.html</option>
+									<!--<option value="list">portal/list.html(默认)</option>-->
+									<foreach name="list_theme_files" item="vo">
+										<php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
+										<option value="{$value}">{$vo.file}.html</option>
 									</foreach>
 								</select>
 							</div>
@@ -80,14 +77,11 @@
 						<div class="form-group">
 							<label for="input-one_tpl"><span class="form-required">*</span>文章模板</label>
 							<div>
-								<php>
-									$article_tpls=$tpl_list;
-									unset($article_tpls['article']);
-								</php>
 								<select class="form-control" name="one_tpl" id="input-one_tpl">
-									<option value="article">article.html</option>
-									<foreach name="article_tpls" item="vo">
-										<option value="{$vo}">{$vo}.html</option>
+									<!--<option value="article">portal/article.html(默认)</option>-->
+									<foreach name="article_theme_files" item="vo">
+										<php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
+										<option value="{$value}">{$vo.file}.html</option>
 									</foreach>
 								</select>
 							</div>

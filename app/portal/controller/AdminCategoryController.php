@@ -11,6 +11,8 @@ namespace app\portal\controller;
 use cmf\controller\AdminBaseController;
 use app\portal\model\PortalCategoryModel;
 use think\Db;
+use app\admin\model\ThemeModel;
+
 
 class AdminCategoryController extends AdminBaseController
 {
@@ -55,6 +57,12 @@ class AdminCategoryController extends AdminBaseController
         $portalCategoryModel = new PortalCategoryModel();
         $categoriesTree      = $portalCategoryModel->adminCategoryTree($parentId);
 
+        $themeModel        = new ThemeModel();
+        $listThemeFiles    = $themeModel->getActionThemeFiles('portal/List/index');
+        $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
+
+        $this->assign('list_theme_files', $listThemeFiles);
+        $this->assign('article_theme_files', $articleThemeFiles);
         $this->assign('categories_tree', $categoriesTree);
         return $this->fetch();
     }
@@ -113,6 +121,12 @@ class AdminCategoryController extends AdminBaseController
             $portalCategoryModel = new PortalCategoryModel();
             $categoriesTree      = $portalCategoryModel->adminCategoryTree($category['parent_id'], $id);
 
+            $themeModel        = new ThemeModel();
+            $listThemeFiles    = $themeModel->getActionThemeFiles('portal/List/index');
+            $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
+
+            $this->assign('list_theme_files', $listThemeFiles);
+            $this->assign('article_theme_files', $articleThemeFiles);
             $this->assign('categories_tree', $categoriesTree);
             return $this->fetch();
         } else {
