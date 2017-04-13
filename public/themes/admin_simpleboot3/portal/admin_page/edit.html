@@ -20,18 +20,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>模版</th>
-                        <td>
-                            <select class="form-control" style="width: 400px;" name="more[template]" id="more-template-select">
-                                <!--<option value="page">portal/page.html(默认)</option>-->
-                                <foreach name="page_theme_files" item="vo">
-                                    <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
-                                    <option value="{$value}">{$vo.file}.html</option>
-                                </foreach>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
                         <th>关键词</th>
                         <td>
                             <input class="form-control" type="text" name="post[post_keywords]" style="width:400px"
@@ -99,6 +87,20 @@
                             <div class="radio">
                                 <label><input type="radio" name="post[post_status]" value="0" {$status_no}>未发布</label>
                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>模板</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="form-control" name="more[template]" id="more-template-select">
+                                <option value="">请选择模板</option>
+                                <foreach name="page_theme_files" item="vo">
+                                    <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
+                                    <option value="{$value}">{$vo.file}.html</option>
+                                </foreach>
+                            </select>
                         </td>
                     </tr>
                 </table>

@@ -13,6 +13,7 @@ use app\portal\model\PortalPostModel;
 use app\portal\service\PostService;
 use app\portal\model\PortalCategoryModel;
 use think\Db;
+use app\admin\model\ThemeModel;
 
 class AdminArticleController extends AdminBaseController
 {
@@ -67,6 +68,9 @@ class AdminArticleController extends AdminBaseController
      */
     public function add()
     {
+        $themeModel        = new ThemeModel();
+        $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
+        $this->assign('article_theme_files', $articleThemeFiles);
         return $this->fetch();
     }
 
@@ -127,6 +131,9 @@ class AdminArticleController extends AdminBaseController
         $postCategoryIds = implode(',', array_keys($postCategories));
         $more            = json_decode($post['more'], true);
 
+        $themeModel        = new ThemeModel();
+        $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
+        $this->assign('article_theme_files', $articleThemeFiles);
         $this->assign('more', $more);
         $this->assign('post', $post);
         $this->assign('post_categories', $postCategories);

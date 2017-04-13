@@ -74,7 +74,10 @@
                     <tr>
                         <th>内容</th>
                         <td>
-                            <script type="text/plain" id="content" name="post[post_content]">{$post.post_content}</script>
+                            <script type="text/plain" id="content" name="post[post_content]">{$post.post_content}
+
+
+                            </script>
                         </td>
                     </tr>
                     <tr>
@@ -139,6 +142,7 @@
                                    value="{:date('Y-m-d H:i',$post['published_time'])}">
                         </td>
                     </tr>
+                    <!--
                     <tr>
                         <th>评论</th>
                     </tr>
@@ -148,6 +152,7 @@
                                     href="javascript:open_iframe_dialog('{:url('comment/commentadmin/index',array('post_id'=>$post['id']))}','评论列表')">查看评论</a></label>
                         </td>
                     </tr>
+                    -->
                     <tr>
                         <th>状态</th>
                     </tr>
@@ -163,12 +168,13 @@
                             </php>
                             <div class="radio">
                                 <label>
-                                    <input type="radio" name="post[post_status]" value="1" {$status_yes}>
-                                    审核通过
+                                    <input type="radio" name="post[post_status]" value="1" {$status_yes}>发布
                                 </label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="post[post_status]" value="0" {$status_no}>未审核</label>
+                                <label>
+                                    <input type="radio" name="post[post_status]" value="0" {$status_no}>未发布
+                                </label>
                             </div>
                         </td>
                     </tr>
@@ -199,16 +205,11 @@
                     </tr>
                     <tr>
                         <td>
-                            <php>
-                                $tpl_list=[];
-                                unset($tpl_list['page']);
-                            </php>
-                            <select class="form-control" name="smeta[template]">
+                            <select class="form-control" name="more[template]" id="more-template-select">
                                 <option value="">请选择模板</option>
-                                <foreach name="tpl_list" item="vo">
-                                    <php>$template_selected=$smeta['template']==$vo?"selected":"";</php>
-                                    <option value="{$vo}" {$template_selected}>{$vo}{:C("TMPL_TEMPLATE_SUFFIX")}
-                                    </option>
+                                <foreach name="article_theme_files" item="vo">
+                                    <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
+                                    <option value="{$value}">{$vo.file}.html</option>
                                 </foreach>
                             </select>
                         </td>
@@ -240,6 +241,8 @@
             editorcontent.sync();
         } catch (err) {
         }
+
+        $('#more-template-select').val('{$more.template}');
     });
 
     function doSelectCategory() {
