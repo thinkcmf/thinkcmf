@@ -11,7 +11,7 @@ namespace app\asset\controller;
 use think\Db;
 use cmf\controller\AdminBaseController;
 
-class AdminIndexController extends AdminBaseController
+class AdminAssetController extends AdminBaseController
 {
     /**
      * 资源管理列表
