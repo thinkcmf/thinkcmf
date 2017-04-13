@@ -90,17 +90,17 @@ class AdminArticleController extends AdminBaseController
 
         $portalPostModel = new PortalPostModel();
 
-        if(!empty($data['photos_alt']) && !empty($data['photos_url'])){
-            foreach ($data['photos_url'] as $key=>$url){
-                $photourl=cmf_asset_relative_url($url);
-                $data['more']['photo'][]=array("url"=>$photourl,"alt"=>$data['photos_alt'][$key]);
+        if (!empty($data['photos_alt']) && !empty($data['photos_url'])) {
+            foreach ($data['photos_url'] as $key => $url) {
+                $photourl                = cmf_asset_relative_url($url);
+                $data['more']['photo'][] = ["url" => $photourl, "alt" => $data['photos_alt'][$key]];
             }
         }
 
-        $data['post']['more']    = json_encode($data['more']);
+        $data['post']['more'] = json_encode($data['more']);
         $portalPostModel->adminAddArticle($data['post'], $data['post']['categories']);
 
-         $this->success('添加成功!');
+        $this->success('添加成功!');
 
     }
 
@@ -125,7 +125,7 @@ class AdminArticleController extends AdminBaseController
         $post            = $portalPostModel->where('id', $id)->find();
         $postCategories  = $post->categories()->alias('a')->column('a.name', 'a.id');
         $postCategoryIds = implode(',', array_keys($postCategories));
-        $more            = json_decode($post['more'],true);
+        $more            = json_decode($post['more'], true);
 
         $this->assign('more', $more);
         $this->assign('post', $post);
@@ -153,16 +153,16 @@ class AdminArticleController extends AdminBaseController
 
         $data = $this->request->param();
 
-        $portalPostModel         = new PortalPostModel();
+        $portalPostModel = new PortalPostModel();
 
-        if(!empty($data['photos_alt']) && !empty($data['photos_url'])){
-            foreach ($data['photos_url'] as $key=>$url){
-                $photourl=cmf_asset_relative_url($url);
-                $data['more']['photo'][]=array("url"=>$photourl,"alt"=>$data['photos_alt'][$key]);
+        if (!empty($data['photos_alt']) && !empty($data['photos_url'])) {
+            foreach ($data['photos_url'] as $key => $url) {
+                $photourl                = cmf_asset_relative_url($url);
+                $data['more']['photo'][] = ["url" => $photourl, "alt" => $data['photos_alt'][$key]];
             }
         }
 
-        $data['post']['more']    = json_encode($data['more']);
+        $data['post']['more'] = json_encode($data['more']);
 
         $portalPostModel->adminEditArticle($data['post'], $data['post']['categories']);
 

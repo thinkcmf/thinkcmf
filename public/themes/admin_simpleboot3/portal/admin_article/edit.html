@@ -31,10 +31,12 @@
                     <tr>
                         <th width="100">分类</th>
                         <td>
-                            <input class="form-control" type="text" style="width:400px;" required value="{:implode(' ',$post_categories)}"
+                            <input class="form-control" type="text" style="width:400px;" required
+                                   value="{:implode(' ',$post_categories)}"
                                    placeholder="请选择分类" onclick="doSelectCategory();" id="js-categories-name-input"
                                    readonly/>
-                            <input class="form-control" type="hidden" value="{$post_category_ids}" name="post[categories]"
+                            <input class="form-control" type="hidden" value="{$post_category_ids}"
+                                   name="post[categories]"
                                    id="js-categories-id-input"/>
                         </td>
                     </tr>
@@ -65,7 +67,7 @@
                     <tr>
                         <th>摘要</th>
                         <td>
-                            <textarea class="form-control" name="post[post_excerpt]" style="width: 98%; height: 50px;"
+                            <textarea class="form-control" name="post[post_excerpt]" style="height: 50px;"
                                       placeholder="请填写摘要">{$post.post_excerpt}</textarea>
                         </td>
                     </tr>
@@ -87,7 +89,8 @@
                                                    value="{$img_url}">
                                             <input id="photo-{$key}-name" type="text" name="photos_alt[]"
                                                    value="{$vo.alt}" style="width: 200px;" title="图片名称">
-                                            <img id="photo-{$key}-preview" src="{:cmf_get_image_preview_url($vo['url'])}"
+                                            <img id="photo-{$key}-preview"
+                                                 src="{:cmf_get_image_preview_url($vo['url'])}"
                                                  style="height:36px;width: 36px;"
                                                  onclick="parent.image_preview_dialog(this.src);">
                                             <a href="javascript:upload_one_image('图片上传','#photo-{$key}');">替换</a>
@@ -110,10 +113,11 @@
                     <tr>
                         <td>
                             <div style="text-align: center;">
-                                <input type="hidden" name="more[thumb]" id="thumb" value="{$more.thumb|default=''}">
+                                <input type="hidden" name="more[thumbnail]" id="thumb" value="{$more.thumb|default=''}">
                                 <a href="javascript:upload_one_image('图片上传','#thumb');">
                                     <if condition="empty($more['thumb'])">
-                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumb-preview"
+                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                             id="thumb-preview"
                                              width="135" style="cursor: hand"/>
                                         <else/>
                                         <img src="{:cmf_get_image_preview_url($more['thumb'])}" id="thumb-preview"
