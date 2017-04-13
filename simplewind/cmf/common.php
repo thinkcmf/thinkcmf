@@ -1785,3 +1785,13 @@ function cmf_file_write($file, $content)
         return file_put_contents($file, $content);
     }
 }
+
+/**
+ * 获取客户端IP地址
+ * @param integer   $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
+ * @param boolean   $adv 是否进行高级模式获取（有可能被伪装）
+ * @return mixed
+ */
+function get_client_ip($type = 0, $adv = false){
+    return request()->ip($type,$adv);
+}
