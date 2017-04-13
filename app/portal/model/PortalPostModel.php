@@ -66,18 +66,19 @@ class PortalPostModel extends Model
         return $this;
 
     }
+
     public function adminDeletePage($data)
     {
 
-        if(isset($data['id'])){
-            $id  = $data['id']; //获取删除id
+        if (isset($data['id'])) {
+            $id = $data['id']; //获取删除id
 
             $res = $this->where(['id' => $id])->find();
 
-            if($res){
-                $res =  json_decode(json_encode($res),true); //转换为数组
+            if ($res) {
+                $res = json_decode(json_encode($res), true); //转换为数组
 
-                $recycleData   = [
+                $recycleData = [
                     'object_id'   => $res['id'],
                     'create_time' => time(),
                     'table_name'  => 'portal_post',
@@ -87,11 +88,11 @@ class PortalPostModel extends Model
 
                 Db::startTrans(); //开启事务
                 $transStatus = false;
-                try{
+                try {
                     Db::name('portal_post')->where(['id' => $id])->update([
-                                                    'post_status' => 3,
-                                                    'delete_time' => time()
-                                                  ]);
+                        'post_status' => 3,
+                        'delete_time' => time()
+                    ]);
                     Db::name('recycle_bin')->insert($recycleData);
 
                     $transStatus = true;
@@ -108,35 +109,33 @@ class PortalPostModel extends Model
                 return $transStatus;
 
 
-
-
             } else {
-                return  false;
+                return false;
             }
-        } elseif (isset($data['ids'])){
+        } elseif (isset($data['ids'])) {
             $ids = $data['ids'];
 
-            $res = $this->where(['id' => ['in',$ids]])
-                                   ->select();
+            $res = $this->where(['id' => ['in', $ids]])
+                ->select();
 
-            if($res){
-                $res =  json_decode(json_encode($res),true);
+            if ($res) {
+                $res = json_decode(json_encode($res), true);
                 foreach ($res as $key => $value) {
-                    $recycleData[$key]['object_id'] = $value['id'];
+                    $recycleData[$key]['object_id']   = $value['id'];
                     $recycleData[$key]['create_time'] = time();
-                    $recycleData[$key]['table_name'] = 'portal_post';
-                    $recycleData[$key]['name'] = $value['post_title'];
+                    $recycleData[$key]['table_name']  = 'portal_post';
+                    $recycleData[$key]['name']        = $value['post_title'];
 
                 }
 
                 Db::startTrans(); //开启事务
                 $transStatus = false;
-                try{
-                    Db::name('portal_post')->where(['id' => ['in',$ids]])
-                                              ->update([
-                                                    'post_status' => 3,
-                                                    'delete_time' => time()
-                                                  ]);
+                try {
+                    Db::name('portal_post')->where(['id' => ['in', $ids]])
+                        ->update([
+                            'post_status' => 3,
+                            'delete_time' => time()
+                        ]);
 
 
                     Db::name('recycle_bin')->insertAll($recycleData);
@@ -157,13 +156,13 @@ class PortalPostModel extends Model
                 return $transStatus;
 
 
-            }else{
-                return  false;
-              //  $this->error(lang('DELETE_FAILED'));
+            } else {
+                return false;
+                //  $this->error(lang('DELETE_FAILED'));
             }
 
-        }else{
-            return  false;
+        } else {
+            return false;
             //$this->error(lang('DELETE_FAILED'));
         }
     }
@@ -180,23 +179,14 @@ class PortalPostModel extends Model
     }
 
     /**
-     * @todo 里面的代码是我注释的，个人理解应该时不需要的，测试人员测试后可以删除注释代码和本todo
      * @param $data
      * @return $this
      */
-    public function adminEditPage( $data)
+    public function adminEditPage($data)
     {
         $data['user_id']   = cmf_get_current_admin_id();
         $data['post_type'] = 2;
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
-
-//        if (is_string($categories)) {
-//            $categories = explode(',', $categories);
-//        }
-//
-//        $this->categories()->detach();
-//
-//        $this->categories()->save($categories);
 
         return $this;
     }

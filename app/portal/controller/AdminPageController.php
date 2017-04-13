@@ -31,8 +31,6 @@ class AdminPageController extends AdminBaseController
      */
     public function index()
     {
-
-
         $param = $this->request->param();
 
         $postService = new PostService();
@@ -81,17 +79,10 @@ class AdminPageController extends AdminBaseController
      */
     public function addPost()
     {
-
-
-        $data = $this->request->param();
-
+        $data                 = $this->request->param();
         $portalPostModel      = new PortalPostModel();
-        $data['post']['more'] = json_encode($data['more']);
-
         $portalPostModel->adminAddPage($data['post']);
-
         $this->success(lang('ADD_SUCCESS'));
-
 
     }
 
@@ -141,11 +132,9 @@ class AdminPageController extends AdminBaseController
      */
     public function editPost()
     {
-
         $data = $this->request->param();
 
         $portalPostModel = new PortalPostModel();
-
 
         $data['post']['more'] = json_encode($data['more']);
 
@@ -171,14 +160,11 @@ class AdminPageController extends AdminBaseController
      */
     public function delete()
     {
-
         $portalPostModel = new PortalPostModel();
         $data            = $this->request->param();
 
-
         $result = $portalPostModel->adminDeletePage($data);
         if ($result) {
-
             $this->success(lang('DELETE_SUCCESS'));
         } else {
             $this->error(lang('DELETE_FAILED'));
