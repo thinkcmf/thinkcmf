@@ -184,7 +184,7 @@ class AdminCategoryController extends AdminBaseController
         $portalCategoryModel = new PortalCategoryModel();
 
         $tpl = <<<tpl
-<tr>
+<tr class='data-item-tr'>
     <td>
         <input type='checkbox' class='js-check' data-yid='js-check-y' data-xid='js-check-x' name='ids[]'
                                value='\$id' data-name='\$name' \$checked>

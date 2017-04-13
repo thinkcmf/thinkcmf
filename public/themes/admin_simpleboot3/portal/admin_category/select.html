@@ -38,6 +38,24 @@
 </div>
 <script src="__STATIC__/js/admin.js"></script>
 <script>
+    $('.data-item-tr').click(function (e) {
+
+        console.log(e);
+        var $this = $(this);
+        if ($(e.target).is('input')) {
+            return;
+        }
+
+        var $input = $this.find('input');
+        if ($input.is(':checked')) {
+            $input.prop('checked', false);
+        } else {
+            $input.prop('checked', true);
+        }
+
+
+    });
+
     function confirm() {
         var selectedCategoriesId   = [];
         var selectedCategoriesName = [];
