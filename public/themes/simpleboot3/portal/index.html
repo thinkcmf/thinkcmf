@@ -57,39 +57,25 @@
 <body class="body-white">
 <include file="public@nav"/>
 
-<!--<ul id="home-slider" class="list-unstyled">-->
-<!--<li>-->
-<!--<div class="caption-wraper">-->
-<!--<div class="caption">ThinkCMFX2.1.0发布啦！</div>-->
-<!--</div>-->
-<!--<a href=""><img src="__TMPL__/public/assets/images/demo/1.jpg" alt=""></a>-->
-<!--</li>-->
-<!--<li>-->
-<!--<div class="caption-wraper">-->
-<!--<div class="caption">ThinkCMFX2.1.0发布啦！</div>-->
-<!--</div>-->
-<!--<a href=""><img src="__TMPL__/public/assets/images/demo/2.jpg" alt=""></a>-->
-<!--</li>-->
-<!--<li>-->
-<!--<div class="caption-wraper">-->
-<!--<div class="caption">ThinkCMFX2.1.0发布啦！</div>-->
-<!--</div>-->
-<!--<a href=""><img src="__TMPL__/public/assets/images/demo/3.jpg" alt=""></a>-->
-<!--</li>-->
-<!--</ul>-->
 <ul id="home-slider" class="list-unstyled">
-    <slides id="1">
+    <php>
+        $top_slide_id=empty($theme_vars['top_slide'])?1:$theme_vars['top_slide'];
+    </php>
+    <slides id="$top_slide_id">
         <li>
             <div class="caption-wraper">
                 <div class="caption">{$vo.name|default=''}</div>
             </div>
-            <a href=""><img src="__TMPL__/public/assets/images/demo/1.jpg" alt=""></a>
+            <a href=""><img src="__TMPL__/public/assets/images/demo/{$key+1}.jpg" alt=""></a>
         </li>
     </slides>
-    <noslides id="1">
-        noslides;
-    </noslides>
 </ul>
+<noslides id="$top_slide_id">
+    <div class="container">
+        <div class="alert alert-warning" role="alert">没有设置任何幻灯片,请到后台模板设置</div>
+    </div>
+</noslides>
+
 <div class="container">
     <div>
         <h1 class="text-center">快速了解ThinkCMF</h1>
@@ -132,7 +118,8 @@
 
         <div class="row">
             <?php  $widget["vars"]["last_news_category_id"] = empty($widget["vars"]["last_news_category_id"])?1:$widget["vars"]["last_news_category_id"];?>
-            <portal:articles limit="4" order="post.published_time DESC" categoryIds="$widget.vars.last_news_category_id">
+            <portal:articles limit="4" order="post.published_time DESC"
+                             categoryIds="$widget.vars.last_news_category_id">
                 <div class="col-md-3">
                     <div class="tc-gridbox">
                         <div class="header">
@@ -158,10 +145,10 @@
             </portal:articles>
         </div>
     </widget>
-    <include file="public@footer" />
+    <include file="public@footer"/>
 </div>
 <!-- /container -->
-<include file="public@scripts" />
+<include file="public@scripts"/>
 <script src="__TMPL__/public/assets/js/slippry.min.js"></script>
 <script>
     $(function () {

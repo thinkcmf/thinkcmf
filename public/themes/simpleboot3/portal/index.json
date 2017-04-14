@@ -5,42 +5,15 @@
     "order": 6.0,
     "more": {
         "vars": {
-            "test_select": {
-                "title": "您常用的ThinkCMF应用",
-                "value": "2",
-                "type": "select",
-                "options": {
-                    "1": "ThinkCMFX",
-                    "2": "ThinkCMF",
-                    "3": "跟猫玩糗事",
-                    "4": "门户应用"
+            "top_slide": {
+                "title": "顶部幻灯片",
+                "value": "",
+                "type": "text",
+                "dataSource": {
+                    "api": "admin/Slide/index",
+                    "multi": false
                 },
-                "tip": "",
-                "rule": {
-                    "require": "require"
-                }
-            },
-            "features": {
-                "title": "特性介绍",
-                "value": [],
-                "type": "array",
-                "item": {
-                    "title": {
-                        "title": "标题",
-                        "value": "",
-                        "type": "text"
-                    },
-                    "icon": {
-                        "title": "图标",
-                        "value": "",
-                        "type": "text"
-                    },
-                    "content": {
-                        "title": "描述",
-                        "value": "",
-                        "type": "text"
-                    }
-                },
+                "placeholder": "请选择顶部幻灯片",
                 "tip": "",
                 "rule": {
                     "require": true
@@ -48,6 +21,58 @@
             }
         },
         "widgets": {
+            "features": {
+                "title": "产品特性",
+                "display": "1",
+                "vars": {
+                    "title": {
+                        "title": "标题",
+                        "value": "快速了解ThinkCMF",
+                        "type": "text",
+                        "placeholder": "请输入标题",
+                        "tip": "",
+                        "rule": {
+                            "require": true
+                        }
+                    },
+                    "sub_title": {
+                        "title": "副标题",
+                        "value": "Quickly understand the ThinkCMF",
+                        "type": "text",
+                        "placeholder": "请输入副标题",
+                        "tip": "",
+                        "rule": {
+                            "require": true
+                        }
+                    },
+                    "features": {
+                        "title": "特性介绍",
+                        "value": [],
+                        "type": "array",
+                        "item": {
+                            "title": {
+                                "title": "标题",
+                                "value": "",
+                                "type": "text"
+                            },
+                            "icon": {
+                                "title": "图标",
+                                "value": "",
+                                "type": "text"
+                            },
+                            "content": {
+                                "title": "描述",
+                                "value": "",
+                                "type": "text"
+                            }
+                        },
+                        "tip": "",
+                        "rule": {
+                            "require": true
+                        }
+                    }
+                }
+            },
             "last_news": {
                 "title": "最新资讯",
                 "display": "1",
