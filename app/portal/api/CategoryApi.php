@@ -21,7 +21,7 @@ class CategoryApi
     {
         $portalCategoryModel = new PortalCategoryModel();
 
-        $where = [];
+        $where = ['delete_time' => 0];
 
         if (!empty($param['keyword'])) {
             $where['name'] = ['like', "%{$param['keyword']}%"];
