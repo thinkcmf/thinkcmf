@@ -233,7 +233,7 @@ class AssetController extends AdminBaseController
                               "size"  => $fileImage->getSize(),
                 ];
 
-                $fileImage->isTest(true);
+                //$fileImage->isTest(true);
                 $fileImage->setSaveName( $strDate.DS.$fileImage->getFilename());
                 $fileImage->setUploadInfo($arrInfo);
 
