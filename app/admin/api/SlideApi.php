@@ -1,5 +1,5 @@
 <?php
-namespace app\portal\api;
+namespace app\admin\api;
 
 use app\admin\model\SlideModel;
 
