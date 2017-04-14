@@ -1,4 +1,5 @@
 <?php
+
 namespace app\admin\model;
 
 use think\Model;
@@ -112,7 +113,7 @@ class ThemeModel extends Model
                     ]);
             } else { // 更新文件
                 $moreInDb = json_decode($findFile['more'], true);
-                $more     = array_replace_recursive($configMore, $moreInDb);
+                $more     = array_replace_recursive($moreInDb, $configMore);
                 Db::name('theme_file')->where(['theme' => $theme, 'file' => $file])->update(
                     [
                         'theme'       => $theme,
