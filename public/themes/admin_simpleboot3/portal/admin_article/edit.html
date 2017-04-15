@@ -74,10 +74,7 @@
                     <tr>
                         <th>内容</th>
                         <td>
-                            <script type="text/plain" id="content" name="post[post_content]">{$post.post_content}
-
-
-                            </script>
+                            <script type="text/plain" id="content" name="post[post_content]">{$post.post_content}</script>
                         </td>
                     </tr>
                     <tr>
@@ -116,14 +113,14 @@
                     <tr>
                         <td>
                             <div style="text-align: center;">
-                                <input type="hidden" name="more[thumbnail]" id="thumb" value="{$more.thumb|default=''}">
+                                <input type="hidden" name="more[thumbnail]" id="thumb" value="{$post.more.thumbnail|default=''}">
                                 <a href="javascript:upload_one_image('图片上传','#thumb');">
-                                    <if condition="empty($more['thumb'])">
+                                    <if condition="empty($post.more.thumbnail)">
                                         <img src="__TMPL__/public/assets/images/default-thumbnail.png"
                                              id="thumb-preview"
                                              width="135" style="cursor: hand"/>
                                         <else/>
-                                        <img src="{:cmf_get_image_preview_url($more['thumb'])}" id="thumb-preview"
+                                        <img src="{:cmf_get_image_preview_url($post.more.thumbnail)}" id="thumb-preview"
                                              width="135" style="cursor: hand"/>
                                     </if>
                                 </a>
@@ -155,48 +152,30 @@
                     -->
                     <tr>
                         <th>状态</th>
+                        <php>
+                            $status_yes=$post['post_status']==1?"checked":"";
+                            $is_top_yes=$post['is_top']==1?"checked":"";
+                            $recommended_yes=$post['recommended']==1?"checked":"";
+                        </php>
                     </tr>
                     <tr>
                         <td>
-                            <php>
-                                $status_yes=$post['post_status']==1?"checked":"";
-                                $status_no=$post['post_status']==0?"checked":"";
-                                $is_top_yes=$post['is_top']==1?"checked":"";
-                                $is_top_no=$post['is_top']==0?"checked":"";
-                                $recommended_yes=$post['recommended']==1?"checked":"";
-                                $recommended_no=$post['recommended']==0?"checked":"";
-                            </php>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="post[post_status]" value="1" {$status_yes}>发布
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="post[post_status]" value="0" {$status_no}>未发布
-                                </label>
+                            <div class="checkbox">
+                                <label><input type="checkbox" name="post[post_status]" value="1" {$status_yes}>发布</label>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <div class="radio">
-                                <label><input type="radio" name="post[is_top]" value="1" {$is_top_yes}>置顶</label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio" name="post[is_top]" value="0" {$is_top_no}>未置顶</label>
+                            <div class="checkbox">
+                                <label><input type="checkbox" name="post[is_top]" value="1" {$is_top_yes}>置顶</label>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <div class="radio">
-                                <label><input type="radio" name="post[recommended]" value="1"
-                                              {$recommended_yes}>推荐</label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio" name="post[recommended]" value="0"
-                                              {$recommended_no}>未推荐</label>
+                            <div class="checkbox">
+                                <label><input type="checkbox" name="post[recommended]" value="1" {$recommended_yes}>推荐</label>
                             </div>
                         </td>
                     </tr>
@@ -242,7 +221,7 @@
         } catch (err) {
         }
 
-        $('#more-template-select').val("{$more.template|default=''}");
+        $('#more-template-select').val("{$post.more.template|default=''}");
     });
 
     function doSelectCategory() {

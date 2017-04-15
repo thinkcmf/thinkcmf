@@ -101,7 +101,6 @@ class AdminArticleController extends AdminBaseController
             }
         }
 
-        $data['post']['more'] = json_encode($data['more']);
         $portalPostModel->adminAddArticle($data['post'], $data['post']['categories']);
 
         $this->success('添加成功!');
@@ -129,12 +128,10 @@ class AdminArticleController extends AdminBaseController
         $post            = $portalPostModel->where('id', $id)->find();
         $postCategories  = $post->categories()->alias('a')->column('a.name', 'a.id');
         $postCategoryIds = implode(',', array_keys($postCategories));
-        $more            = json_decode($post['more'], true);
 
         $themeModel        = new ThemeModel();
         $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
         $this->assign('article_theme_files', $articleThemeFiles);
-        $this->assign('more', $more);
         $this->assign('post', $post);
         $this->assign('post_categories', $postCategories);
         $this->assign('post_category_ids', $postCategoryIds);

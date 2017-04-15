@@ -14,30 +14,66 @@ use think\Db;
 class PortalPostModel extends Model
 {
 
+    protected $type = [
+        'more' => 'array',
+    ];
+
+    // 开启自动写入时间戳字段
+    protected $autoWriteTimestamp = true;
+
+    /**
+     * 关联 user表
+     * @return $this
+     */
     public function user()
     {
         return $this->belongsTo('UserModel', 'user_id')->setEagerlyType(0);
     }
 
+    /**
+     * 关联分类表
+     * @return $this
+     */
     public function categories()
     {
         $prefix = $this->getConfig('prefix');
         return $this->belongsToMany('PortalCategoryModel', $prefix . 'portal_category_post', 'category_id', 'post_id');
     }
 
+    /**
+     * post_content 自动转化
+     * @param $value
+     * @return string
+     */
     public function getPostContentAttr($value)
     {
         return htmlspecialchars_decode($value);
     }
 
+    /**
+     * published_time 自动完成
+     * @param $value
+     * @return false|int
+     */
     public function setPublishedTimeAttr($value)
     {
         return strtotime($value);
     }
 
+    /**
+     * 后台管理添加文章
+     * @param array $data 文章数据
+     * @param array|string $categories 文章分类 id
+     * @return $this
+     */
     public function adminAddArticle($data, $categories)
     {
         $data['user_id'] = cmf_get_current_admin_id();
+
+        if (!empty($data['more']['thumbnail'])) {
+            $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
+        }
+
         $this->allowField(true)->data($data, true)->save();
 
         if (is_string($categories)) {
@@ -50,9 +86,24 @@ class PortalPostModel extends Model
 
     }
 
+    /**
+     * 后台管理编辑文章
+     * @param array $data 文章数据
+     * @param array|string $categories 文章分类 id
+     * @return $this
+     */
     public function adminEditArticle($data, $categories)
     {
         $data['user_id'] = cmf_get_current_admin_id();
+
+        if (!empty($data['more']['thumbnail'])) {
+            $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
+        }
+
+        $data['post_status'] = empty($data['post_status']) ? 0 : 1;
+        $data['is_top']      = empty($data['is_top']) ? 0 : 1;
+        $data['recommended'] = empty($data['recommended']) ? 0 : 1;
+
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
 
         if (is_string($categories)) {

@@ -75,6 +75,7 @@
                 <th width="60">点击量</th>
                 <th width="60">评论量</th>
                 <th width="160">关键字/来源<br>摘要/缩略图</th>
+                <th width="130">更新时间</th>
                 <th width="130">发布时间</th>
                 <th width="70">状态</th>
                 <th width="90">操作</th>
@@ -127,12 +128,17 @@
                             <i class="fa fa-close fa-fw"></i>
                         </notempty>
 
-                        <php>$more=json_decode($vo['more'],true);</php>
-                        <notempty name="smeta.thumb">
-                            <a href="javascript:parent.image_preview_dialog('{:sp_get_image_preview_url($more['thumb'])}');">
+                        <notempty name="vo.more.thumbnail">
+                            <a href="javascript:parent.image_preview_dialog('{:cmf_get_image_preview_url($vo.more.thumbnail)}');">
                                 <i class="fa fa-photo fa-fw"></i>
                             </a>
                         </notempty>
+                    </td>
+                    <td>
+                        <notempty name="vo.update_time">
+                            {:date('Y-m-d H:i',$vo['update_time'])}
+                        </notempty>
+
                     </td>
                     <td>
                         <empty name="vo.published_time">
@@ -178,6 +184,7 @@
                 <th width="60">点击量</th>
                 <th width="60">评论量</th>
                 <th width="160">关键字/来源<br>摘要/缩略图</th>
+                <th width="130">更新时间</th>
                 <th width="130">发布时间</th>
                 <th width="70">状态</th>
                 <th width="90">操作</th>

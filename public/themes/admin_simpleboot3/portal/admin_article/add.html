@@ -5,13 +5,13 @@
     }
 </style>
 <script type="text/html" id="photos-item-wrapper">
-    <li id="savedimage{id}">
+    <li id="saved-image{id}">
         <input id="photo-{id}" type="hidden" name="photos_url[]" value="{filepath}">
         <input id="photo-{id}-name" type="text" name="photos_alt[]" value="{name}" style="width: 160px;" title="图片名称">
         <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
              onclick="parent.image_preview_dialog(this.src);">
         <a href="javascript:upload_one_image('图片上传','#photo-{id}');">替换</a>
-        <a href="javascript:$('#savedimage{id}').remove();">移除</a>
+        <a href="javascript:$('#saved-image{id}').remove();">移除</a>
     </li>
 </script>
 </head>
@@ -19,9 +19,7 @@
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
         <li><a href="{:url('AdminArticle/index')}">文章管理</a></li>
-        <li class="active"><a
-                href="{:url('AdminArticle/add',array('term'=>empty($term['term_id'])?'':$term['term_id']))}"
-                target="_self">添加文章</a></li>
+        <li class="active"><a href="{:url('AdminArticle/add')}">添加文章</a></li>
     </ul>
     <form action="{:url('AdminArticle/addPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
         <div class="row">
@@ -40,7 +38,7 @@
                     <tr>
                         <th>标题<span class="form-required">*</span></th>
                         <td>
-                            <input class="form-control" type="text" style="width:400px;" name="post[post_title]"
+                            <input class="form-control" type="text" name="post[post_title]"
                                    id="title" required value="" placeholder="请输入标题"/>
                         </td>
                     </tr>
@@ -48,14 +46,14 @@
                         <th>关键词</th>
                         <td>
                             <input class="form-control" type="text" name="post[post_keywords]" id="keywords" value=""
-                                   style="width: 400px" placeholder="请输入关键字">
+                                   placeholder="请输入关键字">
                             <p class="help-block">多关键词之间用空格或者英文逗号隔开</p>
                         </td>
                     </tr>
                     <tr>
                         <th>文章来源</th>
                         <td><input class="form-control" type="text" name="post[post_source]" id="source" value=""
-                                   style="width: 400px" placeholder="请输入文章来源"></td>
+                                   placeholder="请输入文章来源"></td>
                     </tr>
                     <tr>
                         <th>摘要</th>
@@ -94,14 +92,13 @@
                     <tr>
                         <td>
                             <div style="text-align: center;">
-                                <input type="hidden" name="more[thumbnail]" id="thumb" value="">
-                                <a href="javascript:upload_one_image('图片上传','#thumb');">
-                                    <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumb-preview"
-                                         width="135" style="cursor: hand"/>
+                                <input type="hidden" name="post[more][thumbnail]" id="thumbnail" value="">
+                                <a href="javascript:upload_one_image('图片上传','#thumbnail');">
+                                    <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                         id="thumbnail-preview"
+                                         width="135" style="cursor: pointer"/>
                                 </a>
-                                <input type="button" class="btn btn-sm"
-                                       onclick="$('#thumb-preview').attr('src','__TMPL__Public/assets/images/default-thumbnail.png');$('#thumb').val('');return false;"
-                                       value="取消图片">
+                                <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
                             </div>
                         </td>
                     </tr>
@@ -110,8 +107,8 @@
                     </tr>
                     <tr>
                         <td>
-                            <input class="form-control" type="text" name="post[published_time]"
-                                   value="{:date('Y-m-d H:i:s',time())}" class="js-datetime">
+                            <input class="form-control js-bootstrap-datetime" type="text" name="post[published_time]"
+                                   value="{:date('Y-m-d H:i:s',time())}">
                         </td>
                     </tr>
                     <tr>
@@ -119,31 +116,22 @@
                     </tr>
                     <tr>
                         <td>
-                            <div class="radio">
-                                <label><input type="radio" name="post[post_status]" value="1" checked>发布</label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio" name="post[post_status]" value="0">未发布</label>
+                            <div class="checkbox">
+                                <label><input type="checkbox" name="post[post_status]" value="1" checked>发布</label>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <div class="radio">
-                                <label><input type="radio" name="post[istop]" value="1">置顶</label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio" name="post[istop]" value="0" checked>未置顶</label>
+                            <div class="checkbox">
+                                <label><input type="checkbox" name="post[is_top]" value="1">置顶</label>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <div class="radio">
-                                <label><input type="radio" name="post[recommended]" value="1">推荐</label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio" name="post[recommended]" value="0" checked>未推荐</label>
+                            <div class="checkbox">
+                                <label><input type="checkbox" name="post[recommended]" value="1">推荐</label>
                             </div>
                         </td>
                     </tr>
@@ -152,7 +140,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <select class="form-control" name="more[template]" id="more-template-select">
+                            <select class="form-control" name="post[more][template]" id="more-template-select">
                                 <option value="">请选择模板</option>
                                 <foreach name="article_theme_files" item="vo">
                                     <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
@@ -182,6 +170,11 @@
             editorcontent.sync();
         } catch (err) {
         }
+
+        $('.btn-cancel-thumbnail').click(function () {
+            $('#thumbnail-preview').attr('src', '__TMPL__Public/assets/images/default-thumbnail.png');
+            $('#thumbnail').val('');
+        });
     });
 
     function doSelectCategory() {
