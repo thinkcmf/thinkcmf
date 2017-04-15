@@ -131,7 +131,7 @@
         } catch (err) {
         }
 
-        $('#more-template-select').val('{$more.template}');
+        $('#more-template-select').val("{$post.more.template|default=''}");
     });
 </script>
 </body>
