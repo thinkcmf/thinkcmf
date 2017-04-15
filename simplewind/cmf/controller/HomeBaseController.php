@@ -166,7 +166,6 @@ class HomeBaseController extends BaseController
             }
         }
 
-
         return ['vars' => $vars, 'widgets' => $widgets];
     }
 

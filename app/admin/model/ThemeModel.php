@@ -114,9 +114,7 @@ class ThemeModel extends Model
             } else { // 更新文件
                 $moreInDb = json_decode($findFile['more'], true);
 
-                $this->unsetThemeMoreValue($configMore);
-
-                $more = array_replace_recursive($moreInDb, $configMore);
+                $more = array_replace_recursive($moreInDb, $this->unsetThemeMoreValue($configMore));
                 Db::name('theme_file')->where(['theme' => $theme, 'file' => $file])->update(
                     [
                         'theme'       => $theme,
@@ -133,7 +131,7 @@ class ThemeModel extends Model
         }
     }
 
-    private function unsetThemeMoreValue(&$more)
+    private function unsetThemeMoreValue($more)
     {
 
         if (!empty($more['vars'])) {
@@ -158,8 +156,12 @@ class ThemeModel extends Model
 
                     }
                 }
+
+                unset($more['widgets'][$widgetName]['display']);
             }
         }
+
+        return $more;
 
     }
 
