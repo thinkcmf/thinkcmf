@@ -157,6 +157,7 @@ class ThemeModel extends Model
                     }
                 }
 
+                unset($more['widgets'][$widgetName]['title']);
                 unset($more['widgets'][$widgetName]['display']);
             }
         }

@@ -579,6 +579,10 @@ class ThemeController extends AdminBaseController
                         $widget['display'] = 1;
                     }
 
+                    if (!empty($post['widget'][$mWidgetName]['title'])) {
+                        $widget['title'] = $post['widget'][$mWidgetName]['title'];
+                    }
+
                     $rules    = [
                         'name' => ['require', 'max' => 25],
                         'age'  => ['number', 'between' => '1,120'],
