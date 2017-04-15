@@ -735,6 +735,9 @@ class ThemeController extends AdminBaseController
         $multi = empty($dataSource['multi']) ? false : $dataSource['multi'];
 
         foreach ($items as $key => $item) {
+            if (empty($item['parent_id'])) {
+                $item['parent_id'] = 0;
+            }
             $item['checked'] = in_array($item['id'], $selectedIds) ? 'checked' : '';
             $items[$key]     = $item;
         }
