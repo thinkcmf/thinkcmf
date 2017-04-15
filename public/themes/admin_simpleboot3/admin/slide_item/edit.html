@@ -48,13 +48,13 @@
                     <tr>
                         <td>
                             <div style="text-align: center;">
-                                <input type="hidden" name="more[thumb]" id="thumb" value="{$more.thumb|default=''}">
+                                <input type="hidden" name="post[image]" id="thumb" value="{$result.image|default=''}">
                                 <a href="javascript:upload_one_image('图片上传','#thumb');">
-                                    <if condition="empty($result['picture'])">
+                                    <if condition="empty($result['image'])">
                                         <img src="__TMPL__/public/assets/images/default-thumbnail.png"
                                              id="thumb-preview" width="135" style="cursor: hand"/>
                                         <else/>
-                                        <img src="{:cmf_get_image_preview_url($result['picture'])}" id="thumb-preview"
+                                        <img src="{:cmf_get_image_preview_url($result['image'])}" id="thumb-preview"
                                              width="135" style="cursor: hand"/>
                                     </if>
                                 </a>
