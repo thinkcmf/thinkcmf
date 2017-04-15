@@ -97,7 +97,7 @@
                 "display": "1",
                 "vars": {
                     "last_news_category_id": {
-                        "title": "最新资讯分类ID",
+                        "title": "文章分类ID",
                         "value": "",
                         "type": "text",
                         "dataSource": {

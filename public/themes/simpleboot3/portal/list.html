@@ -16,13 +16,13 @@
             <div class="">
                 <php>
                     $where=[
-                        'post.create_time'=>['egt',0]
+                    'post.create_time'=>['egt',0]
                     ];
                 </php>
                 <portal:articles item="vo" field="*" where="$where" order="post.create_time DESC" page="10"
-                          relation="categories"
-                          categoryIds="$category.id"
-                          returnVarName="articles_data">
+                                 relation="categories"
+                                 categoryIds="$category.id"
+                                 returnVarName="articles_data">
                     <php>
                         $more=json_decode($vo['more'], true);
                     </php>
@@ -58,56 +58,63 @@
         </div>
         <div class="col-md-3">
 
-            <div class="tc-box first-box">
-                <div class="headtitle">
-                    <h2>热门文章</h2>
+            <widget name="hottest_articles">
+                <div class="tc-box">
+                    <div class="headtitle">
+                        <h2>{$widget.title}</h2>
+                    </div>
+                    <div class="ranking">
+                        <php>
+                            $hot_articles=[];
+                        </php>
+                        <ul class="list-unstyled">
+                            <portal:articles limit="5" order="post.post_hits DESC"
+                                             categoryIds="$widget.vars.hottest_articles_category_id">
+                                <php>$top=$key<3?"top3":"";</php>
+                                <li class="{$top}">
+                                    <i>{$key+1}</i>
+                                    <a title="{$vo.post_title}"
+                                       href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$vo.category_id))}">
+                                        {$vo.post_title}
+                                    </a>
+                                </li>
+                            </portal:articles>
+                        </ul>
+                    </div>
                 </div>
-                <div class="ranking">
-                    <php>
-                        $hot_articles=[];
-                    </php>
-                    <ul class="list-unstyled">
-                        <portal:articles limit="5" order="post.post_hits DESC">
-                            <php>$top=$key<3?"top3":"";</php>
-                            <li class="{$top}">
-                                <i>{$key+1}</i>
-                                <a title="{$vo.post_title}"
-                                   href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$vo.category_id))}">
-                                    {$vo.post_title}
-                                </a>
-                            </li>
-                        </portal:articles>
-                    </ul>
-                </div>
-            </div>
+            </widget>
 
-            <div class="tc-box">
-                <div class="headtitle">
-                    <h2>最新发布</h2>
+
+            <widget name="last_articles">
+                <div class="tc-box">
+                    <div class="headtitle">
+                        <h2>{$widget.title}</h2>
+                    </div>
+                    <div class="posts">
+                        <portal:articles limit="5" order="post.published_time DESC"
+                                         categoryIds="$widget.vars.last_articles_category_id">
+                            <php>$more=json_decode($vo['more'],true);</php>
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    <a class="img-wraper"
+                                       href="{:url('portal/article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">
+                                        <if condition="empty($more['thumbnail'])">
+                                            <img src="__TMPL__/public/assets/images/default_tupian4.png"
+                                                 class="img-responsive" alt="{$vo.post_title}"/>
+                                            <else/>
+                                            <img src="__TMPL__/public/assets/images/default_tupian4.png"
+                                                 class="img-responsive" alt="{$vo.post_title}"/>
+                                        </if>
+                                    </a>
+                                </dt>
+                                <dd>
+                                    <a href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$vo.category_id))}">{$vo.post_title}</a>
+                                </dd>
+                            </dl>
+                        </portal:articles>
+                    </div>
                 </div>
-                <div class="posts">
-                    <portal:articles limit="5" order="post.published_time DESC">
-                        <php>$more=json_decode($vo['more'],true);</php>
-                        <dl class="dl-horizontal">
-                            <dt>
-                                <a class="img-wraper"
-                                   href="{:url('portal/article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">
-                                    <if condition="empty($more['thumbnail'])">
-                                        <img src="__TMPL__/public/assets/images/default_tupian4.png"
-                                             class="img-responsive" alt="{$vo.post_title}"/>
-                                        <else/>
-                                        <img src="__TMPL__/public/assets/images/default_tupian4.png"
-                                             class="img-responsive" alt="{$vo.post_title}"/>
-                                    </if>
-                                </a>
-                            </dt>
-                            <dd>
-                                <a href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$vo.category_id))}">{$vo.post_title}</a>
-                            </dd>
-                        </dl>
-                    </portal:articles>
-                </div>
-            </div>
+            </widget>
 
         </div>
     </div>
