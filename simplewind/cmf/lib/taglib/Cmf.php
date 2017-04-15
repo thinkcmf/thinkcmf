@@ -134,8 +134,8 @@ parse;
     public function tagNavigationMenu($tag, $content)
     {
         //root,class
-        $root  = isset($tag['root']) ? $tag['root'] : 'li';
-        $class = isset($tag['class']) ? $tag['class'] : '';
+        $root  = !empty($tag['root']) ? $tag['root'] : 'li';
+        $class = !empty($tag['class']) ? $tag['class'] : '';
 
         $parse = <<<parse
 <if condition="empty(\$menu['children'])">
@@ -225,8 +225,8 @@ parse;
     public function tagSubNavigationMenu($tag, $content)
     {
         //root,class
-        $root  = isset($tag['root']) ? $tag['root'] : 'li';
-        $class = isset($tag['class']) ? $tag['class'] : '';
+        $root  = !empty($tag['root']) ? $tag['root'] : 'li';
+        $class = !empty($tag['class']) ? $tag['class'] : '';
 
         $parse = <<<parse
 <if condition="empty(\$menu['children'])">
