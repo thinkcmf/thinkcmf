@@ -23,10 +23,6 @@ class PageController extends HomeBaseController
             abort(404, ' 页面不存在!');
         }
 
-        $more = json_decode($page['more'], true);
-
-        $page['more'] = $more;
-
         $this->assign('page', $page);
 
         $tplName = empty($more['template']) ? 'page' : $more['template'];

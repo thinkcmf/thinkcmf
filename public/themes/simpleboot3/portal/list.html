@@ -23,10 +23,6 @@
                                  relation="categories"
                                  categoryIds="$category.id"
                                  returnVarName="articles_data">
-                    <php>
-                        $more=json_decode($vo['more'], true);
-                    </php>
-
                     <div class="list-boxes">
                         <h2><a href="{:url('article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}">{$vo.post_title}</a>
                         </h2>
@@ -58,28 +54,6 @@
         </div>
         <div class="col-md-3">
 
-<<<<<<< HEAD
-            <div class="tc-box first-box">
-                <div class="headtitle">
-                    <h2>热门文章</h2>
-                </div>
-                <div class="ranking">
-                    <php>
-                       $hot_articles=[];
-                    </php>
-                    <ul class="list-unstyled">
-                        <portal:articles limit="5" order="post.post_hits DESC">
-                            <php>$top=$key<3?"top3":"";</php>
-                            <li class="{$top}">
-                                <i>{$key+1}</i>
-                                <a title="{$vo.post_title}"
-                                   href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$vo.category_id))}">
-                                    {$vo.post_title}
-                                </a>
-                            </li>
-                        </portal:articles>
-                    </ul>
-=======
             <widget name="hottest_articles">
                 <div class="tc-box">
                     <div class="headtitle">
@@ -103,7 +77,6 @@
                             </portal:articles>
                         </ul>
                     </div>
->>>>>>> 753f0fbc2cdde607bf80d453769b16eaec67f1f8
                 </div>
             </widget>
 
@@ -116,12 +89,11 @@
                     <div class="posts">
                         <portal:articles limit="5" order="post.published_time DESC"
                                          categoryIds="$widget.vars.last_articles_category_id">
-                            <php>$more=json_decode($vo['more'],true);</php>
                             <dl class="dl-horizontal">
                                 <dt>
                                     <a class="img-wraper"
                                        href="{:url('portal/article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">
-                                        <if condition="empty($more['thumbnail'])">
+                                        <if condition="empty($vo.more.thumbnail)">
                                             <img src="__TMPL__/public/assets/images/default_tupian4.png"
                                                  class="img-responsive" alt="{$vo.post_title}"/>
                                             <else/>

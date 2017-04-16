@@ -72,12 +72,11 @@
                     <div class="posts">
                         <portal:articles limit="5" order="post.published_time DESC"
                                          categoryIds="$widget.vars.last_articles_category_id">
-                            <php>$more=json_decode($vo['more'],true);</php>
                             <dl class="dl-horizontal">
                                 <dt>
                                     <a class="img-wraper"
                                        href="{:url('portal/article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">
-                                        <if condition="empty($more['thumbnail'])">
+                                        <if condition="empty($vo.more.thumbnail)">
                                             <img src="__TMPL__/public/assets/images/default_tupian4.png"
                                                  class="img-responsive" alt="{$vo.post_title}"/>
                                             <else/>

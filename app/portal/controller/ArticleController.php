@@ -36,10 +36,6 @@ class ArticleController extends HomeBaseController
             abort(404, '文章不存在!');
         }
 
-        $more = json_decode($article['more'], true);
-
-        $article['more'] = $more;
-
         $this->assign('article', $article);
         $this->assign('category', $category);
 
