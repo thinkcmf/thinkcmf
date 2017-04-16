@@ -105,13 +105,11 @@ class AdminPageController extends AdminBaseController
 
         $portalPostModel = new PortalPostModel();
         $post            = $portalPostModel->where('id', $id)->find();
-        $more            = json_decode($post['more'], true);
 
         $themeModel     = new ThemeModel();
         $pageThemeFiles = $themeModel->getActionThemeFiles('portal/Page/index');
 
         $this->assign('page_theme_files', $pageThemeFiles);
-        $this->assign('more', $more);
         $this->assign('post', $post);
 
         return $this->fetch();
@@ -135,8 +133,6 @@ class AdminPageController extends AdminBaseController
         $data = $this->request->param();
 
         $portalPostModel = new PortalPostModel();
-
-        $data['post']['more'] = json_encode($data['more']);
 
         $portalPostModel->adminEditPage($data['post']);
 

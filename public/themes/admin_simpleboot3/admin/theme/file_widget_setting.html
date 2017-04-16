@@ -1,5 +1,20 @@
 <include file="theme/functions"/>
 <include file="public@header"/>
+<style>
+    .form-control-widget-title {
+        border: none;
+        padding: 0;
+        margin: 0;
+        font-size: inherit;
+        line-height: inherit;
+        background: transparent;
+    }
+
+    .form-control-widget-title:focus {
+        outline: none;
+        background: #fff;
+    }
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -21,10 +36,12 @@
                 <foreach name="file['more']['widgets']" item="widget" key="widgetName" index="index">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <a role="button" data-toggle="collapse" data-parent="#accordion"
-                               href="#collapse-{$widgetName}">
-                                {$widget.title}
-                            </a>
+                            <!--<a role="button" data-toggle="collapse" data-parent="#accordion"-->
+                            <!--href="#collapse-{$widgetName}">-->
+                            <!--{$widget.title}-->
+                            <!--</a>-->
+                            <input class="form-control-widget-title" type="text" value="{$widget.title}"
+                                   name="widget[{$widgetName}][title]">
                             <label class="checkbox-inline pull-right">
                                 <php>$display_checked=empty($widget['display'])?'':'checked';</php>
                                 <input type="checkbox" name="widget[{$widgetName}][display]" value="1"
@@ -32,7 +49,7 @@
                                 显示
                             </label>
                         </div>
-                        <div id="collapse-{$widgetName}" class="panel-collapse collapse {$index===1?'in':''}" role="tabpanel">
+                        <div id="collapse-{$widgetName}" class="panel-collapse collapse in" role="tabpanel">
                             <div class="panel-body">
                                 {:_parse_vars($widget.vars,'widget_vars['.$widgetName.']',1,$widgetName)}
                             </div>

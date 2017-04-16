@@ -82,27 +82,7 @@
             </tr>
             </thead>
             <tbody>
-            <foreach name="items" item="vo">
-                <tr class="data-item-tr">
-                    <td>
-                        <php>$checked = in_array($vo['id'],$selected_ids)?'checked':'';</php>
-                        <if condition="$multi">
-                            <input type="checkbox" class="js-check js-select-box" data-yid="js-check-y"
-                                   data-xid="js-check-x"
-                                   name="ids[]"
-                                   value="{$vo.id}" data-name="{$vo.name}" {$checked}>
-                            <else/>
-                            <input type="radio" name="ids[]" class="js-select-box"
-                                   value="{$vo.id}" data-name="{$vo.name}" {$checked}>
-                        </if>
-                    </td>
-                    <td>{$vo.id}</td>
-                    <td>
-                        {$vo.name}
-                    </td>
-
-                </tr>
-            </foreach>
+            {$items_tree}
             </tbody>
         </table>
     </form>

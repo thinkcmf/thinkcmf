@@ -12,6 +12,7 @@ use cmf\controller\AdminBaseController;
 use app\admin\model\ThemeModel;
 use think\Db;
 use think\Validate;
+use tree\Tree;
 
 class ThemeController extends AdminBaseController
 {
@@ -579,6 +580,10 @@ class ThemeController extends AdminBaseController
                         $widget['display'] = 1;
                     }
 
+                    if (!empty($post['widget'][$mWidgetName]['title'])) {
+                        $widget['title'] = $post['widget'][$mWidgetName]['title'];
+                    }
+
                     $rules    = [
                         'name' => ['require', 'max' => 25],
                         'age'  => ['number', 'between' => '1,120'],
@@ -723,8 +728,48 @@ class ThemeController extends AdminBaseController
 
         $items = action($dataSource['api'], $vars, 'api');
 
-        $this->assign('multi', empty($dataSource['multi']) ? false : $dataSource['multi']);
-        $this->assign('items', $items);
+        if ($items instanceof \think\Collection) {
+            $items = $items->toArray();
+        }
+
+        $multi = empty($dataSource['multi']) ? false : $dataSource['multi'];
+
+        foreach ($items as $key => $item) {
+            if (empty($item['parent_id'])) {
+                $item['parent_id'] = 0;
+            }
+            $item['checked'] = in_array($item['id'], $selectedIds) ? 'checked' : '';
+            $items[$key]     = $item;
+        }
+
+        $tree = new Tree();
+        $tree->init($items);
+
+        $tpl = "<tr class='data-item-tr'>
+					<td>
+                        <input type='radio' class='js-select-box' 
+                           name='ids[]'
+                           value='\$id' data-name='\$name' \$checked>
+					</td>
+					<td>\$id</td>
+					<td>\$spacer \$name</td>
+				</tr>";
+        if ($multi) {
+            $tpl = "<tr class='data-item-tr'>
+					<td>
+					    <input type='checkbox' class='js-check js-select-box' data-yid='js-check-y'
+                                   data-xid='js-check-x'
+                                   name='ids[]'
+                                   value='\$id' data-name='\$name' \$checked>
+					</td>
+					<td>\$id</td>
+					<td>\$spacer \$name</td>
+				</tr>";
+        }
+
+        $itemsTree = $tree->getTree(0, $tpl);
+        $this->assign('multi', $multi);
+        $this->assign('items_tree', $itemsTree);
         $this->assign('selected_ids', $selectedIds);
         $this->assign('filters', $filters);
         return $this->fetch();

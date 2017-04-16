@@ -32,9 +32,6 @@ class SlideItemController extends AdminBaseController
         $id      = $this->request->param('slide_id');
         $slideId = !empty($id) ? $id : 1;
         $result  = Db::name('slideItem')->where(['slide_id' => $slideId])->select()->toArray();
-        foreach ($result as $key => $value) {
-            $result[$key]['picture'] = preg_replace('/\\\\/', '/', $value['picture']);
-        }
 
         $this->assign('slide_id', $id);
         $this->assign('result', $result);
@@ -119,10 +116,10 @@ class SlideItemController extends AdminBaseController
      */
     public function editPost()
     {
-        $data = $this->request->param();
-        if ($data['more']['thumb']) {
-            $data['post']['picture'] = $data['more']['thumb'];
-        }
+        $data                  = $this->request->param();
+
+        $data['post']['image'] = cmf_asset_relative_url($data['post']['image']);
+
         Db::name('slideItem')->update($data['post']);
 
         $this->success("保存成功！", url("SlideItem/index", ['slide_id' => $data['post']['slide_id']]));

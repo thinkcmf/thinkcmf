@@ -71,6 +71,7 @@ class PostService
         $articles        = $portalPostModel->alias('a')->field('a.*,u.user_login,u.user_nickname,u.user_email')
             ->join($join)
             ->where($where)
+            ->order('update_time', 'DESC')
             ->paginate(10);
 
         return $articles;

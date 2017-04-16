@@ -1,4 +1,5 @@
 <?php
+
 namespace app\admin\model;
 
 use think\Model;
@@ -113,6 +114,7 @@ class ThemeModel extends Model
             } else { // 更新文件
                 $moreInDb = json_decode($findFile['more'], true);
                 $more     = array_replace_recursive($configMore, $moreInDb);
+                $more     = array_replace_recursive($more, $this->unsetThemeMoreValue($configMore));
                 Db::name('theme_file')->where(['theme' => $theme, 'file' => $file])->update(
                     [
                         'theme'       => $theme,
@@ -127,6 +129,41 @@ class ThemeModel extends Model
                     ]);
             }
         }
+    }
+
+    private function unsetThemeMoreValue($more)
+    {
+
+        if (!empty($more['vars'])) {
+            foreach ($more['vars'] as $varName => $var) {
+
+                unset($var['value']);
+
+                $more['vars'][$varName] = $var;
+
+            }
+        }
+
+        if (!empty($more['widgets'])) {
+            foreach ($more['widgets'] as $widgetName => $widget) {
+
+                if (!empty($widget['vars'])) {
+                    foreach ($widget['vars'] as $widgetVarName => $widgetVar) {
+
+                        unset($widgetVar['value']);
+
+                        $more['widgets'][$widgetName]['vars'][$widgetVarName] = $widgetVar;
+
+                    }
+                }
+
+                unset($more['widgets'][$widgetName]['title']);
+                unset($more['widgets'][$widgetName]['display']);
+            }
+        }
+
+        return $more;
+
     }
 
 

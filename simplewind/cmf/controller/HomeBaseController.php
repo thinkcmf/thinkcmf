@@ -9,6 +9,7 @@
 namespace cmf\controller;
 
 use think\Db;
+use app\admin\model\ThemeModel;
 
 class HomeBaseController extends BaseController
 {
@@ -125,6 +126,13 @@ class HomeBaseController extends BaseController
 
         //TODO 增加缓存
         $theme     = empty($theme) ? cmf_get_current_theme() : $theme;
+
+        // 调试模式下自动更新模板
+        if(APP_DEBUG){
+            $themeModel=new ThemeModel();
+            $themeModel->updateTheme($theme);
+        }
+
         $themePath = config('cmf_theme_path');
         $file      = str_replace(['.html', '.php', $themePath . $theme . "/"], '', $file);
 
@@ -157,7 +165,6 @@ class HomeBaseController extends BaseController
                 }
             }
         }
-
 
         return ['vars' => $vars, 'widgets' => $widgets];
     }

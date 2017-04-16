@@ -18,18 +18,16 @@
 		<div class="form-group">
 			<label class="col-sm-2 control-label">状态:</label>
 			<div class="col-md-6 col-sm-10">
-				<select name="status">
+				<select name="status" class="form-control">
 					<foreach name="arrStatus" key="k" item="vo">
 						<option value="{$k}" >{$vo}</option>
 					</foreach>
 				</select>
 			</div>
 		</div>
-
-
 		<div class="col-sm-offset-2 col-sm-10">
-			<button type="submit" class="btn btn-primary   js-ajax-submit">{:lang("SAVE")}</button>
-			<a class="btn" href="__URL__">返回</a>
+			<button type="submit" class="btn btn-primary js-ajax-submit">{:lang("SAVE")}</button>
+			<a class="btn btn-default" href="__URL__">返回</a>
 		</div>
 	</form>
 
