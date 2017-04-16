@@ -166,8 +166,6 @@ class AdminArticleController extends AdminBaseController
             }
         }
 
-        $data['post']['more'] = json_encode($data['more']);
-
         $portalPostModel->adminEditArticle($data['post'], $data['post']['categories']);
 
         $this->success('保存成功!');

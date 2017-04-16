@@ -44,24 +44,23 @@
                         <th>标题<span class="form-required">*</span></th>
                         <td>
                             <input type="hidden" name="post[id]" value="{$post.id}">
-                            <input class="form-control" type="text" style="width: 400px;" name="post[post_title]"
+                            <input class="form-control" type="text" name="post[post_title]"
                                    required value="{$post.post_title}" placeholder="请输入标题"/>
                         </td>
                     </tr>
                     <tr>
                         <th>关键词</th>
                         <td>
-                            <input class="form-control" type="text" name="post[post_keywords]" style="width: 400px"
+                            <input class="form-control" type="text" name="post[post_keywords]"
                                    value="{$post['post_keywords']}" placeholder="请输入关键字">
                             <p class="help-block">多关键词之间用空格或者英文逗号隔开</p>
                         </td>
                     </tr>
-
                     <tr>
                         <th>文章来源</th>
                         <td>
                             <input class="form-control" type="text" name="post[post_source]"
-                                   value="{$post['post_source']}" style="width: 400px" placeholder="请输入文章来源">
+                                   value="{$post['post_source']}" placeholder="请输入文章来源">
                         </td>
                     </tr>
                     <tr>
@@ -74,7 +73,19 @@
                     <tr>
                         <th>内容</th>
                         <td>
-                            <script type="text/plain" id="content" name="post[post_content]">{$post.post_content}</script>
+                            <script type="text/plain" id="content" name="post[post_content]">{$post.post_content}
+
+
+
+
+
+
+
+
+
+
+
+                            </script>
                         </td>
                     </tr>
                     <tr>
@@ -113,20 +124,20 @@
                     <tr>
                         <td>
                             <div style="text-align: center;">
-                                <input type="hidden" name="more[thumbnail]" id="thumb" value="{$post.more.thumbnail|default=''}">
-                                <a href="javascript:upload_one_image('图片上传','#thumb');">
+                                <input type="hidden" name="post[more][thumbnail]" id="thumbnail"
+                                       value="{$post.more.thumbnail|default=''}">
+                                <a href="javascript:upload_one_image('图片上传','#thumbnail');">
                                     <if condition="empty($post.more.thumbnail)">
                                         <img src="__TMPL__/public/assets/images/default-thumbnail.png"
-                                             id="thumb-preview"
-                                             width="135" style="cursor: hand"/>
+                                             id="thumbnail-preview"
+                                             width="135" style="cursor: pointer"/>
                                         <else/>
-                                        <img src="{:cmf_get_image_preview_url($post.more.thumbnail)}" id="thumb-preview"
-                                             width="135" style="cursor: hand"/>
+                                        <img src="{:cmf_get_image_preview_url($post.more.thumbnail)}"
+                                             id="thumbnail-preview"
+                                             width="135" style="cursor: pointer"/>
                                     </if>
                                 </a>
-                                <input type="button" class="btn btn-sm"
-                                       onclick="$('#thumb-preview').attr('src','__TMPL__/public/assets/images/default-thumbnail.png');$('#thumb').val('');return false;"
-                                       value="取消图片">
+                                <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
                             </div>
                         </td>
                     </tr>
@@ -161,7 +172,9 @@
                     <tr>
                         <td>
                             <div class="checkbox">
-                                <label><input type="checkbox" name="post[post_status]" value="1" {$status_yes}>发布</label>
+                                <label>
+                                    <input type="checkbox" name="post[post_status]" value="1" {$status_yes}>发布
+                                </label>
                             </div>
                         </td>
                     </tr>
@@ -175,7 +188,9 @@
                     <tr>
                         <td>
                             <div class="checkbox">
-                                <label><input type="checkbox" name="post[recommended]" value="1" {$recommended_yes}>推荐</label>
+                                <label>
+                                    <input type="checkbox" name="post[recommended]" value="1" {$recommended_yes}>推荐
+                                </label>
                             </div>
                         </td>
                     </tr>
@@ -184,7 +199,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <select class="form-control" name="more[template]" id="more-template-select">
+                            <select class="form-control" name="post[more][template]" id="more-template-select">
                                 <option value="">请选择模板</option>
                                 <foreach name="article_theme_files" item="vo">
                                     <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
@@ -220,6 +235,11 @@
             editorcontent.sync();
         } catch (err) {
         }
+
+        $('.btn-cancel-thumbnail').click(function () {
+            $('#thumbnail-preview').attr('src', '__TMPL__Public/assets/images/default-thumbnail.png');
+            $('#thumbnail').val('');
+        });
 
         $('#more-template-select').val("{$post.more.template|default=''}");
     });
