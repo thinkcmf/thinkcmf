@@ -6,7 +6,7 @@
     "more": {
         "vars": {
             "hot_articles_category_id": {
-                "title": "热门文章分类ID",
+                "title": "热门文章分类1ID",
                 "name": "hot_articles_category_id",
                 "value": "1",
                 "type": "text",

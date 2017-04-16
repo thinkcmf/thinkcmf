@@ -1,87 +1,61 @@
 <!DOCTYPE html>
 	<html>
 	<head>
-		<title>搜索 {$site_name} </title>
+		<title>搜索 {$theme_vars.varName1|default=''} </title>
 		<meta name="keywords" content="" />
 		<meta name="description" content="">
-		<tc_include file="Public:head" />
+		<include file="public@head"/>
 	</head>
 <body class="">
-<tc_include file="Public:nav" />
+<include file="public@nav"/>
 <div class="container tc-main">
 	<div class="row">
 		<div class="col-md-9">
 			<div class="main-title">
-						<php>
-							$result=sp_sql_posts_paged_bykeyword($keyword,"",20);
-						</php>
-						<h3>'{$keyword}' 搜索结果 </h3>
-						<p>{$result['count']}条结果</p>
-					</div>
-					
-					<volist name="result['posts']" id="vo">
-					<php>
-						$smeta=json_decode($vo['smeta'], true);
-					</php>
-					
-					<div class="list-boxes">
-						<h2><a href="{:leuu('article/index',array('id'=>$vo['object_id'],'cid'=>$vo['term_id']))}">{$vo.post_title}</a></h2>
-						<p>{$vo.post_excerpt}</p>
-						<div>
-							<div class="pull-left">
-								<div class="list-actions">
+				<h3>'{$keyword}' 搜索结果 </h3>
+			</div>
+			<php>
+				$where=[
+				'post.create_time'=>['egt',0]
+				];
+			</php>
+			<portal:articles item="vo" field="*" where="$where" order="post.create_time DESC" page="10">
+				<php>
+					$more=json_decode($vo['more'], true);
+				</php>
+
+				<div class="list-boxes">
+					<h2><a href="{:url('article/index',array('id'=>$vo['id']))}">{$vo.post_title}</a>
+					</h2>
+					<p>{$vo.post_excerpt}</p>
+					<div>
+						<div class="pull-left">
+							<div class="list-actions">
 								<a href="javascript:;"><i class="fa fa-eye"></i><span>{$vo.post_hits}</span></a>
-								<a href="{:U('article/do_like',array('id'=>$vo['object_id']))}" class="js-count-btn"><i class="fa fa-thumbs-up"></i><span class="count">{$vo.post_like}</span></a>
-								<a href="{:U('user/favorite/add',array('id'=>$vo['object_id']))}" class="js-favorite-btn" data-title="{$vo.post_title}" data-url="{:U('portal/article/index',array('id'=>$vo['object_id'],'cid'=>$vo['term_id']))}" data-key="{:sp_get_favorite_key('posts',$vo['object_id'])}">
+								<a href="{:url('article/do_like',array('id'=>$vo['id']))}"
+								   class="js-count-btn"><i class="fa fa-thumbs-up"></i><span class="count">{$vo.post_like}</span></a>
+
 									<i class="fa fa-star-o"></i>
 								</a>
-								</div>
 							</div>
-							<a class="btn btn-warning pull-right" href="{:leuu('article/index',array('id'=>$vo['object_id'],'cid'=>$vo['term_id']))}">查看更多</a>
 						</div>
+						<a class="btn btn-warning btn-sm pull-right"
+						   href="{:url('article/index',array('id'=>$vo['id']))}">查看更多</a>
 					</div>
-					</volist>
+				</div>
+			</portal:articles>
 				
-					<div class="pagination">
-							<ul>
-								{$result['page']}
-							</ul>
-					</div>
+			<div class="pagination">
 
-				</div>
-		<div class="col-md-3">
-			<div class="tc-box first-box">
-				<div class="headtitle">
-	          		<h2>分享</h2>
-	          	</div>
-	          	<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a></div>
-<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"32"},"share":{},"image":{"viewList":["weixin","tsina","qzone","tqq","renren"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","tsina","qzone","tqq","renren"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
-        	</div>
-        	
-        	<div class="tc-box">
-	        	<div class="headtitle">
-	        		<h2>热门文章</h2>
-	        	</div>
-	        	<div class="ranking">
-	        		<php>
-						$hot_articles=sp_sql_posts("cid:$portal_index_lastnews;field:post_title,post_excerpt,object_id,term_id,smeta;order:post_hits desc;limit:5;"); 
-					</php>
-		        	<ul class="unstyled">
-		        		<foreach name="hot_articles" item="vo">
-		        			<php>$top=$key<3?"top3":"";</php>
-							<li class="{$top}"><i>{$key+1}</i><a title="{$vo.post_title}" href="{:leuu('article/index',array('id'=>$vo['object_id'],'cid'=>$vo['term_id']))}">{$vo.post_title}</a></li>
-						</foreach>
-					</ul>
-				</div>
 			</div>
-        	
+
 		</div>
 		
 	</div>
-              
-<tc_include file="Public:footer"/>
+
+	<include file="public@footer"/>
 </div>
 
-<tc_include file="Public:scripts"/>
+<include file="public@scripts"/>
 </body>
 </html>
