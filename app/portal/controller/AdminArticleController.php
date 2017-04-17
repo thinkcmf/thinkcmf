@@ -89,21 +89,27 @@ class AdminArticleController extends AdminBaseController
      */
     public function addPost()
     {
-
-        $data = $this->request->param();
-
-        $portalPostModel = new PortalPostModel();
-
-        if (!empty($data['photos_alt']) && !empty($data['photos_url'])) {
-            foreach ($data['photos_url'] as $key => $url) {
-                $photourl                = cmf_asset_relative_url($url);
-                $data['more']['photo'][] = ["url" => $photourl, "alt" => $data['photos_alt'][$key]];
+        if ($this->request->isPost()) {
+            $data   = $this->request->param();
+            $post   = $data['post'];
+            $result = $this->validate($post, 'AdminArticle');
+            if ($result !== true) {
+                $this->error($result);
             }
+
+            $portalPostModel = new PortalPostModel();
+
+            if (!empty($data['photos_alt']) && !empty($data['photos_url'])) {
+                foreach ($data['photos_url'] as $key => $url) {
+                    $photourl                = cmf_asset_relative_url($url);
+                    $data['more']['photo'][] = ["url" => $photourl, "alt" => $data['photos_alt'][$key]];
+                }
+            }
+
+            $portalPostModel->adminAddArticle($data['post'], $data['post']['categories']);
+
+            $this->success('添加成功!', url('AdminArticle/edit', ['id' => $portalPostModel->id]));
         }
-
-        $portalPostModel->adminAddArticle($data['post'], $data['post']['categories']);
-
-        $this->success('添加成功!');
 
     }
 
@@ -155,21 +161,28 @@ class AdminArticleController extends AdminBaseController
     public function editPost()
     {
 
-        $data = $this->request->param();
-
-        $portalPostModel = new PortalPostModel();
-
-        if (!empty($data['photos_alt']) && !empty($data['photos_url'])) {
-            foreach ($data['photos_url'] as $key => $url) {
-                $photourl                = cmf_asset_relative_url($url);
-                $data['more']['photo'][] = ["url" => $photourl, "alt" => $data['photos_alt'][$key]];
+        if ($this->request->isPost()) {
+            $data   = $this->request->param();
+            $post   = $data['post'];
+            $result = $this->validate($post, 'AdminArticle');
+            if ($result !== true) {
+                $this->error($result);
             }
+
+            $portalPostModel = new PortalPostModel();
+
+            if (!empty($data['photos_alt']) && !empty($data['photos_url'])) {
+                foreach ($data['photos_url'] as $key => $url) {
+                    $photourl                = cmf_asset_relative_url($url);
+                    $data['more']['photo'][] = ["url" => $photourl, "alt" => $data['photos_alt'][$key]];
+                }
+            }
+
+            $portalPostModel->adminEditArticle($data['post'], $data['post']['categories']);
+
+            $this->success('保存成功!');
+
         }
-
-        $portalPostModel->adminEditArticle($data['post'], $data['post']['categories']);
-
-        $this->success('保存成功!');
-
     }
 
     /**
