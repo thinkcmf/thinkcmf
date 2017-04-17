@@ -5,13 +5,14 @@
     }
 </style>
 <script type="text/html" id="photos-item-wrapper">
-    <li id="savedimage{id}">
+    <li id="saved-image{id}">
         <input id="photo-{id}" type="hidden" name="photos_url[]" value="{filepath}">
-        <input id="photo-{id}-name" type="text" name="photos_alt[]" value="{name}" style="width: 160px;" title="图片名称">
+        <input class="form-control" id="photo-{id}-name" type="text" name="photos_alt[]" value="{name}"
+               style="width: 160px;" title="图片名称">
         <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
              onclick="parent.image_preview_dialog(this.src);">
         <a href="javascript:upload_one_image('图片上传','#photo-{id}');">替换</a>
-        <a href="javascript:$('#savedimage{id}').remove();">移除</a>
+        <a href="javascript:$('#saved-image{id}').remove();">移除</a>
     </li>
 </script>
 </head>
@@ -76,36 +77,28 @@
                             <script type="text/plain" id="content" name="post[post_content]">{$post.post_content}
 
 
-
-
-
-
-
-
-
-
-
                             </script>
                         </td>
                     </tr>
                     <tr>
                         <th>相册图集</th>
                         <td>
-                            <ul id="photos" class="pic-list unstyled">
-                                <notempty name="more['photo']">
-                                    <foreach name="more['photo']" item="vo">
+                            <ul id="photos" class="pic-list list-unstyled form-inline">
+                                <notempty name="post.more.photos">
+                                    <foreach name="post.more.photos" item="vo">
                                         <php>$img_url=cmf_get_image_preview_url($vo['url']);</php>
-                                        <li id="savedimage{$key}">
+                                        <li id="saved-image{$key}">
                                             <input id="photo-{$key}" type="hidden" name="photos_url[]"
                                                    value="{$img_url}">
-                                            <input id="photo-{$key}-name" type="text" name="photos_alt[]"
+                                            <input class="form-control" id="photo-{$key}-name" type="text"
+                                                   name="photos_alt[]"
                                                    value="{$vo.alt}" style="width: 200px;" title="图片名称">
                                             <img id="photo-{$key}-preview"
                                                  src="{:cmf_get_image_preview_url($vo['url'])}"
                                                  style="height:36px;width: 36px;"
                                                  onclick="parent.image_preview_dialog(this.src);">
                                             <a href="javascript:upload_one_image('图片上传','#photo-{$key}');">替换</a>
-                                            <a href="javascript:$('#savedimage{$key}').remove();">移除</a>
+                                            <a href="javascript:$('#saved-image{$key}').remove();">移除</a>
                                         </li>
                                     </foreach>
                                 </notempty>

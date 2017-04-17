@@ -101,8 +101,8 @@ class AdminArticleController extends AdminBaseController
 
             if (!empty($data['photos_alt']) && !empty($data['photos_url'])) {
                 foreach ($data['photos_url'] as $key => $url) {
-                    $photourl                = cmf_asset_relative_url($url);
-                    $data['more']['photo'][] = ["url" => $photourl, "alt" => $data['photos_alt'][$key]];
+                    $photoUrl                 = cmf_asset_relative_url($url);
+                    $data['post']['more']['photos'][] = ["url" => $photoUrl, "alt" => $data['photos_alt'][$key]];
                 }
             }
 
@@ -173,8 +173,8 @@ class AdminArticleController extends AdminBaseController
 
             if (!empty($data['photos_alt']) && !empty($data['photos_url'])) {
                 foreach ($data['photos_url'] as $key => $url) {
-                    $photourl                = cmf_asset_relative_url($url);
-                    $data['more']['photo'][] = ["url" => $photourl, "alt" => $data['photos_alt'][$key]];
+                    $photoUrl                 = cmf_asset_relative_url($url);
+                    $data['post']['more']['photos'][] = ["url" => $photoUrl, "alt" => $data['photos_alt'][$key]];
                 }
             }
 
