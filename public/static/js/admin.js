@@ -188,7 +188,7 @@
                                         //返回带跳转地址
                                         window.location.href = data.url;
                                     } else {
-                                        if (data.state === '1') {
+                                        if (data.code == 1) {
                                             //刷新当前页
                                             reloadPage(window);
                                         }
