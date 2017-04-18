@@ -41,7 +41,7 @@ body.body-white {
 .tc-box {
     background: #fff;
     padding: 5px 10px;
-    margin: 10px 0;
+    margin: 0 0 10px 0;
 }
 
 .body-white .tc-box{

@@ -38,11 +38,11 @@
                 -->
                 <li class="dropdown user login">
                     <a class="dropdown-toggle user" data-toggle="dropdown" href="#">
-                            <if condition="empty($avatar)">
-                                <img src="__TMPL__/Public/assets/images/headicon.png" class="headicon">
-                                <else />
-                                <img src="__ROOT__/upload/{$avatar}" class="headicon" width="30"/>
-                            </if>
+                        <if condition="empty($avatar)">
+                            <img src="__TMPL__/Public/assets/images/headicon.png" class="headicon">
+                            <else/>
+                            <img src="__ROOT__/upload/{$avatar}" class="headicon" width="30"/>
+                        </if>
                         <span class="user-nickname"></span><b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu pull-right">
@@ -63,12 +63,13 @@
                     </ul>
                 </li>
             </ul>
-            <div class="pull-right">
-                <form method="post" class="form-inline" action="{:url('portal/search/index')}" style="margin:18px 0;">
-                    <input type="text" class="" placeholder="Search" name="keyword" value=""/>
-                    <input type="submit" class="btn btn-info" value="Go" style="margin:0"/>
-                </form>
-            </div>
+            <form class="navbar-form navbar-right" method="post" action="{:url('portal/search/index')}">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="keyword" placeholder="Search"
+                           value="{:input('param.keyword','')}">
+                </div>
+                <input type="submit" class="btn btn-primary" value="Go" style="margin:0"/>
+            </form>
         </div>
     </div>
 </nav>
