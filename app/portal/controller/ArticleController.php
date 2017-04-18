@@ -11,6 +11,7 @@ namespace app\portal\controller;
 use cmf\controller\HomeBaseController;
 use app\portal\model\PortalCategoryModel;
 use app\portal\service\PostService;
+use app\portal\model\PortalPostModel;
 use think\Db;
 
 class ArticleController extends HomeBaseController
@@ -25,25 +26,32 @@ class ArticleController extends HomeBaseController
         $categoryId = $this->request->param('cid', 0, 'intval');
         $article    = $postService->publishedArticle($articleId, $categoryId);
 
-        if (empty($article)) {
+        if (empty($articleId)) {
             abort(404, '文章不存在!');
         }
 
         //TODO 上一篇,下一篇
 
-        $category = $portalCategoryModel->where('id', $categoryId)->where('status', 1)->find();
+        $tplName = 'article';
 
-        if (empty($category)) {
-            abort(404, '文章不存在!');
+        if (!empty($categoryId)) {
+
+            $category = $portalCategoryModel->where('id', $categoryId)->where('status', 1)->find();
+
+            if (empty($category)) {
+                abort(404, '文章不存在!');
+            }
+
+            $this->assign('category', $category);
+
+            $tplName = empty($category["one_tpl"]) ? $tplName : $category["one_tpl"];
         }
 
         Db::name('portal_post')->where(['id' => $articleId])->setInc('post_hits');
 
         $this->assign('article', $article);
-        $this->assign('category', $category);
 
-        $tplName = empty($category["one_tpl"]) ? 'article' : $category["one_tpl"];
-        $tplName = empty($more['template']) ? $tplName : $more['template'];
+        $tplName = empty($article['more']['template']) ? $tplName : $article['more']['template'];
 
         return $this->fetch("/$tplName");
     }

@@ -81,25 +81,40 @@ class PostService
 
     }
 
-    public function publishedArticle($postId, $categoryId)
+    public function publishedArticle($postId, $categoryId = 0)
     {
-
-        $where = [
-            'post.post_type'       => 1,
-            'post.published_time'  => [['< time', time()], ['> time', 0]],
-            'post.post_status'     => ['eq', 1],
-            'relation.category_id' => $categoryId,
-            'relation.post_id'     => $postId
-        ];
-
-        $join            = [
-            ['__PORTAL_CATEGORY_POST__ relation', 'post.id = relation.post_id']
-        ];
         $portalPostModel = new PortalPostModel();
-        $article         = $portalPostModel->alias('post')->field('post.*')
-            ->join($join)
-            ->where($where)
-            ->find();
+
+        if (empty($categoryId)) {
+
+            $where = [
+                'post.post_type'      => 1,
+                'post.published_time' => [['< time', time()], ['> time', 0]],
+                'post.post_status'    => ['eq', 1],
+                'post.id'             => $postId
+            ];
+
+            $article = $portalPostModel->alias('post')->field('post.*')
+                ->where($where)
+                ->find();
+        } else {
+            $where = [
+                'post.post_type'       => 1,
+                'post.published_time'  => [['< time', time()], ['> time', 0]],
+                'post.post_status'     => ['eq', 1],
+                'relation.category_id' => $categoryId,
+                'relation.post_id'     => $postId
+            ];
+
+            $join    = [
+                ['__PORTAL_CATEGORY_POST__ relation', 'post.id = relation.post_id']
+            ];
+            $article = $portalPostModel->alias('post')->field('post.*')
+                ->join($join)
+                ->where($where)
+                ->find();
+        }
+
 
         return $article;
     }
