@@ -27,9 +27,9 @@
     </form>
     <form class="js-ajax-form" action="" method="post">
         <div class="table-actions">
-            <notempty name="term">
+            <notempty name="category">
                 <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                        data-action="{:url('AdminArticle/listorders')}">{:lang('SORT')}
+                        data-action="{:url('AdminArticle/listOrder')}">{:lang('SORT')}
                 </button>
             </notempty>
             <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
@@ -51,7 +51,7 @@
                     data-action="{:url('AdminArticle/recommend',array('no'=>1))}" data-subcheck="true">取消推荐
             </button>
             <!--
-            <notempty name="term">
+            <notempty name="category">
                 <button class="btn btn-primary btn-sm js-articles-move" type="button">批量移动</button>
             </notempty>
             <button class="btn btn-primary btn-sm js-articles-copy" type="button">批量复制</button>
@@ -64,9 +64,12 @@
         <table class="table table-hover table-bordered table-list">
             <thead>
             <tr>
-                <th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x"
-                                             data-checklist="js-check-x"></label></th>
-                <notempty name="term">
+                <th width="15">
+                    <label>
+                        <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                    </label>
+                </th>
+                <notempty name="category">
                     <th width="50">{:lang('SORT')}</th>
                 </notempty>
                 <th width="50">ID</th>
@@ -87,16 +90,16 @@
                         <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]"
                                value="{$vo.id}" title="ID:{$vo.id}">
                     </td>
-                    <notempty name="term">
+                    <notempty name="category">
                         <td>
-                            <input name="listorders[{$vo.tid}]" class="input input-order" type="text" size="5"
-                                   value="{$vo.listorder}">
+                            <input name="list_orders[{$vo.post_category_id}]" class="input-order" type="text"
+                                   value="{$vo.list_order}">
                         </td>
                     </notempty>
                     <td><b>{$vo.id}</b></td>
                     <td>
-                        <notempty name="term">
-                            <a href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$term['term_id']))}"
+                        <notempty name="category">
+                            <a href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$vo['category_id']))}"
                                target="_blank">{$vo.post_title}</a>
                             <else/>
                             {$vo.post_title}
@@ -194,14 +197,14 @@
         <div class="table-actions">
             <notempty name="term">
                 <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                        data-action="{:url('AdminArticle/listorders')}">{:lang('SORT')}
+                        data-action="{:url('AdminArticle/listOrder')}">{:lang('SORT')}
                 </button>
             </notempty>
             <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('AdminArticle/check',array('yes'=>1))}" data-subcheck="true">发布
+                    data-action="{:url('AdminArticle/publish',array('yes'=>1))}" data-subcheck="true">发布
             </button>
             <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('AdminArticle/check',array('no'=>1))}" data-subcheck="true">取消发布
+                    data-action="{:url('AdminArticle/publish',array('no'=>1))}" data-subcheck="true">取消发布
             </button>
             <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
                     data-action="{:url('AdminArticle/top',array('yes'=>1))}" data-subcheck="true">置顶
@@ -222,7 +225,7 @@
             <button class="btn btn-primary btn-sm js-articles-copy" type="button">批量复制</button>
             -->
             <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('AdminArticle/delete')}" data-subcheck="true" data-msg="你确定删除吗？">
+                    data-action="{:url('AdminArticle/delete')}" data-subcheck="true" data-msg="您确定删除吗？">
                 {:lang('DELETE')}
             </button>
         </div>
@@ -231,6 +234,11 @@
 </div>
 <script src="__STATIC__/js/admin.js"></script>
 <script>
+
+    function reloadPage(win) {
+        win.location.reload();
+    }
+
     function refersh_window() {
         var refersh_time = getCookie('refersh_time');
         if (refersh_time == 1) {

@@ -29,7 +29,7 @@ class BaseController extends Controller
         $this->request = $request;
 
         $this->_initializeView();
-        $this->view    = View::instance(Config::get('template'), Config::get('view_replace_str'));
+        $this->view = View::instance(Config::get('template'), Config::get('view_replace_str'));
 
 
         // 控制器初始化
@@ -61,14 +61,24 @@ class BaseController extends Controller
         }
         $pk = $model->getPk(); //获取主键名称
 
-        $ids = $this->request->post("list_orders/a");
-        foreach ($ids as $key => $r) {
-            $data['list_order'] = $r;
-            $model->isUpdate(true)->save($data, [$pk => $key]);
+        if ($model instanceof \think\db\Query) {
+
+            $ids = $this->request->post("list_orders/a");
+            foreach ($ids as $key => $r) {
+                $data['list_order'] = $r;
+                $model->where([$pk => $key])->update($data);
+            }
+
+        }else{
+            $ids = $this->request->post("list_orders/a");
+            foreach ($ids as $key => $r) {
+                $data['list_order'] = $r;
+                $model->isUpdate(true)->save($data, [$pk => $key]);
+            }
         }
+
         return true;
     }
-
 
 
 }

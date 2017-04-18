@@ -42,12 +42,12 @@ class AdminArticleController extends AdminBaseController
         $portalCategoryModel = new PortalCategoryModel();
         $categoryTree        = $portalCategoryModel->adminCategoryTree($categoryId);
 
-
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
         $this->assign('articles', $data->items());
         $this->assign('category_tree', $categoryTree);
+        $this->assign('category', $categoryId);
         $this->assign('page', $data->render());
 
         return $this->fetch();
@@ -101,7 +101,7 @@ class AdminArticleController extends AdminBaseController
 
             if (!empty($data['photos_alt']) && !empty($data['photos_url'])) {
                 foreach ($data['photos_url'] as $key => $url) {
-                    $photoUrl                 = cmf_asset_relative_url($url);
+                    $photoUrl                         = cmf_asset_relative_url($url);
                     $data['post']['more']['photos'][] = ["url" => $photoUrl, "alt" => $data['photos_alt'][$key]];
                 }
             }
@@ -173,7 +173,7 @@ class AdminArticleController extends AdminBaseController
 
             if (!empty($data['photos_alt']) && !empty($data['photos_url'])) {
                 foreach ($data['photos_url'] as $key => $url) {
-                    $photoUrl                 = cmf_asset_relative_url($url);
+                    $photoUrl                         = cmf_asset_relative_url($url);
                     $data['post']['more']['photos'][] = ["url" => $photoUrl, "alt" => $data['photos_alt'][$key]];
                 }
             }
@@ -218,7 +218,7 @@ class AdminArticleController extends AdminBaseController
             if ($resultPortal) {
                 Db::name('recycleBin')->insert($data);
             }
-            $this->success("删除成功！");
+            $this->success("删除成功！", '');
 
         }
 
@@ -236,7 +236,7 @@ class AdminArticleController extends AdminBaseController
                     ];
                     Db::name('recycleBin')->insert($data);
                 }
-                $this->success("删除成功！");
+                $this->success("删除成功！", '');
             }
         }
     }
@@ -264,7 +264,7 @@ class AdminArticleController extends AdminBaseController
 
             $portalPostModel->where(['id' => ['in', $ids]])->update(['post_status' => 1, 'published_time' => time()]);
 
-            $this->success("发布成功！");
+            $this->success("发布成功！", '');
         }
 
         if (isset($param['ids']) && isset($param["no"])) {
@@ -272,7 +272,7 @@ class AdminArticleController extends AdminBaseController
 
             $portalPostModel->where(['id' => ['in', $ids]])->update(['post_status' => 0]);
 
-            $this->success("取消发布成功！");
+            $this->success("取消发布成功！", '');
         }
 
     }
@@ -300,7 +300,7 @@ class AdminArticleController extends AdminBaseController
 
             $portalPostModel->where(['id' => ['in', $ids]])->update(['is_top' => 1]);
 
-            $this->success("置顶成功！");
+            $this->success("置顶成功！", '');
 
         }
 
@@ -309,7 +309,7 @@ class AdminArticleController extends AdminBaseController
 
             $portalPostModel->where(['id' => ['in', $ids]])->update(['is_top' => 0]);
 
-            $this->success("取消置顶成功！");
+            $this->success("取消置顶成功！", '');
         }
     }
 
@@ -336,7 +336,7 @@ class AdminArticleController extends AdminBaseController
 
             $portalPostModel->where(['id' => ['in', $ids]])->update(['recommended' => 1]);
 
-            $this->success("推荐成功！");
+            $this->success("推荐成功！", '');
 
         }
         if (isset($param['ids']) && isset($param["no"])) {
@@ -344,9 +344,28 @@ class AdminArticleController extends AdminBaseController
 
             $portalPostModel->where(['id' => ['in', $ids]])->update(['recommended' => 0]);
 
-            $this->success("取消推荐成功！");
+            $this->success("取消推荐成功！", '');
 
         }
+    }
+
+    /**
+     * 文章排序
+     * @adminMenu(
+     *     'name'   => '文章排序',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '文章排序',
+     *     'param'  => ''
+     * )
+     */
+    public function listOrder()
+    {
+        parent::listOrders(Db::name('portal_category_post'));
+        $this->success("排序更新成功！", '');
     }
 
     public function move()
