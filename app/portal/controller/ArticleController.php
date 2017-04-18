@@ -11,6 +11,7 @@ namespace app\portal\controller;
 use cmf\controller\HomeBaseController;
 use app\portal\model\PortalCategoryModel;
 use app\portal\service\PostService;
+use think\Db;
 
 class ArticleController extends HomeBaseController
 {
@@ -36,6 +37,8 @@ class ArticleController extends HomeBaseController
             abort(404, '文章不存在!');
         }
 
+        Db::name('portal_post')->where(['id' => $articleId])->setInc('post_hits');
+
         $this->assign('article', $article);
         $this->assign('category', $category);
 
@@ -44,4 +47,25 @@ class ArticleController extends HomeBaseController
 
         return $this->fetch("/$tplName");
     }
+
+    // 文章点赞
+    public function doLike()
+    {
+        $articleId = $this->request->param('id', 0, 'intval');
+
+        Db::name('portal_post')->where(['id' => $articleId])->setInc('post_like');
+
+        $this->success("赞好啦！");
+
+//        $canLike = cmf_check_user_action("posts$id", 1);
+//
+//        if ($canLike) {
+//            $postsModel->save(["id" => $id, "post_like" => ["exp", "post_like+1"]]);
+//            $this->success("赞好啦！");
+//        } else {
+//            $this->error("您已赞过啦！");
+//        }
+    }
+
+
 }
