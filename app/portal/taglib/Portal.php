@@ -20,7 +20,6 @@ class Portal extends TagLib
         'articles'            => ['attr' => 'field,where,limit,order,page,relation,returnVarName,pageVarName,categoryIds', 'close' => 1],//非必须属性item
         'breadcrumb'          => ['attr' => 'cid', 'close' => 1],//非必须属性self
     ];
-
     /**
      * 文章列表标签
      */

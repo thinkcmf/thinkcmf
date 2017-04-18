@@ -16,10 +16,13 @@
 			</div>
 			<php>
 				$where=[
-				'post_title'=>['like',"%$keyword%"]
+				'post.create_time'=>['egt',0],
+				'post.post_title'=>['like',"%$keyword%"]
 				];
 			</php>
+
 			<portal:articles item="vo" field="*" where="$where" order="post.create_time DESC" page="10">
+
 				<div class="list-boxes">
 					<h2><a href="{:url('article/index',array('id'=>$vo['id']))}">{$vo.post_title}</a>
 					</h2>
@@ -40,7 +43,6 @@
 					</div>
 				</div>
 			</portal:articles>
-				
 			<div class="pagination">
 				<page/>
 			</div>
