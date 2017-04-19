@@ -174,7 +174,7 @@ class ApiService
      * 返回符合条件的所有分类
      *
      */
-    public static function terms()
+    public static function categories()
     {
     }
 
