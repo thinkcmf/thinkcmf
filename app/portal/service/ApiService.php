@@ -15,10 +15,10 @@ class ApiService
 {
     /**
      * 功能:查询文章列表,支持分页;<br>
-     * 注:此方法查询时关联三个表portal_category_post,portal_post,user;在指定查询字段(field),排序(order),指定查询条件(where)最好指定一下表名
+     * 注:此方法查询时关联三个表portal_category_post(category_post),portal_post(post),user;在指定排序(order),指定查询条件(where)最好指定一下表别名
      * @param array $param 查询参数<pre>
      * array(
-     *  'field'=>'*',
+     *  'category_ids'=>'',
      *  'where'=>'',
      *  'limit'=>'',
      *  'order'=>'',
@@ -26,14 +26,13 @@ class ApiService
      *  'relation'=>''
      * )
      * 字段说明:
-     * ids:文章id,可以指定一个或多个文章id,以英文逗号分隔,如1或1,2,3
      * category_ids:文章所在分类,可指定一个或多个分类id,以英文逗号分隔,如1或1,2,3 默认值为全部
-     * field:调用指定的字段
-     *   如只调用posts表里的id和post_title字段可以是field:posts.id,posts.post_title; 默认全部,
-     *   此方法查询时关联三个表term_relationships,posts,users;
+     * field:调用指定的字段@todo
+     *   如只调用posts表里的id和post_title字段可以是post.id,post.post_title; 默认全部,
+     *   此方法查询时关联三个表portal_category_post(category_post),portal_post(post),user;
      *   所以最好指定一下表名,以防字段冲突
      * limit:数据条数,默认值为10,可以指定从第几条开始,如3,8(表示共调用8条,从第3条开始)
-     * order:排序方式,如按posts表里的post_date字段倒序排列：posts.post_date desc
+     * order:排序方式,如按posts表里的published_time字段倒序排列：post.published_time desc
      * where:查询条件,字符串形式,和sql语句一样,请在事先做好安全过滤,最好使用第二个参数$where的数组形式进行过滤,此方法查询时关联多个表,所以最好指定一下表名,以防字段冲突,查询条件(只支持数组),格式和thinkPHP的where方法一样,此方法查询时关联多个表,所以最好指定一下表名,以防字段冲突;
      * </pre>
      * @return array 包括分页的文章列表<pre>
@@ -41,8 +40,8 @@ class ApiService
      * array(
      *     "articles"=>array(),//文章列表,array
      *     "page"=>"",//生成的分页html,不分页则没有此项
-     *     "count"=>100, //符合条件的文章总数,不分页则没有此项
-     *     "total_pages"=>5 // 总页数
+     *     "total"=>100, //符合条件的文章总数,不分页则没有此项
+     *     "total_pages"=>5 // 总页数,不分页则没有此项
      * )</pre>
      */
     public static function articles($param)
@@ -57,27 +56,27 @@ class ApiService
 
         $paramWhere = empty($param['where']) ? '' : $param['where'];
 
-        $limit        = empty($param['limit']) ? 10 : $param['limit'];
-        $order        = empty($param['order']) ? '' : $param['order'];
-        $page         = isset($param['page']) ? $param['page'] : false;
-        $relation     = empty($param['relation']) ? '' : $param['relation'];
-        $category_ids = empty($param['category_ids']) ? '' : $param['category_ids'];
+        $limit       = empty($param['limit']) ? 10 : $param['limit'];
+        $order       = empty($param['order']) ? '' : $param['order'];
+        $page        = isset($param['page']) ? $param['page'] : false;
+        $relation    = empty($param['relation']) ? '' : $param['relation'];
+        $categoryIds = empty($param['category_ids']) ? '' : $param['category_ids'];
 
         $join = [
             ['__USER__ user', 'post.user_id = user.id'],
             ['__PORTAL_CATEGORY_POST__ category_post', 'post.id = category_post.post_id']
         ];
 
-        if (!empty($category_ids)) {
+        if (!empty($categoryIds)) {
 
-            if (!is_array($category_ids)) {
-                $category_ids = explode(',', $category_ids);
+            if (!is_array($categoryIds)) {
+                $categoryIds = explode(',', $categoryIds);
             }
 
-            if (count($category_ids) == 1) {
-                $where['category_post.category_id'] = ['eq', $category_ids[0]];
+            if (count($categoryIds) == 1) {
+                $where['category_post.category_id'] = ['eq', $categoryIds[0]];
             } else {
-                $where['category_post.category_id'] = ['in', $category_ids];
+                $where['category_post.category_id'] = ['in', $categoryIds];
             }
         }
 
@@ -90,7 +89,12 @@ class ApiService
         $return = [];
 
         if (empty($page)) {
-            $articles           = $articles->limit($limit)->select();
+            $articles = $articles->limit($limit)->select();
+
+            if (!empty($relation)) {
+                $articles->load($relation);
+            }
+
             $return['articles'] = $articles;
         } else {
 
@@ -103,10 +107,17 @@ class ApiService
             } else {
                 $articles = $articles->paginate(intval($page));
             }
-            $return['articles'] = $articles->items();
-            $return['page']     = $articles->render();
-            $return['total']    = $articles->total();
+
+            if (!empty($relation)) {
+                $articles->load($relation);
+            }
+
+            $return['articles']    = $articles->items();
+            $return['page']        = $articles->render();
+            $return['total']       = $articles->total();
+            $return['total_pages'] = $articles->lastPage();
         }
+
 
         return $return;
 
