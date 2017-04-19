@@ -271,7 +271,7 @@ parse;
         $item  = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
         $parse = <<<parse
 <?php
-     \$__LINKS__ = \app\portal\service\ApiService::links();
+     \$__LINKS__ = \app\admin\service\ApiService::links();
 ?>
 <volist name="__LINKS__" id="{$item}">
 {$content}
@@ -291,7 +291,7 @@ parse;
         $item  = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
         $parse = <<<parse
 <?php
-     \$__SLIDE_ITEMS__ = \app\portal\service\ApiService::slides({$id});
+     \$__SLIDE_ITEMS__ = \app\admin\service\ApiService::slides({$id});
 ?>
 <volist name="__SLIDE_ITEMS__" id="{$item}">
 {$content}
@@ -311,7 +311,7 @@ parse;
         $parse = <<<parse
 <?php
     if(!isset(\$__SLIDE_ITEMS__)){
-        \$__SLIDE_ITEMS__ = \app\portal\service\ApiService::slides({$id});
+        \$__SLIDE_ITEMS__ = \app\admin\service\ApiService::slides({$id});
     }
 ?>
 <if condition="count(\$__SLIDE_ITEMS__) eq 0">
