@@ -9,6 +9,7 @@
 namespace app\portal\service;
 
 use app\portal\model\PortalPostModel;
+use app\portal\model\PortalCategoryModel;
 use think\Db;
 
 class ApiService
@@ -51,7 +52,8 @@ class ApiService
         $where = [
             'post.published_time' => [['> time', 0], ['<', time()]],
             'post.post_status'    => ['eq', 1],
-            'post.post_type'      => 1
+            'post.post_type'      => 1,
+            'post.delete_time'    => 0
         ];
 
         $paramWhere = empty($param['where']) ? '' : $param['where'];
@@ -136,7 +138,8 @@ class ApiService
             'published_time' => [['> time', 0], ['<', time()]],
             'post_status'    => ['eq', 1],
             'post_type'      => 1,
-            'id'             => $id
+            'id'             => $id,
+            'delete_time'    => 0
         ];
 
         return $portalPostModel->where($where)->find();
@@ -147,16 +150,14 @@ class ApiService
      * @param array $param 查询参数<pre>
      * array(
      *  'where'=>'',
-     *  'limit'=>'',
      *  'order'=>'',
-     * )
+     * )</pre>
      * @return false|\PDOStatement|string|\think\Collection
      */
     public static function pages($param)
     {
         $paramWhere = empty($param['where']) ? '' : $param['where'];
 
-        $limit = empty($param['limit']) ? 10 : $param['limit'];
         $order = empty($param['order']) ? '' : $param['order'];
 
         $portalPostModel = new PortalPostModel();
@@ -165,13 +166,13 @@ class ApiService
             'published_time' => [['> time', 0], ['<', time()]],
             'post_status'    => ['eq', 1],
             'post_type'      => 2, //页面
+            'delete_time'    => 0
         ];
 
         return $portalPostModel
             ->where($where)
             ->where($paramWhere)
             ->order($order)
-            ->limit($limit)
             ->select();
     }
 
@@ -188,30 +189,47 @@ class ApiService
             'published_time' => [['> time', 0], ['<', time()]],
             'post_status'    => ['eq', 1],
             'post_type'      => 2,
-            'id'             => $id
+            'id'             => $id,
+            'delete_time'    => 0
         ];
 
         return $portalPostModel->where($where)->find();
     }
 
     /**
-     * @todo
      * 返回指定分类
-     * @param int $categoryId 分类id
+     * @param int $id 分类id
      * @return array 返回符合条件的分类
      */
-    public static function category($categoryId)
+    public static function category($id)
     {
+        $portalCategoryModel = new PortalCategoryModel();
+
+        $where = [
+            'status'      => 1,
+            'delete_time' => 0,
+            'id'          => $id
+        ];
+
+        return $portalCategoryModel->where($where)->find();
     }
 
     /**
-     * @todo
      * 返回指定分类下的子分类
      * @param int $categoryId 分类id
-     * @return array 返回指定分类下的子分类X
+     * @return false|\PDOStatement|string|\think\Collection 返回指定分类下的子分类
      */
     public static function subCategories($categoryId)
     {
+        $portalCategoryModel = new PortalCategoryModel();
+
+        $where = [
+            'status'      => 1,
+            'delete_time' => 0,
+            'parent_id'   => $categoryId
+        ];
+
+        return $portalCategoryModel->where($where)->select();
     }
 
     /**
@@ -225,12 +243,32 @@ class ApiService
     }
 
     /**
-     * @todo
      * 返回符合条件的所有分类
-     *
+     * @param array $param 查询参数<pre>
+     * array(
+     *  'where'=>'',
+     *  'order'=>'',
+     * )</pre>
+     * @return false|\PDOStatement|string|\think\Collection
      */
-    public static function categories()
+    public static function categories($param)
     {
+        $paramWhere = empty($param['where']) ? '' : $param['where'];
+
+        $order = empty($param['order']) ? '' : $param['order'];
+
+        $portalCategoryModel = new PortalCategoryModel();
+
+        $where = [
+            'status'      => 1,
+            'delete_time' => 0,
+        ];
+
+        return $portalCategoryModel
+            ->where($where)
+            ->where($paramWhere)
+            ->order($order)
+            ->select();
     }
 
     /**
