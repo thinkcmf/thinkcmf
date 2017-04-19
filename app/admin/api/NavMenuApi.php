@@ -6,24 +6,27 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
-namespace app\portal\api;
+namespace app\admin\api;
 
-use app\admin\model\NavModel;
+use app\admin\model\NavMenuModel;
 
-class NavApi
+class NavMenuApi
 {
     // 分类列表 用于模板设计
     public function index($param = [])
     {
-        $navModel = new NavModel();
+        $navMenuModel = new NavMenuModel();
 
         $where = [];
 
         if (!empty($param['keyword'])) {
             $where['name'] = ['like', "%{$param['keyword']}%"];
         }
+        if (!empty($param['id'])) {
+            $where['nav_id'] = $param['id'];
+        }
 
-        return $navModel->where($where)->select();
+        return $navMenuModel->where($where)->select();
     }
 
 }
