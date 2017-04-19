@@ -29,6 +29,8 @@ class AdminAssetController extends AdminBaseController
     public function index()
     {
         $result = Db::name('asset')->select();
+        $user= Db::name('user')->column('user_login','id');
+        $this->assign('user', $user);
         $this->assign('result', $result);
         $this->assign('status', ['不可用', '可用']);
         return $this->fetch();

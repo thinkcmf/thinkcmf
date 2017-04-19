@@ -22,7 +22,7 @@
         <foreach name="result" item="vo">
             <tr>
                 <td>{$vo.id}</td>
-                <td>{$vo.user_id}</td>
+                <td>{$user[$vo.user_id]}</td>
                 <td>{$vo.file_size}KB</td>
                 <td>{$vo.filename}</td>
                 <td>
