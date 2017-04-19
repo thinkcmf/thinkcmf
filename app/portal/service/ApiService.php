@@ -124,30 +124,74 @@ class ApiService
     }
 
     /**
-     * @todo
      * 获取指定id的文章
+     * @param int $id
+     * @return array|false|\PDOStatement|string|\think\Model
      */
-    public static function post($postId, $tag)
+    public static function article($id)
     {
+        $portalPostModel = new PortalPostModel();
 
+        $where = [
+            'published_time' => [['> time', 0], ['<', time()]],
+            'post_status'    => ['eq', 1],
+            'post_type'      => 1,
+            'id'             => $id
+        ];
+
+        return $portalPostModel->where($where)->find();
     }
 
     /**
-     * @todo
      * 获取指定条件的页面列表
+     * @param array $param 查询参数<pre>
+     * array(
+     *  'where'=>'',
+     *  'limit'=>'',
+     *  'order'=>'',
+     * )
+     * @return false|\PDOStatement|string|\think\Collection
      */
-    public static function pages($tag, $where = [])
+    public static function pages($param)
     {
+        $paramWhere = empty($param['where']) ? '' : $param['where'];
+
+        $limit = empty($param['limit']) ? 10 : $param['limit'];
+        $order = empty($param['order']) ? '' : $param['order'];
+
+        $portalPostModel = new PortalPostModel();
+
+        $where = [
+            'published_time' => [['> time', 0], ['<', time()]],
+            'post_status'    => ['eq', 1],
+            'post_type'      => 2, //页面
+        ];
+
+        return $portalPostModel
+            ->where($where)
+            ->where($paramWhere)
+            ->order($order)
+            ->limit($limit)
+            ->select();
     }
 
     /**
-     * @todo
      * 获取指定id的页面
      * @param int $id 页面的id
-     * @return array 返回符合条件的页面
+     * @return array|false|\PDOStatement|string|\think\Model 返回符合条件的页面
      */
     public static function page($id)
     {
+        $portalPostModel = new PortalPostModel();
+
+        $where = [
+            'published_time' => [['> time', 0], ['<', time()]],
+            'post_status'    => ['eq', 1],
+            'post_type'      => 2,
+            'id'             => $id
+        ];
+
+        return $portalPostModel->where($where)->find();
     }
 
     /**
