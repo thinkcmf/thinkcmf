@@ -1307,21 +1307,21 @@ Wind.ready(function () {
 
     /**
      * 更新或者添加js 别名,在 Wind.use()调用名使用
-     * @param newalias ,要设置的别名对象
+     * @param newAlias ,要设置的别名对象
      */
-    Wind.alias = function (newalias) {
-        for (var i in newalias) {
-            alias[i] = newalias[i];
+    Wind.alias = function (newAlias) {
+        for (var i in newAlias) {
+            alias[i] = newAlias[i];
         }
     }
 
     /**
      * 更新或者添加css 别名,在 Wind.css()调用名使用
-     * @param newalias ,要设置的别名对象
+     * @param newAlias ,要设置的别名对象
      */
-    Wind.aliasCss = function (newalias) {
-        for (var i in newalias) {
-            alias_css[i] = newalias[i];
+    Wind.aliasCss = function (newAlias) {
+        for (var i in newAlias) {
+            alias_css[i] = newAlias[i];
         }
     }
 
