@@ -25,22 +25,33 @@
 						<table class="table table-bordered table-striped table-hover">
 							<thead>
 							<tr>
-								<th>#</th>
-								<th>评论内容</th>
-								<th width="150">评论时间</th>
+								<th>id</th>
+								<th>标题</th>
+								<th width="150">缩略图</th>
+								<th width="150">发表时间</th>
+								<th width="150">最后更新时间</th>
 								<th width="150">操作</th>
 							</tr>
 							</thead>
+							<php>
+								$where=[
+								'post.create_time'=>['egt',0],
+								'post.user_id'=>$user_id
+								];
+							</php>
 							<tbody>
-
+							<portal:articles item="vo" field="*" where="$where" order="post.create_time DESC" page="10">
 								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
+									<td>{$vo.id}</td>
+									<td>{$vo.post_title}</td>
+									<td>{$vo.post_title}</td>
+									<td>{$vo.published_time}</td>
+									<td>{$vo.update_time}</td>
 									<td>
 										<a href="">查看原文</a>
 								</tr>
-
+							</portal:articles>
+                            <php>print_r($articles_data);exit;</php>
 							</tbody>
 						</table>
 					</div>
