@@ -279,8 +279,11 @@ class ApiService
      */
     public static function breadcrumb($categoryId, $withCurrent = false)
     {
-        $data = [];
-        $path = Db::name('portal_category')->where(['id' => $categoryId])->value('path');
+        $data                = [];
+        $portalCategoryModel = new PortalCategoryModel();
+
+        $path = $portalCategoryModel->where(['id' => $categoryId])->value('path');
+
         if (!empty($path)) {
             $parents = explode('-', $path);
             if (!$withCurrent) {
@@ -288,7 +291,7 @@ class ApiService
             }
 
             if (!empty($parents)) {
-                $data = Db::name('portal_category')->where(['id' => ['in', $parents]])->order('path ASC')->select();
+                $data = $portalCategoryModel->where(['id' => ['in', $parents]])->order('path ASC')->select();
             }
         }
 
