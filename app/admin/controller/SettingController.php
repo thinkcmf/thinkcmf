@@ -168,7 +168,7 @@ class SettingController extends AdminBaseController
                         $this->error("新密码不能和原始密码相同！");
                     } else {
                         Db::name('user')->where('id', $userId)->update(['user_pass' => cmf_password($password)]);
-                        $this->success("修改成功！");
+                        $this->success("密码修改成功！");
                     }
                 } else {
                     $this->error("密码输入不一致！");

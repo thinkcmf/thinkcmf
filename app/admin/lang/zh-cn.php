@@ -80,7 +80,7 @@ return [
     'ADMIN_NAV_EDIT_POST'                => '提交编辑',
     'ADMIN_NAV_INDEX'                    => '导航管理',
     'ADMIN_NAV_ADD'                      => '添加导航',
-    'ADMIN_NAV_EDIT'                     => '修改导航',
+    'ADMIN_NAV_EDIT'                     => '编辑导航',
     'ADMIN_NAV_LISTORDERS'               => '前台导航排序',
     'ADMIN_NAVCAT_ADD_POST'              => '提交添加',
     'ADMIN_NAVCAT_DEFAULT1'              => '前台菜单',

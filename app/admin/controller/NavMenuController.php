@@ -50,7 +50,7 @@ class NavMenuController extends AdminBaseController
         $array = [];
         foreach ($arrResult as $r) {
             $r['str_manage'] = '<a href="' . url("NavMenu/add", ["parent_id" => $r['id'], "nav_id" => $r['nav_id']]) . '">添加子菜单</a> | <a href="'
-                . url("NavMenu/edit", ["id" => $r['id'], "parent_id" => $r['parent_id'], "nav_id" => $r['nav_id']]) . '">修改</a> | <a class="js-ajax-delete" href="' . url("NavMenu/delete", ["id" => $r['id'], 'nav_id' => $r['nav_id']]) . '">删除</a> ';
+                . url("NavMenu/edit", ["id" => $r['id'], "parent_id" => $r['parent_id'], "nav_id" => $r['nav_id']]) . '">编辑</a> | <a class="js-ajax-delete" href="' . url("NavMenu/delete", ["id" => $r['id'], 'nav_id' => $r['nav_id']]) . '">删除</a> ';
             $r['status']     = $r['status'] ? "显示" : "隐藏";
             $array[]         = $r;
         }
@@ -100,7 +100,7 @@ class NavMenuController extends AdminBaseController
 
         foreach ($arrResult as $r) {
             $r['str_manage'] = '<a href="' . url("NavMenu/add", ["parent_id" => $r['id']]) . '">添加子菜单</a> | <a href="'
-                . url("NavMenu/edit", ["id" => $r['id']]) . '">修改</a> | <a class="J_ajax_del" href="'
+                . url("NavMenu/edit", ["id" => $r['id']]) . '">编辑</a> | <a class="J_ajax_del" href="'
                 . url("NavMenu/delete", ["id" => $r['id']]) . '">删除</a> ';
             $r['status']     = $r['status'] ? "显示" : "隐藏";
             $r['selected']   = $r['id'] == $intParentId ? "selected" : "";
@@ -178,7 +178,7 @@ class NavMenuController extends AdminBaseController
         $array      = [];
         foreach ($arrResult as $r) {
             $r['str_manage'] = '<a href="' . url("NavMenu/add", ["parent_id" => $r['id'], "nav_id" => $intNavId]) . '">添加子菜单</a> | <a href="'
-                . url("NavMenu/edit", ["id" => $r['id'], "nav_id" => $intNavId]) . '">修改</a> | <a class="J_ajax_del" href="'
+                . url("NavMenu/edit", ["id" => $r['id'], "nav_id" => $intNavId]) . '">编辑</a> | <a class="js-ajax-delete" href="'
                 . url("NavMenu/delete", ["id" => $r['id'], "nav_id" => $intNavId]) . '">删除</a> ';
             $r['status']     = $r['status'] ? "显示" : "隐藏";
             $r['selected']   = $r['id'] == $intParentId ? "selected" : "";
