@@ -88,7 +88,7 @@ class AdminPageController extends AdminBaseController
 
         $portalPostModel = new PortalPostModel();
         $portalPostModel->adminAddPage($data['post']);
-        $this->success(lang('ADD_SUCCESS'));
+        $this->success(lang('ADD_SUCCESS'), url('AdminPage/edit', ['id' => $portalPostModel->id]));
 
     }
 

@@ -218,11 +218,21 @@ class PortalPostModel extends Model
         }
     }
 
-
+    /**
+     * 后台管理添加页面
+     * @param array $data 页面数据
+     * @return $this
+     */
     public function adminAddPage($data)
     {
-        $data['user_id']   = cmf_get_current_admin_id();
-        $data['post_type'] = 2;
+        $data['user_id'] = cmf_get_current_admin_id();
+
+        if (!empty($data['more']['thumbnail'])) {
+            $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
+        }
+
+        $data['post_status'] = empty($data['post_status']) ? 0 : 1;
+        $data['post_type']   = 2;
         $this->allowField(true)->data($data, true)->save();
 
         return $this;
@@ -230,13 +240,20 @@ class PortalPostModel extends Model
     }
 
     /**
-     * @param $data
+     * 后台管理编辑页面
+     * @param array $data 页面数据
      * @return $this
      */
     public function adminEditPage($data)
     {
-        $data['user_id']   = cmf_get_current_admin_id();
-        $data['post_type'] = 2;
+        $data['user_id'] = cmf_get_current_admin_id();
+
+        if (!empty($data['more']['thumbnail'])) {
+            $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
+        }
+
+        $data['post_status'] = empty($data['post_status']) ? 0 : 1;
+        $data['post_type']   = 2;
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
 
         return $this;
