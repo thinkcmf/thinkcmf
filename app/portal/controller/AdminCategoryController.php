@@ -92,7 +92,11 @@ class AdminCategoryController extends AdminBaseController
             $this->error($result);
         }
 
-        $portalCategoryModel->insert($data);
+        $result = $portalCategoryModel->addCategory($data);
+
+        if ($result === false) {
+            $this->error('添加失败!');
+        }
 
         $this->success('添加成功!', url('AdminCategory/index'));
 
@@ -159,7 +163,12 @@ class AdminCategoryController extends AdminBaseController
         }
 
         $portalCategoryModel = new PortalCategoryModel();
-        $portalCategoryModel->isUpdate(true)->save($data);
+
+        $result = $portalCategoryModel->editCategory($data);
+
+        if ($result === false) {
+            $this->error('保存失败!');
+        }
 
         $this->success('保存成功!');
     }

@@ -79,16 +79,93 @@ class PortalCategoryModel extends Model
 
         if (empty($tpl)) {
             $tpl = "<tr>
-					<td><input name='list_orders[\$id]' type='text' size='3' value='\$list_order' class='input-order'></td>
-					<td>\$id</td>
-					<td>\$spacer <a href='\$url' target='_blank'>\$name</a></td>
-					<td>\$description</td>
-					<td>\$str_action</td>
-				</tr>";
+                        <td><input name='list_orders[\$id]' type='text' size='3' value='\$list_order' class='input-order'></td>
+                        <td>\$id</td>
+                        <td>\$spacer <a href='\$url' target='_blank'>\$name</a></td>
+                        <td>\$description</td>
+                        <td>\$str_action</td>
+                    </tr>";
         }
         $treeStr = $tree->getTree(0, $tpl);
 
         return $treeStr;
+    }
+
+    /**
+     * 添加文章分类
+     * @param $data
+     * @return bool
+     */
+    public function addCategory($data)
+    {
+        $result = true;
+        self::startTrans();
+        try {
+            $id = $this->insertGetId($data);
+
+            if (empty($data['parent_id'])) {
+                $this->isUpdate(true)->save(['path' => '0-' . $id], ['id' => $id]);
+            } else {
+                $parentPath = $this->where('id', intval($data['parent_id']))->value('path');
+                $this->isUpdate(true)->save(['path' => "$parentPath-$id"], ['id' => $id]);
+            }
+
+            self::commit();
+        } catch (\Exception $e) {
+            self::rollback();
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    public function editCategory($data)
+    {
+        $result = true;
+
+        $id          = intval($data['id']);
+        $parentId    = intval($data['parent_id']);
+        $oldCategory = $this->where('id', $id)->find();
+
+        if (empty($parentId)) {
+            $newPath = '0-' . $id;
+        } else {
+            $parentPath = $this->where('id', intval($data['parent_id']))->value('path');
+            if ($parentPath === false) {
+                $newPath = false;
+            } else {
+                $newPath = "$parentPath-$id";
+            }
+        }
+
+        if (empty($oldCategory) || empty($newPath)) {
+            $result = false;
+        } else {
+            self::startTrans();
+            try {
+
+                $data['path'] = $newPath;
+                $this->isUpdate(true)->save($data, ['id' => $id]);
+
+                $children = $this->field('id,path')->where('path', 'like', "%-$id-%")->select();
+
+                if (!empty($children)) {
+                    foreach ($children as $child) {
+                        $childPath = str_replace($oldCategory['path'] . '-', $newPath . '-', $child['path']);
+                        $this->isUpdate(true)->save(['path' => $childPath], ['id' => $child['id']]);
+                    }
+                }
+
+                self::commit();
+
+            } catch (\Exception $e) {
+                self::rollback();
+                $result = false;
+            }
+        }
+
+
+        return $result;
     }
 
 
