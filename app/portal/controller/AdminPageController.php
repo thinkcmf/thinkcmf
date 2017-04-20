@@ -79,8 +79,14 @@ class AdminPageController extends AdminBaseController
      */
     public function addPost()
     {
-        $data                 = $this->request->param();
-        $portalPostModel      = new PortalPostModel();
+        $data = $this->request->param();
+
+        $result = $this->validate($data['post'], 'AdminPage');
+        if ($result !== true) {
+            $this->error($result);
+        }
+
+        $portalPostModel = new PortalPostModel();
         $portalPostModel->adminAddPage($data['post']);
         $this->success(lang('ADD_SUCCESS'));
 
@@ -131,6 +137,11 @@ class AdminPageController extends AdminBaseController
     public function editPost()
     {
         $data = $this->request->param();
+
+        $result = $this->validate($data['post'], 'AdminPage');
+        if ($result !== true) {
+            $this->error($result);
+        }
 
         $portalPostModel = new PortalPostModel();
 
