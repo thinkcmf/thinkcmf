@@ -271,7 +271,7 @@ class RbacController extends AdminBaseController
                     }
                 }
 
-                $this->success("授权成功！", url("rbac/index"));
+                $this->success("授权成功！");
             } else {
                 //当没有数据时，清除当前角色授权
                 Db::name("authAccess")->where(["role_id" => $roleId])->delete();
