@@ -84,7 +84,7 @@
                             "content": {
                                 "title": "描述",
                                 "value": "",
-                                "type": "text"
+                                "type": "textarea"
                             }
                         },
                         "tip": ""
