@@ -226,7 +226,7 @@
                                     noty({
                                         text: data.msg,
                                         type: 'error',
-                                        layout: 'center',
+                                        layout: 'topCenter',
                                         callback: {
                                             onClose: function () {
                                                 _refresh();
