@@ -204,10 +204,12 @@
                                     noty({
                                         text: data.msg,
                                         type: 'success',
-                                        layout: 'center',
+                                        layout: 'topCenter',
                                         callback: {
                                             onClose: function () {
-                                                _refresh();
+                                                if ($btn.data('refresh') == undefined || $btn.data('refresh')) {
+                                                    _refresh();
+                                                }
                                             }
                                         }
                                     });
@@ -755,17 +757,18 @@ function upload_multi_file(dialog_title, container_selector, item_tpl_wrapper_id
  * @param img 图片地址
  */
 function image_preview_dialog(img) {
+    Wind.css("artDialog");
     Wind.use("artDialog", function () {
         art.dialog({
             title: '图片查看',
             fixed: true,
-            width: "420px",
-            height: '420px',
+            width: "420",
+            height: '420',
             id: "image_preview_" + img,
             lock: true,
             background: "#CCCCCC",
             opacity: 0,
-            content: '<img src="' + img + '" />'
+            content: '<div style="max-width: 100%;"><img src="' + img + '" /></div>'
         });
     });
 }

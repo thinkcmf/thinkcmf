@@ -105,7 +105,7 @@ class SettingController extends AdminBaseController
             $cdnSettings = $this->request->param('cdn_settings/a');
             cmf_set_option('cdn_settings', $cdnSettings);
 
-            $this->success("保存成功！");
+            $this->success("保存成功！",'');
 
         }
     }
