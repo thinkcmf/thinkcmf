@@ -159,17 +159,18 @@ function cmf_get_user_avatar_url($avatar)
 
             return cmf_get_asset_url($avatar);
 
-            $url = cmf_get_asset_url($avatar, false);
-            if (C('FILE_UPLOAD_TYPE') == 'Qiniu') {
-                $storage_setting = cmf_get_cmf_settings('storage');
-                $qiniu_setting   = $storage_setting['Qiniu']['setting'];
-                $filePath        = $qiniu_setting['protocol'] . '://' . $storage_setting['Qiniu']['domain'] . "/" . $avatar;
-                if ($qiniu_setting['enable_picture_protect']) {
-                    $url = $url . $qiniu_setting['style_separator'] . $qiniu_setting['styles']['avatar'];
-                }
-            }
-
-            return $url;
+            //TODO 七牛处理
+//            $url = cmf_get_asset_url($avatar, false);
+//            if (C('FILE_UPLOAD_TYPE') == 'Qiniu') {
+//                $storage_setting = cmf_get_cmf_settings('storage');
+//                $qiniu_setting   = $storage_setting['Qiniu']['setting'];
+//                $filePath        = $qiniu_setting['protocol'] . '://' . $storage_setting['Qiniu']['domain'] . "/" . $avatar;
+//                if ($qiniu_setting['enable_picture_protect']) {
+//                    $url = $url . $qiniu_setting['style_separator'] . $qiniu_setting['styles']['avatar'];
+//                }
+//            }
+//
+//            return $url;
         }
 
     } else {
@@ -183,12 +184,12 @@ function cmf_get_user_avatar_url($avatar)
  * @param string $pw 要加密的字符串
  * @return string
  */
-function cmf_password($pw, $authcode = '')
+function cmf_password($pw, $authCode = '')
 {
-    if (empty($authcode)) {
-        $authcode = Config::get('database.authcode');
+    if (empty($authCode)) {
+        $authCode = Config::get('database.authcode');
     }
-    $result = "###" . md5(md5($authcode . $pw));
+    $result = "###" . md5(md5($authCode . $pw));
     return $result;
 }
 
@@ -617,7 +618,7 @@ function cmf_get_asset_url($file, $style = '')
 //            $filePath        = $qiniu_setting['protocol'] . '://' . $storage_setting['Qiniu']['domain'] . "/" . $file . $style;
 //        }
 
-        return $filePath;
+//        return $filePath;
 
     }
 }
@@ -652,7 +653,7 @@ function cmf_get_image_url($file, $style = '')
 //        }
 
 //        return $filePath;
-//
+
     }
 }
 
@@ -682,7 +683,7 @@ function cmf_get_image_preview_url($file, $style = 'watermark')
 }
 
 /**
- * TODO
+ * @TODO七牛
  * 获取文件下载链接
  * @param string $file
  * @param int $expires
@@ -753,7 +754,7 @@ function cmf_auth_code($string, $operation = 'DECODE', $key = '', $expiry = 0)
         $tmp     = $box[$a];
         $box[$a] = $box[$j];
         $box[$j] = $tmp;
-        $result .= chr(ord($string[$i]) ^ ($box[($box[$a] + $box[$j]) % 256]));
+        $result  .= chr(ord($string[$i]) ^ ($box[($box[$a] + $box[$j]) % 256]));
     }
 
     if ($operation == 'DECODE') {
@@ -858,8 +859,6 @@ function cmf_check_user_action($object = "", $count_limit = 1, $ip_limit = false
 }
 
 /**
- * TODO
- * @deprecated
  * @param $url
  * @return mixed|string
  */
@@ -873,7 +872,7 @@ function cmf_get_relative_url($url)
             return "";
         } else {
             $url  = substr($url, $pos + 1);
-            $root = preg_replace("/^\//", "", __ROOT__);
+            $root = preg_replace("/^\//", "", cmf_get_root());
             $root = str_replace("/", "\/", $root);
             $url  = preg_replace("/^" . $root . "\//", "", $url);
             return $url;
@@ -884,6 +883,7 @@ function cmf_get_relative_url($url)
 
 /**
  * TODO
+ * @deprecated
  * 获取所有url美化规则
  * @param boolean $refresh 是否强制刷新
  * @return mixed|void|boolean|NULL|unknown[]|unknown
@@ -1077,6 +1077,8 @@ function cmf_sub_dirs($dir)
 }
 
 /**
+ * @TODO
+ * @deprecated
  * 获取所有钩子，包括系统，应用，模板
  * @param bool $refresh 是否刷新缓存
  * @return array
@@ -1128,7 +1130,6 @@ function cmf_get_hooks($refresh = false)
     return $returnHooks;
 
 }
-
 
 /**
  * 生成访问插件的url
@@ -1307,47 +1308,6 @@ function cmf_get_plugin_return($url, $params = [])
         $params = array_merge($query, $params);
     }
     return R("plugins://{$plugin}/{$controller}/{$action}", $params);
-}
-
-/**
- * TODO
- * 判断模板文件是否存在，区分大小写
- * @param string $file 模板文件路径，相对于当前模板根目录，不带模板后缀名
- * @return boolean
- */
-function cmf_template_file_exists($file)
-{
-    $theme    = cmf_get_current_theme();
-    $filePath = C("cmf_TMPL_PATH") . $theme . "/" . $file;
-    $tplpath  = cmf_add_template_file_suffix($filePath);
-
-    if (file_exists_case($tplpath)) {
-        return true;
-    } else {
-        return false;
-    }
-
-}
-
-/**
- * @param $template
- * @return string
- * 给没有后缀的模板文件，添加后缀名
- * @param string $template
- */
-function cmf_add_template_file_suffix($template)
-{
-
-    $viewSuffix = Config::get('template.view_suffix');
-    if (file_exists_case($template . $viewSuffix)) {
-        $template = $template . $viewSuffix;
-    } else if (file_exists_case($template . ".php")) {
-        $template = $template . ".php";
-    } else {
-        $template = $template . $viewSuffix;
-    }
-
-    return $template;
 }
 
 /**
@@ -1626,82 +1586,10 @@ function cmf_curl_get($url)
 }
 
 /**
- *
- * 返回符合条件的所有分类
- * @param string $tag 查询标签，以字符串方式传入,例："ids:1,2;field:term_id,name,description,seo_title;limit:0,8;order:path asc,listorder desc;where:term_id>0;"<br>
- *    ids:调用指定id的一个或多个数据,如 1,2,3
- *    field:调用terms表里的指定字段,如(term_id,name...) 默认全部，用*代表全部
- *    limit:数据条数,默认值为10,可以指定从第几条开始,如3,8(表示共调用8条,从第3条开始)
- *    order:排序方式，如：path desc,listorder asc<br>
- *    where:查询条件，字符串形式，和sql语句一样
- * @todo 老代码修改过来，做nav.php url 共享的时候用到，不清楚新系统还用不用。
- * @todo limit 是否还有存在的价值？
- * @return array 返回符合条件的所有分类
- *
+ * 判断字符串是否为已经序列化过
+ * @param $str
+ * @return bool
  */
-function cmf_get_terms($tag)
-{
-
-    $where = [];
-    $tag   = cmf_param_lable($tag);
-    $field = !empty($tag['field']) ? $tag['field'] : '*';
-    $limit = !empty($tag['limit']) ? $tag['limit'] : '';
-    $order = !empty($tag['order']) ? $tag['order'] : 'id';
-
-    //根据参数生成查询条件
-    $where['status'] = ['eq', 1];
-
-    if (isset($tag['ids'])) {
-        $where['id'] = ['in', $tag['ids']];
-    }
-
-    if (isset($tag['where'])) {
-        $where['_string'] = $tag['where'];
-    }
-
-    $portalCategoryModel = new \app\portal\model\PortalCategoryModel();
-    $objterms            = $portalCategoryModel->field($field)->where($where)->order($order)->limit($limit)->select();
-    return $objterms ? $objterms->toArray() : [];
-}
-
-
-/**
- * 获取指定条件的页面列表
- * @param string $tag 查询标签，以字符串方式传入,例："ids:1,2;field:post_title,post_content;limit:0,8;order:post_date desc,listorder desc;where:id>0;"<br>
- *    ids:调用指定id的一个或多个数据,如 1,2,3<br>
- *    field:调用post指定字段,如(id,post_title...) 默认全部<br>
- *    limit:数据条数,默认值为10,可以指定从第几条开始,如3,8(表示共调用8条,从第3条开始)<br>
- *    order:排序方式，如：post_date desc<br>
- *    where:查询条件，字符串形式，和sql语句一样
- * @todo 老代码修改过来，做nav.php url 共享的时候用到，不清楚新系统还用不用。
- * @todo limit 是否还有存在的价值？
- * @return array 返回符合条件的所有页面
- */
-function cmf_sql_pages($tag)
-{
-    $where = [];
-    $tag   = cmf_param_lable($tag);
-    $field = !empty($tag['field']) ? $tag['field'] : '*';
-    $limit = !empty($tag['limit']) ? $tag['limit'] : '';
-    $order = !empty($tag['order']) ? $tag['order'] : 'update_time';
-
-    //根据参数生成查询条件
-    $where['post_status'] = ['eq', 1];
-    $where['post_type']   = ['eq', 2];
-
-    if (isset($tag['ids'])) {
-        $where['id'] = ['in', $tag['ids']];
-    }
-
-    if (isset($tag['where'])) {
-        $where['_string'] = $tag['where'];
-    }
-
-    $portalPostModel = new \app\portal\model\PortalPostModel();
-    $objterms        = $portalPostModel->field($field)->where($where)->order($order)->limit($limit)->select();
-    return $objterms ? $objterms->toArray() : [];
-}
-
 function cmf_is_serialized($str)
 {
     return ($str == serialize(false) || @unserialize($str) !== false);
@@ -1788,10 +1676,11 @@ function cmf_file_write($file, $content)
 
 /**
  * 获取客户端IP地址
- * @param integer   $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
- * @param boolean   $adv 是否进行高级模式获取（有可能被伪装）
+ * @param integer $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
+ * @param boolean $adv 是否进行高级模式获取（有可能被伪装）
  * @return mixed
  */
-function get_client_ip($type = 0, $adv = false){
-    return request()->ip($type,$adv);
+function get_client_ip($type = 0, $adv = false)
+{
+    return request()->ip($type, $adv);
 }
