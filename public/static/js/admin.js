@@ -655,7 +655,7 @@ function open_upload_dialog(dialog_title, callback, extra_params, multi, filetyp
                 if (typeof callback == 'function') {
                     var iframewindow = this.iframe.contentWindow;
                     var files        = iframewindow.get_selected_files();
-                    if (files) {
+                    if (files && files.length > 0) {
                         callback.apply(this, [this, files, extra_params]);
                     } else {
                         return false;

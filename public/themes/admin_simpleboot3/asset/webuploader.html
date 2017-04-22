@@ -1,7 +1,11 @@
 <include file="public@header"/>
 <link rel="stylesheet" type="text/css" href="__ROOT__/static/js/webuploader/webuploader.css">
 <link rel="stylesheet" type="text/css" href="__ROOT__/static/js/webuploader/image-upload/style.css">
-
+<style>
+    .state-complete .progress {
+        display: none;
+    }
+</style>
 </head>
 <body class="body_none">
 
@@ -76,18 +80,19 @@
             for (var i = 0; i < number; i++) {
 
                 var file         = new Object();
-                file.filepath    = jQuery(".filelist li .imgWrap img").eq(i).attr("lang");
-                file.preview_url = jQuery(".filelist li .imgWrap img").eq(i).attr("src");//httpUrl+file.filepath;
-                file.url         = file.preview_url;
-                file.name        = jQuery(".filelist li .title").eq(i).html();
-                if (file.url == "undefined") {
-                    alert("没有上传完成或者还没有点击开始上传！");
-                    return false;
+                var $img         = jQuery(".filelist li .imgWrap img").eq(i);
+                file.filepath    = $img.data("filepath");
+                file.preview_url = $img.data("preview_url");//httpUrl+file.filepath;
+                file.url         = $img.data("url");
+                file.name        = $img.data("name");
+                if (file.url == undefined) {
+                    continue;
+                } else {
+                    files.push(file);
                 }
-                files.push(file);
+
             }
         }
-
 
         return files;
     }
@@ -235,8 +240,8 @@
                 chunked: true,//开启分片
                 auto: true,
                 chunkSize: 512 * 1024,
-                compress:false,
-                server: "{:url('asset/Asset/webuploader')}",
+                compress: false,
+                server: "{:url('asset/asset/webuploader')}?_ajax=1",
                 // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
                 disableGlobalDnd: true,
                 fileNumLimit: maxUp,
@@ -601,10 +606,15 @@
                 var stats;
                 switch (type) {
                     case 'uploadSuccess':
+                        console.log(msg);
                         //var MsgO = jQuery.parseJSON(msg._raw)
                         // alert(MsgO.result);
-                        jQuery("#" + msg.id + " img").attr("lang",msg.result);
-                        jQuery("#" + msg.id + " img").attr("src", httpUrl+msg.result);
+                        var $img = jQuery("#" + file.id + " img");
+                        $img.data("filepath", msg.data.filepath);
+                        $img.data("name", msg.data.name);
+                        $img.data("url", msg.data.url);
+                        $img.data("preview_url", msg.data.preview_url);
+                        //jQuery("#" + msg.id + " img"n"src", httpUrl+msg.result);
                         break;
                     case 'uploadFinished':
                         setState('confirm');
@@ -619,6 +629,22 @@
                         break;
 
                 }
+            });
+
+            uploader.on("uploadAccept", function (object, ret) {
+                console.log(object);
+                console.log(ret);
+                if (ret.code == 0) {
+                    return false;
+                }
+
+                return true;
+
+            });
+
+            uploader.on('uploadError', function (file, reason) {
+                console.log(reason);
+                $('#' + file.id).find('p.state').text('上传出错');
             });
 
             uploader.onError = function (code) {
@@ -638,7 +664,7 @@
 
 
                 }
-                alert('Eroor: ' + code);
+                alert('Error: ' + code);
             };
 
             $upload.on('click', function () {
