@@ -124,6 +124,7 @@ https://github.com/thinkcmf/thinkcmf/issues
 * 修复`navigationFolder`设置多个子菜单后会多循环数据
 * 修复部分代码php5.4下不兼容
 * 修复后台菜单不能添加编辑
+
 [门户应用]
 * 完全独立门户应用
 * 完善后台页面管理
