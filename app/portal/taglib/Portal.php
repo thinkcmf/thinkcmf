@@ -17,20 +17,21 @@ class Portal extends TagLib
      */
     protected $tags = [
         // 标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次
-        'articles'            => ['attr' => 'field,where,limit,order,page,relation,returnVarName,pageVarName,categoryIds', 'close' => 1],//非必须属性item
-        'breadcrumb'          => ['attr' => 'cid', 'close' => 1],//非必须属性self
+        'articles'   => ['attr' => 'field,where,limit,order,page,relation,returnVarName,pageVarName,categoryIds', 'close' => 1],//非必须属性item
+        'breadcrumb' => ['attr' => 'cid', 'close' => 1],//非必须属性self
     ];
+
     /**
      * 文章列表标签
      */
     public function tagArticles($tag, $content)
     {
-        $item        = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
-        $field       = empty($tag['field']) ? '*' : $tag['field'];
-        $limit       = empty($tag['limit']) ? '10' : $tag['limit'];
-        $order       = empty($tag['order']) ? 'post.published_time DESC' : $tag['order'];
-        $relation    = empty($tag['relation']) ? '' : $tag['relation'];
-        $pageVarName = empty($tag['pageVarName']) ? '__PAGE_VAR_NAME__' : $tag['pageVarName'];
+        $item          = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
+        $field         = empty($tag['field']) ? '*' : $tag['field'];
+        $limit         = empty($tag['limit']) ? '10' : $tag['limit'];
+        $order         = empty($tag['order']) ? 'post.published_time DESC' : $tag['order'];
+        $relation      = empty($tag['relation']) ? '' : $tag['relation'];
+        $pageVarName   = empty($tag['pageVarName']) ? '__PAGE_VAR_NAME__' : $tag['pageVarName'];
         $returnVarName = empty($tag['returnVarName']) ? 'articles_data' : $tag['returnVarName'];
 
         $where = '""';
@@ -85,7 +86,12 @@ parse;
      */
     public function tagBreadcrumb($tag, $content)
     {
-        $cid  = empty($tag['cid']) ? '0' : $tag['cid'];
+        $cid = $tag['cid'] ? '0' : $tag['cid'];
+
+        if (!empty($cid)) {
+            $this->autoBuildVar($cid);
+        }
+
         $self = isset($tag['self']) ? 'true' : 'false';
 
         $parse = <<<parse
@@ -102,8 +108,6 @@ parse;
         return $parse;
 
     }
-
-
 
 
 }
