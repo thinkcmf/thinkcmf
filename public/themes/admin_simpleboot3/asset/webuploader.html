@@ -25,7 +25,7 @@
                         <div class="queueList">
                             <div id="dndArea" class="placeholder">
                                 <div id="filePicker"></div>
-                                <p>或将照片拖到这里，单次最多可选{$maxUp}张</p>
+                                <p>或将文件拖到这里，单次最多可选{$maxUp}个文件</p>
                             </div>
                         </div>
                         <div class="statusBar" style="display:none;">
@@ -59,7 +59,7 @@
 </div>
 
 <script src="__ROOT__/static/js/admin.js"></script>
-<script src="__ROOT__/static/js/webuploader/webuploader.js"></script>
+<script src="__ROOT__/static/js/webuploader/webuploader.min.js"></script>
 
 
 <script type="text/javascript">
@@ -228,7 +228,7 @@
             uploader = WebUploader.create({
                 pick: {
                     id: '#filePicker',
-                    label: '点击选择图片',
+                    label: '点击选择文件',
                     multiple: multi,
                 },
                 formData: {
