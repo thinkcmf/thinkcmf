@@ -655,6 +655,7 @@ function open_upload_dialog(dialog_title, callback, extra_params, multi, filetyp
                 if (typeof callback == 'function') {
                     var iframewindow = this.iframe.contentWindow;
                     var files        = iframewindow.get_selected_files();
+                    console.log(files);
                     if (files && files.length > 0) {
                         callback.apply(this, [this, files, extra_params]);
                     } else {
@@ -679,6 +680,8 @@ function open_upload_dialog(dialog_title, callback, extra_params, multi, filetyp
 function upload_one(dialog_title, input_selector, filetype, extra_params, app) {
     open_upload_dialog(dialog_title, function (dialog, files) {
         $(input_selector).val(files[0].filepath);
+        $(input_selector + '-preview').attr('href', files[0].preview_url);
+        $(input_selector + '-name').val(files[0].name);
     }, extra_params, 0, filetype, app);
 }
 

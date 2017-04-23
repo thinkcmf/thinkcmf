@@ -80,11 +80,11 @@
             for (var i = 0; i < number; i++) {
 
                 var file         = new Object();
-                var $img         = jQuery(".filelist li .imgWrap img").eq(i);
-                file.filepath    = $img.data("filepath");
-                file.preview_url = $img.data("preview_url");//httpUrl+file.filepath;
-                file.url         = $img.data("url");
-                file.name        = $img.data("name");
+                var $file        = jQuery(".filelist li").eq(i);
+                file.filepath    = $file.data("filepath");
+                file.preview_url = $file.data("preview_url");//httpUrl+file.filepath;
+                file.url         = $file.data("url");
+                file.name        = $file.data("name");
                 if (file.url == undefined) {
                     continue;
                 } else {
@@ -609,11 +609,11 @@
                         console.log(msg);
                         //var MsgO = jQuery.parseJSON(msg._raw)
                         // alert(MsgO.result);
-                        var $img = jQuery("#" + file.id + " img");
-                        $img.data("filepath", msg.data.filepath);
-                        $img.data("name", msg.data.name);
-                        $img.data("url", msg.data.url);
-                        $img.data("preview_url", msg.data.preview_url);
+                        var $file = jQuery("#" + file.id);
+                        $file.data("filepath", msg.data.filepath);
+                        $file.data("name", msg.data.name);
+                        $file.data("url", msg.data.url);
+                        $file.data("preview_url", msg.data.preview_url);
                         //jQuery("#" + msg.id + " img"n"src", httpUrl+msg.result);
                         break;
                     case 'uploadFinished':

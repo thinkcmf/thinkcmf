@@ -75,7 +75,8 @@ class AssetController extends AdminBaseController
              */
 
 
-            $fileImage = $this->request->file("file");
+            $fileImage    = $this->request->file("file");
+            $originalName = $fileImage->getInfo('name');
             //$strWebPath      = $this->request->root() . DS . "upload" . DS;
             $strWebPath      = "";//"upload" . DS;
             $strSaveFilePath = ROOT_PATH . 'public' . DS . "upload" . DS;
@@ -196,7 +197,7 @@ class AssetController extends AdminBaseController
                 @fclose($out);
 
                 $fileImage = new File($savename, 'r');
-                $arrInfo   = ["name"     => $fileImage->getFilename(),
+                $arrInfo   = ["name"     => $originalName,
                               "type"     => $fileImage->getMime(),
                               "tmp_name" => $strSaveFilePath . $strFilePath,
                               "error"    => 0,
