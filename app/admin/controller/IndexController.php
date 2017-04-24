@@ -31,7 +31,7 @@ class IndexController extends AdminBaseController
 
         $this->assign("menus", $menus);
 
-        $admin = Db::name("user")->where('id', 1)->find();
+        $admin = Db::name("user")->where('id', cmf_get_current_admin_id())->find();
         $this->assign('admin', $admin);
         return $this->fetch();
     }
