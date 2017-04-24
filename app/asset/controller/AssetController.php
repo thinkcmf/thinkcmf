@@ -239,7 +239,7 @@ class AssetController extends AdminBaseController
 
                 //$info = $fileImage->move($strSaveFilePath);//开始上传
 
-                if (!$fileImage) {
+                if (empty($fileImage)) {
                     $this->error($fileImage->getError(), '');
 
                 } else {
