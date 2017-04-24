@@ -75,7 +75,7 @@
 						
 						<php>$smeta=json_decode($vo['smeta'],true);</php>
 						<notempty name="smeta.thumb">
-							<a href="javascript:parent.image_preview_dialog('{:sp_get_image_preview_url($smeta['thumb'])}');">
+							<a href="javascript:image_preview_dialog('{:sp_get_image_preview_url($smeta['thumb'])}');">
 								<i class="fa fa-photo fa-fw"></i>
 							</a>
 						</notempty>
