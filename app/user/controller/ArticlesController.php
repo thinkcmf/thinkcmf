@@ -21,4 +21,8 @@ class ArticlesController extends HomeBaseController
         $this->assign('user_id',$user['id']);
         return $this->fetch();
     }
+    public function add()
+    {
+        return $this->fetch();
+    }
 }
