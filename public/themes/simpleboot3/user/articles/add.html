@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>文章</title>
+	<meta name="keywords" content=""/>
+	<meta name="description" content="">
+	<include file="public@head"/>
+</head>
+
+<body class="body-white" id="top">
+<include file="public@nav" />
+
+<div class="container tc-main">
+	<div class="row">
+		<div class="col-md-3">
+			<include file="public@usernav" />
+		</div>
+		<div class="col-md-9">
+			<div class="tabs">
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-comments-o"></i> 我的文章</a></li>
+					<li><a href="{:url('articles/add')}"><i class="fa fa-plus"></i> 发表文章</a></li>
+				</ul>
+				<div class="tab-content">
+					<form class="form-horizontal js-ajax-form" action="{:url('portal/article/add_post')}" method="post">
+						<div class="control-group">
+							<label class="control-label" for="input-title">标题</label>
+							<div class="controls">
+								<input type="text" id="input-title" placeholder="标题" name="post[post_title]">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="input-cid">文章分类</label>
+							<div class="controls">
+								<select id="input-cid" name="term">
+
+								</select>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="input-birthday">缩略图</label>
+							<div class="controls">
+								<div style="display: inline-block;text-align: center;">
+									<input type="hidden" name="smeta[thumb]" id="thumb" value="{$smeta.thumb|default=''}">
+									<a href="javascript:upload_one_image('图片上传','#thumb');">
+										<img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumb-preview" width="135" style="cursor: hand;display: block;margin-bottom: 5px;"/>
+									</a>
+									<input type="button" class="btn btn-small" onclick="$('#thumb-preview').attr('src','__TMPL__Public/assets/images/default-thumbnail.png');$('#thumb').val('');return false;" value="取消图片">
+								</div>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="input-birthday">内容</label>
+							<div class="controls"> </div>
+						</div>
+						<div class="control-group">
+							<div class="controls">
+								<button type="button" class="btn js-ajax-submit" data-wait="1500">发表</button>
+							</div>
+						</div>
+                     </form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<include file="public@footer" />
+</div>
+<!-- /container -->
+<include file="public@scripts" />
+</body>
+</html>
