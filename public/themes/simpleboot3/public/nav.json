@@ -1,6 +1,6 @@
 {
     "name": "导航条",
-    "action": "portal/Public/nav",
+    "action": "public/Nav",
     "description": "导航条模板文件",
     "is_public": "1",
     "order": 8.0,
