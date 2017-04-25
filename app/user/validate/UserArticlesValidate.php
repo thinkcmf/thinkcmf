@@ -10,7 +10,7 @@ namespace app\user\validate;
 
 use think\Validate;
 
-class ArticlesValidate extends Validate
+class UserArticlesValidate extends Validate
 {
     protected $rule = [
         'post_title' => 'require',
@@ -20,7 +20,7 @@ class ArticlesValidate extends Validate
     ];
 
     protected $scene = [
-//        'add'  => ['user_login,user_pass,user_email'],
-//        'edit' => ['user_login,user_email'],
+        'add'  => ['post_title'],
+        'edit' => ['post_title'],
     ];
 }
