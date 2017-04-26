@@ -6,11 +6,11 @@
 // +----------------------------------------------------------------------
 // | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
-namespace app\user\validate;
+namespace app\portal\validate;
 
 use think\Validate;
 
-class ArticlesValidate extends Validate
+class AdminArticleValidate extends Validate
 {
     protected $rule = [
         'post_title' => 'require',
