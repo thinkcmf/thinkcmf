@@ -9,6 +9,8 @@
 namespace app\user\controller;
 
 use think\Validate;
+use think\Request;
+use think\Image;
 use cmf\controller\UserBaseController;
 use app\user\model\UserModel;
 
@@ -133,15 +135,16 @@ class ProfileController extends UserBaseController
     public function avatarUpload()
     {
         $config = [
-            'rootPath' => './' . C("UPLOADPATH"),
-            'savePath' => './avatar/',
+            'rootPath' => './public/upload/',
+            'savePath' => 'avatar/',
             'maxSize'  => 512000,//500K
             'saveName' => ['uniqid', ''],
             'exts'     => ['jpg', 'png', 'jpeg'],
             'autoSub'  => false,
         ];
-        $upload = new \Think\Upload($config, 'Local');//先在本地裁剪
-        $info   = $upload->upload();
+        $request = Request::instance();
+        $file =  $request->file('img');
+        $info = $file->move($config['rootPath'],microtime (true)*10000);
         //开始上传
         if ($info) {
             //上传成功
@@ -161,34 +164,29 @@ class ProfileController extends UserBaseController
     {
         $session_avatar = session('avatar');
         if (!empty($session_avatar)) {
-            $targ_w       = I('post.w', 0, 'intval');
-            $targ_h       = I('post.h', 0, 'intval');
-            $x            = I('post.x', 0, 'intval');
-            $y            = I('post.y', 0, 'intval');
+            $targ_w       = $this->request->param('w', 0, 'intval');
+            $targ_h       = $this->request->param('h', 0, 'intval');
+            $x            = $this->request->param('x', 0, 'intval');
+            $y            = $this->request->param('y', 0, 'intval');
             $jpeg_quality = 90;
 
             $avatar     = $session_avatar;
-            $avatar_dir = C("UPLOADPATH") . "avatar/";
+            $avatar_dir = "/public/upload/avatar/";
 
             $avatar_path = $avatar_dir . $avatar;
 
-            $image = new \Think\Image();
-            $image->open($avatar_path);
-            $image->crop($targ_w, $targ_h, $x, $y);
-            $image->save($avatar_path);
+            Image::open($avatar_path);
+            Image::crop($targ_w, $targ_h, $x, $y);
+            Image::save($avatar_path);
 
             $result = true;
 
-            $file_upload_type = C('FILE_UPLOAD_TYPE');
-            if ($file_upload_type == 'Qiniu') {
-                $upload = new \Think\Upload();
-                $file   = ['savepath' => '', 'savename' => 'avatar/' . $avatar, 'tmp_name' => $avatar_path];
-                $result = $upload->getUploader()->save($file);
-            }
             if ($result === true) {
-                $userid = sp_get_current_userid();
-                $result = $this->users_model->where(["id" => $userid])->save(["avatar" => 'avatar/' . $avatar]);
+                $uid = cmf_get_current_user_id();
+                $userQuery = Db::name("user");
+                $result = $userQuery->where(["id" => $uid])->save(["avatar" => 'avatar/' . $avatar]);
                 session('user.avatar', 'avatar/' . $avatar);
+                dump($avatar);
                 if ($result) {
                     $this->success("头像更新成功！");
                 } else {
@@ -202,10 +200,9 @@ class ProfileController extends UserBaseController
     }
 
     // 保存用户头像
-    public function do_avatar()
+    public function doAvatar()
     {
-        $imgurl = I('post.imgurl');
-        //去'/'
+        $imgurl =  $this->request->param('imgurl');
         $imgurl               = str_replace('/', '', $imgurl);
         $old_img              = $this->user['avatar'];
         $this->user['avatar'] = $imgurl;
