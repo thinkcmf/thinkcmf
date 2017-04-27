@@ -19,7 +19,7 @@
 			<div class="tabs">
 				<ul class="nav nav-tabs">
 					<li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-comments-o"></i> 我的文章</a></li>
-					<li><a href="{:url('articles/add')}"><i class="fa fa-plus"></i> 发表文章</a></li>
+					<li><a href="{:url('portal/article/add')}"><i class="fa fa-plus"></i> 发表文章</a></li>
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane active" id="one">
@@ -42,7 +42,6 @@
 							</php>
 							<tbody>
 							<portal:articles item="vo" field="*" where="$where" order="post.create_time DESC" page="10">
-								<php>//$more = json_decode($vo['more']);</php>
 								<tr>
 									<td>{$vo.id}</td>
 									<td>{$vo.post_title}</td>
@@ -53,7 +52,6 @@
 										<a href="{:url('portal/article/index',array('id'=>$vo['id']))}">查看原文</a>
 								</tr>
 							</portal:articles>
-							<php>//print_r($articles_data);exit;</php>
 							</tbody>
 						</table>
 					</div>

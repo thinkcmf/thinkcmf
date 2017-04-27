@@ -1,0 +1,126 @@
+<include file="public@head"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <form method="post" class="js-ajax-form" action="{:url('portal/article/listorders')}">
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th width="16">
+                    <label>
+                        <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                    </label>
+                </th>
+                <th width="50">ID</th>
+                <th>分类名称</th>
+                <th>分类描述</th>
+            </tr>
+            </thead>
+            <tbody>
+            {$categories_tree}
+            </tbody>
+        </table>
+    </form>
+</div>
+<include file="public@scripts" />
+<script>
+    if ($('.js-check-wrap').length) {
+        var total_check_all = $('input.js-check-all');
+
+        //遍历所有全选框
+        $.each(total_check_all, function () {
+            var check_all = $(this),
+                check_items;
+
+            //分组各纵横项
+            var check_all_direction = check_all.data('direction');
+            check_items             = $('input.js-check[data-' + check_all_direction + 'id="' + check_all.data('checklist') + '"]').not(":disabled");
+
+            //点击全选框
+            check_all.change(function (e) {
+                var check_wrap = check_all.parents('.js-check-wrap'); //当前操作区域所有复选框的父标签（重用考虑）
+
+                if ($(this).prop('checked')) {
+                    //全选状态
+                    check_items.prop('checked', true);
+
+                    //所有项都被选中
+                    if (check_wrap.find('input.js-check').length === check_wrap.find('input.js-check:checked').length) {
+                        check_wrap.find(total_check_all).prop('checked', true);
+                    }
+
+                } else {
+                    //非全选状态
+                    check_items.removeProp('checked');
+
+                    check_wrap.find(total_check_all).removeProp('checked');
+
+                    //另一方向的全选框取消全选状态
+                    var direction_invert = check_all_direction === 'x' ? 'y' : 'x';
+                    check_wrap.find($('input.js-check-all[data-direction="' + direction_invert + '"]')).removeProp('checked');
+                }
+
+            });
+
+            //点击非全选时判断是否全部勾选
+            check_items.change(function () {
+
+                if ($(this).prop('checked')) {
+
+                    if (check_items.filter(':checked').length === check_items.length) {
+                        //已选择和未选择的复选框数相等
+                        check_all.prop('checked', true);
+                    }
+
+                } else {
+                    check_all.removeProp('checked');
+                }
+
+            });
+
+
+        });
+
+    }
+    $('.data-item-tr').click(function (e) {
+
+        console.log(e);
+        var $this = $(this);
+        if ($(e.target).is('input')) {
+            return;
+        }
+
+        var $input = $this.find('input');
+        if ($input.is(':checked')) {
+            $input.prop('checked', false);
+        } else {
+            $input.prop('checked', true);
+        }
+
+
+    });
+
+    function confirm() {
+        var selectedCategoriesId   = [];
+        var selectedCategoriesName = [];
+        var selectedCategories     = [];
+        $('.js-check:checked').each(function () {
+            var $this = $(this);
+            selectedCategoriesId.push($this.val());
+            selectedCategoriesName.push($this.data('name'));
+
+            selectedCategories.push({
+                id: $this.val(),
+                name: $this.data('name')
+            });
+        });
+
+        return {
+            selectedCategories: selectedCategories,
+            selectedCategoriesId: selectedCategoriesId,
+            selectedCategoriesName: selectedCategoriesName
+        };
+    }
+</script>
+</body>
+</html>

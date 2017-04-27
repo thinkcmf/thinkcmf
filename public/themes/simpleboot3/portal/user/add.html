@@ -18,11 +18,11 @@
 		<div class="col-md-9">
 			<div class="tabs">
 				<ul class="nav nav-tabs">
-					<li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-comments-o"></i> 我的文章</a></li>
-					<li><a href="{:url('articles/add')}"><i class="fa fa-plus"></i> 发表文章</a></li>
+					<li><a href="#one" data-toggle="tab"><i class="fa fa-comments-o"></i> 我的文章</a></li>
+					<li class="active"><a href="{:url('portal/article/add')}"><i class="fa fa-plus"></i> 发表文章</a></li>
 				</ul>
 				<div class="tab-content">
-					<form class="form-horizontal" action="{:url('user/articles/addPost')}" method="post">
+					<form class="form-horizontal js-ajax-form margin-top-20" action="{:url('portal/article/addPost')}" method="post">
 						<div class="control-group">
 							<label class="control-label" for="input-title">标题</label>
 							<div class="controls">
@@ -39,15 +39,21 @@
                                        id="js-categories-id-input"/>
 							</div>
 						</div>
+						<div>
+							<label class="control-label" for="input-cid">发布时间</label>
+							<div class="controls">
+								<input class="form-control js-datetime" type="text" name="post[published_time]" value="{:date('Y-m-d H:i:s',time())}">
+							</div>
+						</div>
 						<div class="control-group">
 							<label class="control-label" for="input-birthday">缩略图</label>
 							<div class="controls">
 								<div style="display: inline-block;text-align: center;">
-									<input type="hidden" name="smeta[thumb]" id="thumb" value="{$smeta.thumb|default=''}">
-									<a href="javascript:upload_one_image('图片上传','#thumb');">
-										<img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumb-preview" width="135" style="cursor: hand;display: block;margin-bottom: 5px;"/>
+									<input type="hidden" name="post[more][thumbnail]" id="thumbnail" value="">
+									<a href="javascript:upload_one_image('图片上传','#thumbnail');">
+										<img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumbnail-preview" width="135" style="cursor: pointer"/>
 									</a>
-									<input type="button" class="btn btn-small" onclick="$('#thumb-preview').attr('src','__TMPL__Public/assets/images/default-thumbnail.png');$('#thumb').val('');return false;" value="取消图片">
+									<input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
 								</div>
 							</div>
 						</div>
@@ -97,7 +103,7 @@
 
     function doSelectCategory() {
         var selectedCategoriesId = $('#js-categories-id-input').val();
-        open_iframe_layer("{:url('portal/AdminCategory/select')}?ids=" + selectedCategoriesId, '请选择分类', {
+        open_iframe_layer("{:url('portal/Article/select')}?ids=" + selectedCategoriesId, '请选择分类', {
             area: ['700px', '400px'],
             btn: ['确定', '取消'],
             yes: function (index, layero) {
