@@ -21,23 +21,7 @@
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane active" id="one">
-							<br>
-							<div>
-								<if condition="!empty($oauths['qq'])">
-									<button class="btn">
-										<i class="fa fa-qq"></i> 已绑定腾讯QQ账号
-									</button>
-								<else /> 
-									<a class="btn btn-primary" href="{:url('api/oauth/bang',array('type'=>'qq'))}"><i class="fa fa-qq"></i> 绑定腾讯QQ账号</a>
-								</if>
-								<if condition="!empty($oauths['sina'])">
-									<button class="btn">
-										<i class="fa fa-weibo"></i> 已绑定新浪微博账号
-									</button>
-								<else /> 
-									<a class="btn btn-primary" href="{:url('api/oauth/bang',array('type'=>'sina'))}"><i class="fa fa-weibo"></i> 绑定新浪微博账号</a>
-								</if>
-							</div>
+
 						</div>
 					</div>
 				</div>

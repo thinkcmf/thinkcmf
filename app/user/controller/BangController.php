@@ -32,7 +32,7 @@ class BangController extends UserBaseController
     public function mobile()
     {
         $editData = new UserModel();
-        $data = $editData->favorites();
+        $data = $editData->bangMobile();
         $user = cmf_get_current_user();
         $this->assign($user);
         $this->assign("page", $data['page']);

@@ -253,18 +253,13 @@ class UserModel extends Model
         return $data;
     }
 
-    public function bang()
+    public function bangMobile()
     {
         $userQuery = Db::name("user");
         $uid = cmf_get_current_user_id();
         $result = $userQuery->where('id', $uid)->find();
 
         if (!empty($result)) {
-                session('user', $result);
-                $data = [
-                    'last_login_time' => time(),
-                    'last_login_ip'   => get_client_ip(0, true),
-                ];
                 $userQuery->where('id', $result["id"])->update($data);
                 return 0;
         }
