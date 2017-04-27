@@ -30,9 +30,11 @@ class BangController extends UserBaseController
     {
         if ($this->request->isPost()) {
             $validate = new Validate([
+                'mobile' => 'require',
                 'code' => 'require',
             ]);
             $validate->message([
+                'mobile.require' => '手机号不能为空',
                 'code.require' => '验证码不能为空',
             ]);
 
@@ -63,9 +65,12 @@ class BangController extends UserBaseController
     {
         if ($this->request->isPost()) {
             $validate = new Validate([
+                'user_email' => 'require|email',
                 'code' => 'require',
             ]);
             $validate->message([
+                'user_email.require' => '邮箱地址不能为空',
+                'user_email.email' => '邮箱地址不正确',
                 'code.require' => '验证码不能为空',
             ]);
 
