@@ -116,8 +116,8 @@ class UserModel extends Model
                 "user_type"       => 2,
             ];
             $uid        = $userQuery->insertGetId($data);
-            $data['id'] = $uid;
-            session('user', $data);
+            $date = $userQuery->where('id', $uid)->find();
+            cmf_update_current_user($date);
             return 0;
         }
         return 1;
@@ -163,7 +163,7 @@ class UserModel extends Model
         $userQuery = Db::name("user");
         if($userQuery->where('id',$uid)->update($user)){
             $data = $userQuery->where('id',$uid)->find();
-            session('user', $data);
+            cmf_update_current_user($data);
             return 1;
         }
         return 0;
@@ -253,16 +253,23 @@ class UserModel extends Model
         return $data;
     }
 
-    public function bangMobile()
+    public function bangMobile($user)
     {
         $userQuery = Db::name("user");
         $uid = cmf_get_current_user_id();
-        $result = $userQuery->where('id', $uid)->find();
+        $userQuery->where('id', $uid)->update($user);
+        $data = $userQuery->where('id', $uid)->find();
+        cmf_update_current_user($data);
+        return 0;
+    }
 
-        if (!empty($result)) {
-                $userQuery->where('id', $result["id"])->update($data);
-                return 0;
-        }
-        return 2;
+    public function bangEmail($user)
+    {
+        $userQuery = Db::name("user");
+        $uid = cmf_get_current_user_id();
+        $userQuery->where('id', $uid)->update($user);
+        $data = $userQuery->where('id', $uid)->find();
+        cmf_update_current_user($data);
+        return 0;
     }
 }

@@ -10,6 +10,7 @@ namespace app\user\controller;
 
 use cmf\controller\UserBaseController;
 use app\user\model\UserModel;
+use think\Validate;
 
 
 class BangController extends UserBaseController
@@ -20,48 +21,75 @@ class BangController extends UserBaseController
      */
     public function index()
     {
-        $editData = new UserModel();
-        $data = $editData->favorites();
         $user = cmf_get_current_user();
         $this->assign($user);
-        $this->assign("page", $data['page']);
-        $this->assign("lists", $data['lists']);
         return $this->fetch("profile/bang");
     }
 
     public function mobile()
     {
-        $editData = new UserModel();
-        $data = $editData->bangMobile();
-        $user = cmf_get_current_user();
-        $this->assign($user);
-        $this->assign("page", $data['page']);
-        $this->assign("lists", $data['lists']);
-        return $this->fetch("profile/bang");
+        if ($this->request->isPost()) {
+            $validate = new Validate([
+                'code' => 'require',
+            ]);
+            $validate->message([
+                'code.require' => '验证码不能为空',
+            ]);
+
+            $data = $this->request->post();
+            if (!$validate->check($data)) {
+                $this->error($validate->getError());
+            }
+            $errMsg = cmf_check_verification_code($data['mobile'],$data['code']);
+            if (!empty($errMsg)) {
+                $this->error($errMsg);
+            }
+            $register = new UserModel();
+            $user['mobile']   = $data['mobile'];
+            $log = $register->bangMobile($user);
+            switch ($log){
+                case 0:
+                    $this->success('手机号绑定成功');
+                    break;
+                default :
+                    $this->error('未受理的请求');
+            }
+        } else {
+            $this->error("请求错误");
+        }
     }
 
     public function email()
     {
-        $editData = new UserModel();
-        $data = $editData->favorites();
-        $user = cmf_get_current_user();
-        $this->assign($user);
-        $this->assign("page", $data['page']);
-        $this->assign("lists", $data['lists']);
-        return $this->fetch("profile/bang");
-    }
+        if ($this->request->isPost()) {
+            $validate = new Validate([
+                'code' => 'require',
+            ]);
+            $validate->message([
+                'code.require' => '验证码不能为空',
+            ]);
 
-    public function oauth()
-    {
-        $oauth_user_model = M("OauthUser");
-        $uid              = sp_get_current_userid();
-        $oauths           = $oauth_user_model->where(["uid" => $uid])->select();
-        $new_oauths       = [];
-        foreach ($oauths as $oa) {
-            $new_oauths[strtolower($oa['from'])] = $oa;
+            $data = $this->request->post();
+            if (!$validate->check($data)) {
+                $this->error($validate->getError());
+            }
+            $errMsg = cmf_check_verification_code($data['mobile'],$data['code']);
+            if (!empty($errMsg)) {
+                $this->error($errMsg);
+            }
+            $register = new UserModel();
+            $user['user_email']   = $data['user_email'];
+            $log = $register->bangEmail($user);
+            switch ($log){
+                case 0:
+                    $this->success('电子邮箱绑定成功');
+                    break;
+                default :
+                    $this->error('未受理的请求');
+            }
+        } else {
+            $this->error("请求错误");
         }
-        $this->assign("oauths", $new_oauths);
-        return $this->fetch();
     }
 
 }
