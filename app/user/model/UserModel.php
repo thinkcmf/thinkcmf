@@ -92,7 +92,9 @@ class UserModel extends Model
                 'user_status'     => 1,
                 "user_type"       => 2,
             ];
-            $userQuery->insert($data);
+            $uid        = $userQuery->insertGetId($data);
+            $date = $userQuery->where('id', $uid)->find();
+            cmf_update_current_user($date);
             return 0;
         }
         return 1;
