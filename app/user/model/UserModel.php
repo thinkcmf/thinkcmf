@@ -189,13 +189,13 @@ class UserModel extends Model
     {
         $uid = cmf_get_current_user_id();
         $userQuery = Db::name("UserFavorite");
-        $favorites = $userQuery->where(array('user_id'=>$uid))->paginate(10);
+        $favorites = $userQuery->where(array('user_id'=>$uid))->order('id desc')->paginate(10);
         $data['page'] = $favorites->render();
         $data['lists'] = $favorites->items();
         return $data;
     }
 
-    public function addFavorite($id)
+    public function addFavorite($id,$cid)
     {
         $portalQuery = Db::name("PortalPost");
         $portal = $portalQuery->where('id',$id)->find();
@@ -207,7 +207,10 @@ class UserModel extends Model
             return 2;
         }
         $where['title'] = $portal['post_title'];
-        $where['url'] = $_SERVER['HTTP_REFERER'];
+        $url['action'] = 'portal/article/index';
+        $url['param']['id'] = $id;
+        $url['param']['cid'] = $cid;
+        $where['url'] = json_encode($url);
         $where['description'] = $portal['post_excerpt'];
         $where['table_name'] = 'PortalPost';
         $where['create_time'] = time();
@@ -231,9 +234,40 @@ class UserModel extends Model
     {
         $uid = cmf_get_current_user_id();
         $userQuery = Db::name("Comment");
-        $favorites = $userQuery->where(array('user_id'=>$uid))->paginate(10);
+        $where['user_id'] = $uid;
+        $where['delete_time'] = 0;
+        $favorites = $userQuery->where($where)->order('id desc')->paginate(10);
         $data['page'] = $favorites->render();
         $data['lists'] = $favorites->items();
         return $data;
+    }
+
+    public function deleteComment($id)
+    {
+        $uid = cmf_get_current_user_id();
+        $userQuery = Db::name("Comment");
+        $where['id'] = $id;
+        $where['user_id'] = $uid;
+        $data['delete_time'] = time();
+        $userQuery->where($where)->update($data);
+        return $data;
+    }
+
+    public function bang()
+    {
+        $userQuery = Db::name("user");
+        $uid = cmf_get_current_user_id();
+        $result = $userQuery->where('id', $uid)->find();
+
+        if (!empty($result)) {
+                session('user', $result);
+                $data = [
+                    'last_login_time' => time(),
+                    'last_login_ip'   => get_client_ip(0, true),
+                ];
+                $userQuery->where('id', $result["id"])->update($data);
+                return 0;
+        }
+        return 2;
     }
 }
