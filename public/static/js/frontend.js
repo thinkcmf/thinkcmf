@@ -592,6 +592,78 @@
         });
     }
 
+    //邮件验证码
+    var $js_get_email_code = $('.js-get-email-code');
+    if ($js_get_email_code.length > 0) {
+        Wind.use('noty', function () {
+
+            $js_get_email_code.on('click', function () {
+                var $this = $(this);
+                if ($this.data('loading')) return;
+                if ($this.data('sending')) return;
+                var $email_input = $($this.data('email-input'));
+                var email        = $email_input.val();
+                if (email == '') {
+                    $email_input.focus();
+                    return;
+                }
+
+                $this.data('loading', true);
+                $this.data('sending', true);
+
+                var url = $this.data('url');
+
+                var init_secode_left = parseInt($this.data('init-second-left'));
+                init_secode_left     = init_secode_left > 0 ? init_secode_left : 60;
+                var init_text        = $this.text();
+                $this.data('second-left', init_secode_left);
+                var wait_msg = $this.data('wait-msg');
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {username: email},
+                    success: function (data) {
+                        if (data.code == 1) {
+                            noty({
+                                text: data.msg,
+                                type: 'success',
+                                layout: 'center'
+                            });
+
+                            $this.text(wait_msg.replace('[second]', init_secode_left));
+
+                            var mtimer = setInterval(function () {
+                                if (init_secode_left > 0) {
+                                    init_secode_left--;
+                                    $this.text(wait_msg.replace('[second]', init_secode_left));
+                                } else {
+                                    clearInterval(mtimer);
+                                    $this.text(init_text);
+                                    $this.data('sending', false);
+                                }
+
+                            }, 1000);
+                        } else {
+                            noty({
+                                text: data.msg,
+                                type: 'error',
+                                layout: 'center'
+                            });
+                            $this.data('sending', false);
+                        }
+                    },
+                    error: function () {
+                        $this.data('sending', false);
+                    },
+                    complete: function () {
+                        $this.data('loading', false);
+                    }
+                });
+            });
+
+        });
+    }
     //日期选择器
     var dateInput = $("input.js-date")
     if (dateInput.length) {
