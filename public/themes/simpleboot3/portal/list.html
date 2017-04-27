@@ -33,7 +33,7 @@
                                     <a href="javascript:;"><i class="fa fa-eye"></i><span>{$vo.post_hits}</span></a>
                                     <a href="{:url('article/doLike',array('id'=>$vo['id']))}"
                                        class="js-count-btn"><i class="fa fa-thumbs-up"></i><span class="count">{$vo.post_like}</span></a>
-                                    <a href="{:url('user/favorite/add',array('id'=>$vo['id']))}"
+                                    <a href="{:url('user/favorite/add',array('id'=>$vo['id'],'cid'=>$category['id']))}"
                                        class="js-favorite-btn" data-title="{$vo.post_title}"
                                        data-url="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}"
                                     >

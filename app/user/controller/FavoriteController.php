@@ -50,8 +50,9 @@ class FavoriteController extends UserBaseController
     public function add()
     {
         $id   = $this->request->param("id", 0, "intval");
+        $cid   = $this->request->param("cid", 0, "intval");
         $add = new UserModel();
-        $data = $add->addFavorite($id);
+        $data = $add->addFavorite($id,$cid);
         switch ($data){
             case 0:
                 $this->success('收藏成功');

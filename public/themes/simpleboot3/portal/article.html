@@ -21,6 +21,7 @@
     <div class="row">
         <div class="col-md-9">
             <div class="tc-box article-box">
+                <if condition="$article['post_status']">
                 <h2>{$article.post_title}</h2>
                 <div class="article-infobox">
                     <span>{:date('Y-m-d H:i',$article.published_time)} by {$article.user.user_nickname}</span>
@@ -28,7 +29,7 @@
 		    			<a href="javascript:;"><i class="fa fa-eye"></i><span>{$article.post_hits}</span></a>
 						<a href="{:url('article/doLike',array('id'=>$article['id']))}" class="js-count-btn"><i
                                 class="fa fa-thumbs-up"></i><span class="count">{$article.post_like}</span></a>
-						<a href="{:url('user/favorite/add',array('id'=>$article['id']))}"
+						<a href="{:url('user/favorite/add',array('id'=>$article['id'],'cid'=>$category['id']))}"
                            class="js-favorite-btn"
                            data-title="{$article.post_title}"
                            data-url="{:url('article/index',array('id'=>$article['id']))}"
@@ -45,6 +46,9 @@
                     <div>
                         <b>注：本文转载自{$article.post_source}，转载目的在于传递更多信息，并不代表本网赞同其观点和对其真实性负责。如有侵权行为，请联系我们，我们会及时删除。</b>
                     </div>
+                </if>
+                    <else />
+                    <h2 style="text-align: center;">由于某些原因，此帖已被管理员关闭!</h2>
                 </if>
 
                 <php>
