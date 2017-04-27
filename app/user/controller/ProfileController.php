@@ -223,17 +223,4 @@ class ProfileController extends UserBaseController
         $this->ajaxReturn($res);
     }
 
-    // 第三方账号绑定
-    public function bang()
-    {
-        $oauth_user_model = M("OauthUser");
-        $uid              = sp_get_current_userid();
-        $oauths           = $oauth_user_model->where(["uid" => $uid])->select();
-        $new_oauths       = [];
-        foreach ($oauths as $oa) {
-            $new_oauths[strtolower($oa['from'])] = $oa;
-        }
-        $this->assign("oauths", $new_oauths);
-        return $this->fetch();
-    }
 }
