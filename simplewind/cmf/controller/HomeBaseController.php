@@ -125,15 +125,16 @@ class HomeBaseController extends BaseController
     {
 
         //TODO 增加缓存
-        $theme     = empty($theme) ? cmf_get_current_theme() : $theme;
+        $theme = empty($theme) ? cmf_get_current_theme() : $theme;
 
         // 调试模式下自动更新模板
-        if(APP_DEBUG){
-            $themeModel=new ThemeModel();
+        if (APP_DEBUG) {
+            $themeModel = new ThemeModel();
             $themeModel->updateTheme($theme);
         }
 
         $themePath = config('cmf_theme_path');
+        $file      = str_replace('\\', '/', $file);
         $file      = str_replace(['.html', '.php', $themePath . $theme . "/"], '', $file);
 
         $files = Db::name('theme_file')->field('more')->where(['theme' => $theme])->where(function ($query) use ($file) {
