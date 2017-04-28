@@ -126,6 +126,7 @@ class ProfileController extends UserBaseController
     // 用户头像编辑
     public function avatar()
     {
+        dump(session('avatar'));
         $user = cmf_get_current_user();
         $this->assign($user);
         return $this->fetch();
@@ -134,50 +135,33 @@ class ProfileController extends UserBaseController
     // 用户头像上传
     public function avatarUpload()
     {
-        $config = [
-            'rootPath' => './public/upload/',
-            'savePath' => 'avatar/',
-            'maxSize'  => 512000,//500K
-            'saveName' => ['uniqid', ''],
-            'exts'     => ['jpg', 'png', 'jpeg'],
-            'autoSub'  => false,
-        ];
-        $request = Request::instance();
-        $file =  $request->file('img');
-        $info = $file->move($config['rootPath'],microtime (true)*10000);
-        //开始上传
-        if ($info) {
-            //上传成功
-            //写入附件数据库信息
-            $first = array_shift($info);
-            $file  = $first['savename'];
-            session('avatar', $file);
-            $this->ajaxReturn(sp_ajax_return(["file" => $file], "上传成功！", 1), "AJAX_UPLOAD");
-        } else {
-            //上传失败，返回错误
-            $this->ajaxReturn(sp_ajax_return([], $upload->getError(), 0), "AJAX_UPLOAD");
+        $file = request()->file('file');
+        $info = $file->move(ROOT_PATH . 'public/upload/avatar/');
+        if($info){
+            session('avatar', $info->getSaveName());
+
+            $this->success('上传成功',url('Profile/avatarUpload'), ['file'=>$info->getSaveName()]);
+        }else{
+            $this->error($file->getError());
         }
     }
 
     // 用户头像裁剪
     public function avatarUpdate()
     {
-        $session_avatar = session('avatar');
-        if (!empty($session_avatar)) {
-            $targ_w       = $this->request->param('w', 0, 'intval');
-            $targ_h       = $this->request->param('h', 0, 'intval');
+        $avatar = session('avatar');
+        if (!empty($avatar)) {
+            $w       = $this->request->param('w', 0, 'intval');
+            $h       = $this->request->param('h', 0, 'intval');
             $x            = $this->request->param('x', 0, 'intval');
             $y            = $this->request->param('y', 0, 'intval');
-            $jpeg_quality = 90;
 
-            $avatar     = $session_avatar;
             $avatar_dir = "/public/upload/avatar/";
 
             $avatar_path = $avatar_dir . $avatar;
 
-            Image::open($avatar_path);
-            Image::crop($targ_w, $targ_h, $x, $y);
-            Image::save($avatar_path);
+            $avatarImg = Image::open($avatar_path);
+            $avatarImg->crop($w, $h, $x, $y)->save($avatar_path);
 
             $result = true;
 
@@ -186,7 +170,6 @@ class ProfileController extends UserBaseController
                 $userQuery = Db::name("user");
                 $result = $userQuery->where(["id" => $uid])->save(["avatar" => 'avatar/' . $avatar]);
                 session('user.avatar', 'avatar/' . $avatar);
-                dump($avatar);
                 if ($result) {
                     $this->success("头像更新成功！");
                 } else {
@@ -211,7 +194,7 @@ class ProfileController extends UserBaseController
             //更新session
             session('user', $this->user);
             //删除旧头像
-            sp_delete_avatar($old_img);
+            cmf_delete_avatar($old_img);
         } else {
             $this->user['avatar'] = $old_img;
             //删除新头像

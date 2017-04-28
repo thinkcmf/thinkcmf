@@ -91,7 +91,7 @@
 							$("#avatar_uploder").hide();
 							var $uploaded_area=$(".uploaded_avatar_area");
 							$uploaded_area.find("img").remove();
-							var src= "/public/upload/"+data.data.file;
+							var src= "/public/upload/avatar/"+data.data.file;
 							var $img=$("<img/>").attr("src",src);
                             $img.css("max-width","600px");
 							$img.prependTo($uploaded_area);
