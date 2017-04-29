@@ -20,7 +20,7 @@ use app\admin\model\HookPluginModel;
  *     'action' =>'default',
  *     'parent' =>'',
  *     'display'=> true,
- *     'order'  => 10000,
+ *     'order'  => 20,
  *     'icon'   =>'cloud',
  *     'remark' =>'插件管理'
  * )

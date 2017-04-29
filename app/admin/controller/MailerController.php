@@ -65,7 +65,7 @@ class MailerController extends AdminBaseController
      * @adminMenu(
      *     'name'   => '会员注册邮件模板',
      *     'parent' => 'index',
-     *     'display'=> true,
+     *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
@@ -111,7 +111,7 @@ class MailerController extends AdminBaseController
      * @adminMenu(
      *     'name'   => '邮件发送测试',
      *     'parent' => 'index',
-     *     'display'=> true,
+     *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',

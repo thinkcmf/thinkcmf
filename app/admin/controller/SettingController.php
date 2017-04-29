@@ -20,7 +20,7 @@ use think\Db;
  *     'action' =>'default',
  *     'parent' =>'',
  *     'display'=> true,
- *     'order'  => 10000,
+ *     'order'  => 0,
  *     'icon'   =>'cogs',
  *     'remark' =>'系统设置入口'
  * )

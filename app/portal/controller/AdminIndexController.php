@@ -18,7 +18,7 @@ use cmf\controller\AdminBaseController;
  *     'action' =>'default',
  *     'parent' =>'',
  *     'display'=> true,
- *     'order'  => 10000,
+ *     'order'  => 30,
  *     'icon'   =>'th',
  *     'remark' =>'门户管理'
  * )
