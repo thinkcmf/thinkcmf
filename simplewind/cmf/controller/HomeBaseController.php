@@ -135,6 +135,7 @@ class HomeBaseController extends BaseController
 
         $themePath = config('cmf_theme_path');
         $file      = str_replace('\\', '/', $file);
+        $file      = str_replace('//', '/', $file);
         $file      = str_replace(['.html', '.php', $themePath . $theme . "/"], '', $file);
 
         $files = Db::name('theme_file')->field('more')->where(['theme' => $theme])->where(function ($query) use ($file) {
