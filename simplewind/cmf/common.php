@@ -1166,16 +1166,21 @@ function cmf_plugin_url($url, $param = [], $domain = false)
 /**
  * TODO
  * 检查权限
- * @param $uid  int           认证用户的id
+ * @param $userId  int           认证用户的id
  * @param $name string|array  需要验证的规则列表,支持逗号分隔的权限规则或索引数组
  * @param $relation string    如果为 'or' 表示满足任一条规则即通过验证;如果为 'and'则表示需满足所有规则才能通过验证
  * @return boolean           通过验证返回true;失败返回false
  */
-function cmf_auth_check($uid, $name = null, $relation = 'or')
+function cmf_auth_check($userId, $name = null, $relation = 'or')
 {
-    if (empty($uid)) {
+    if (empty($userId)) {
         return false;
     }
+    
+    if ($userId == 1) {
+        return true;
+    }
+    
     $authObj = new \cmf\lib\Auth();
     if (empty($name)) {
         $module     = request()->module();
@@ -1183,7 +1188,7 @@ function cmf_auth_check($uid, $name = null, $relation = 'or')
         $action     = request()->action();
         $name       = strtolower($module . "/" . $controller . "/" . $action);
     }
-    return $authObj->check($uid, $name, $relation);
+    return $authObj->check($userId, $name, $relation);
 }
 
 function cmf_alpha_id($in, $to_num = false, $pad_up = 4, $passKey = null)
