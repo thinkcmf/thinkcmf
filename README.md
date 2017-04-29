@@ -9,6 +9,10 @@ ThinkCMF 5.0 RC2 地球日版
 
 > 打开rewrite
 
+### 演示站点
+http://demo5.thinkcmf.com/admin/   
+用户名/密码:demo/thinkcmf
+
 ### 安装步骤
 
 
