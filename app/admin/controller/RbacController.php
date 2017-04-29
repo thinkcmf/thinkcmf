@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
-namespace app\admin\Controller;
+namespace app\admin\controller;
 
 use cmf\controller\AdminBaseController;
 use think\Db;
