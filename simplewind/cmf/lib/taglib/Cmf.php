@@ -93,6 +93,7 @@ parse;
         $root     = isset($tag['root']) ? $tag['root'] : 'ul';
         $class    = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
         $maxLevel = isset($tag['max-level']) ? intval($tag['max-level']) : 0;
+        $parseNavigationFuncName = '__parse_navigation'.uniqid();
 
         if (strpos($navId, '$') === 0) {
             $this->autoBuildVar($name);
@@ -102,14 +103,14 @@ parse;
 
         $parse = <<<parse
 <?php
-if(!function_exists('__parse_navigation')){
-    function __parse_navigation(\$menus,\$level=1){
+
+function {$parseNavigationFuncName}(\$menus,\$level=1){
+\$_parse_navigation_func_name = '{$parseNavigationFuncName}';
 ?>
     <foreach name="menus" item="menu">
     {$content}
     </foreach>
 <?php 
-    }
 }
 ?>
 
@@ -118,10 +119,10 @@ if(!function_exists('__parse_navigation')){
     \$menus = \$navMenuModel->navMenusTreeArray({$navId},{$maxLevel});
 ?>
 <if condition="'{$root}'==''">
-    {:__parse_navigation(\$menus)}
+    {:{$parseNavigationFuncName}(\$menus)}
 <else/>
     <{$root} id="{$id}" class="{$class}">
-        {:__parse_navigation(\$menus)}
+        {:{$parseNavigationFuncName}(\$menus)}
     </$root>
 </if>
 
@@ -165,7 +166,7 @@ parse;
         {$content}
         <{$dropdown} class="{$dropdownClass}">
             <php>\$level++;</php>
-            {:__parse_navigation(\$menu.children,\$level)}
+            <php>echo \$_parse_navigation_func_name(\$menu['children'],\$level);</php>
         </{$dropdown}>
     </{$root}>
 </if>
@@ -185,6 +186,7 @@ parse;
         $root     = isset($tag['root']) ? $tag['root'] : 'ul';
         $class    = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
         $maxLevel = isset($tag['max-level']) ? intval($tag['max-level']) : 0;
+        $parseSubNavigationFuncName = '__parse_sub_navigation'.uniqid();
 
         if (strpos($parent, '$') === 0) {
             $this->autoBuildVar($name);
@@ -194,14 +196,13 @@ parse;
 
         $parse = <<<parse
 <?php
-if(!function_exists('__parse_sub_navigation')){
-    function __parse_sub_navigation(\$menus,\$level=1){
+function {$parseSubNavigationFuncName}(\$menus,\$level=1){
+\$_parse_sub_navigation_func_name = '{$parseSubNavigationFuncName}';
 ?>
     <foreach name="menus" item="menu">
     {$content}
     </foreach>
 <?php 
-    }
 }
 ?>
 
@@ -210,10 +211,10 @@ if(!function_exists('__parse_sub_navigation')){
     \$menus = \$navMenuModel->subNavMenusTreeArray({$parent},{$maxLevel});
 ?>
 <if condition="'{$root}'==''">
-    {:__parse_sub_navigation(\$menus)}
+    {:{$parseSubNavigationFuncName}(\$menus)}
 <else/>
     <{$root} id="{$id}" class="{$class}">
-        {:__parse_sub_navigation(\$menus)}
+        {:{$parseSubNavigationFuncName}(\$menus)}
     </$root>
 </if>
 
@@ -257,7 +258,7 @@ parse;
         {$content}
         <{$dropdown} class="{$dropdownClass}">
             <php>\$level++;</php>
-            {:__parse_sub_navigation(\$menu.children)}
+            <php>echo \$_parse_sub_navigation_func_name(\$menu['children'],\$level);</php>
         </{$dropdown}>
     </{$root}>
 </if>
