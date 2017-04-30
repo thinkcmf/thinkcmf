@@ -35,7 +35,7 @@ class SettingController extends AdminBaseController
      *     'parent' => 'default',
      *     'display'=> true,
      *     'hasView'=> true,
-     *     'order'  => 10000,
+     *     'order'  => 0,
      *     'icon'   => '',
      *     'remark' => '网站信息',
      *     'param'  => ''
