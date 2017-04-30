@@ -180,10 +180,11 @@ parse;
     {
 
         // parent,id,root,class
-        $parent = isset($tag['parent']) ? $tag['parent'] : 0;
-        $id     = isset($tag['id']) ? $tag['id'] : '';
-        $root   = isset($tag['root']) ? $tag['root'] : 'ul';
-        $class  = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
+        $parent   = isset($tag['parent']) ? $tag['parent'] : 0;
+        $id       = isset($tag['id']) ? $tag['id'] : '';
+        $root     = isset($tag['root']) ? $tag['root'] : 'ul';
+        $class    = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
+        $maxLevel = isset($tag['max-level']) ? intval($tag['max-level']) : 0;
 
         if (strpos($parent, '$') === 0) {
             $this->autoBuildVar($name);
@@ -206,7 +207,7 @@ if(!function_exists('__parse_sub_navigation')){
 
 <?php
     \$navMenuModel = new \app\admin\model\NavMenuModel();
-    \$menus = \$navMenuModel->subNavMenusTreeArray({$parent});
+    \$menus = \$navMenuModel->subNavMenusTreeArray({$parent},{$maxLevel});
 ?>
 <if condition="'{$root}'==''">
     {:__parse_sub_navigation(\$menus)}
