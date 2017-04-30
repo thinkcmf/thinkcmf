@@ -1,4 +1,5 @@
 <?php
+
 namespace cmf\lib\taglib;
 
 use think\template\TagLib;
@@ -87,10 +88,11 @@ parse;
     {
 
         // nav-id,id,root,class
-        $navId = isset($tag['nav-id']) ? $tag['nav-id'] : 0;
-        $id    = isset($tag['id']) ? $tag['id'] : '';
-        $root  = isset($tag['root']) ? $tag['root'] : 'ul';
-        $class = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
+        $navId    = isset($tag['nav-id']) ? $tag['nav-id'] : 0;
+        $id       = isset($tag['id']) ? $tag['id'] : '';
+        $root     = isset($tag['root']) ? $tag['root'] : 'ul';
+        $class    = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
+        $maxLevel = isset($tag['max-level']) ? intval($tag['max-level']) : 0;
 
         if (strpos($navId, '$') === 0) {
             $this->autoBuildVar($name);
@@ -109,12 +111,11 @@ if(!function_exists('__parse_navigation')){
 <?php 
     }
 }
-
 ?>
 
 <?php
     \$navMenuModel = new \app\admin\model\NavMenuModel();
-    \$menus = \$navMenuModel->navMenusTreeArray({$navId});
+    \$menus = \$navMenuModel->navMenusTreeArray({$navId},{$maxLevel});
 ?>
 <if condition="'{$root}'==''">
     {:__parse_navigation(\$menus)}

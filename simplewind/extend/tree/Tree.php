@@ -1,4 +1,5 @@
 <?php
+
 namespace tree;
 /**
  * 通用的树型类，可以生成任何树型结构
@@ -146,7 +147,7 @@ class Tree
                 $parentId == 0 && $str_group ? eval("\$nstr = \"$str_group\";") : eval("\$nstr = \"$str\";");
 
                 $this->ret .= $nstr;
-                $nbsp = $this->nbsp;
+                $nbsp      = $this->nbsp;
                 $this->getTree($id, $str, $sid, $adds . $k . $nbsp, $str_group);
                 $number++;
             }
@@ -157,9 +158,11 @@ class Tree
     /**
      * 生成树型结构数组
      * @param int myID，表示获得这个ID下的所有子级
+     * @param int $maxLevel 最大获取层级,默认不限制
+     * @param int $level 当前层级,只在递归调用时使用,真实使用时不传入此参数
      * @return array
      */
-    public function getTreeArray($myId)
+    public function getTreeArray($myId, $maxLevel = 0, $level = 1)
     {
         $returnArray = [];
 
@@ -168,8 +171,12 @@ class Tree
 
         if (is_array($children)) {
             foreach ($children as $child) {
-                $returnArray[$child['id']]             = $child;
-                $returnArray[$child['id']]["children"] = $this->getTreeArray($child['id'], '');
+                $returnArray[$child['id']] = $child;
+                if ($maxLevel === 0 || ($maxLevel !== 0 && $maxLevel > $level)) {
+                    $level++;
+                    $returnArray[$child['id']]["children"] = $this->getTreeArray($child['id'], $maxLevel, $level);
+                }
+
             }
         }
         return $returnArray;
@@ -273,8 +280,8 @@ class Tree
             if ($showlevel > 0 && $showlevel == $currentlevel && $this->getChild($id))
                 $folder = 'hasChildren'; //如设置显示层级模式@2011.07.01
             $floder_status = isset($folder) ? ' class="' . $folder . '"' : '';
-            $this->str .= $recursion ? '<ul><li' . $floder_status . ' id=\'' . $id . '\'>' : '<li' . $floder_status . ' id=\'' . $id . '\'>';
-            $recursion = FALSE;
+            $this->str     .= $recursion ? '<ul><li' . $floder_status . ' id=\'' . $id . '\'>' : '<li' . $floder_status . ' id=\'' . $id . '\'>';
+            $recursion     = FALSE;
             //判断是否为终极栏目
             if ($child == 1) {
                 eval("\$nstr = \"$str2\";");

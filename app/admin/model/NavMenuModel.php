@@ -1,4 +1,5 @@
 <?php
+
 namespace app\admin\model;
 
 use think\Exception;
@@ -11,22 +12,23 @@ class NavMenuModel extends Model
 {
     /**
      * 获取某导航下所有菜单树形结构数组
-     * @param int $navId 导航 id
+     * @param int $navId 导航id
+     * @param int $maxLevel 最大获取层级,默认不限制
      * @return array
      */
-    public function navMenusTreeArray($navId = 0)
+    public function navMenusTreeArray($navId = 0, $maxLevel = 0)
     {
         if (empty($navId)) {
             $navId = Db::name('nav')->where('is_main', 1)->value('id');
         }
-        $navMenus = $this->where('nav_id', $navId)->where('status', 1)->order('list_order ASC')->select()->toArray();
+        $navMenus     = $this->where('nav_id', $navId)->where('status', 1)->order('list_order ASC')->select()->toArray();
         $navMenusTree = [];
         if (!empty($navMenus)) {
             $tree = new Tree();
             $this->parseNavMenu4Home($navMenus);
             $tree->init($navMenus);
 
-            $navMenusTree = $tree->getTreeArray(0);
+            $navMenusTree = $tree->getTreeArray(0, $maxLevel);
         }
 
         return $navMenusTree;
@@ -66,8 +68,8 @@ class NavMenuModel extends Model
         foreach ($navMenus as $key => $navMenu) {
             $href    = htmlspecialchars_decode($navMenu['href']);
             $hrefOld = $href;
-            if (strpos($hrefOld, "{")!==false) {
-                $href = json_decode($navMenu['href'],true);
+            if (strpos($hrefOld, "{") !== false) {
+                $href = json_decode($navMenu['href'], true);
                 $href = url($href['action'], $href['param']);
             } else {
                 if ($hrefOld == "home") {
