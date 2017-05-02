@@ -16,6 +16,8 @@ class HomeBaseController extends BaseController
 
     public function _initialize()
     {
+        // 监听home_init
+        hook('home_init');
         parent::_initialize();
         $siteInfo = cmf_get_site_info();
         $this->assign('site_info', $siteInfo);
