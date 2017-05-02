@@ -121,7 +121,6 @@ class ProfileController extends UserBaseController
     // 用户头像编辑
     public function avatar()
     {
-        dump(session('avatar'));
         $user = cmf_get_current_user();
         $this->assign($user);
         return $this->fetch();
