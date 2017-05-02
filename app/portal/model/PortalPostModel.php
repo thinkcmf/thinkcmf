@@ -36,8 +36,7 @@ class PortalPostModel extends Model
      */
     public function categories()
     {
-        $prefix = $this->getConfig('prefix');
-        return $this->belongsToMany('PortalCategoryModel', $prefix . 'portal_category_post', 'category_id', 'post_id');
+        return $this->belongsToMany('PortalCategoryModel', 'portal_category_post', 'category_id', 'post_id');
     }
 
     /**
