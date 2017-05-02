@@ -682,6 +682,35 @@
         });
     }
 
+    // bootstrap日期选择器
+    var dateInput = $("input.js-bootstrap-date")
+    if (dateInput.length) {
+        Wind.css('bootstrapDatetimePicker');
+        Wind.use('bootstrapDatetimePicker', function () {
+            dateInput.datetimepicker({
+                language: 'zh-CN',
+                format: 'yyyy-mm-dd',
+                minView: 'month',
+                todayBtn: 1,
+                autoclose: true
+            });
+        });
+    }
+
+    // bootstrap日期选择器日期+时间选择器
+    var dateTimeInput = $("input.js-bootstrap-datetime");
+    if (dateTimeInput.length) {
+        Wind.css('bootstrapDatetimePicker');
+        Wind.use('bootstrapDatetimePicker', function () {
+            dateTimeInput.datetimepicker({
+                language: 'zh-CN',
+                format: 'yyyy-mm-dd hh:ii',
+                todayBtn: 1,
+                autoclose: true
+            });
+        });
+    }
+
     //赞，拍等，有数量操作的按钮
     var $js_count_btn = $('a.js-count-btn');
     if ($js_count_btn.length) {
