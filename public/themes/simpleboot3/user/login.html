@@ -25,7 +25,7 @@
 
 					<div class="form-group">
 						<div style="position: relative;">
-							<input type="text" name="verify" placeholder="验证码" class="form-control" style="width: 170px;float: left;margin-right: 30px">
+							<input type="text" name="captcha" placeholder="验证码" class="form-control captcha" style="width: 170px;float: left;margin-right: 30px">
 							<captcha height="38" width="160" font-size="20"/>
 						</div>
 					</div>
@@ -37,8 +37,8 @@
 
 					<div class="form-group" style="text-align: center;">
 						<ul class="list-inline">
-							<li><a href="{:url('user/register/index')}">现在注册</a></li>
-							<li><a href="{:url('user/Reset/index')}">忘记密码</a></li>
+							<li><a href="{:url('user/Register/index')}">现在注册</a></li>
+							<li><a href="{:url('user/Login/findPassword')}">忘记密码</a></li>
 						</ul>
 					</div>
 				</form>

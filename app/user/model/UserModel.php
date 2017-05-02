@@ -81,20 +81,20 @@ class UserModel extends Model
         $userQuery = Db::name("user");
         $result    = $userQuery->where('user_email', $user['user_email'])->find();
         if (empty($result)) {
-            $data = [
+            $data   = [
                 'user_login'      => '',
                 'user_email'      => $user['user_email'],
                 'mobile'          => '',
                 'user_nickname'   => '',
-                'user_pass'       => cmf_password($user['password']),
+                'user_pass'       => cmf_password($user['user_pass']),
                 'last_login_ip'   => get_client_ip(0, true),
                 'create_time'     => time(),
                 'last_login_time' => time(),
                 'user_status'     => 1,
                 "user_type"       => 2,
             ];
-            $uid  = $userQuery->insertGetId($data);
-            $date = $userQuery->where('id', $uid)->find();
+            $userId = $userQuery->insertGetId($data);
+            $date   = $userQuery->where('id', $userId)->find();
             cmf_update_current_user($date);
             return 0;
         }
@@ -103,57 +103,51 @@ class UserModel extends Model
 
     public function registerMobile($user)
     {
-        $userQuery = Db::name("user");
-        $result    = $userQuery->where('mobile', $user['mobile'])->find();
+        $result = Db::name("user")->where('mobile', $user['mobile'])->find();
         if (empty($result)) {
-            $data = [
+            $data   = [
                 'user_login'      => '',
                 'user_email'      => '',
                 'mobile'          => $user['mobile'],
                 'user_nickname'   => '',
-                'user_pass'       => cmf_password($user['password']),
+                'user_pass'       => cmf_password($user['user_pass']),
                 'last_login_ip'   => get_client_ip(0, true),
                 'create_time'     => time(),
                 'last_login_time' => time(),
                 'user_status'     => 1,
-                "user_type"       => 2,
+                "user_type"       => 2,//会员
             ];
-            $uid  = $userQuery->insertGetId($data);
-            $date = $userQuery->where('id', $uid)->find();
-            cmf_update_current_user($date);
+            $userId = Db::name("user")->insertGetId($data);
+            $data   = Db::name("user")->where('id', $userId)->find();
+            cmf_update_current_user($data);
             return 0;
         }
         return 1;
     }
 
 
-    public function resetEmail($user)
+    public function emailPasswordReset($email, $password)
     {
-        $userQuery = Db::name("user");
-        $result    = $userQuery->where('user_email', $user['user_email'])->find();
+        $result = $this->where('user_email', $email)->find();
         if (!empty($result)) {
             $data = [
-                'user_pass'       => cmf_password($user['password']),
-                'last_login_ip'   => get_client_ip(0, true),
-                'last_login_time' => time(),
+                'user_pass' => cmf_password($password),
             ];
-            $userQuery->where('user_email', $user['user_email'])->update($data);
+            $this->where('user_email', $email)->update($data);
             return 0;
         }
         return 1;
     }
 
-    public function resetMobile($user)
+    public function mobilePasswordReset($mobile, $password)
     {
         $userQuery = Db::name("user");
-        $result    = $userQuery->where('mobile', $user['mobile'])->find();
+        $result    = $userQuery->where('mobile', $mobile)->find();
         if (!empty($result)) {
             $data = [
-                'user_pass'       => cmf_password($user['password']),
-                'last_login_ip'   => get_client_ip(0, true),
-                'last_login_time' => time(),
+                'user_pass' => cmf_password($password),
             ];
-            $userQuery->where('mobile', $user['mobile'])->update($data);
+            $userQuery->where('mobile', $mobile)->update($data);
             return 0;
         }
         return 1;
@@ -161,11 +155,11 @@ class UserModel extends Model
 
     public function editData($user)
     {
-        $uid              = cmf_get_current_user_id();
+        $userId           = cmf_get_current_user_id();
         $user['birthday'] = strtotime($user['birthday']);
         $userQuery        = Db::name("user");
-        if ($userQuery->where('id', $uid)->update($user)) {
-            $data = $userQuery->where('id', $uid)->find();
+        if ($userQuery->where('id', $userId)->update($user)) {
+            $data = $userQuery->where('id', $userId)->find();
             cmf_update_current_user($data);
             return 1;
         }
@@ -174,25 +168,25 @@ class UserModel extends Model
 
     public function editPassword($user)
     {
-        $uid       = cmf_get_current_user_id();
+        $userId    = cmf_get_current_user_id();
         $userQuery = Db::name("user");
         if ($user['password'] != $user['repassword']) {
             return 1;
         }
-        $pass = $userQuery->where('id', $uid)->find();
+        $pass = $userQuery->where('id', $userId)->find();
         if (!cmf_compare_password($user['old_password'], $pass['user_pass'])) {
             return 2;
         }
         $data['user_pass'] = cmf_password($user['password']);
-        $userQuery->where('id', $uid)->update($data);
+        $userQuery->where('id', $userId)->update($data);
         return 0;
     }
 
     public function favorites()
     {
-        $uid           = cmf_get_current_user_id();
+        $userId        = cmf_get_current_user_id();
         $userQuery     = Db::name("UserFavorite");
-        $favorites     = $userQuery->where(['user_id' => $uid])->order('id desc')->paginate(10);
+        $favorites     = $userQuery->where(['user_id' => $userId])->order('id desc')->paginate(10);
         $data['page']  = $favorites->render();
         $data['lists'] = $favorites->items();
         return $data;
@@ -202,9 +196,9 @@ class UserModel extends Model
     {
         $portalQuery        = Db::name("PortalPost");
         $portal             = $portalQuery->where('id', $id)->find();
-        $uid                = cmf_get_current_user_id();
+        $userId             = cmf_get_current_user_id();
         $userQuery          = Db::name("UserFavorite");
-        $where['user_id']   = $uid;
+        $where['user_id']   = $userId;
         $where['object_id'] = $id;
         if ($userQuery->where($where)->find()) {
             return 2;
@@ -225,19 +219,19 @@ class UserModel extends Model
 
     public function deleteFavorite($id)
     {
-        $uid              = cmf_get_current_user_id();
+        $userId           = cmf_get_current_user_id();
         $userQuery        = Db::name("UserFavorite");
         $where['id']      = $id;
-        $where['user_id'] = $uid;
+        $where['user_id'] = $userId;
         $data             = $userQuery->where($where)->delete();
         return $data;
     }
 
     public function comments()
     {
-        $uid                  = cmf_get_current_user_id();
+        $userId               = cmf_get_current_user_id();
         $userQuery            = Db::name("Comment");
-        $where['user_id']     = $uid;
+        $where['user_id']     = $userId;
         $where['delete_time'] = 0;
         $favorites            = $userQuery->where($where)->order('id desc')->paginate(10);
         $data['page']         = $favorites->render();
@@ -247,32 +241,48 @@ class UserModel extends Model
 
     public function deleteComment($id)
     {
-        $uid                 = cmf_get_current_user_id();
+        $userId              = cmf_get_current_user_id();
         $userQuery           = Db::name("Comment");
         $where['id']         = $id;
-        $where['user_id']    = $uid;
+        $where['user_id']    = $userId;
         $data['delete_time'] = time();
         $userQuery->where($where)->update($data);
         return $data;
     }
 
-    public function bangMobile($user)
+    /**
+     * 绑定用户手机号
+     */
+    public function bindingMobile($user)
     {
-        $userQuery = Db::name("user");
-        $uid       = cmf_get_current_user_id();
-        $userQuery->where('id', $uid)->update($user);
-        $data = $userQuery->where('id', $uid)->find();
-        cmf_update_current_user($data);
+        $userId = cmf_get_current_user_id();
+        $mobileCount=$this->where('mobile', $user['mobile'])->count();
+        if($mobileCount>0){
+            return 2; //手机已经存在
+        } else{
+            Db::name("user")->where('id', $userId)->update($user);
+            $data = Db::name("user")->where('id', $userId)->find();
+            cmf_update_current_user($data);
+        }
+
         return 0;
     }
 
-    public function bangEmail($user)
+    /**
+     * 绑定用户邮箱
+     */
+    public function bindingEmail($user)
     {
-        $userQuery = Db::name("user");
-        $uid       = cmf_get_current_user_id();
-        $userQuery->where('id', $uid)->update($user);
-        $data = $userQuery->where('id', $uid)->find();
-        cmf_update_current_user($data);
+        $userId = cmf_get_current_user_id();
+        $emailCount=$this->where('user_email', $user['user_email'])->count();
+        if($emailCount>0){
+            return 2; //邮箱已经存在
+        }else{
+            Db::name("user")->where('id', $userId)->update($user);
+            $data = Db::name("user")->where('id', $userId)->find();
+            cmf_update_current_user($data);
+        }
+
         return 0;
     }
 }

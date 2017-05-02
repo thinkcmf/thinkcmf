@@ -78,19 +78,19 @@ class ProfileController extends UserBaseController
         if ($this->request->isPost()) {
             $validate = new Validate([
                 'old_password' => 'require|min:6|max:32',
-                'password'    => 'require|min:6|max:32',
-                'repassword'    => 'require|min:6|max:32',
+                'password'     => 'require|min:6|max:32',
+                'repassword'   => 'require|min:6|max:32',
             ]);
             $validate->message([
                 'old_password.require' => '旧密码不能为空',
                 'old_password.max'     => '旧密码不能超过32个字符',
                 'old_password.min'     => '旧密码不能小于6个字符',
-                'password.require'    => '新密码不能为空',
-                'password.max'        => '新密码不能超过32个字符',
-                'password.min'        => '新密码不能小于6个字符',
-                'repassword.require'    => '重复密码不能为空',
-                'repassword.max'        => '重复密码不能超过32个字符',
-                'repassword.min'        => '重复密码不能小于6个字符',
+                'password.require'     => '新密码不能为空',
+                'password.max'         => '新密码不能超过32个字符',
+                'password.min'         => '新密码不能小于6个字符',
+                'repassword.require'   => '重复密码不能为空',
+                'repassword.max'       => '重复密码不能超过32个字符',
+                'repassword.min'       => '重复密码不能小于6个字符',
             ]);
 
             $data = $this->request->post();
@@ -195,6 +195,97 @@ class ProfileController extends UserBaseController
             sp_delete_avatar($imgurl);
         }
         $this->ajaxReturn($res);
+    }
+
+    /**
+     * 绑定手机号或邮箱
+     */
+    public function binding()
+    {
+        $user = cmf_get_current_user();
+        $this->assign($user);
+        return $this->fetch();
+    }
+
+    /**
+     * 绑定手机号
+     */
+    public function bindingMobile()
+    {
+        if ($this->request->isPost()) {
+            $validate = new Validate([
+                'username'          => 'require',
+                'verification_code' => 'require',
+            ]);
+            $validate->message([
+                'username.require'          => '手机号不能为空',
+                'verification_code.require' => '验证码不能为空',
+            ]);
+
+            $data = $this->request->post();
+            if (!$validate->check($data)) {
+                $this->error($validate->getError());
+            }
+            $errMsg = cmf_check_verification_code($data['username'], $data['verification_code']);
+            if (!empty($errMsg)) {
+                $this->error($errMsg);
+            }
+            $userModel = new UserModel();
+            $log       = $userModel->bindingMobile(['mobile' => $data['username']]);
+            switch ($log) {
+                case 0:
+                    $this->success('手机号绑定成功');
+                    break;
+                case 2:
+                    $this->error('手机号已存在!');
+                    break;
+                default :
+                    $this->error('未受理的请求');
+            }
+        } else {
+            $this->error("请求错误");
+        }
+    }
+
+    /**
+     * 绑定邮箱
+     */
+    public function bindingEmail()
+    {
+        if ($this->request->isPost()) {
+            $validate = new Validate([
+                'username'          => 'require|email',
+                'verification_code' => 'require',
+            ]);
+            $validate->message([
+                'username.require'          => '邮箱地址不能为空',
+                'username.email'            => '邮箱地址不正确',
+                'verification_code.require' => '验证码不能为空',
+            ]);
+
+            $data = $this->request->post();
+            if (!$validate->check($data)) {
+                $this->error($validate->getError());
+            }
+            $errMsg = cmf_check_verification_code($data['username'], $data['verification_code']);
+            if (!empty($errMsg)) {
+                $this->error($errMsg);
+            }
+            $userModel = new UserModel();
+            $log       = $userModel->bindingEmail(['user_email' => $data['username']]);
+            switch ($log) {
+                case 0:
+                    $this->success('邮箱绑定成功');
+                    break;
+                case 2:
+                    $this->error('邮箱已存在!');
+                    break;
+                default :
+                    $this->error('未受理的请求');
+            }
+        } else {
+            $this->error("请求错误");
+        }
     }
 
 }

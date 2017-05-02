@@ -21,7 +21,7 @@
 
 				<div class="tab-content">
 					<div class="tab-pane active" id="mobile">
-						<form class="js-ajax-form" action="{:url('user/register/doRegister')}" method="post">
+						<form class="js-ajax-form" action="{:url('user/Register/doRegister')}" method="post">
 		
 							<div class="form-group">
 								<input type="text" name="username" placeholder="手机号" class="form-control" id="js-mobile-input">
@@ -40,7 +40,7 @@
 
 							<div class="form-group">
 								<div style="position: relative;">
-									<input type="text" name="verify" placeholder="验证码" class="form-control" style="width: 170px;float: left;margin-right: 30px">
+									<input type="text" name="captcha" placeholder="验证码" class="form-control" style="width: 170px;float: left;margin-right: 30px">
 									<captcha height="38" width="160" font-size="20"/>
 								</div>
 							</div>
@@ -51,7 +51,7 @@
 		
 							<div class="form-group" style="text-align: center;">
 								<p>
-									已有账号? <a href="{:url('user/login/index')}">点击此处登录</a>
+									已有账号? <a href="{:url('user/Login/index')}">点击此处登录</a>
 								</p>
 							</div>
 						</form>
@@ -76,7 +76,7 @@
 
 							<div class="form-group">
 								<div style="position: relative;">
-									<input type="text" name="verify" placeholder="验证码" class="form-control" style="width: 170px;float: left;margin-right: 30px">
+									<input type="text" name="captcha" placeholder="验证码" class="form-control" style="width: 170px;float: left;margin-right: 30px">
 									<captcha height="38" width="160" font-size="20"/>
 								</div>
 							</div>
@@ -87,7 +87,7 @@
 		
 							<div class="form-group" style="text-align: center;">
 								<p>
-									已有账号? <a href="{:url('user/login/index')}">点击此处登录</a>
+									已有账号? <a href="{:url('user/Login/index')}">点击此处登录</a>
 								</p>
 							</div>
 						</form>
