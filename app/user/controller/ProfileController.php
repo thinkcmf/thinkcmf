@@ -35,7 +35,7 @@ class ProfileController extends UserBaseController
     /**
      * 编辑用户资料
      */
-    public function editData()
+    public function edit()
     {
         $user = cmf_get_current_user();
         $this->assign($user);
@@ -45,14 +45,14 @@ class ProfileController extends UserBaseController
     /**
      * 编辑用户资料提交
      */
-    public function dataPost()
+    public function editPost()
     {
         if ($this->request->isPost()) {
-            $data = $this->request->post();
+            $data     = $this->request->post();
             $editData = new UserModel();
-            if($editData->editData($data)){
+            if ($editData->editData($data)) {
                 $this->success("保存成功！", url("user/profile/center"));
-            }else{
+            } else {
                 $this->error("没有新的修改信息！");
             }
         } else {
@@ -63,47 +63,42 @@ class ProfileController extends UserBaseController
     /**
      * 个人中心修改密码
      */
-    public function editPass()
+    public function password()
     {
         $user = cmf_get_current_user();
         $this->assign($user);
-        return $this->fetch('password');
+        return $this->fetch();
     }
 
     /**
      * 个人中心修改密码提交
      */
-    public function passPost()
+    public function passwordPost()
     {
         if ($this->request->isPost()) {
             $validate = new Validate([
                 'old_password' => 'require|min:6|max:32',
-                'password1' => 'require|min:6|max:32',
-                'password2' => 'require|min:6|max:32',
-                'verify' =>'require',
+                'password'    => 'require|min:6|max:32',
+                'repassword'    => 'require|min:6|max:32',
             ]);
             $validate->message([
                 'old_password.require' => '旧密码不能为空',
                 'old_password.max'     => '旧密码不能超过32个字符',
                 'old_password.min'     => '旧密码不能小于6个字符',
-                'password1.require' => '新密码不能为空',
-                'password1.max'     => '新密码不能超过32个字符',
-                'password1.min'     => '新密码不能小于6个字符',
-                'password2.require' => '重复密码不能为空',
-                'password2.max'     => '重复密码不能超过32个字符',
-                'password2.min'     => '重复密码不能小于6个字符',
-                'verify.require'   => '验证码不能为空',
+                'password.require'    => '新密码不能为空',
+                'password.max'        => '新密码不能超过32个字符',
+                'password.min'        => '新密码不能小于6个字符',
+                'repassword.require'    => '重复密码不能为空',
+                'repassword.max'        => '重复密码不能超过32个字符',
+                'repassword.min'        => '重复密码不能小于6个字符',
             ]);
 
             $data = $this->request->post();
             if (!$validate->check($data)) {
                 $this->error($validate->getError());
             }
-            if (!cmf_captcha_check($data['verify'])) {
-                $this->error('验证码错误');
-            }
-            $login  = new UserModel();
-            $log    = $login->editPass($data);
+            $login = new UserModel();
+            $log   = $login->editPassword($data);
             switch ($log) {
                 case 0:
                     $this->success('修改成功');
@@ -137,11 +132,11 @@ class ProfileController extends UserBaseController
     {
         $file = request()->file('file');
         $info = $file->move(ROOT_PATH . 'public/upload/avatar/');
-        if($info){
+        if ($info) {
             session('avatar', $info->getSaveName());
 
-            $this->success('上传成功',url('Profile/avatarUpload'), ['file'=>$info->getSaveName()]);
-        }else{
+            $this->success('上传成功', url('Profile/avatarUpload'), ['file' => $info->getSaveName()]);
+        } else {
             $this->error($file->getError());
         }
     }
@@ -151,10 +146,10 @@ class ProfileController extends UserBaseController
     {
         $avatar = session('avatar');
         if (!empty($avatar)) {
-            $w       = $this->request->param('w', 0, 'intval');
-            $h       = $this->request->param('h', 0, 'intval');
-            $x            = $this->request->param('x', 0, 'intval');
-            $y            = $this->request->param('y', 0, 'intval');
+            $w = $this->request->param('w', 0, 'intval');
+            $h = $this->request->param('h', 0, 'intval');
+            $x = $this->request->param('x', 0, 'intval');
+            $y = $this->request->param('y', 0, 'intval');
 
             $avatar_dir = "/public/upload/avatar/";
 
@@ -166,9 +161,9 @@ class ProfileController extends UserBaseController
             $result = true;
 
             if ($result === true) {
-                $uid = cmf_get_current_user_id();
+                $uid       = cmf_get_current_user_id();
                 $userQuery = Db::name("user");
-                $result = $userQuery->where(["id" => $uid])->save(["avatar" => 'avatar/' . $avatar]);
+                $result    = $userQuery->where(["id" => $uid])->save(["avatar" => 'avatar/' . $avatar]);
                 session('user.avatar', 'avatar/' . $avatar);
                 if ($result) {
                     $this->success("头像更新成功！");
@@ -185,7 +180,7 @@ class ProfileController extends UserBaseController
     // 保存用户头像
     public function doAvatar()
     {
-        $imgurl =  $this->request->param('imgurl');
+        $imgurl               = $this->request->param('imgurl');
         $imgurl               = str_replace('/', '', $imgurl);
         $old_img              = $this->user['avatar'];
         $this->user['avatar'] = $imgurl;

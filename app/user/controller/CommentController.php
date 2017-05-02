@@ -25,7 +25,7 @@ class CommentController extends UserBaseController
         $this->assign($user);
         $this->assign("page", $data['page']);
         $this->assign("lists", $data['lists']);
-        return $this->fetch("profile/comment");
+        return $this->fetch();
     }
     /**
      * 用户删除评论

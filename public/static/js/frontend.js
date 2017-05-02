@@ -282,14 +282,14 @@
                                     type: 'error',
                                     layout: 'center',
                                     callback: {
-                                        onClose: function () {
-                                            if (window.parent.art) {
-                                                reloadPage(window.parent);
-                                            } else {
-                                                //刷新当前页
-                                                reloadPage(window);
-                                            }
-                                        }
+                                        // onClose: function () {
+                                        //     if (window.parent.art) {
+                                        //         reloadPage(window.parent);
+                                        //     } else {
+                                        //         //刷新当前页
+                                        //         reloadPage(window);
+                                        //     }
+                                        // }
                                     }
                                 });
                             },
