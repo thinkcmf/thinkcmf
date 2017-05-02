@@ -125,7 +125,12 @@ class UserModel extends Model
         return 1;
     }
 
-
+    /**
+     * 通过邮箱重置密码
+     * @param $email
+     * @param $password
+     * @return int
+     */
     public function emailPasswordReset($email, $password)
     {
         $result = $this->where('user_email', $email)->find();
@@ -139,6 +144,12 @@ class UserModel extends Model
         return 1;
     }
 
+    /**
+     * 通过手机重置密码
+     * @param $mobile
+     * @param $password
+     * @return int
+     */
     public function mobilePasswordReset($mobile, $password)
     {
         $userQuery = Db::name("user");
@@ -166,6 +177,11 @@ class UserModel extends Model
         return 0;
     }
 
+    /**
+     * 用户密码修改
+     * @param $user
+     * @return int
+     */
     public function editPassword($user)
     {
         $userId    = cmf_get_current_user_id();
@@ -180,51 +196,6 @@ class UserModel extends Model
         $data['user_pass'] = cmf_password($user['password']);
         $userQuery->where('id', $userId)->update($data);
         return 0;
-    }
-
-    public function favorites()
-    {
-        $userId        = cmf_get_current_user_id();
-        $userQuery     = Db::name("UserFavorite");
-        $favorites     = $userQuery->where(['user_id' => $userId])->order('id desc')->paginate(10);
-        $data['page']  = $favorites->render();
-        $data['lists'] = $favorites->items();
-        return $data;
-    }
-
-    public function addFavorite($id, $cid)
-    {
-        $portalQuery        = Db::name("PortalPost");
-        $portal             = $portalQuery->where('id', $id)->find();
-        $userId             = cmf_get_current_user_id();
-        $userQuery          = Db::name("UserFavorite");
-        $where['user_id']   = $userId;
-        $where['object_id'] = $id;
-        if ($userQuery->where($where)->find()) {
-            return 2;
-        }
-        $where['title']       = $portal['post_title'];
-        $url['action']        = 'portal/article/index';
-        $url['param']['id']   = $id;
-        $url['param']['cid']  = $cid;
-        $where['url']         = json_encode($url);
-        $where['description'] = $portal['post_excerpt'];
-        $where['table_name']  = 'PortalPost';
-        $where['create_time'] = time();
-        if ($userQuery->insert($where)) {
-            return 0;
-        }
-        return 1;
-    }
-
-    public function deleteFavorite($id)
-    {
-        $userId           = cmf_get_current_user_id();
-        $userQuery        = Db::name("UserFavorite");
-        $where['id']      = $id;
-        $where['user_id'] = $userId;
-        $data             = $userQuery->where($where)->delete();
-        return $data;
     }
 
     public function comments()

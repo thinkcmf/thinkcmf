@@ -9,7 +9,7 @@
 namespace app\user\controller;
 
 use cmf\controller\UserBaseController;
-use app\user\model\UserModel;
+use app\user\model\UserFavoriteModel;
 use think\Db;
 
 class FavoriteController extends UserBaseController
@@ -20,9 +20,9 @@ class FavoriteController extends UserBaseController
      */
     public function index()
     {
-        $editData = new UserModel();
-        $data     = $editData->favorites();
-        $user     = cmf_get_current_user();
+        $userFavoriteModel = new UserFavoriteModel();
+        $data              = $userFavoriteModel->favorites();
+        $user              = cmf_get_current_user();
         $this->assign($user);
         $this->assign("page", $data['page']);
         $this->assign("lists", $data['lists']);
@@ -34,9 +34,9 @@ class FavoriteController extends UserBaseController
      */
     public function delete()
     {
-        $id     = $this->request->param("id", 0, "intval");
-        $delete = new UserModel();
-        $data   = $delete->deleteFavorite($id);
+        $id                = $this->request->param("id", 0, "intval");
+        $userFavoriteModel = new UserFavoriteModel();
+        $data              = $userFavoriteModel->deleteFavorite($id);
         if ($data) {
             $this->success("取消收藏成功！");
         } else {
