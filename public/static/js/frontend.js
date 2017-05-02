@@ -887,12 +887,19 @@
                 var $this       = $(this),
                     href        = $this.prop('href'),
                     url         = $this.data("url"),
-                    key         = $this.data("key"),
+                    id          = $this.data("id"),
+                    table       = $this.data('table'),
                     title       = $this.data("title"),
                     description = $this.data("description");
 
 
-                $.post(href, {url: url, key: key, title: title, description: description}, function (data) {
+                $.post(href, {
+                    id: id,
+                    table: table,
+                    url: url,
+                    title: title,
+                    description: description
+                }, function (data) {
 
                     if (data.code == 1) {
 

@@ -34,8 +34,11 @@
                                     <a href="{:url('article/doLike',array('id'=>$vo['id']))}"
                                        class="js-count-btn"><i class="fa fa-thumbs-up"></i><span class="count">{$vo.post_like}</span></a>
                                     <a href="{:url('user/favorite/add',array('id'=>$vo['id'],'cid'=>$category['id']))}"
-                                       class="js-favorite-btn" data-title="{$vo.post_title}"
-                                       data-url="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}"
+                                       class="js-favorite-btn"
+                                       data-id="{$vo.id}"
+                                       data-table="portal_post"
+                                       data-title="{:base64_encode($vo.post_title)}"
+                                       data-url="{:cmf_url_encode('portal/Article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}"
                                     >
                                         <i class="fa fa-star-o"></i>
                                     </a>

@@ -10,7 +10,7 @@ namespace app\user\controller;
 
 use cmf\controller\UserBaseController;
 use app\user\model\UserModel;
-
+use think\Db;
 
 class FavoriteController extends UserBaseController
 {
@@ -21,8 +21,8 @@ class FavoriteController extends UserBaseController
     public function index()
     {
         $editData = new UserModel();
-        $data = $editData->favorites();
-        $user = cmf_get_current_user();
+        $data     = $editData->favorites();
+        $user     = cmf_get_current_user();
         $this->assign($user);
         $this->assign("page", $data['page']);
         $this->assign("lists", $data['lists']);
@@ -34,9 +34,9 @@ class FavoriteController extends UserBaseController
      */
     public function delete()
     {
-        $id   = $this->request->param("id", 0, "intval");
+        $id     = $this->request->param("id", 0, "intval");
         $delete = new UserModel();
-        $data = $delete->deleteFavorite($id);
+        $data   = $delete->deleteFavorite($id);
         if ($data) {
             $this->success("取消收藏成功！");
         } else {
@@ -49,22 +49,39 @@ class FavoriteController extends UserBaseController
      */
     public function add()
     {
-        $id   = $this->request->param("id", 0, "intval");
-        $cid   = $this->request->param("cid", 0, "intval");
-        $add = new UserModel();
-        $data = $add->addFavorite($id,$cid);
-        switch ($data){
-            case 0:
-                $this->success('收藏成功');
-                break;
-            case 1:
-                $this->error("收藏失败");
-                break;
-            case 2:
-                $this->error("您已收藏过啦");
-                break;
-            default :
-                $this->error('未受理的请求');
+        $data   = $this->request->param();
+        $result = $this->validate($data, 'Favorite');
+
+        if ($result !== true) {
+            $this->error($result);
         }
+
+        $id    = $this->request->param('id', 0, 'intval');
+        $table = $this->request->param('table');
+
+
+        $findFavoriteCount = Db::name("user_favorite")->where(['object_id' => $id, 'table_name' => $table])->count();
+
+        if ($findFavoriteCount > 0) {
+            $this->error("您已收藏过啦");
+        }
+
+
+        $title       = base64_decode($this->request->param('title'));
+        $url         = $this->request->param('url');
+        $url         = base64_decode($url);
+        $description = $this->request->param('description', '', 'base64_decode');
+        Db::name("user_favorite")->insert([
+            'user_id'     => cmf_get_current_user_id(),
+            'title'       => $title,
+            'description' => $description,
+            'url'         => $url,
+            'object_id'   => $id,
+            'table_name'  => $table,
+            'create_time' => time()
+        ]);
+
+        $this->success('收藏成功');
+
     }
 }

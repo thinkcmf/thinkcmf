@@ -1176,11 +1176,11 @@ function cmf_auth_check($userId, $name = null, $relation = 'or')
     if (empty($userId)) {
         return false;
     }
-    
+
     if ($userId == 1) {
         return true;
     }
-    
+
     $authObj = new \cmf\lib\Auth();
     if (empty($name)) {
         $module     = request()->module();
@@ -1688,4 +1688,22 @@ function cmf_file_write($file, $content)
 function get_client_ip($type = 0, $adv = false)
 {
     return request()->ip($type, $adv);
+}
+
+/**
+ * 生成base64的url,用于数据库存放 url
+ * @param $url
+ * @param $params
+ * @return string
+ */
+function cmf_url_encode($url, $params)
+{
+    // 解析参数
+    if (is_string($params)) {
+        // aaa=1&bbb=2 转换成数组
+        parse_str($params, $params);
+    }
+
+    return base64_encode(json_encode(['action' => $url, 'param' => $params]));
+
 }
