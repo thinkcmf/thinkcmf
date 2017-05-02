@@ -27,4 +27,8 @@ return [
     'log_write'    => [],
     // 应用结束
     'app_end'      => [],
+    // 应用开始
+    'admin_init'    => [
+        'cmf\\behavior\\AdminLangBehavior',
+    ],
 ];
