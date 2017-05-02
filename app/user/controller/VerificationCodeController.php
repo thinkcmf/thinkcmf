@@ -59,6 +59,13 @@ class VerificationCodeController extends HomeBaseController
 
         } else if ($accountType == 'mobile') {
 
+            $param  = ['mobile' => $data['username'], 'code' => $code];
+            $result = hook_one("send_mobile_verification_code", $param);
+
+            if ($result !== false && !empty($result['error'])) {
+                $this->error($result['message']);
+            }
+
             //TODO 实现手机验证码发送
             cmf_verification_code_log($data['username'], '666666');
 
