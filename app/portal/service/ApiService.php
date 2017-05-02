@@ -51,7 +51,7 @@ class ApiService
 
         $where = [
             'post.published_time' => [['> time', 0], ['<', time()]],
-            'post.post_status'    => ['eq', 1],
+            'post.post_status'    => 1,
             'post.post_type'      => 1,
             'post.delete_time'    => 0
         ];
@@ -136,7 +136,7 @@ class ApiService
 
         $where = [
             'published_time' => [['> time', 0], ['<', time()]],
-            'post_status'    => ['eq', 1],
+            'post_status'    => 1,
             'post_type'      => 1,
             'id'             => $id,
             'delete_time'    => 0
@@ -164,7 +164,7 @@ class ApiService
 
         $where = [
             'published_time' => [['> time', 0], ['<', time()]],
-            'post_status'    => ['eq', 1],
+            'post_status'    => 1,
             'post_type'      => 2, //页面
             'delete_time'    => 0
         ];
@@ -187,7 +187,7 @@ class ApiService
 
         $where = [
             'published_time' => [['> time', 0], ['<', time()]],
-            'post_status'    => ['eq', 1],
+            'post_status'    => 1,
             'post_type'      => 2,
             'id'             => $id,
             'delete_time'    => 0
