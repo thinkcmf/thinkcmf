@@ -65,15 +65,13 @@ class VerificationCodeController extends HomeBaseController
                 $this->error($result['message']);
             }
 
-            $msg = '验证码已经发送成功!';
             if ($result === false) {
-                $code = 666666;
-                $msg  = '验证码已经发送成功!您的验证码默认是666666';
+                $this->error('未安装验证码发送插件,请联系管理员!');
             }
 
             cmf_verification_code_log($data['username'], $code);
 
-            $this->success($msg);
+            $this->success('验证码已经发送成功!');
         }
 
 
