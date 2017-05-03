@@ -47,7 +47,6 @@ class VerificationCodeController extends HomeBaseController
 
         if ($accountType == 'email') {
 
-            //TODO 实现邮箱验证码发送
             $subject = '您的数字验证码是:' . $code;
             $result  = cmf_send_email($data['username'], 'ThinkCMF验证码', $subject);
             if (empty($result['error'])) {
@@ -66,10 +65,15 @@ class VerificationCodeController extends HomeBaseController
                 $this->error($result['message']);
             }
 
-            //TODO 实现手机验证码发送
-            cmf_verification_code_log($data['username'], '666666');
+            $msg = '验证码已经发送成功!';
+            if ($result === false) {
+                $code = 666666;
+                $msg  = '验证码已经发送成功!您的验证码默认是666666';
+            }
 
-            $this->success("验证码已经发送成功!您的验证码默认是666666");
+            cmf_verification_code_log($data['username'], $code);
+
+            $this->success($msg);
         }
 
 
