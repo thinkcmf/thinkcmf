@@ -11,6 +11,7 @@ namespace app\admin\controller;
 use cmf\controller\AdminBaseController;
 use app\admin\model\PluginModel;
 use app\admin\model\HookPluginModel;
+use think\Db;
 
 /**
  * Class PluginController
@@ -50,8 +51,8 @@ class PluginController extends AdminBaseController
      */
     public function index()
     {
-        $this->pluginModel = new PluginModel();
-        $plugins           = $this->pluginModel->getList();
+        $pluginModel = new PluginModel();
+        $plugins     = $pluginModel->getList();
         $this->assign("plugins", $plugins);
         return $this->fetch();
     }
@@ -71,12 +72,12 @@ class PluginController extends AdminBaseController
      */
     public function toggle()
     {
-        $this->pluginModel = new PluginModel();
+        $pluginModel = new PluginModel();
 
         if ($this->request->param('enable')) {
             $id = $this->request->param('id', 0, 'intval');
 
-            $this->pluginModel->save(['status' => 1], ['id' => $id]);
+            $pluginModel->save(['status' => 1], ['id' => $id]);
 
             $this->success("启用成功！");
         }
@@ -84,7 +85,7 @@ class PluginController extends AdminBaseController
         if ($this->request->param('disable')) {
             $id = $this->request->param('id', 0, 'intval');
 
-            $this->pluginModel->save(['status' => 0], ['id' => $id]);
+            $pluginModel->save(['status' => 0], ['id' => $id]);
 
             $this->success("禁用成功！");
         }
@@ -107,8 +108,8 @@ class PluginController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
 
-        $this->pluginModel = new PluginModel();
-        $plugin            = $this->pluginModel->find($id)->toArray();
+        $pluginModel = new PluginModel();
+        $plugin      = $pluginModel->find($id)->toArray();
 
         if (!$plugin) {
             $this->error('插件未安装!');
@@ -167,8 +168,8 @@ class PluginController extends AdminBaseController
             $id     = $this->request->param('id', 0, 'intval');
             $config = $this->request->param('config/a');
 
-            $this->pluginModel = new PluginModel();
-            $this->pluginModel->save(['config' => json_encode($config)], ['id' => $id]);
+            $pluginModel = new PluginModel();
+            $pluginModel->save(['config' => json_encode($config)], ['id' => $id]);
             $this->success('保存成功');
         }
     }
@@ -194,8 +195,8 @@ class PluginController extends AdminBaseController
             $this->error('插件不存在!');
         }
 
-        $this->pluginModel = new PluginModel();
-        $pluginCount       = $this->pluginModel->where('name', $pluginName)->count();
+        $pluginModel = new PluginModel();
+        $pluginCount = $pluginModel->where('name', $pluginName)->count();
 
         if ($pluginCount > 0) {
             $this->error('插件已安装!');
@@ -213,11 +214,11 @@ class PluginController extends AdminBaseController
         }
 
         $methods     = get_class_methods($plugin);
-        $systemHooks = cmf_get_hooks(true);
+        $systemHooks = $pluginModel->getHooks(true);
 
         $pluginHooks = array_intersect($systemHooks, $methods);
 
-        $info['hooks'] = implode(",", $pluginHooks);
+        //$info['hooks'] = implode(",", $pluginHooks);
 
         if (!empty($plugin->hasAdmin)) {
             $info['has_admin'] = 1;
@@ -227,7 +228,7 @@ class PluginController extends AdminBaseController
 
         $info['config'] = json_encode($plugin->getConfig());
 
-        $this->pluginModel->data($info)->allowField(true)->save();
+        $pluginModel->data($info)->allowField(true)->save();
 
         $hookPluginModel = new HookPluginModel();
         foreach ($pluginHooks as $pluginHook) {
@@ -266,11 +267,10 @@ class PluginController extends AdminBaseController
 
         $methods = get_class_methods($plugin);
 
-        $systemHooks = cmf_get_hooks(true);
+        $pluginModel = new PluginModel();
+        $systemHooks = $pluginModel->getHooks(true);
 
         $pluginHooks = array_intersect($systemHooks, $methods);
-
-        $info['hooks'] = implode(",", $pluginHooks);
 
         if (!empty($plugin->hasAdmin)) {
             $info['has_admin'] = 1;
@@ -282,13 +282,31 @@ class PluginController extends AdminBaseController
 
         $defaultConfig = $plugin->getDefaultConfig();
 
-        $this->pluginModel = new PluginModel();
+        $pluginModel = new PluginModel();
 
         $config = array_merge($defaultConfig, $config);
 
         $info['config'] = json_encode($config);
 
-        $this->pluginModel->allowField(true)->save($info, ['name' => $pluginName]);
+        $pluginModel->allowField(true)->save($info, ['name' => $pluginName]);
+
+        $hookPluginModel = new HookPluginModel();
+
+        $pluginHooksInDb = $hookPluginModel->where('plugin', $pluginName)->column('hook');
+
+        $samePluginHooks = array_intersect($pluginHooks, $pluginHooksInDb);
+
+        $shouldDeleteHooks = array_diff($samePluginHooks, $pluginHooksInDb);
+
+        $newHooks = array_diff($samePluginHooks, $pluginHooks);
+
+        if (count($shouldDeleteHooks) > 0) {
+            $hookPluginModel->where('hook', 'in', $shouldDeleteHooks)->delete();
+        }
+
+        foreach ($newHooks as $pluginHook) {
+            $hookPluginModel->data(['hook' => $pluginHook, 'plugin' => $pluginName])->isUpdate(false)->save();
+        }
 
         $this->success('更新成功!');
     }
@@ -308,22 +326,16 @@ class PluginController extends AdminBaseController
      */
     public function uninstall()
     {
-        $this->pluginModel = new PluginModel();
-        $id                = $this->request->param('id', 0, 'intval');
-        $findPlugin        = $this->pluginModel->find($id);
-        $class             = cmf_get_plugin_class($findPlugin['name']);
+        $pluginModel = new PluginModel();
+        $id          = $this->request->param('id', 0, 'intval');
 
-        if (class_exists($class)) {
-            $plugins = new $class;
+        $result = $pluginModel->uninstall($id);
 
-            $uninstallSuccess = $plugins->uninstall();
-            if (!$uninstallSuccess) {
-                $this->error('插件预卸载失败');
-            }
+        if ($result !== true) {
+            $this->error('卸载失败!');
         }
 
-        $this->pluginModel->where(['name' => $findPlugin['name']])->delete();
-        $this->success('卸载成功');
+        $this->success('卸载成功!');
     }
 
 

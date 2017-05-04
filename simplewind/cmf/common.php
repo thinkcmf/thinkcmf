@@ -1077,61 +1077,6 @@ function cmf_sub_dirs($dir)
 }
 
 /**
- * @TODO
- * @deprecated
- * 获取所有钩子，包括系统，应用，模板
- * @param bool $refresh 是否刷新缓存
- * @return array
- */
-function cmf_get_hooks($refresh = false)
-{
-    if (!$refresh) {
-        // TODO 加入缓存
-    }
-
-    $returnHooks = [];
-    $systemHooks = [
-        "url_dispatch", "app_init", "app_begin", "app_end",
-        "action_begin", "action_end", "module_check", "path_info",
-        "template_filter", "view_begin", "view_end", "view_parse",
-        "view_filter", "body_start", "footer", "footer_end", "sider", "comment", 'admin_home'
-    ];
-
-    $appHooks = [];
-
-    $apps = cmf_scan_dir(APP_PATH . "*", GLOB_ONLYDIR);
-    foreach ($apps as $app) {
-        $hooksFile = APP_PATH . "{$app}/hooks.php";
-        if (is_file($hooksFile)) {
-            $hooks    = include $hooksFile;
-            $appHooks = is_array($hooks) ? array_merge($appHooks, $hooks) : $appHooks;
-        }
-    }
-
-    $themeHooks = [];
-
-    $themes = cmf_scan_dir("themes/*", GLOB_ONLYDIR);
-
-    foreach ($themes as $theme) {
-        $hooksFile = cmf_add_template_file_suffix("themes/$theme/hooks");
-        if (file_exists_case($hooksFile)) {
-            $hooks      = file_get_contents($hooksFile);
-            $hooks      = preg_replace("/[^0-9A-Za-z_-]/u", ",", $hooks);
-            $hooks      = explode(",", $hooks);
-            $hooks      = array_filter($hooks);
-            $themeHooks = is_array($hooks) ? array_merge($themeHooks, $hooks) : $themeHooks;
-        }
-    }
-
-    $returnHooks = array_merge($systemHooks, $appHooks, $themeHooks);
-
-    $returnHooks = array_unique($returnHooks);
-
-    return $returnHooks;
-
-}
-
-/**
  * 生成访问插件的url
  * @param string $url url格式：插件名://控制器名/方法
  * @param array $param 参数

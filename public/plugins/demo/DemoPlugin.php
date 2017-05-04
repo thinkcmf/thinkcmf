@@ -36,8 +36,8 @@ class DemoPlugin extends Plugin
         return true;//卸载成功返回true，失败false
     }
 
-    //实现的footer钩子方法
-    public function footer($param)
+    //实现的footer_start钩子方法
+    public function footer_start($param)
     {
         $config = $this->getConfig();
         $this->assign($config);
