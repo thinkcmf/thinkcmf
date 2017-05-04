@@ -21,24 +21,14 @@ class InitHookBehavior
     {
         if (isset($_GET['g']) && strtolower($_GET['g']) === 'install') return;
 
-        $data = [];
-        if (empty($data)) {
-            $plugins = Db::name('plugin')->where('status', 1)->column('hooks', 'name');
-            if (!empty($plugins)) {
-                foreach ($plugins as $plugin => $hooks) {
-                    if (!empty($hooks)) {
-                        $hooks = explode(",", $hooks);
-                        if (!empty($hooks)) {
-                            foreach ($hooks as $hook) {
-                                Hook::add($hook, cmf_get_plugin_class($plugin));
-                            }
-                        }
+        $plugins = Db::name('hook_plugin')->field('hook,plugin')->where('status', 1)
+            ->order('list_order ASC')
+            ->select();
 
-                    }
-                }
+        if (!empty($plugins)) {
+            foreach ($plugins as $hookPlugin) {
+                Hook::add($hookPlugin['hook'], cmf_get_plugin_class($hookPlugin['plugin']));
             }
-        } else {
-            //Hook::import($data, false);
         }
     }
 }

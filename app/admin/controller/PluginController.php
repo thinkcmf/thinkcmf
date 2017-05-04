@@ -213,7 +213,12 @@ class PluginController extends AdminBaseController
             $this->error('插件预安装失败!');
         }
 
-        $methods     = get_class_methods($plugin);
+        $methods = get_class_methods($plugin);
+
+        foreach ($methods as $methodKey => $method) {
+            $methods[$methodKey] = cmf_parse_name($method);
+        }
+
         $systemHooks = $pluginModel->getHooks(true);
 
         $pluginHooks = array_intersect($systemHooks, $methods);
@@ -232,7 +237,7 @@ class PluginController extends AdminBaseController
 
         $hookPluginModel = new HookPluginModel();
         foreach ($pluginHooks as $pluginHook) {
-            $hookPluginModel->data(['hook' => $pluginHook, 'plugin' => $pluginName])->isUpdate(false)->save();
+            $hookPluginModel->data(['hook' => $pluginHook, 'plugin' => $pluginName, 'status' => 1])->isUpdate(false)->save();
         }
 
         $this->success('安装成功!');
@@ -266,6 +271,10 @@ class PluginController extends AdminBaseController
         }
 
         $methods = get_class_methods($plugin);
+
+        foreach ($methods as $methodKey => $method) {
+            $methods[$methodKey] = cmf_parse_name($method);
+        }
 
         $pluginModel = new PluginModel();
         $systemHooks = $pluginModel->getHooks(true);
