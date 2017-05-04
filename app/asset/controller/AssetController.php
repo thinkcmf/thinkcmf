@@ -112,7 +112,7 @@ class AssetController extends AdminBaseController
             /**
              * 断点续传 need
              */
-            $strFilePath = $fileImage->getInfo("name");
+            $strFilePath = $fileImage->hash("md5");
             $chunk       = $this->request->param("chunk", 0, "intval");// isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
             $chunks      = $this->request->param("chunks", 1, "intval");//isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 1;
 
