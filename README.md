@@ -51,6 +51,9 @@ return [
 你的域名/admin  
 用户名/密码:admin/111111
 
+### 系统更新
+如果您是已经安装过 cmf5的用户,请查看 update 目录下的 sql 升级文件,根据自己的下载的程序版本进行更新
+
 如果你需要 `api` 开发请下载:  
 ThinkCMF5 API :https://github.com/thinkcmf/thinkcmfapi
 
