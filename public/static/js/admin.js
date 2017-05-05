@@ -454,7 +454,7 @@
     }
 
     //日期选择器
-    var dateInput = $("input.js-date")
+    var dateInput = $("input.js-date");
     if (dateInput.length) {
         Wind.use('datePicker', function () {
             dateInput.datePicker();
@@ -484,11 +484,11 @@
     }
 
     // bootstrap日期选择器
-    var dateInput = $("input.js-bootstrap-date")
-    if (dateInput.length) {
+    var bootstrapDateInput = $("input.js-bootstrap-date")
+    if (bootstrapDateInput.length) {
         Wind.css('bootstrapDatetimePicker');
         Wind.use('bootstrapDatetimePicker', function () {
-            dateInput.datetimepicker({
+            bootstrapDateInput.datetimepicker({
                 language: 'zh-CN',
                 format: 'yyyy-mm-dd',
                 minView: 'month',
@@ -499,11 +499,11 @@
     }
 
     // bootstrap日期选择器日期+时间选择器
-    var dateTimeInput = $("input.js-bootstrap-datetime");
-    if (dateTimeInput.length) {
+    var bootstrapDateTimeInput = $("input.js-bootstrap-datetime");
+    if (bootstrapDateTimeInput.length) {
         Wind.css('bootstrapDatetimePicker');
         Wind.use('bootstrapDatetimePicker', function () {
-            dateTimeInput.datetimepicker({
+            bootstrapDateTimeInput.datetimepicker({
                 language: 'zh-CN',
                 format: 'yyyy-mm-dd hh:ii',
                 todayBtn: 1,
