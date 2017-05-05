@@ -22,7 +22,6 @@ http://demo5.thinkcmf.com/admin/
 
 ### 安装步骤
 
-
 1.创建 thinkcmf5数据库(默认编码utf8mb4),并导入 update/thinkcmf5.sql
 
 2.在 data目录下创建 conf/database.php 文件,内容如下:
@@ -61,6 +60,7 @@ return [
 ### 系统更新
 如果您是已经安装过 cmf5的用户,请查看 update 目录下的 sql 升级文件,根据自己的下载的程序版本进行更新
 
+### API开发 (支持app,小程序,web)
 如果你需要 `api` 开发请下载:  
 ThinkCMF5 API :https://github.com/thinkcmf/thinkcmfapi
 
