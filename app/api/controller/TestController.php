@@ -1,8 +1,15 @@
 <?php
 namespace app\api\controller;
+
 use think\Controller;
 
-class Test extends Controller
+class TestController extends Controller
+//namespace app\api\controller;
+//
+//use think\Controller;
+//use think\Db;
+//
+//class TestController extends Controller
 {
     /**
      * 默认返回

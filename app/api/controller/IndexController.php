@@ -1,5 +1,5 @@
 <?php
-namespace app\install\controller;
+namespace app\api\controller;
 
 use think\Controller;
 use think\Db;

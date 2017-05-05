@@ -33,6 +33,7 @@ class IndexController extends AdminBaseController
 
         $admin = Db::name("user")->where('id', cmf_get_current_admin_id())->find();
         $this->assign('admin', $admin);
-        return $this->fetch();
+        return $this->fetch();  // display方法直接输出模板文件渲染后的内容，而fetch方法是返回模板文件渲染后的内容
+//        return $this->display();
     }
 }

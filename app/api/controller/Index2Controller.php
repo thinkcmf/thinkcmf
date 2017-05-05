@@ -1,8 +1,17 @@
 <?php
-namespace app\index\controller;
+namespace app\api\controller;
 use think\Controller;
 
-class Index2 extends Controller
+/**
+ * 注意配置
+// 应用类库后缀
+'class_suffix'           => true,
+// 控制器类后缀
+'controller_suffix'      => true,
+ * Class Index2Controller
+ * @package app\api\controller
+ */
+class Index2Controller extends Controller
 {
 //    public function index()
 //    {
