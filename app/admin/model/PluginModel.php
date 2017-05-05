@@ -1,7 +1,9 @@
 <?php
+
 namespace app\admin\model;
 
 use think\Model;
+use think\Db;
 
 class PluginModel extends Model
 {
@@ -47,6 +49,82 @@ class PluginModel extends Model
             }
         }
         return $plugins;
+    }
+
+    /**
+     * @TODO
+     * 获取所有钩子，包括系统，应用，模板
+     * @param bool $refresh 是否刷新缓存
+     * @return array
+     */
+    public function getHooks($refresh = false)
+    {
+        if (!$refresh) {
+            // TODO 加入缓存
+        }
+
+        $returnHooks = [];
+        $systemHooks = [
+            //系统钩子
+            "app_init", "app_begin", "module_init", "action_begin", "view_filter",
+            "app_end", "log_write", "response_end",
+            "admin_init",
+            "home_init",
+            "send_mobile_verification_code",
+            //系统钩子结束
+
+            //模板钩子
+            "body_start", "before_head_end", "before_footer", "footer_start", "before_footer_end", "before_body_end",
+            "left_sidebar_start",
+            "before_left_sidebar_end",
+            "right_sidebar_start",
+            "before_right_sidebar_end",
+            "comment",
+            "guestbook",
+
+        ];
+
+        $dbHooks = Db::name('hook')->column('hook');
+
+        $returnHooks = array_unique(array_merge($systemHooks, $dbHooks));
+
+
+        return $returnHooks;
+
+    }
+
+    public function uninstall($id)
+    {
+        $findPlugin = $this->find($id);
+
+        if (empty($findPlugin)) {
+            return -1; //插件不存在;
+        }
+        $class = cmf_get_plugin_class($findPlugin['name']);
+
+        Db::startTrans();
+        try {
+            $this->where(['name' => $findPlugin['name']])->delete();
+            Db::name('hook_plugin')->where('plugin', $findPlugin['name'])->delete();
+
+            if (class_exists($class)) {
+                $plugin = new $class;
+
+                $uninstallSuccess = $plugin->uninstall();
+                if (!$uninstallSuccess) {
+                    Db::rollback();
+                    return -2;
+                }
+            }
+
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            return false;
+        }
+
+        return true;
+
     }
 
 }
