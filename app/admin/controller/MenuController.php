@@ -227,7 +227,6 @@ class MenuController extends AdminBaseController
             if ($result !== true) {
                 $this->error($result);
             } else {
-                print_r($this->request->param());
                 Db::name('AdminMenu')->strict(false)->field(true)->update($this->request->param());
                 $app          = $this->request->param("app");
                 $controller   = $this->request->param("controller");
