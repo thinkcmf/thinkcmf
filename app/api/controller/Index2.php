@@ -2,7 +2,7 @@
 namespace app\index\controller;
 use think\Controller;
 
-class Index extends Controller
+class Index2 extends Controller
 {
 //    public function index()
 //    {
