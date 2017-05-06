@@ -456,7 +456,7 @@ function cmf_get_option($key)
 function cmf_get_upload_setting()
 {
     $uploadSetting = cmf_get_option('upload_setting');
-    if (empty($uploadSetting)) {
+    if (empty($uploadSetting) || empty($uploadSetting['file_types'])) {
         $uploadSetting = [
             'file_types' => [
                 'image' => [
@@ -477,7 +477,7 @@ function cmf_get_upload_setting()
                 ]
             ],
             'chunk_size' => 512,//单位KB
-            'max_files'   => 20 //最大同时上传文件数
+            'max_files'  => 20 //最大同时上传文件数
         ];
     }
 
