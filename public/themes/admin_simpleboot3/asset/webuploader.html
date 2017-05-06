@@ -11,7 +11,7 @@
 
 <div class="wrap " style="padding:5px;">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#wrapper" data-toggle="tab">上传附件</a></li>
+        <li class="active"><a href="#wrapper" data-toggle="tab">上传文件</a></li>
         <li class=""><a href="#B" data-toggle="tab">网络文件</a></li>
         <!--<li class=""><a href="#explorer" data-toggle="tab">文件管理</a></li>-->
     </ul>
@@ -97,8 +97,8 @@
         return files;
     }
 
-    var multi = {$multi};//是否允许同时选多张
-    var maxFiles = {$max_files};//允许上传多少张
+    var multi = {$multi};//是否允许同时选多个文件
+    var maxFiles = {$max_files};//允许上传多少文件
 
     var fileErrorMsg = {};
 
@@ -484,24 +484,24 @@
                 var text = '', stats;
 
                 if (state === 'ready') {
-                    text = '选中' + fileCount + '张图片，共' +
+                    text = '选中' + fileCount + '个文件，共' +
                         WebUploader.formatSize(fileSize) + '。';
                 } else if (state === 'confirm') {
 
                     stats = uploader.getStats();
                     if (stats.uploadFailNum) {
-                        text = '已成功上传' + stats.successNum + '张照片，' +
-                            stats.uploadFailNum + '张照片上传失败，<a class="retry" href="#">重新上传</a>失败图片或<a class="ignore" href="#">忽略</a>'
+                        text = '已成功上传' + stats.successNum + '个文件，' +
+                            stats.uploadFailNum + '个文件上传失败，<a class="retry" href="#">重新上传</a>失败文件或<a class="ignore" href="#">忽略</a>'
                     }
 
                 } else {
                     stats = uploader.getStats();
-                    text  = '共' + fileCount + '张（' +
+                    text  = '共' + fileCount + '个文件（' +
                         WebUploader.formatSize(fileSize) +
-                        '），已上传' + stats.successNum + '张';
+                        '），已上传' + stats.successNum + '个';
 
                     if (stats.uploadFailNum) {
-                        text += '，失败' + stats.uploadFailNum + '张';
+                        text += '，失败' + stats.uploadFailNum + '个';
                     }
                 }
 
