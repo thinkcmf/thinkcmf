@@ -9,7 +9,6 @@ namespace app\asset\controller;
 use app\asset\model\AssetModel;
 use cmf\controller\AdminBaseController;
 use think\File;
-use think\Request;
 
 /**
  * 附件上传控制器
@@ -18,17 +17,12 @@ use think\Request;
  */
 class AssetController extends AdminBaseController
 {
-
-
-    function _initialize()
+    public function _initialize()
     {
-        function _initialize()
-        {
-            $adminId = cmf_get_current_admin_id();
-            $userId  = cmf_get_current_user_id();
-            if (empty($adminId) && empty($userId)) {
-                exit("非法上传！");
-            }
+        $adminId = cmf_get_current_admin_id();
+        $userId  = cmf_get_current_user_id();
+        if (empty($adminId) && empty($userId)) {
+            exit("非法上传！");
         }
     }
 
