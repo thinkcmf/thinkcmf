@@ -140,7 +140,6 @@ class PortalPostModel extends Model
                 $transStatus = false;
                 try {
                     Db::name('portal_post')->where(['id' => $id])->update([
-                        'post_status' => 3,
                         'delete_time' => time()
                     ]);
                     Db::name('recycle_bin')->insert($recycleData);
@@ -183,7 +182,6 @@ class PortalPostModel extends Model
                 try {
                     Db::name('portal_post')->where(['id' => ['in', $ids]])
                         ->update([
-                            'post_status' => 3,
                             'delete_time' => time()
                         ]);
 
