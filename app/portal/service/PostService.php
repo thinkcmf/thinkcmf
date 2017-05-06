@@ -90,7 +90,7 @@ class PostService
             $where = [
                 'post.post_type'      => 1,
                 'post.published_time' => [['< time', time()], ['> time', 0]],
-                'post.post_status'    => ['eq', 1],
+                'post.post_status'    => 1,
                 'post.id'             => $postId
             ];
 
@@ -101,7 +101,7 @@ class PostService
             $where = [
                 'post.post_type'       => 1,
                 'post.published_time'  => [['< time', time()], ['> time', 0]],
-                'post.post_status'     => ['eq', 1],
+                'post.post_status'     => 1,
                 'relation.category_id' => $categoryId,
                 'relation.post_id'     => $postId
             ];
@@ -125,7 +125,7 @@ class PostService
         $where = [
             'post_type'      => 2,
             'published_time' => [['< time', time()], ['> time', 0]],
-            'post_status'    => ['eq', 1],
+            'post_status'    => 1,
             'id'             => $pageId
         ];
 
