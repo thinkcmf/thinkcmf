@@ -9,10 +9,10 @@
 namespace app\user\controller;
 
 use think\Validate;
-use think\Request;
 use think\Image;
 use cmf\controller\UserBaseController;
 use app\user\model\UserModel;
+use think\Db;
 
 class ProfileController extends UserBaseController
 {
@@ -129,14 +129,28 @@ class ProfileController extends UserBaseController
     // 用户头像上传
     public function avatarUpload()
     {
-        $file = request()->file('file');
-        $info = $file->move(ROOT_PATH . 'public/upload/avatar/');
-        if ($info) {
-            session('avatar', $info->getSaveName());
+        $file   = $this->request->file('file');
+        $result = $file->validate([
+            'ext'  => 'jpg,jpeg,png',
+            'size' => 1024 * 1024
+        ])->move('.' . DS . 'upload' . DS . 'avatar' . DS);
+        if ($result) {
+            $avatar = 'avatar/' . $info->getSaveName();
+            session('avatar', $avatar);
 
-            $this->success('上传成功', url('Profile/avatarUpload'), ['file' => $info->getSaveName()]);
+            return json_encode([
+                'code' => 1,
+                "msg"  => "上传成功",
+                "data" => ['file' => $avatar],
+                "url"  => ''
+            ]);
         } else {
-            $this->error($file->getError());
+            return json_encode([
+                'code' => 0,
+                "msg"  => $file->getError(),
+                "data" => "",
+                "url"  => ''
+            ]);
         }
     }
 
@@ -150,25 +164,17 @@ class ProfileController extends UserBaseController
             $x = $this->request->param('x', 0, 'intval');
             $y = $this->request->param('y', 0, 'intval');
 
-            $avatar_dir = "/public/upload/avatar/";
-
-            $avatar_path = $avatar_dir . $avatar;
+            $avatar_path = "./upload/" . $avatar;
 
             $avatarImg = Image::open($avatar_path);
             $avatarImg->crop($w, $h, $x, $y)->save($avatar_path);
 
             $result = true;
-
             if ($result === true) {
-                $uid       = cmf_get_current_user_id();
-                $userQuery = Db::name("user");
-                $result    = $userQuery->where(["id" => $uid])->save(["avatar" => 'avatar/' . $avatar]);
-                session('user.avatar', 'avatar/' . $avatar);
-                if ($result) {
-                    $this->success("头像更新成功！");
-                } else {
-                    $this->error("头像更新失败！");
-                }
+                $uid = cmf_get_current_user_id();
+                Db::name("user")->where(["id" => $uid])->update(["avatar" => $avatar]);
+                session('user.avatar', $avatar);
+                $this->success("头像更新成功！");
             } else {
                 $this->error("头像保存失败！");
             }

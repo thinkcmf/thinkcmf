@@ -16,6 +16,7 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         array (
             'think\\helper\\' => 13,
             'think\\captcha\\' => 14,
+            'think\\' => 6,
         ),
         'm' => 
         array (
@@ -31,6 +32,10 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         'think\\captcha\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-captcha/src',
+        ),
+        'think\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/topthink/think-image/src',
         ),
         'mindplay\\annotations\\' => 
         array (
