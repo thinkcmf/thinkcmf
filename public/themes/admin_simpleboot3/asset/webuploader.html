@@ -606,15 +606,15 @@
                 var stats;
                 switch (type) {
                     case 'uploadSuccess':
-                        console.log(msg);
-                        //var MsgO = jQuery.parseJSON(msg._raw)
-                        // alert(MsgO.result);
-                        var $file = jQuery("#" + file.id);
-                        $file.data("filepath", msg.data.filepath);
-                        $file.data("name", msg.data.name);
-                        $file.data("url", msg.data.url);
-                        $file.data("preview_url", msg.data.preview_url);
-                        //jQuery("#" + msg.id + " img"n"src", httpUrl+msg.result);
+//                        console.log(file);
+//                        console.log(msg);
+                        if (msg._raw != '') {
+                            var $file = jQuery("#" + file.id);
+                            $file.data("filepath", msg.data.filepath);
+                            $file.data("name", msg.data.name);
+                            $file.data("url", msg.data.url);
+                            $file.data("preview_url", msg.data.preview_url);
+                        }
                         break;
                     case 'uploadFinished':
                         setState('confirm');
