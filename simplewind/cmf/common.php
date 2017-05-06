@@ -458,31 +458,35 @@ function cmf_get_upload_setting()
     $uploadSetting = cmf_get_option('upload_setting');
     if (empty($uploadSetting)) {
         $uploadSetting = [
-            'image' => [
-                'upload_max_filesize' => '10240',//单位KB
-                'extensions'          => 'jpg,jpeg,png,gif,bmp4'
+            'file_types' => [
+                'image' => [
+                    'upload_max_filesize' => '10240',//单位KB
+                    'extensions'          => 'jpg,jpeg,png,gif,bmp4'
+                ],
+                'video' => [
+                    'upload_max_filesize' => '10240',
+                    'extensions'          => 'mp4,avi,wmv,rm,rmvb,mkv'
+                ],
+                'audio' => [
+                    'upload_max_filesize' => '10240',
+                    'extensions'          => 'mp3,wma,wav'
+                ],
+                'file'  => [
+                    'upload_max_filesize' => '10240',
+                    'extensions'          => 'txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar'
+                ]
             ],
-            'video' => [
-                'upload_max_filesize' => '10240',
-                'extensions'          => 'mp4,avi,wmv,rm,rmvb,mkv'
-            ],
-            'audio' => [
-                'upload_max_filesize' => '10240',
-                'extensions'          => 'mp3,wma,wav'
-            ],
-            'file'  => [
-                'upload_max_filesize' => '10240',
-                'extensions'          => 'txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar'
-            ]
+            'chunk_size' => 512,//单位KB
+            'max_files'   => 20 //最大同时上传文件数
         ];
     }
 
     if (empty($uploadSetting['upload_max_filesize'])) {
         $uploadMaxFileSizeSetting = [];
-        foreach ($uploadSetting as $setting) {
+        foreach ($uploadSetting['file_types'] as $setting) {
             $extensions = explode(',', trim($setting['extensions']));
             if (!empty($extensions)) {
-                $uploadMaxFileSize = intval($setting['upload_max_filesize']) * 1024;//转化成KB
+                $uploadMaxFileSize = intval($setting['upload_max_filesize']) * 1024;//转化成B
                 foreach ($extensions as $ext) {
                     if (!isset($uploadMaxFileSizeSetting[$ext]) || $uploadMaxFileSize > $uploadMaxFileSizeSetting[$ext] * 1024) {
                         $uploadMaxFileSizeSetting[$ext] = $uploadMaxFileSize;

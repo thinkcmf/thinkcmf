@@ -32,14 +32,29 @@ class AssetController extends AdminBaseController
     public function webuploader()
     {
 
-        $upload_setting = cmf_get_upload_setting();
+        $uploadSetting = cmf_get_upload_setting();
 
         $arrFileTypes = [
-            'image' => ['title' => 'Image files', 'extensions' => $upload_setting['image']['extensions']],
-            'video' => ['title' => 'Video files', 'extensions' => $upload_setting['video']['extensions']],
-            'audio' => ['title' => 'Audio files', 'extensions' => $upload_setting['audio']['extensions']],
-            'file'  => ['title' => 'Custom files', 'extensions' => $upload_setting['file']['extensions']]
+            'image' => ['title' => 'Image files', 'extensions' => $uploadSetting['file_types']['image']['extensions']],
+            'video' => ['title' => 'Video files', 'extensions' => $uploadSetting['file_types']['video']['extensions']],
+            'audio' => ['title' => 'Audio files', 'extensions' => $uploadSetting['file_types']['audio']['extensions']],
+            'file'  => ['title' => 'Custom files', 'extensions' => $uploadSetting['file_types']['file']['extensions']]
         ];
+
+        $arrMimeType = [];
+        $arrData     = $this->request->param();
+        if (empty($arrData["filetype"])) {
+            $arrData["filetype"] = "image";
+        }
+
+        $fileType = $arrData["filetype"];
+
+        if (array_key_exists($arrData["filetype"], $arrFileTypes)) {
+            $extensions                = $uploadSetting['file_types'][$arrData["filetype"]]['extensions'];
+            $fileTypeUploadMaxFileSize = $uploadSetting['file_types'][$fileType]['upload_max_filesize'];
+        } else {
+            $this->error('上传文件类型配置错误！');
+        }
 
         if ($this->request->isPost()) {
 
@@ -68,14 +83,28 @@ class AssetController extends AdminBaseController
              * 断点续传 end
              */
 
+            $app = $this->request->post('app');
+            if (!file_exists(APP_PATH . $app)) {
+                $app = 'default';
+            }
 
             $fileImage    = $this->request->file("file");
             $originalName = $fileImage->getInfo('name');
-            //$strWebPath      = $this->request->root() . DS . "upload" . DS;
-            $strWebPath      = "";//"upload" . DS;
-            $strSaveFilePath = '.' . DS . "upload" . DS; //TODO 测试 windows 下
-            $strId           = $this->request->post("id");
-            $strDate         = date('Ymd');
+
+            $arrAllowedExtensions = explode(',', $arrFileTypes[$fileType]['extensions']);
+
+            $strFileExtension = strtolower(cmf_get_file_extension($originalName));
+
+            if (!in_array($strFileExtension, $arrAllowedExtensions)) {
+                $this->error("非法文件类型！", '');
+            }
+
+            $fileUploadMaxFileSize = $uploadSetting['upload_max_filesize'][$strFileExtension];
+            $fileUploadMaxFileSize = empty($fileUploadMaxFileSize) ? 2097152 : $fileUploadMaxFileSize;//默认2M
+
+            $strWebPath = "";//"upload" . DS;
+            $strId      = $this->request->post("id");
+            $strDate    = date('Ymd');
 
             $adminId   = cmf_get_current_admin_id();
             $userId    = cmf_get_current_user_id();
@@ -84,24 +113,6 @@ class AssetController extends AdminBaseController
             if (!file_exists($targetDir)) {
                 mkdir($targetDir, 0777, true);
             }
-
-            $strSaveFilePath = $strSaveFilePath . $strDate . DS;
-            if (!file_exists($strSaveFilePath)) {
-                mkdir($strSaveFilePath, 0777, true);
-            }
-
-            $arrAllowedExts = [];
-            foreach ($arrFileTypes as $mfiletype) {
-                array_push($arrAllowedExts, $mfiletype['extensions']);
-            }
-
-            $arrAllowedExts = implode(',', $arrAllowedExts);
-            $arrAllowedExts = explode(',', $arrAllowedExts);
-            $arrAllowedExts = array_unique($arrAllowedExts);
-
-            $strFileExtension     = cmf_get_file_extension($originalName);
-            $intUploadMaxFileSize = $upload_setting['upload_max_filesize'][$strFileExtension];
-            $intUploadMaxFileSize = empty($intUploadMaxFileSize) ? 2097152 : $intUploadMaxFileSize;//默认2M
 
 
             /**
@@ -113,9 +124,6 @@ class AssetController extends AdminBaseController
 
             if (!$fileImage->isValid()) {
                 $this->error("非法文件！", '');
-            }
-            if (!$fileImage->checkExt($arrAllowedExts)) {
-                $this->error("文件类型不正确！", '');
             }
 
             if ($cleanupTargetDir) {
@@ -142,7 +150,6 @@ class AssetController extends AdminBaseController
             // Read binary input stream and append it to temp file
             if (!$in = @fopen($fileImage->getInfo("tmp_name"), "rb")) {
                 $this->error("Failed to open input stream！", '');
-
             }
 
             while ($buff = fread($in, 4096)) {
@@ -166,9 +173,15 @@ class AssetController extends AdminBaseController
                 die('');//分片没上传完
             }
 
+            $fileSaveName    = (empty($app) ? '' : $app . '/') . $strDate . '/' . md5(uniqid()) . "." . $strFileExtension;
+            $strSaveFilePath = './upload/' . $fileSaveName; //TODO 测试 windows 下
+            $strSaveFileDir  = dirname($strSaveFilePath);
+            if (!file_exists($strSaveFileDir)) {
+                mkdir($strSaveFileDir, 0777, true);
+            }
+
             // 合并临时文件
-            $saveName = $strSaveFilePath . md5(uniqid()) . "." . $strFileExtension;
-            if (!$out = @fopen($saveName, "wb")) {
+            if (!$out = @fopen($strSaveFilePath, "wb")) {
                 $this->error("Failed to open output stream！", '');
             }
 
@@ -189,26 +202,26 @@ class AssetController extends AdminBaseController
             }
             @fclose($out);
 
-            $fileImage = new File($saveName, 'r');
+            $fileImage = new File($strSaveFilePath, 'r');
             $arrInfo   = [
                 "name"     => $originalName,
                 "type"     => $fileImage->getMime(),
-                "tmp_name" => $strSaveFilePath . $strFilePath,
+                "tmp_name" => $strSaveFilePath,
                 "error"    => 0,
                 "size"     => $fileImage->getSize(),
             ];
 
-            $fileImage->setSaveName($strDate . '/' . $fileImage->getFilename());
+            $fileImage->setSaveName($fileSaveName);
             $fileImage->setUploadInfo($arrInfo);
 
             /**
              * 断点续传 end
              */
 
-            if (!$fileImage->validate(['size' => $intUploadMaxFileSize * 1024, 'ext' => $arrAllowedExts])->check()) {
+            if (!$fileImage->validate(['size' => $fileUploadMaxFileSize])->check()) {
                 $error = $fileImage->getError();
                 unset($fileImage);
-                unlink($saveName);
+                unlink($strSaveFilePath);
                 $this->error($error, '');
             }
 
@@ -231,8 +244,8 @@ class AssetController extends AdminBaseController
                     $arrInfo["user_id"]     = $userId;
                     $arrInfo["file_size"]   = $fileImage->getSize();
                     $arrInfo["create_time"] = time();
-                    $arrInfo["file_md5"]    = md5_file($strSaveFilePath . $fileImage->getFilename());
-                    $arrInfo["file_sha1"]   = sha1_file($strSaveFilePath . $fileImage->getFilename());
+                    $arrInfo["file_md5"]    = md5_file($strSaveFilePath);
+                    $arrInfo["file_sha1"]   = sha1_file($strSaveFilePath);
                     $arrInfo["file_key"]    = $arrInfo["file_md5"] . md5($arrInfo["file_sha1"]);
                     $arrInfo["filename"]    = $fileImage->getInfo("name");
                     $arrInfo["file_path"]   = $strWebPath . $fileImage->getSaveName();
@@ -248,7 +261,7 @@ class AssetController extends AdminBaseController
                 $arrAsset = $objAsset->toArray();
                 //$arrInfo["url"] = $this->request->domain() . $arrAsset["file_path"];
                 $arrInfo["file_path"] = $arrAsset["file_path"];
-                @unlink($strSaveFilePath . $saveName); // 删除已经上传的文件
+                @unlink($strSaveFilePath); // 删除已经上传的文件
             } else {
                 $assetModel->data($arrInfo)->allowField(true)->save();
             }
@@ -258,6 +271,7 @@ class AssetController extends AdminBaseController
                 // echo $targetDir . "{$strFilePath}_{$index}.part";
                 @unlink($targetDir . "{$strFilePath}_{$index}.part");
             }
+            @rmdir($targetDir);
 
             $this->success("上传成功!", '', [
                 'filepath'    => $arrInfo["file_path"],
@@ -267,35 +281,19 @@ class AssetController extends AdminBaseController
                 'url'         => cmf_get_root() . '/upload/' . $arrInfo["file_path"],
             ]);
 
-
         } else {
-            $arrMimeType = [];
-            $arrData     = $this->request->param();
-            if (empty($arrData["filetype"])) {
-                $arrData["filetype"] = "image";
-            }
-
-            if (array_key_exists($arrData["filetype"], $arrFileTypes)) {
-                $arrMimeType          = $arrFileTypes[$arrData["filetype"]];
-                $intUploadMaxFileSize = $upload_setting[$arrData["filetype"]]['upload_max_filesize'];
-                $extensions           = $upload_setting[$arrData["filetype"]]['extensions'];
-            } else {
-                $this->error('上传文件类型配置错误！');
-            }
             $this->assign('filetype', $arrData["filetype"]);
             $this->assign('extensions', $extensions);
-            $this->assign('upload_max_filesize', $intUploadMaxFileSize * 1024);
-            $this->assign('upload_max_filesize_mb', intval($intUploadMaxFileSize / 1024));
-            //$this->assign('mime_type',json_encode($arrMimeType));
-//            if($arrData["multi"]<1){
-//                $arrData["multi"] = 1;
-//            }elseif($arrData["multi"]==1) {
-//                $arrData["multi"] = 10;
-//            }
-            $this->assign('maxUp', $arrData["multi"] ? 5 : 1);
+            $this->assign('upload_max_filesize', $fileTypeUploadMaxFileSize * 1024);
+            $this->assign('upload_max_filesize_mb', intval($fileTypeUploadMaxFileSize / 1024));
+            $maxFiles  = intval($uploadSetting['max_files']);
+            $maxFiles  = empty($maxFiles) ? 20 : $maxFiles;
+            $chunkSize = intval($uploadSetting['chunk_size']);
+            $chunkSize = empty($chunkSize) ? 512 : $chunkSize;
+            $this->assign('max_files', $arrData["multi"] ? $maxFiles : 1);
+            $this->assign('chunk_size', $chunkSize); //// 单位KB
             $this->assign('multi', $arrData["multi"]);
             $this->assign('app', $arrData["app"]);
-            //$this->assign("module",$this->request->param("module"));
 
             return $this->fetch(":webuploader");
 
