@@ -144,6 +144,8 @@ function cmf_get_theme_path($theme = null)
 /**
  * @TODO
  * 获取用户头像相对网站根目录的地址
+ * @param $avatar 用户头像,相对于 upload 目录
+ * @return string
  */
 function cmf_get_user_avatar_url($avatar)
 {
@@ -822,41 +824,52 @@ function cmf_content_page($content, $pagetpl = '{first}{prev}{liststart}{list}{l
 }
 
 /**
- * TODO
  * 检查用户对某个url,内容的可访问性，用于记录如是否赞过，是否访问过等等;开发者可以自由控制，对于没有必要做的检查可以不做，以减少服务器压力
- * @param number $object 访问对象的id,格式：不带前缀的表名+id;如posts1表示xx_posts表里id为1的记录;如果object为空，表示只检查对某个url访问的合法性
- * @param number $count_limit 访问次数限制,如1，表示只能访问一次
- * @param boolean $ip_limit ip限制,false为不限制，true为限制
- * @param number $expire 距离上次访问的最小时间单位s，0表示不限制，大于0表示最后访问$expire秒后才可以访问
+ * @param string $object 访问对象的id,格式：不带前缀的表名+id;如posts1表示xx_posts表里id为1的记录;如果object为空，表示只检查对某个url访问的合法性
+ * @param int $countLimit 访问次数限制,如1，表示只能访问一次
+ * @param boolean $ipLimit ip限制,false为不限制，true为限制
+ * @param int $expire 距离上次访问的最小时间单位s，0表示不限制，大于0表示最后访问$expire秒后才可以访问
  * @return true 可访问，false不可访问
  */
-function cmf_check_user_action($object = "", $count_limit = 1, $ip_limit = false, $expire = 0)
+function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, $expire = 0)
 {
-    $common_action_log_model = M("CommonActionLog");
-    $action                  = MODULE_NAME . "-" . CONTROLLER_NAME . "-" . ACTION_NAME;
-    $userid                  = get_current_userid();
+    $request = request();
+    $action  = $request->module() . "/" . $request->controller() . "/" . $request->action();
+    $userId  = cmf_get_current_user_id();
 
     $ip = get_client_ip(0, true);//修复ip获取
 
-    $where = ["user" => $userid, "action" => $action, "object" => $object];
-    if ($ip_limit) {
+    $where = ["user_id" => $userId, "action" => $action, "object" => $object];
+
+    if ($ipLimit) {
         $where['ip'] = $ip;
     }
 
-    $find_log = $common_action_log_model->where($where)->find();
+    $findLog = Db::name('user_action_log')->where($where)->find();
 
     $time = time();
-    if ($find_log) {
-        $common_action_log_model->where($where)->save(["count" => ["exp", "count+1"], "last_time" => $time, "ip" => $ip]);
-        if ($find_log['count'] >= $count_limit) {
+    if ($findLog) {
+        Db::name('user_action_log')->where($where)->update([
+            "count"           => ["exp", "count+1"],
+            "last_visit_time" => $time,
+            "ip"              => $ip
+        ]);
+
+        if ($findLog['count'] >= $countLimit) {
             return false;
         }
 
-        if ($expire > 0 && ($time - $find_log['last_time']) < $expire) {
+        if ($expire > 0 && ($time - $findLog['last_visit_time']) < $expire) {
             return false;
         }
     } else {
-        $common_action_log_model->add(["user" => $userid, "action" => $action, "object" => $object, "count" => ["exp", "count+1"], "last_time" => $time, "ip" => $ip]);
+        Db::name('user_action_log')->insert([
+            "user_id"         => $userId,
+            "action"          => $action,
+            "object"          => $object,
+            "count"           => ["exp", "count+1"],
+            "last_visit_time" => $time, "ip" => $ip
+        ]);
     }
 
     return true;
