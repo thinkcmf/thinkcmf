@@ -14,6 +14,10 @@ use tree\Tree;
 class PortalCategoryModel extends Model
 {
 
+    protected $type = [
+        'more' => 'array',
+    ];
+
     /**
      * 生成分类 select树形结构
      * @param int $selectId 需要选中的分类 id
@@ -101,7 +105,11 @@ class PortalCategoryModel extends Model
         $result = true;
         self::startTrans();
         try {
-            $id = $this->insertGetId($data);
+            if (!empty($data['more']['thumbnail'])) {
+                $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
+            }
+            $this->allowField(true)->save($data);
+            $id = $this->id;
 
             if (empty($data['parent_id'])) {
                 $this->isUpdate(true)->save(['path' => '0-' . $id], ['id' => $id]);
@@ -145,7 +153,10 @@ class PortalCategoryModel extends Model
             try {
 
                 $data['path'] = $newPath;
-                $this->isUpdate(true)->save($data, ['id' => $id]);
+                if (!empty($data['more']['thumbnail'])) {
+                    $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
+                }
+                $this->isUpdate(true)->allowField(true)->save($data, ['id' => $id]);
 
                 $children = $this->field('id,path')->where('path', 'like', "%-$id-%")->select();
 
@@ -159,6 +170,7 @@ class PortalCategoryModel extends Model
                 self::commit();
 
             } catch (\Exception $e) {
+                print_r($e);
                 self::rollback();
                 $result = false;
             }
