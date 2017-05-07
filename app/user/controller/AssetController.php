@@ -4,12 +4,11 @@
  * 附件上传
  */
 
-namespace app\asset\controller;
+namespace app\user\controller;
 
-use app\asset\model\AssetModel;
+use app\user\model\AssetModel;
 use cmf\controller\AdminBaseController;
 use cmf\lib\Upload;
-use think\File;
 
 /**
  * 附件上传控制器

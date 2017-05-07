@@ -1,12 +1,10 @@
 <?php
 
-namespace app\asset\controller;
+namespace app\user\controller;
 
-use app\asset\model\AssetModel;
+use app\user\model\AssetModel;
 use cmf\controller\HomeBaseController;
 use cmf\lib\Upload;
-use think\File;
-use think\Request;
 
 /**
  * 百度编辑器文件上传处理控制器

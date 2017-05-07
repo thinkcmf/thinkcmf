@@ -247,7 +247,7 @@
                 auto: true,
                 chunkSize: {$chunk_size} * 1024,// 单位B
                 compress: false,
-                server: "{:url('asset/asset/webuploader')}?_ajax=1",
+                server: "{:url('user/asset/webuploader')}?_ajax=1",
                 // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
                 disableGlobalDnd: true,
                 fileNumLimit: maxFiles,

@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
-namespace app\asset\controller;
+namespace app\user\controller;
 
 use think\Db;
 use cmf\controller\AdminBaseController;
@@ -35,6 +35,7 @@ class AdminAssetController extends AdminBaseController
         $this->assign('status', ['不可用', '可用']);
         return $this->fetch();
     }
+
     /**
      * 删除文件
      * @adminMenu(

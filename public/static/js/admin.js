@@ -642,7 +642,7 @@ function open_upload_dialog(dialog_title, callback, extra_params, multi, filetyp
     app        = app ? app : GV.APP;
     var params = '&multi=' + multi + '&filetype=' + filetype + '&app=' + app;
     Wind.use("artDialog", "iframeTools", function () {
-        art.dialog.open(GV.ROOT + 'asset/Asset/webuploader?' + params, {
+        art.dialog.open(GV.ROOT + 'user/Asset/webuploader?' + params, {
             title: dialog_title,
             id: new Date().getTime(),
             width: '650px',

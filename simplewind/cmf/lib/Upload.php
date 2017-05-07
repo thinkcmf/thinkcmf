@@ -12,7 +12,7 @@
 namespace cmf\lib;
 
 use think\File;
-use app\asset\model\AssetModel;
+use app\user\model\AssetModel;
 
 /**
  * ThinkCMF上传类,分块上传
