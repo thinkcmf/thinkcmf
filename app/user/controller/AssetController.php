@@ -6,7 +6,6 @@
 
 namespace app\user\controller;
 
-use app\user\model\AssetModel;
 use cmf\controller\AdminBaseController;
 use cmf\lib\Upload;
 
