@@ -233,12 +233,29 @@ tpl;
         $portalCategoryModel = new PortalCategoryModel();
         $id                  = $this->request->param('id');
         //获取删除的内容
-        $res    = $portalCategoryModel->where('id', $id)->find();
+        $findCategory = $portalCategoryModel->where('id', $id)->find();
+
+        if (empty($findCategory)) {
+            $this->error('分类不存在!');
+        }
+
+        $categoryChildrenCount = $portalCategoryModel->where('parent_id', $id)->count();
+
+        if ($categoryChildrenCount > 0) {
+            $this->error('此分类有子类无法删除!');
+        }
+
+        $categoryPostCount = Db::name('portal_category_post')->where('category_id', $id)->count();
+
+        if ($categoryPostCount > 0) {
+            $this->error('此分类有文章无法删除!');
+        }
+
         $data   = [
-            'object_id'   => $res['id'],
+            'object_id'   => $findCategory['id'],
             'create_time' => time(),
             'table_name'  => 'portal_category',
-            'name'        => $res['name']
+            'name'        => $findCategory['name']
         ];
         $result = $portalCategoryModel
             ->where('id', $id)
