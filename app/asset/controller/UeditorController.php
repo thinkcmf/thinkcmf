@@ -1,8 +1,10 @@
 <?php
+
 namespace app\asset\controller;
 
 use app\asset\model\AssetModel;
 use cmf\controller\HomeBaseController;
+use cmf\lib\Upload;
 use think\File;
 use think\Request;
 
@@ -13,7 +15,6 @@ use think\Request;
  */
 class UeditorController extends HomeBaseController
 {
-
 
     private $stateMap = [ //上传状态映射表，国际化用户需考虑此处数据的国际化
         "SUCCESS", //上传成功标记，在UEditor中内不可改变，否则flash判断会出错
@@ -125,7 +126,7 @@ class UeditorController extends HomeBaseController
         $source = $this->request->param('source');
 
 
-        $item = [
+        $item              = [
             "state"    => "",
             "url"      => "",
             "size"     => "",
@@ -133,16 +134,16 @@ class UeditorController extends HomeBaseController
             "original" => "",
             "source"   => ""
         ];
-        $date = date("Ymd");
+        $date              = date("Ymd");
         $uploadSetting     = cmf_get_upload_setting();
         $uploadMaxFileSize = $uploadSetting["image"]['upload_max_filesize'];
         $uploadMaxFileSize = empty($uploadMaxFileSize) ? 2048 : $uploadMaxFileSize;//默认2M
-        $allowedExts = explode(',', $uploadSetting["image"]["extensions"]);
-        $strSavePath = ROOT_PATH . 'public'.DS . "ueditor".DS .$date.DS;
+        $allowedExts       = explode(',', $uploadSetting["image"]["extensions"]);
+        $strSavePath       = ROOT_PATH . 'public' . DS . "ueditor" . DS . $date . DS;
         //远程抓取图片配置
         $config = [
-            "savePath"   =>$strSavePath ,            //保存路径
-            "allowFiles" =>$allowedExts,// [".gif", ".png", ".jpg", ".jpeg", ".bmp"], //文件允许格式
+            "savePath"   => $strSavePath,            //保存路径
+            "allowFiles" => $allowedExts,// [".gif", ".png", ".jpg", ".jpeg", ".bmp"], //文件允许格式
             "maxSize"    => $uploadMaxFileSize                    //文件大小限制，单位KB
         ];
 
@@ -170,7 +171,7 @@ class UeditorController extends HomeBaseController
             }
 
             //获取请求头
-           // is_sae()
+            // is_sae()
 
             if (!cmf_is_sae()) {//SAE下无效
                 $heads = get_headers($imgUrl);
@@ -227,7 +228,7 @@ class UeditorController extends HomeBaseController
             if ($file_write_result) {
                 if (config('FILE_UPLOAD_TYPE') == 'Qiniu') {
 
-                   //todo qiniu  code
+                    //todo qiniu  code
 
                 }
 
@@ -258,233 +259,24 @@ class UeditorController extends HomeBaseController
      */
     private function ueditorUpload($fileType = 'image')
     {
+        $uploader = new Upload();
+        $uploader->setFileType($fileType);
+        $uploader->setFormName('upfile');
+        $result = $uploader->upload();
 
-        /**
-         * 断点续传 need
-         */
-        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-        header("Cache-Control: no-store, no-cache, must-revalidate");
-        header("Cache-Control: post-check=0, pre-check=0", false);
-        header("Pragma: no-cache");
-        header("Access-Control-Allow-Origin: *"); // Support CORS
-
-        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') { // other CORS headers if any...
-            exit; // finish preflight CORS requests here
-        }
-
-        @set_time_limit(10 * 60);
-        $cleanupTargetDir = true; // Remove old files
-        $maxFileAge       = 5 * 3600; // Temp file age in seconds
-
-        /**
-         * 断点续传 end
-         */
-
-
-
-        $uploadSetting     = cmf_get_upload_setting();
-        $fileImage         = $this->request->file("upfile");
-        $fileExtension     = $fileImage->getExtension();//  cmf_get_file_extension($_FILES['upfile']['name']);
-        $uploadMaxFileSize = $uploadSetting[$fileType]['upload_max_filesize']*1024;
-        $uploadMaxFileSize = empty($uploadMaxFileSize) ? 2097152 : $uploadMaxFileSize;//默认2M
-
-        $adminId = cmf_get_current_admin_id();
-        $userId  = cmf_get_current_user_id();
-        $userId  = empty($adminId) ? $userId : $adminId;
-        $strId   = $this->request->post("id");
-
-
-        $allowedExts = explode(',', $uploadSetting[$fileType]["extensions"]);
-        //$strWebPath  = $this->request->root() . DS . "upload" . DS . "ueditor" . DS;
-        $strWebPath  =  "ueditor" . DS;
-        $strSaveFilePath = ROOT_PATH . 'public' . DS . "upload" . DS . "ueditor" . DS;
-        $targetDir = RUNTIME_PATH . "upload" . DS . "ueditor" . DS. $userId . DS; // 断点续传 need
-        $strDate   = date('Ymd');
-        if (!file_exists(RUNTIME_PATH . "upload" . DS . "ueditor" . DS)) {
-            mkdir(RUNTIME_PATH . "upload" . DS . "ueditor" . DS, 0777, true);
-        }
-        if (!file_exists($targetDir)) {
-            mkdir($targetDir, 0777, true);
-        }
-        $strSaveFilePath = $strSaveFilePath.$strDate .DS;
-        if (!file_exists($strSaveFilePath)) {
-            mkdir($strSaveFilePath, 0777, true);
-        }
-
-        /**
-         * 断点续传 need
-         */
-        $strFilePath = $fileImage->getInfo("name");// md5($fileImage->getInfo("name"));
-        $chunk       = $this->request->param("chunk", 0, "intval");// isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
-        $chunks      = $this->request->param("chunks", 1, "intval");//isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 1;
-        $arrReturn   = [];
-        if (!$fileImage->isValid()) {
-            $arrReturn['state'] = "非法文件!";
-            return json_encode($arrReturn) ;
-            //die ('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "非法文件！"}, "id" : "' . $strId . '"}');
-        }
-        if (!$fileImage->checkExt($allowedExts)) {
-            $arrReturn['state'] = "文件类型不正确!";
-            return json_encode($arrReturn) ;
-            //die ('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "文件类型不正确！"}, "id" : "' . $strId . '"}');
-        }
-
-        if ($cleanupTargetDir) {
-            if (!is_dir($targetDir) || !$dir = opendir($targetDir)) {
-                $arrReturn['state'] = "Failed to open temp directory";
-                return json_encode($arrReturn) ;
-                //die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Failed to open temp directory."}, "id" : "' . $strId . '"}');
-            }
-
-            while (($file = readdir($dir)) !== false) {
-                $tmpfilePath = $targetDir . $file;
-                if ($tmpfilePath == "{$strFilePath}_{$chunk}.part" || $tmpfilePath == "{$strFilePath}_{$chunk}.parttmp") {
-                    continue;
-                }
-                if (preg_match('/\.(part|parttmp)$/', $file) && (@filemtime($tmpfilePath) < time() - $maxFileAge)) {
-                    @unlink($tmpfilePath);
-                }
-            }
-            closedir($dir);
-        }
-
-        // Open temp file
-        if (!$out = @fopen($targetDir . "{$strFilePath}_{$chunk}.parttmp", "wb")) {
-            $arrReturn['state'] = "Failed to open output stream.";
-            return json_encode($arrReturn) ;
-           // die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "' . $strId . '"}');
-        }
-        // Read binary input stream and append it to temp file
-        if (!$in = @fopen($fileImage->getInfo("tmp_name"), "rb")) {
-            $arrReturn['state'] = "Failed to open output stream.";
-            return json_encode($arrReturn) ;
-            //die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "' . $strId . '"}');
-
-        }
-
-        while ($buff = fread($in, 4096)) {
-            fwrite($out, $buff);
-        }
-
-        @fclose($out);
-        @fclose($in);
-
-        rename($targetDir . "{$strFilePath}_{$chunk}.parttmp", $targetDir . "{$strFilePath}_{$chunk}.part");
-
-        $done = true;
-        for ($index = 0; $index < $chunks; $index++) {
-            if (!file_exists($targetDir . "{$strFilePath}_{$index}.part")) {
-                $done = false;
-                break;
-            }
-        }
-        if ($done) {
-
-            $savename = $strSaveFilePath . md5(microtime(true)).".".pathinfo($strFilePath, PATHINFO_EXTENSION);
-            if (!$out = @fopen($savename, "wb")) {
-                $arrReturn['state'] = "Failed to open output stream.";
-                die(json_encode($arrReturn)) ;
-                //mkdir($uploadPath);
-                //die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "' . $strId . '"}');
-            }
-
-            if (flock($out, LOCK_EX)) {
-                for ($index = 0; $index < $chunks; $index++) {
-                    if (!$in = @fopen($targetDir . "{$strFilePath}_{$index}.part", "rb")) {
-                        break;
-                    }
-
-                    while ($buff = fread($in, 4096)) {
-                        fwrite($out, $buff);
-                    }
-
-                    @fclose($in);
-                    @unlink("{$strFilePath}_{$index}.part");
-                }
-
-                flock($out, LOCK_UN);
-            }
-
-            @fclose($out);
-
-            $fileImage = new File($savename);
-            $arrInfo   = ["name"  => $fileImage->getFilename(),
-                          "type"  => $fileImage->getMime(),
-                          "error" => 0,
-                          "size"  => $fileImage->getSize(),
-            ];
-
-            $fileImage->isTest(true);
-            $fileImage->setSaveName( $strDate.DS.$fileImage->getFilename());
-            $fileImage->setUploadInfo($arrInfo);
-
+        if ($result === false) {
+            return json_encode([
+                'state' => $uploader->getError()
+            ]);
         } else {
-            die();// die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "miss chunk"}, "id" : "'.$strId.'"}') ;
+            return json_encode([
+                'state'    => 'SUCCESS',
+                'url'      => $result['url'],
+                'title'    => $result['name'],
+                'original' => $result['name']
+            ]);
         }
 
-
-        /**
-         * 断点续传 end
-         */
-
-
-
-
-
-        if (!$fileImage->validate(['size' => $uploadMaxFileSize, 'ext' => $allowedExts])->check()) {
-            $arrReturn['state'] = $fileImage->getError();
-            unset($fileImage);
-            unlink($savename);
-            return json_encode($arrReturn);
-        }
-
-        $storageSetting = cmf_get_cmf_settings('storage');
-        $qiniuSetting   = $storageSetting['Qiniu']['setting'];
-        $arrInfo        = [];
-        if (config('FILE_UPLOAD_TYPE') == 'Qiniu' && $qiniuSetting['enable_picture_protect']) {
-            //todo  qiniu code ...
-
-        } else {
-            //$info = $fileImage->move($strSaveFilePath);//开始上传
-
-            if (!$fileImage) {
-                $arrReturn['state'] = $fileImage->getError();
-                return json_encode($arrReturn);
-            } else {
-                //$arrInfo["url"]         = $this->request->domain() . $strWebPath . $fileImage->getSaveName();
-                $arrInfo["SaveName"]    = $fileImage->getFilename();
-                $arrInfo["user_id"]     = $userId;
-                $arrInfo["file_size"]   = $fileImage->getSize();
-                $arrInfo["create_time"] = time();
-                $arrInfo["file_md5"]    = md5_file($strSaveFilePath . $fileImage->getFilename());
-                $arrInfo["file_sha1"]   = sha1_file($strSaveFilePath . $fileImage->getFilename());
-                $arrInfo["file_key"]    = $arrInfo["file_md5"] . md5($arrInfo["file_sha1"]);
-                $arrInfo["filename"]    = $fileImage->getInfo("name");
-                $arrInfo["file_path"]   = $strWebPath.$fileImage->getSaveName();
-                $arrInfo["suffix"]      = $fileImage->getExtension();
-
-            }
-
-        }
-        //检查文件是否已经存在
-        $assetModel = new AssetModel();
-        $objAsset   = $assetModel->where(["user_id" => $userId, "file_key" => $arrInfo["file_key"]])->find();
-        if ($objAsset) {
-            $arrAsset             = $objAsset->toArray();
-            $arrInfo["file_path"] = $arrAsset["file_path"];
-            @unlink($strSaveFilePath . $arrInfo["SaveName"]);
-        } else {
-            $assetModel->data($arrInfo)->allowField(true)->save();
-        }
-        $arrResponse = [];
-        $arrResponse["state"]    = 'SUCCESS';
-        $arrResponse["url"]      = cmf_get_asset_url($arrInfo["file_path"]);
-        $arrResponse["title"]    = $arrInfo["filename"];
-        $arrResponse["original"] = $arrInfo["filename"];
-
-
-        return json_encode($arrResponse);
     }
 
     /**
@@ -497,18 +289,18 @@ class UeditorController extends HomeBaseController
         $config         = json_decode($config_text, true);
         $upload_setting = cmf_get_upload_setting();
 
-        $config['imageMaxSize']    = $upload_setting['image']['upload_max_filesize'] * 1024;
-        $config['imageAllowFiles'] = array_map([$this, 'ueditorExtension'], explode(",", $upload_setting['image']['extensions']));
-        $config['scrawlMaxSize']   = $upload_setting['image']['upload_max_filesize'] * 1024;
+        $config['imageMaxSize']    = $upload_setting['file_types']['image']['upload_max_filesize'] * 1024;
+        $config['imageAllowFiles'] = array_map([$this, 'ueditorExtension'], explode(",", $upload_setting['file_types']['image']['extensions']));
+        $config['scrawlMaxSize']   = $upload_setting['file_types']['image']['upload_max_filesize'] * 1024;
 //
-        $config['catcherMaxSize']    = $upload_setting['image']['upload_max_filesize'] * 1024;
-        $config['catcherAllowFiles'] = array_map([$this, 'ueditorExtension'], explode(",", $upload_setting['image']['extensions']));
+        $config['catcherMaxSize']    = $upload_setting['file_types']['image']['upload_max_filesize'] * 1024;
+        $config['catcherAllowFiles'] = array_map([$this, 'ueditorExtension'], explode(",", $upload_setting['file_types']['image']['extensions']));
 
-        $config['videoMaxSize']    = $upload_setting['video']['upload_max_filesize'] * 1024;
-        $config['videoAllowFiles'] = array_map([$this, 'ueditorExtension'], explode(",", $upload_setting['video']['extensions']));
+        $config['videoMaxSize']    = $upload_setting['file_types']['video']['upload_max_filesize'] * 1024;
+        $config['videoAllowFiles'] = array_map([$this, 'ueditorExtension'], explode(",", $upload_setting['file_types']['video']['extensions']));
 
-        $config['fileMaxSize']    = $upload_setting['file']['upload_max_filesize'] * 1024;
-        $config['fileAllowFiles'] = array_map([$this, 'ueditorExtension'], explode(",", $upload_setting['file']['extensions']));
+        $config['fileMaxSize']    = $upload_setting['file_types']['file']['upload_max_filesize'] * 1024;
+        $config['fileAllowFiles'] = array_map([$this, 'ueditorExtension'], explode(",", $upload_setting['file_types']['file']['extensions']));
 
         return json_encode($config);
     }
@@ -532,36 +324,37 @@ class UeditorController extends HomeBaseController
 
         header("Content-Type: text/html; charset=utf-8");
         //需要遍历的目录列表，最好使用缩略图地址，否则当网速慢时可能会造成严重的延时
-        $paths = array(C("TMPL_PARSE_STRING.__UPLOAD__"), 'upload/');
+        $paths = [C("TMPL_PARSE_STRING.__UPLOAD__"), 'upload/'];
 
 
-        $files = array();
+        $files = [];
         foreach ($paths as $path) {
-                    $tmp = $this->getfiles($path);
-                    if ($tmp) {
-                        $files = array_merge($files, $tmp);
-                    }
+            $tmp = $this->getfiles($path);
+            if ($tmp) {
+                $files = array_merge($files, $tmp);
+            }
         }
         if (!count($files)) return;
         rsort($files, SORT_STRING);
         $str = "";
         foreach ($files as $file) {
-                    $str .= ROOT_PATH . '/' . $file . "ue_separate_ue";
+            $str .= ROOT_PATH . '/' . $file . "ue_separate_ue";
         }
         echo $str;
 
 
     }
+
     /**
      * 遍历获取目录下的指定类型的文件
      * @param $path
      * @param array $files
      * @return array
      */
-    private function getfiles($path, $allowFiles, &$files = array())
+    private function getfiles($path, $allowFiles, &$files = [])
     {
         if (!is_dir($path)) return null;
-        if(substr($path, strlen($path) - 1) != '/') $path .= '/';
+        if (substr($path, strlen($path) - 1) != '/') $path .= '/';
         $handle = opendir($path);
         while (false !== ($file = readdir($handle))) {
             if ($file != '.' && $file != '..') {
@@ -569,11 +362,11 @@ class UeditorController extends HomeBaseController
                 if (is_dir($path2)) {
                     $this->getfiles($path2, $allowFiles, $files);
                 } else {
-                    if (preg_match("/\.(".$allowFiles.")$/i", $file)) {
-                        $files[] = array(
-                            'url'=> substr($path2, strlen($_SERVER['DOCUMENT_ROOT'])),
-                            'mtime'=> filemtime($path2)
-                        );
+                    if (preg_match("/\.(" . $allowFiles . ")$/i", $file)) {
+                        $files[] = [
+                            'url'   => substr($path2, strlen($_SERVER['DOCUMENT_ROOT'])),
+                            'mtime' => filemtime($path2)
+                        ];
                     }
                 }
             }
