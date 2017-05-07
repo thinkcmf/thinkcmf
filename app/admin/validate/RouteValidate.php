@@ -1,0 +1,25 @@
+<?php
+// +----------------------------------------------------------------------
+// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: 小夏 < 449134904@qq.com>
+// +----------------------------------------------------------------------
+namespace app\admin\validate;
+
+use think\Validate;
+
+class RouteValidate extends Validate
+{
+    protected $rule = [
+        'url'      => 'require',
+        'full_url' => 'require',
+    ];
+
+    protected $message = [
+        'url.require'      => '显示网址不能为空',
+        'full_url.require' => '原始网址不能为空',
+    ];
+
+}
