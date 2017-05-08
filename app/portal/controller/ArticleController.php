@@ -59,6 +59,7 @@ class ArticleController extends HomeBaseController
     // 文章点赞
     public function doLike()
     {
+        $this->checkUserLogin();
         $articleId = $this->request->param('id', 0, 'intval');
 
 
