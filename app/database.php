@@ -7,6 +7,9 @@
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
 
+/**
+ * database.php       （应用）数据库配置文件
+ */
 if(file_exists(CMF_ROOT."data/conf/database.php")){
     $database=include CMF_ROOT."data/conf/database.php";
 }else{

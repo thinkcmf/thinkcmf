@@ -3,6 +3,8 @@ namespace app\api\controller;
 
 use think\Controller;
 
+use app\api\model\UserModel;
+
 class TestController extends Controller
 //namespace app\api\controller;
 //
@@ -40,5 +42,16 @@ class TestController extends Controller
     {
         $data = ['name'=>'thinkphp','url'=>'thinkphp.cn'];
         return xml(['data'=>$data,'code'=>1,'message'=>'操作完成']);
+    }
+
+    public function getUser($name = 1){
+//        return json(Db::table('cmf_user')->where('id',$name)->find());
+//        return json(Db::name('user')->where('id',$name)->find());
+
+        $userModel = new UserModel();
+
+        return json($userModel->getUserbyId($name));
+
+//        return json_decode(json_encode(Db::table('cmf_user')->where('id',1)->find()));
     }
 }
