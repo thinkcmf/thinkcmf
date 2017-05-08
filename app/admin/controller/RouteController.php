@@ -17,7 +17,7 @@ class RouteController extends AdminBaseController
     /**
      * 路由规则列表
      * @adminMenu(
-     *     'name'   => 'URL规则管理',
+     *     'name'   => 'URL美化',
      *     'parent' => 'admin/Setting/default',
      *     'display'=> true,
      *     'hasView'=> true,
@@ -29,8 +29,9 @@ class RouteController extends AdminBaseController
      */
     public function index()
     {
+        $routeModel = new RouteModel();
         $routes = Db::name('route')->order("list_order asc")->select();
-        //cmf_get_routes(true);
+        $routeModel->getRoutes(true);
         $this->assign("routes", $routes);
         return $this->fetch();
     }

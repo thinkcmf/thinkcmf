@@ -10,6 +10,7 @@
 use think\Config;
 use think\Db;
 use think\Cache;
+use think\Url;
 use dir\Dir;
 use think\Route;
 use think\Loader;
@@ -899,77 +900,6 @@ function cmf_get_relative_url($url)
 }
 
 /**
- * TODO
- * @deprecated
- * 获取所有url美化规则
- * @param boolean $refresh 是否强制刷新
- * @return mixed|void|boolean|NULL|unknown[]|unknown
- */
-function cmf_get_routes($refresh = false)
-{
-    $routes = F("routes");
-
-    if ((!empty($routes) || is_array($routes)) && !$refresh) {
-        return $routes;
-    }
-    $routes       = M("Route")->where("status=1")->order("listorder asc")->select();
-    $all_routes   = [];
-    $cache_routes = [];
-    foreach ($routes as $er) {
-        $full_url = htmlspecialchars_decode($er['full_url']);
-
-        // 解析URL
-        $info = parse_url($full_url);
-
-        $path = explode("/", $info['path']);
-        if (count($path) != 3) {//必须是完整 url
-            continue;
-        }
-
-        $module = strtolower($path[0]);
-
-        // 解析参数
-        $vars = [];
-        if (isset($info['query'])) { // 解析地址里面参数 合并到vars
-            parse_str($info['query'], $params);
-            $vars = array_merge($params, $vars);
-        }
-
-        $vars_src = $vars;
-
-        ksort($vars);
-
-        $path = $info['path'];
-
-        $full_url = $path . (empty($vars) ? "" : "?") . http_build_query($vars);
-
-        $url = $er['url'];
-
-        if (strpos($url, ':') === false) {
-            $cache_routes['static'][$full_url] = $url;
-        } else {
-            $cache_routes['dynamic'][$path][] = ["query" => $vars, "url" => $url];
-        }
-
-        $all_routes[$url] = $full_url;
-
-    }
-    F("routes", $cache_routes);
-    $route_dir = SITE_PATH . "/data/conf/";
-    if (!file_exists($route_dir)) {
-        mkdir($route_dir);
-    }
-
-    $route_file = $route_dir . "route.php";
-
-    file_put_contents($route_file, "<?php\treturn " . stripslashes(var_export($all_routes, true)) . ";");
-
-    return $cache_routes;
-
-
-}
-
-/**
  * 判断是否为手机访问
  * @return  boolean
  */
@@ -1667,5 +1597,77 @@ function cmf_url_encode($url, $params)
     }
 
     return base64_encode(json_encode(['action' => $url, 'param' => $params]));
+}
 
+/**
+ * CMF Url生成
+ * @param string $url 路由地址
+ * @param string|array $vars 变量
+ * @param bool|string $suffix 生成的URL后缀
+ * @param bool|string $domain 域名
+ * @return string
+ */
+function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
+{
+    static $routes;
+
+    if (empty($routes)) {
+        $routes = cache("routes");
+    }
+
+    if (false === strpos($url, '://') && 0 !== strpos($url, '/')) {
+        $info = parse_url($url);
+        $url  = !empty($info['path']) ? $info['path'] : '';
+        if (isset($info['fragment'])) {
+            // 解析锚点
+            $anchor = $info['fragment'];
+            if (false !== strpos($anchor, '?')) {
+                // 解析参数
+                list($anchor, $info['query']) = explode('?', $anchor, 2);
+            }
+            if (false !== strpos($anchor, '@')) {
+                // 解析域名
+                list($anchor, $domain) = explode('@', $anchor, 2);
+            }
+        } elseif (strpos($url, '@') && false === strpos($url, '\\')) {
+            // 解析域名
+            list($url, $domain) = explode('@', $url, 2);
+        }
+    }
+
+    // 解析参数
+    if (is_string($vars)) {
+        // aaa=1&bbb=2 转换成数组
+        parse_str($vars, $vars);
+    }
+
+    if (isset($info['query'])) {
+        // 解析地址里面参数 合并到vars
+        parse_str($info['query'], $params);
+        $vars = array_merge($params, $vars);
+    }
+
+    if (!empty($vars) && !empty($routes[$url])) {
+
+        foreach ($routes[$url] as $actionRoute) {
+            $sameVars = array_intersect($vars, $actionRoute['vars']);
+
+            if (count($sameVars) == count($actionRoute['vars'])) {
+                ksort($sameVars);
+                $url  = $url . '?' . http_build_query($sameVars);
+                $vars = array_diff($vars, $sameVars);
+                break;
+            }
+        }
+    }
+
+    if (!empty($anchor)) {
+        $url = $url . '#' . $anchor;
+    }
+
+    if (!empty($domain)) {
+        $url = $url . '@' . $domain;
+    }
+
+    return Url::build($url, $vars, $suffix, $domain);
 }

@@ -70,7 +70,7 @@ class NavMenuModel extends Model
             $hrefOld = $href;
             if (strpos($hrefOld, "{") !== false) {
                 $href = json_decode($navMenu['href'], true);
-                $href = url($href['action'], $href['param']);
+                $href = cmf_url($href['action'], $href['param']);
             } else {
                 if ($hrefOld == "home") {
                     $href = Request::instance()->root() . "/";

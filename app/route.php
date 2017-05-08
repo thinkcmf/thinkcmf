@@ -7,13 +7,10 @@
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
 
-return [
-    '__pattern__' => [
-        'name' => '\w+',
-    ],
-    '[hello]'     => [
-        ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
-        ':name' => ['index/hello', ['method' => 'post']],
-    ],
+if (file_exists(CMF_ROOT . "data/conf/route.php")) {
+    $runtimeRoutes = include CMF_ROOT . "data/conf/route.php";
+} else {
+    $runtimeRoutes = [];
+}
 
-];
+return $runtimeRoutes;

@@ -56,7 +56,7 @@ return [
     'ADMIN_ROUTE_DELETE'                 => '路由删除',
     'ADMIN_ROUTE_EDIT'                   => '路由编辑',
     'ADMIN_ROUTE_EDIT_POST'              => '路由编辑提交',
-    'ADMIN_ROUTE_INDEX'                  => '路由列表',
+    'ADMIN_ROUTE_INDEX'                  => 'URL美化',
     'ADMIN_ROUTE_LISTORDERS'             => '路由排序',
     'ADMIN_ROUTE_OPEN'                   => '路由启用',
     'ADMIN_SETTING_DEFAULT'              => '设置',

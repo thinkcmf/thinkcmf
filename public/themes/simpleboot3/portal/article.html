@@ -27,7 +27,7 @@
                         <span>{:date('Y-m-d H:i',$article.published_time)} by {$article.user.user_nickname}</span>
                         <span>
 		    			<a href="javascript:;"><i class="fa fa-eye"></i><span>{$article.post_hits}</span></a>
-						<a href="{:url('article/doLike',array('id'=>$article['id']))}" class="js-count-btn"><i
+						<a href="{:url('portal/Article/doLike',array('id'=>$article['id']))}" class="js-count-btn"><i
                                 class="fa fa-thumbs-up"></i><span class="count">{$article.post_like}</span></a>
 						<a href="{:url('user/favorite/add')}"
                            class="js-favorite-btn"

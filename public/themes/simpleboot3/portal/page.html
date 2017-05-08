@@ -52,7 +52,7 @@
                                 <li class="{$top}">
                                     <i>{$key+1}</i>
                                     <a title="{$vo.post_title}"
-                                       href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$vo.category_id))}">
+                                       href="{:cmf_url('portal/Article/index',array('id'=>$vo['id'],'cid'=>$vo.category_id))}">
                                         {$vo.post_title}
                                     </a>
                                 </li>
@@ -74,7 +74,7 @@
                             <dl class="dl-horizontal">
                                 <dt>
                                     <a class="img-wraper"
-                                       href="{:url('portal/article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">
+                                       href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">
                                         <if condition="empty($vo.more.thumbnail)">
                                             <img src="__TMPL__/public/assets/images/default_tupian4.png"
                                                  class="img-responsive" alt="{$vo.post_title}"/>
@@ -85,7 +85,7 @@
                                     </a>
                                 </dt>
                                 <dd>
-                                    <a href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$vo.category_id))}">{$vo.post_title}</a>
+                                    <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id'],'cid'=>$vo.category_id))}">{$vo.post_title}</a>
                                 </dd>
                             </dl>
                         </portal:articles>
