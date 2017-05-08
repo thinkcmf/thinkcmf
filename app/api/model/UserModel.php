@@ -13,4 +13,16 @@ class UserModel extends Model
         return (Db::name('user')->where('id',$name)->find());
     }
 
+    /**
+     * 登录
+     * @param $name
+     * @param $pwd
+     * @return array|false|\PDOStatement|string|Model
+     */
+    public function login($name,$pwd)
+    {
+        return (Db::name('user')->where('user_login',$name)
+            ->where('user_pass',$pwd)
+            ->find());
+    }
 }

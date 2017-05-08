@@ -1,9 +1,11 @@
 <?php
-//namespace app\api\controller;
+namespace app\api\controller;
 //
-//use Think\Controller\RestController;
+use Think\Controller\Rest;
+use Think\Controller;
+
 //
-//class UserController extends RestController {
+class UserController extends Rest {
 //    public function index(){
 //        $data = ['code' => 200, 'msg' => 'restful api'];
 //        $this->response($data,'json',200);
@@ -191,76 +193,79 @@
 //    		$this->response($data2 , 'json' , 403);
 //    	}
 //    }//注册用户
-//
-//    public function login(){
-//    	$params = urldecode(file_get_contents("php://input"));
-//    	if($params){
-//    		$data = json_decode($params , true);
-//    		if(empty($data['signValue']) || empty($data['phone']) || empty($data['password'])){
-//				// 清哥让去掉    || empty($data['token'])
-//    			$data2['code'] = '403';
-//    			$data2['msg'] = '缺少参数';
-//    			$data['userid'] = 0;
-//    			$data2['role'] = 0;
-//    			$data2['token'] = '';
-//    			$this->response($data2 , 'json' , 403);
-//    		}
-//    		if(checkSign($data['signValue'])){
-//    			$user = M('User');
-//    			$info = $user->where("phone=".$data['phone'])->field("id, password,role,token")->find();
-//    			if($info){
-//    				if($info['password'] != $data['password']){
-//    					$data2['code'] = '403';
-//    					$data2['msg'] = '账户或密码不正确';
-//    					$data2['userid'] = 0;
-//    					$data2['role'] = 0;
-//    					$data2['token'] = '';
-//    					$this->response($data2 , 'json' , 403);
-//    				}else{
-//    					//踢下别的账户
-//						if(!empty($data[token])) {
-//							$user_rs = $user->where("token='$data[token]'")->field("id")->select();
-//							if ($user_rs[0][id]) {
-//								foreach ($user_rs as $value) {
-//									$user->where("id=$value[id]")->data(array("token" => ""))->save();
-//								}
-//							}
-//							$user->data(array("token" => $data['token']))->where("phone=" . $data['phone'])->save(); //记录token
-//						}
-//    					//$new_token = $user->where("phone=".$data['phone'])->getField("token");
-//    					$data2['code'] = '200';
-//    					$data2['msg'] = '成功';
-//    					$data2['userid'] = $info['id'];
-//    					$data2['role'] = $info['role'];
-//    					$data2['token'] = $info['token'];
-//    					$this->response($data2 , 'json' , 200);
-//    				}
-//    			}else{
-//    				$data2['code'] = '403';
-//    				$data2['msg'] = '用户不存在';
-//    				$data2['userid'] = 0;
-//    				$data2['role'] = 0;
-//    				$data2['token'] = '';
-//    				$this->response($data2 , 'json' , 403);
-//    			}
-//    		}else{
-//    			$data2['code'] = '403';
-//    			$data2['msg'] = '验签失败';
-//    			$data2['userid'] = 0;
-//    			$data2['role'] = 0;
-//    			$data2['token'] = '';
-//    			$this->response($data2 , 'json' , 403);
-//    		}
-//    	}else{
-//    		$data2['code'] = '403';
-//    		$data2['msg'] = '数据获取失败';
-//    		$data2['userid'] = 0;
-//    		$data2['role'] = 0;
-//    		$data2['token'] = '';
-//    		$this->response($data2 , 'json' , 403);
-//    	}
-//
-//    }//登录
+
+/**
+ *
+ */
+    public function login(){
+    	$params = urldecode(file_get_contents("php://input"));
+    	if($params){
+    		$data = json_decode($params , true);
+    		if(empty($data['signValue']) || empty($data['phone']) || empty($data['password'])){
+				// 清哥让去掉    || empty($data['token'])
+    			$data2['code'] = '403';
+    			$data2['msg'] = '缺少参数';
+    			$data['userid'] = 0;
+    			$data2['role'] = 0;
+    			$data2['token'] = '';
+    			$this->response($data2 , 'json' , 403);
+    		}
+    		if(checkSign($data['signValue'])){
+    			$user = M('User');
+    			$info = $user->where("phone=".$data['phone'])->field("id, password,role,token")->find();
+    			if($info){
+    				if($info['password'] != $data['password']){
+    					$data2['code'] = '403';
+    					$data2['msg'] = '账户或密码不正确';
+    					$data2['userid'] = 0;
+    					$data2['role'] = 0;
+    					$data2['token'] = '';
+    					$this->response($data2 , 'json' , 403);
+    				}else{
+    					//踢下别的账户
+						if(!empty($data[token])) {
+							$user_rs = $user->where("token='$data[token]'")->field("id")->select();
+							if ($user_rs[0][id]) {
+								foreach ($user_rs as $value) {
+									$user->where("id=$value[id]")->data(array("token" => ""))->save();
+								}
+							}
+							$user->data(array("token" => $data['token']))->where("phone=" . $data['phone'])->save(); //记录token
+						}
+    					//$new_token = $user->where("phone=".$data['phone'])->getField("token");
+    					$data2['code'] = '200';
+    					$data2['msg'] = '成功';
+    					$data2['userid'] = $info['id'];
+    					$data2['role'] = $info['role'];
+    					$data2['token'] = $info['token'];
+    					$this->response($data2 , 'json' , 200);
+    				}
+    			}else{
+    				$data2['code'] = '403';
+    				$data2['msg'] = '用户不存在';
+    				$data2['userid'] = 0;
+    				$data2['role'] = 0;
+    				$data2['token'] = '';
+    				$this->response($data2 , 'json' , 403);
+    			}
+    		}else{
+    			$data2['code'] = '403';
+    			$data2['msg'] = '验签失败';
+    			$data2['userid'] = 0;
+    			$data2['role'] = 0;
+    			$data2['token'] = '';
+    			$this->response($data2 , 'json' , 403);
+    		}
+    	}else{
+    		$data2['code'] = '403';
+    		$data2['msg'] = '数据获取失败';
+    		$data2['userid'] = 0;
+    		$data2['role'] = 0;
+    		$data2['token'] = '';
+    		$this->response($data2 , 'json' , 403);
+    	}
+
+    }//登录
 //
 //	public function feedback(){
 //		$params = urldecode(file_get_contents("php://input"));
@@ -1702,4 +1707,4 @@
 //		$data['msg'] = '成功';
 //		$this->response($data, 'json', 200);
 //	}
-//}
+}
