@@ -20,7 +20,13 @@ ThinkCMF 5.0 RC3
 http://demo5.thinkcmf.com/admin/   
 用户名/密码:demo/thinkcmf
 
-### 安装步骤
+### 自动安装(测试版)
+代码已经加入自动安装程序,如果你在安装中有任何问题请提交 issue, 无法安装成功时请尝试下面
+的`手动安装步骤`.
+
+enjoy your cmf~!
+
+### 手动安装步骤
 
 1.创建 thinkcmf5数据库(默认编码utf8mb4),并导入 update/thinkcmf5.sql
 
@@ -51,9 +57,11 @@ return [
 ```
 更改为你的数据库信息
 
-3.把 public目录做为网站根目录,入口文件在 public/index.php
+3.创建`data/install.lock`文件
 
-4.后台
+4.把 public目录做为网站根目录,入口文件在 public/index.php
+
+5.后台
 你的域名/admin  
 用户名/密码:admin/111111
 
