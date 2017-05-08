@@ -1671,3 +1671,17 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
 
     return Url::build($url, $vars, $suffix, $domain);
 }
+
+/**
+ * 判断 cmf 是否已经安装
+ * @return bool
+ */
+function cmf_is_installed()
+{
+    static $cmfIsInstalled;
+    if (empty($cmfIsInstalled)) {
+        $cmfIsInstalled = file_exists(CMF_ROOT . 'data/install.lock');
+    }
+
+    return $cmfIsInstalled;
+}

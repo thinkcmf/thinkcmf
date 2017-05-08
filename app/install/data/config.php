@@ -7,19 +7,19 @@ return [
     // 数据库类型
     'type'     => 'mysql',
     // 服务器地址
-    'hostname' => '#DB_HOST#',
+    'hostname' => '#hostname#',
     // 数据库名
-    'database' => '#DB_NAME#',
+    'database' => '#database#',
     // 用户名
-    'username' => '#DB_USER#',
+    'username' => '#username#',
     // 密码
-    'password' => '#DB_PWD#',
+    'password' => '#password#',
     // 端口
-    'hostport' => '#DB_PORT#',
+    'hostport' => '#hostport#',
     // 数据库编码默认采用utf8
-    'charset'  => 'utf8mb4',
+    'charset'  => '#charset#',
     // 数据库表前缀
-    'prefix'   => '#DB_PREFIX#',
-    "authcode" => '#AUTHCODE#',
+    'prefix'   => '#prefix#',
+    "authcode" => '#authcode#',
     //#COOKIE_PREFIX#
 ];
