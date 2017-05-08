@@ -20,6 +20,11 @@ class HomeLangBehavior
     public function run()
     {
         $request = Request::instance();
+        if(!cmf_is_installed() && $request->module()!='install'){
+            header('Location: ' . cmf_get_root() . '/index.php?s=install');
+            exit;
+        }
+
         $langSet = $request->langset();
 
         // 加载应用前台通用语言包
