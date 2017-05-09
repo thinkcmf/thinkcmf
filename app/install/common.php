@@ -196,8 +196,6 @@ function sp_create_db_config($config)
             file_put_contents(CMF_ROOT . 'data/conf/database.php', $conf);
         } catch (\Exception $e) {
 
-            print_r($e);
-
             return false;
 
         }

@@ -101,18 +101,18 @@ class IndexController extends Controller
         }
 
         $folders    = [
-            realpath(CMF_ROOT . 'data').'/',
-            realpath(CMF_ROOT . 'data/conf').'/',
-            realpath(CMF_ROOT . 'data/runtime').'/',
-            realpath(CMF_ROOT . 'data/runtime/cache').'/',
-            realpath(CMF_ROOT . 'data/runtime/log').'/',
-            realpath(CMF_ROOT . 'data/runtime/temp').'/',
-            realpath(CMF_ROOT . 'data/runtime/upload').'/',
-            realpath( './upload').'/',
+            realpath(CMF_ROOT . 'data') . DS,
+            realpath(CMF_ROOT . 'data/conf') . DS,
+            realpath(CMF_ROOT . 'data/runtime') . DS,
+            realpath(CMF_ROOT . 'data/runtime/cache') . DS,
+            realpath(CMF_ROOT . 'data/runtime/log') . DS,
+            realpath(CMF_ROOT . 'data/runtime/temp') . DS,
+            realpath(CMF_ROOT . 'data/runtime/upload') . DS,
+            realpath('./upload') . DS,
         ];
         $newFolders = [];
         foreach ($folders as $dir) {
-            $testDir =  $dir;
+            $testDir = $dir;
             sp_dir_create($testDir);
             if (sp_testwrite($testDir)) {
                 $newFolders[$dir]['w'] = true;
@@ -140,6 +140,7 @@ class IndexController extends Controller
 
     public function step4()
     {
+        session(null);
         if ($this->request->isPost()) {
             //创建数据库
             $dbConfig             = [];
@@ -158,20 +159,20 @@ class IndexController extends Controller
 
             $dbConfig['prefix'] = $this->request->param('dbprefix', '', 'trim');
 
-            session('install_db_config', $dbConfig);
+            session('install.db_config', $dbConfig);
 
             $sql = sp_split_sql('thinkcmf.sql', $dbConfig['prefix'], $dbConfig['charset']);
-            session('install_sql', $sql);
+            session('install.sql', $sql);
 
             $this->assign('sql_count', count($sql));
 
-            session('install_error', 0);
+            session('install.error', 0);
 
             $siteName    = $this->request->param('sitename');
             $seoKeywords = $this->request->param('sitekeywords');
             $siteInfo    = $this->request->param('siteinfo');
 
-            session('install_site_info', [
+            session('install.site_info', [
                 'site_name'            => $siteName,
                 'site_seo_title'       => $siteName,
                 'site_seo_keywords'    => $seoKeywords,
@@ -182,7 +183,7 @@ class IndexController extends Controller
             $userPass  = $this->request->param('manager_pwd');
             $userEmail = $this->request->param('manager_email');
 
-            session('admin_info', [
+            session('install.admin_info', [
                 'user_login' => $userLogin,
                 'user_pass'  => $userPass,
                 'user_email' => $userEmail
@@ -197,7 +198,7 @@ class IndexController extends Controller
 
     public function step5()
     {
-        if (session("_install_step") == 4) {
+        if (session("install.step") == 4) {
             @touch(CMF_ROOT . 'data/install.lock');
             return $this->fetch(":step5");
         } else {
@@ -207,7 +208,7 @@ class IndexController extends Controller
 
     public function install()
     {
-        $dbConfig = session('install_db_config');
+        $dbConfig = session('install.db_config');
 
         if (empty($dbConfig)) {
             $this->error("非法安装!");
@@ -217,15 +218,15 @@ class IndexController extends Controller
 
         $db = Db::connect($dbConfig);
 
-        $sql = session('install_sql');
+        $sql = session('install.sql');
 
         if (empty($sql)) {
             $sql = sp_split_sql('thinkcmf.sql', $dbConfig['prefix']);
-            session('install_sql', $sql);
+            session('install.sql', $sql);
         }
 
         if ($sqlIndex >= count($sql)) {
-            $installError = session('install_error');
+            $installError = session('install.error');
             $this->success("安装完成!", '', ['done' => 1, 'error' => $installError]);
         }
 
@@ -234,10 +235,10 @@ class IndexController extends Controller
         $result = sp_execute_sql($db, $sqlToExec);
 
         if (!empty($result['error'])) {
-            $installError = session('install_error');
+            $installError = session('install.error');
             $installError = empty($installError) ? 0 : $installError;
 
-            session('install_error', $installError + 1);
+            session('install.error', $installError + 1);
             $this->error($result['message'], '', [
                 'sql'       => $sqlToExec,
                 'exception' => $result['exception']
@@ -252,14 +253,14 @@ class IndexController extends Controller
 
     public function setSite()
     {
-        $dbConfig = session('install_db_config');
+        $dbConfig = session('install.db_config');
 
         if (empty($dbConfig)) {
             $this->error("非法安装!");
         }
 
-        $siteInfo               = session('install_site_info');
-        $admin                  = session('admin_info');
+        $siteInfo               = session('install.site_info');
+        $admin                  = session('install.admin_info');
         $admin['id']            = 1;
         $admin['user_pass']     = cmf_password($admin['user_pass']);
         $admin['user_type']     = 1;
@@ -270,17 +271,18 @@ class IndexController extends Controller
         try {
             cmf_set_option('site_info', $siteInfo);
             Db::name('user')->insert($admin);
-            session("_install_step", 4);
-            $this->success("网站创建完成!");
+            session("install.step", 4);
         } catch (\Exception $e) {
-            $this->success("网站创建失败!");
+            $this->error("网站创建失败!");
         }
+
+        $this->success("网站创建完成!");
 
     }
 
     public function setDbConfig()
     {
-        $dbConfig = session('install_db_config');
+        $dbConfig = session('install.db_config');
 
         $dbConfig['authcode'] = cmf_random_string(18);
 

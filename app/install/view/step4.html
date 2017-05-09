@@ -86,7 +86,8 @@
 
                             if (data.data.error) {
                                 noty({
-                                    text: "安装过程,共" + data.data.error + "个错误,确定继续吗?",
+                                    text: "安装过程,共" + data.data.error + "个SQL执行错误,可能您在此数据库下已经安装过 CMF,请查看问题后重新安装,或者<br>"
+                                    + '<a target="_blank" href="https://github.com/thinkcmf/thinkcmf/issues">反馈问题</a>',
                                     type: 'confirm',
                                     layout: "center",
                                     timeout: false,
@@ -98,7 +99,7 @@
                                             onClick: function ($noty) {
                                                 $noty.close();
 
-                                                setDbConfig();
+                                                //setDbConfig();
 
                                             }
                                         },
@@ -107,6 +108,7 @@
                                             text: '取消',
                                             onClick: function ($noty) {
                                                 $noty.close();
+
                                             }
                                         }
                                     ]
@@ -151,10 +153,11 @@
                 success: function (data) {
                     if (data.code == 1) {
                         $installMsgPanel.append('<li><i class="fa fa-check correct"></i>' + data.msg + '</li>');
+                        $log.scrollTop(1000000000);
                         setSite();
                     } else {
                         $installMsgPanel.append('<li><i class="fa fa-remove error"></i>' + data.msg + '</li>');
-
+                        $log.scrollTop(1000000000);
                         noty({
                             text: data.msg + ',请检查 data/conf/database.php 是否可写!',
                             type: 'confirm',
@@ -196,12 +199,13 @@
 
                     if (data.code == 1) {
                         $installMsgPanel.append('<li><i class="fa fa-check correct"></i>' + data.msg + '</li>');
+                        $log.scrollTop(1000000000);
                         setTimeout(function () {
                             window.location = "{:url('install/index/step5')}";
                         }, 1000);
                     } else {
                         $installMsgPanel.append('<li><i class="fa fa-remove error"></i>' + data.msg + '</li>');
-
+                        $log.scrollTop(1000000000);
                         noty({
                             text: data.msg,
                             type: 'confirm',
@@ -233,14 +237,6 @@
 
                 }
             });
-        }
-        function showmsg(content, status) {
-            var icon = '<i class="fa fa-check correct"></i> ';
-            if (status == "error") {
-                icon = '<i class="fa fa-remove error"></i> ';
-            }
-            $('#loginner').append("<li>" + icon + content + "</li>");
-            $log.scrollTop(1000000000);
         }
     </script>
 </div>
