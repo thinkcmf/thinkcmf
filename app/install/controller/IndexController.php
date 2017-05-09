@@ -2,6 +2,7 @@
 
 namespace app\install\controller;
 
+use app\admin\model\ThemeModel;
 use think\Controller;
 use think\Db;
 
@@ -196,16 +197,6 @@ class IndexController extends Controller
         }
     }
 
-    public function step5()
-    {
-        if (session("install.step") == 4) {
-            @touch(CMF_ROOT . 'data/install.lock');
-            return $this->fetch(":step5");
-        } else {
-            $this->error("非法安装！");
-        }
-    }
-
     public function install()
     {
         $dbConfig = session('install.db_config');
@@ -251,6 +242,21 @@ class IndexController extends Controller
 
     }
 
+    public function setDbConfig()
+    {
+        $dbConfig = session('install.db_config');
+
+        $dbConfig['authcode'] = cmf_random_string(18);
+
+        $result = sp_create_db_config($dbConfig);
+
+        if ($result) {
+            $this->success("数据配置文件写入成功!");
+        } else {
+            $this->error("数据配置文件写入失败!");
+        }
+    }
+
     public function setSite()
     {
         $dbConfig = session('install.db_config');
@@ -271,7 +277,6 @@ class IndexController extends Controller
         try {
             cmf_set_option('site_info', $siteInfo);
             Db::name('user')->insert($admin);
-            session("install.step", 4);
         } catch (\Exception $e) {
             $this->error("网站创建失败!");
         }
@@ -280,18 +285,25 @@ class IndexController extends Controller
 
     }
 
-    public function setDbConfig()
+    public function installTheme()
     {
-        $dbConfig = session('install.db_config');
+        $themeModel = new ThemeModel();
+        $result     = $themeModel->installTheme(config('cmf_default_theme'));
+        if ($result === false) {
+            $this->error('模板不存在!');
+        }
 
-        $dbConfig['authcode'] = cmf_random_string(18);
+        session("install.step", 4);
+        $this->success("模板安装成功");
+    }
 
-        $result = sp_create_db_config($dbConfig);
-
-        if ($result) {
-            $this->success("数据配置文件写入成功!");
+    public function step5()
+    {
+        if (session("install.step") == 4) {
+            @touch(CMF_ROOT . 'data/install.lock');
+            return $this->fetch(":step5");
         } else {
-            $this->error("数据配置文件写入失败!");
+            $this->error("非法安装！");
         }
     }
 

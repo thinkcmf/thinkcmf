@@ -553,22 +553,14 @@ CREATE TABLE IF NOT EXISTS `cmf_nav_menu` (
   `href` varchar(100) NOT NULL DEFAULT '' COMMENT '链接',
   `icon` varchar(20) NOT NULL DEFAULT '' COMMENT '图标',
   `path` varchar(255) NOT NULL DEFAULT '' COMMENT '层级关系'
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COMMENT='前台导航菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='前台导航菜单表';
 
 --
 -- 转存表中的数据 `cmf_nav_menu`
 --
 
 INSERT INTO `cmf_nav_menu` (`id`, `nav_id`, `parent_id`, `status`, `list_order`, `name`, `target`, `href`, `icon`, `path`) VALUES
-(1, 1, 0, 1, 0, '首页', '', 'home', '', '0-1'),
-(2, 1, 0, 1, 0, '列表演示', '', '{"action":"portal\\/List\\/index","param":{"id":1}}', 'icon', '0-2'),
-(9, 1, 0, 1, 0, '页面演示', '', '{"action":"portal\\/Page\\/index","param":{"id":13}}', '', ''),
-(10, 1, 0, 1, 10000, '联系我们', '', '{"action":"portal\\/Page\\/index","param":{"id":14}}', '', ''),
-(12, 1, 0, 1, 10000, '发现', '', '{"action":"portal\\/List\\/index","param":{"id":6}}', '', ''),
-(13, 2, 0, 1, 10000, '首页', '', 'home', '', ''),
-(14, 2, 0, 1, 10000, '列表演示', '', '{"action":"portal\\/List\\/index","param":{"id":1}}', '', ''),
-(15, 2, 0, 1, 10000, '瀑布流', '', '{"action":"portal\\/List\\/index","param":{"id":2}}', '', ''),
-(16, 2, 0, 1, 10000, '列表演示', '', '{"action":"portal\\/List\\/index","param":{"id":1}}', '', '');
+(1, 1, 0, 1, 0, '首页', '', 'home', '', '0-1');
 
 -- --------------------------------------------------------
 
