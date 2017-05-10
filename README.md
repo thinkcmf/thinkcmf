@@ -123,7 +123,10 @@ thinkcmf  根目录
 http://www.kancloud.cn/thinkcmf/doc
 
 ### QQ群:
-ThinkCMF VIP技术群:100828313 (付费)
+ThinkCMF 高级交流群:100828313 (付费)  
+
+### 话题专区
+http://www.thinkcmf.com/topic/index/index/cat/11.html
 
 ### 反馈问题
 https://github.com/thinkcmf/thinkcmf/issues
