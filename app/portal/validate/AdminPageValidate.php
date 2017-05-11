@@ -8,12 +8,14 @@
 // +----------------------------------------------------------------------
 namespace app\portal\validate;
 
+use app\admin\model\RouteModel;
 use think\Validate;
 
 class AdminPageValidate extends Validate
 {
     protected $rule = [
         'post_title' => 'require',
+        'post_alias' => 'checkAlias'
     ];
     protected $message = [
         'post_title.require' => '页面标题不能为空',
@@ -23,4 +25,21 @@ class AdminPageValidate extends Validate
 //        'add'  => ['user_login,user_pass,user_email'],
 //        'edit' => ['user_login,user_email'],
     ];
+
+    // 自定义验证规则
+    protected function checkAlias($value, $rule, $data)
+    {
+        if (empty($value)) {
+            return true;
+        }
+
+        $routeModel = new RouteModel();
+        $fullUrl    = $routeModel->buildFullUrl('portal/Page/index', ['id' => $data['id']]);
+        if (!$routeModel->exists($value, $fullUrl)) {
+            return true;
+        } else {
+            return "别名已经存在!";
+        }
+
+    }
 }

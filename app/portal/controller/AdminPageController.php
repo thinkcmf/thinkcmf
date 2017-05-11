@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace app\portal\controller;
 
+use app\admin\model\RouteModel;
 use cmf\controller\AdminBaseController;
 use app\portal\model\PortalPostModel;
 use app\portal\service\PostService;
@@ -115,6 +116,9 @@ class AdminPageController extends AdminBaseController
         $themeModel     = new ThemeModel();
         $pageThemeFiles = $themeModel->getActionThemeFiles('portal/Page/index');
 
+        $routeModel         = new RouteModel();
+        $alias              = $routeModel->getUrl('portal/Page/index', ['id' => $id]);
+        $post['post_alias'] = $alias;
         $this->assign('page_theme_files', $pageThemeFiles);
         $this->assign('post', $post);
 

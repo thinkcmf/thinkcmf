@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace app\portal\model;
 
+use app\admin\model\RouteModel;
 use think\Model;
 use think\Db;
 
@@ -252,6 +253,9 @@ class PortalPostModel extends Model
         $data['post_status'] = empty($data['post_status']) ? 0 : 1;
         $data['post_type']   = 2;
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
+
+        $routeModel = new RouteModel();
+        $routeModel->setRoute($data['post_alias'], 'portal/Page/index', ['id' => $data['id']], 2, 5000);
 
         return $this;
     }
