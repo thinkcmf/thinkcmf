@@ -103,12 +103,6 @@ class IndexController extends Controller
 
         $folders    = [
             realpath(CMF_ROOT . 'data') . DS,
-            realpath(CMF_ROOT . 'data/conf') . DS,
-            realpath(CMF_ROOT . 'data/runtime') . DS,
-            realpath(CMF_ROOT . 'data/runtime/cache') . DS,
-            realpath(CMF_ROOT . 'data/runtime/log') . DS,
-            realpath(CMF_ROOT . 'data/runtime/temp') . DS,
-            realpath(CMF_ROOT . 'data/runtime/upload') . DS,
             realpath('./upload') . DS,
         ];
         $newFolders = [];
