@@ -28,7 +28,7 @@ class AdminIndexController extends PluginBaseController
     function index()
     {
         $users = Db::name("user")->limit(0, 5)->select();
-        $demos = PluginDemoModel::all();
+        //$demos = PluginDemoModel::all();
 
         // print_r($demos);
 

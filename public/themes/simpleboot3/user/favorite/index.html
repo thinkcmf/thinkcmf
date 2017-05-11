@@ -42,7 +42,7 @@
 											<php>
 												$url = json_decode($vo['url'],true);
 											</php>
-											<a href="{:url($url['action'],$url['param'])}">查看</a> |
+											<a href="{:cmf_url($url['action'],$url['param'])}">查看</a> |
 											<a class="js-ajax-dialog-btn" href="{:url('user/favorite/delete',array('id'=>$vo['id']))}" data-msg="您确定要取消收藏吗？" data-ok="" data-cacel="取消">取消收藏</a>
 										</td>
 									</tr>

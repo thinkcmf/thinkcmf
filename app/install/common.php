@@ -41,35 +41,55 @@ function sp_dir_path($path)
     return $path;
 }
 
-function sp_execute_sql($db, $file, $tablePre)
+function sp_split_sql($file, $tablePre, $charset = 'utf8mb4')
 {
     //读取SQL文件
     $sql = file_get_contents(APP_PATH . 'install/data/' . $file);
     $sql = str_replace("\r", "\n", $sql);
-    $sql = explode(";\n", $sql);
-
+    $sql = str_replace('utf8mb4', $charset, $sql);
+    $sql = trim($sql);
     //替换表前缀
     $defaultTablePre = "cmf_";
-    $sql              = str_replace(" `{$defaultTablePre}", " `{$tablePre}", $sql);
+    $sql             = str_replace(" `{$defaultTablePre}", " `{$tablePre}", $sql);
+    $sqls            = explode(";\n", $sql);
+    return $sqls;
+}
 
-    //开始安装
-    sp_show_msg('开始安装数据库...');
-    foreach ($sql as $item) {
-        $item = trim($item);
-        if (empty($item)) continue;
-        preg_match('/CREATE TABLE `([^ ]*)`/', $item, $matches);
-        if ($matches) {
-            $table_name = $matches[1];
-            $msg        = "创建数据表{$table_name}";
-            if (false !== $db->execute($item)) {
-                sp_show_msg($msg . ' 完成');
-            } else {
-                sp_show_msg($msg . ' 失败！', 'error');
-            }
-        } else {
-            $db->execute($item);
+function sp_execute_sql($db, $sql)
+{
+    $sql = trim($sql);
+    preg_match('/CREATE TABLE .+ `([^ ]*)`/', $sql, $matches);
+    if ($matches) {
+        $table_name = $matches[1];
+        $msg        = "创建数据表{$table_name}";
+        try {
+            $db->execute($sql);
+            return [
+                'error'   => 0,
+                'message' => $msg . ' 成功！'
+            ];
+        } catch (\Exception $e) {
+            return [
+                'error'     => 1,
+                'message'   => $msg . ' 失败！',
+                'exception' => $e->getTraceAsString()
+            ];
         }
 
+    } else {
+        try {
+            $db->execute($sql);
+            return [
+                'error'   => 0,
+                'message' => 'SQL执行成功!'
+            ];
+        } catch (\Exception $e) {
+            return [
+                'error'     => 1,
+                'message'   => 'SQL执行失败！',
+                'exception' => $e->getTraceAsString()
+            ];
+        }
     }
 }
 
@@ -152,6 +172,35 @@ function sp_create_config($config, $authcode)
             sp_show_msg('配置文件写入失败！', 'error');
         }
         return '';
+
+    }
+}
+
+
+function sp_create_db_config($config)
+{
+    if (is_array($config)) {
+        //读取配置内容
+        $conf = file_get_contents(APP_PATH . 'install/data/config.php');
+
+        //替换配置项
+        foreach ($config as $key => $value) {
+            $conf = str_replace("#{$key}#", $value, $conf);
+        }
+
+        try {
+            $confDir = CMF_ROOT . 'data/conf/';
+            if (!file_exists($confDir)) {
+                mkdir($confDir, 0777, true);
+            }
+            file_put_contents(CMF_ROOT . 'data/conf/database.php', $conf);
+        } catch (\Exception $e) {
+
+            return false;
+
+        }
+
+        return true;
 
     }
 }

@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace app\portal\controller;
 
+use app\admin\model\RouteModel;
 use cmf\controller\AdminBaseController;
 use app\portal\model\PortalCategoryModel;
 use think\Db;
@@ -120,7 +121,6 @@ class AdminCategoryController extends AdminBaseController
         $id = $this->request->param('id', 0, 'intval');
         if ($id > 0) {
             $category = PortalCategoryModel::get($id)->toArray();
-            $this->assign($category);
 
             $portalCategoryModel = new PortalCategoryModel();
             $categoriesTree      = $portalCategoryModel->adminCategoryTree($category['parent_id'], $id);
@@ -129,6 +129,11 @@ class AdminCategoryController extends AdminBaseController
             $listThemeFiles    = $themeModel->getActionThemeFiles('portal/List/index');
             $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
 
+            $routeModel = new RouteModel();
+            $alias      = $routeModel->getUrl('portal/List/index', ['id' => $id]);
+
+            $category['alias'] = $alias;
+            $this->assign($category);
             $this->assign('list_theme_files', $listThemeFiles);
             $this->assign('article_theme_files', $articleThemeFiles);
             $this->assign('categories_tree', $categoriesTree);
@@ -233,12 +238,29 @@ tpl;
         $portalCategoryModel = new PortalCategoryModel();
         $id                  = $this->request->param('id');
         //获取删除的内容
-        $res    = $portalCategoryModel->where('id', $id)->find();
+        $findCategory = $portalCategoryModel->where('id', $id)->find();
+
+        if (empty($findCategory)) {
+            $this->error('分类不存在!');
+        }
+
+        $categoryChildrenCount = $portalCategoryModel->where('parent_id', $id)->count();
+
+        if ($categoryChildrenCount > 0) {
+            $this->error('此分类有子类无法删除!');
+        }
+
+        $categoryPostCount = Db::name('portal_category_post')->where('category_id', $id)->count();
+
+        if ($categoryPostCount > 0) {
+            $this->error('此分类有文章无法删除!');
+        }
+
         $data   = [
-            'object_id'   => $res['id'],
+            'object_id'   => $findCategory['id'],
             'create_time' => time(),
             'table_name'  => 'portal_category',
-            'name'        => $res['name']
+            'name'        => $findCategory['name']
         ];
         $result = $portalCategoryModel
             ->where('id', $id)

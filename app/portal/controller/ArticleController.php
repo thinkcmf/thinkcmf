@@ -59,21 +59,21 @@ class ArticleController extends HomeBaseController
     // 文章点赞
     public function doLike()
     {
+        $this->checkUserLogin();
         $articleId = $this->request->param('id', 0, 'intval');
 
-        Db::name('portal_post')->where(['id' => $articleId])->setInc('post_like');
 
-        $this->success("赞好啦！");
+        $canLike = cmf_check_user_action("posts$articleId", 1);
 
-//        $canLike = cmf_check_user_action("posts$id", 1);
-//
-//        if ($canLike) {
-//            $postsModel->save(["id" => $id, "post_like" => ["exp", "post_like+1"]]);
-//            $this->success("赞好啦！");
-//        } else {
-//            $this->error("您已赞过啦！");
-//        }
+        if ($canLike) {
+            Db::name('portal_post')->where(['id' => $articleId])->setInc('post_like');
+
+            $this->success("赞好啦！");
+        } else {
+            $this->error("您已赞过啦！");
+        }
     }
+
     public function myIndex()
     {
         //获取登录会员信息
@@ -120,6 +120,7 @@ class ArticleController extends HomeBaseController
             $this->success('添加成功!', url('Article/myIndex', ['id' => $portalPostModel->id]));
         }
     }
+
     public function select()
     {
         $ids                 = $this->request->param('ids');

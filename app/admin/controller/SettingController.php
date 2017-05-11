@@ -217,7 +217,7 @@ class SettingController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             //TODO 非空验证
-            $uploadSetting = $this->request->param();
+            $uploadSetting = $this->request->post();
 
             cmf_set_option('upload_setting', $uploadSetting);
             $this->success('保存成功！');

@@ -140,7 +140,7 @@ class MenuController extends AdminBaseController
                 $this->error($result);
             } else {
                 $data = $this->request->param();
-                Db::name('AdminMenu')->field(true)->insert($data);
+                Db::name('AdminMenu')->strict(false)->field(true)->insert($data);
 
                 $app          = $this->request->param("app");
                 $controller   = $this->request->param("controller");
@@ -227,7 +227,7 @@ class MenuController extends AdminBaseController
             if ($result !== true) {
                 $this->error($result);
             } else {
-                Db::name('AdminMenu')->field(true)->update($this->request->param());
+                Db::name('AdminMenu')->strict(false)->field(true)->update($this->request->param());
                 $app          = $this->request->param("app");
                 $controller   = $this->request->param("controller");
                 $action       = $this->request->param("action");

@@ -1,12 +1,12 @@
 <!doctype html>
 <html>
 <head>
-<include file="Public:head" />
-<script src="__PUBLIC__/js/jquery.js"></script>
+	<include file="public/head" />
+	<script src="__STATIC__/js/jquery.js"></script>
 </head>
 <body>
 	<div class="wrap">
-		<include file="Public:header" />
+		<include file="public/header" />
 		<section class="section">
 			<div style="padding: 40px 20px;">
 				<div class="text-center">
@@ -14,18 +14,18 @@
 					<br>
 					<br>
 					<div class="alert alert-danger" style="width: 350px;display: inline-block;">
-						为了您站点的安全，安装完成后即可将网站application目录下的“Install”文件夹删除!
-						另请对data/conf/db.php文件做好备份，以防丢失！
+						为了您站点的安全，安装完成后即可将网站app目录下的“install”文件夹删除!
+						另请对data/conf/database.php文件做好备份，以防丢失！
 					</div>
 					<br>
-					<a class="btn btn-success" href="__ROOT__/">进入前台</a> 
-					<a class="btn btn-success" href="__ROOT__/admin">进入后台</a> 
+					<a class="btn btn-success" href="{:cmf_get_root()}/">进入前台</a>
+					<a class="btn btn-success" href="{:cmf_get_root()}/index.php?s=admin">进入后台</a>
 				</div>
 			</div>
 		</section>
 	</div>
 
-	<include file="Public:footer" />
+	<include file="public/footer" />
 	<script>
 		$(function() {
 			return;
@@ -33,8 +33,8 @@
 				type : "POST",
 				url : "http://www.thinkcmf.com/service/installinfo.php",
 				data : {
-					host : '<?php echo $host;?>',
-					ip : '<?php echo $ip?>'
+					host : "{$host|default=''}",
+					ip : "{$ip|default=''}"
 				},
 				dataType : 'json',
 				success : function() {

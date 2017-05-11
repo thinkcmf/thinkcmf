@@ -1,0 +1,65 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('route/index')}">URL美化</a></li>
+        <li class="active"><a href="{:url('route/add')}">添加URL规则</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('route/addPost')}">
+        <div class="form-group">
+            <label for="input-full_url" class="col-sm-2 control-label">原始网址<span class="form-required">*</span></label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" id="input-full_url" name="full_url" onclick="doSelectUrl();">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-url" class="col-sm-2 control-label">显示网址<span class="form-required">*</span></label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" id="input-url" name="url">
+                <p class="help-block"><span id="url-vars"></span> url格式一般为list/:param1/:param2或 list-&lt;param1&gt;-&lt;param2&gt;
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-status" class="col-sm-2 control-label">是否启用</label>
+            <div class="col-md-6 col-sm-10">
+                <select class="form-control" name="status" id="input-status">
+                    <option value="1">启用</option>
+                    <option value="0">禁用</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+
+<script>
+    function doSelectUrl() {
+        var selectedCategoriesId = $('#js-categories-id-input').val();
+        open_iframe_layer("{:url('Route/select')}?ids=" + selectedCategoriesId, '请选择URL', {
+            area: ['90%', '90%'],
+            btn: ['确定', '取消'],
+            yes: function (index, layero) {
+
+                var iframeWin   = window[layero.find('iframe')[0]['name']];
+                var selectedUrl = iframeWin.confirm();
+
+                if (selectedUrl) {
+                    $('#input-full_url').val(selectedUrl.action);
+                    $('#input-url').val(selectedUrl.url);
+                    var helpBlock = selectedUrl.vars ? "URL参数有" + selectedUrl.vars + ',' : '';
+                    $('#url-vars').text(helpBlock);
+                }
+                layer.close(index); //如果设定了yes回调，需进行手工关闭
+            }
+        });
+    }
+</script>
+</body>
+</html>

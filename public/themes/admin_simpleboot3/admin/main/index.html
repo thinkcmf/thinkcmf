@@ -1,4 +1,4 @@
-<include file="public@header" />
+<include file="public@header"/>
 <style>
     .home-info li em {
         float: left;
@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-	<div class="wrap">
+<div class="wrap">
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">{:lang('SYSTEM_NOTIFICATIONS')}</h3>
@@ -44,12 +44,31 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">{:lang('INITIATE_TEAM')}</h3>
+            <h3 class="panel-title">主要贡献者</h3>
+        </div>
+        <div class="panel-body home-info">
+            <ul class="list-inline">
+                <li>老猫</li>
+                <li>Sam</li>
+                <li>Tuolaji</li>
+                <li>睡不醒的猪</li>
+                <li>小夏</li>
+                <li>Powerless</li>
+                <li>WelKinVan</li>
+                <li>Kane</li>
+                <li>iYting</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">交流方式</h3>
         </div>
         <div class="panel-body home-info">
             <ul class="list-unstyled">
-                <li><em>核心开发者</em> <span>老猫,Sam,Tuolaji,Codefans,睡不醒的猪,小夏,Powerless</span></li>
-                <li><em>{:lang('TEAM_MEMBERS')}</em> <span>老猫,Sam,Tuolaji,Smile,Codefans,睡不醒的猪,Jack,日本那只猫</span></li>
+                <li><em>官网</em> <span><a href="http://www.thinkcmf.com" target="_blank">www.thinkcmf.com</a></span></li>
+                <li><em>QQ 群</em> <span>100828313,316669417</span></li>
                 <li><em>{:lang('CONTACT_EMAIL')}</em> <span>thinkcmf@126.com</span></li>
             </ul>
         </div>
@@ -79,31 +98,31 @@
         </div>
     </div>
 </div>
-	<script src="__STATIC__/js/admin.js"></script>
-	<php>
-		$lang_set=defined('LANG_SET')?LANG_SET:'';
-		$thinkcmf_version=defined('THINKCMF_VERSION')?THINKCMF_VERSION:'';
-	</php>
-	<script>
-	
-		//获取官方通知
-		$.getJSON("http://www.thinkcmf.com/service/sms_jsonp.php?lang={$lang_set}&v={$thinkcmf_version}&callback=?",
-		function(data) {
-			var tpl = '<li><em class="title"></em><span class="content"></span></li>';
+<script src="__STATIC__/js/admin.js"></script>
+<php>
+    $lang_set=defined('LANG_SET')?LANG_SET:'';
+    $thinkcmf_version=defined('THINKCMF_VERSION')?THINKCMF_VERSION:'';
+</php>
+<script>
+
+    //获取官方通知
+    $.getJSON("http://www.thinkcmf.com/service/sms_jsonp.php?lang={$lang_set}&v={$thinkcmf_version}&callback=?",
+        function (data) {
+            var tpl      = '<li><em class="title"></em><span class="content"></span></li>';
             var $notices = $("#thinkcmf-notices");
             $notices.empty();
-			if (data.length > 0) {
-				$.each(data, function(i, n) {
-					var $tpl = $(tpl);
-					$(".title", $tpl).html(n.title);
-					$(".content", $tpl).html(n.content);
+            if (data.length > 0) {
+                $.each(data, function (i, n) {
+                    var $tpl = $(tpl);
+                    $(".title", $tpl).html(n.title);
+                    $(".content", $tpl).html(n.content);
                     $notices.append($tpl);
-				});
-			} else {
+                });
+            } else {
                 $notices.append("<li>^_^,{:lang('NO_NOTICE')}~~</li>");
-			}
+            }
 
-		});
-	</script>
+        });
+</script>
 </body>
 </html>

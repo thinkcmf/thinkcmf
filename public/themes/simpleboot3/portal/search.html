@@ -24,14 +24,14 @@
 			<portal:articles item="vo" field="*" where="$where" order="post.create_time DESC" page="10">
 
 				<div class="list-boxes">
-					<h2><a href="{:url('article/index',array('id'=>$vo['id']))}">{$vo.post_title}</a>
+					<h2><a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}">{$vo.post_title}</a>
 					</h2>
 					<p>{$vo.post_excerpt}</p>
 					<div>
 						<div class="pull-left">
 							<div class="list-actions">
 								<a href="javascript:;"><i class="fa fa-eye"></i><span>{$vo.post_hits}</span></a>
-								<a href="{:url('article/do_like',array('id'=>$vo['id']))}"
+								<a href="{:cmf_url('portal/Article/doLike',array('id'=>$vo['id']))}"
 								   class="js-count-btn"><i class="fa fa-thumbs-up"></i><span class="count">{$vo.post_like}</span></a>
 
 									<i class="fa fa-star-o"></i>
@@ -39,7 +39,7 @@
 							</div>
 						</div>
 						<a class="btn btn-warning btn-sm pull-right"
-						   href="{:url('article/index',array('id'=>$vo['id']))}">查看更多</a>
+						   href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}">查看更多</a>
 					</div>
 				</div>
 			</portal:articles>

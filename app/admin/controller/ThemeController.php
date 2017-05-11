@@ -338,6 +338,104 @@ class ThemeController extends AdminBaseController
 
         $file = Db::name('theme_file')->where(['id' => $fileId])->find();
 
+        $file['config_more'] = json_decode($file['config_more'], true);
+        $file['more']        = json_decode($file['more'], true);
+        $oldMore             = $file['more'];
+
+        $items = [];
+        $item  = [];
+
+        if ($tab == 'var' && !empty($oldMore['vars']) && is_array($oldMore['vars'])) {
+
+            if (isset($oldMore['vars'][$varName]) && is_array($oldMore['vars'][$varName])) {
+                $items = $oldMore['vars'][$varName]['value'];
+            }
+
+            if (isset($oldMore['vars'][$varName]['item'])) {
+                $item = $oldMore['vars'][$varName]['item'];
+            }
+
+        }
+
+        if ($tab == 'widget') {
+
+            if (empty($widgetName)) {
+                $this->error('未指定控件!');
+            }
+
+            if (!empty($oldMore['widgets']) && is_array($oldMore['widgets'])) {
+                foreach ($oldMore['widgets'] as $mWidgetName => $widget) {
+                    if ($mWidgetName == $widgetName) {
+                        if (!empty($widget['vars']) && is_array($widget['vars'])) {
+                            foreach ($widget['vars'] as $widgetVarName => $widgetVar) {
+                                if ($widgetVarName == $varName && $widgetVar['type'] == 'array') {
+
+                                    if (is_array($widgetVar['value'])) {
+                                        $items = $widgetVar['value'];
+                                    }
+
+                                    if (isset($widgetVar['item'])) {
+                                        $item = $widgetVar['item'];
+                                    }
+
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                    }
+
+                }
+            }
+        }
+
+        if ($itemIndex !== '') {
+            $itemIndex = intval($itemIndex);
+            if (!isset($items[$itemIndex])) {
+                $this->error('数据不存在!');
+            }
+
+            foreach ($item as $itemName => $vo) {
+                if (isset($items[$itemIndex][$itemName])) {
+                    $item[$itemName]['value'] = $items[$itemIndex][$itemName];
+                }
+            }
+        }
+
+        $this->assign('tab', $tab);
+        $this->assign('var', $varName);
+        $this->assign('widget', $widgetName);
+        $this->assign('file_id', $fileId);
+        $this->assign('array_items', $items);
+        $this->assign('array_item', $item);
+        $this->assign('item_index', $itemIndex);
+
+        return $this->fetch('file_array_data_edit');
+    }
+
+    /**
+     * 模板文件数组数据添加编辑提交保存
+     * @adminMenu(
+     *     'name'   => '模板文件数组数据添加编辑提交保存',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '模板文件数组数据添加编辑提交保存',
+     *     'param'  => ''
+     * )
+     */
+    public function fileArrayDataEditPost()
+    {
+        $tab        = $this->request->param('tab', 'widget');
+        $varName    = $this->request->param('var');
+        $widgetName = $this->request->param('widget', '');
+        $fileId     = $this->request->param('file_id', 0, 'intval');
+        $itemIndex  = $this->request->param('item_index', '');
+
+        $file = Db::name('theme_file')->where(['id' => $fileId])->find();
+
         if ($this->request->isPost()) {
 
             $post = $this->request->param();
@@ -394,81 +492,8 @@ class ThemeController extends AdminBaseController
 
             $this->success("保存成功！", url('theme/fileArrayData', ['tab' => $tab, 'var' => $varName, 'file_id' => $fileId, 'widget' => $widgetName]));
 
-        } else {
-            $file['config_more'] = json_decode($file['config_more'], true);
-            $file['more']        = json_decode($file['more'], true);
-            $oldMore             = $file['more'];
-
-            $items = [];
-            $item  = [];
-
-            if ($tab == 'var' && !empty($oldMore['vars']) && is_array($oldMore['vars'])) {
-
-                if (isset($oldMore['vars'][$varName]) && is_array($oldMore['vars'][$varName])) {
-                    $items = $oldMore['vars'][$varName]['value'];
-                }
-
-                if (isset($oldMore['vars'][$varName]['item'])) {
-                    $item = $oldMore['vars'][$varName]['item'];
-                }
-
-            }
-
-            if ($tab == 'widget') {
-
-                if (empty($widgetName)) {
-                    $this->error('未指定控件!');
-                }
-
-                if (!empty($oldMore['widgets']) && is_array($oldMore['widgets'])) {
-                    foreach ($oldMore['widgets'] as $mWidgetName => $widget) {
-                        if ($mWidgetName == $widgetName) {
-                            if (!empty($widget['vars']) && is_array($widget['vars'])) {
-                                foreach ($widget['vars'] as $widgetVarName => $widgetVar) {
-                                    if ($widgetVarName == $varName && $widgetVar['type'] == 'array') {
-
-                                        if (is_array($widgetVar['value'])) {
-                                            $items = $widgetVar['value'];
-                                        }
-
-                                        if (isset($widgetVar['item'])) {
-                                            $item = $widgetVar['item'];
-                                        }
-
-                                        break;
-                                    }
-                                }
-                            }
-                            break;
-                        }
-
-                    }
-                }
-            }
-
-            if ($itemIndex !== '') {
-                $itemIndex = intval($itemIndex);
-                if (!isset($items[$itemIndex])) {
-                    $this->error('数据不存在!');
-                }
-
-                foreach ($item as $itemName => $vo) {
-                    if (isset($items[$itemIndex][$itemName])) {
-                        $item[$itemName]['value'] = $items[$itemIndex][$itemName];
-                    }
-                }
-            }
-
-            $this->assign('tab', $tab);
-            $this->assign('var', $varName);
-            $this->assign('widget', $widgetName);
-            $this->assign('file_id', $fileId);
-            $this->assign('array_items', $items);
-            $this->assign('array_item', $item);
-            $this->assign('item_index', $itemIndex);
-
-            return $this->fetch('file_array_data_edit');
         }
+
     }
 
     /**

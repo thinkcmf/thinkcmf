@@ -454,7 +454,7 @@
     }
 
     //日期选择器
-    var dateInput = $("input.js-date")
+    var dateInput = $("input.js-date");
     if (dateInput.length) {
         Wind.use('datePicker', function () {
             dateInput.datePicker();
@@ -484,11 +484,11 @@
     }
 
     // bootstrap日期选择器
-    var dateInput = $("input.js-bootstrap-date")
-    if (dateInput.length) {
+    var bootstrapDateInput = $("input.js-bootstrap-date")
+    if (bootstrapDateInput.length) {
         Wind.css('bootstrapDatetimePicker');
         Wind.use('bootstrapDatetimePicker', function () {
-            dateInput.datetimepicker({
+            bootstrapDateInput.datetimepicker({
                 language: 'zh-CN',
                 format: 'yyyy-mm-dd',
                 minView: 'month',
@@ -499,11 +499,11 @@
     }
 
     // bootstrap日期选择器日期+时间选择器
-    var dateTimeInput = $("input.js-bootstrap-datetime");
-    if (dateTimeInput.length) {
+    var bootstrapDateTimeInput = $("input.js-bootstrap-datetime");
+    if (bootstrapDateTimeInput.length) {
         Wind.css('bootstrapDatetimePicker');
         Wind.use('bootstrapDatetimePicker', function () {
-            dateTimeInput.datetimepicker({
+            bootstrapDateTimeInput.datetimepicker({
                 language: 'zh-CN',
                 format: 'yyyy-mm-dd hh:ii',
                 todayBtn: 1,
@@ -642,7 +642,7 @@ function open_upload_dialog(dialog_title, callback, extra_params, multi, filetyp
     app        = app ? app : GV.APP;
     var params = '&multi=' + multi + '&filetype=' + filetype + '&app=' + app;
     Wind.use("artDialog", "iframeTools", function () {
-        art.dialog.open(GV.ROOT + 'asset/Asset/webuploader?' + params, {
+        art.dialog.open(GV.ROOT + 'user/Asset/webuploader?' + params, {
             title: dialog_title,
             id: new Date().getTime(),
             width: '650px',
@@ -759,19 +759,29 @@ function upload_multi_file(dialog_title, container_selector, item_tpl_wrapper_id
  * @param img 图片地址
  */
 function image_preview_dialog(img) {
-    Wind.css("artDialog");
-    Wind.use("artDialog", function () {
-        art.dialog({
-            title: '图片查看',
-            fixed: true,
-            width: "420",
-            height: '420',
-            id: "image_preview_" + img,
-            lock: true,
-            background: "#CCCCCC",
-            opacity: 0,
-            content: '<div style="max-width: 100%;"><img src="' + img + '" /></div>'
-        });
+    Wind.css('layer');
+
+    Wind.use("layer", function () {
+        layer.photos({
+            photos: {
+                "title": "", //相册标题
+                "id": 'image_preview', //相册id
+                "start": 0, //初始显示的图片序号，默认0
+                "data": [   //相册包含的图片，数组格式
+                    {
+                        "alt": "",
+                        "pid": 666, //图片id
+                        "src": img, //原图地址
+                        "thumb": img //缩略图地址
+                    }
+                ]
+            } //格式见API文档手册页
+            ,anim: 5, //0-6的选择，指定弹出图片动画类型，默认随机
+            shadeClose: true,
+            // skin: 'layui-layer-nobg',
+            shade: [0.5, '#000000'],
+            shadeClose: true,
+        })
     });
 }
 

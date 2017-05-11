@@ -110,7 +110,7 @@ class ApiService
                 $articles = $articles->paginate(intval($page));
             }
 
-            if (!empty($relation)) {
+            if (!empty($relation) && !empty($articles['items'])) {
                 $articles->load($relation);
             }
 

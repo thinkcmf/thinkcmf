@@ -1,22 +1,180 @@
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-
 --
--- Database: `thinkcmfx`
+-- 表的结构 `cmf_admin_menu`
 --
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cmf_admin_menu` (
+  `id` int(10) unsigned NOT NULL,
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '父菜单id',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '菜单类型;1:有界面可访问菜单,2:无界面可访问菜单,0:只作为菜单',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '状态;1:显示,0:不显示',
+  `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序ID',
+  `app` varchar(15) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '应用名',
+  `controller` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '控制器名',
+  `action` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '操作名称',
+  `param` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '额外参数',
+  `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '菜单名称',
+  `icon` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '菜单图标',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '备注'
+) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=utf8mb4 COMMENT='后台菜单表';
 
 --
--- 表的结构 `cmf_ad`
+-- 转存表中的数据 `cmf_admin_menu`
 --
 
-CREATE TABLE IF NOT EXISTS `cmf_ad` (
-  `ad_id` bigint(20) NOT NULL COMMENT '广告id',
-  `ad_name` varchar(255) NOT NULL COMMENT '广告名称',
-  `ad_content` text COMMENT '广告内容',
-  `status` int(2) NOT NULL DEFAULT '1' COMMENT '状态，1显示，0不显示'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+INSERT INTO `cmf_admin_menu` (`id`, `parent_id`, `type`, `status`, `list_order`, `app`, `controller`, `action`, `param`, `name`, `icon`, `remark`) VALUES
+(1, 0, 0, 1, 20, 'admin', 'Plugin', 'default', '', '插件管理', 'cloud', '插件管理'),
+(2, 1, 1, 1, 10000, 'admin', 'Hook', 'index', '', '钩子管理', '', '钩子管理'),
+(3, 2, 1, 0, 10000, 'admin', 'Hook', 'plugins', '', '钩子插件管理', '', '钩子插件管理'),
+(4, 2, 2, 0, 10000, 'admin', 'Hook', 'pluginToggle', '', '钩子插件启用禁用', '', '钩子插件启用禁用'),
+(5, 2, 2, 0, 10000, 'admin', 'Hook', 'pluginListOrder', '', '钩子插件排序', '', '钩子插件排序'),
+(6, 0, 0, 1, 0, 'admin', 'Setting', 'default', '', '设置', 'cogs', '系统设置入口'),
+(7, 6, 1, 1, 10000, 'admin', 'Link', 'index', '', '友情链接管理', '', '友情链接列表'),
+(8, 7, 1, 0, 10000, 'admin', 'Link', 'add', '', '添加友情链接', '', '添加友情链接'),
+(9, 7, 2, 0, 10000, 'admin', 'Link', 'addPost', '', '添加友情链接提交保存', '', '添加友情链接提交保存'),
+(10, 7, 1, 0, 10000, 'admin', 'Link', 'edit', '', '编辑友情链接', '', '编辑友情链接'),
+(11, 7, 2, 0, 10000, 'admin', 'Link', 'editPost', '', '编辑友情链接提交保存', '', '编辑友情链接提交保存'),
+(12, 7, 2, 0, 10000, 'admin', 'Link', 'delete', '', '删除友情链接', '', '删除友情链接'),
+(13, 7, 2, 0, 10000, 'admin', 'Link', 'listOrder', '', '友情链接排序', '', '友情链接排序'),
+(14, 7, 2, 0, 10000, 'admin', 'Link', 'toggle', '', '友情链接显示隐藏', '', '友情链接显示隐藏'),
+(15, 6, 1, 1, 10000, 'admin', 'Mailer', 'index', '', '邮箱配置', '', '邮箱配置'),
+(16, 15, 2, 0, 10000, 'admin', 'Mailer', 'indexPost', '', '邮箱配置提交保存', '', '邮箱配置提交保存'),
+(17, 15, 1, 0, 10000, 'admin', 'Mailer', 'active', '', '会员注册邮件模板', '', '会员注册邮件模板'),
+(18, 15, 2, 0, 10000, 'admin', 'Mailer', 'activePost', '', '会员注册邮件模板提交', '', '会员注册邮件模板提交'),
+(19, 15, 1, 0, 10000, 'admin', 'Mailer', 'test', '', '邮件发送测试', '', '邮件发送测试'),
+(20, 6, 1, 1, 10000, 'admin', 'Menu', 'index', '', '后台菜单管理', '', '后台菜单管理'),
+(21, 20, 1, 0, 10000, 'admin', 'Menu', 'lists', '', '后台所有菜单列表', '', '后台所有菜单列表'),
+(22, 20, 1, 0, 10000, 'admin', 'Menu', 'add', '', '后台菜单添加', '', '后台菜单添加'),
+(23, 20, 2, 0, 10000, 'admin', 'Menu', 'addPost', '', '后台菜单添加提交保存', '', '后台菜单添加提交保存'),
+(24, 20, 1, 0, 10000, 'admin', 'Menu', 'edit', '', '后台菜单编辑', '', '后台菜单编辑'),
+(25, 20, 2, 0, 10000, 'admin', 'Menu', 'editPost', '', '后台菜单编辑提交保存', '', '后台菜单编辑提交保存'),
+(26, 20, 2, 0, 10000, 'admin', 'Menu', 'delete', '', '后台菜单删除', '', '后台菜单删除'),
+(27, 20, 2, 0, 10000, 'admin', 'Menu', 'listOrder', '', '后台菜单排序', '', '后台菜单排序'),
+(28, 20, 1, 0, 10000, 'admin', 'Menu', 'getActions', '', '导入新后台菜单', '', '导入新后台菜单'),
+(29, 6, 1, 1, 10000, 'admin', 'Nav', 'index', '', '导航管理', '', '导航管理'),
+(30, 29, 1, 0, 10000, 'admin', 'Nav', 'add', '', '添加导航', '', '添加导航'),
+(31, 29, 2, 0, 10000, 'admin', 'Nav', 'addPost', '', '添加导航提交保存', '', '添加导航提交保存'),
+(32, 29, 1, 0, 10000, 'admin', 'Nav', 'edit', '', '编辑导航', '', '编辑导航'),
+(33, 29, 2, 0, 10000, 'admin', 'Nav', 'editPost', '', '编辑导航提交保存', '', '编辑导航提交保存'),
+(34, 29, 2, 0, 10000, 'admin', 'Nav', 'delete', '', '删除导航', '', '删除导航'),
+(35, 29, 1, 0, 10000, 'admin', 'NavMenu', 'index', '', '导航菜单', '', '导航菜单'),
+(36, 35, 1, 0, 10000, 'admin', 'NavMenu', 'add', '', '添加导航菜单', '', '添加导航菜单'),
+(37, 35, 2, 0, 10000, 'admin', 'NavMenu', 'addPost', '', '添加导航菜单提交保存', '', '添加导航菜单提交保存'),
+(38, 35, 1, 0, 10000, 'admin', 'NavMenu', 'edit', '', '编辑导航菜单', '', '编辑导航菜单'),
+(39, 35, 2, 0, 10000, 'admin', 'NavMenu', 'editPost', '', '编辑导航菜单提交保存', '', '编辑导航菜单提交保存'),
+(40, 35, 2, 0, 10000, 'admin', 'NavMenu', 'delete', '', '删除导航菜单', '', '删除导航菜单'),
+(41, 35, 2, 0, 10000, 'admin', 'NavMenu', 'listOrder', '', '导航菜单排序', '', '导航菜单排序'),
+(42, 1, 1, 1, 10000, 'admin', 'Plugin', 'index', '', '插件列表', '', '插件列表'),
+(43, 42, 2, 0, 10000, 'admin', 'Plugin', 'toggle', '', '插件启用禁用', '', '插件启用禁用'),
+(44, 42, 1, 0, 10000, 'admin', 'Plugin', 'setting', '', '插件设置', '', '插件设置'),
+(45, 42, 2, 0, 10000, 'admin', 'Plugin', 'settingPost', '', '插件设置提交', '', '插件设置提交'),
+(46, 42, 2, 0, 10000, 'admin', 'Plugin', 'install', '', '插件安装', '', '插件安装'),
+(47, 42, 2, 0, 10000, 'admin', 'Plugin', 'update', '', '插件更新', '', '插件更新'),
+(48, 42, 2, 0, 10000, 'admin', 'Plugin', 'uninstall', '', '卸载插件', '', '卸载插件'),
+(49, 97, 0, 1, 10000, 'admin', 'User', 'default', '', '管理组', '', '管理组'),
+(50, 49, 1, 1, 10000, 'admin', 'Rbac', 'index', '', '角色管理', '', '角色管理'),
+(51, 50, 1, 0, 10000, 'admin', 'Rbac', 'roleAdd', '', '添加角色', '', '添加角色'),
+(52, 50, 2, 0, 10000, 'admin', 'Rbac', 'roleAddPost', '', '添加角色提交', '', '添加角色提交'),
+(53, 50, 1, 0, 10000, 'admin', 'Rbac', 'roleEdit', '', '编辑角色', '', '编辑角色'),
+(54, 50, 2, 0, 10000, 'admin', 'Rbac', 'roleEditPost', '', '编辑角色提交', '', '编辑角色提交'),
+(55, 50, 2, 0, 10000, 'admin', 'Rbac', 'roleDelete', '', '删除角色', '', '删除角色'),
+(56, 50, 1, 0, 10000, 'admin', 'Rbac', 'authorize', '', '设置角色权限', '', '设置角色权限'),
+(57, 50, 2, 0, 10000, 'admin', 'Rbac', 'authorizePost', '', '角色授权提交', '', '角色授权提交'),
+(58, 0, 1, 0, 10000, 'admin', 'Recycle', 'index', '', '回收站', '', '回收站'),
+(59, 58, 2, 0, 10000, 'admin', 'Recycle', 'restore', '', '回收站还原', '', '回收站还原'),
+(60, 58, 2, 0, 10000, 'admin', 'Recycle', 'delete', '', '回收站彻底删除', '', '回收站彻底删除'),
+(61, 6, 1, 1, 0, 'admin', 'Setting', 'site', '', '网站信息', '', '网站信息'),
+(62, 61, 2, 0, 10000, 'admin', 'Setting', 'sitePost', '', '网站信息设置提交', '', '网站信息设置提交'),
+(63, 6, 1, 0, 10000, 'admin', 'Setting', 'password', '', '密码修改', '', '密码修改'),
+(64, 63, 2, 0, 10000, 'admin', 'Setting', 'passwordPost', '', '密码修改提交', '', '密码修改提交'),
+(65, 6, 1, 1, 10000, 'admin', 'Setting', 'upload', '', '上传设置', '', '上传设置'),
+(66, 65, 2, 0, 10000, 'admin', 'Setting', 'uploadPost', '', '上传设置提交', '', '上传设置提交'),
+(67, 6, 1, 0, 10000, 'admin', 'Setting', 'clearCache', '', '清除缓存', '', '清除缓存'),
+(68, 6, 1, 1, 10000, 'admin', 'Slide', 'index', '', '幻灯片管理', '', '幻灯片管理'),
+(69, 68, 1, 0, 10000, 'admin', 'Slide', 'add', '', '添加幻灯片', '', '添加幻灯片'),
+(70, 68, 2, 0, 10000, 'admin', 'Slide', 'addPost', '', '添加幻灯片提交', '', '添加幻灯片提交'),
+(71, 68, 1, 0, 10000, 'admin', 'Slide', 'edit', '', '编辑幻灯片', '', '编辑幻灯片'),
+(72, 68, 2, 0, 10000, 'admin', 'Slide', 'editPost', '', '编辑幻灯片提交', '', '编辑幻灯片提交'),
+(73, 68, 2, 0, 10000, 'admin', 'Slide', 'delete', '', '删除幻灯片', '', '删除幻灯片'),
+(74, 68, 1, 0, 10000, 'admin', 'SlideItem', 'index', '', '幻灯片页面列表', '', '幻灯片页面列表'),
+(75, 74, 1, 0, 10000, 'admin', 'SlideItem', 'add', '', '幻灯片页面添加', '', '幻灯片页面添加'),
+(76, 74, 2, 0, 10000, 'admin', 'SlideItem', 'addPost', '', '幻灯片页面添加提交', '', '幻灯片页面添加提交'),
+(77, 74, 1, 0, 10000, 'admin', 'SlideItem', 'edit', '', '幻灯片页面编辑', '', '幻灯片页面编辑'),
+(78, 74, 2, 0, 10000, 'admin', 'SlideItem', 'editPost', '', '幻灯片页面编辑提交', '', '幻灯片页面编辑提交'),
+(79, 74, 2, 0, 10000, 'admin', 'SlideItem', 'delete', '', '幻灯片页面删除', '', '幻灯片页面删除'),
+(80, 74, 2, 0, 10000, 'admin', 'SlideItem', 'ban', '', '幻灯片页面隐藏', '', '幻灯片页面隐藏'),
+(81, 74, 2, 0, 10000, 'admin', 'SlideItem', 'cancelBan', '', '幻灯片页面显示', '', '幻灯片页面显示'),
+(82, 74, 2, 0, 10000, 'admin', 'SlideItem', 'listOrder', '', '幻灯片页面排序', '', '幻灯片页面排序'),
+(83, 6, 1, 1, 10000, 'admin', 'Theme', 'index', '', '模板管理', '', '模板管理'),
+(84, 83, 1, 0, 10000, 'admin', 'Theme', 'install', '', '安装模板', '', '安装模板'),
+(85, 83, 2, 0, 10000, 'admin', 'Theme', 'uninstall', '', '卸载模板', '', '卸载模板'),
+(86, 83, 2, 0, 10000, 'admin', 'Theme', 'installTheme', '', '模板安装', '', '模板安装'),
+(87, 83, 2, 0, 10000, 'admin', 'Theme', 'update', '', '模板更新', '', '模板更新'),
+(88, 83, 2, 0, 10000, 'admin', 'Theme', 'active', '', '启用模板', '', '启用模板'),
+(89, 83, 1, 0, 10000, 'admin', 'Theme', 'files', '', '模板文件列表', '', '启用模板'),
+(90, 83, 1, 0, 10000, 'admin', 'Theme', 'fileSetting', '', '模板文件设置', '', '模板文件设置'),
+(91, 83, 1, 0, 10000, 'admin', 'Theme', 'fileArrayData', '', '模板文件数组数据列表', '', '模板文件数组数据列表'),
+(92, 83, 2, 0, 10000, 'admin', 'Theme', 'fileArrayDataEdit', '', '模板文件数组数据添加编辑', '', '模板文件数组数据添加编辑'),
+(93, 83, 2, 0, 10000, 'admin', 'Theme', 'fileArrayDataEditPost', '', '模板文件数组数据添加编辑提交保存', '', '模板文件数组数据添加编辑提交保存'),
+(94, 83, 2, 0, 10000, 'admin', 'Theme', 'fileArrayDataDelete', '', '模板文件数组数据删除', '', '模板文件数组数据删除'),
+(95, 83, 2, 0, 10000, 'admin', 'Theme', 'settingPost', '', '模板文件编辑提交保存', '', '模板文件编辑提交保存'),
+(96, 83, 1, 0, 10000, 'admin', 'Theme', 'dataSource', '', '模板文件设置数据源', '', '模板文件设置数据源'),
+(97, 0, 0, 1, 10, 'user', 'AdminIndex', 'default', '', '用户管理', 'group', '用户管理'),
+(98, 49, 1, 1, 10000, 'admin', 'User', 'index', '', '管理员', '', '管理员管理'),
+(99, 98, 1, 0, 10000, 'admin', 'User', 'add', '', '管理员添加', '', '管理员添加'),
+(100, 98, 2, 0, 10000, 'admin', 'User', 'addPost', '', '管理员添加提交', '', '管理员添加提交'),
+(101, 98, 1, 0, 10000, 'admin', 'User', 'edit', '', '管理员编辑', '', '管理员编辑'),
+(102, 98, 2, 0, 10000, 'admin', 'User', 'editPost', '', '管理员编辑提交', '', '管理员编辑提交'),
+(103, 98, 1, 0, 10000, 'admin', 'User', 'userInfo', '', '管理员个人信息修改', '', '管理员个人信息修改'),
+(104, 98, 2, 0, 10000, 'admin', 'User', 'userInfoPost', '', '管理员个人信息修改提交', '', '管理员个人信息修改提交'),
+(105, 98, 2, 0, 10000, 'admin', 'User', 'delete', '', '管理员删除', '', '管理员删除'),
+(106, 98, 2, 0, 10000, 'admin', 'User', 'ban', '', '停用管理员', '', '停用管理员'),
+(107, 98, 2, 0, 10000, 'admin', 'User', 'cancelBan', '', '启用管理员', '', '启用管理员'),
+(108, 0, 0, 1, 30, 'portal', 'AdminIndex', 'default', '', '门户管理', 'th', '门户管理'),
+(109, 108, 1, 1, 10000, 'portal', 'AdminArticle', 'index', '', '文章管理', '', '文章列表'),
+(110, 109, 1, 0, 10000, 'portal', 'AdminArticle', 'add', '', '添加文章', '', '添加文章'),
+(111, 109, 2, 0, 10000, 'portal', 'AdminArticle', 'addPost', '', '添加文章提交', '', '添加文章提交'),
+(112, 109, 1, 0, 10000, 'portal', 'AdminArticle', 'edit', '', '编辑文章', '', '编辑文章'),
+(113, 109, 2, 0, 10000, 'portal', 'AdminArticle', 'editPost', '', '编辑文章提交', '', '编辑文章提交'),
+(114, 109, 2, 0, 10000, 'portal', 'AdminArticle', 'delete', '', '文章删除', '', '文章删除'),
+(115, 109, 2, 0, 10000, 'portal', 'AdminArticle', 'publish', '', '文章发布', '', '文章发布'),
+(116, 109, 2, 0, 10000, 'portal', 'AdminArticle', 'top', '', '文章置顶', '', '文章置顶'),
+(117, 109, 2, 0, 10000, 'portal', 'AdminArticle', 'recommend', '', '文章推荐', '', '文章推荐'),
+(118, 109, 2, 0, 10000, 'portal', 'AdminArticle', 'listOrder', '', '文章排序', '', '文章排序'),
+(119, 108, 1, 1, 10000, 'portal', 'AdminCategory', 'index', '', '分类管理', '', '文章分类列表'),
+(120, 119, 1, 0, 10000, 'portal', 'AdminCategory', 'add', '', '添加文章分类', '', '添加文章分类'),
+(121, 119, 2, 0, 10000, 'portal', 'AdminCategory', 'addPost', '', '添加文章分类提交', '', '添加文章分类提交'),
+(122, 119, 1, 0, 10000, 'portal', 'AdminCategory', 'edit', '', '编辑文章分类', '', '编辑文章分类'),
+(123, 119, 2, 0, 10000, 'portal', 'AdminCategory', 'editPost', '', '编辑文章分类提交', '', '编辑文章分类提交'),
+(124, 119, 1, 0, 10000, 'portal', 'AdminCategory', 'select', '', '文章分类选择对话框', '', '文章分类选择对话框'),
+(125, 119, 2, 0, 10000, 'portal', 'AdminCategory', 'delete', '', '删除文章分类', '', '删除文章分类'),
+(126, 108, 1, 1, 10000, 'portal', 'AdminPage', 'index', '', '页面管理', '', '页面管理'),
+(127, 126, 1, 0, 10000, 'portal', 'AdminPage', 'add', '', '添加页面', '', '添加页面'),
+(128, 126, 2, 0, 10000, 'portal', 'AdminPage', 'addPost', '', '添加页面提交', '', '添加页面提交'),
+(129, 126, 1, 0, 10000, 'portal', 'AdminPage', 'edit', '', '编辑页面', '', '编辑页面'),
+(130, 126, 2, 0, 10000, 'portal', 'AdminPage', 'editPost', '', '编辑页面提交', '', '编辑页面提交'),
+(131, 126, 2, 0, 10000, 'portal', 'AdminPage', 'delete', '', '删除页面', '', '删除页面'),
+(132, 108, 1, 1, 10000, 'portal', 'AdminTag', 'index', '', '文章标签', '', '文章标签'),
+(133, 132, 1, 0, 10000, 'portal', 'AdminTag', 'add', '', '添加文章标签', '', '添加文章标签'),
+(134, 132, 2, 0, 10000, 'portal', 'AdminTag', 'addPost', '', '添加文章标签提交', '', '添加文章标签提交'),
+(135, 132, 2, 0, 10000, 'portal', 'AdminTag', 'upStatus', '', '更新标签状态', '', '更新标签状态'),
+(136, 132, 2, 0, 10000, 'portal', 'AdminTag', 'delete', '', '删除文章标签', '', '删除文章标签'),
+(137, 0, 1, 0, 10000, 'user', 'AdminAsset', 'index', '', '资源管理', 'file', '资源管理列表'),
+(138, 137, 2, 0, 10000, 'user', 'AdminAsset', 'delete', '', '删除文件', '', '删除文件'),
+(139, 97, 0, 1, 10000, 'user', 'AdminIndex', 'default1', '', '用户组', '', '用户组'),
+(140, 139, 1, 1, 10000, 'user', 'AdminIndex', 'index', '', '本站用户', '', '本站用户'),
+(141, 140, 2, 0, 10000, 'user', 'AdminIndex', 'ban', '', '本站用户拉黑', '', '本站用户拉黑'),
+(142, 140, 2, 0, 10000, 'user', 'AdminIndex', 'cancelBan', '', '本站用户启用', '', '本站用户启用'),
+(143, 139, 1, 1, 10000, 'user', 'AdminOauth', 'index', '', '第三方用户', '', '第三方用户'),
+(144, 143, 2, 0, 10000, 'user', 'AdminOauth', 'delete', '', '删除第三方用户绑定', '', '删除第三方用户绑定'),
+(145, 6, 1, 1, 10000, 'admin', 'Route', 'index', '', 'URL美化', '', 'URL规则管理'),
+(146, 145, 1, 0, 10000, 'admin', 'Route', 'add', '', '添加路由规则', '', '添加路由规则'),
+(147, 145, 2, 0, 10000, 'admin', 'Route', 'addPost', '', '添加路由规则提交', '', '添加路由规则提交'),
+(148, 145, 1, 0, 10000, 'admin', 'Route', 'edit', '', '路由规则编辑', '', '路由规则编辑'),
+(149, 145, 2, 0, 10000, 'admin', 'Route', 'editPost', '', '路由规则编辑提交', '', '路由规则编辑提交'),
+(150, 145, 2, 0, 10000, 'admin', 'Route', 'delete', '', '路由规则删除', '', '路由规则删除'),
+(151, 145, 2, 0, 10000, 'admin', 'Route', 'ban', '', '路由规则禁用', '', '路由规则禁用'),
+(152, 145, 2, 0, 10000, 'admin', 'Route', 'open', '', '路由规则启用', '', '路由规则启用'),
+(153, 145, 2, 0, 10000, 'admin', 'Route', 'listOrder', '', '路由规则排序', '', '路由规则排序');
 
 -- --------------------------------------------------------
 
@@ -25,18 +183,30 @@ CREATE TABLE IF NOT EXISTS `cmf_ad` (
 --
 
 CREATE TABLE IF NOT EXISTS `cmf_asset` (
-  `aid` bigint(20) NOT NULL,
-  `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户 id',
-  `key` varchar(50) NOT NULL COMMENT '资源 key',
-  `filename` varchar(50) DEFAULT NULL COMMENT '文件名',
-  `filesize` int(11) DEFAULT NULL COMMENT '文件大小,单位Byte',
-  `filepath` varchar(200) NOT NULL COMMENT '文件路径，相对于 upload 目录，可以为 url',
-  `uploadtime` int(11) NOT NULL COMMENT '上传时间',
-  `status` int(2) NOT NULL DEFAULT '1' COMMENT '状态，1：可用，0：删除，不可用',
-  `meta` text COMMENT '其它详细信息，JSON格式',
-  `suffix` varchar(50) DEFAULT NULL COMMENT '文件后缀名，不包括点',
-  `download_times` int(11) NOT NULL DEFAULT '0' COMMENT '下载次数'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='资源表';
+  `id` bigint(20) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `file_size` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '文件大小,单位B',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上传时间',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态;1:可用,0:不可用',
+  `download_times` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '下载次数',
+  `file_key` varchar(64) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '文件惟一码',
+  `filename` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '文件名',
+  `file_path` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '文件路径,相对于upload目录,可以为url',
+  `file_md5` varchar(32) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '文件md5值',
+  `file_sha1` varchar(40) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `suffix` varchar(10) NOT NULL DEFAULT '' COMMENT '文件后缀名,不包括点',
+  `more` text COMMENT '其它详细信息,JSON格式'
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='资源表';
+
+--
+-- 转存表中的数据 `cmf_asset`
+--
+
+INSERT INTO `cmf_asset` (`id`, `user_id`, `file_size`, `create_time`, `status`, `download_times`, `file_key`, `filename`, `file_path`, `file_md5`, `file_sha1`, `suffix`, `more`) VALUES
+(1, 1, 15681, 1494113387, 1, 0, '963e5e6edb61783b542b7ae3ce9f8e62805e265f2d47a19d92ecfdcc3068183e', 'hdImg_5c4d7cf6f6cc9b7b7dff3b0b4d7eccc214646007082.png', 'portal/20170507/4b3a954f6d6172cf1b83ed86986024cc.png', '963e5e6edb61783b542b7ae3ce9f8e62', '57860f91294334fabad98f9d52ede15d4c1b49cc', 'png', NULL),
+(2, 1, 881882, 1494141447, 1, 0, '70d4071cdf48341ab3cfa0b78fccd19c49096e142330e25a450c110b2b42862f', 'QQ20170505-092304@2x.png', '20170507/c95ea8b8c64bc10d98aec32aaf27e00b.png', '70d4071cdf48341ab3cfa0b78fccd19c', 'd13974f94d8238f5635b24d7436dab700299afa9', 'png', NULL),
+(3, 1, 282922, 1494141447, 1, 0, 'e8b91735de46a905c3c1021c6ba37b176952a48b6afc23cb401367306237ca3a', 'QQ20170506-143826.png', '20170507/176951269669a8b7d2dd5fb10eabede3.png', 'e8b91735de46a905c3c1021c6ba37b17', '708284c41cf0a4d529e6990fef2577ebb95650d9', 'png', NULL),
+(4, 1, 426131, 1494141471, 1, 0, 'fe8dbe8c798c393629b212aed6d55018b4f7d2e3f6b226f30e95acf74d8208ba', '画入佳境(新增任务).pdf', '20170507/5f15fd069f9683843fa594f68ed49f5c.pdf', 'fe8dbe8c798c393629b212aed6d55018', '99b41bf2870ad6a1ddacb7ebe01949b6da6659ae', 'pdf', NULL);
 
 -- --------------------------------------------------------
 
@@ -45,10 +215,11 @@ CREATE TABLE IF NOT EXISTS `cmf_asset` (
 --
 
 CREATE TABLE IF NOT EXISTS `cmf_auth_access` (
-  `role_id` mediumint(8) unsigned NOT NULL COMMENT '角色',
-  `rule_name` varchar(255) NOT NULL COMMENT '规则唯一英文标识,全小写',
-  `type` varchar(30) DEFAULT NULL COMMENT '权限规则分类，请加应用前缀,如admin_'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='权限授权表';
+  `id` bigint(20) unsigned NOT NULL,
+  `role_id` int(10) unsigned NOT NULL COMMENT '角色',
+  `rule_name` varchar(100) NOT NULL DEFAULT '' COMMENT '规则唯一英文标识,全小写',
+  `type` varchar(30) NOT NULL DEFAULT '' COMMENT '权限规则分类,请加应用前缀,如admin_'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限授权表';
 
 -- --------------------------------------------------------
 
@@ -57,469 +228,292 @@ CREATE TABLE IF NOT EXISTS `cmf_auth_access` (
 --
 
 CREATE TABLE IF NOT EXISTS `cmf_auth_rule` (
-  `id` mediumint(8) unsigned NOT NULL COMMENT '规则id,自增主键',
-  `module` varchar(20) NOT NULL COMMENT '规则所属module',
-  `type` varchar(30) NOT NULL DEFAULT '1' COMMENT '权限规则分类，请加应用前缀,如admin_',
-  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '规则唯一英文标识,全小写',
-  `param` varchar(255) DEFAULT NULL COMMENT '额外url参数',
-  `title` varchar(20) NOT NULL DEFAULT '' COMMENT '规则中文描述',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否有效(0:无效,1:有效)',
-  `condition` varchar(300) NOT NULL DEFAULT '' COMMENT '规则附加条件'
-) ENGINE=MyISAM AUTO_INCREMENT=174 DEFAULT CHARSET=utf8 COMMENT='权限规则表';
+  `id` int(10) unsigned NOT NULL COMMENT '规则id,自增主键',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '是否有效(0:无效,1:有效)',
+  `app` varchar(15) NOT NULL COMMENT '规则所属module',
+  `type` varchar(30) NOT NULL DEFAULT '' COMMENT '权限规则分类，请加应用前缀,如admin_',
+  `name` varchar(100) NOT NULL DEFAULT '' COMMENT '规则唯一英文标识,全小写',
+  `param` varchar(100) NOT NULL DEFAULT '' COMMENT '额外url参数',
+  `title` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '规则描述',
+  `condition` varchar(200) NOT NULL DEFAULT '' COMMENT '规则附加条件'
+) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=utf8mb4 COMMENT='权限规则表';
 
 --
 -- 转存表中的数据 `cmf_auth_rule`
 --
 
-INSERT INTO `cmf_auth_rule` (`id`, `module`, `type`, `name`, `param`, `title`, `status`, `condition`) VALUES
-(1, 'Admin', 'admin_url', 'admin/content/default', NULL, '内容管理', 1, ''),
-(2, 'Api', 'admin_url', 'api/guestbookadmin/index', NULL, '所有留言', 1, ''),
-(3, 'Api', 'admin_url', 'api/guestbookadmin/delete', NULL, '删除网站留言', 1, ''),
-(4, 'Comment', 'admin_url', 'comment/commentadmin/index', NULL, '评论管理', 1, ''),
-(5, 'Comment', 'admin_url', 'comment/commentadmin/delete', NULL, '删除评论', 1, ''),
-(6, 'Comment', 'admin_url', 'comment/commentadmin/check', NULL, '评论审核', 1, ''),
-(7, 'Portal', 'admin_url', 'portal/adminpost/index', NULL, '文章管理', 1, ''),
-(8, 'Portal', 'admin_url', 'portal/adminpost/listorders', NULL, '文章排序', 1, ''),
-(9, 'Portal', 'admin_url', 'portal/adminpost/top', NULL, '文章置顶', 1, ''),
-(10, 'Portal', 'admin_url', 'portal/adminpost/recommend', NULL, '文章推荐', 1, ''),
-(11, 'Portal', 'admin_url', 'portal/adminpost/move', NULL, '批量移动', 1, ''),
-(12, 'Portal', 'admin_url', 'portal/adminpost/check', NULL, '文章审核', 1, ''),
-(13, 'Portal', 'admin_url', 'portal/adminpost/delete', NULL, '删除文章', 1, ''),
-(14, 'Portal', 'admin_url', 'portal/adminpost/edit', NULL, '编辑文章', 1, ''),
-(15, 'Portal', 'admin_url', 'portal/adminpost/edit_post', NULL, '提交编辑', 1, ''),
-(16, 'Portal', 'admin_url', 'portal/adminpost/add', NULL, '添加文章', 1, ''),
-(17, 'Portal', 'admin_url', 'portal/adminpost/add_post', NULL, '提交添加', 1, ''),
-(18, 'Portal', 'admin_url', 'portal/adminterm/index', NULL, '分类管理', 1, ''),
-(19, 'Portal', 'admin_url', 'portal/adminterm/listorders', NULL, '文章分类排序', 1, ''),
-(20, 'Portal', 'admin_url', 'portal/adminterm/delete', NULL, '删除分类', 1, ''),
-(21, 'Portal', 'admin_url', 'portal/adminterm/edit', NULL, '编辑分类', 1, ''),
-(22, 'Portal', 'admin_url', 'portal/adminterm/edit_post', NULL, '提交编辑', 1, ''),
-(23, 'Portal', 'admin_url', 'portal/adminterm/add', NULL, '添加分类', 1, ''),
-(24, 'Portal', 'admin_url', 'portal/adminterm/add_post', NULL, '提交添加', 1, ''),
-(25, 'Portal', 'admin_url', 'portal/adminpage/index', NULL, '页面管理', 1, ''),
-(26, 'Portal', 'admin_url', 'portal/adminpage/listorders', NULL, '页面排序', 1, ''),
-(27, 'Portal', 'admin_url', 'portal/adminpage/delete', NULL, '删除页面', 1, ''),
-(28, 'Portal', 'admin_url', 'portal/adminpage/edit', NULL, '编辑页面', 1, ''),
-(29, 'Portal', 'admin_url', 'portal/adminpage/edit_post', NULL, '提交编辑', 1, ''),
-(30, 'Portal', 'admin_url', 'portal/adminpage/add', NULL, '添加页面', 1, ''),
-(31, 'Portal', 'admin_url', 'portal/adminpage/add_post', NULL, '提交添加', 1, ''),
-(32, 'Admin', 'admin_url', 'admin/recycle/default', NULL, '回收站', 1, ''),
-(33, 'Portal', 'admin_url', 'portal/adminpost/recyclebin', NULL, '文章回收', 1, ''),
-(34, 'Portal', 'admin_url', 'portal/adminpost/restore', NULL, '文章还原', 1, ''),
-(35, 'Portal', 'admin_url', 'portal/adminpost/clean', NULL, '彻底删除', 1, ''),
-(36, 'Portal', 'admin_url', 'portal/adminpage/recyclebin', NULL, '页面回收', 1, ''),
-(37, 'Portal', 'admin_url', 'portal/adminpage/clean', NULL, '彻底删除', 1, ''),
-(38, 'Portal', 'admin_url', 'portal/adminpage/restore', NULL, '页面还原', 1, ''),
-(39, 'Admin', 'admin_url', 'admin/extension/default', NULL, '扩展工具', 1, ''),
-(40, 'Admin', 'admin_url', 'admin/backup/default', NULL, '备份管理', 1, ''),
-(41, 'Admin', 'admin_url', 'admin/backup/restore', NULL, '数据还原', 1, ''),
-(42, 'Admin', 'admin_url', 'admin/backup/index', NULL, '数据备份', 1, ''),
-(43, 'Admin', 'admin_url', 'admin/backup/index_post', NULL, '提交数据备份', 1, ''),
-(44, 'Admin', 'admin_url', 'admin/backup/download', NULL, '下载备份', 1, ''),
-(45, 'Admin', 'admin_url', 'admin/backup/del_backup', NULL, '删除备份', 1, ''),
-(46, 'Admin', 'admin_url', 'admin/backup/import', NULL, '数据备份导入', 1, ''),
-(47, 'Admin', 'admin_url', 'admin/plugin/index', NULL, '插件管理', 1, ''),
-(48, 'Admin', 'admin_url', 'admin/plugin/toggle', NULL, '插件启用切换', 1, ''),
-(49, 'Admin', 'admin_url', 'admin/plugin/setting', NULL, '插件设置', 1, ''),
-(50, 'Admin', 'admin_url', 'admin/plugin/setting_post', NULL, '插件设置提交', 1, ''),
-(51, 'Admin', 'admin_url', 'admin/plugin/install', NULL, '插件安装', 1, ''),
-(52, 'Admin', 'admin_url', 'admin/plugin/uninstall', NULL, '插件卸载', 1, ''),
-(53, 'Admin', 'admin_url', 'admin/slide/default', NULL, '幻灯片', 1, ''),
-(54, 'Admin', 'admin_url', 'admin/slide/index', NULL, '幻灯片管理', 1, ''),
-(55, 'Admin', 'admin_url', 'admin/slide/listorders', NULL, '幻灯片排序', 1, ''),
-(56, 'Admin', 'admin_url', 'admin/slide/toggle', NULL, '幻灯片显示切换', 1, ''),
-(57, 'Admin', 'admin_url', 'admin/slide/delete', NULL, '删除幻灯片', 1, ''),
-(58, 'Admin', 'admin_url', 'admin/slide/edit', NULL, '编辑幻灯片', 1, ''),
-(59, 'Admin', 'admin_url', 'admin/slide/edit_post', NULL, '提交编辑', 1, ''),
-(60, 'Admin', 'admin_url', 'admin/slide/add', NULL, '添加幻灯片', 1, ''),
-(61, 'Admin', 'admin_url', 'admin/slide/add_post', NULL, '提交添加', 1, ''),
-(62, 'Admin', 'admin_url', 'admin/slidecat/index', NULL, '幻灯片分类', 1, ''),
-(63, 'Admin', 'admin_url', 'admin/slidecat/delete', NULL, '删除分类', 1, ''),
-(64, 'Admin', 'admin_url', 'admin/slidecat/edit', NULL, '编辑分类', 1, ''),
-(65, 'Admin', 'admin_url', 'admin/slidecat/edit_post', NULL, '提交编辑', 1, ''),
-(66, 'Admin', 'admin_url', 'admin/slidecat/add', NULL, '添加分类', 1, ''),
-(67, 'Admin', 'admin_url', 'admin/slidecat/add_post', NULL, '提交添加', 1, ''),
-(68, 'Admin', 'admin_url', 'admin/ad/index', NULL, '网站广告', 1, ''),
-(69, 'Admin', 'admin_url', 'admin/ad/toggle', NULL, '广告显示切换', 1, ''),
-(70, 'Admin', 'admin_url', 'admin/ad/delete', NULL, '删除广告', 1, ''),
-(71, 'Admin', 'admin_url', 'admin/ad/edit', NULL, '编辑广告', 1, ''),
-(72, 'Admin', 'admin_url', 'admin/ad/edit_post', NULL, '提交编辑', 1, ''),
-(73, 'Admin', 'admin_url', 'admin/ad/add', NULL, '添加广告', 1, ''),
-(74, 'Admin', 'admin_url', 'admin/ad/add_post', NULL, '提交添加', 1, ''),
-(75, 'Admin', 'admin_url', 'admin/link/index', NULL, '友情链接', 1, ''),
-(76, 'Admin', 'admin_url', 'admin/link/listorders', NULL, '友情链接排序', 1, ''),
-(77, 'Admin', 'admin_url', 'admin/link/toggle', NULL, '友链显示切换', 1, ''),
-(78, 'Admin', 'admin_url', 'admin/link/delete', NULL, '删除友情链接', 1, ''),
-(79, 'Admin', 'admin_url', 'admin/link/edit', NULL, '编辑友情链接', 1, ''),
-(80, 'Admin', 'admin_url', 'admin/link/edit_post', NULL, '提交编辑', 1, ''),
-(81, 'Admin', 'admin_url', 'admin/link/add', NULL, '添加友情链接', 1, ''),
-(82, 'Admin', 'admin_url', 'admin/link/add_post', NULL, '提交添加', 1, ''),
-(83, 'Api', 'admin_url', 'api/oauthadmin/setting', NULL, '第三方登陆', 1, ''),
-(84, 'Api', 'admin_url', 'api/oauthadmin/setting_post', NULL, '提交设置', 1, ''),
-(85, 'Admin', 'admin_url', 'admin/menu/default', NULL, '菜单管理', 1, ''),
-(86, 'Admin', 'admin_url', 'admin/navcat/default1', NULL, '前台菜单', 1, ''),
-(87, 'Admin', 'admin_url', 'admin/nav/index', NULL, '菜单管理', 1, ''),
-(88, 'Admin', 'admin_url', 'admin/nav/listorders', NULL, '前台导航排序', 1, ''),
-(89, 'Admin', 'admin_url', 'admin/nav/delete', NULL, '删除菜单', 1, ''),
-(90, 'Admin', 'admin_url', 'admin/nav/edit', NULL, '编辑菜单', 1, ''),
-(91, 'Admin', 'admin_url', 'admin/nav/edit_post', NULL, '提交编辑', 1, ''),
-(92, 'Admin', 'admin_url', 'admin/nav/add', NULL, '添加菜单', 1, ''),
-(93, 'Admin', 'admin_url', 'admin/nav/add_post', NULL, '提交添加', 1, ''),
-(94, 'Admin', 'admin_url', 'admin/navcat/index', NULL, '菜单分类', 1, ''),
-(95, 'Admin', 'admin_url', 'admin/navcat/delete', NULL, '删除分类', 1, ''),
-(96, 'Admin', 'admin_url', 'admin/navcat/edit', NULL, '编辑分类', 1, ''),
-(97, 'Admin', 'admin_url', 'admin/navcat/edit_post', NULL, '提交编辑', 1, ''),
-(98, 'Admin', 'admin_url', 'admin/navcat/add', NULL, '添加分类', 1, ''),
-(99, 'Admin', 'admin_url', 'admin/navcat/add_post', NULL, '提交添加', 1, ''),
-(100, 'Admin', 'admin_url', 'admin/menu/index', NULL, '后台菜单', 1, ''),
-(101, 'Admin', 'admin_url', 'admin/menu/add', NULL, '添加菜单', 1, ''),
-(102, 'Admin', 'admin_url', 'admin/menu/add_post', NULL, '提交添加', 1, ''),
-(103, 'Admin', 'admin_url', 'admin/menu/listorders', NULL, '后台菜单排序', 1, ''),
-(104, 'Admin', 'admin_url', 'admin/menu/export_menu', NULL, '菜单备份', 1, ''),
-(105, 'Admin', 'admin_url', 'admin/menu/edit', NULL, '编辑菜单', 1, ''),
-(106, 'Admin', 'admin_url', 'admin/menu/edit_post', NULL, '提交编辑', 1, ''),
-(107, 'Admin', 'admin_url', 'admin/menu/delete', NULL, '删除菜单', 1, ''),
-(108, 'Admin', 'admin_url', 'admin/menu/lists', NULL, '所有菜单', 1, ''),
-(109, 'Admin', 'admin_url', 'admin/setting/default', NULL, '设置', 1, ''),
-(110, 'Admin', 'admin_url', 'admin/setting/userdefault', NULL, '个人信息', 1, ''),
-(111, 'Admin', 'admin_url', 'admin/user/userinfo', NULL, '修改信息', 1, ''),
-(112, 'Admin', 'admin_url', 'admin/user/userinfo_post', NULL, '修改信息提交', 1, ''),
-(113, 'Admin', 'admin_url', 'admin/setting/password', NULL, '修改密码', 1, ''),
-(114, 'Admin', 'admin_url', 'admin/setting/password_post', NULL, '提交修改', 1, ''),
-(115, 'Admin', 'admin_url', 'admin/setting/site', NULL, '网站信息', 1, ''),
-(116, 'Admin', 'admin_url', 'admin/setting/site_post', NULL, '提交修改', 1, ''),
-(117, 'Admin', 'admin_url', 'admin/route/index', NULL, '路由列表', 1, ''),
-(118, 'Admin', 'admin_url', 'admin/route/add', NULL, '路由添加', 1, ''),
-(119, 'Admin', 'admin_url', 'admin/route/add_post', NULL, '路由添加提交', 1, ''),
-(120, 'Admin', 'admin_url', 'admin/route/edit', NULL, '路由编辑', 1, ''),
-(121, 'Admin', 'admin_url', 'admin/route/edit_post', NULL, '路由编辑提交', 1, ''),
-(122, 'Admin', 'admin_url', 'admin/route/delete', NULL, '路由删除', 1, ''),
-(123, 'Admin', 'admin_url', 'admin/route/ban', NULL, '路由禁止', 1, ''),
-(124, 'Admin', 'admin_url', 'admin/route/open', NULL, '路由启用', 1, ''),
-(125, 'Admin', 'admin_url', 'admin/route/listorders', NULL, '路由排序', 1, ''),
-(126, 'Admin', 'admin_url', 'admin/mailer/default', NULL, '邮箱配置', 1, ''),
-(127, 'Admin', 'admin_url', 'admin/mailer/index', NULL, 'SMTP配置', 1, ''),
-(128, 'Admin', 'admin_url', 'admin/mailer/index_post', NULL, '提交配置', 1, ''),
-(129, 'Admin', 'admin_url', 'admin/mailer/active', NULL, '注册邮件模板', 1, ''),
-(130, 'Admin', 'admin_url', 'admin/mailer/active_post', NULL, '提交模板', 1, ''),
-(131, 'Admin', 'admin_url', 'admin/setting/clearcache', NULL, '清除缓存', 1, ''),
-(132, 'User', 'admin_url', 'user/indexadmin/default', NULL, '用户管理', 1, ''),
-(133, 'User', 'admin_url', 'user/indexadmin/default1', NULL, '用户组', 1, ''),
-(134, 'User', 'admin_url', 'user/indexadmin/index', NULL, '本站用户', 1, ''),
-(135, 'User', 'admin_url', 'user/indexadmin/ban', NULL, '拉黑会员', 1, ''),
-(136, 'User', 'admin_url', 'user/indexadmin/cancelban', NULL, '启用会员', 1, ''),
-(137, 'User', 'admin_url', 'user/oauthadmin/index', NULL, '第三方用户', 1, ''),
-(138, 'User', 'admin_url', 'user/oauthadmin/delete', NULL, '第三方用户解绑', 1, ''),
-(139, 'User', 'admin_url', 'user/indexadmin/default3', NULL, '管理组', 1, ''),
-(140, 'Admin', 'admin_url', 'admin/rbac/index', NULL, '角色管理', 1, ''),
-(141, 'Admin', 'admin_url', 'admin/rbac/member', NULL, '成员管理', 1, ''),
-(142, 'Admin', 'admin_url', 'admin/rbac/authorize', NULL, '权限设置', 1, ''),
-(143, 'Admin', 'admin_url', 'admin/rbac/authorize_post', NULL, '提交设置', 1, ''),
-(144, 'Admin', 'admin_url', 'admin/rbac/roleedit', NULL, '编辑角色', 1, ''),
-(145, 'Admin', 'admin_url', 'admin/rbac/roleedit_post', NULL, '提交编辑', 1, ''),
-(146, 'Admin', 'admin_url', 'admin/rbac/roledelete', NULL, '删除角色', 1, ''),
-(147, 'Admin', 'admin_url', 'admin/rbac/roleadd', NULL, '添加角色', 1, ''),
-(148, 'Admin', 'admin_url', 'admin/rbac/roleadd_post', NULL, '提交添加', 1, ''),
-(149, 'Admin', 'admin_url', 'admin/user/index', NULL, '管理员', 1, ''),
-(150, 'Admin', 'admin_url', 'admin/user/delete', NULL, '删除管理员', 1, ''),
-(151, 'Admin', 'admin_url', 'admin/user/edit', NULL, '管理员编辑', 1, ''),
-(152, 'Admin', 'admin_url', 'admin/user/edit_post', NULL, '编辑提交', 1, ''),
-(153, 'Admin', 'admin_url', 'admin/user/add', NULL, '管理员添加', 1, ''),
-(154, 'Admin', 'admin_url', 'admin/user/add_post', NULL, '添加提交', 1, ''),
-(155, 'Admin', 'admin_url', 'admin/plugin/update', NULL, '插件更新', 1, ''),
-(156, 'Admin', 'admin_url', 'admin/storage/index', NULL, '文件存储', 1, ''),
-(157, 'Admin', 'admin_url', 'admin/storage/setting_post', NULL, '文件存储设置提交', 1, ''),
-(158, 'Admin', 'admin_url', 'admin/slide/ban', NULL, '禁用幻灯片', 1, ''),
-(159, 'Admin', 'admin_url', 'admin/slide/cancelban', NULL, '启用幻灯片', 1, ''),
-(160, 'Admin', 'admin_url', 'admin/user/ban', NULL, '禁用管理员', 1, ''),
-(161, 'Admin', 'admin_url', 'admin/user/cancelban', NULL, '启用管理员', 1, ''),
-(162, 'Demo', 'admin_url', 'demo/adminindex/index', NULL, '', 1, ''),
-(163, 'Demo', 'admin_url', 'demo/adminindex/last', NULL, '', 1, ''),
-(166, 'Admin', 'admin_url', 'admin/mailer/test', NULL, '测试邮件', 1, ''),
-(167, 'Admin', 'admin_url', 'admin/setting/upload', NULL, '上传设置', 1, ''),
-(168, 'Admin', 'admin_url', 'admin/setting/upload_post', NULL, '上传设置提交', 1, ''),
-(169, 'Portal', 'admin_url', 'portal/adminpost/copy', NULL, '文章批量复制', 1, ''),
-(170, 'Admin', 'admin_url', 'admin/menu/backup_menu', NULL, '备份菜单', 1, ''),
-(171, 'Admin', 'admin_url', 'admin/menu/export_menu_lang', NULL, '导出后台菜单多语言包', 1, ''),
-(172, 'Admin', 'admin_url', 'admin/menu/restore_menu', NULL, '还原菜单', 1, ''),
-(173, 'Admin', 'admin_url', 'admin/menu/getactions', NULL, '导入新菜单', 1, '');
+INSERT INTO `cmf_auth_rule` (`id`, `status`, `app`, `type`, `name`, `param`, `title`, `condition`) VALUES
+(1, 1, 'admin', 'admin_url', 'admin/Hook/index', '', '钩子管理', ''),
+(2, 1, 'admin', 'admin_url', 'admin/Hook/plugins', '', '钩子插件管理', ''),
+(3, 1, 'admin', 'admin_url', 'admin/Hook/pluginToggle', '', '钩子插件启用禁用', ''),
+(4, 1, 'admin', 'admin_url', 'admin/Hook/pluginListOrder', '', '钩子插件排序', ''),
+(5, 1, 'admin', 'admin_url', 'admin/Link/index', '', '友情链接管理', ''),
+(6, 1, 'admin', 'admin_url', 'admin/Link/add', '', '添加友情链接', ''),
+(7, 1, 'admin', 'admin_url', 'admin/Link/addPost', '', '添加友情链接提交保存', ''),
+(8, 1, 'admin', 'admin_url', 'admin/Link/edit', '', '编辑友情链接', ''),
+(9, 1, 'admin', 'admin_url', 'admin/Link/editPost', '', '编辑友情链接提交保存', ''),
+(10, 1, 'admin', 'admin_url', 'admin/Link/delete', '', '删除友情链接', ''),
+(11, 1, 'admin', 'admin_url', 'admin/Link/listOrder', '', '友情链接排序', ''),
+(12, 1, 'admin', 'admin_url', 'admin/Link/toggle', '', '友情链接显示隐藏', ''),
+(13, 1, 'admin', 'admin_url', 'admin/Mailer/index', '', '邮箱配置', ''),
+(14, 1, 'admin', 'admin_url', 'admin/Mailer/indexPost', '', '邮箱配置提交保存', ''),
+(15, 1, 'admin', 'admin_url', 'admin/Mailer/active', '', '会员注册邮件模板', ''),
+(16, 1, 'admin', 'admin_url', 'admin/Mailer/activePost', '', '会员注册邮件模板提交', ''),
+(17, 1, 'admin', 'admin_url', 'admin/Mailer/test', '', '邮件发送测试', ''),
+(18, 1, 'admin', 'admin_url', 'admin/Menu/index', '', '后台菜单管理', ''),
+(19, 1, 'admin', 'admin_url', 'admin/Menu/lists', '', '后台所有菜单列表', ''),
+(20, 1, 'admin', 'admin_url', 'admin/Menu/add', '', '后台菜单添加', ''),
+(21, 1, 'admin', 'admin_url', 'admin/Menu/addPost', '', '后台菜单添加提交保存', ''),
+(22, 1, 'admin', 'admin_url', 'admin/Menu/edit', '', '后台菜单编辑', ''),
+(23, 1, 'admin', 'admin_url', 'admin/Menu/editPost', '', '后台菜单编辑提交保存', ''),
+(24, 1, 'admin', 'admin_url', 'admin/Menu/delete', '', '后台菜单删除', ''),
+(25, 1, 'admin', 'admin_url', 'admin/Menu/listOrder', '', '后台菜单排序', ''),
+(26, 1, 'admin', 'admin_url', 'admin/Menu/getActions', '', '导入新后台菜单', ''),
+(27, 1, 'admin', 'admin_url', 'admin/Nav/index', '', '导航管理', ''),
+(28, 1, 'admin', 'admin_url', 'admin/Nav/add', '', '添加导航', ''),
+(29, 1, 'admin', 'admin_url', 'admin/Nav/addPost', '', '添加导航提交保存', ''),
+(30, 1, 'admin', 'admin_url', 'admin/Nav/edit', '', '编辑导航', ''),
+(31, 1, 'admin', 'admin_url', 'admin/Nav/editPost', '', '编辑导航提交保存', ''),
+(32, 1, 'admin', 'admin_url', 'admin/Nav/delete', '', '删除导航', ''),
+(33, 1, 'admin', 'admin_url', 'admin/NavMenu/index', '', '导航菜单', ''),
+(34, 1, 'admin', 'admin_url', 'admin/NavMenu/add', '', '添加导航菜单', ''),
+(35, 1, 'admin', 'admin_url', 'admin/NavMenu/addPost', '', '添加导航菜单提交保存', ''),
+(36, 1, 'admin', 'admin_url', 'admin/NavMenu/edit', '', '编辑导航菜单', ''),
+(37, 1, 'admin', 'admin_url', 'admin/NavMenu/editPost', '', '编辑导航菜单提交保存', ''),
+(38, 1, 'admin', 'admin_url', 'admin/NavMenu/delete', '', '删除导航菜单', ''),
+(39, 1, 'admin', 'admin_url', 'admin/NavMenu/listOrder', '', '导航菜单排序', ''),
+(40, 1, 'admin', 'admin_url', 'admin/Plugin/default', '', '插件管理', ''),
+(41, 1, 'admin', 'admin_url', 'admin/Plugin/index', '', '插件列表', ''),
+(42, 1, 'admin', 'admin_url', 'admin/Plugin/toggle', '', '插件启用禁用', ''),
+(43, 1, 'admin', 'admin_url', 'admin/Plugin/setting', '', '插件设置', ''),
+(44, 1, 'admin', 'admin_url', 'admin/Plugin/settingPost', '', '插件设置提交', ''),
+(45, 1, 'admin', 'admin_url', 'admin/Plugin/install', '', '插件安装', ''),
+(46, 1, 'admin', 'admin_url', 'admin/Plugin/update', '', '插件更新', ''),
+(47, 1, 'admin', 'admin_url', 'admin/Plugin/uninstall', '', '卸载插件', ''),
+(48, 1, 'admin', 'admin_url', 'admin/Rbac/index', '', '角色管理', ''),
+(49, 1, 'admin', 'admin_url', 'admin/Rbac/roleAdd', '', '添加角色', ''),
+(50, 1, 'admin', 'admin_url', 'admin/Rbac/roleAddPost', '', '添加角色提交', ''),
+(51, 1, 'admin', 'admin_url', 'admin/Rbac/roleEdit', '', '编辑角色', ''),
+(52, 1, 'admin', 'admin_url', 'admin/Rbac/roleEditPost', '', '编辑角色提交', ''),
+(53, 1, 'admin', 'admin_url', 'admin/Rbac/roleDelete', '', '删除角色', ''),
+(54, 1, 'admin', 'admin_url', 'admin/Rbac/authorize', '', '设置角色权限', ''),
+(55, 1, 'admin', 'admin_url', 'admin/Rbac/authorizePost', '', '角色授权提交', ''),
+(56, 1, 'admin', 'admin_url', 'admin/Recycle/index', '', '回收站', ''),
+(57, 1, 'admin', 'admin_url', 'admin/Recycle/restore', '', '回收站还原', ''),
+(58, 1, 'admin', 'admin_url', 'admin/Recycle/delete', '', '回收站彻底删除', ''),
+(59, 1, 'admin', 'admin_url', 'admin/Setting/default', '', '设置', ''),
+(60, 1, 'admin', 'admin_url', 'admin/Setting/site', '', '网站信息', ''),
+(61, 1, 'admin', 'admin_url', 'admin/Setting/sitePost', '', '网站信息设置提交', ''),
+(62, 1, 'admin', 'admin_url', 'admin/Setting/password', '', '密码修改', ''),
+(63, 1, 'admin', 'admin_url', 'admin/Setting/passwordPost', '', '密码修改提交', ''),
+(64, 1, 'admin', 'admin_url', 'admin/Setting/upload', '', '上传设置', ''),
+(65, 1, 'admin', 'admin_url', 'admin/Setting/uploadPost', '', '上传设置提交', ''),
+(66, 1, 'admin', 'admin_url', 'admin/Setting/clearCache', '', '清除缓存', ''),
+(67, 1, 'admin', 'admin_url', 'admin/Slide/index', '', '幻灯片管理', ''),
+(68, 1, 'admin', 'admin_url', 'admin/Slide/add', '', '添加幻灯片', ''),
+(69, 1, 'admin', 'admin_url', 'admin/Slide/addPost', '', '添加幻灯片提交', ''),
+(70, 1, 'admin', 'admin_url', 'admin/Slide/edit', '', '编辑幻灯片', ''),
+(71, 1, 'admin', 'admin_url', 'admin/Slide/editPost', '', '编辑幻灯片提交', ''),
+(72, 1, 'admin', 'admin_url', 'admin/Slide/delete', '', '删除幻灯片', ''),
+(73, 1, 'admin', 'admin_url', 'admin/SlideItem/index', '', '幻灯片页面列表', ''),
+(74, 1, 'admin', 'admin_url', 'admin/SlideItem/add', '', '幻灯片页面添加', ''),
+(75, 1, 'admin', 'admin_url', 'admin/SlideItem/addPost', '', '幻灯片页面添加提交', ''),
+(76, 1, 'admin', 'admin_url', 'admin/SlideItem/edit', '', '幻灯片页面编辑', ''),
+(77, 1, 'admin', 'admin_url', 'admin/SlideItem/editPost', '', '幻灯片页面编辑提交', ''),
+(78, 1, 'admin', 'admin_url', 'admin/SlideItem/delete', '', '幻灯片页面删除', ''),
+(79, 1, 'admin', 'admin_url', 'admin/SlideItem/ban', '', '幻灯片页面隐藏', ''),
+(80, 1, 'admin', 'admin_url', 'admin/SlideItem/cancelBan', '', '幻灯片页面显示', ''),
+(81, 1, 'admin', 'admin_url', 'admin/SlideItem/listOrder', '', '幻灯片页面排序', ''),
+(82, 1, 'admin', 'admin_url', 'admin/Theme/index', '', '模板管理', ''),
+(83, 1, 'admin', 'admin_url', 'admin/Theme/install', '', '安装模板', ''),
+(84, 1, 'admin', 'admin_url', 'admin/Theme/uninstall', '', '卸载模板', ''),
+(85, 1, 'admin', 'admin_url', 'admin/Theme/installTheme', '', '模板安装', ''),
+(86, 1, 'admin', 'admin_url', 'admin/Theme/update', '', '模板更新', ''),
+(87, 1, 'admin', 'admin_url', 'admin/Theme/active', '', '启用模板', ''),
+(88, 1, 'admin', 'admin_url', 'admin/Theme/files', '', '模板文件列表', ''),
+(89, 1, 'admin', 'admin_url', 'admin/Theme/fileSetting', '', '模板文件设置', ''),
+(90, 1, 'admin', 'admin_url', 'admin/Theme/fileArrayData', '', '模板文件数组数据列表', ''),
+(91, 1, 'admin', 'admin_url', 'admin/Theme/fileArrayDataEdit', '', '模板文件数组数据添加编辑', ''),
+(92, 1, 'admin', 'admin_url', 'admin/Theme/fileArrayDataEditPost', '', '模板文件数组数据添加编辑提交保存', ''),
+(93, 1, 'admin', 'admin_url', 'admin/Theme/fileArrayDataDelete', '', '模板文件数组数据删除', ''),
+(94, 1, 'admin', 'admin_url', 'admin/Theme/settingPost', '', '模板文件编辑提交保存', ''),
+(95, 1, 'admin', 'admin_url', 'admin/Theme/dataSource', '', '模板文件设置数据源', ''),
+(96, 1, 'admin', 'admin_url', 'admin/User/default', '', '管理组', ''),
+(97, 1, 'admin', 'admin_url', 'admin/User/index', '', '管理员', ''),
+(98, 1, 'admin', 'admin_url', 'admin/User/add', '', '管理员添加', ''),
+(99, 1, 'admin', 'admin_url', 'admin/User/addPost', '', '管理员添加提交', ''),
+(100, 1, 'admin', 'admin_url', 'admin/User/edit', '', '管理员编辑', ''),
+(101, 1, 'admin', 'admin_url', 'admin/User/editPost', '', '管理员编辑提交', ''),
+(102, 1, 'admin', 'admin_url', 'admin/User/userInfo', '', '管理员个人信息修改', ''),
+(103, 1, 'admin', 'admin_url', 'admin/User/userInfoPost', '', '管理员个人信息修改提交', ''),
+(104, 1, 'admin', 'admin_url', 'admin/User/delete', '', '管理员删除', ''),
+(105, 1, 'admin', 'admin_url', 'admin/User/ban', '', '停用管理员', ''),
+(106, 1, 'admin', 'admin_url', 'admin/User/cancelBan', '', '启用管理员', ''),
+(107, 1, 'portal', 'admin_url', 'portal/AdminArticle/index', '', '文章管理', ''),
+(108, 1, 'portal', 'admin_url', 'portal/AdminArticle/add', '', '添加文章', ''),
+(109, 1, 'portal', 'admin_url', 'portal/AdminArticle/addPost', '', '添加文章提交', ''),
+(110, 1, 'portal', 'admin_url', 'portal/AdminArticle/edit', '', '编辑文章', ''),
+(111, 1, 'portal', 'admin_url', 'portal/AdminArticle/editPost', '', '编辑文章提交', ''),
+(112, 1, 'portal', 'admin_url', 'portal/AdminArticle/delete', '', '文章删除', ''),
+(113, 1, 'portal', 'admin_url', 'portal/AdminArticle/publish', '', '文章发布', ''),
+(114, 1, 'portal', 'admin_url', 'portal/AdminArticle/top', '', '文章置顶', ''),
+(115, 1, 'portal', 'admin_url', 'portal/AdminArticle/recommend', '', '文章推荐', ''),
+(116, 1, 'portal', 'admin_url', 'portal/AdminArticle/listOrder', '', '文章排序', ''),
+(117, 1, 'portal', 'admin_url', 'portal/AdminCategory/index', '', '分类管理', ''),
+(118, 1, 'portal', 'admin_url', 'portal/AdminCategory/add', '', '添加文章分类', ''),
+(119, 1, 'portal', 'admin_url', 'portal/AdminCategory/addPost', '', '添加文章分类提交', ''),
+(120, 1, 'portal', 'admin_url', 'portal/AdminCategory/edit', '', '编辑文章分类', ''),
+(121, 1, 'portal', 'admin_url', 'portal/AdminCategory/editPost', '', '编辑文章分类提交', ''),
+(122, 1, 'portal', 'admin_url', 'portal/AdminCategory/select', '', '文章分类选择对话框', ''),
+(123, 1, 'portal', 'admin_url', 'portal/AdminCategory/delete', '', '删除文章分类', ''),
+(124, 1, 'portal', 'admin_url', 'portal/AdminIndex/default', '', '门户管理', ''),
+(125, 1, 'portal', 'admin_url', 'portal/AdminPage/index', '', '页面管理', ''),
+(126, 1, 'portal', 'admin_url', 'portal/AdminPage/add', '', '添加页面', ''),
+(127, 1, 'portal', 'admin_url', 'portal/AdminPage/addPost', '', '添加页面提交', ''),
+(128, 1, 'portal', 'admin_url', 'portal/AdminPage/edit', '', '编辑页面', ''),
+(129, 1, 'portal', 'admin_url', 'portal/AdminPage/editPost', '', '编辑页面提交', ''),
+(130, 1, 'portal', 'admin_url', 'portal/AdminPage/delete', '', '删除页面', ''),
+(131, 1, 'portal', 'admin_url', 'portal/AdminTag/index', '', '文章标签', ''),
+(132, 1, 'portal', 'admin_url', 'portal/AdminTag/add', '', '添加文章标签', ''),
+(133, 1, 'portal', 'admin_url', 'portal/AdminTag/addPost', '', '添加文章标签提交', ''),
+(134, 1, 'portal', 'admin_url', 'portal/AdminTag/upStatus', '', '更新标签状态', ''),
+(135, 1, 'portal', 'admin_url', 'portal/AdminTag/delete', '', '删除文章标签', ''),
+(136, 1, 'user', 'admin_url', 'user/AdminAsset/index', '', '资源管理', ''),
+(137, 1, 'user', 'admin_url', 'user/AdminAsset/delete', '', '删除文件', ''),
+(138, 1, 'user', 'admin_url', 'user/AdminIndex/default', '', '用户管理', ''),
+(139, 1, 'user', 'admin_url', 'user/AdminIndex/default1', '', '用户组', ''),
+(140, 1, 'user', 'admin_url', 'user/AdminIndex/index', '', '本站用户', ''),
+(141, 1, 'user', 'admin_url', 'user/AdminIndex/ban', '', '本站用户拉黑', ''),
+(142, 1, 'user', 'admin_url', 'user/AdminIndex/cancelBan', '', '本站用户启用', ''),
+(143, 1, 'user', 'admin_url', 'user/AdminOauth/index', '', '第三方用户', ''),
+(144, 1, 'user', 'admin_url', 'user/AdminOauth/delete', '', '删除第三方用户绑定', ''),
+(145, 1, 'admin', 'admin_url', 'admin/Route/index', '', 'URL美化', ''),
+(146, 1, 'admin', 'admin_url', 'admin/Route/add', '', '添加路由规则', ''),
+(147, 1, 'admin', 'admin_url', 'admin/Route/addPost', '', '添加路由规则提交', ''),
+(148, 1, 'admin', 'admin_url', 'admin/Route/edit', '', '路由规则编辑', ''),
+(149, 1, 'admin', 'admin_url', 'admin/Route/editPost', '', '路由规则编辑提交', ''),
+(150, 1, 'admin', 'admin_url', 'admin/Route/delete', '', '路由规则删除', ''),
+(151, 1, 'admin', 'admin_url', 'admin/Route/ban', '', '路由规则禁用', ''),
+(152, 1, 'admin', 'admin_url', 'admin/Route/open', '', '路由规则启用', ''),
+(153, 1, 'admin', 'admin_url', 'admin/Route/listOrder', '', '路由规则排序', '');
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `cmf_comments`
+-- 表的结构 `cmf_comment`
 --
 
-CREATE TABLE IF NOT EXISTS `cmf_comments` (
+CREATE TABLE IF NOT EXISTS `cmf_comment` (
   `id` bigint(20) unsigned NOT NULL,
-  `post_table` varchar(100) NOT NULL COMMENT '评论内容所在表，不带表前缀',
-  `post_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '评论内容 id',
-  `url` varchar(255) DEFAULT NULL COMMENT '原文地址',
-  `uid` int(11) NOT NULL DEFAULT '0' COMMENT '发表评论的用户id',
-  `to_uid` int(11) NOT NULL DEFAULT '0' COMMENT '被评论的用户id',
-  `full_name` varchar(50) DEFAULT NULL COMMENT '评论者昵称',
-  `email` varchar(255) DEFAULT NULL COMMENT '评论者邮箱',
-  `createtime` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '评论时间',
-  `content` text NOT NULL COMMENT '评论内容',
-  `type` smallint(1) NOT NULL DEFAULT '1' COMMENT '评论类型；1实名评论',
-  `parentid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '被回复的评论id',
-  `path` varchar(500) DEFAULT NULL,
-  `status` smallint(1) NOT NULL DEFAULT '1' COMMENT '状态，1已审核，0未审核'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='评论表';
+  `parent_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '被回复的评论id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发表评论的用户id',
+  `to_user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '被评论的用户id',
+  `object_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '评论内容 id',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '评论时间',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:已审核,0:未审核',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '评论类型；1实名评论',
+  `table_name` varchar(64) NOT NULL DEFAULT '' COMMENT '评论内容所在表，不带表前缀',
+  `full_name` varchar(50) NOT NULL DEFAULT '' COMMENT '评论者昵称',
+  `email` varchar(255) NOT NULL DEFAULT '' COMMENT '评论者邮箱',
+  `path` varchar(255) NOT NULL DEFAULT '' COMMENT '层级关系',
+  `url` text COMMENT '原文地址',
+  `content` text COMMENT '评论内容',
+  `more` text COMMENT '扩展属性'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评论表';
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `cmf_common_action_log`
+-- 表的结构 `cmf_hook`
 --
 
-CREATE TABLE IF NOT EXISTS `cmf_common_action_log` (
-  `id` int(11) NOT NULL,
-  `user` bigint(20) DEFAULT '0' COMMENT '用户id',
-  `object` varchar(100) DEFAULT NULL COMMENT '访问对象的id,格式：不带前缀的表名+id;如posts1表示xx_posts表里id为1的记录',
-  `action` varchar(50) DEFAULT NULL COMMENT '操作名称；格式规定为：应用名+控制器+操作名；也可自己定义格式只要不发生冲突且惟一；',
-  `count` int(11) DEFAULT '0' COMMENT '访问次数',
-  `last_time` int(11) DEFAULT '0' COMMENT '最后访问的时间戳',
-  `ip` varchar(15) DEFAULT NULL COMMENT '访问者最后访问ip'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='访问记录表';
+CREATE TABLE IF NOT EXISTS `cmf_hook` (
+  `id` int(10) unsigned NOT NULL,
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '钩子类型(1:系统钩子;2:应用钩子;3:模板钩子)',
+  `once` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '是否只允许一个插件运行(0:多个;1:一个)',
+  `name` varchar(30) NOT NULL DEFAULT '' COMMENT '钩子名称',
+  `hook` varchar(30) NOT NULL DEFAULT '' COMMENT '钩子',
+  `app` varchar(15) NOT NULL DEFAULT '' COMMENT '应用名(只有应用钩子才用)',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述'
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子表';
+
+--
+-- 转存表中的数据 `cmf_hook`
+--
+
+INSERT INTO `cmf_hook` (`id`, `type`, `once`, `name`, `hook`, `app`, `description`) VALUES
+(1, 1, 0, '应用初始化', 'app_init', 'cmf', '应用初始化'),
+(2, 1, 0, '应用开始', 'app_begin', 'cmf', '应用开始'),
+(3, 1, 0, '模块初始化', 'module_init', 'cmf', '模块初始化'),
+(4, 1, 0, '控制器开始', 'action_begin', 'cmf', '控制器开始'),
+(5, 1, 0, '视图输出过滤', 'view_filter', 'cmf', '视图输出过滤'),
+(6, 1, 0, '应用结束', 'app_end', 'cmf', '应用结束'),
+(7, 1, 0, '日志write方法', 'log_write', 'cmf', '日志write方法'),
+(8, 1, 0, '输出结束', 'response_end', 'cmf', '输出结束'),
+(9, 1, 0, '后台控制器初始化', 'admin_init', 'cmf', '后台控制器初始化'),
+(10, 1, 0, '前台控制器初始化', 'home_init', 'cmf', '前台控制器初始化'),
+(11, 1, 1, '发送手机验证码', 'send_mobile_verification_code', 'cmf', '发送手机验证码'),
+(12, 3, 0, '模板 body标签开始', 'body_start', '', '模板 body标签开始'),
+(13, 3, 0, '模板 head标签结束前', 'before_head_end', '', '模板 head标签结束前'),
+(14, 3, 0, '模板底部开始', 'footer_start', '', '模板底部开始'),
+(15, 3, 0, '模板底部开始之前', 'before_footer', '', '模板底部开始之前'),
+(16, 3, 0, '模板底部结束之前', 'before_footer_end', '', '模板底部结束之前'),
+(17, 3, 0, '模板 body 标签结束之前', 'before_body_end', '', '模板 body 标签结束之前'),
+(18, 3, 0, '模板左边栏开始', 'left_sidebar_start', '', '模板左边栏开始'),
+(19, 3, 0, '模板左边栏结束之前', 'before_left_sidebar_end', '', '模板左边栏结束之前'),
+(20, 3, 0, '模板右边栏开始', 'right_sidebar_start', '', '模板右边栏开始'),
+(21, 3, 0, '模板右边栏结束之前', 'before_right_sidebar_end', '', '模板右边栏结束之前'),
+(22, 3, 0, '评论区', 'comment', '', '评论区'),
+(23, 3, 0, '留言区', 'guestbook', '', '留言区');
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `cmf_guestbook`
+-- 表的结构 `cmf_hook_plugin`
 --
 
-CREATE TABLE IF NOT EXISTS `cmf_guestbook` (
-  `id` int(11) NOT NULL,
-  `full_name` varchar(50) NOT NULL COMMENT '留言者姓名',
-  `email` varchar(100) NOT NULL COMMENT '留言者邮箱',
-  `title` varchar(255) DEFAULT NULL COMMENT '留言标题',
-  `msg` text NOT NULL COMMENT '留言内容',
-  `createtime` datetime NOT NULL COMMENT '留言时间',
-  `status` smallint(2) NOT NULL DEFAULT '1' COMMENT '留言状态，1：正常，0：删除'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='留言表';
+CREATE TABLE IF NOT EXISTS `cmf_hook_plugin` (
+  `id` int(10) unsigned NOT NULL,
+  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态(0:禁用,1:启用)',
+  `hook` varchar(30) NOT NULL DEFAULT '' COMMENT '钩子名',
+  `plugin` varchar(30) NOT NULL DEFAULT '' COMMENT '插件'
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子插件表';
+
+--
+-- 转存表中的数据 `cmf_hook_plugin`
+--
+
+INSERT INTO `cmf_hook_plugin` (`id`, `list_order`, `status`, `hook`, `plugin`) VALUES
+(8, 10000, 1, 'footer_start', 'Demo'),
+(9, 10000, 1, 'send_mobile_verification_code', 'MobileCodeDemo');
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `cmf_links`
+-- 表的结构 `cmf_link`
 --
 
-CREATE TABLE IF NOT EXISTS `cmf_links` (
-  `link_id` bigint(20) unsigned NOT NULL,
-  `link_url` varchar(255) NOT NULL COMMENT '友情链接地址',
-  `link_name` varchar(255) NOT NULL COMMENT '友情链接名称',
-  `link_image` varchar(255) DEFAULT NULL COMMENT '友情链接图标',
-  `link_target` varchar(25) NOT NULL DEFAULT '_blank' COMMENT '友情链接打开方式',
-  `link_description` text NOT NULL COMMENT '友情链接描述',
-  `link_status` int(2) NOT NULL DEFAULT '1' COMMENT '状态，1显示，0不显示',
-  `link_rating` int(11) NOT NULL DEFAULT '0' COMMENT '友情链接评级',
-  `link_rel` varchar(255) DEFAULT NULL COMMENT '链接与网站的关系',
-  `listorder` int(10) NOT NULL DEFAULT '0' COMMENT '排序'
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='友情链接表';
+CREATE TABLE IF NOT EXISTS `cmf_link` (
+  `id` bigint(20) unsigned NOT NULL,
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态;1:显示;0:不显示',
+  `rating` int(11) NOT NULL DEFAULT '0' COMMENT '友情链接评级',
+  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '友情链接描述',
+  `url` varchar(255) NOT NULL DEFAULT '' COMMENT '友情链接地址',
+  `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '友情链接名称',
+  `image` varchar(100) NOT NULL DEFAULT '' COMMENT '友情链接图标',
+  `target` varchar(10) NOT NULL DEFAULT '' COMMENT '友情链接打开方式',
+  `rel` varchar(50) NOT NULL DEFAULT '' COMMENT '链接与网站的关系'
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='友情链接表';
 
 --
--- 转存表中的数据 `cmf_links`
+-- 转存表中的数据 `cmf_link`
 --
 
-INSERT INTO `cmf_links` (`link_id`, `link_url`, `link_name`, `link_image`, `link_target`, `link_description`, `link_status`, `link_rating`, `link_rel`, `listorder`) VALUES
-(1, 'http://www.thinkcmf.com', 'ThinkCMF', '', '_blank', '', 1, 0, '', 0);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `cmf_menu`
---
-
-CREATE TABLE IF NOT EXISTS `cmf_menu` (
-  `id` smallint(6) unsigned NOT NULL,
-  `parentid` smallint(6) unsigned NOT NULL DEFAULT '0',
-  `app` varchar(30) NOT NULL DEFAULT '' COMMENT '应用名称app',
-  `model` varchar(30) NOT NULL DEFAULT '' COMMENT '控制器',
-  `action` varchar(50) NOT NULL DEFAULT '' COMMENT '操作名称',
-  `data` varchar(50) NOT NULL DEFAULT '' COMMENT '额外参数',
-  `type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '菜单类型  1：权限认证+菜单；0：只作为菜单',
-  `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '状态，1显示，0不显示',
-  `name` varchar(50) NOT NULL COMMENT '菜单名称',
-  `icon` varchar(50) DEFAULT NULL COMMENT '菜单图标',
-  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
-  `listorder` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '排序ID'
-) ENGINE=MyISAM AUTO_INCREMENT=187 DEFAULT CHARSET=utf8 COMMENT='后台菜单表';
-
---
--- 转存表中的数据 `cmf_menu`
---
-
-INSERT INTO `cmf_menu` (`id`, `parentid`, `app`, `model`, `action`, `data`, `type`, `status`, `name`, `icon`, `remark`, `listorder`) VALUES
-(1, 0, 'Admin', 'Content', 'default', '', 0, 1, '内容管理', 'th', '', 30),
-(2, 1, 'Api', 'Guestbookadmin', 'index', '', 1, 1, '所有留言', '', '', 0),
-(3, 2, 'Api', 'Guestbookadmin', 'delete', '', 1, 0, '删除网站留言', '', '', 0),
-(4, 1, 'Comment', 'Commentadmin', 'index', '', 1, 1, '评论管理', '', '', 0),
-(5, 4, 'Comment', 'Commentadmin', 'delete', '', 1, 0, '删除评论', '', '', 0),
-(6, 4, 'Comment', 'Commentadmin', 'check', '', 1, 0, '评论审核', '', '', 0),
-(7, 1, 'Portal', 'AdminPost', 'index', '', 1, 1, '文章管理', '', '', 1),
-(8, 7, 'Portal', 'AdminPost', 'listorders', '', 1, 0, '文章排序', '', '', 0),
-(9, 7, 'Portal', 'AdminPost', 'top', '', 1, 0, '文章置顶', '', '', 0),
-(10, 7, 'Portal', 'AdminPost', 'recommend', '', 1, 0, '文章推荐', '', '', 0),
-(11, 7, 'Portal', 'AdminPost', 'move', '', 1, 0, '批量移动', '', '', 1000),
-(12, 7, 'Portal', 'AdminPost', 'check', '', 1, 0, '文章审核', '', '', 1000),
-(13, 7, 'Portal', 'AdminPost', 'delete', '', 1, 0, '删除文章', '', '', 1000),
-(14, 7, 'Portal', 'AdminPost', 'edit', '', 1, 0, '编辑文章', '', '', 1000),
-(15, 14, 'Portal', 'AdminPost', 'edit_post', '', 1, 0, '提交编辑', '', '', 0),
-(16, 7, 'Portal', 'AdminPost', 'add', '', 1, 0, '添加文章', '', '', 1000),
-(17, 16, 'Portal', 'AdminPost', 'add_post', '', 1, 0, '提交添加', '', '', 0),
-(18, 1, 'Portal', 'AdminTerm', 'index', '', 0, 1, '分类管理', '', '', 2),
-(19, 18, 'Portal', 'AdminTerm', 'listorders', '', 1, 0, '文章分类排序', '', '', 0),
-(20, 18, 'Portal', 'AdminTerm', 'delete', '', 1, 0, '删除分类', '', '', 1000),
-(21, 18, 'Portal', 'AdminTerm', 'edit', '', 1, 0, '编辑分类', '', '', 1000),
-(22, 21, 'Portal', 'AdminTerm', 'edit_post', '', 1, 0, '提交编辑', '', '', 0),
-(23, 18, 'Portal', 'AdminTerm', 'add', '', 1, 0, '添加分类', '', '', 1000),
-(24, 23, 'Portal', 'AdminTerm', 'add_post', '', 1, 0, '提交添加', '', '', 0),
-(25, 1, 'Portal', 'AdminPage', 'index', '', 1, 1, '页面管理', '', '', 3),
-(26, 25, 'Portal', 'AdminPage', 'listorders', '', 1, 0, '页面排序', '', '', 0),
-(27, 25, 'Portal', 'AdminPage', 'delete', '', 1, 0, '删除页面', '', '', 1000),
-(28, 25, 'Portal', 'AdminPage', 'edit', '', 1, 0, '编辑页面', '', '', 1000),
-(29, 28, 'Portal', 'AdminPage', 'edit_post', '', 1, 0, '提交编辑', '', '', 0),
-(30, 25, 'Portal', 'AdminPage', 'add', '', 1, 0, '添加页面', '', '', 1000),
-(31, 30, 'Portal', 'AdminPage', 'add_post', '', 1, 0, '提交添加', '', '', 0),
-(32, 1, 'Admin', 'Recycle', 'default', '', 1, 1, '回收站', '', '', 4),
-(33, 32, 'Portal', 'AdminPost', 'recyclebin', '', 1, 1, '文章回收', '', '', 0),
-(34, 33, 'Portal', 'AdminPost', 'restore', '', 1, 0, '文章还原', '', '', 1000),
-(35, 33, 'Portal', 'AdminPost', 'clean', '', 1, 0, '彻底删除', '', '', 1000),
-(36, 32, 'Portal', 'AdminPage', 'recyclebin', '', 1, 1, '页面回收', '', '', 1),
-(37, 36, 'Portal', 'AdminPage', 'clean', '', 1, 0, '彻底删除', '', '', 1000),
-(38, 36, 'Portal', 'AdminPage', 'restore', '', 1, 0, '页面还原', '', '', 1000),
-(39, 0, 'Admin', 'Extension', 'default', '', 0, 1, '扩展工具', 'cloud', '', 40),
-(40, 39, 'Admin', 'Backup', 'default', '', 1, 0, '备份管理', '', '', 0),
-(41, 40, 'Admin', 'Backup', 'restore', '', 1, 1, '数据还原', '', '', 0),
-(42, 40, 'Admin', 'Backup', 'index', '', 1, 1, '数据备份', '', '', 0),
-(43, 42, 'Admin', 'Backup', 'index_post', '', 1, 0, '提交数据备份', '', '', 0),
-(44, 40, 'Admin', 'Backup', 'download', '', 1, 0, '下载备份', '', '', 1000),
-(45, 40, 'Admin', 'Backup', 'del_backup', '', 1, 0, '删除备份', '', '', 1000),
-(46, 40, 'Admin', 'Backup', 'import', '', 1, 0, '数据备份导入', '', '', 1000),
-(47, 39, 'Admin', 'Plugin', 'index', '', 1, 1, '插件管理', '', '', 0),
-(48, 47, 'Admin', 'Plugin', 'toggle', '', 1, 0, '插件启用切换', '', '', 0),
-(49, 47, 'Admin', 'Plugin', 'setting', '', 1, 0, '插件设置', '', '', 0),
-(50, 49, 'Admin', 'Plugin', 'setting_post', '', 1, 0, '插件设置提交', '', '', 0),
-(51, 47, 'Admin', 'Plugin', 'install', '', 1, 0, '插件安装', '', '', 0),
-(52, 47, 'Admin', 'Plugin', 'uninstall', '', 1, 0, '插件卸载', '', '', 0),
-(53, 39, 'Admin', 'Slide', 'default', '', 1, 1, '幻灯片', '', '', 1),
-(54, 53, 'Admin', 'Slide', 'index', '', 1, 1, '幻灯片管理', '', '', 0),
-(55, 54, 'Admin', 'Slide', 'listorders', '', 1, 0, '幻灯片排序', '', '', 0),
-(56, 54, 'Admin', 'Slide', 'toggle', '', 1, 0, '幻灯片显示切换', '', '', 0),
-(57, 54, 'Admin', 'Slide', 'delete', '', 1, 0, '删除幻灯片', '', '', 1000),
-(58, 54, 'Admin', 'Slide', 'edit', '', 1, 0, '编辑幻灯片', '', '', 1000),
-(59, 58, 'Admin', 'Slide', 'edit_post', '', 1, 0, '提交编辑', '', '', 0),
-(60, 54, 'Admin', 'Slide', 'add', '', 1, 0, '添加幻灯片', '', '', 1000),
-(61, 60, 'Admin', 'Slide', 'add_post', '', 1, 0, '提交添加', '', '', 0),
-(62, 53, 'Admin', 'Slidecat', 'index', '', 1, 1, '幻灯片分类', '', '', 0),
-(63, 62, 'Admin', 'Slidecat', 'delete', '', 1, 0, '删除分类', '', '', 1000),
-(64, 62, 'Admin', 'Slidecat', 'edit', '', 1, 0, '编辑分类', '', '', 1000),
-(65, 64, 'Admin', 'Slidecat', 'edit_post', '', 1, 0, '提交编辑', '', '', 0),
-(66, 62, 'Admin', 'Slidecat', 'add', '', 1, 0, '添加分类', '', '', 1000),
-(67, 66, 'Admin', 'Slidecat', 'add_post', '', 1, 0, '提交添加', '', '', 0),
-(68, 39, 'Admin', 'Ad', 'index', '', 1, 1, '网站广告', '', '', 2),
-(69, 68, 'Admin', 'Ad', 'toggle', '', 1, 0, '广告显示切换', '', '', 0),
-(70, 68, 'Admin', 'Ad', 'delete', '', 1, 0, '删除广告', '', '', 1000),
-(71, 68, 'Admin', 'Ad', 'edit', '', 1, 0, '编辑广告', '', '', 1000),
-(72, 71, 'Admin', 'Ad', 'edit_post', '', 1, 0, '提交编辑', '', '', 0),
-(73, 68, 'Admin', 'Ad', 'add', '', 1, 0, '添加广告', '', '', 1000),
-(74, 73, 'Admin', 'Ad', 'add_post', '', 1, 0, '提交添加', '', '', 0),
-(75, 39, 'Admin', 'Link', 'index', '', 0, 1, '友情链接', '', '', 3),
-(76, 75, 'Admin', 'Link', 'listorders', '', 1, 0, '友情链接排序', '', '', 0),
-(77, 75, 'Admin', 'Link', 'toggle', '', 1, 0, '友链显示切换', '', '', 0),
-(78, 75, 'Admin', 'Link', 'delete', '', 1, 0, '删除友情链接', '', '', 1000),
-(79, 75, 'Admin', 'Link', 'edit', '', 1, 0, '编辑友情链接', '', '', 1000),
-(80, 79, 'Admin', 'Link', 'edit_post', '', 1, 0, '提交编辑', '', '', 0),
-(81, 75, 'Admin', 'Link', 'add', '', 1, 0, '添加友情链接', '', '', 1000),
-(82, 81, 'Admin', 'Link', 'add_post', '', 1, 0, '提交添加', '', '', 0),
-(83, 39, 'Api', 'Oauthadmin', 'setting', '', 1, 1, '第三方登陆', 'leaf', '', 4),
-(84, 83, 'Api', 'Oauthadmin', 'setting_post', '', 1, 0, '提交设置', '', '', 0),
-(85, 0, 'Admin', 'Menu', 'default', '', 1, 1, '菜单管理', 'list', '', 20),
-(86, 85, 'Admin', 'Navcat', 'default1', '', 1, 1, '前台菜单', '', '', 0),
-(87, 86, 'Admin', 'Nav', 'index', '', 1, 1, '菜单管理', '', '', 0),
-(88, 87, 'Admin', 'Nav', 'listorders', '', 1, 0, '前台导航排序', '', '', 0),
-(89, 87, 'Admin', 'Nav', 'delete', '', 1, 0, '删除菜单', '', '', 1000),
-(90, 87, 'Admin', 'Nav', 'edit', '', 1, 0, '编辑菜单', '', '', 1000),
-(91, 90, 'Admin', 'Nav', 'edit_post', '', 1, 0, '提交编辑', '', '', 0),
-(92, 87, 'Admin', 'Nav', 'add', '', 1, 0, '添加菜单', '', '', 1000),
-(93, 92, 'Admin', 'Nav', 'add_post', '', 1, 0, '提交添加', '', '', 0),
-(94, 86, 'Admin', 'Navcat', 'index', '', 1, 1, '菜单分类', '', '', 0),
-(95, 94, 'Admin', 'Navcat', 'delete', '', 1, 0, '删除分类', '', '', 1000),
-(96, 94, 'Admin', 'Navcat', 'edit', '', 1, 0, '编辑分类', '', '', 1000),
-(97, 96, 'Admin', 'Navcat', 'edit_post', '', 1, 0, '提交编辑', '', '', 0),
-(98, 94, 'Admin', 'Navcat', 'add', '', 1, 0, '添加分类', '', '', 1000),
-(99, 98, 'Admin', 'Navcat', 'add_post', '', 1, 0, '提交添加', '', '', 0),
-(100, 85, 'Admin', 'Menu', 'index', '', 1, 1, '后台菜单', '', '', 0),
-(101, 100, 'Admin', 'Menu', 'add', '', 1, 0, '添加菜单', '', '', 0),
-(102, 101, 'Admin', 'Menu', 'add_post', '', 1, 0, '提交添加', '', '', 0),
-(103, 100, 'Admin', 'Menu', 'listorders', '', 1, 0, '后台菜单排序', '', '', 0),
-(104, 100, 'Admin', 'Menu', 'export_menu', '', 1, 0, '菜单备份', '', '', 1000),
-(105, 100, 'Admin', 'Menu', 'edit', '', 1, 0, '编辑菜单', '', '', 1000),
-(106, 105, 'Admin', 'Menu', 'edit_post', '', 1, 0, '提交编辑', '', '', 0),
-(107, 100, 'Admin', 'Menu', 'delete', '', 1, 0, '删除菜单', '', '', 1000),
-(108, 100, 'Admin', 'Menu', 'lists', '', 1, 0, '所有菜单', '', '', 1000),
-(109, 0, 'Admin', 'Setting', 'default', '', 0, 1, '设置', 'cogs', '', 0),
-(110, 109, 'Admin', 'Setting', 'userdefault', '', 0, 1, '个人信息', '', '', 0),
-(111, 110, 'Admin', 'User', 'userinfo', '', 1, 1, '修改信息', '', '', 0),
-(112, 111, 'Admin', 'User', 'userinfo_post', '', 1, 0, '修改信息提交', '', '', 0),
-(113, 110, 'Admin', 'Setting', 'password', '', 1, 1, '修改密码', '', '', 0),
-(114, 113, 'Admin', 'Setting', 'password_post', '', 1, 0, '提交修改', '', '', 0),
-(115, 109, 'Admin', 'Setting', 'site', '', 1, 1, '网站信息', '', '', 0),
-(116, 115, 'Admin', 'Setting', 'site_post', '', 1, 0, '提交修改', '', '', 0),
-(117, 115, 'Admin', 'Route', 'index', '', 1, 0, '路由列表', '', '', 0),
-(118, 115, 'Admin', 'Route', 'add', '', 1, 0, '路由添加', '', '', 0),
-(119, 118, 'Admin', 'Route', 'add_post', '', 1, 0, '路由添加提交', '', '', 0),
-(120, 115, 'Admin', 'Route', 'edit', '', 1, 0, '路由编辑', '', '', 0),
-(121, 120, 'Admin', 'Route', 'edit_post', '', 1, 0, '路由编辑提交', '', '', 0),
-(122, 115, 'Admin', 'Route', 'delete', '', 1, 0, '路由删除', '', '', 0),
-(123, 115, 'Admin', 'Route', 'ban', '', 1, 0, '路由禁止', '', '', 0),
-(124, 115, 'Admin', 'Route', 'open', '', 1, 0, '路由启用', '', '', 0),
-(125, 115, 'Admin', 'Route', 'listorders', '', 1, 0, '路由排序', '', '', 0),
-(126, 109, 'Admin', 'Mailer', 'default', '', 1, 1, '邮箱配置', '', '', 0),
-(127, 126, 'Admin', 'Mailer', 'index', '', 1, 1, 'SMTP配置', '', '', 0),
-(128, 127, 'Admin', 'Mailer', 'index_post', '', 1, 0, '提交配置', '', '', 0),
-(129, 126, 'Admin', 'Mailer', 'active', '', 1, 1, '注册邮件模板', '', '', 0),
-(130, 129, 'Admin', 'Mailer', 'active_post', '', 1, 0, '提交模板', '', '', 0),
-(131, 109, 'Admin', 'Setting', 'clearcache', '', 1, 1, '清除缓存', '', '', 1),
-(132, 0, 'User', 'Indexadmin', 'default', '', 1, 1, '用户管理', 'group', '', 10),
-(133, 132, 'User', 'Indexadmin', 'default1', '', 1, 1, '用户组', '', '', 0),
-(134, 133, 'User', 'Indexadmin', 'index', '', 1, 1, '本站用户', 'leaf', '', 0),
-(135, 134, 'User', 'Indexadmin', 'ban', '', 1, 0, '拉黑会员', '', '', 0),
-(136, 134, 'User', 'Indexadmin', 'cancelban', '', 1, 0, '启用会员', '', '', 0),
-(137, 133, 'User', 'Oauthadmin', 'index', '', 1, 1, '第三方用户', 'leaf', '', 0),
-(138, 137, 'User', 'Oauthadmin', 'delete', '', 1, 0, '第三方用户解绑', '', '', 0),
-(139, 132, 'User', 'Indexadmin', 'default3', '', 1, 1, '管理组', '', '', 0),
-(140, 139, 'Admin', 'Rbac', 'index', '', 1, 1, '角色管理', '', '', 0),
-(141, 140, 'Admin', 'Rbac', 'member', '', 1, 0, '成员管理', '', '', 1000),
-(142, 140, 'Admin', 'Rbac', 'authorize', '', 1, 0, '权限设置', '', '', 1000),
-(143, 142, 'Admin', 'Rbac', 'authorize_post', '', 1, 0, '提交设置', '', '', 0),
-(144, 140, 'Admin', 'Rbac', 'roleedit', '', 1, 0, '编辑角色', '', '', 1000),
-(145, 144, 'Admin', 'Rbac', 'roleedit_post', '', 1, 0, '提交编辑', '', '', 0),
-(146, 140, 'Admin', 'Rbac', 'roledelete', '', 1, 1, '删除角色', '', '', 1000),
-(147, 140, 'Admin', 'Rbac', 'roleadd', '', 1, 1, '添加角色', '', '', 1000),
-(148, 147, 'Admin', 'Rbac', 'roleadd_post', '', 1, 0, '提交添加', '', '', 0),
-(149, 139, 'Admin', 'User', 'index', '', 1, 1, '管理员', '', '', 0),
-(150, 149, 'Admin', 'User', 'delete', '', 1, 0, '删除管理员', '', '', 1000),
-(151, 149, 'Admin', 'User', 'edit', '', 1, 0, '管理员编辑', '', '', 1000),
-(152, 151, 'Admin', 'User', 'edit_post', '', 1, 0, '编辑提交', '', '', 0),
-(153, 149, 'Admin', 'User', 'add', '', 1, 0, '管理员添加', '', '', 1000),
-(154, 153, 'Admin', 'User', 'add_post', '', 1, 0, '添加提交', '', '', 0),
-(155, 47, 'Admin', 'Plugin', 'update', '', 1, 0, '插件更新', '', '', 0),
-(156, 109, 'Admin', 'Storage', 'index', '', 1, 1, '文件存储', '', '', 0),
-(157, 156, 'Admin', 'Storage', 'setting_post', '', 1, 0, '文件存储设置提交', '', '', 0),
-(158, 54, 'Admin', 'Slide', 'ban', '', 1, 0, '禁用幻灯片', '', '', 0),
-(159, 54, 'Admin', 'Slide', 'cancelban', '', 1, 0, '启用幻灯片', '', '', 0),
-(160, 149, 'Admin', 'User', 'ban', '', 1, 0, '禁用管理员', '', '', 0),
-(161, 149, 'Admin', 'User', 'cancelban', '', 1, 0, '启用管理员', '', '', 0),
-(166, 127, 'Admin', 'Mailer', 'test', '', 1, 0, '测试邮件', '', '', 0),
-(167, 109, 'Admin', 'Setting', 'upload', '', 1, 1, '上传设置', '', '', 0),
-(168, 167, 'Admin', 'Setting', 'upload_post', '', 1, 0, '上传设置提交', '', '', 0),
-(169, 7, 'Portal', 'AdminPost', 'copy', '', 1, 0, '文章批量复制', '', '', 0),
-(174, 100, 'Admin', 'Menu', 'backup_menu', '', 1, 0, '备份菜单', '', '', 0),
-(175, 100, 'Admin', 'Menu', 'export_menu_lang', '', 1, 0, '导出后台菜单多语言包', '', '', 0),
-(176, 100, 'Admin', 'Menu', 'restore_menu', '', 1, 0, '还原菜单', '', '', 0),
-(177, 100, 'Admin', 'Menu', 'getactions', '', 1, 0, '导入新菜单', '', '', 0);
+INSERT INTO `cmf_link` (`id`, `status`, `rating`, `list_order`, `description`, `url`, `name`, `image`, `target`, `rel`) VALUES
+(1, 1, 1, 8, 'thinkcmf官网', 'http://www.thinkcmf.com', 'ThinkCMF', '', '_blank', '');
 
 -- --------------------------------------------------------
 
@@ -528,163 +522,210 @@ INSERT INTO `cmf_menu` (`id`, `parentid`, `app`, `model`, `action`, `data`, `typ
 --
 
 CREATE TABLE IF NOT EXISTS `cmf_nav` (
-  `id` int(11) NOT NULL,
-  `cid` int(11) NOT NULL COMMENT '导航分类 id',
-  `parentid` int(11) NOT NULL COMMENT '导航父 id',
-  `label` varchar(255) NOT NULL COMMENT '导航标题',
-  `target` varchar(50) DEFAULT NULL COMMENT '打开方式',
-  `href` varchar(255) NOT NULL COMMENT '导航链接',
-  `icon` varchar(255) NOT NULL COMMENT '导航图标',
-  `status` int(2) NOT NULL DEFAULT '1' COMMENT '状态，1显示，0不显示',
-  `listorder` int(6) DEFAULT '0' COMMENT '排序',
-  `path` varchar(255) NOT NULL DEFAULT '0' COMMENT '层级关系'
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='前台导航表';
+  `id` int(10) unsigned NOT NULL,
+  `is_main` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '是否为主导航;1:是;0:不是',
+  `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '导航位置名称',
+  `remark` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '备注'
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='前台导航位置表';
 
 --
 -- 转存表中的数据 `cmf_nav`
 --
 
-INSERT INTO `cmf_nav` (`id`, `cid`, `parentid`, `label`, `target`, `href`, `icon`, `status`, `listorder`, `path`) VALUES
-(1, 1, 0, '首页', '', 'home', '', 1, 0, '0-1'),
-(2, 1, 0, '列表演示', '', 'a:2:{s:6:"action";s:17:"Portal/List/index";s:5:"param";a:1:{s:2:"id";s:1:"1";}}', '', 1, 0, '0-2'),
-(3, 1, 0, '瀑布流', '', 'a:2:{s:6:"action";s:17:"Portal/List/index";s:5:"param";a:1:{s:2:"id";s:1:"2";}}', '', 1, 0, '0-3');
+INSERT INTO `cmf_nav` (`id`, `is_main`, `name`, `remark`) VALUES
+(1, 1, '主导航', '主导航'),
+(2, 0, '底部导航', '');
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `cmf_nav_cat`
+-- 表的结构 `cmf_nav_menu`
 --
 
-CREATE TABLE IF NOT EXISTS `cmf_nav_cat` (
-  `navcid` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL COMMENT '导航分类名',
-  `active` int(1) NOT NULL DEFAULT '1' COMMENT '是否为主菜单，1是，0不是',
-  `remark` text COMMENT '备注'
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='前台导航分类表';
+CREATE TABLE IF NOT EXISTS `cmf_nav_menu` (
+  `id` int(11) NOT NULL,
+  `nav_id` int(11) NOT NULL COMMENT '导航 id',
+  `parent_id` int(11) NOT NULL COMMENT '父 id',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态;1:显示;0:隐藏',
+  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '菜单名称',
+  `target` varchar(10) NOT NULL DEFAULT '' COMMENT '打开方式',
+  `href` varchar(100) NOT NULL DEFAULT '' COMMENT '链接',
+  `icon` varchar(20) NOT NULL DEFAULT '' COMMENT '图标',
+  `path` varchar(255) NOT NULL DEFAULT '' COMMENT '层级关系'
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='前台导航菜单表';
 
 --
--- 转存表中的数据 `cmf_nav_cat`
+-- 转存表中的数据 `cmf_nav_menu`
 --
 
-INSERT INTO `cmf_nav_cat` (`navcid`, `name`, `active`, `remark`) VALUES
-(1, '主导航', 1, '主导航');
+INSERT INTO `cmf_nav_menu` (`id`, `nav_id`, `parent_id`, `status`, `list_order`, `name`, `target`, `href`, `icon`, `path`) VALUES
+(1, 1, 0, 1, 0, '首页', '', 'home', '', '0-1');
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `cmf_oauth_user`
+-- 表的结构 `cmf_option`
 --
 
-CREATE TABLE IF NOT EXISTS `cmf_oauth_user` (
-  `id` int(20) NOT NULL,
-  `from` varchar(20) NOT NULL COMMENT '用户来源key',
-  `name` varchar(30) NOT NULL COMMENT '第三方昵称',
-  `head_img` varchar(200) NOT NULL COMMENT '头像',
-  `uid` int(20) NOT NULL COMMENT '关联的本站用户id',
-  `create_time` datetime NOT NULL COMMENT '绑定时间',
-  `last_login_time` datetime NOT NULL COMMENT '最后登录时间',
-  `last_login_ip` varchar(16) NOT NULL COMMENT '最后登录ip',
-  `login_times` int(6) NOT NULL COMMENT '登录次数',
-  `status` tinyint(2) NOT NULL,
-  `access_token` varchar(512) NOT NULL,
-  `expires_date` int(11) NOT NULL COMMENT 'access_token过期时间',
-  `openid` varchar(40) NOT NULL COMMENT '第三方用户id'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='第三方用户表';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `cmf_options`
---
-
-CREATE TABLE IF NOT EXISTS `cmf_options` (
-  `option_id` bigint(20) unsigned NOT NULL,
-  `option_name` varchar(64) NOT NULL COMMENT '配置名',
-  `option_value` longtext NOT NULL COMMENT '配置值',
-  `autoload` int(2) NOT NULL DEFAULT '1' COMMENT '是否自动加载'
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='全站配置表';
-
---
--- 转存表中的数据 `cmf_options`
---
-
-INSERT INTO `cmf_options` (`option_id`, `option_name`, `option_value`, `autoload`) VALUES
-(1, 'member_email_active', '{"title":"ThinkCMF\\u90ae\\u4ef6\\u6fc0\\u6d3b\\u901a\\u77e5.","template":"<p>\\u672c\\u90ae\\u4ef6\\u6765\\u81ea<a href=\\"http:\\/\\/www.thinkcmf.com\\">ThinkCMF<\\/a><br\\/><br\\/>&nbsp; &nbsp;<strong>---------------<strong style=\\"white-space: normal;\\">---<\\/strong><\\/strong><br\\/>&nbsp; &nbsp;<strong>\\u5e10\\u53f7\\u6fc0\\u6d3b\\u8bf4\\u660e<\\/strong><br\\/>&nbsp; &nbsp;<strong>---------------<strong style=\\"white-space: normal;\\">---<\\/strong><\\/strong><br\\/><br\\/>&nbsp; &nbsp; \\u5c0a\\u656c\\u7684<span style=\\"FONT-SIZE: 16px; FONT-FAMILY: Arial; COLOR: rgb(51,51,51); LINE-HEIGHT: 18px; BACKGROUND-COLOR: rgb(255,255,255)\\">#username#\\uff0c\\u60a8\\u597d\\u3002<\\/span>\\u5982\\u679c\\u60a8\\u662fThinkCMF\\u7684\\u65b0\\u7528\\u6237\\uff0c\\u6216\\u5728\\u4fee\\u6539\\u60a8\\u7684\\u6ce8\\u518cEmail\\u65f6\\u4f7f\\u7528\\u4e86\\u672c\\u5730\\u5740\\uff0c\\u6211\\u4eec\\u9700\\u8981\\u5bf9\\u60a8\\u7684\\u5730\\u5740\\u6709\\u6548\\u6027\\u8fdb\\u884c\\u9a8c\\u8bc1\\u4ee5\\u907f\\u514d\\u5783\\u573e\\u90ae\\u4ef6\\u6216\\u5730\\u5740\\u88ab\\u6ee5\\u7528\\u3002<br\\/>&nbsp; &nbsp; \\u60a8\\u53ea\\u9700\\u70b9\\u51fb\\u4e0b\\u9762\\u7684\\u94fe\\u63a5\\u5373\\u53ef\\u6fc0\\u6d3b\\u60a8\\u7684\\u5e10\\u53f7\\uff1a<br\\/>&nbsp; &nbsp; <a title=\\"\\" href=\\"http:\\/\\/#link#\\" target=\\"_self\\">http:\\/\\/#link#<\\/a><br\\/>&nbsp; &nbsp; (\\u5982\\u679c\\u4e0a\\u9762\\u4e0d\\u662f\\u94fe\\u63a5\\u5f62\\u5f0f\\uff0c\\u8bf7\\u5c06\\u8be5\\u5730\\u5740\\u624b\\u5de5\\u7c98\\u8d34\\u5230\\u6d4f\\u89c8\\u5668\\u5730\\u5740\\u680f\\u518d\\u8bbf\\u95ee)<br\\/>&nbsp; &nbsp; \\u611f\\u8c22\\u60a8\\u7684\\u8bbf\\u95ee\\uff0c\\u795d\\u60a8\\u4f7f\\u7528\\u6109\\u5feb\\uff01<br\\/><br\\/>&nbsp; &nbsp; \\u6b64\\u81f4<br\\/>&nbsp; &nbsp; ThinkCMF \\u7ba1\\u7406\\u56e2\\u961f.<\\/p>"}', 1);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `cmf_plugins`
---
-
-CREATE TABLE IF NOT EXISTS `cmf_plugins` (
-  `id` int(11) unsigned NOT NULL COMMENT '自增id',
-  `name` varchar(50) NOT NULL COMMENT '插件名，英文',
-  `title` varchar(50) NOT NULL DEFAULT '' COMMENT '插件名称',
-  `description` text COMMENT '插件描述',
-  `type` tinyint(2) DEFAULT '0' COMMENT '插件类型, 1:网站；8;微信',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态；1开启；',
-  `config` text COMMENT '插件配置',
-  `hooks` varchar(255) DEFAULT NULL COMMENT '实现的钩子;以“，”分隔',
-  `has_admin` tinyint(2) DEFAULT '0' COMMENT '插件是否有后台管理界面',
-  `author` varchar(50) DEFAULT '' COMMENT '插件作者',
-  `version` varchar(20) DEFAULT '' COMMENT '插件版本号',
-  `createtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '插件安装时间',
-  `listorder` smallint(6) NOT NULL DEFAULT '0' COMMENT '排序'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='插件表';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `cmf_posts`
---
-
-CREATE TABLE IF NOT EXISTS `cmf_posts` (
+CREATE TABLE IF NOT EXISTS `cmf_option` (
   `id` bigint(20) unsigned NOT NULL,
-  `post_author` bigint(20) unsigned DEFAULT '0' COMMENT '发表者id',
-  `post_keywords` varchar(150) NOT NULL COMMENT 'seo keywords',
-  `post_source` varchar(150) DEFAULT NULL COMMENT '转载文章的来源',
-  `post_date` datetime DEFAULT '2000-01-01 00:00:00' COMMENT 'post发布日期',
-  `post_content` longtext COMMENT 'post内容',
-  `post_title` text COMMENT 'post标题',
-  `post_excerpt` text COMMENT 'post摘要',
-  `post_status` int(2) DEFAULT '1' COMMENT 'post状态，1已审核，0未审核,3删除',
-  `comment_status` int(2) DEFAULT '1' COMMENT '评论状态，1允许，0不允许',
-  `post_modified` datetime DEFAULT '2000-01-01 00:00:00' COMMENT 'post更新时间，可在前台修改，显示给用户',
-  `post_content_filtered` longtext,
-  `post_parent` bigint(20) unsigned DEFAULT '0' COMMENT 'post的父级post id,表示post层级关系',
-  `post_type` int(2) DEFAULT '1' COMMENT 'post类型，1文章,2页面',
-  `post_mime_type` varchar(100) DEFAULT '',
-  `comment_count` bigint(20) DEFAULT '0',
-  `smeta` text COMMENT 'post的扩展字段，保存相关扩展属性，如缩略图；格式为json',
-  `post_hits` int(11) DEFAULT '0' COMMENT 'post点击数，查看数',
-  `post_like` int(11) DEFAULT '0' COMMENT 'post赞数',
-  `istop` tinyint(1) NOT NULL DEFAULT '0' COMMENT '置顶 1置顶； 0不置顶',
-  `recommended` tinyint(1) NOT NULL DEFAULT '0' COMMENT '推荐 1推荐 0不推荐'
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='Portal文章表';
+  `autoload` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '是否自动加载;1:自动加载;0:不自动加载',
+  `option_name` varchar(64) NOT NULL DEFAULT '' COMMENT '配置名',
+  `option_value` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '配置值'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='全站配置表';
 
+--
+-- 表的结构 `cmf_plugin`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_plugin` (
+  `id` int(11) unsigned NOT NULL COMMENT '自增id',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '插件类型;1:网站;8:微信',
+  `has_admin` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '是否有后台管理,0:没有;1:有',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态;1:开启;0:禁用',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '插件安装时间',
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '插件标识名,英文字母(惟一)',
+  `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '插件名称',
+  `hooks` varchar(255) NOT NULL DEFAULT '' COMMENT '实现的钩子;以“,”分隔',
+  `author` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '插件作者',
+  `version` varchar(20) NOT NULL DEFAULT '' COMMENT '插件版本号',
+  `description` varchar(255) NOT NULL COMMENT '插件描述',
+  `config` text COMMENT '插件配置'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='插件表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `cmf_portal_category`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_portal_category` (
+  `id` bigint(20) unsigned NOT NULL COMMENT '分类id',
+  `parent_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '分类父id',
+  `post_count` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '分类文章数',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:发布,0:不发布',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
+  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '分类名称',
+  `description` varchar(255) NOT NULL COMMENT '分类描述',
+  `path` varchar(255) NOT NULL DEFAULT '' COMMENT '分类层级关系路径',
+  `seo_title` varchar(100) NOT NULL DEFAULT '',
+  `seo_keywords` varchar(255) NOT NULL DEFAULT '',
+  `seo_description` varchar(255) NOT NULL DEFAULT '',
+  `list_tpl` varchar(50) NOT NULL DEFAULT '' COMMENT '分类列表模板',
+  `one_tpl` varchar(50) NOT NULL DEFAULT '' COMMENT '分类文章页模板',
+  `more` text COMMENT '扩展属性'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='portal应用 文章分类表';
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `cmf_portal_category_post`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_portal_category_post` (
+  `id` bigint(20) unsigned NOT NULL,
+  `post_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '文章id',
+  `category_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '分类id',
+  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:发布;0:不发布'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='portal应用 分类文章对应表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `cmf_portal_post`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_portal_post` (
+  `id` bigint(20) unsigned NOT NULL,
+  `parent_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '父级id',
+  `post_type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '类型,1:文章;2:页面',
+  `post_format` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '内容格式;1:html;2:md',
+  `user_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '发表者用户id',
+  `post_status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态;1:已发布;0:未发布;',
+  `comment_status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '评论状态;1:允许;0:不允许',
+  `is_top` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '是否置顶;1:置顶;0:不置顶',
+  `recommended` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '是否推荐;1:推荐;0:不推荐',
+  `post_hits` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '查看数',
+  `post_like` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '点赞数',
+  `comment_count` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '评论数',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `published_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布时间',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `post_title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'post标题',
+  `post_keywords` varchar(150) NOT NULL DEFAULT '' COMMENT 'seo keywords',
+  `post_excerpt` varchar(500) NOT NULL COMMENT 'post摘要',
+  `post_source` varchar(150) NOT NULL DEFAULT '' COMMENT '转载文章的来源',
+  `post_content` text COMMENT '文章内容',
+  `post_content_filtered` text COMMENT '处理过的文章内容',
+  `more` text COMMENT '扩展属性,如缩略图;格式为json'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='portal应用 文章表';
+
+--
+-- 表的结构 `cmf_portal_tag`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_portal_tag` (
+  `id` bigint(20) unsigned NOT NULL COMMENT '分类id',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:发布,0:不发布',
+  `recommended` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '是否推荐;1:推荐;0:不推荐',
+  `post_count` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '标签文章数',
+  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '标签名称'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='portal应用 文章标签表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `cmf_portal_tag_post`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_portal_tag_post` (
+  `id` bigint(20) NOT NULL,
+  `tag_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '标签 id',
+  `post_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '文章 id',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:发布;0:不发布'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='portal应用 标签文章对应表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `cmf_recycle_bin`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_recycle_bin` (
+  `id` bigint(20) unsigned NOT NULL,
+  `object_id` int(11) DEFAULT '0' COMMENT '删除内容 id',
+  `create_time` int(10) unsigned DEFAULT '0' COMMENT '创建时间',
+  `table_name` varchar(60) DEFAULT '' COMMENT '删除内容所在表名',
+  `name` varchar(255) DEFAULT '' COMMENT '删除内容名称'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT=' 回收站';
+
+-- --------------------------------------------------------
 
 --
 -- 表的结构 `cmf_role`
 --
 
 CREATE TABLE IF NOT EXISTS `cmf_role` (
-  `id` int(11) unsigned NOT NULL,
-  `name` varchar(20) NOT NULL COMMENT '角色名称',
-  `pid` smallint(6) DEFAULT NULL COMMENT '父角色ID',
-  `status` tinyint(1) unsigned DEFAULT NULL COMMENT '状态',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `listorder` int(3) NOT NULL DEFAULT '0' COMMENT '排序字段'
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='角色表';
+  `id` int(10) unsigned NOT NULL,
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '父角色ID',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '状态;0:禁用;1:正常',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `list_order` float NOT NULL DEFAULT '0' COMMENT '排序',
+  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '角色名称',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 
 --
 -- 转存表中的数据 `cmf_role`
 --
 
-INSERT INTO `cmf_role` (`id`, `name`, `pid`, `status`, `remark`, `create_time`, `update_time`, `listorder`) VALUES
-(1, '超级管理员', 0, 1, '拥有网站最高管理员权限！', 1329633709, 1329633709, 0);
+INSERT INTO `cmf_role` (`id`, `parent_id`, `status`, `create_time`, `update_time`, `list_order`, `name`, `remark`) VALUES
+(1, 0, 1, 1329633709, 1329633709, 0, '超级管理员', '拥有网站最高管理员权限！'),
+(2, 0, 1, 1329633709, 1329633709, 0, '普通管理员', '权限由最高管理员分配！');
 
 -- --------------------------------------------------------
 
@@ -693,11 +734,10 @@ INSERT INTO `cmf_role` (`id`, `name`, `pid`, `status`, `remark`, `create_time`, 
 --
 
 CREATE TABLE IF NOT EXISTS `cmf_role_user` (
-  `role_id` int(11) unsigned DEFAULT '0' COMMENT '角色 id',
-  `user_id` int(11) DEFAULT '0' COMMENT '用户id'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户角色对应表';
-
--- --------------------------------------------------------
+  `id` bigint(20) unsigned NOT NULL,
+  `role_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '角色 id',
+  `user_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '用户id'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户角色对应表';
 
 --
 -- 表的结构 `cmf_route`
@@ -705,11 +745,11 @@ CREATE TABLE IF NOT EXISTS `cmf_role_user` (
 
 CREATE TABLE IF NOT EXISTS `cmf_route` (
   `id` int(11) NOT NULL COMMENT '路由id',
-  `full_url` varchar(255) DEFAULT NULL COMMENT '完整url， 如：portal/list/index?id=1',
-  `url` varchar(255) DEFAULT NULL COMMENT '实际显示的url',
-  `listorder` int(5) DEFAULT '0' COMMENT '排序，优先级，越小优先级越高',
-  `status` tinyint(1) DEFAULT '1' COMMENT '状态，1：启用 ;0：不启用'
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='url路由表';
+  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
+  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态;1:启用,0:不启用',
+  `full_url` varchar(255) NOT NULL DEFAULT '' COMMENT '完整url',
+  `url` varchar(255) NOT NULL DEFAULT '' COMMENT '实际显示的url'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='url路由表';
 
 -- --------------------------------------------------------
 
@@ -718,139 +758,231 @@ CREATE TABLE IF NOT EXISTS `cmf_route` (
 --
 
 CREATE TABLE IF NOT EXISTS `cmf_slide` (
-  `slide_id` bigint(20) unsigned NOT NULL,
-  `slide_cid` int(11) NOT NULL COMMENT '幻灯片分类 id',
-  `slide_name` varchar(255) NOT NULL COMMENT '幻灯片名称',
-  `slide_pic` varchar(255) DEFAULT NULL COMMENT '幻灯片图片',
-  `slide_url` varchar(255) DEFAULT NULL COMMENT '幻灯片链接',
-  `slide_des` varchar(255) DEFAULT NULL COMMENT '幻灯片描述',
-  `slide_content` text COMMENT '幻灯片内容',
-  `slide_status` int(2) NOT NULL DEFAULT '1' COMMENT '状态，1显示，0不显示',
-  `listorder` int(10) DEFAULT '0' COMMENT '排序'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='幻灯片表';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `cmf_slide_cat`
---
-
-CREATE TABLE IF NOT EXISTS `cmf_slide_cat` (
-  `cid` int(11) NOT NULL,
-  `cat_name` varchar(255) NOT NULL COMMENT '幻灯片分类',
-  `cat_idname` varchar(255) NOT NULL COMMENT '幻灯片分类标识',
-  `cat_remark` text COMMENT '分类备注',
-  `cat_status` int(2) NOT NULL DEFAULT '1' COMMENT '状态，1显示，0不显示'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='幻灯片分类表';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `cmf_terms`
---
-
-CREATE TABLE IF NOT EXISTS `cmf_terms` (
-  `term_id` bigint(20) unsigned NOT NULL COMMENT '分类id',
-  `name` varchar(200) DEFAULT NULL COMMENT '分类名称',
-  `slug` varchar(200) DEFAULT '',
-  `taxonomy` varchar(32) DEFAULT NULL COMMENT '分类类型',
-  `description` longtext COMMENT '分类描述',
-  `parent` bigint(20) unsigned DEFAULT '0' COMMENT '分类父id',
-  `count` bigint(20) DEFAULT '0' COMMENT '分类文章数',
-  `path` varchar(500) DEFAULT NULL COMMENT '分类层级关系路径',
-  `seo_title` varchar(500) DEFAULT NULL,
-  `seo_keywords` varchar(500) DEFAULT NULL,
-  `seo_description` varchar(500) DEFAULT NULL,
-  `list_tpl` varchar(50) DEFAULT NULL COMMENT '分类列表模板',
-  `one_tpl` varchar(50) DEFAULT NULL COMMENT '分类文章页模板',
-  `listorder` int(5) NOT NULL DEFAULT '0' COMMENT '排序',
-  `status` int(2) NOT NULL DEFAULT '1' COMMENT '状态，1发布，0不发布'
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Portal 文章分类表';
-
---
--- 转存表中的数据 `cmf_terms`
---
-
-INSERT INTO `cmf_terms` (`term_id`, `name`, `slug`, `taxonomy`, `description`, `parent`, `count`, `path`, `seo_title`, `seo_keywords`, `seo_description`, `list_tpl`, `one_tpl`, `listorder`, `status`) VALUES
-(1, '列表演示', '', 'article', '', 0, 0, '0-1', '', '', '', 'list', 'article', 0, 1),
-(2, '瀑布流', '', 'article', '', 0, 0, '0-2', '', '', '', 'list_masonry', 'article', 0, 1);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `cmf_term_relationships`
---
-
-CREATE TABLE IF NOT EXISTS `cmf_term_relationships` (
-  `tid` bigint(20) NOT NULL,
-  `object_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'posts表里文章id',
-  `term_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '分类id',
-  `listorder` int(10) NOT NULL DEFAULT '0' COMMENT '排序',
-  `status` int(2) NOT NULL DEFAULT '1' COMMENT '状态，1发布，0不发布'
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COMMENT='Portal 文章分类对应表';
-
---
--- 表的结构 `cmf_users`
---
-
-CREATE TABLE IF NOT EXISTS `cmf_users` (
-  `id` bigint(20) unsigned NOT NULL,
-  `user_login` varchar(60) NOT NULL DEFAULT '' COMMENT '用户名',
-  `user_pass` varchar(64) NOT NULL DEFAULT '' COMMENT '登录密码；sp_password加密',
-  `user_nicename` varchar(50) NOT NULL DEFAULT '' COMMENT '用户美名',
-  `user_email` varchar(100) NOT NULL DEFAULT '' COMMENT '登录邮箱',
-  `user_url` varchar(100) NOT NULL DEFAULT '' COMMENT '用户个人网站',
-  `avatar` varchar(255) DEFAULT NULL COMMENT '用户头像，相对于upload/avatar目录',
-  `sex` smallint(1) DEFAULT '0' COMMENT '性别；0：保密，1：男；2：女',
-  `birthday` date DEFAULT '2000-01-01' COMMENT '生日',
-  `signature` varchar(255) DEFAULT NULL COMMENT '个性签名',
-  `last_login_ip` varchar(16) DEFAULT NULL COMMENT '最后登录ip',
-  `last_login_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '最后登录时间',
-  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '注册时间',
-  `user_activation_key` varchar(60) NOT NULL DEFAULT '' COMMENT '激活码',
-  `user_status` int(11) NOT NULL DEFAULT '1' COMMENT '用户状态 0：禁用； 1：正常 ；2：未验证',
-  `score` int(11) NOT NULL DEFAULT '0' COMMENT '用户积分',
-  `user_type` smallint(1) DEFAULT '1' COMMENT '用户类型，1:admin ;2:会员',
-  `coin` int(11) NOT NULL DEFAULT '0' COMMENT '金币',
-  `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '手机号'
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户表';
-
---
--- 表的结构 `cmf_user_favorites`
---
-
-CREATE TABLE IF NOT EXISTS `cmf_user_favorites` (
   `id` int(11) NOT NULL,
-  `uid` bigint(20) DEFAULT NULL COMMENT '用户 id',
-  `title` varchar(255) DEFAULT NULL COMMENT '收藏内容的标题',
-  `url` varchar(255) DEFAULT NULL COMMENT '收藏内容的原文地址，不带域名',
-  `description` varchar(500) DEFAULT NULL COMMENT '收藏内容的描述',
-  `table` varchar(50) DEFAULT NULL COMMENT '收藏实体以前所在表，不带前缀',
-  `object_id` int(11) DEFAULT NULL COMMENT '收藏内容原来的主键id',
-  `createtime` int(11) DEFAULT NULL COMMENT '收藏时间'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户收藏表';
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:显示,0不显示',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `name` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '幻灯片分类',
+  `remark` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '分类备注'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='幻灯片表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `cmf_slide_item`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_slide_item` (
+  `id` int(10) unsigned NOT NULL,
+  `slide_id` int(11) NOT NULL DEFAULT '0' COMMENT '幻灯片id',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:显示;0:隐藏',
+  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
+  `title` varchar(50) NOT NULL DEFAULT '' COMMENT '幻灯片名称',
+  `image` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '幻灯片图片',
+  `url` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '幻灯片链接',
+  `target` varchar(10) NOT NULL DEFAULT '' COMMENT '友情链接打开方式',
+  `description` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '幻灯片描述',
+  `content` text CHARACTER SET utf8 COMMENT '幻灯片内容',
+  `more` text COMMENT '链接打开方式'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='幻灯片子项表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `cmf_theme`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_theme` (
+  `id` int(11) NOT NULL,
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '安装时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后升级时间',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '模板状态,1:正在使用;0:未使用',
+  `is_compiled` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '是否为已编译模板',
+  `theme` varchar(20) NOT NULL DEFAULT '' COMMENT '主题目录名，用于主题的维一标识',
+  `name` varchar(20) NOT NULL DEFAULT '' COMMENT '主题名称',
+  `version` varchar(20) NOT NULL DEFAULT '' COMMENT '主题版本号',
+  `demo_url` varchar(50) NOT NULL DEFAULT '' COMMENT '演示地址，带协议',
+  `thumbnail` varchar(100) NOT NULL DEFAULT '' COMMENT '缩略图',
+  `author` varchar(20) NOT NULL DEFAULT '' COMMENT '主题作者',
+  `author_url` varchar(50) NOT NULL DEFAULT '' COMMENT '作者网站链接',
+  `lang` varchar(10) NOT NULL DEFAULT '' COMMENT '支持语言',
+  `keywords` varchar(50) NOT NULL DEFAULT '' COMMENT '主题关键字',
+  `description` varchar(100) NOT NULL DEFAULT '' COMMENT '主题描述'
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `cmf_theme_file`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_theme_file` (
+  `id` int(11) NOT NULL,
+  `is_public` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否公共的模板文件',
+  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
+  `theme` varchar(20) NOT NULL DEFAULT '' COMMENT '模板名称',
+  `name` varchar(20) NOT NULL DEFAULT '' COMMENT '模板文件名',
+  `action` varchar(50) NOT NULL DEFAULT '' COMMENT '操作',
+  `file` varchar(50) NOT NULL DEFAULT '' COMMENT '模板文件，相对于模板根目录，如Portal/index.html',
+  `description` varchar(100) NOT NULL DEFAULT '' COMMENT '模板文件描述',
+  `more` text COMMENT '模板更多配置,用户自己后台设置的',
+  `config_more` text COMMENT '模板更多配置,来源模板的配置文件',
+  `draft_more` text COMMENT '模板更多配置,用户临时保存的配置'
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `cmf_third_party_user`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_third_party_user` (
+  `id` bigint(20) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '本站用户id',
+  `last_login_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后登录时间',
+  `expire_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'access_token过期时间',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '绑定时间',
+  `login_times` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录次数',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态;1:正常;0:禁用',
+  `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '用户昵称',
+  `third_party` varchar(20) NOT NULL DEFAULT '' COMMENT '第三方惟一码',
+  `app_id` varchar(64) NOT NULL DEFAULT '' COMMENT '第三方应用 id',
+  `last_login_ip` varchar(15) NOT NULL DEFAULT '' COMMENT '最后登录ip',
+  `access_token` varchar(512) NOT NULL DEFAULT '' COMMENT '第三方授权码',
+  `openid` varchar(40) NOT NULL DEFAULT '' COMMENT '第三方用户id',
+  `union_id` varchar(64) NOT NULL DEFAULT '' COMMENT '第三方用户多个产品中的惟一 id,(如:微信平台)',
+  `more` text COMMENT '扩展信息'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='第三方用户表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `cmf_user`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_user` (
+  `id` bigint(20) unsigned NOT NULL,
+  `user_type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '用户类型;1:admin;2:会员',
+  `sex` tinyint(2) NOT NULL DEFAULT '0' COMMENT '性别;0:保密,1:男,2:女',
+  `birthday` int(11) NOT NULL DEFAULT '0' COMMENT '生日',
+  `last_login_time` int(11) NOT NULL DEFAULT '0' COMMENT '最后登录时间',
+  `score` int(11) NOT NULL DEFAULT '0' COMMENT '用户积分',
+  `coin` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '金币',
+  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '注册时间',
+  `user_status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '用户状态;0:禁用,1:正常,2:未验证',
+  `user_login` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '用户名',
+  `user_pass` varchar(64) NOT NULL DEFAULT '' COMMENT '登录密码;cmf_password加密',
+  `user_nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '用户昵称',
+  `user_email` varchar(100) NOT NULL DEFAULT '' COMMENT '用户登录邮箱',
+  `user_url` varchar(100) NOT NULL DEFAULT '' COMMENT '用户个人网址',
+  `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '用户头像',
+  `signature` varchar(255) NOT NULL DEFAULT '' COMMENT '个性签名',
+  `last_login_ip` varchar(15) NOT NULL DEFAULT '' COMMENT '最后登录ip',
+  `user_activation_key` varchar(60) NOT NULL DEFAULT '' COMMENT '激活码',
+  `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '用户手机号'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `cmf_user_action_log`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_user_action_log` (
+  `id` bigint(20) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '访问次数',
+  `last_visit_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后访问时间',
+  `object` varchar(100) NOT NULL DEFAULT '' COMMENT '访问对象的id,格式:不带前缀的表名+id;如posts1表示xx_posts表里id为1的记录',
+  `action` varchar(50) NOT NULL DEFAULT '' COMMENT '操作名称;格式:应用名+控制器+操作名,也可自己定义格式只要不发生冲突且惟一;',
+  `ip` varchar(15) NOT NULL DEFAULT '' COMMENT '用户ip'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='访问记录表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `cmf_user_favorite`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_user_favorite` (
+  `id` bigint(20) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '用户 id',
+  `title` varchar(100) NOT NULL DEFAULT '' COMMENT '收藏内容的标题',
+  `url` varchar(255) CHARACTER SET utf8 DEFAULT '' COMMENT '收藏内容的原文地址，不带域名',
+  `description` varchar(500) CHARACTER SET utf8 DEFAULT '' COMMENT '收藏内容的描述',
+  `table_name` varchar(64) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '收藏实体以前所在表,不带前缀',
+  `object_id` int(10) unsigned DEFAULT '0' COMMENT '收藏内容原来的主键id',
+  `create_time` int(10) unsigned DEFAULT '0' COMMENT '收藏时间'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='用户收藏表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `cmf_user_login_attempt`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_user_login_attempt` (
+  `id` bigint(20) unsigned NOT NULL,
+  `login_attempts` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '尝试次数',
+  `attempt_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '尝试登录时间',
+  `locked_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '锁定时间',
+  `ip` varchar(15) NOT NULL DEFAULT '' COMMENT '用户 ip',
+  `account` varchar(100) NOT NULL DEFAULT '' COMMENT '用户账号,手机号,邮箱或用户名'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='用户登录尝试表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `cmf_user_token`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_user_token` (
+  `id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户id',
+  `expire_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT ' 过期时间',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `token` varchar(64) NOT NULL DEFAULT '' COMMENT 'token',
+  `device_type` varchar(10) NOT NULL DEFAULT '' COMMENT '设备类型;mobile,android,iphone,ipad,web,pc,mac,wxapp'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='用户客户端登录 token 表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `cmf_verification_code`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_verification_code` (
+  `id` bigint(20) unsigned NOT NULL COMMENT '表id',
+  `count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '当天已经发送成功的次数',
+  `send_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后发送成功时间',
+  `expire_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '验证码过期时间',
+  `code` varchar(8) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '最后发送成功的验证码',
+  `account` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '手机号或者邮箱'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='手机邮箱数字验证码表';
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `cmf_ad`
+-- Indexes for table `cmf_admin_menu`
 --
-ALTER TABLE `cmf_ad`
-  ADD PRIMARY KEY (`ad_id`),
-  ADD KEY `ad_name` (`ad_name`);
+ALTER TABLE `cmf_admin_menu`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `status` (`status`),
+  ADD KEY `parentid` (`parent_id`),
+  ADD KEY `model` (`controller`);
 
 --
 -- Indexes for table `cmf_asset`
 --
 ALTER TABLE `cmf_asset`
-  ADD PRIMARY KEY (`aid`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `cmf_auth_access`
 --
 ALTER TABLE `cmf_auth_access`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `role_id` (`role_id`),
   ADD KEY `rule_name` (`rule_name`) USING BTREE;
 
@@ -859,48 +991,38 @@ ALTER TABLE `cmf_auth_access`
 --
 ALTER TABLE `cmf_auth_rule`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `module` (`module`,`status`,`type`);
+  ADD UNIQUE KEY `name` (`name`) USING BTREE,
+  ADD KEY `module` (`app`,`status`,`type`);
 
 --
--- Indexes for table `cmf_comments`
+-- Indexes for table `cmf_comment`
 --
-ALTER TABLE `cmf_comments`
+ALTER TABLE `cmf_comment`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `comment_post_ID` (`post_id`),
+  ADD KEY `comment_post_ID` (`object_id`),
   ADD KEY `comment_approved_date_gmt` (`status`),
-  ADD KEY `comment_parent` (`parentid`),
-  ADD KEY `table_id_status` (`post_table`,`post_id`,`status`),
-  ADD KEY `createtime` (`createtime`);
+  ADD KEY `comment_parent` (`parent_id`),
+  ADD KEY `table_id_status` (`table_name`,`object_id`,`status`),
+  ADD KEY `createtime` (`create_time`);
 
 --
--- Indexes for table `cmf_common_action_log`
+-- Indexes for table `cmf_hook`
 --
-ALTER TABLE `cmf_common_action_log`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_object_action` (`user`,`object`,`action`),
-  ADD KEY `user_object_action_ip` (`user`,`object`,`action`,`ip`);
-
---
--- Indexes for table `cmf_guestbook`
---
-ALTER TABLE `cmf_guestbook`
+ALTER TABLE `cmf_hook`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `cmf_links`
+-- Indexes for table `cmf_hook_plugin`
 --
-ALTER TABLE `cmf_links`
-  ADD PRIMARY KEY (`link_id`),
-  ADD KEY `link_visible` (`link_status`);
+ALTER TABLE `cmf_hook_plugin`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `cmf_menu`
+-- Indexes for table `cmf_link`
 --
-ALTER TABLE `cmf_menu`
+ALTER TABLE `cmf_link`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `status` (`status`),
-  ADD KEY `parentid` (`parentid`),
-  ADD KEY `model` (`model`);
+  ADD KEY `link_visible` (`status`);
 
 --
 -- Indexes for table `cmf_nav`
@@ -909,52 +1031,79 @@ ALTER TABLE `cmf_nav`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `cmf_nav_cat`
+-- Indexes for table `cmf_nav_menu`
 --
-ALTER TABLE `cmf_nav_cat`
-  ADD PRIMARY KEY (`navcid`);
-
---
--- Indexes for table `cmf_oauth_user`
---
-ALTER TABLE `cmf_oauth_user`
+ALTER TABLE `cmf_nav_menu`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `cmf_options`
+-- Indexes for table `cmf_option`
 --
-ALTER TABLE `cmf_options`
-  ADD PRIMARY KEY (`option_id`),
+ALTER TABLE `cmf_option`
+  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `option_name` (`option_name`);
 
 --
--- Indexes for table `cmf_plugins`
+-- Indexes for table `cmf_plugin`
 --
-ALTER TABLE `cmf_plugins`
+ALTER TABLE `cmf_plugin`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `cmf_posts`
+-- Indexes for table `cmf_portal_category`
 --
-ALTER TABLE `cmf_posts`
+ALTER TABLE `cmf_portal_category`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cmf_portal_category_post`
+--
+ALTER TABLE `cmf_portal_category_post`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `type_status_date` (`post_type`,`post_status`,`post_date`,`id`),
-  ADD KEY `post_parent` (`post_parent`),
-  ADD KEY `post_author` (`post_author`),
-  ADD KEY `post_date` (`post_date`) USING BTREE;
+  ADD KEY `term_taxonomy_id` (`category_id`);
+
+--
+-- Indexes for table `cmf_portal_post`
+--
+ALTER TABLE `cmf_portal_post`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `type_status_date` (`post_type`,`post_status`,`create_time`,`id`),
+  ADD KEY `post_parent` (`parent_id`),
+  ADD KEY `post_author` (`user_id`),
+  ADD KEY `post_date` (`create_time`) USING BTREE;
+
+--
+-- Indexes for table `cmf_portal_tag`
+--
+ALTER TABLE `cmf_portal_tag`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cmf_portal_tag_post`
+--
+ALTER TABLE `cmf_portal_tag_post`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `term_taxonomy_id` (`post_id`);
+
+--
+-- Indexes for table `cmf_recycle_bin`
+--
+ALTER TABLE `cmf_recycle_bin`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `cmf_role`
 --
 ALTER TABLE `cmf_role`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `parentId` (`pid`),
+  ADD KEY `parentId` (`parent_id`),
   ADD KEY `status` (`status`);
 
 --
 -- Indexes for table `cmf_role_user`
 --
 ALTER TABLE `cmf_role_user`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `group_id` (`role_id`),
   ADD KEY `user_id` (`user_id`);
 
@@ -968,155 +1117,237 @@ ALTER TABLE `cmf_route`
 -- Indexes for table `cmf_slide`
 --
 ALTER TABLE `cmf_slide`
-  ADD PRIMARY KEY (`slide_id`),
-  ADD KEY `slide_cid` (`slide_cid`);
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `cmf_slide_cat`
+-- Indexes for table `cmf_slide_item`
 --
-ALTER TABLE `cmf_slide_cat`
-  ADD PRIMARY KEY (`cid`),
-  ADD KEY `cat_idname` (`cat_idname`);
+ALTER TABLE `cmf_slide_item`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `slide_cid` (`slide_id`);
 
 --
--- Indexes for table `cmf_terms`
+-- Indexes for table `cmf_theme`
 --
-ALTER TABLE `cmf_terms`
-  ADD PRIMARY KEY (`term_id`);
+ALTER TABLE `cmf_theme`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `cmf_term_relationships`
+-- Indexes for table `cmf_theme_file`
 --
-ALTER TABLE `cmf_term_relationships`
-  ADD PRIMARY KEY (`tid`),
-  ADD KEY `term_taxonomy_id` (`term_id`);
+ALTER TABLE `cmf_theme_file`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `cmf_users`
+-- Indexes for table `cmf_third_party_user`
 --
-ALTER TABLE `cmf_users`
+ALTER TABLE `cmf_third_party_user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cmf_user`
+--
+ALTER TABLE `cmf_user`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_login_key` (`user_login`),
-  ADD KEY `user_nicename` (`user_nicename`);
+  ADD KEY `user_nicename` (`user_nickname`);
 
 --
--- Indexes for table `cmf_user_favorites`
+-- Indexes for table `cmf_user_action_log`
 --
-ALTER TABLE `cmf_user_favorites`
+ALTER TABLE `cmf_user_action_log`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `uid` (`uid`);
+  ADD KEY `user_object_action` (`user_id`,`object`,`action`),
+  ADD KEY `user_object_action_ip` (`user_id`,`object`,`action`,`ip`);
+
+--
+-- Indexes for table `cmf_user_favorite`
+--
+ALTER TABLE `cmf_user_favorite`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `uid` (`user_id`);
+
+--
+-- Indexes for table `cmf_user_login_attempt`
+--
+ALTER TABLE `cmf_user_login_attempt`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cmf_user_token`
+--
+ALTER TABLE `cmf_user_token`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cmf_verification_code`
+--
+ALTER TABLE `cmf_verification_code`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `cmf_ad`
+-- AUTO_INCREMENT for table `cmf_admin_menu`
 --
-ALTER TABLE `cmf_ad`
-  MODIFY `ad_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '广告id';
+ALTER TABLE `cmf_admin_menu`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=154;
 --
 -- AUTO_INCREMENT for table `cmf_asset`
 --
 ALTER TABLE `cmf_asset`
-  MODIFY `aid` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `cmf_auth_access`
+--
+ALTER TABLE `cmf_auth_access`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `cmf_auth_rule`
 --
 ALTER TABLE `cmf_auth_rule`
-  MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT '规则id,自增主键',AUTO_INCREMENT=1;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '规则id,自增主键',AUTO_INCREMENT=154;
 --
--- AUTO_INCREMENT for table `cmf_comments`
+-- AUTO_INCREMENT for table `cmf_comment`
 --
-ALTER TABLE `cmf_comments`
+ALTER TABLE `cmf_comment`
   MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `cmf_common_action_log`
+-- AUTO_INCREMENT for table `cmf_hook`
 --
-ALTER TABLE `cmf_common_action_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `cmf_hook`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
 --
--- AUTO_INCREMENT for table `cmf_guestbook`
+-- AUTO_INCREMENT for table `cmf_hook_plugin`
 --
-ALTER TABLE `cmf_guestbook`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `cmf_hook_plugin`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
--- AUTO_INCREMENT for table `cmf_links`
+-- AUTO_INCREMENT for table `cmf_link`
 --
-ALTER TABLE `cmf_links`
-  MODIFY `link_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `cmf_menu`
---
-ALTER TABLE `cmf_menu`
-  MODIFY `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=187;
+ALTER TABLE `cmf_link`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `cmf_nav`
 --
 ALTER TABLE `cmf_nav`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `cmf_nav_cat`
+-- AUTO_INCREMENT for table `cmf_nav_menu`
 --
-ALTER TABLE `cmf_nav_cat`
-  MODIFY `navcid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+ALTER TABLE `cmf_nav_menu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
--- AUTO_INCREMENT for table `cmf_oauth_user`
+-- AUTO_INCREMENT for table `cmf_option`
 --
-ALTER TABLE `cmf_oauth_user`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `cmf_option`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
--- AUTO_INCREMENT for table `cmf_options`
+-- AUTO_INCREMENT for table `cmf_plugin`
 --
-ALTER TABLE `cmf_options`
-  MODIFY `option_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+ALTER TABLE `cmf_plugin`
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',AUTO_INCREMENT=14;
 --
--- AUTO_INCREMENT for table `cmf_plugins`
+-- AUTO_INCREMENT for table `cmf_portal_category`
 --
-ALTER TABLE `cmf_plugins`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id';
+ALTER TABLE `cmf_portal_category`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '分类id',AUTO_INCREMENT=8;
 --
--- AUTO_INCREMENT for table `cmf_posts`
+-- AUTO_INCREMENT for table `cmf_portal_category_post`
 --
-ALTER TABLE `cmf_posts`
-  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+ALTER TABLE `cmf_portal_category_post`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=117;
+--
+-- AUTO_INCREMENT for table `cmf_portal_post`
+--
+ALTER TABLE `cmf_portal_post`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
+--
+-- AUTO_INCREMENT for table `cmf_portal_tag`
+--
+ALTER TABLE `cmf_portal_tag`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '分类id',AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `cmf_portal_tag_post`
+--
+ALTER TABLE `cmf_portal_tag_post`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `cmf_recycle_bin`
+--
+ALTER TABLE `cmf_recycle_bin`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `cmf_role`
 --
 ALTER TABLE `cmf_role`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `cmf_role_user`
+--
+ALTER TABLE `cmf_role_user`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `cmf_route`
 --
 ALTER TABLE `cmf_route`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '路由id',AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '路由id',AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `cmf_slide`
 --
 ALTER TABLE `cmf_slide`
-  MODIFY `slide_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `cmf_slide_cat`
---
-ALTER TABLE `cmf_slide_cat`
-  MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `cmf_terms`
---
-ALTER TABLE `cmf_terms`
-  MODIFY `term_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '分类id',AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `cmf_term_relationships`
---
-ALTER TABLE `cmf_term_relationships`
-  MODIFY `tid` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
---
--- AUTO_INCREMENT for table `cmf_users`
---
-ALTER TABLE `cmf_users`
-  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
---
--- AUTO_INCREMENT for table `cmf_user_favorites`
---
-ALTER TABLE `cmf_user_favorites`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `cmf_slide_item`
+--
+ALTER TABLE `cmf_slide_item`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `cmf_theme`
+--
+ALTER TABLE `cmf_theme`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
+--
+-- AUTO_INCREMENT for table `cmf_theme_file`
+--
+ALTER TABLE `cmf_theme_file`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=105;
+--
+-- AUTO_INCREMENT for table `cmf_third_party_user`
+--
+ALTER TABLE `cmf_third_party_user`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `cmf_user`
+--
+ALTER TABLE `cmf_user`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT for table `cmf_user_action_log`
+--
+ALTER TABLE `cmf_user_action_log`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `cmf_user_favorite`
+--
+ALTER TABLE `cmf_user_favorite`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `cmf_user_login_attempt`
+--
+ALTER TABLE `cmf_user_login_attempt`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `cmf_user_token`
+--
+ALTER TABLE `cmf_user_token`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `cmf_verification_code`
+--
+ALTER TABLE `cmf_verification_code`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '表id',AUTO_INCREMENT=9;
+
+ALTER TABLE `cmf_route` ADD `type` TINYINT NOT NULL DEFAULT '1' COMMENT 'URL规则类型;1:用户自定义;2:别名添加' AFTER `status`;

@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace app\portal\model;
 
+use app\admin\model\RouteModel;
 use think\Model;
 use think\Db;
 
@@ -140,7 +141,6 @@ class PortalPostModel extends Model
                 $transStatus = false;
                 try {
                     Db::name('portal_post')->where(['id' => $id])->update([
-                        'post_status' => 3,
                         'delete_time' => time()
                     ]);
                     Db::name('recycle_bin')->insert($recycleData);
@@ -183,7 +183,6 @@ class PortalPostModel extends Model
                 try {
                     Db::name('portal_post')->where(['id' => ['in', $ids]])
                         ->update([
-                            'post_status' => 3,
                             'delete_time' => time()
                         ]);
 
@@ -255,6 +254,10 @@ class PortalPostModel extends Model
         $data['post_type']   = 2;
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
 
+        $routeModel = new RouteModel();
+        $routeModel->setRoute($data['post_alias'], 'portal/Page/index', ['id' => $data['id']], 2, 5000);
+
+        $routeModel->getRoutes(true);
         return $this;
     }
 

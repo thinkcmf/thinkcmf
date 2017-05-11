@@ -1,0 +1,89 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('route/index')}">URL美化</a></li>
+        <li><a href="{:url('route/add')}">添加URL规则</a></li>
+    </ul>
+    <form class="js-ajax-form" action="{:url('route/listOrder')}" method="post">
+        <div class="table-actions">
+            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">排序</button>
+        </div>
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th width="50">排序</th>
+                <th width="50">ID</th>
+                <th>原始网址</th>
+                <th>显示网址</th>
+                <th>类型</th>
+                <th>状态</th>
+                <th width="130">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <php>
+                $statuses=array('0'=>"已禁用","1"=>"已启用");
+                $types=array('1'=>"自定义","2"=>"别名定义");
+            </php>
+            <foreach name="routes" item="vo">
+                <tr>
+                    <td>
+                        <eq name="vo.type" value="2">
+                            <input class="input-order" type="text" value="{$vo.list_order}" readonly>
+                            <else/>
+                            <input name="list_orders[{$vo.id}]" class="input-order" type="text"
+                                   value="{$vo.list_order}">
+                        </eq>
+
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.full_url}</td>
+                    <td>{$vo.url}</td>
+                    <td>
+                        <eq name="vo.type" value="2">
+                            <span class="label label-danger" data-toggle="tooltip" title="别名定义规则,无法编辑,排序">{$types[$vo['type']]}</span>
+                            <else/>
+                            <span class="label label-success" data-toggle="tooltip" title="自定义规则,可以编辑,排序">{$types[$vo['type']]}</span>
+                        </eq>
+                    </td>
+                    <td>{$statuses[$vo['status']]}</td>
+                    <td>
+                        <eq name="vo.type" value="2">
+                            编辑 | 禁用 | 启用
+                            <else/>
+                            <a href="{:url('route/edit',array('id'=>$vo['id']))}">编辑</a> |
+                            <eq name="vo.status" value="1">
+                                <a href="{:url('route/ban',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn"
+                                   data-msg="确定禁用吗？">禁用</a> |
+                                <else/>
+                                <a href="{:url('route/open',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn"
+                                   data-msg="确定启用吗？">启用</a> |
+                            </eq>
+                            <a href="{:url('route/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">删除</a>
+                        </eq>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th width="50">排序</th>
+                <th width="50">ID</th>
+                <th>原始网址</th>
+                <th>显示网址</th>
+                <th>类型</th>
+                <th>状态</th>
+                <th width="130">操作</th>
+            </tr>
+            </tfoot>
+        </table>
+        <div class="table-actions">
+            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">排序</button>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

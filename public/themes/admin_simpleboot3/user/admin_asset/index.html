@@ -26,7 +26,7 @@
                 <td>{$vo.file_size/1024|round}KB</td>
                 <td>{$vo.filename}</td>
                 <td>
-                    <a href="javascript:image_preview_dialog('{:cmf_get_image_preview_url($vo['file_path'])}');">
+                    <a href="javascript:parent.image_preview_dialog('{:cmf_get_image_preview_url($vo['file_path'])}');">
                         <i class="fa fa-photo fa-fw"></i>
                     </a>
                 </td>

@@ -76,6 +76,20 @@
                             </div>
                         </td>
                     </tr>
+                    <tr>
+                        <td class="text-left">数据库编码：</td>
+                        <td>
+                            <select type="text" name="dbcharset" id="dbcharset" value="" class="input">
+                                <option value="utf8mb4">utf8mb4</option>
+                                <option value="utf8">utf8</option>
+                            </select>
+                        </td>
+                        <td>
+                            <div id="js-install-tip-dbcharset">
+                                <span class="gray">如果您的服务器是虚拟空间不支持uft8mb4,请选择 utf8</span>
+                            </div>
+                        </td>
+                    </tr>
                 </table>
                 <table width="100%">
                     <tr>
@@ -207,6 +221,7 @@
                 dbpw: '',
                 dbname: '',
                 dbprefix: '建议使用默认，同一数据库安装多个ThinkCMF时需修改',
+                dbcharset: '如果您的服务器是虚拟空间不支持uft8mb4,请选择 utf8',
                 manager: '创始人帐号，拥有站点后台所有管理权限',
                 manager_pwd: '',
                 manager_ckpwd: '',

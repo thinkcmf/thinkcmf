@@ -131,20 +131,20 @@
                     <div class="tc-gridbox">
                         <div class="header">
                             <div class="item-image">
-                                <a href="{:url('article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">
                                     <img src="__TMPL__/public/assets/images/default_tupian1.png"
                                          class="img-responsive"
                                          alt="dd">
                                 </a>
                             </div>
                             <h3>
-                                <a href="{:url('article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">{$vo.post_title}</a>
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">{$vo.post_title}</a>
                             </h3>
                             <hr>
                         </div>
                         <div class="body">
                             <p>
-                                <a href="{:url('article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">...</a>
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">...</a>
                             </p>
                         </div>
                     </div>

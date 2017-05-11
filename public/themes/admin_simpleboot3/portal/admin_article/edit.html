@@ -8,7 +8,7 @@
     <li id="saved-image{id}">
         <input id="photo-{id}" type="hidden" name="photo_urls[]" value="{filepath}">
         <input class="form-control" id="photo-{id}-name" type="text" name="photo_names[]" value="{name}"
-               style="width: 160px;" title="图片名称">
+               style="width: 200px;" title="图片名称">
         <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
              onclick="image_preview_dialog(this.src);">
         <a href="javascript:upload_one_image('图片上传','#photo-{id}');">替换</a>
@@ -19,7 +19,7 @@
     <li id="saved-file{id}">
         <input id="file-{id}" type="hidden" name="file_urls[]" value="{filepath}">
         <input class="form-control" id="file-{id}-name" type="text" name="file_names[]" value="{name}"
-               style="width: 200px;" title="图片名称">
+               style="width: 200px;" title="文件名称">
         <a id="file-{id}-preview" href="{preview_url}" target="_blank">下载</a>
         <a href="javascript:upload_one('图片上传','#file-{id}');">替换</a>
         <a href="javascript:$('#saved-file{id}').remove();">移除</a>
@@ -261,7 +261,7 @@
         }
 
         $('.btn-cancel-thumbnail').click(function () {
-            $('#thumbnail-preview').attr('src', '__TMPL__Public/assets/images/default-thumbnail.png');
+            $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
             $('#thumbnail').val('');
         });
 

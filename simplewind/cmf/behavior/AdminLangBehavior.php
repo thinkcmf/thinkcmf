@@ -27,6 +27,7 @@ class AdminLangBehavior
         foreach ($apps as $app) {
             Lang::load([
                 APP_PATH . $app . DS . 'lang' . DS . $langSet . DS . 'admin_menu' . EXT,
+                APP_PATH . $app . DS . 'lang' . DS . $langSet . DS . 'admin' . EXT,
             ]);
         }
 

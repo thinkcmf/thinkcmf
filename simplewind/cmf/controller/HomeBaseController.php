@@ -173,5 +173,11 @@ class HomeBaseController extends BaseController
         return ['vars' => $vars, 'widgets' => $widgets];
     }
 
+    public function checkUserLogin(){
+        $userId = cmf_get_current_user_id();
+        if (empty($userId)) {
+            $this->error("用户尚未登录", url("user/login/index"));
+        }
+    }
 
 }

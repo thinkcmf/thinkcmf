@@ -9,10 +9,10 @@
 namespace app\user\controller;
 
 use think\Validate;
-use think\Request;
 use think\Image;
 use cmf\controller\UserBaseController;
 use app\user\model\UserModel;
+use think\Db;
 
 class ProfileController extends UserBaseController
 {
@@ -97,6 +97,7 @@ class ProfileController extends UserBaseController
             if (!$validate->check($data)) {
                 $this->error($validate->getError());
             }
+
             $login = new UserModel();
             $log   = $login->editPassword($data);
             switch ($log) {
@@ -129,14 +130,29 @@ class ProfileController extends UserBaseController
     // 用户头像上传
     public function avatarUpload()
     {
-        $file = request()->file('file');
-        $info = $file->move(ROOT_PATH . 'public/upload/avatar/');
-        if ($info) {
-            session('avatar', $info->getSaveName());
+        $file   = $this->request->file('file');
+        $result = $file->validate([
+            'ext'  => 'jpg,jpeg,png',
+            'size' => 1024 * 1024
+        ])->move('.' . DS . 'upload' . DS . 'avatar' . DS);
 
-            $this->success('上传成功', url('Profile/avatarUpload'), ['file' => $info->getSaveName()]);
+        if ($result) {
+            $avatar = 'avatar/' . $result->getSaveName();
+            session('avatar', $avatar);
+
+            return json_encode([
+                'code' => 1,
+                "msg"  => "上传成功",
+                "data" => ['file' => $avatar],
+                "url"  => ''
+            ]);
         } else {
-            $this->error($file->getError());
+            return json_encode([
+                'code' => 0,
+                "msg"  => $file->getError(),
+                "data" => "",
+                "url"  => ''
+            ]);
         }
     }
 
@@ -150,51 +166,22 @@ class ProfileController extends UserBaseController
             $x = $this->request->param('x', 0, 'intval');
             $y = $this->request->param('y', 0, 'intval');
 
-            $avatar_dir = "/public/upload/avatar/";
+            $avatarPath = "./upload/" . $avatar;
 
-            $avatar_path = $avatar_dir . $avatar;
-
-            $avatarImg = Image::open($avatar_path);
-            $avatarImg->crop($w, $h, $x, $y)->save($avatar_path);
+            $avatarImg = Image::open($avatarPath);
+            $avatarImg->crop($w, $h, $x, $y)->save($avatarPath);
 
             $result = true;
-
             if ($result === true) {
-                $uid       = cmf_get_current_user_id();
-                $userQuery = Db::name("user");
-                $result    = $userQuery->where(["id" => $uid])->save(["avatar" => 'avatar/' . $avatar]);
-                session('user.avatar', 'avatar/' . $avatar);
-                if ($result) {
-                    $this->success("头像更新成功！");
-                } else {
-                    $this->error("头像更新失败！");
-                }
+                $userId = cmf_get_current_user_id();
+                Db::name("user")->where(["id" => $userId])->update(["avatar" => $avatar]);
+                session('user.avatar', $avatar);
+                $this->success("头像更新成功！");
             } else {
                 $this->error("头像保存失败！");
             }
 
         }
-    }
-
-    // 保存用户头像
-    public function doAvatar()
-    {
-        $imgurl               = $this->request->param('imgurl');
-        $imgurl               = str_replace('/', '', $imgurl);
-        $old_img              = $this->user['avatar'];
-        $this->user['avatar'] = $imgurl;
-        $res                  = $this->users_model->where(["id" => $this->userid])->save($this->user);
-        if ($res) {
-            //更新session
-            session('user', $this->user);
-            //删除旧头像
-            cmf_delete_avatar($old_img);
-        } else {
-            $this->user['avatar'] = $old_img;
-            //删除新头像
-            sp_delete_avatar($imgurl);
-        }
-        $this->ajaxReturn($res);
     }
 
     /**

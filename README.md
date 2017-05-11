@@ -1,6 +1,5 @@
-ThinkCMF 5.0 RC2 地球日版
+ThinkCMF 5.0 RC3
 ===============
- 请关注你的地球一下下:[地球日](http://baike.baidu.com/item/%E4%B8%96%E7%95%8C%E5%9C%B0%E7%90%83%E6%97%A5)
 
 ### 环境推荐
 > php5.5+
@@ -9,12 +8,27 @@ ThinkCMF 5.0 RC2 地球日版
 
 > 打开rewrite
 
+
+### 最低环境要求
+> php5.4+
+
+> mysql 5.5+ (mysql5.1稍后兼容)
+
+> 打开rewrite
+
 ### 演示站点
 http://demo5.thinkcmf.com/admin/   
 用户名/密码:demo/thinkcmf
 
-### 安装步骤
+### 自动安装(测试版)
+> 之前安装过 cmf5的同学,请手动创建`data/install.lock`文件
 
+代码已经加入自动安装程序,如果你在安装中有任何问题请提交 issue, 无法安装成功时请尝试下面
+的`手动安装步骤`.
+
+enjoy your cmf~!
+
+### 手动安装步骤
 
 1.创建 thinkcmf5数据库(默认编码utf8mb4),并导入 update/thinkcmf5.sql
 
@@ -45,12 +59,18 @@ return [
 ```
 更改为你的数据库信息
 
-3.把 public目录做为网站根目录,入口文件在 public/index.php
+3.创建`data/install.lock`文件
 
-4.后台
+4.把 public目录做为网站根目录,入口文件在 public/index.php
+
+5.后台
 你的域名/admin  
 用户名/密码:admin/111111
 
+### 系统更新
+如果您是已经安装过 cmf5的用户,请查看 update 目录下的 sql 升级文件,根据自己的下载的程序版本进行更新
+
+### API开发 (支持app,小程序,web)
 如果你需要 `api` 开发请下载:  
 ThinkCMF5 API :https://github.com/thinkcmf/thinkcmfapi
 
@@ -103,12 +123,40 @@ thinkcmf  根目录
 http://www.kancloud.cn/thinkcmf/doc
 
 ### QQ群:
-ThinkCMF VIP技术群:100828313 (付费)
+ThinkCMF 高级交流群:100828313 (付费)  
+
+### 话题专区
+http://www.thinkcmf.com/topic/index/index/cat/11.html
 
 ### 反馈问题
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
+#### 5.0.170505
+[核心]
+* 完善用户注册流程
+* 完善插件功能
+* 增加手机验证码发送钩子
+* 增加手机验证码发送演示插件
+* 增加用户邮箱绑定
+* 增加用户手机绑定
+* 增加常用模板钩子
+* 增加模板设计图片上传
+* 增加用户密码修改
+* 增加用户收藏功能
+* 增加导航标签,子导航标签增加 `max-level` 设置
+* 修复邮箱验证码发送
+* 修复windows下获取模板数据时模板文件路径问题
+* 修复单文件,多文件上传
+* 修复后台首页用户昵称一直显示admin
+* 修复 `navigation`,`subNavigation` 标签两个以上不能同时使用问题
+* 修复 console 模式报错
+* 取消前台有错误时界面刷新
+
+[门户应用]
+* 增加文章附件功能
+* 优化文章相册
+
 #### 5.0.170422
 [核心]
 * 完善幻灯片

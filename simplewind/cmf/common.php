@@ -10,6 +10,7 @@
 use think\Config;
 use think\Db;
 use think\Cache;
+use think\Url;
 use dir\Dir;
 use think\Route;
 use think\Loader;
@@ -144,6 +145,8 @@ function cmf_get_theme_path($theme = null)
 /**
  * @TODO
  * 获取用户头像相对网站根目录的地址
+ * @param $avatar 用户头像,相对于 upload 目录
+ * @return string
  */
 function cmf_get_user_avatar_url($avatar)
 {
@@ -456,33 +459,37 @@ function cmf_get_option($key)
 function cmf_get_upload_setting()
 {
     $uploadSetting = cmf_get_option('upload_setting');
-    if (empty($uploadSetting)) {
+    if (empty($uploadSetting) || empty($uploadSetting['file_types'])) {
         $uploadSetting = [
-            'image' => [
-                'upload_max_filesize' => '10240',//单位KB
-                'extensions'          => 'jpg,jpeg,png,gif,bmp4'
+            'file_types' => [
+                'image' => [
+                    'upload_max_filesize' => '10240',//单位KB
+                    'extensions'          => 'jpg,jpeg,png,gif,bmp4'
+                ],
+                'video' => [
+                    'upload_max_filesize' => '10240',
+                    'extensions'          => 'mp4,avi,wmv,rm,rmvb,mkv'
+                ],
+                'audio' => [
+                    'upload_max_filesize' => '10240',
+                    'extensions'          => 'mp3,wma,wav'
+                ],
+                'file'  => [
+                    'upload_max_filesize' => '10240',
+                    'extensions'          => 'txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar'
+                ]
             ],
-            'video' => [
-                'upload_max_filesize' => '10240',
-                'extensions'          => 'mp4,avi,wmv,rm,rmvb,mkv'
-            ],
-            'audio' => [
-                'upload_max_filesize' => '10240',
-                'extensions'          => 'mp3,wma,wav'
-            ],
-            'file'  => [
-                'upload_max_filesize' => '10240',
-                'extensions'          => 'txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar'
-            ]
+            'chunk_size' => 512,//单位KB
+            'max_files'  => 20 //最大同时上传文件数
         ];
     }
 
     if (empty($uploadSetting['upload_max_filesize'])) {
         $uploadMaxFileSizeSetting = [];
-        foreach ($uploadSetting as $setting) {
+        foreach ($uploadSetting['file_types'] as $setting) {
             $extensions = explode(',', trim($setting['extensions']));
             if (!empty($extensions)) {
-                $uploadMaxFileSize = intval($setting['upload_max_filesize']) * 1024;//转化成KB
+                $uploadMaxFileSize = intval($setting['upload_max_filesize']) * 1024;//转化成B
                 foreach ($extensions as $ext) {
                     if (!isset($uploadMaxFileSizeSetting[$ext]) || $uploadMaxFileSize > $uploadMaxFileSizeSetting[$ext] * 1024) {
                         $uploadMaxFileSizeSetting[$ext] = $uploadMaxFileSize;
@@ -575,7 +582,8 @@ function cmf_send_email($address, $subject, $message)
     $port       = $smtpSetting['port'];
     $mail->Port = empty($port) ? "25" : $port;
     // 设置为"需要验证"
-    $mail->SMTPAuth = true;
+    $mail->SMTPAuth    = true;
+    $mail->SMTPAutoTLS = false;
     // 设置用户名和密码。
     $mail->Username = $smtpSetting['username'];
     $mail->Password = $smtpSetting['password'];
@@ -818,41 +826,52 @@ function cmf_content_page($content, $pagetpl = '{first}{prev}{liststart}{list}{l
 }
 
 /**
- * TODO
  * 检查用户对某个url,内容的可访问性，用于记录如是否赞过，是否访问过等等;开发者可以自由控制，对于没有必要做的检查可以不做，以减少服务器压力
- * @param number $object 访问对象的id,格式：不带前缀的表名+id;如posts1表示xx_posts表里id为1的记录;如果object为空，表示只检查对某个url访问的合法性
- * @param number $count_limit 访问次数限制,如1，表示只能访问一次
- * @param boolean $ip_limit ip限制,false为不限制，true为限制
- * @param number $expire 距离上次访问的最小时间单位s，0表示不限制，大于0表示最后访问$expire秒后才可以访问
+ * @param string $object 访问对象的id,格式：不带前缀的表名+id;如posts1表示xx_posts表里id为1的记录;如果object为空，表示只检查对某个url访问的合法性
+ * @param int $countLimit 访问次数限制,如1，表示只能访问一次
+ * @param boolean $ipLimit ip限制,false为不限制，true为限制
+ * @param int $expire 距离上次访问的最小时间单位s，0表示不限制，大于0表示最后访问$expire秒后才可以访问
  * @return true 可访问，false不可访问
  */
-function cmf_check_user_action($object = "", $count_limit = 1, $ip_limit = false, $expire = 0)
+function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, $expire = 0)
 {
-    $common_action_log_model = M("CommonActionLog");
-    $action                  = MODULE_NAME . "-" . CONTROLLER_NAME . "-" . ACTION_NAME;
-    $userid                  = get_current_userid();
+    $request = request();
+    $action  = $request->module() . "/" . $request->controller() . "/" . $request->action();
+    $userId  = cmf_get_current_user_id();
 
     $ip = get_client_ip(0, true);//修复ip获取
 
-    $where = ["user" => $userid, "action" => $action, "object" => $object];
-    if ($ip_limit) {
+    $where = ["user_id" => $userId, "action" => $action, "object" => $object];
+
+    if ($ipLimit) {
         $where['ip'] = $ip;
     }
 
-    $find_log = $common_action_log_model->where($where)->find();
+    $findLog = Db::name('user_action_log')->where($where)->find();
 
     $time = time();
-    if ($find_log) {
-        $common_action_log_model->where($where)->save(["count" => ["exp", "count+1"], "last_time" => $time, "ip" => $ip]);
-        if ($find_log['count'] >= $count_limit) {
+    if ($findLog) {
+        Db::name('user_action_log')->where($where)->update([
+            "count"           => ["exp", "count+1"],
+            "last_visit_time" => $time,
+            "ip"              => $ip
+        ]);
+
+        if ($findLog['count'] >= $countLimit) {
             return false;
         }
 
-        if ($expire > 0 && ($time - $find_log['last_time']) < $expire) {
+        if ($expire > 0 && ($time - $findLog['last_visit_time']) < $expire) {
             return false;
         }
     } else {
-        $common_action_log_model->add(["user" => $userid, "action" => $action, "object" => $object, "count" => ["exp", "count+1"], "last_time" => $time, "ip" => $ip]);
+        Db::name('user_action_log')->insert([
+            "user_id"         => $userId,
+            "action"          => $action,
+            "object"          => $object,
+            "count"           => ["exp", "count+1"],
+            "last_visit_time" => $time, "ip" => $ip
+        ]);
     }
 
     return true;
@@ -879,77 +898,6 @@ function cmf_get_relative_url($url)
         }
     }
     return $url;
-}
-
-/**
- * TODO
- * @deprecated
- * 获取所有url美化规则
- * @param boolean $refresh 是否强制刷新
- * @return mixed|void|boolean|NULL|unknown[]|unknown
- */
-function cmf_get_routes($refresh = false)
-{
-    $routes = F("routes");
-
-    if ((!empty($routes) || is_array($routes)) && !$refresh) {
-        return $routes;
-    }
-    $routes       = M("Route")->where("status=1")->order("listorder asc")->select();
-    $all_routes   = [];
-    $cache_routes = [];
-    foreach ($routes as $er) {
-        $full_url = htmlspecialchars_decode($er['full_url']);
-
-        // 解析URL
-        $info = parse_url($full_url);
-
-        $path = explode("/", $info['path']);
-        if (count($path) != 3) {//必须是完整 url
-            continue;
-        }
-
-        $module = strtolower($path[0]);
-
-        // 解析参数
-        $vars = [];
-        if (isset($info['query'])) { // 解析地址里面参数 合并到vars
-            parse_str($info['query'], $params);
-            $vars = array_merge($params, $vars);
-        }
-
-        $vars_src = $vars;
-
-        ksort($vars);
-
-        $path = $info['path'];
-
-        $full_url = $path . (empty($vars) ? "" : "?") . http_build_query($vars);
-
-        $url = $er['url'];
-
-        if (strpos($url, ':') === false) {
-            $cache_routes['static'][$full_url] = $url;
-        } else {
-            $cache_routes['dynamic'][$path][] = ["query" => $vars, "url" => $url];
-        }
-
-        $all_routes[$url] = $full_url;
-
-    }
-    F("routes", $cache_routes);
-    $route_dir = SITE_PATH . "/data/conf/";
-    if (!file_exists($route_dir)) {
-        mkdir($route_dir);
-    }
-
-    $route_file = $route_dir . "route.php";
-
-    file_put_contents($route_file, "<?php\treturn " . stripslashes(var_export($all_routes, true)) . ";");
-
-    return $cache_routes;
-
-
 }
 
 /**
@@ -1074,61 +1022,6 @@ function cmf_sub_dirs($dir)
     }
 
     return $dirs;
-}
-
-/**
- * @TODO
- * @deprecated
- * 获取所有钩子，包括系统，应用，模板
- * @param bool $refresh 是否刷新缓存
- * @return array
- */
-function cmf_get_hooks($refresh = false)
-{
-    if (!$refresh) {
-        // TODO 加入缓存
-    }
-
-    $returnHooks = [];
-    $systemHooks = [
-        "url_dispatch", "app_init", "app_begin", "app_end",
-        "action_begin", "action_end", "module_check", "path_info",
-        "template_filter", "view_begin", "view_end", "view_parse",
-        "view_filter", "body_start", "footer", "footer_end", "sider", "comment", 'admin_home'
-    ];
-
-    $appHooks = [];
-
-    $apps = cmf_scan_dir(APP_PATH . "*", GLOB_ONLYDIR);
-    foreach ($apps as $app) {
-        $hooksFile = APP_PATH . "{$app}/hooks.php";
-        if (is_file($hooksFile)) {
-            $hooks    = include $hooksFile;
-            $appHooks = is_array($hooks) ? array_merge($appHooks, $hooks) : $appHooks;
-        }
-    }
-
-    $themeHooks = [];
-
-    $themes = cmf_scan_dir("themes/*", GLOB_ONLYDIR);
-
-    foreach ($themes as $theme) {
-        $hooksFile = cmf_add_template_file_suffix("themes/$theme/hooks");
-        if (file_exists_case($hooksFile)) {
-            $hooks      = file_get_contents($hooksFile);
-            $hooks      = preg_replace("/[^0-9A-Za-z_-]/u", ",", $hooks);
-            $hooks      = explode(",", $hooks);
-            $hooks      = array_filter($hooks);
-            $themeHooks = is_array($hooks) ? array_merge($themeHooks, $hooks) : $themeHooks;
-        }
-    }
-
-    $returnHooks = array_merge($systemHooks, $appHooks, $themeHooks);
-
-    $returnHooks = array_unique($returnHooks);
-
-    return $returnHooks;
-
 }
 
 /**
@@ -1705,5 +1598,90 @@ function cmf_url_encode($url, $params)
     }
 
     return base64_encode(json_encode(['action' => $url, 'param' => $params]));
+}
 
+/**
+ * CMF Url生成
+ * @param string $url 路由地址
+ * @param string|array $vars 变量
+ * @param bool|string $suffix 生成的URL后缀
+ * @param bool|string $domain 域名
+ * @return string
+ */
+function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
+{
+    static $routes;
+
+    if (empty($routes)) {
+        $routes = cache("routes");
+    }
+
+    if (false === strpos($url, '://') && 0 !== strpos($url, '/')) {
+        $info = parse_url($url);
+        $url  = !empty($info['path']) ? $info['path'] : '';
+        if (isset($info['fragment'])) {
+            // 解析锚点
+            $anchor = $info['fragment'];
+            if (false !== strpos($anchor, '?')) {
+                // 解析参数
+                list($anchor, $info['query']) = explode('?', $anchor, 2);
+            }
+            if (false !== strpos($anchor, '@')) {
+                // 解析域名
+                list($anchor, $domain) = explode('@', $anchor, 2);
+            }
+        } elseif (strpos($url, '@') && false === strpos($url, '\\')) {
+            // 解析域名
+            list($url, $domain) = explode('@', $url, 2);
+        }
+    }
+
+    // 解析参数
+    if (is_string($vars)) {
+        // aaa=1&bbb=2 转换成数组
+        parse_str($vars, $vars);
+    }
+
+    if (isset($info['query'])) {
+        // 解析地址里面参数 合并到vars
+        parse_str($info['query'], $params);
+        $vars = array_merge($params, $vars);
+    }
+
+    if (!empty($vars) && !empty($routes[$url])) {
+
+        foreach ($routes[$url] as $actionRoute) {
+            $sameVars = array_intersect($vars, $actionRoute['vars']);
+
+            if (count($sameVars) == count($actionRoute['vars'])) {
+                ksort($sameVars);
+                $url  = $url . '?' . http_build_query($sameVars);
+                $vars = array_diff($vars, $sameVars);
+                break;
+            }
+        }
+    }
+
+    if (!empty($anchor)) {
+        $url = $url . '#' . $anchor;
+    }
+
+    if (!empty($domain)) {
+        $url = $url . '@' . $domain;
+    }
+
+    return Url::build($url, $vars, $suffix, $domain);
+}
+
+/**
+ *
+ * @return bool
+ */
+function cmf_is_installed()
+{
+    static $cmfIsInstalled;
+    if (empty($cmfIsInstalled)) {
+        $cmfIsInstalled = file_exists(CMF_ROOT . 'data/install.lock');
+    }
+    return $cmfIsInstalled;
 }

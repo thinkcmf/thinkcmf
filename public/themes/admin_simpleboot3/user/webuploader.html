@@ -11,7 +11,7 @@
 
 <div class="wrap " style="padding:5px;">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#wrapper" data-toggle="tab">上传附件</a></li>
+        <li class="active"><a href="#wrapper" data-toggle="tab">上传文件</a></li>
         <li class=""><a href="#B" data-toggle="tab">网络文件</a></li>
         <!--<li class=""><a href="#explorer" data-toggle="tab">文件管理</a></li>-->
     </ul>
@@ -25,7 +25,7 @@
                         <div class="queueList">
                             <div id="dndArea" class="placeholder">
                                 <div id="filePicker"></div>
-                                <p>或将文件拖到这里，单次最多可选{$maxUp}个文件</p>
+                                <p>或将文件拖到这里，单次最多可选{$max_files}个文件</p>
                             </div>
                         </div>
                         <div class="statusBar" style="display:none;">
@@ -97,8 +97,10 @@
         return files;
     }
 
-    var multi = {$multi};//是否允许同时选多张
-    var maxUp = {$maxUp};//允许上传多少张
+    var multi = {$multi};//是否允许同时选多个文件
+    var maxFiles = {$max_files};//允许上传多少文件
+
+    var fileErrorMsg = {};
 
 
     (function ($) {
@@ -232,22 +234,26 @@
                     multiple: multi,
                 },
                 formData: {
-                    uid: 123
+                    app: '{$app}',
+                    filetype: '{$filetype}'
+                },
+                accept:{
+                    extensions: '{$extensions}'
                 },
                 dnd: '#dndArea',
                 paste: '#uploader',
                 swf: GV.WEB_ROOT + GV.JS_ROOT + 'webuploader/Uploader.swf',
                 chunked: true,//开启分片
                 auto: true,
-                chunkSize: 512 * 1024,
+                chunkSize: {$chunk_size} * 1024,// 单位B
                 compress: false,
-                server: "{:url('asset/asset/webuploader')}?_ajax=1",
+                server: "{:url('user/asset/webuploader')}?_ajax=1",
                 // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
                 disableGlobalDnd: true,
-                fileNumLimit: maxUp,
-                runtimeOrder: 'html5',
-                fileSizeLimit: 200 * 1024 * 1024,    // 200 M
-                fileSingleSizeLimit: {$upload_max_filesize}     // 50 M
+                fileNumLimit: maxFiles,
+                runtimeOrder: 'html5,flash',
+                //fileSizeLimit: 200 * 1024 * 1024,    // 200 M
+                fileSingleSizeLimit: {$upload_max_filesize}     // 单位B
             });
 
             // 拖拽时不接受 js, txt 文件。
@@ -278,7 +284,7 @@
             //         return 0;
             //     });
             // });
-            if (maxUp > 1) {
+            if (maxFiles > 1) {
                 // 添加“添加文件”的按钮，
                 uploader.addButton({
                     id: '#filePicker2',
@@ -478,24 +484,24 @@
                 var text = '', stats;
 
                 if (state === 'ready') {
-                    text = '选中' + fileCount + '张图片，共' +
+                    text = '选中' + fileCount + '个文件，共' +
                         WebUploader.formatSize(fileSize) + '。';
                 } else if (state === 'confirm') {
 
                     stats = uploader.getStats();
                     if (stats.uploadFailNum) {
-                        text = '已成功上传' + stats.successNum + '张照片，' +
-                            stats.uploadFailNum + '张照片上传失败，<a class="retry" href="#">重新上传</a>失败图片或<a class="ignore" href="#">忽略</a>'
+                        text = '已成功上传' + stats.successNum + '个文件，' +
+                            stats.uploadFailNum + '个文件上传失败，<a class="retry" href="#">重新上传</a>失败文件或<a class="ignore" href="#">忽略</a>'
                     }
 
                 } else {
                     stats = uploader.getStats();
-                    text  = '共' + fileCount + '张（' +
+                    text  = '共' + fileCount + '个文件（' +
                         WebUploader.formatSize(fileSize) +
-                        '），已上传' + stats.successNum + '张';
+                        '），已上传' + stats.successNum + '个';
 
                     if (stats.uploadFailNum) {
-                        text += '，失败' + stats.uploadFailNum + '张';
+                        text += '，失败' + stats.uploadFailNum + '个';
                     }
                 }
 
@@ -606,15 +612,15 @@
                 var stats;
                 switch (type) {
                     case 'uploadSuccess':
-                        console.log(msg);
-                        //var MsgO = jQuery.parseJSON(msg._raw)
-                        // alert(MsgO.result);
-                        var $file = jQuery("#" + file.id);
-                        $file.data("filepath", msg.data.filepath);
-                        $file.data("name", msg.data.name);
-                        $file.data("url", msg.data.url);
-                        $file.data("preview_url", msg.data.preview_url);
-                        //jQuery("#" + msg.id + " img"n"src", httpUrl+msg.result);
+//                        console.log(file);
+//                        console.log(msg);
+                        if (msg._raw != '') {
+                            var $file = jQuery("#" + file.id);
+                            $file.data("filepath", msg.data.filepath);
+                            $file.data("name", msg.data.name);
+                            $file.data("url", msg.data.url);
+                            $file.data("preview_url", msg.data.preview_url);
+                        }
                         break;
                     case 'uploadFinished':
                         setState('confirm');
@@ -635,6 +641,7 @@
                 console.log(object);
                 console.log(ret);
                 if (ret.code == 0) {
+                    fileErrorMsg[object.file.id] = ret.msg;
                     return false;
                 }
 
@@ -643,8 +650,12 @@
             });
 
             uploader.on('uploadError', function (file, reason) {
+                console.log(file.id);
                 console.log(reason);
-                $('#' + file.id).find('p.state').text('上传出错');
+                if(reason=='server'){
+                    $('#' + file.id).find('p.error').text(fileErrorMsg[file.id]);
+                }
+
             });
 
             uploader.onError = function (code) {
@@ -653,18 +664,16 @@
                         code = "文件类型错误！";
                         break;
                     case "Q_EXCEED_NUM_LIMIT":
-                        code = "最多只能上传" + maxUp;
+                        code = "最多只能上传" + maxFiles+'个文件';
                         break;
                     case "F_DUPLICATE":
-                        code = "重复添加！";
+                        code = "文件重复添加！";
                         break;
                     case "F_EXCEED_SIZE":
                         code = "您需要选择小于{$upload_max_filesize_mb}M的文件！";
                         break;
-
-
                 }
-                alert('Error: ' + code);
+                alert(code);
             };
 
             $upload.on('click', function () {

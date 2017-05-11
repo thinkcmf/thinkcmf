@@ -70,7 +70,7 @@ class NavMenuModel extends Model
             $hrefOld = $href;
             if (strpos($hrefOld, "{") !== false) {
                 $href = json_decode($navMenu['href'], true);
-                $href = url($href['action'], $href['param']);
+                $href = cmf_url($href['action'], $href['param']);
             } else {
                 if ($hrefOld == "home") {
                     $href = Request::instance()->root() . "/";
@@ -133,11 +133,15 @@ class NavMenuModel extends Model
                                         $navData = null;
                                     }
 
-                                    $this->parseNavData($navData, $navApi);
+                                    if (!empty($navData) && !empty($navData['rule']) && count($navData['items']) > 0) {
+                                        $this->parseNavData($navData, $navApi);
 
-                                    if (!empty($navData)) {
-                                        array_push($navs, $navData);
+                                        if (!empty($navData['items'])) {
+                                            array_push($navs, $navData);
+                                        }
                                     }
+
+
                                 }
 
                             }

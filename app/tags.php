@@ -31,4 +31,7 @@ return [
     'admin_init'   => [
         'cmf\\behavior\\AdminLangBehavior',
     ],
+    'home_init'    => [
+        'cmf\\behavior\\HomeLangBehavior',
+    ]
 ];

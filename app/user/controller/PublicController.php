@@ -27,7 +27,7 @@ class PublicController extends HomeBaseController
         }
 
         if (empty($avatar)) {
-            $avatar = request()->root() . "/static/images/headicon.png";
+            $avatar = cmf_get_root() . "/static/images/headicon.png";
         }
 
         return $this->redirect($avatar);

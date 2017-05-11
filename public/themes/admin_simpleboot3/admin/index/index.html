@@ -169,8 +169,8 @@
                 </if>
                 -->
 
-                <if condition="cmf_auth_check(cmf_get_current_admin_id(),'asset/AdminAsset/index')">
-                    <a class="btn btn-sm btn-info" href="javascript:openapp('{:url('asset/AdminAsset/index')}','asset/AdminAsset/index','资源管理');" title="资源管理">
+                <if condition="cmf_auth_check(cmf_get_current_admin_id(),'user/AdminAsset/index')">
+                    <a class="btn btn-sm btn-info" href="javascript:openapp('{:url('user/AdminAsset/index')}','userAdminAssetindex','资源管理');" title="资源管理">
                         <i class="fa fa-file"></i>
                     </a>
                 </if>
@@ -194,7 +194,7 @@
                 </if>
             </div>
 
-            <div class="pull-left" style="width: 800px;">
+            <div class="pull-left" style="width: 700px;">
                 <!-- <a id="task-pre" class="task-changebt">←</a> -->
                 <div id="task-content">
                     <ul class="nav navbar-nav macro-component-tab" id="task-content-inner">

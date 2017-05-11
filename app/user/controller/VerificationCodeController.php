@@ -71,7 +71,12 @@ class VerificationCodeController extends HomeBaseController
 
             cmf_verification_code_log($data['username'], $code);
 
-            $this->success('验证码已经发送成功!');
+            if (!empty($result['message'])) {
+                $this->success($result['message']);
+            } else {
+                $this->success('验证码已经发送成功!');
+            }
+
         }
 
 

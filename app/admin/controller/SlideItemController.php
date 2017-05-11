@@ -75,7 +75,7 @@ class SlideItemController extends AdminBaseController
     {
         $data = $this->request->param();
         Db::name('slideItem')->insert($data['post']);
-        $this->success("添加成功！", url("slideItem/index"));
+        $this->success("添加成功！", url("slideItem/index", ['slide_id' => $data['post']['slide_id']]));
     }
 
     /**
@@ -116,7 +116,7 @@ class SlideItemController extends AdminBaseController
      */
     public function editPost()
     {
-        $data                  = $this->request->param();
+        $data = $this->request->param();
 
         $data['post']['image'] = cmf_asset_relative_url($data['post']['image']);
 

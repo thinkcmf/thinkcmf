@@ -24,7 +24,7 @@ class PageApi
         $where = [
             'post_type'      => 2,
             'published_time' => [['< time', time()], ['> time', 0]],
-            'post_status'    => ['eq', 1],
+            'post_status'    => 1,
             'delete_time'    => 0
         ];
 

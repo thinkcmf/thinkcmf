@@ -8,11 +8,16 @@
 // +----------------------------------------------------------------------
 namespace app\portal\model;
 
+use app\admin\model\RouteModel;
 use think\Model;
 use tree\Tree;
 
 class PortalCategoryModel extends Model
 {
+
+    protected $type = [
+        'more' => 'array',
+    ];
 
     /**
      * 生成分类 select树形结构
@@ -101,7 +106,11 @@ class PortalCategoryModel extends Model
         $result = true;
         self::startTrans();
         try {
-            $id = $this->insertGetId($data);
+            if (!empty($data['more']['thumbnail'])) {
+                $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
+            }
+            $this->allowField(true)->save($data);
+            $id = $this->id;
 
             if (empty($data['parent_id'])) {
                 $this->isUpdate(true)->save(['path' => '0-' . $id], ['id' => $id]);
@@ -141,11 +150,15 @@ class PortalCategoryModel extends Model
         if (empty($oldCategory) || empty($newPath)) {
             $result = false;
         } else {
+
             self::startTrans();
             try {
 
                 $data['path'] = $newPath;
-                $this->isUpdate(true)->save($data, ['id' => $id]);
+                if (!empty($data['more']['thumbnail'])) {
+                    $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
+                }
+                $this->isUpdate(true)->allowField(true)->save($data, ['id' => $id]);
 
                 $children = $this->field('id,path')->where('path', 'like', "%-$id-%")->select();
 
@@ -155,13 +168,20 @@ class PortalCategoryModel extends Model
                         $this->isUpdate(true)->save(['path' => $childPath], ['id' => $child['id']]);
                     }
                 }
+                $routeModel = new RouteModel();
+                $routeModel->setRoute($data['alias'], 'portal/List/index', ['id' => $data['id']], 2, 5000);
+                $routeModel->setRoute($data['alias'] . '/:id', 'portal/Article/index', ['cid' => $data['id']], 2, 4999);
 
                 self::commit();
+
+                $routeModel->getRoutes(true);
 
             } catch (\Exception $e) {
                 self::rollback();
                 $result = false;
             }
+
+
         }
 
 
