@@ -14,14 +14,34 @@ class SearchController extends HomeBaseController
 {
     public function index()
     {
-//        $this->assign('site_name','ThinkCMF内容管理框架 ');
         $keyword = $this->request->param('keyword');
-
-        if (empty($keyword)) {
-            $this -> error("关键词不能为空！请重新输入！");
+        $time = session('sear_time');
+        if ($time > (THINK_START_TIME-5)) {
+            
+            $data['status'] = 0;
+            $data['info'] = '操作频繁';
+            return json($data);
+        }else{
+            session('sear_time',THINK_START_TIME);
         }
 
-        $this -> assign("keyword", $keyword);
-        return $this->fetch('/search');
+        if(empty($keyword)){
+            $data['status'] = 0;
+            $data['info'] = '关键词为空';
+            return json($data);
+        }
+        $list = db('portal_post')
+         -> field(true)
+         -> where('post_keywords','like','%'.$keyword.'%')
+         -> order('id DESC')
+         -> select();
+        if(empty($list)){
+            $data['status'] = 0;
+            $data['info'] = $keyword.' 搜索不到';
+            return json($data);
+        }
+        $data['status'] = 1;
+        $data['info'] = $list;
+        return json($data);
     }
 }
