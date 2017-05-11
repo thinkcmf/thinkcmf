@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace app\portal\controller;
 
+use app\admin\model\RouteModel;
 use cmf\controller\AdminBaseController;
 use app\portal\model\PortalCategoryModel;
 use think\Db;
@@ -120,7 +121,6 @@ class AdminCategoryController extends AdminBaseController
         $id = $this->request->param('id', 0, 'intval');
         if ($id > 0) {
             $category = PortalCategoryModel::get($id)->toArray();
-            $this->assign($category);
 
             $portalCategoryModel = new PortalCategoryModel();
             $categoriesTree      = $portalCategoryModel->adminCategoryTree($category['parent_id'], $id);
@@ -129,6 +129,11 @@ class AdminCategoryController extends AdminBaseController
             $listThemeFiles    = $themeModel->getActionThemeFiles('portal/List/index');
             $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
 
+            $routeModel = new RouteModel();
+            $alias      = $routeModel->getUrl('portal/List/index', ['id' => $id]);
+
+            $category['alias'] = $alias;
+            $this->assign($category);
             $this->assign('list_theme_files', $listThemeFiles);
             $this->assign('article_theme_files', $articleThemeFiles);
             $this->assign('categories_tree', $categoriesTree);

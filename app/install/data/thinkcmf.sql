@@ -1349,3 +1349,5 @@ ALTER TABLE `cmf_user_token`
 --
 ALTER TABLE `cmf_verification_code`
   MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '表id',AUTO_INCREMENT=9;
+
+ALTER TABLE `cmf_route` ADD `type` TINYINT NOT NULL DEFAULT '1' COMMENT 'URL规则类型;1:用户自定义;2:别名添加' AFTER `status`;

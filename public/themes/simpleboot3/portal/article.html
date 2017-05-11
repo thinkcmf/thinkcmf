@@ -32,7 +32,7 @@
 						<a href="{:url('user/favorite/add')}"
                            class="js-favorite-btn"
                            data-title="{:base64_encode($article.post_title)}"
-                           data-url="{:cmf_url_encode('portal/Article/index',array('id'=>$article['id'],'cid'=>$category['id']))}"
+                           data-url="{:cmf_url_encode('portal/Article/index',array('id'=>$article['id']))}"
                            data-table="portal_post"
                            data-id="{$article['id']}"
                         >

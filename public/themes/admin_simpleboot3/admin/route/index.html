@@ -17,30 +17,52 @@
                 <th width="50">ID</th>
                 <th>原始网址</th>
                 <th>显示网址</th>
+                <th>类型</th>
                 <th>状态</th>
                 <th width="130">操作</th>
             </tr>
             </thead>
             <tbody>
-            <php>$statuses=array('0'=>"已禁用","1"=>"已启用");</php>
+            <php>
+                $statuses=array('0'=>"已禁用","1"=>"已启用");
+                $types=array('1'=>"自定义","2"=>"别名定义");
+            </php>
             <foreach name="routes" item="vo">
                 <tr>
-                    <td><input name="list_orders[{$vo.id}]" class="input input-order mr5" type="text"
-                               value="{$vo.list_order}"></td>
+                    <td>
+                        <eq name="vo.type" value="2">
+                            <input class="input-order" type="text" value="{$vo.list_order}" readonly>
+                            <else/>
+                            <input name="list_orders[{$vo.id}]" class="input-order" type="text"
+                                   value="{$vo.list_order}">
+                        </eq>
+
+                    </td>
                     <td>{$vo.id}</td>
                     <td>{$vo.full_url}</td>
                     <td>{$vo.url}</td>
+                    <td>
+                        <eq name="vo.type" value="2">
+                            <span class="label label-danger" data-toggle="tooltip" title="别名定义规则,无法编辑,排序">{$types[$vo['type']]}</span>
+                            <else/>
+                            <span class="label label-success" data-toggle="tooltip" title="自定义规则,可以编辑,排序">{$types[$vo['type']]}</span>
+                        </eq>
+                    </td>
                     <td>{$statuses[$vo['status']]}</td>
                     <td>
-                        <a href="{:url('route/edit',array('id'=>$vo['id']))}">编辑</a> |
-                        <eq name="vo.status" value="1">
-                            <a href="{:url('route/ban',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn"
-                               data-msg="确定禁用吗？">禁用</a> |
+                        <eq name="vo.type" value="2">
+                            编辑 | 禁用 | 启用
                             <else/>
-                            <a href="{:url('route/open',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn"
-                               data-msg="确定启用吗？">启用</a> |
+                            <a href="{:url('route/edit',array('id'=>$vo['id']))}">编辑</a> |
+                            <eq name="vo.status" value="1">
+                                <a href="{:url('route/ban',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn"
+                                   data-msg="确定禁用吗？">禁用</a> |
+                                <else/>
+                                <a href="{:url('route/open',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn"
+                                   data-msg="确定启用吗？">启用</a> |
+                            </eq>
+                            <a href="{:url('route/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">删除</a>
                         </eq>
-                        <a href="{:url('route/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">删除</a>
                     </td>
                 </tr>
             </foreach>
@@ -51,6 +73,7 @@
                 <th width="50">ID</th>
                 <th>原始网址</th>
                 <th>显示网址</th>
+                <th>类型</th>
                 <th>状态</th>
                 <th width="130">操作</th>
             </tr>

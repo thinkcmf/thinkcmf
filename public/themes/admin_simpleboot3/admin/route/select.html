@@ -1,0 +1,124 @@
+<php>
+    function _suggest_url($action, $url)
+    {
+    $actionArr = explode('/', $action);
+
+    $params = array_keys($url['vars']);
+
+    $urlDepr1Params = [];
+
+    $urlDepr2Params = [];
+
+    if (!empty($params)) {
+
+    foreach ($params as $param) {
+    if(empty($url['vars'][$param]['require'])){
+    array_push($urlDepr1Params, "[:$param]");
+    }else{
+    array_push($urlDepr1Params, ":$param");
+    }
+
+    array_push($urlDepr2Params, htmlspecialchars('<') . $param . htmlspecialchars('>'));
+    }
+
+    }
+
+    if ($actionArr[2] == 'index') {
+    $actionArr[1] = cmf_parse_name($actionArr[1]);
+    return empty($params) ? $actionArr[1].'$' : ($actionArr[1] . '/' . implode('/', $urlDepr1Params) /*. '或' . $actionArr[1] . '-' . implode('-', $urlDepr2Params)*/);
+    } else {
+    $actionArr[2] = cmf_parse_name($actionArr[2]);
+    return empty($params) ? $actionArr[2].'$' : ($actionArr[2] . '/' . implode('/', $urlDepr1Params) /*. '或' . $actionArr[2] . '-' . implode('-', $urlDepr2Params)*/);
+    }
+
+    }
+
+    function _url_vars($url)
+    {
+    if (!empty($url['vars'])) {
+    return implode(',', array_keys($url['vars']));
+    }
+
+    return '';
+    }
+</php>
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <form method="post" class="js-ajax-form" action="{:url('AdminCategory/listorders')}">
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th width="16">
+                </th>
+                <th width="50">URL</th>
+                <th>URL名称</th>
+                <th>参数</th>
+                <th>建议优化</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="urls" item="vo" key="action">
+                <php>$suggestUrl=_suggest_url($action,$vo);</php>
+                <tr class="data-item-tr">
+                    <td>
+                        <input type="radio" name="ids[]" class="js-radio" value="" data-name="{$vo.name}"
+                               data-action="{$action}" data-url="{$suggestUrl}" data-vars="{:_url_vars($vo)}">
+                    </td>
+                    <td>{$action}</td>
+                    <td>{$vo.name}</td>
+                    <td>
+                        <notempty name="vo.vars">
+                            {:_url_vars($vo)}
+                        </notempty>
+                    </td>
+                    <td>
+                        {$suggestUrl}
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    $('.data-item-tr').click(function (e) {
+
+        console.log(e);
+        var $this = $(this);
+        if ($(e.target).is('input')) {
+            return;
+        }
+
+        var $input = $this.find('input');
+        if ($input.is(':checked')) {
+            $input.prop('checked', false);
+        } else {
+            $input.prop('checked', true);
+        }
+
+
+    });
+
+    function confirm() {
+
+        var $url = $('.js-radio:checked');
+        if ($url.length > 0) {
+            var selectedUrl = {
+                action: $url.data('action'),
+                name: $url.data('name'),
+                url: $url.data('url'),
+                vars:$url.data('vars')
+            };
+
+            return selectedUrl;
+        } else {
+            return false;
+        }
+
+    }
+</script>
+</body>
+</html>

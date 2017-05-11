@@ -30,7 +30,7 @@ class RouteController extends AdminBaseController
     public function index()
     {
         $routeModel = new RouteModel();
-        $routes = Db::name('route')->order("list_order asc")->select();
+        $routes     = Db::name('route')->order("list_order asc")->select();
         $routeModel->getRoutes(true);
         $this->assign("routes", $routes);
         return $this->fetch();
@@ -214,6 +214,71 @@ class RouteController extends AdminBaseController
         $routeModel = new RouteModel();
         parent::listOrders($routeModel);
         $this->success("排序更新成功！");
+    }
+
+    /**
+     * 选择 URL
+     * @adminMenu(
+     *     'name'   => '选择URL',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '选择URL',
+     *     'param'  => ''
+     * )
+     */
+    public function select()
+    {
+        $routeModel = new RouteModel();
+        $urls       = $routeModel->getAppUrls();
+
+        $this->assign('urls', $urls);
+        return $this->fetch();
+    }
+
+    function _suggest_url($action, $url)
+    {
+        $actionArr = explode('/', $action);
+
+        $params = array_keys($url['vars']);
+
+        $urlDepr1Params = [];
+
+        $urlDepr2Params = [];
+
+        if (!empty($params)) {
+
+            foreach ($params as $param) {
+                if(empty($url['vars'][$param]['require'])){
+                    array_push($urlDepr1Params, "[:$param]");
+                }else{
+                    array_push($urlDepr1Params, ":$param");
+                }
+
+                array_push($urlDepr2Params, htmlspecialchars('<') . $param . htmlspecialchars('>'));
+            }
+
+        }
+
+        if ($actionArr[2] == 'index') {
+            $actionArr[1] = cmf_parse_name($actionArr[1]);
+            return empty($params) ? $actionArr[1].'$' : ($actionArr[1] . '/' . implode('/', $urlDepr1Params) /*. '或' . $actionArr[1] . '-' . implode('-', $urlDepr2Params)*/);
+        } else {
+            $actionArr[2] = cmf_parse_name($actionArr[2]);
+            return empty($params) ? $actionArr[2].'$' : ($actionArr[2] . '/' . implode('/', $urlDepr1Params) /*. '或' . $actionArr[2] . '-' . implode('-', $urlDepr2Params)*/);
+        }
+
+    }
+
+    function _url_vars($url)
+    {
+        if (!empty($url['vars'])) {
+            return implode(',', array_keys($url['vars']));
+        }
+
+        return '';
     }
 
 }

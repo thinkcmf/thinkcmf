@@ -6,7 +6,6 @@ use think\Model;
 
 class RouteModel extends Model
 {
-
     /**
      * 获取所有url美化规则
      * @param boolean $refresh 是否强制刷新
@@ -15,6 +14,8 @@ class RouteModel extends Model
     public function getRoutes($refresh = false)
     {
         $routes = cache("routes");
+
+        $appUrls = $this->getAppUrls();
 
         if ((!empty($routes) || is_array($routes)) && !$refresh) {
             return $routes;
@@ -66,8 +67,11 @@ class RouteModel extends Model
 //            } else {
 //                $cacheRoutes['dynamic'][$path][] = ["query" => $vars, "url" => $url];
 //            }
-
-            $allRoutes[$url] = $fullUrl;
+            if (empty($appUrls[$path]['pattern'])) {
+                $allRoutes[$url] = $fullUrl;
+            } else {
+                $allRoutes[$url] = [$fullUrl, [], $appUrls[$path]['pattern']];
+            }
 
         }
         cache("routes", $cacheRoutes);
@@ -81,8 +85,82 @@ class RouteModel extends Model
         file_put_contents($route_file, "<?php\treturn " . stripslashes(var_export($allRoutes, true)) . ";");
 
         return $cacheRoutes;
-
-
     }
+
+    public function getAppUrls()
+    {
+        $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
+
+        $appUrls = [];
+
+        foreach ($apps as $app) {
+            $urlConfigFile = APP_PATH . $app . '/url.php';
+            if (file_exists($urlConfigFile)) {
+                $urls = include $urlConfigFile;
+                foreach ($urls as $action => $url) {
+                    $action = $app . '/' . $action;
+
+                    $appUrls[$action] = $url;
+                    if (!empty($url['vars'])) {
+                        foreach ($url['vars'] as $urlVarName => $urlVar) {
+                            $appUrls[$action]['pattern'][$urlVarName] = $urlVar['pattern'];
+                        }
+                    }
+
+                }
+            }
+        }
+
+        return $appUrls;
+    }
+
+    public function getUrl($action, $vars)
+    {
+        $fullUrl = $this->buildFullUrl($action, $vars);
+
+        $url = $this->where('full_url', $fullUrl)->value('url');
+
+        return empty($url) ? '' : $url;
+    }
+
+    public function buildFullUrl($action, $vars)
+    {
+        // 解析参数
+        if (is_string($vars)) {
+            // aaa=1&bbb=2 转换成数组
+            parse_str($vars, $vars);
+        }
+
+        if (!empty($vars)) {
+            ksort($vars);
+
+            $fullUrl = $action . '?' . http_build_query($vars);
+        } else {
+            $fullUrl = $action;
+        }
+
+        return $fullUrl;
+    }
+
+    public function exists($url, $fullUrl)
+    {
+
+        $findRouteCount = $this->where(['url' => $url, 'full_url' => ['neq', $fullUrl]])->count();
+
+        return $findRouteCount > 0 ? true : false;
+    }
+
+    public function setRoute($url, $action, $vars, $type = 2, $listOrder = 10000)
+    {
+        $fullUrl   = $this->buildFullUrl($action, $vars);
+        $findRoute = $this->where(['full_url' => $fullUrl])->find();
+
+        if ($findRoute) {
+            $this->where(['id' => $findRoute['id']])->update(['url' => $url, 'list_order' => $listOrder, 'type' => $type]);
+        } else {
+            $this->isUpdate(false)->save(['full_url' => $fullUrl, 'url' => $url, 'list_order' => $listOrder, 'type' => $type]);
+        }
+    }
+
 
 }

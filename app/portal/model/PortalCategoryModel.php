@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace app\portal\model;
 
+use app\admin\model\RouteModel;
 use think\Model;
 use tree\Tree;
 
@@ -149,6 +150,7 @@ class PortalCategoryModel extends Model
         if (empty($oldCategory) || empty($newPath)) {
             $result = false;
         } else {
+
             self::startTrans();
             try {
 
@@ -166,14 +168,20 @@ class PortalCategoryModel extends Model
                         $this->isUpdate(true)->save(['path' => $childPath], ['id' => $child['id']]);
                     }
                 }
+                $routeModel = new RouteModel();
+                $routeModel->setRoute($data['alias'], 'portal/List/index', ['id' => $data['id']], 2, 5000);
+                $routeModel->setRoute($data['alias'] . '/:id', 'portal/Article/index', ['cid' => $data['id']], 2, 4999);
 
                 self::commit();
 
+                $routeModel->getRoutes(true);
+
             } catch (\Exception $e) {
-                print_r($e);
                 self::rollback();
                 $result = false;
             }
+
+
         }
 
 
