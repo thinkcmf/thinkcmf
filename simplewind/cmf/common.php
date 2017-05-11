@@ -582,7 +582,8 @@ function cmf_send_email($address, $subject, $message)
     $port       = $smtpSetting['port'];
     $mail->Port = empty($port) ? "25" : $port;
     // 设置为"需要验证"
-    $mail->SMTPAuth = true;
+    $mail->SMTPAuth    = true;
+    $mail->SMTPAutoTLS = false;
     // 设置用户名和密码。
     $mail->Username = $smtpSetting['username'];
     $mail->Password = $smtpSetting['password'];
@@ -1673,7 +1674,7 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
 }
 
 /**
- * 判断 cmf 是否已经安装
+ *
  * @return bool
  */
 function cmf_is_installed()
@@ -1682,6 +1683,5 @@ function cmf_is_installed()
     if (empty($cmfIsInstalled)) {
         $cmfIsInstalled = file_exists(CMF_ROOT . 'data/install.lock');
     }
-
     return $cmfIsInstalled;
 }
