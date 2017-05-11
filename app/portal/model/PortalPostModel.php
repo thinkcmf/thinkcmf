@@ -257,6 +257,7 @@ class PortalPostModel extends Model
         $routeModel = new RouteModel();
         $routeModel->setRoute($data['post_alias'], 'portal/Page/index', ['id' => $data['id']], 2, 5000);
 
+        $routeModel->getRoutes(true);
         return $this;
     }
 
