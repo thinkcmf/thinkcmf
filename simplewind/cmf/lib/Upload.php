@@ -55,7 +55,7 @@ class Upload
             'file'  => ['title' => 'Custom files', 'extensions' => $uploadSetting['file_types']['file']['extensions']]
         ];
 
-        $arrData     = $this->request->param();
+        $arrData = $this->request->param();
         if (empty($arrData["filetype"])) {
             $arrData["filetype"] = "image";
         }
@@ -295,6 +295,23 @@ class Upload
             @unlink($targetDir . "{$strFilePath}_{$index}.part");
         }
         @rmdir($targetDir);
+
+        $storage = cmf_get_option('storage');
+
+        if ($storage['type'] != 'Local') { //  增加存储驱动
+            $storage = new Storage($storage['type'], $storage[$storage['type']]);
+            $result  = $storage->upload($arrInfo["file_path"], './upload/' . $arrInfo["file_path"]);
+
+            if (!empty($result)) {
+                return array_merge([
+                    'filepath'    => $arrInfo["file_path"],
+                    "name"        => $arrInfo["filename"],
+                    'id'          => $strId,
+                    'preview_url' => cmf_get_root() . '/upload/' . $arrInfo["file_path"],
+                    'url'         => cmf_get_root() . '/upload/' . $arrInfo["file_path"],
+                ], $result);
+            }
+        }
 
         return [
             'filepath'    => $arrInfo["file_path"],

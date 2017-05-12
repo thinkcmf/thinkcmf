@@ -9,12 +9,12 @@
 
 use think\Config;
 use think\Db;
-use think\Cache;
 use think\Url;
 use dir\Dir;
 use think\Route;
 use think\Loader;
 use think\Request;
+use cmf\lib\Storage;
 
 // 应用公共文件
 
@@ -610,10 +610,9 @@ function cmf_send_email($address, $subject, $message)
 }
 
 /**
- * TODO 增加七牛及其它云存储处理
  * 转化数据库保存的文件路径，为可以访问的url
  * @param string $file
- * @param mixed $style 样式(七牛)
+ * @param mixed $style 图片样式,支持各大云存储
  * @return string
  */
 function cmf_get_asset_url($file, $style = '')
@@ -621,34 +620,17 @@ function cmf_get_asset_url($file, $style = '')
     if (strpos($file, "http") === 0) {
         return $file;
     } else if (strpos($file, "/") === 0) {
-
         return $file;
     } else {
-        return cmf_get_root() . '/upload/' . $file;
-        //TODO 七牛处理
-//        $filePath = C("TMPL_PARSE_STRING.__UPLOAD__") . $file;
-//        if (C('FILE_UPLOAD_TYPE') == 'Local') {
-//            if (strpos($filePath, "http") !== 0) {
-//                $filePath = cmf_get_host() . $filePath;
-//            }
-//        }
-//
-//        if (C('FILE_UPLOAD_TYPE') == 'Qiniu') {
-//            $storage_setting = cmf_get_cmf_settings('storage');
-//            $qiniu_setting   = $storage_setting['Qiniu']['setting'];
-//            $filePath        = $qiniu_setting['protocol'] . '://' . $storage_setting['Qiniu']['domain'] . "/" . $file . $style;
-//        }
-
-//        return $filePath;
-
+        $storage = Storage::instance();
+        return $storage->getUrl($file, $style);
     }
 }
 
 /**
- * @TODO 增加七牛及其它云存储处理
  * 转化数据库保存图片的文件路径，为可以访问的url
  * @param string $file
- * @param mixed $style 样式(七牛)
+ * @param mixed $style 图片样式,支持各大云存储
  * @return string
  */
 function cmf_get_image_url($file, $style = '')
@@ -658,48 +640,26 @@ function cmf_get_image_url($file, $style = '')
     } else if (strpos($file, "/") === 0) {
         return $file;
     } else {
-
-        return cmf_get_root() . '/upload/' . $file;
-//        $filePath = C("TMPL_PARSE_STRING.__UPLOAD__") . $file;
-//        if (C('FILE_UPLOAD_TYPE') == 'Local') {
-//            if (strpos($filePath, "http") !== 0) {
-//                $filePath = cmf_get_host() . $filePath;
-//            }
-//        }
-//
-//        if (C('FILE_UPLOAD_TYPE') == 'Qiniu') {
-//            $storage_setting = cmf_get_cmf_settings('storage');
-//            $qiniu_setting   = $storage_setting['Qiniu']['setting'];
-//            $filePath        = $qiniu_setting['protocol'] . '://' . $storage_setting['Qiniu']['domain'] . "/" . $file . $style;
-//        }
-
-//        return $filePath;
-
+        $storage = Storage::instance();
+        return $storage->getUrl($file, $style);
     }
 }
 
 /**
- * TODO qiniu 的可能有问题，没有测试过，如果你们测试好了，可以把todo删除
  * 获取图片预览链接
  * @param string $file 文件路径，相对于upload
- * @param string $style 图片样式，只有七牛可以用
+ * @param string $style 图片样式,支持各大云存储
  * @return string
  */
 function cmf_get_image_preview_url($file, $style = 'watermark')
 {
-    if (config('FILE_UPLOAD_TYPE') == 'Qiniu') {
-        $storage_setting = cmf_get_cmf_settings('storage');
-        $qiniu_setting   = $storage_setting['Qiniu']['setting'];
-        $filePath        = $qiniu_setting['protocol'] . '://' . $storage_setting['Qiniu']['domain'] . "/" . $file;
-        $url             = cmf_get_asset_url($file, false);
-        if ($qiniu_setting['enable_picture_protect']) {
-            $url = $url . $qiniu_setting['style_separator'] . $qiniu_setting['styles'][$style];
-        }
-
-        return $url;
-
+    if (strpos($file, "http") === 0) {
+        return $file;
+    } else if (strpos($file, "/") === 0) {
+        return $file;
     } else {
-        return cmf_get_asset_url($file, false);
+        $storage = Storage::instance();
+        return $storage->getPreviewUrl($file, $style);
     }
 }
 
@@ -712,23 +672,8 @@ function cmf_get_image_preview_url($file, $style = 'watermark')
  */
 function cmf_get_file_download_url($file, $expires = 3600)
 {
-    return cmf_get_asset_url($file, false);
-//    if (C('FILE_UPLOAD_TYPE') == 'Qiniu') {
-//        $storage_setting = cmf_get_cmf_settings('storage');
-//        $qiniu_setting   = $storage_setting['Qiniu']['setting'];
-//        $filePath        = $qiniu_setting['protocol'] . '://' . $storage_setting['Qiniu']['domain'] . "/" . $file;
-//        $url             = cmf_get_asset_url($file, false);
-//
-//        if ($qiniu_setting['enable_picture_protect']) {
-//            $qiniuStorage = new \Think\Upload\Driver\Qiniu\QiniuStorage(C('UPLOAD_TYPE_CONFIG'));
-//            $url          = $qiniuStorage->privateDownloadUrl($url, $expires);
-//        }
-//
-//        return $url;
-//
-//    } else {
-//        return cmf_get_asset_url($file, false);
-//    }
+    $storage = Storage::instance();
+    return $storage->getFileDownloadUrl($file, $expires);
 }
 
 /**
@@ -1089,9 +1034,10 @@ function cmf_auth_check($userId, $name = null, $relation = 'or')
 
     $authObj = new \cmf\lib\Auth();
     if (empty($name)) {
-        $module     = request()->module();
-        $controller = request()->controller();
-        $action     = request()->action();
+        $request    = request();
+        $module     = $request->module();
+        $controller = $request->controller();
+        $action     = $request->action();
         $name       = strtolower($module . "/" . $controller . "/" . $action);
     }
     return $authObj->check($userId, $name, $relation);
@@ -1314,14 +1260,11 @@ function cmf_get_verification_code($account, $length = 6)
                 break;
             default:
                 $result = rand(100000, 999999);
-
         }
-
     }
 
     return $result;
 }
-
 
 /**
  * 更新手机或邮箱验证码发送日志
@@ -1561,27 +1504,6 @@ function cmf_is_sae()
         return true;
     } else {
         return false;
-    }
-}
-
-/**
- * 文件写入
- * @todo sae环境还没有测试，你们如果有人有机会测试，测试完了帮忙删掉todo
- * @param $file
- * @param $content
- * @return bool|int
- */
-function cmf_file_write($file, $content)
-{
-
-    if (cmf_is_sae()) {
-        $s         = new SaeStorage();
-        $arr       = explode('/', ltrim($file, './'));
-        $domain    = array_shift($arr);
-        $save_path = implode('/', $arr);
-        return $s->write($domain, $save_path, $content);
-    } else {
-        return file_put_contents($file, $content);
     }
 }
 
