@@ -9,6 +9,7 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
     public static $files = array (
         '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
         '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
+        '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -21,6 +22,10 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         'm' => 
         array (
             'mindplay\\annotations\\' => 21,
+        ),
+        'Q' => 
+        array (
+            'Qiniu\\' => 6,
         ),
     );
 
@@ -40,6 +45,10 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         'mindplay\\annotations\\' => 
         array (
             0 => __DIR__ . '/..' . '/mindplay/annotations/src/annotations',
+        ),
+        'Qiniu\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu',
         ),
     );
 
