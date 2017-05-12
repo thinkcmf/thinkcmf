@@ -15,6 +15,16 @@
 </head>
 <body>
 <div class="wrap">
+    <empty name="has_smtp_setting">
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>提示!</strong> 邮箱配置未完成,无法进行邮件发送!
+            <a href="#" data-dismiss="alert" aria-label="Close"
+               onclick="parent.openapp('/admin/mailer/index.html','admin_mailer_index','邮箱配置');">现在设置</a>
+        </div>
+    </empty>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">{:lang('SYSTEM_NOTIFICATIONS')}</h3>

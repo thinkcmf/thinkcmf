@@ -48,6 +48,10 @@ class MainController extends AdminBaseController
         ];
         $this->assign('server_info', $info);
 
+        $smtpSetting = cmf_get_option('smtp_setting');
+
+        $this->assign('has_smtp_setting', empty($smtpSetting) ? false : true);
+
         return $this->fetch();
     }
 }
