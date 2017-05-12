@@ -424,7 +424,8 @@ function cmf_set_option($key, $data)
         Db::name('option')->insert($option);
     }
 
-    //TODO 增加缓存
+    cache('cmf_options_' . $key, null);//删除缓存
+
     return true;
 }
 
