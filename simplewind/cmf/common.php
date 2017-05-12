@@ -439,18 +439,30 @@ function cmf_get_option($key)
         return [];
     }
 
-    //TODO 增加缓存
+    static $cmfGetOption;
+
+    if (empty($cmfGetOption)) {
+        $cmfGetOption = [];
+    } else {
+        if (!empty($cmfGetOption[$key])) {
+            return $cmfGetOption[$key];
+        }
+    }
+
+    $optionValue = cache('cmf_options_' . $key);
 
     if (empty($optionValue)) {
         $optionValue = Db::name('option')->where('option_name', $key)->value('option_value');
         if (!empty($optionValue)) {
             $optionValue = json_decode($optionValue, true);
 
-            return $optionValue;
+            cache('cmf_options_' . $key, $optionValue);
         }
     }
 
-    return [];
+    $cmfGetOption[$key] = $optionValue;
+
+    return $optionValue;
 }
 
 /**
