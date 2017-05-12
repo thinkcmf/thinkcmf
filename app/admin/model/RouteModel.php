@@ -162,8 +162,15 @@ class RouteModel extends Model
                 $this->where(['id' => $findRoute['id']])->update(['url' => $url, 'list_order' => $listOrder, 'type' => $type]);
             }
         } else {
-            $this->isUpdate(false)->save(['full_url' => $fullUrl, 'url' => $url, 'list_order' => $listOrder, 'type' => $type]);
+            $this->insert(['full_url' => $fullUrl, 'url' => $url, 'list_order' => $listOrder, 'type' => $type]);
         }
+    }
+
+    public function deleteRoute($action, $vars)
+    {
+        $fullUrl = $this->buildFullUrl($action, $vars);
+        $this->where(['full_url' => $fullUrl])->delete();
+        return true;
     }
 
 
