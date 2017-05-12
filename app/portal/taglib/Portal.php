@@ -86,7 +86,7 @@ parse;
      */
     public function tagBreadcrumb($tag, $content)
     {
-        $cid = $tag['cid'] ? '0' : $tag['cid'];
+        $cid = empty($tag['cid']) ? '0' : $tag['cid'];
 
         if (!empty($cid)) {
             $this->autoBuildVar($cid);
@@ -98,11 +98,15 @@ parse;
 <?php
 if(!empty({$cid})){
     \$__BREADCRUMB_ITEMS__ = \app\portal\service\ApiService::breadcrumb({$cid},{$self});
-}
 ?>
+
 <volist name="__BREADCRUMB_ITEMS__" id="vo">
     {$content}
 </volist>
+
+<?php
+}
+?>
 parse;
 
         return $parse;
