@@ -1470,7 +1470,7 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
 }
 
 /**
- *
+ * 判断 cmf 核心是否安装
  * @return bool
  */
 function cmf_is_installed()
@@ -1481,3 +1481,4 @@ function cmf_is_installed()
     }
     return $cmfIsInstalled;
 }
+
