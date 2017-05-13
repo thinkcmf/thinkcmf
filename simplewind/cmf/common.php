@@ -662,14 +662,14 @@ function cmf_get_file_download_url($file, $expires = 3600)
 }
 
 /**
- * @deprecated
- * @param $string
- * @param string $operation
- * @param string $key
- * @param int $expiry
- * @return string
+ * 解密用cmf_str_encode加密的字符串
+ * @param $string 要解密的字符串
+ * @param string $key 加密时salt
+ * @param int $expiry 多少秒后过期
+ * @param string $operation 操作,默认为DECODE
+ * @return bool|string
  */
-function cmf_auth_code($string, $operation = 'DECODE', $key = '', $expiry = 0)
+function cmf_str_decode($string, $key = '', $expiry = 0, $operation = 'DECODE')
 {
     $ckey_length = 4;
 
@@ -721,13 +721,15 @@ function cmf_auth_code($string, $operation = 'DECODE', $key = '', $expiry = 0)
 }
 
 /**
- * @deprecated
- * @param $string
- * @return string
+ * 加密字符串
+ * @param $string 要加密的字符串
+ * @param string $key salt
+ * @param int $expiry 多少秒后过期
+ * @return bool|string
  */
-function cmf_auth_encode($string)
+function cmf_str_encode($string, $key = '', $expiry = 0)
 {
-    return cmf_auth_code($string, "ENCODE");
+    return cmf_str_decode($string, "ENCODE", $key, $expiry);
 }
 
 /**
