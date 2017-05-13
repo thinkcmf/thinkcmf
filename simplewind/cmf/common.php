@@ -71,11 +71,11 @@ function cmf_update_current_user($user)
 function cmf_get_current_user_id()
 {
     $sessionUserId = session('user.id');
-    if (!empty($sessionUserId)) {
-        return $sessionUserId;
-    } else {
+    if (empty($sessionUserId)) {
         return 0;
     }
+
+    return $sessionUserId;
 }
 
 /**
@@ -143,15 +143,12 @@ function cmf_get_theme_path($theme = null)
 }
 
 /**
- * @TODO
  * 获取用户头像相对网站根目录的地址
  * @param $avatar 用户头像,相对于 upload 目录
  * @return string
  */
 function cmf_get_user_avatar_url($avatar)
 {
-
-    //TODO FIX
     if (!empty($avatar)) {
         if (strpos($avatar, "http") === 0) {
             return $avatar;
@@ -160,20 +157,7 @@ function cmf_get_user_avatar_url($avatar)
                 $avatar = 'avatar/' . $avatar;
             }
 
-            return cmf_get_asset_url($avatar);
-
-            //TODO 七牛处理
-//            $url = cmf_get_asset_url($avatar, false);
-//            if (C('FILE_UPLOAD_TYPE') == 'Qiniu') {
-//                $storage_setting = cmf_get_cmf_settings('storage');
-//                $qiniu_setting   = $storage_setting['Qiniu']['setting'];
-//                $filePath        = $qiniu_setting['protocol'] . '://' . $storage_setting['Qiniu']['domain'] . "/" . $avatar;
-//                if ($qiniu_setting['enable_picture_protect']) {
-//                    $url = $url . $qiniu_setting['style_separator'] . $qiniu_setting['styles']['avatar'];
-//                }
-//            }
-//
-//            return $url;
+            return cmf_get_asset_url($avatar, 'avatar');
         }
 
     } else {
@@ -184,7 +168,8 @@ function cmf_get_user_avatar_url($avatar)
 
 /**
  * CMF密码加密方法
- * @param string $pw 要加密的字符串
+ * @param string $pw 要加密的原始密码
+ * @param string $authCode 加密字符串
  * @return string
  */
 function cmf_password($pw, $authCode = '')
@@ -198,7 +183,7 @@ function cmf_password($pw, $authCode = '')
 
 /**
  * CMF密码加密方法 (X2.0.0以前的方法)
- * @param string $pw 要加密的字符串
+ * @param string $pw 要加密的原始密码
  * @return string
  */
 function cmf_password_old($pw)
@@ -211,15 +196,15 @@ function cmf_password_old($pw)
 /**
  * CMF密码比较方法,所有涉及密码比较的地方都用这个方法
  * @param string $password 要比较的密码
- * @param string $password_in_db 数据库保存的已经加密过的密码
+ * @param string $passwordInDb 数据库保存的已经加密过的密码
  * @return boolean 密码相同，返回true
  */
-function cmf_compare_password($password, $password_in_db)
+function cmf_compare_password($password, $passwordInDb)
 {
-    if (strpos($password_in_db, "###") === 0) {
-        return cmf_password($password) == $password_in_db;
+    if (strpos($passwordInDb, "###") === 0) {
+        return cmf_password($password) == $passwordInDb;
     } else {
-        return cmf_password_old($password) == $password_in_db;
+        return cmf_password_old($password) == $passwordInDb;
     }
 }
 
@@ -746,7 +731,6 @@ function cmf_auth_encode($string)
 }
 
 /**
- * TODO
  * 获取文件相对路径
  * @param string $assetUrl 文件的URL
  * @return string
@@ -758,29 +742,6 @@ function cmf_asset_relative_url($assetUrl)
     } else {
         return str_replace('/upload/', '', $assetUrl);
     }
-}
-
-/**
- * TODO
- * @param $content
- * @param string $pagetpl
- * @return mixed
- */
-function cmf_content_page($content, $pagetpl = '{first}{prev}{liststart}{list}{listend}{next}{last}')
-{
-    $contents  = explode('_ueditor_page_break_tag_', $content);
-    $totalsize = count($contents);
-    import('Page');
-    $pagesize  = 1;
-    $PageParam = C("VAR_PAGE");
-    $page      = new \Page($totalsize, $pagesize);
-    $page->setLinkWraper("li");
-    $page->SetPager('default', $pagetpl, ["listlong" => "9", "first" => "首页", "last" => "尾页", "prev" => "上一页", "next" => "下一页", "list" => "*", "disabledclass" => ""]);
-    $content         = $contents[$page->firstRow];
-    $data['content'] = $content;
-    $data['page']    = $page->show('default');
-
-    return $data;
 }
 
 /**
@@ -836,29 +797,6 @@ function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, 
 }
 
 /**
- * @param $url
- * @return mixed|string
- */
-function cmf_get_relative_url($url)
-{
-    if (strpos($url, "http") === 0) {
-        $url = str_replace(["https://", "http://"], "", $url);
-
-        $pos = strpos($url, "/");
-        if ($pos === false) {
-            return "";
-        } else {
-            $url  = substr($url, $pos + 1);
-            $root = preg_replace("/^\//", "", cmf_get_root());
-            $root = str_replace("/", "\/", $root);
-            $url  = preg_replace("/^" . $root . "\//", "", $url);
-            return $url;
-        }
-    }
-    return $url;
-}
-
-/**
  * 判断是否为手机访问
  * @return  boolean
  */
@@ -869,20 +807,7 @@ function cmf_is_mobile()
     if (isset($cmf_is_mobile))
         return $cmf_is_mobile;
 
-    if (empty($_SERVER['HTTP_USER_AGENT'])) {
-        $cmf_is_mobile = false;
-    } elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Mobile') !== false // many mobile devices (all iPhone, iPad, etc.)
-        || strpos($_SERVER['HTTP_USER_AGENT'], 'Android') !== false
-        || strpos($_SERVER['HTTP_USER_AGENT'], 'Silk/') !== false
-        || strpos($_SERVER['HTTP_USER_AGENT'], 'Kindle') !== false
-        || strpos($_SERVER['HTTP_USER_AGENT'], 'BlackBerry') !== false
-        || strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mini') !== false
-        || strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mobi') !== false
-    ) {
-        $cmf_is_mobile = true;
-    } else {
-        $cmf_is_mobile = false;
-    }
+    $cmf_is_mobile = Request::instance()->isMobile();
 
     return $cmf_is_mobile;
 }
@@ -900,7 +825,7 @@ function cmf_is_wechat()
 }
 
 /**
- * 处理插件钩子
+ * 添加钩子
  * @param string $hook 钩子名称
  * @param mixed $params 传入参数
  * @return void
@@ -911,7 +836,7 @@ function hook($hook, &$params = null, $extra = null)
 }
 
 /**
- * 处理插件钩子,只执行一个
+ * 添加钩子,只执行一个
  * @param string $hook 钩子名称
  * @param mixed $params 传入参数
  * @return void
@@ -929,6 +854,7 @@ function hook_one($hook, &$params = null, $extra = null)
  */
 function cmf_get_plugin_class($name)
 {
+    $name      = ucwords($name);
     $pluginDir = cmf_parse_name($name);
     $class     = "plugins\\{$pluginDir}\\{$name}Plugin";
     return $class;
@@ -963,6 +889,11 @@ function cmf_scan_dir($pattern, $flags = null)
     return $files;
 }
 
+/**
+ * 获取某个目录下所有子目录
+ * @param $dir
+ * @return array
+ */
 function cmf_sub_dirs($dir)
 {
     $dir     = ltrim($dir, "/");
@@ -1115,90 +1046,39 @@ function cmf_captcha_check($value, $id = "")
 }
 
 /**
- * TODO
- * 执行SQL文件  sae 环境下file_get_contents() 函数好像有间歇性bug。
- * @param string $sqlPath sql文件路径
- * @author 5iymt <1145769693@qq.com>
+ * 切分SQL文件成多个可以单独执行的sql语句
+ * @param $file sql文件路径
+ * @param $tablePre 表前缀
+ * @param string $charset 字符集
+ * @param string $defaultTablePre 默认表前缀
+ * @param string $defaultCharset 默认字符集
+ * @return array
  */
-function cmf_execute_sql_file($sqlPath)
+function cmf_split_sql($file, $tablePre, $charset = 'utf8mb4', $defaultTablePre = 'cmf_', $defaultCharset = 'utf8mb4')
 {
-
-    // 读取SQL文件
-    $sql = file_get_contents($sqlPath);
-    $sql = str_replace("\r", "\n", $sql);
-    $sql = explode(";\n", $sql);
-
-    // 替换表前缀
-    $orginal = 'cmf_';
-    $prefix  = C('DB_PREFIX');
-    $sql     = str_replace("{$orginal}", "{$prefix}", $sql);
-
-    // 开始安装
-    foreach ($sql as $value) {
-        $value = trim($value);
-        if (empty ($value)) {
-            continue;
-        }
-        $res = M()->execute($value);
+    if (file_exists($file)) {
+        //读取SQL文件
+        $sql = file_get_contents($file);
+        $sql = str_replace("\r", "\n", $sql);
+        $sql = str_replace("BEGIN;\n", '', $sql);//兼容 navicat 导出的 insert 语句
+        $sql = str_replace("COMMIT;\n", '', $sql);//兼容 navicat 导出的 insert 语句
+        $sql = str_replace($defaultCharset, $charset, $sql);
+        $sql = trim($sql);
+        //替换表前缀
+        $sql  = str_replace(" `{$defaultTablePre}", " `{$tablePre}", $sql);
+        $sqls = explode(";\n\n", $sql);
+        return $sqls;
     }
+
+    return [];
 }
 
 /**
- * TODO
- * 插件R方法扩展 建立多插件之间的互相调用。提供无限可能
- * 使用方式 get_plugns_return('Chat://Index/index',[])
- * @param string $url 调用地址
- * @param array $params 调用参数
- * @author 5iymt <1145769693@qq.com>
+ * 当前的语言包，并返回语言包名
  */
-function cmf_get_plugin_return($url, $params = [])
+function cmf_current_lang()
 {
-    $url        = parse_url($url);
-    $case       = C('URL_CASE_INSENSITIVE');
-    $plugin     = $case ? parse_name($url['scheme']) : $url['scheme'];
-    $controller = $case ? parse_name($url['host']) : $url['host'];
-    $action     = trim($case ? strtolower($url['path']) : $url['path'], '/');
-
-    /* 解析URL带的参数 */
-    if (isset($url['query'])) {
-        parse_str($url['query'], $query);
-        $params = array_merge($query, $params);
-    }
-    return R("plugins://{$plugin}/{$controller}/{$action}", $params);
-}
-
-/**
- * @deprecated
- * 判断当前的语言包，并返回语言包名
- */
-function cmf_check_lang()
-{
-    $langSet = C('DEFAULT_LANG');
-    if (C('LANG_SWITCH_ON', null, false)) {
-
-        $varLang  = C('VAR_LANGUAGE', null, 'l');
-        $langList = C('LANG_LIST', null, 'zh-cn');
-        // 启用了语言包功能
-        // 根据是否启用自动侦测设置获取语言选择
-        if (C('LANG_AUTO_DETECT', null, true)) {
-            if (isset($_GET[$varLang])) {
-                $langSet = $_GET[$varLang];// url中设置了语言变量
-                cookie('think_language', $langSet, 3600);
-            } elseif (cookie('think_language')) {// 获取上次用户的选择
-                $langSet = cookie('think_language');
-            } elseif (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {// 自动侦测浏览器语言
-                preg_match('/^([a-z\d\-]+)/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $matches);
-                $langSet = $matches[1];
-                cookie('think_language', $langSet, 3600);
-            }
-            if (false === stripos($langList, $langSet)) { // 非法语言参数
-                $langSet = C('DEFAULT_LANG');
-            }
-        }
-    }
-
-    return strtolower($langSet);
-
+    return request()->langset();
 }
 
 /**
@@ -1419,26 +1299,6 @@ function cmf_parse_name($name, $type = 0, $ucfirst = true)
     return Loader::parseName($name, $type, $ucfirst);
 }
 
-function cmf_curl_get($url)
-{
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_FAILONERROR, true);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-
-    $SSL = substr($url, 0, 8) == "https://" ? true : false;
-    if ($SSL) {
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 信任任何证书
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // 检查证书中是否设置域名
-    }
-    $content = curl_exec($ch);
-
-    return $content;
-}
-
 /**
  * 判断字符串是否为已经序列化过
  * @param $str
@@ -1462,7 +1322,6 @@ function cmf_is_ssl()
     }
     return false;
 }
-
 
 /**
  * 获取CMF系统的设置，此类设置用于全局
