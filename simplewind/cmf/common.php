@@ -1068,7 +1068,7 @@ function cmf_split_sql($file, $tablePre, $charset = 'utf8mb4', $defaultTablePre 
         $sql = trim($sql);
         //替换表前缀
         $sql  = str_replace(" `{$defaultTablePre}", " `{$tablePre}", $sql);
-        $sqls = explode(";\n\n", $sql);
+        $sqls = explode(";\n", $sql);
         return $sqls;
     }
 
