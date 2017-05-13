@@ -156,7 +156,7 @@ class IndexController extends Controller
 
             session('install.db_config', $dbConfig);
 
-            $sql = sp_split_sql('thinkcmf.sql', $dbConfig['prefix'], $dbConfig['charset']);
+            $sql = cmf_split_sql(APP_PATH . 'install/data/thinkcmf.sql', $dbConfig['prefix'], $dbConfig['charset']);
             session('install.sql', $sql);
 
             $this->assign('sql_count', count($sql));
@@ -194,21 +194,15 @@ class IndexController extends Controller
     public function install()
     {
         $dbConfig = session('install.db_config');
+        $sql      = session('install.sql');
 
-        if (empty($dbConfig)) {
+        if (empty($dbConfig) || empty($sql)) {
             $this->error("非法安装!");
         }
 
         $sqlIndex = $this->request->param('sql_index', 0, 'intval');
 
         $db = Db::connect($dbConfig);
-
-        $sql = session('install.sql');
-
-        if (empty($sql)) {
-            $sql = sp_split_sql('thinkcmf.sql', $dbConfig['prefix']);
-            session('install.sql', $sql);
-        }
 
         if ($sqlIndex >= count($sql)) {
             $installError = session('install.error');

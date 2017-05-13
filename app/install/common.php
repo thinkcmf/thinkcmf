@@ -41,20 +41,6 @@ function sp_dir_path($path)
     return $path;
 }
 
-function sp_split_sql($file, $tablePre, $charset = 'utf8mb4')
-{
-    //读取SQL文件
-    $sql = file_get_contents(APP_PATH . 'install/data/' . $file);
-    $sql = str_replace("\r", "\n", $sql);
-    $sql = str_replace('utf8mb4', $charset, $sql);
-    $sql = trim($sql);
-    //替换表前缀
-    $defaultTablePre = "cmf_";
-    $sql             = str_replace(" `{$defaultTablePre}", " `{$tablePre}", $sql);
-    $sqls            = explode(";\n", $sql);
-    return $sqls;
-}
-
 function sp_execute_sql($db, $sql)
 {
     $sql = trim($sql);
