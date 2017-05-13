@@ -163,7 +163,7 @@ class Upload
 
         // Open temp file
         if (!$out = @fopen($targetDir . "{$strFilePath}_{$chunk}.parttmp", "wb")) {
-            $this->error = "Failed to open output stream！";
+            $this->error = "上传文件临时目录不可写".$targetDir;
             return false;
         }
         // Read binary input stream and append it to temp file
@@ -202,7 +202,7 @@ class Upload
 
         // 合并临时文件
         if (!$out = @fopen($strSaveFilePath, "wb")) {
-            $this->error = "Failed to open output stream！";
+            $this->error = "上传目录不可写";
             return false;
         }
 
@@ -290,10 +290,10 @@ class Upload
         }
 
         //删除临时文件
-        for ($index = 0; $index < $chunks; $index++) {
-            // echo $targetDir . "{$strFilePath}_{$index}.part";
-            @unlink($targetDir . "{$strFilePath}_{$index}.part");
-        }
+//        for ($index = 0; $index < $chunks; $index++) {
+//            // echo $targetDir . "{$strFilePath}_{$index}.part";
+//            @unlink($targetDir . "{$strFilePath}_{$index}.part");
+//        }
         @rmdir($targetDir);
 
         $storage = cmf_get_option('storage');

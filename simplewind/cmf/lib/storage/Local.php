@@ -6,16 +6,13 @@ class Local
 {
     private $config;
 
-    private $storageRoot;
-
     /**
      * Local constructor.
      * @param $config
      */
     public function __construct($config)
     {
-        $this->config      = $config;
-        $this->storageRoot = $this->config['setting']['protocol'] . '://' . $this->config['domain'] . '/';
+        $this->config = $config;
     }
 
     /**

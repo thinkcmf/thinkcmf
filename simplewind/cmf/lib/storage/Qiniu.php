@@ -65,12 +65,14 @@ class Qiniu
      */
     public function getUrl($file, $style = '')
     {
+        $style = empty($style) ? 'watermark' : $style;
+
         $config       = $this->config;
         $qiniuSetting = $config['setting'];
         $url          = $this->storageRoot . $file;
 
         if (!empty($style)) {
-            $url . $qiniuSetting['style_separator'] . $style;
+            $url = $url . $qiniuSetting['style_separator'] . $style;
         }
 
         return $url;

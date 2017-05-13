@@ -27,8 +27,13 @@ class Storage
                 $driver       = 'Local';
                 $driverConfig = [];
             } else {
-                $driver       = $storageSetting['type'];
-                $driverConfig = $storageSetting[$driver];
+                $driver = $storageSetting['type'];
+                if ($driver == 'Local') {
+                    $driverConfig = [];
+                } else {
+                    $driverConfig = $storageSetting[$driver];
+                }
+
             }
 
         }
