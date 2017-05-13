@@ -64,7 +64,7 @@ class PluginBaseController
 
         if (is_null($this->plugin)) {
             $pluginName   = $this->request->param('_plugin');
-            $class        = "plugins\\{$pluginName}\\{$pluginName}Plugin";
+            $class        = cmf_get_plugin_class($pluginName);
             $this->plugin = new $class;
         }
 
@@ -115,7 +115,7 @@ class PluginBaseController
      */
     protected function fetch($template = '', $vars = [], $replace = [], $config = [])
     {
-        $template=$this->parseTemplate($template);
+        $template = $this->parseTemplate($template);
 
         // 模板不存在 抛出异常
         if (!is_file($template)) {
@@ -141,9 +141,9 @@ class PluginBaseController
 
         $depr = $viewEngineConfig['view_depr'];
 
-        $data             = $this->request->param();
-        $controller       = $data['_controller'];
-        $action           = $data['_action'];
+        $data       = $this->request->param();
+        $controller = $data['_controller'];
+        $action     = $data['_action'];
 
         if (0 !== strpos($template, '/')) {
             $template   = str_replace(['/', ':'], $depr, $template);
