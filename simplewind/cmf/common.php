@@ -1484,8 +1484,8 @@ function cmf_is_installed()
 
 /**
  * 替换编辑器内容中的文件地址
- * @param $content 编辑器内容
- * @param $isForDbSave true:表示把绝对地址换成相对地址,用于数据库保存,false:表示把相对地址换成绝对地址用于界面显示
+ * @param string $content 编辑器内容
+ * @param boolean $isForDbSave true:表示把绝对地址换成相对地址,用于数据库保存,false:表示把相对地址换成绝对地址用于界面显示
  * @return string
  */
 function cmf_replace_content_file_url($content, $isForDbSave = false)
