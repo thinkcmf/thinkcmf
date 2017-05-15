@@ -1481,3 +1481,51 @@ function cmf_is_installed()
     }
     return $cmfIsInstalled;
 }
+
+/**
+ * 替换编辑器内容中的文件地址
+ * @param $content 编辑器内容
+ * @param $isForDbSave true:表示把绝对地址换成相对地址,用于数据库保存,false:表示把相对地址换成绝对地址用于界面显示
+ * @return string
+ */
+function cmf_replace_content_file_url($content, $isForDbSave = false)
+{
+    import('phpQuery.phpQuery', EXTEND_PATH);
+    \phpQuery::newDocumentHTML($content);
+    $pq     = pq(null);
+    $images = $pq->find("img");
+
+    $storage       = Storage::instance();
+    $localStorage  = new cmf\lib\storage\Local([]);
+    $storageDomain = $storage->getDomain();
+    $domain        = request()->host();
+
+    if ($images->length) {
+        foreach ($images as $img) {
+            $img    = pq($img);
+            $imgSrc = $img->attr("src");
+
+            if ($isForDbSave) {
+                if (preg_match("/^\/upload\//", $imgSrc)) {
+                    $img->attr("src", preg_replace("/^\/upload\//", '', $imgSrc));
+                } elseif (preg_match("/^http(s)?:\/\/$storageDomain\//", $imgSrc)) {
+                    $img->attr("src", $storage->getFilePath($imgSrc));
+                } elseif (preg_match("/^http(s)?:\/\/$domain\//", $imgSrc)) {
+                    $img->attr("src", $localStorage->getFilePath($imgSrc));
+                }
+
+            } else {
+                $img->attr("src", cmf_get_image_url($imgSrc));
+            }
+
+        }
+    }
+
+    $content = $pq->html();
+
+    \phpQuery::$documents = null;
+
+
+    return $content;
+
+}

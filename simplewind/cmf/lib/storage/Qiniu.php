@@ -91,4 +91,23 @@ class Qiniu
         $url       = $this->getUrl($file);
         return $auth->privateDownloadUrl($url, $expires);
     }
+
+    public function getDomain()
+    {
+        return $this->config['domain'];
+    }
+
+    public function getFilePath($url)
+    {
+        $storageDomain = $this->getDomain();
+        $url           = preg_replace("/^http(s)?:\/\/$storageDomain\//", '', $url);
+
+        $config         = $this->config;
+        $qiniuSetting   = $config['setting'];
+        $styleSeparator = $qiniuSetting['style_separator'];
+
+        $url = substr($url, 0, strpos($url, $styleSeparator));
+
+        return $url;
+    }
 }

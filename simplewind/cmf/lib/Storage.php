@@ -101,5 +101,15 @@ class Storage
         return $this->driver->getFileDownloadUrl($file, $expires);
     }
 
+    public function getDomain()
+    {
+        return $this->driver->getDomain();
+    }
+
+    public function getFilePath($url)
+    {
+        return $this->driver->getFilePath($url);
+    }
+
 
 }

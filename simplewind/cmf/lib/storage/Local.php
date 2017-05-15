@@ -58,4 +58,16 @@ class Local
         $url = $this->getUrl($file);
         return $url;
     }
+
+    public function getDomain()
+    {
+        return request()->host();
+    }
+
+    public function getFilePath($url)
+    {
+        $storageDomain = $this->getDomain();
+        $url           = preg_replace("/^http(s)?:\/\/$storageDomain\//", '', $url);
+        return $url;
+    }
 }
