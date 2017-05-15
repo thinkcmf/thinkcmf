@@ -34,6 +34,20 @@ class StorageController extends AdminBaseController
     public function index()
     {
         $storage = cmf_get_option('storage');
+
+        if (empty($storage)) {
+            $storage['type']     = 'Local';
+            $storage['storages'] = ['Local' => ['name' => '本地']];
+        } else {
+            if (empty($storage['type'])) {
+                $storage['type'] = 'Local';
+            }
+
+            if (empty($storage['storages']['Local'])) {
+                $storage['storages']['Local'] = ['name' => '本地'];
+            }
+        }
+
         $this->assign($storage);
         return $this->fetch();
     }
@@ -55,23 +69,11 @@ class StorageController extends AdminBaseController
     {
         $post = $this->request->post();
 
-        $supportStorages = ["Local", "Qiniu"];
-        $type            = $post['type'];
-        if (in_array($type, $supportStorages)) {
+        $storage = cmf_get_option('storage');
 
-            if ($type == 'Qiniu') {
-                $result = $this->validate($post['Qiniu'], 'StorageQiniu');
-
-                if ($result !== true) {
-                    $this->error($result);
-                }
-            }
-
-            cmf_set_option('storage', $post);
-            $this->success("设置成功！", '');
-        } else {
-            $this->error("文件存储不存在！", '');
-        }
+        $storage['type'] = $post['type'];
+        cmf_set_option('storage', $storage);
+        $this->success("设置成功！", '');
 
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace cmf\lib\storage;
+namespace plugins\qiniu\lib;
 
 use Qiniu\Auth;
 use Qiniu\Storage\UploadManager;
@@ -13,13 +13,22 @@ class Qiniu
     private $storageRoot;
 
     /**
+     * @var \plugins\qiniu\QiniuPlugin
+     */
+    private $plugin;
+
+    /**
      * Qiniu constructor.
      * @param $config
      */
     public function __construct($config)
     {
-        $this->config      = $config;
-        $this->storageRoot = $this->config['setting']['protocol'] . '://' . $this->config['domain'] . '/';
+        $pluginClass = cmf_get_plugin_class('Qiniu');
+
+        $this->plugin = new $pluginClass();
+        $this->config = $this->plugin->getConfig();
+
+        $this->storageRoot = $this->config['protocol'] . '://' . $this->config['domain'] . '/';
     }
 
     /**
@@ -72,13 +81,12 @@ class Qiniu
      */
     public function getImageUrl($file, $style = '')
     {
-        $style        = empty($style) ? 'watermark' : $style;
-        $config       = $this->config;
-        $qiniuSetting = $config['setting'];
-        $url          = $this->storageRoot . $file;
+        $style  = empty($style) ? 'watermark' : $style;
+        $config = $this->config;
+        $url    = $this->storageRoot . $file;
 
         if (!empty($style)) {
-            $url = $url . $qiniuSetting['style_separator'] . $style;
+            $url = $url . $config['style_separator'] . $style;
         }
 
         return $url;
@@ -92,12 +100,11 @@ class Qiniu
      */
     public function getUrl($file, $style = '')
     {
-        $config       = $this->config;
-        $qiniuSetting = $config['setting'];
-        $url          = $this->storageRoot . $file;
+        $config = $this->config;
+        $url    = $this->storageRoot . $file;
 
         if (!empty($style)) {
-            $url = $url . $qiniuSetting['style_separator'] . $style;
+            $url = $url . $config['style_separator'] . $style;
         }
 
         return $url;
@@ -139,8 +146,7 @@ class Qiniu
         if (!empty($parsedUrl['path'])) {
             $url            = ltrim($parsedUrl['path'], '/\\');
             $config         = $this->config;
-            $qiniuSetting   = $config['setting'];
-            $styleSeparator = $qiniuSetting['style_separator'];
+            $styleSeparator = $config['style_separator'];
 
             $styleSeparatorPosition = strpos($url, $styleSeparator);
             if ($styleSeparatorPosition !== false) {

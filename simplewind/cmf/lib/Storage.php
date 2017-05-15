@@ -31,7 +31,7 @@ class Storage
                 if ($driver == 'Local') {
                     $driverConfig = [];
                 } else {
-                    $driverConfig = $storageSetting[$driver];
+                    $driverConfig = $storageSetting['storages'][$driver];
                 }
 
             }
@@ -40,11 +40,13 @@ class Storage
 
         if (empty($driverConfig['driver'])) {
             $storageDriverClass = "\\cmf\\lib\\storage\\$driver";
-
-            $storage = new $storageDriverClass($driverConfig);
-
-            $this->driver = $storage;
+        } else {
+            $storageDriverClass = $driverConfig['driver'];
         }
+
+        $storage = new $storageDriverClass($driverConfig);
+
+        $this->driver = $storage;
     }
 
     /**
