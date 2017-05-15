@@ -147,7 +147,7 @@ function calcTaskitemsWidth() {
 }
 
 function close_current_app(){
-	closeapp($("#task-content-inner .current"));
+	closeapp($("#task-content-inner .active"));
 }
 
 function closeapp($this){
@@ -174,9 +174,9 @@ var appiframe_tpl='<iframe style="width:100%;height: 100%;" frameborder="0" clas
 
 function openapp(url, appid, appname, refresh) {
     var $app = $("#task-content-inner li[app-id='"+appid+"']");
-    $("#task-content-inner .current").removeClass("current");
+    $("#task-content-inner .active").removeClass("active");
     if ($app.length == 0) {
-        var task = $(task_item_tpl).attr("app-id", appid).attr("app-url",url).attr("app-name",appname).addClass("current");
+        var task = $(task_item_tpl).attr("app-id", appid).attr("app-url",url).attr("app-name",appname).addClass("active");
         task.find(".macro-tabs-item-text").html(appname).attr("title",appname);
         $task_content_inner.append(task);
         $(".appiframe").hide();
@@ -188,7 +188,7 @@ function openapp(url, appid, appname, refresh) {
         });
         calcTaskitemsWidth();
     } else {
-    	$app.addClass("current");
+    	$app.addClass("active");
     	$(".appiframe").hide();
     	var $iframe=$("#appiframe-"+appid);
     	var src=$iframe.get(0).contentWindow.location.href;
