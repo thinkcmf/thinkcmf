@@ -8,19 +8,19 @@
 // +----------------------------------------------------------------------
 return [
     'text'     => [// 在后台插件配置表单中的键名 ,会是config[text]
-        'title' => '文本:', // 表单的label标题
+        'title' => '文本', // 表单的label标题
         'type'  => 'text',// 表单的类型：text,password,textarea,checkbox,radio,select等
         'value' => 'hello,ThinkCMF!',// 表单的默认值
         'tip'   => '这是文本组件的演示' //表单的帮助提示
     ],
     'password' => [// 在后台插件配置表单中的键名 ,会是config[password]
-        'title' => '密码:',
+        'title' => '密码',
         'type'  => 'password',
         'value' => '',
         'tip'   => '这是密码组件'
     ],
     'select'   => [// 在后台插件配置表单中的键名 ,会是config[select]
-        'title'   => '下拉列表:',
+        'title'   => '下拉列表',
         'type'    => 'select',
         'options' => [//select 和radio,checkbox的子选项
             '1' => 'ThinkCMFX',// 值=>显示
@@ -51,7 +51,7 @@ return [
         'value'   => '1',
         'tip'     => '这是单选框组件'
     ],
-    'radio2'    => [
+    'radio2'   => [
         'title'   => '单选框2',
         'type'    => 'radio',
         'options' => [
