@@ -88,12 +88,12 @@ parse;
     {
 
         // nav-id,id,root,class
-        $navId    = isset($tag['nav-id']) ? $tag['nav-id'] : 0;
-        $id       = isset($tag['id']) ? $tag['id'] : '';
-        $root     = isset($tag['root']) ? $tag['root'] : 'ul';
-        $class    = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
-        $maxLevel = isset($tag['max-level']) ? intval($tag['max-level']) : 0;
-        $parseNavigationFuncName = '__parse_navigation'.uniqid();
+        $navId                   = isset($tag['nav-id']) ? $tag['nav-id'] : 0;
+        $id                      = isset($tag['id']) ? $tag['id'] : '';
+        $root                    = isset($tag['root']) ? $tag['root'] : 'ul';
+        $class                   = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
+        $maxLevel                = isset($tag['max-level']) ? intval($tag['max-level']) : 0;
+        $parseNavigationFuncName = '__parse_navigation' . uniqid();
 
         if (strpos($navId, '$') === 0) {
             $this->autoBuildVar($name);
@@ -181,12 +181,12 @@ parse;
     {
 
         // parent,id,root,class
-        $parent   = isset($tag['parent']) ? $tag['parent'] : 0;
-        $id       = isset($tag['id']) ? $tag['id'] : '';
-        $root     = isset($tag['root']) ? $tag['root'] : 'ul';
-        $class    = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
-        $maxLevel = isset($tag['max-level']) ? intval($tag['max-level']) : 0;
-        $parseSubNavigationFuncName = '__parse_sub_navigation'.uniqid();
+        $parent                     = isset($tag['parent']) ? $tag['parent'] : 0;
+        $id                         = isset($tag['id']) ? $tag['id'] : '';
+        $root                       = isset($tag['root']) ? $tag['root'] : 'ul';
+        $class                      = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
+        $maxLevel                   = isset($tag['max-level']) ? intval($tag['max-level']) : 0;
+        $parseSubNavigationFuncName = '__parse_sub_navigation' . uniqid();
 
         if (strpos($parent, '$') === 0) {
             $this->autoBuildVar($name);
@@ -336,10 +336,11 @@ parse;
         $length   = empty($tag['length']) ? '' : '&length=' . $tag['length'];
         $bg       = empty($tag['bg']) ? '' : '&bg=' . $tag['bg'];
         $title    = empty($tag['title']) ? '换一张' : $tag['title'];
+        $style    = empty($tag['style']) ? 'cursor: pointer;' : $tag['style'];
         $params   = ltrim("{$id}{$height}{$width}{$fontSize}{$length}{$bg}", '&');
         $parse    = <<<parse
 <php>\$__CAPTCHA_SRC=url('/captcha/new').'?{$params}';</php>
-<img src="{\$__CAPTCHA_SRC}" onclick="this.src='{\$__CAPTCHA_SRC}&time='+Math.random();" title="{$title}" class="captcha captcha-img verify_img" style="cursor: pointer;"/>{$content}
+<img src="{\$__CAPTCHA_SRC}" onclick="this.src='{\$__CAPTCHA_SRC}&time='+Math.random();" title="{$title}" class="captcha captcha-img verify_img" style="{$style}"/>{$content}
 parse;
         return $parse;
     }
