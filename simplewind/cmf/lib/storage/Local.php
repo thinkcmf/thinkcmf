@@ -20,12 +20,22 @@ class Local
      * @param string $filePath
      * @return array
      */
-    public function upload($file, $filePath = '')
+    public function upload($file, $filePath = '', $fileType = 'image', $param = null)
     {
         return [
             'preview_url' => $this->getPreviewUrl($file),
             'url'         => $this->getUrl($file),
         ];
+    }
+
+    /**
+     * @param $file
+     * @param string $style
+     * @return string
+     */
+    public function getImageUrl($file, $style = '')
+    {
+        return cmf_get_root() . '/upload/' . $file;
     }
 
     /**

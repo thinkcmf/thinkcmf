@@ -50,11 +50,13 @@ class Storage
     /**
      * @param $file
      * @param $filePath
-     * @return array
+     * @param string $fileType
+     * @param null $param
+     * @return mixed
      */
-    public function upload($file, $filePath)
+    public function upload($file, $filePath, $fileType = 'image', $param = null)
     {
-        return $this->driver->upload($file, $filePath);
+        return $this->driver->upload($file, $filePath, $fileType, $param);
     }
 
     /**
@@ -79,6 +81,16 @@ class Storage
     public function getPreviewUrl($file, $style = '')
     {
         return $this->driver->getPreviewUrl($file, $style);
+    }
+
+    /**
+     * @param $file
+     * @param string $style
+     * @return mixed
+     */
+    public function getImageUrl($file, $style = '')
+    {
+        return $this->driver->getImageUrl($file, $style);
     }
 
     /**

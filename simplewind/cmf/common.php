@@ -157,7 +157,7 @@ function cmf_get_user_avatar_url($avatar)
                 $avatar = 'avatar/' . $avatar;
             }
 
-            return cmf_get_asset_url($avatar, 'avatar');
+            return cmf_get_image_url($avatar, 'avatar');
         }
 
     } else {
@@ -626,7 +626,7 @@ function cmf_get_image_url($file, $style = '')
         return $file;
     } else {
         $storage = Storage::instance();
-        return $storage->getUrl($file, $style);
+        return $storage->getImageUrl($file, $style);
     }
 }
 
@@ -1492,14 +1492,14 @@ function cmf_replace_content_file_url($content, $isForDbSave = false)
 {
     import('phpQuery.phpQuery', EXTEND_PATH);
     \phpQuery::newDocumentHTML($content);
-    $pq     = pq(null);
-    $images = $pq->find("img");
+    $pq = pq(null);
 
     $storage       = Storage::instance();
     $localStorage  = new cmf\lib\storage\Local([]);
     $storageDomain = $storage->getDomain();
     $domain        = request()->host();
 
+    $images = $pq->find("img");
     if ($images->length) {
         foreach ($images as $img) {
             $img    = pq($img);
@@ -1510,12 +1510,34 @@ function cmf_replace_content_file_url($content, $isForDbSave = false)
                     $img->attr("src", preg_replace("/^\/upload\//", '', $imgSrc));
                 } elseif (preg_match("/^http(s)?:\/\/$storageDomain\//", $imgSrc)) {
                     $img->attr("src", $storage->getFilePath($imgSrc));
-                } elseif (preg_match("/^http(s)?:\/\/$domain\//", $imgSrc)) {
+                } elseif (preg_match("/^http(s)?:\/\/$domain\/upload\//", $imgSrc)) {
                     $img->attr("src", $localStorage->getFilePath($imgSrc));
                 }
 
             } else {
                 $img->attr("src", cmf_get_image_url($imgSrc));
+            }
+
+        }
+    }
+
+    $links = $pq->find("a");
+    if ($links->length) {
+        foreach ($links as $link) {
+            $link = pq($link);
+            $href = $link->attr("href");
+
+            if ($isForDbSave) {
+                if (preg_match("/^\/upload\//", $href)) {
+                    $link->attr("href", preg_replace("/^\/upload\//", '', $href));
+                } elseif (preg_match("/^http(s)?:\/\/$storageDomain\//", $href)) {
+                    $link->attr("href", $storage->getFilePath($href));
+                } elseif (preg_match("/^http(s)?:\/\/$domain\/upload\//", $href)) {
+                    $link->attr("href", $localStorage->getFilePath($href));
+                }
+
+            } else {
+                $link->attr("href", cmf_get_file_download_url($href));
             }
 
         }

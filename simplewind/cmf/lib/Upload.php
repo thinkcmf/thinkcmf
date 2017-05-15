@@ -163,7 +163,7 @@ class Upload
 
         // Open temp file
         if (!$out = @fopen($targetDir . "{$strFilePath}_{$chunk}.parttmp", "wb")) {
-            $this->error = "上传文件临时目录不可写".$targetDir;
+            $this->error = "上传文件临时目录不可写" . $targetDir;
             return false;
         }
         // Read binary input stream and append it to temp file
@@ -300,7 +300,7 @@ class Upload
 
         if ($storage['type'] != 'Local') { //  增加存储驱动
             $storage = new Storage($storage['type'], $storage[$storage['type']]);
-            $result  = $storage->upload($arrInfo["file_path"], './upload/' . $arrInfo["file_path"]);
+            $result  = $storage->upload($arrInfo["file_path"], './upload/' . $arrInfo["file_path"], $fileType);
 
             if (!empty($result)) {
                 return array_merge([
