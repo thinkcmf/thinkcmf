@@ -27,7 +27,7 @@ class ApiService
      */
     public static function slides($slideId)
     {
-        $slideCount = Db::name('slide')->where('id', $slideId)->where('status', 1)->count();
+        $slideCount = Db::name('slide')->where('id', $slideId)->where(['status' => 1, 'delete_time' => 0])->count();
 
         if ($slideCount == 0) {
             return [];
