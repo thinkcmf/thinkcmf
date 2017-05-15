@@ -88,6 +88,13 @@ class IndexController extends Controller
             $err++;
         }
 
+        if (extension_loaded('fileinfo')) {
+            $data['fileinfo'] = '<i class="fa fa-check correct"></i> 已开启';
+        } else {
+            $data['fileinfo'] = '<i class="fa fa-remove error"></i> 未开启';
+            $err++;
+        }
+
         if (ini_get('file_uploads')) {
             $data['upload_size'] = '<i class="fa fa-check correct"></i> ' . ini_get('upload_max_filesize');
         } else {
