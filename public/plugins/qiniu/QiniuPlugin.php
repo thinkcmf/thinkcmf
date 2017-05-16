@@ -22,7 +22,7 @@ class QiniuPlugin extends Plugin
         'version'     => '1.0'
     ];
 
-    public $hasAdmin = 1;//插件是否有后台管理界面
+    public $hasAdmin = 0;//插件是否有后台管理界面
 
     // 插件安装
     public function install()
