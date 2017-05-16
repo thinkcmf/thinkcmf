@@ -27,7 +27,7 @@ class Storage
                 $driver       = 'Local';
                 $driverConfig = [];
             } else {
-                $driver = $storageSetting['type'];
+                $driver = isset($storageSetting['type']) ? $storageSetting['type'] : 'Local';
                 if ($driver == 'Local') {
                     $driverConfig = [];
                 } else {
