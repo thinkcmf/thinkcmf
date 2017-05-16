@@ -162,7 +162,9 @@ class RouteModel extends Model
                 $this->where(['id' => $findRoute['id']])->update(['url' => $url, 'list_order' => $listOrder, 'type' => $type]);
             }
         } else {
-            $this->insert(['full_url' => $fullUrl, 'url' => $url, 'list_order' => $listOrder, 'type' => $type]);
+            if (!empty($url)) {
+                $this->insert(['full_url' => $fullUrl, 'url' => $url, 'list_order' => $listOrder, 'type' => $type]);
+            }
         }
     }
 
