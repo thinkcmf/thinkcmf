@@ -1,103 +1,29 @@
-<include file="public@header" />
+<include file="plugin/functions"/>
+<include file="public@header"/>
 </head>
 <body>
-	<div class="wrap">
-		<ul class="nav nav-tabs">
-			<li><a href="{:url('plugin/index')}">{:lang('ADMIN_PLUGIN_INDEX')}</a></li>
-			<li class="active"><a>{:lang('ADMIN_PLUGIN_SETTING')}</a></li>
-		</ul>
-		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('plugin/settingPost')}">
-			<empty name="custom_config">
-				<foreach name="data['config']" item="form">
-					<div class="form-group">
-						<label class="col-sm-2 control-label" for="{$key}">
-							{$form.title|default=''}
-						</label>
-						<switch name="form.type">
-							<case value="text">
-							<div class="col-md-6 col-sm-10">
-								<input type="text" name="config[{$key}]" class="form-control" value="{$form.value}" id="{$key}">
-								<present name="form.tip">
-									<p class="help-block">{$form.tip}</p>
-								</present>
-							</div>
-							</case>
-							<case value="password">
-							<div class="col-md-6 col-sm-10">
-								<input type="password" name="config[{$key}]" class="form-control" value="{$form.value}" id="{$key}">
-								<present name="form.tip">
-									<p class="help-block">{$form.tip}</p>
-								</present>
-							</div>
-							</case>
-							<case value="hidden">
-								<input type="hidden" name="config[{$key}]" value="{$form.value}">
-							</case>
-							<case value="radio">
-							<div class="col-md-6 col-sm-10">
-								<foreach name="form.options" item="opt" key="opt_k">
-									<label class="radio-inline">
-										<php>$radio_checked=$opt_k==$form['value']?"checked":"";</php>
-										<input type="radio" name="config[{$key}]" value="{$opt_k}" {$radio_checked}>{$opt}
-									</label>
-								</foreach>
-								<present name="form.tip">
-									<p class="help-block">{$form.tip}</p>
-								</present>
-							</div>
-							</case>
-							<case value="checkbox">
-							<div class="col-md-6 col-sm-10">
-								<foreach name="form.options" item="opt" key="opt_k">
-									<label class="checkbox-inline">
-										<php>
-											is_null($form["value"]) && $form["value"] = array();
-										</php>
-										<input type="checkbox" name="config[{$key}][]" value="{$opt_k}" <in name="opt_k" value="$form.value"> checked</in>>{$opt}
-									</label>
-								</foreach>
-								<present name="form.tip">
-									<p class="help-block">{$form.tip}</p>
-								</present>
-							</div>
-							</case>
-							<case value="select">
-							<div class="col-md-6 col-sm-10">
-								<select class="form-control" name="config[{$key}]" id="{$key}">
-									<foreach name="form.options" item="opt" key="opt_k">
-										<option value="{$opt_k}" <eq name="form.value" value="$opt_k"> selected</eq>>{$opt}</option>
-									</foreach>
-								</select>
-								<present name="form.tip">
-									<p class="help-block">{$form.tip}</p>
-								</present>
-							</div>
-							</case>
-							<case value="textarea">
-							<div class="col-md-6 col-sm-10">
-								<textarea class="form-control" name="config[{$key}]" id="{$key}">{$form.value}</textarea>
-								<present name="form.tip">
-									<p class="help-block">{$form.tip}</p>
-								</present>
-							</div>
-							</case>
-						</switch>
-					</div>
-				</foreach>
-			<else />
-				<present name="custom_config">
-					{$custom_config}
-				</present>
-			</empty>
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<input type="hidden" name="id" value="{$id}" readonly>
-					<button type="submit" class="btn btn-primary js-ajax-submit">保存</button>
-					<a class="btn btn-default" href="javascript:history.back(-1);">返回</a>
-				</div>
-			</div>
-		</form>
-	</div>
-	<script src="__STATIC__/js/admin.js"></script>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('plugin/index')}">{:lang('ADMIN_PLUGIN_INDEX')}</a></li>
+        <li class="active"><a>{:lang('ADMIN_PLUGIN_SETTING')}</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('plugin/settingPost')}">
+        <empty name="custom_config">
+            {:_parse_plugin_config($data['config'])}
+            <else/>
+            <present name="custom_config">
+                {$custom_config}
+            </present>
+        </empty>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="hidden" name="id" value="{$id}" readonly>
+                <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">保存</button>
+                <a class="btn btn-default" href="javascript:history.back(-1);">返回</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
 </body>
 </html>
