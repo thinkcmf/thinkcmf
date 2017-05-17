@@ -298,6 +298,10 @@ class Upload
 
         $storage = cmf_get_option('storage');
 
+        if (empty($storage['type'])) {
+            $storage['type'] = 'Local';
+        }
+
         if ($storage['type'] != 'Local') { //  增加存储驱动
             $storage = new Storage($storage['type'], $storage[$storage['type']]);
             $result  = $storage->upload($arrInfo["file_path"], './upload/' . $arrInfo["file_path"], $fileType);
