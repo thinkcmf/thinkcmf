@@ -121,7 +121,7 @@ abstract class Plugin
             throw new TemplateNotFoundException('template not exists:' . $template, $template);
         }
 
-        echo $this->view->fetch($template);
+        return $this->view->fetch($template);
     }
 
     /**
@@ -132,7 +132,7 @@ abstract class Plugin
      */
     final protected function display($content = '')
     {
-        echo $this->view->display($content);
+        return $this->view->display($content);
     }
 
     /**
