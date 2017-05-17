@@ -126,6 +126,30 @@
 						</td>
 						<td>开启</td>
 					</tr>
+					<tr>
+						<td>
+							$HTTP_RAW_POST_DATA关闭检测
+							<a href="https://www.baidu.com/s?wd=开启PHP fileinfo扩展" target="_blank">
+								<i class="fa fa-question-circle question"></i>
+							</a>
+						</td>
+						<td>关闭</td>
+						<td>
+							{$always_populate_raw_post_data}
+
+						</td>
+						<td>关闭</td>
+					</tr>
+					<tr>
+						<td>$HTTP_RAW_POST_DATA未关闭解决</td>
+						<td colspan="3">
+							<pre>
+								;php.ini 找到 always_populate_raw_post_data设置如下:
+								always_populate_raw_post_data = -1
+							</pre>
+						</td>
+					</tr>
+
 					<!-- 大小限制检测 -->
 					<tr>
 						<td class="td1" colspan="4">

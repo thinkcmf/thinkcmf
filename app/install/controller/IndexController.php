@@ -108,6 +108,13 @@ class IndexController extends Controller
             $err++;
         }
 
+        if (version_compare(phpversion(), '5.6.0', '>=') && version_compare(phpversion(), '7.0.0', '<') && ini_get('always_populate_raw_post_data') != -1) {
+            $data['always_populate_raw_post_data'] = '<i class="fa fa-remove error"></i> 未关闭';
+            $err++;
+        } else {
+            $data['always_populate_raw_post_data'] = '<i class="fa fa-check correct"></i> 已关闭';
+        }
+
         $folders    = [
             realpath(CMF_ROOT . 'data') . DS,
             realpath('./upload') . DS,

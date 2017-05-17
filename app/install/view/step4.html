@@ -149,6 +149,7 @@
             $.ajax({
                 url: "{:url('install/index/setDbConfig')}",
                 dataType: 'json',
+                data:{_hithinkcmf:1},
                 type: 'post',
                 success: function (data) {
                     if (data.code == 1) {
@@ -194,6 +195,7 @@
             $.ajax({
                 url: "{:url('install/index/setSite')}",
                 dataType: 'json',
+                data:{_hithinkcmf:1},
                 type: 'post',
                 success: function (data) {
 
@@ -241,6 +243,7 @@
             $.ajax({
                 url: "{:url('install/index/installTheme')}",
                 dataType: 'json',
+                data:{_hithinkcmf:1},
                 type: 'post',
                 success: function (data) {
 
