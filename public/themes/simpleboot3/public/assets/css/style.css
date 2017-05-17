@@ -140,6 +140,7 @@ body.body-white {
 
 .tc-gridbox .header img {
     margin-bottom: 5px;
+    width: 100%;
     /*-webkit-transition: all 0.8s ease-in-out;*/
     /*-moz-transition: all 0.8s ease-in-out;*/
     /*-o-transition: all 0.8s ease-in-out;*/
