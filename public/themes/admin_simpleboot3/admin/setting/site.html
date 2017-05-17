@@ -59,11 +59,11 @@
 							<div class="form-group">
 								<label for="input-site_adminstyle" class="col-sm-2 control-label">{:lang('WEBSITE_ADMIN_THEME')}</label>
 								<div class="col-md-6 col-sm-10">
-									<php>$site_adminstyle=empty($site_adminstyle)?'flat':$site_adminstyle;</php>
-									<select class="form-control" name="options[site_adminstyle]" id="input-site_adminstyle">
-										<foreach name="adminstyles" item="vo">
-										<php>$adminstyle_selected=$site_adminstyle==$vo?"selected":"";</php>
-										<option value="{$vo}" {$adminstyle_selected}>{$vo}</option>
+									<php>$site_admin_style=empty($admin_settings['admin_style'])?'':$admin_settings['admin_style'];</php>
+									<select class="form-control" name="admin_settings[admin_style]" id="input-site_adminstyle">
+										<foreach name="admin_styles" item="vo">
+											<php>$admin_style_selected = $site_admin_style == $vo ? "selected" : "";</php>
+											<option value="{$vo}" {$admin_style_selected}>{$vo}</option>
 										</foreach>
 									</select>
 								</div>
