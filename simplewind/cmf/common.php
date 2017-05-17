@@ -834,7 +834,7 @@ function cmf_is_wechat()
  */
 function hook($hook, &$params = null, $extra = null)
 {
-    \think\Hook::listen($hook, $params);
+    return \think\Hook::listen($hook, $params);
 }
 
 /**
