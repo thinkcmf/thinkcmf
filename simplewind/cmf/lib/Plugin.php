@@ -70,15 +70,29 @@ abstract class Plugin
 
         $root = $request->root();
 
-        $themeDir = empty($theme) ? "" : $theme . $depr;
+        $themeDir = empty($theme) ? "" : $theme ;
 
         $themePath = 'view/' . $themeDir;
 
         $this->themeRoot = $this->pluginPath . $themePath;
 
-        $pluginRoot = $root . "/{$nameCStyle}/";
+        $engineConfig['view_base'] = $this->themeRoot;
 
-        $replaceConfig = ['__PLUGIN_TMPL__' => $pluginRoot . $themePath, '__PLUGIN_ROOT__' => $pluginRoot];
+        $pluginRoot = $root . "/{$nameCStyle}";
+
+        $cmfAdminThemePath    = config('cmf_admin_theme_path');
+        $cmfAdminDefaultTheme = config('cmf_admin_default_theme');
+
+        $adminThemePath = "{$cmfAdminThemePath}{$cmfAdminDefaultTheme}";
+
+        $root = cmf_get_root();
+
+        $replaceConfig = [
+            '__PLUGIN_TMPL__' => $pluginRoot . $themePath,
+            '__PLUGIN_ROOT__' => $pluginRoot,
+            '__ADMIN_TMPL__'  => "{$root}/{$adminThemePath}",
+            '__WEB_ROOT__'    => $root
+        ];
 
         $this->view = new View($engineConfig, $replaceConfig);
 

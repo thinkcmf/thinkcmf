@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
+use think\exception\ValidateException;
 use think\Request;
 use think\Config;
 use think\Loader;
