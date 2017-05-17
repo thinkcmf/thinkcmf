@@ -70,11 +70,11 @@ abstract class Plugin
 
         $root = $request->root();
 
-        $themeDir = empty($theme) ? "" : $theme ;
+        $themeDir = empty($theme) ? "" : '/' . $theme;
 
-        $themePath = 'view/' . $themeDir;
+        $themePath = 'view' . $themeDir;
 
-        $this->themeRoot = $this->pluginPath . $themePath;
+        $this->themeRoot = $this->pluginPath . $themePath . '/';
 
         $engineConfig['view_base'] = $this->themeRoot;
 
@@ -88,7 +88,7 @@ abstract class Plugin
         $root = cmf_get_root();
 
         $replaceConfig = [
-            '__PLUGIN_TMPL__' => $pluginRoot . $themePath,
+            '__PLUGIN_TMPL__' => $pluginRoot . '/' . $themePath,
             '__PLUGIN_ROOT__' => $pluginRoot,
             '__ADMIN_TMPL__'  => "{$root}/{$adminThemePath}",
             '__WEB_ROOT__'    => $root
