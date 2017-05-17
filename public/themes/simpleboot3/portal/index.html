@@ -132,9 +132,21 @@
                         <div class="header">
                             <div class="item-image">
                                 <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">
-                                    <img src="__TMPL__/public/assets/images/default_tupian1.png"
-                                         class="img-responsive"
-                                         alt="dd">
+                                    <present name="vo.more.thumbnail">
+                                        <empty name="vo.more.thumbnail">
+                                            <img src="__TMPL__/public/assets/images/default_tupian1.png"
+                                                 class="img-responsive"
+                                                 alt="">
+                                            <else/>
+                                            <img src="{:cmf_get_image_url($vo.more.thumbnail)}"
+                                                 class="img-responsive"
+                                                 alt="">
+                                        </empty>
+                                        <else/>
+                                        <img src="__TMPL__/public/assets/images/default_tupian1.png"
+                                             class="img-responsive"
+                                             alt="">
+                                    </present>
                                 </a>
                             </div>
                             <h3>
