@@ -124,6 +124,8 @@ http://www.kancloud.cn/thinkcmf/doc
 
 ### QQ群:
 ThinkCMF 高级交流群:100828313 (付费)  
+高级群专属权益:  
+第一波:两个后台风格(ThinkCMF官网风格后台主题,蓝色风格后台主题)
 
 ### 话题专区
 http://www.thinkcmf.com/topic/index/index/cat/11.html
