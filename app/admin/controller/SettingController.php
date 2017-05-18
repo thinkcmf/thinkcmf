@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\model\RouteModel;
 use cmf\controller\AdminBaseController;
 
 use think\Db;
@@ -77,6 +78,11 @@ class SettingController extends AdminBaseController
     public function sitePost()
     {
         if ($this->request->isPost()) {
+            $result = $this->validate($this->request->param(), 'SettingSite');
+            if ($result !== true) {
+                $this->error($result);
+            }
+
             $options = $this->request->param('options/a');
             cmf_set_option('site_info', $options);
 
@@ -90,6 +96,16 @@ class SettingController extends AdminBaseController
             cmf_set_option('cdn_settings', $cdnSettings);
 
             $adminSettings = $this->request->param('admin_settings/a');
+
+            $routeModel = new RouteModel();
+            if (!empty($adminSettings['admin_password'])) {
+                $routeModel->setRoute($adminSettings['admin_password'], 'admin/Index/index', [], 2, 5000);
+            } else {
+                $routeModel->deleteRoute('admin/Index/index', []);
+            }
+
+            $routeModel->getRoutes(true);
+
             cmf_set_option('admin_settings', $adminSettings);
 
             $this->success("保存成功！", '');

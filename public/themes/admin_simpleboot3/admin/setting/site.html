@@ -21,31 +21,24 @@
 									<input type="text" class="form-control" id="input-site-name" name="options[site_name]" value="{$site_name|default=''}">
 								</div>
 							</div>
-							<!--
 							<div class="form-group">
-								<label for="input-admin_url_password" class="col-sm-2 control-label">后台地址加密码</label>
+								<label for="input-admin_url_password" class="col-sm-2 control-label">后台加密码</label>
 								<div class="col-md-6 col-sm-10">
-									<input type="text" class="form-control" id="input-admin_url_password" name="options[site_admin_url_password]" value="{$site_admin_url_password|default=''}" id="js-site-admin-url-password">
-									<p class="help-block" style="color: red;">设置加密码后必须通过以下地址访问后台,请劳记此地址，为了安全，您也可以定期更换此加密码!</p>
-									<php>$site_admin_url_password =config("SP_SITE_ADMIN_URL_PASSWORD");</php>
-									<if condition="!empty($site_admin_url_password)">
-									<p class="help-block">后台地址：<span id="js-site-admin-url">{:sp_get_host()}__ROOT__?g=admin&upw={:config('SP_SITE_ADMIN_URL_PASSWORD')}</span></p>
+									<input type="text" class="form-control" id="input-admin_url_password" name="admin_settings[admin_password]" value="{$admin_settings.admin_password|default=''}" id="js-site-admin-url-password">
+									<p class="help-block">英文字母数字</p>
+									<if condition="!empty($admin_settings.admin_password)">
+										<p class="help-block" style="color: red;">设置加密码后必须通过以下地址访问后台,请劳记此地址，为了安全，您也可以定期更换此加密码!</p>
+										<php>
+											$site_admin_url_password =config("SP_SITE_ADMIN_URL_PASSWORD");
+											$root=cmf_get_root();
+											$root=empty($root)?'':'/'.$root;
+											$site_domain = cmf_get_domain().$root;
+										</php>
+										<p class="help-block">后台登录地址：<span id="js-site-admin-url">{:$site_domain}/{$admin_settings.admin_password}</span></p>
 									</if>
 								</div>
 							</div>
-							-->
 							<!--
-							<div class="form-group">
-								<label for="input-site_tpl" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('WEBSITE_THEME')}</label>
-								<div class="col-md-6 col-sm-10">
-									<select class="form-control" name="options[site_tpl]" id="input-site_tpl" >
-										<foreach name="templates" item="vo">
-										<php>$tpl_selected=$site_tpl==$vo?"selected":"";</php>
-										<option value="{$vo}" {$tpl_selected}>{$vo}</option>
-										</foreach>
-									</select>
-								</div>
-							</div>
 							<div class="form-group">
 								<label for="input-mobile_tpl_enabled" class="col-sm-2 control-label">{:lang('ENABLE_MOBILE_THEME')}</label>
 								<div class="col-md-6 col-sm-10">
@@ -103,6 +96,11 @@
 									<input type="text" class="form-control" id="input-site_copyright" name="options[site_copyright]" value="{$site_copyright|default=''}">
 								</div>
 							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="1">{:lang('SAVE')}</button>
+								</div>
+							</div>
 						</div>
 						<div class="tab-pane" id="B">
 							<div class="form-group">
@@ -123,6 +121,11 @@
 									<textarea class="form-control" id="input-site_seo_description" name="options[site_seo_description]">{$site_seo_description|default=''}</textarea>
 								</div>
 							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">{:lang('SAVE')}</button>
+								</div>
+							</div>
 						</div>
 						<div class="tab-pane" id="C">
 							<div class="form-group">
@@ -141,6 +144,11 @@
 								<label for="input-html_suffix" class="col-sm-2 control-label">{:lang('URL_REWRITE_SUFFIX')}</label>
 								<div class="col-md-6 col-sm-10">
 									<input type="text" class="form-control" id="input-html_suffix" name="options[html_suffix]" value="{$html_suffix|default=''}">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">{:lang('SAVE')}</button>
 								</div>
 							</div>
 						</div>
@@ -171,6 +179,11 @@
 									<textarea class="form-control" id="input-banned_usernames" name="cmf_settings[banned_usernames]">{$cmf_settings.banned_usernames}</textarea>
 								</div>
 							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">{:lang('SAVE')}</button>
+								</div>
+							</div>
 						</div>
 						<div class="tab-pane" id="G">
 							<div class="form-group">
@@ -188,13 +201,12 @@
 									</p>
 								</div>
 							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">{:lang('SAVE')}</button>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
-						<button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">{:lang('SAVE')}</button>
 					</div>
 				</div>
 			</fieldset>
@@ -202,21 +214,5 @@
 
 	</div>
 	<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
-	<script>
-		$(function(){
-			$("#urlmode-select").change(function(){
-				if($(this).val()==1){
-					alert("更改后，若发现前台链接不能正常访问，可能是您的服务器不支持PATHINFO，请先修改data/conf/config.php文件的URL_MODEL为0保证网站正常运行,在配置服务器PATHINFO功能后再更新为PATHINFO模式！");
-				}
-				
-				if($(this).val()==2){
-					alert("更改后，若发现前台链接不能正常访问，可能是您的服务器不支持REWRITE，请先修改data/conf/config.php文件的URL_MODEL为0保证网站正常运行，在开启服务器REWRITE功能后再更新为REWRITE模式！");
-				}
-			});
-			$("#js-site-admin-url-password").change(function(){
-				$(this).data("changed",true);
-			});
-		});
-	</script>
 </body>
 </html>
