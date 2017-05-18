@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": ">=5.5.0",
+        "php": ">=5.4.0",
         "topthink/think-helper":">=1.0",
         "topthink/think-captcha": "^1.0",
         "phpmailer/phpmailer": "^5.2",
@@ -29,7 +29,6 @@
     "extra": {
     },
     "config": {
-        "preferred-install": "dist",
         "vendor-dir":"simplewind/vendor"
     }
 }
