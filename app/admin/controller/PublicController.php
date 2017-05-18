@@ -37,6 +37,10 @@ class PublicController extends AdminBaseController
                 redirect(ROOT_PATH . "/");
             } else {
                 session("__SP_ADMIN_LOGIN_PAGE_SHOWED_SUCCESS__", true);
+                $result = hook_one('admin_login');
+                if (!empty($result)) {
+                    return $result;
+                }
                 return $this->fetch(":login");
             }
         }
