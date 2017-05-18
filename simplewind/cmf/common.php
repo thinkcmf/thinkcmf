@@ -383,9 +383,10 @@ function cmf_set_cmf_setting($data)
  * 设置系统配置，通用
  * @param string $key 配置键值,都小写
  * @param array $data 配置值，数组
- * @return boolean
+ * @param bool $replace 是否完全替换
+ * @return bool
  */
-function cmf_set_option($key, $data)
+function cmf_set_option($key, $data, $replace = false)
 {
     if (!is_array($data) || empty($data) || !is_string($key) || empty($key)) {
         return false;
@@ -395,14 +396,16 @@ function cmf_set_option($key, $data)
     $option     = [];
     $findOption = Db::name('option')->where('option_name', $key)->find();
     if ($findOption) {
-        $oldOptionValue = json_decode($findOption['option_value'], true);
-        if (!empty($oldOptionValue)) {
-            $data = array_merge($oldOptionValue, $data);
+        if (!$replace) {
+            $oldOptionValue = json_decode($findOption['option_value'], true);
+            if (!empty($oldOptionValue)) {
+                $data = array_merge($oldOptionValue, $data);
+            }
         }
 
         $option['option_value'] = json_encode($data);
-
         Db::name('option')->where('option_name', $key)->update($option);
+        Db::name('option')->getLastSql();
     } else {
         $option['option_name']  = $key;
         $option['option_value'] = json_encode($data);
