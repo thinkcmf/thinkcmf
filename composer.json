@@ -1,5 +1,5 @@
 {
-    "name": "thinkcmf/cmfx",
+    "name": "thinkcmf/thinkcmf",
     "description": "ThinkCMF based on ThinkPHP 5.0 , it is a free and open source Content Management Framework(CMF)",
     "type": "project",
     "keywords": [
