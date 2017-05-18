@@ -114,7 +114,7 @@
         </div>
     </empty>
 
-    <div class="grid-item col-md-12">
+    <div class="grid-item col-md-12" id="thinkcmf-notices-grid" style="display:none;">
         <div class="dashboard-box">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -266,6 +266,7 @@
             var $notices = $("#thinkcmf-notices");
             $notices.empty();
             if (data.length > 0) {
+                $('#thinkcmf-notices-grid').show();
                 $.each(data, function (i, n) {
                     var $tpl = $(tpl);
                     $(".title", $tpl).html(n.title);
