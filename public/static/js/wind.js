@@ -19,9 +19,9 @@
         html  = doc.documentElement,
         klass = [],
         conf  = {
-            screens   : [240, 320, 480, 640, 768, 800, 1024, 1280, 1440, 1680, 1920],
+            screens: [240, 320, 480, 640, 768, 800, 1024, 1280, 1440, 1680, 1920],
             screensCss: {"gt": true, "gte": false, "lt": true, "lte": false, "eq": false},
-            browsers  : [
+            browsers: [
                 {ie: {min: 6, max: 11}}
                 //,{ chrome : { min: 8, max: 33 } }
                 //,{ ff     : { min: 3, max: 26 } }
@@ -31,10 +31,10 @@
                 //,{ opera  : { min: 9, max: 12 } }
             ],
             browserCss: {"gt": true, "gte": false, "lt": true, "lte": false, "eq": true},
-            html5     : true,
-            page      : "-page",
-            section   : "-section",
-            head      : "head"
+            html5: true,
+            page: "-page",
+            section: "-section",
+            head: "head"
         };
 
     if (win.head_conf) {
@@ -142,7 +142,7 @@
 
     // Browser vendor and version
     api.browser          = {
-        name   : browser,
+        name: browser,
         version: version
     };
     api.browser[browser] = true;
@@ -229,7 +229,7 @@
     // basic screen info
     api.screen = {
         height: win.screen.height,
-        width : win.screen.width
+        width: win.screen.width
     };
 
     // viewport resolutions: w-100, lt-480, lt-1024 ...
@@ -422,10 +422,10 @@
         csstransitions: function () {
             return testAll("transition");
         },
-        touch         : function () {
+        touch: function () {
             return "ontouchstart" in win;
         },
-        retina        : function () {
+        retina: function () {
             return (win.devicePixelRatio > 1);
         },
 
@@ -592,11 +592,11 @@
         ///    );
         ///</summary>
         var obj = (typeof test === "object") ? test : {
-                test    : test,
-                success : !!success ? isArray(success) ? success : [success] : false,
-                failure : !!failure ? isArray(failure) ? failure : [failure] : false,
-                callback: callback || noop
-            };
+            test: test,
+            success: !!success ? isArray(success) ? success : [success] : false,
+            failure: !!failure ? isArray(failure) ? failure : [failure] : false,
+            callback: callback || noop
+        };
 
         // Test Passed ?
         var passed = !!obj.test;
@@ -634,7 +634,7 @@
                 if (!!item[label]) {
                     asset = {
                         name: label,
-                        url : item[label]
+                        url: item[label]
                     };
                 }
             }
@@ -642,7 +642,7 @@
         else {
             asset = {
                 name: toLabel(item),
-                url : item
+                url: item
             };
         }
 
@@ -729,8 +729,8 @@
 
             // execute
             load(getAsset(args[0]), isFunction(next) ? next : function () {
-                    api.load.apply(null, rest);
-                });
+                api.load.apply(null, rest);
+            });
         }
         else {
             // single item
@@ -1230,48 +1230,52 @@ Wind.ready(function () {
         ver       = '',
         //定义常用JS组件别名，使用别名加载
         alias     = {
-            datePicker : 'datePicker/datePicker',
-            jquery     : 'jquery',
+            datePicker: 'datePicker/datePicker',
+            jquery: 'jquery',
             colorPicker: 'colorPicker/colorPicker',
-            tabs       : 'tabs/tabs',
-            swfobject  : 'swfobject',
-            imgready   : 'imgready',
+            tabs: 'tabs/tabs',
+            swfobject: 'swfobject',
+            imgready: 'imgready',
 
             //jquery util plugs
-            ajaxForm          : 'ajaxForm',
-            cookie            : 'cookie',
-            treeview          : 'treeview',
-            treeTable         : 'treeTable/treeTable',
-            draggable         : 'draggable',
-            validate          : 'jquery.validate/jquery.validate',
+            ajaxForm: 'ajaxForm',
+            cookie: 'cookie',
+            treeview: 'treeview',
+            treeTable: 'treeTable/treeTable',
+            draggable: 'draggable',
+            validate: 'jquery.validate/jquery.validate',
             'validate-extends': 'jquery.validate/additional-methods',
-            artDialog         : 'artDialog/artDialog',
-            iframeTools       : 'artDialog/iframeTools',
-            xd                : 'xd',//Iframe跨域通信
+            artDialog: 'artDialog/artDialog',
+            iframeTools: 'artDialog/iframeTools',
+            xd: 'xd',//Iframe跨域通信
 
-            noty          : 'noty/noty',
-            jcrop         : 'jcrop/js/jcrop',
+            noty: 'noty/noty',
+            jcrop: 'jcrop/js/jcrop',
             ajaxfileupload: 'ajaxfileupload',
 
-            layer   : 'layer/layer',
+            layer: 'layer/layer',
             plupload: 'plupload/plupload.full.min',
 
-            echarts                : 'echarts/echarts.min',
-            viewer                 : 'viewer/viewer',
-            mousewheel             : 'jquery.mousewheel/jquery.mousewheel.min',
-            bootstrapDatetimePicker: 'bootstrap-datetimepicker/js/bootstrap-datetimepicker'
+            echarts: 'echarts/echarts.min',
+            viewer: 'viewer/viewer',
+            mousewheel: 'jquery.mousewheel/jquery.mousewheel.min',
+            bootstrapDatetimePicker: 'bootstrap-datetimepicker/js/bootstrap-datetimepicker',
+            dragula: 'dragula/dragula.min',
+            imagesloaded: 'masonry/imagesloaded.pkgd.min',
+            masonry: 'masonry/masonry.pkgd.min'
         },
         //CSS路径
         alias_css = {
             colorPicker: 'colorPicker/style',
-            artDialog  : 'artDialog/skins/default',
-            datePicker : 'datePicker/style',
-            treeTable  : 'treeTable/treeTable',
-            jcrop      : 'jcrop/css/jquery.Jcrop.min',
+            artDialog: 'artDialog/skins/default',
+            datePicker: 'datePicker/style',
+            treeTable: 'treeTable/treeTable',
+            jcrop: 'jcrop/css/jquery.Jcrop.min',
 
-            layer                  : 'layer/skin/default/layer',
-            viewer                 : 'viewer/viewer',
-            bootstrapDatetimePicker: 'bootstrap-datetimepicker/css/bootstrap-datetimepicker'
+            layer: 'layer/skin/default/layer',
+            viewer: 'viewer/viewer',
+            bootstrapDatetimePicker: 'bootstrap-datetimepicker/css/bootstrap-datetimepicker',
+            dragula: 'dragula/dragula.min'
         };
 
     //add suffix and version

@@ -25,33 +25,67 @@ class MainController extends AdminBaseController
      */
     public function index()
     {
-        $mysql = Db::query("select VERSION() as version");
-        $mysql = $mysql[0]['version'];
-        $mysql = empty($mysql) ? lang('UNKNOWN') : $mysql;
+        $dashboardWidgets = [];
+        $widgets          = cmf_get_option('admin_dashboard_widgets');
 
-        $version = THINKCMF_VERSION;
+        if (empty($widgets)) {
+            $dashboardWidgets = [
+                '_SystemCmfHub'           => ['name' => 'CmfHub', 'is_system' => 1],
+                '_SystemMainContributors' => ['name' => 'MainContributors', 'is_system' => 1],
+                '_SystemContributors'     => ['name' => 'Contributors', 'is_system' => 1],
+            ];
+        } else {
+            foreach ($widgets as $widget) {
+                if ($widget['is_system']) {
+                    $dashboardWidgets['_System' . $widget['name']] = ['name' => $widget['name'], 'is_system' => 1];
+                } else {
+                    $dashboardWidgets[$widget['name']] = ['name' => $widget['name'], 'is_system' => 0];
+                }
+            }
+        }
 
-        //server infomation
-        $info = [
-            lang('OPERATING_SYSTEM')      => PHP_OS,
-            lang('OPERATING_ENVIRONMENT') => $_SERVER["SERVER_SOFTWARE"],
-            lang('PHP_VERSION')           => PHP_VERSION,
-            lang('PHP_RUN_MODE')          => php_sapi_name(),
-            lang('PHP_VERSION')           => phpversion(),
-            lang('MYSQL_VERSION')         => $mysql,
-            'ThinkPHP'                    => THINK_VERSION,
-            'ThinkCMF'                    => "{$version} <a href=\"http://www.thinkcmf.com\" target=\"_blank\">访问官网</a>",
-            lang('UPLOAD_MAX_FILESIZE')   => ini_get('upload_max_filesize'),
-            lang('MAX_EXECUTION_TIME')    => ini_get('max_execution_time') . "s",
-            //TODO 增加更多信息
-            lang('DISK_FREE_SPACE')       => round((@disk_free_space(".") / (1024 * 1024)), 2) . 'M',
-        ];
-        $this->assign('server_info', $info);
+        $dashboardWidgetPlugins = [];
+
+        $hookResults = hook('admin_dashboard');
+
+        if (!empty($hookResults)) {
+            foreach ($hookResults as $hookResult) {
+                if (isset($hookResult['width']) && isset($hookResult['view']) && isset($hookResult['plugin'])) { //验证插件返回合法性
+                    $dashboardWidgetPlugins[$hookResult['plugin']] = $hookResult;
+                    if (!isset($dashboardWidgets[$hookResult['plugin']])) {
+                        $dashboardWidgets[$hookResult['plugin']] = ['name' => $hookResult['plugin'], 'is_system' => 0];
+                    }
+                }
+            }
+        }
 
         $smtpSetting = cmf_get_option('smtp_setting');
 
+        $this->assign('dashboard_widgets', $dashboardWidgets);
+        $this->assign('dashboard_widget_plugins', $dashboardWidgetPlugins);
         $this->assign('has_smtp_setting', empty($smtpSetting) ? false : true);
 
         return $this->fetch();
     }
+
+    public function dashboardWidget()
+    {
+        $dashboardWidgets = [];
+        $widgets          = $this->request->param('widgets/a');
+        if (!empty($widgets)) {
+            foreach ($widgets as $widget) {
+                if ($widget['is_system']) {
+                    array_push($dashboardWidgets, ['name' => $widget['name'], 'is_system' => 1]);
+                } else {
+                    array_push($dashboardWidgets, ['name' => $widget['name'], 'is_system' => 0]);
+                }
+            }
+        }
+
+        cmf_set_option('admin_dashboard_widgets', $dashboardWidgets, true);
+
+        $this->success('更新成功!');
+
+    }
+
 }
