@@ -11,7 +11,7 @@ namespace app\admin\controller;
 use cmf\controller\AdminBaseController;
 use think\Db;
 
-class RecycleController extends AdminBaseController
+class RecycleBinController extends AdminBaseController
 {
     /**
      * 回收站
