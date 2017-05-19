@@ -14,8 +14,6 @@ class IndexController extends HomeBaseController
 {
     public function index()
     {
-
-        cmf_replace_content_file_url('<div><img src="12344dfads"/></div>');
         return $this->fetch(':index');
     }
 }
