@@ -1115,33 +1115,51 @@ function redirect(url) {
     location.href = url;
 }
 
-//读取cookie
+/**
+ * 读取cookie
+ * @param name
+ * @returns
+ */
 function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca     = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1, c.length);
-        }
-        if (c.indexOf(nameEQ) == 0) {
-            return c.substring(nameEQ.length, c.length);
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
         }
     }
-    ;
-
-    return null;
+    return cookieValue;
 }
 
-//设置cookie
-function setCookie(name, value, days) {
-    var argc   = setCookie.arguments.length;
-    var argv   = setCookie.arguments;
-    var secure = (argc > 5) ? argv[5] : false;
-    var expire = new Date();
-    if (days == null || days == 0) days = 1;
-    expire.setTime(expire.getTime() + 3600000 * 24 * days);
-    document.cookie = name + "=" + escape(value) + ("; path=/") + ((secure == true) ? "; secure" : "") + ";expires=" + expire.toGMTString();
+/**
+ * 设置cookie
+ */
+function setCookie(name, value, options) {
+    options = options || {};
+    if (value === null) {
+        value = '';
+        options.expires = -1;
+    }
+    var expires = '';
+    if (options.expires && (typeof options.expires == 'number' || options.expires.toUTCString)) {
+        var date;
+        if (typeof options.expires == 'number') {
+            date = new Date();
+            date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000));
+        } else {
+            date = options.expires;
+        }
+        expires = '; expires=' + date.toUTCString(); // use expires attribute, max-age is not supported by IE
+    }
+    var path = options.path ? '; path=' + options.path : '';
+    var domain = options.domain ? '; domain=' + options.domain : '';
+    var secure = options.secure ? '; secure' : '';
+    document.cookie = [name, '=', encodeURIComponent(value), expires, path, domain, secure].join('');
 }
 
 //浮出提示_居中
