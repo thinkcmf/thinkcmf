@@ -23,7 +23,7 @@ class ThemeController extends AdminBaseController
      *     'parent' => 'admin/Setting/default',
      *     'display'=> true,
      *     'hasView'=> true,
-     *     'order'  => 10000,
+     *     'order'  => 20,
      *     'icon'   => '',
      *     'remark' => '模板管理',
      *     'param'  => ''

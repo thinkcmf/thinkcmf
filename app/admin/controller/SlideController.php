@@ -21,7 +21,7 @@ class SlideController extends AdminBaseController
      *     'parent' => 'admin/Setting/default',
      *     'display'=> true,
      *     'hasView'=> true,
-     *     'order'  => 10000,
+     *     'order'  => 40,
      *     'icon'   => '',
      *     'remark' => '幻灯片管理',
      *     'param'  => ''

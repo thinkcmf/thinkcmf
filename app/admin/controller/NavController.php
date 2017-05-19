@@ -25,7 +25,7 @@ class NavController extends AdminBaseController
      *     'parent' => 'admin/Setting/default',
      *     'display'=> true,
      *     'hasView'=> true,
-     *     'order'  => 10000,
+     *     'order'  => 30,
      *     'icon'   => '',
      *     'remark' => '导航管理',
      *     'param'  => ''

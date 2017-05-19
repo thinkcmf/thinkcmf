@@ -16,15 +16,15 @@ class LinkController extends AdminBaseController
     protected $targets = ["_blank" => "新标签页打开", "_self" => "本窗口打开"];
 
     /**
-     * 友情链接列表
+     * 友情链接管理
      * @adminMenu(
-     *     'name'   => '友情链接管理',
+     *     'name'   => '友情链接',
      *     'parent' => 'admin/Setting/default',
      *     'display'=> true,
      *     'hasView'=> true,
-     *     'order'  => 10000,
+     *     'order'  => 50,
      *     'icon'   => '',
-     *     'remark' => '友情链接列表',
+     *     'remark' => '友情链接管理',
      *     'param'  => ''
      * )
      */

@@ -19,9 +19,9 @@ class MenuController extends AdminBaseController
     /**
      * 后台菜单管理
      * @adminMenu(
-     *     'name'   => '后台菜单管理',
+     *     'name'   => '后台菜单',
      *     'parent' => 'admin/Setting/default',
-     *     'display'=> true,
+     *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
