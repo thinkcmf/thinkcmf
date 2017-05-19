@@ -165,7 +165,7 @@ class MenuController extends AdminBaseController
                 }
                 $sessionAdminMenuIndex = session('admin_menu_index');
                 $to                    = empty($sessionAdminMenuIndex) ? "Menu/index" : $sessionAdminMenuIndex;
-                $this->_exportAppMenuDefaultLang($app);
+                $this->_exportAppMenuDefaultLang();
                 $this->success("添加成功！", url($to));
             }
         }
@@ -269,7 +269,7 @@ class MenuController extends AdminBaseController
                         'type' => 'admin_url'
                     ])->update(["title" => $menuName, 'param' => $param]);//type 1-admin rule;2-user rule
                 }
-                $this->_exportAppMenuDefaultLang($app);
+                $this->_exportAppMenuDefaultLang();
                 $this->success("保存成功！");
             }
         }
@@ -695,13 +695,12 @@ class MenuController extends AdminBaseController
 
     /**
      *  导出后台菜单语言包
-     * @param string $app
      */
-    private function _exportAppMenuDefaultLang($app)
+    private function _exportAppMenuDefaultLang()
     {
-        $menus         = Db::name('AdminMenu')->where(["app" => $app])->order(["list_order" => "ASC", "app" => "ASC", "controller" => "ASC", "action" => "ASC"])->select();
-        $lang_dir      = config('DEFAULT_LANG');
-        $adminMenuLang = ROOT_PATH . "data/lang/$app/Lang/" . $lang_dir . "/admin_menu.php";
+        $menus         = Db::name('AdminMenu')->order(["app" => "ASC", "controller" => "ASC", "action" => "ASC"])->select();
+        $langDir       = config('DEFAULT_LANG');
+        $adminMenuLang = CMF_ROOT . "data/lang/" . $langDir . "/admin_menu.php";
 
         if (!empty($adminMenuLang) && !file_exists_case($adminMenuLang)) {
             mkdir(dirname($adminMenuLang), 0777, true);
@@ -714,11 +713,11 @@ class MenuController extends AdminBaseController
             $lang[$lang_key] = $menu['name'];
         }
 
-        $lang_str = var_export($lang, true);
-        $lang_str = preg_replace("/\s+\d+\s=>\s(\n|\r)/", "\n", $lang_str);
+        $langStr = var_export($lang, true);
+        $langStr = preg_replace("/\s+\d+\s=>\s(\n|\r)/", "\n", $langStr);
 
         if (!empty($adminMenuLang)) {
-            file_put_contents($adminMenuLang, "<?php\nreturn $lang_str;");
+            file_put_contents($adminMenuLang, "<?php\nreturn $langStr;");
         }
     }
 }
