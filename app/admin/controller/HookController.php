@@ -63,39 +63,6 @@ class HookController extends AdminBaseController
     }
 
     /**
-     * 钩子插件启用禁用
-     * @adminMenu(
-     *     'name'   => '钩子插件启用禁用',
-     *     'parent' => 'index',
-     *     'display'=> false,
-     *     'hasView'=> false,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '钩子插件启用禁用',
-     *     'param'  => ''
-     * )
-     */
-    public function pluginToggle()
-    {
-        $hookPluginModel = new HookPluginModel();
-
-        $hook   = $this->request->param('hook');
-        $plugin = $this->request->param('plugin');
-
-        if ($this->request->param('enable')) {
-            $hookPluginModel->save(['status' => 1], ['hook' => $hook, 'plugin' => $plugin]);
-
-            $this->success("启用成功！");
-        }
-
-        if ($this->request->param('disable')) {
-
-            $hookPluginModel->save(['status' => 0], ['hook' => $hook, 'plugin' => $plugin]);
-            $this->success("禁用成功！");
-        }
-    }
-
-    /**
      * 钩子插件排序
      * @adminMenu(
      *     'name'   => '钩子插件排序',

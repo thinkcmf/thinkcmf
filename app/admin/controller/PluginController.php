@@ -73,23 +73,42 @@ class PluginController extends AdminBaseController
      */
     public function toggle()
     {
-        $pluginModel = new PluginModel();
+        $id = $this->request->param('id', 0, 'intval');
 
-        if ($this->request->param('enable')) {
-            $id = $this->request->param('id', 0, 'intval');
+        $pluginModel = PluginModel::get($id);
 
-            $pluginModel->save(['status' => 1], ['id' => $id]);
-
-            $this->success("启用成功！");
+        if (empty($pluginModel)) {
+            $this->error('插件不存在！');
         }
+
+        $status         = 1;
+        $successMessage = "启用成功！";
 
         if ($this->request->param('disable')) {
-            $id = $this->request->param('id', 0, 'intval');
-
-            $pluginModel->save(['status' => 0], ['id' => $id]);
-
-            $this->success("禁用成功！");
+            $status         = 0;
+            $successMessage = "禁用成功！";
         }
+
+        $pluginModel->startTrans();
+
+        try {
+            $pluginModel->save(['status' => $status], ['id' => $id]);
+
+            $hookPluginModel = new HookPluginModel();
+
+            $hookPluginModel->save(['status' => $status], ['plugin' => $pluginModel->name]);
+
+            $pluginModel->commit();
+
+        } catch (\Exception $e) {
+
+            $pluginModel->rollback();
+
+            $this->error('操作失败！');
+
+        }
+
+        $this->success($successMessage);
     }
 
     /**
