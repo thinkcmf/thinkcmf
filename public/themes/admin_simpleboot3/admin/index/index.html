@@ -15,7 +15,6 @@
     <link href="__STATIC__/font-awesome/css/font-awesome.min.css?page=index" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="__TMPL__/public/assets/themes/{:cmf_get_admin_style()}/simplebootadminindex.min.css">
     <style>
-        .macro-component-tabitem{width:101px;}
         /*-----------------导航hack--------------------*/
         .nav-list>li.open{position: relative;}
         .nav-list>li.open .back {display: none;}
@@ -133,9 +132,9 @@
 
 <body style="min-width:900px;">
 <div id="loading"><i class="loadingicon"></i><span>{:lang('LOADING')}</span></div>
-<div id="right_tools_wrapper">
+<div id="right-tools-wrapper">
     <!--<span id="right_tools_clearcache" title="清除缓存" onclick="javascript:openapp('{:url('admin/Setting/clearcache')}','right_tool_clearcache','清除缓存');"><i class="fa fa-trash-o right_tool_icon"></i></span>-->
-    <span id="refresh_wrapper" title="{:lang('REFRESH_CURRENT_PAGE')}" ><i class="fa fa-refresh right_tool_icon"></i></span>
+    <span id="refresh-wrapper" title="{:lang('REFRESH_CURRENT_PAGE')}" ><i class="fa fa-refresh right_tool_icon"></i></span>
 </div>
 <div class="navbar navbar-default">
     <div class="container-fluid">
@@ -149,17 +148,17 @@
         </div>
 
         <div class="navbar-collapse collapse" id="navbar-main">
-            <div class="pull-left" style="width: 700px;">
-                <!-- <a id="task-pre" class="task-changebt">←</a> -->
+            <div class="pull-left" style="position: relative;">
+               <a id="task-pre" class="task-changebt"><i class="fa fa-chevron-left"></i></a>
                 <div id="task-content">
-                    <ul class="nav navbar-nav macro-component-tab" id="task-content-inner">
-                        <li class="macro-component-tabitem noclose" app-id="0" app-url="{:url('main/index')}" app-name="首页">
-                            <a class="macro-tabs-item-text">{:lang('HOME')}</a>
+                    <ul class="nav navbar-nav cmf-component-tab" id="task-content-inner">
+                        <li class="cmf-component-tabitem noclose" app-id="0" app-url="{:url('main/index')}" app-name="首页">
+                            <a class="cmf-tabs-item-text">{:lang('HOME')}</a>
                         </li>
                     </ul>
                     <div style="clear:both;"></div>
                 </div>
-                <!-- <a id="task-next" class="task-changebt">→</a> -->
+               <a id="task-next" class="task-changebt"><i class="fa fa-chevron-right"></i></a>
             </div>
 
             <ul class="nav navbar-nav navbar-right simplewind-nav">
@@ -239,7 +238,7 @@
             </if>
 
         </div>
-        <div id="nav_wraper">
+        <div id="nav-wrapper">
             <ul class="nav nav-list">
                 {:getsubmenu($submenus)}
             </ul>
