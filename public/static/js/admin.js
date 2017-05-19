@@ -42,6 +42,7 @@
 
     // 所有加了dialog类名的a链接，自动弹出它的href
     if ($('a.js-dialog').length) {
+        Wind.css('artDialog');
         Wind.use('artDialog', 'iframeTools', function () {
             $('.js-dialog').on('click', function (e) {
                 e.preventDefault();
@@ -269,6 +270,7 @@
         try {
             art.dialog.close();
         } catch (err) {
+            Wind.css('artDialog');
             Wind.use('artDialog', 'iframeTools', function () {
                 art.dialog.close();
             });
@@ -278,6 +280,7 @@
 
     //所有的删除操作，删除数据后刷新页面
     if ($('a.js-ajax-delete').length) {
+        Wind.css('artDialog');
         Wind.use('artDialog', function () {
             $('.js-ajax-delete').on('click', function (e) {
                 e.preventDefault();
@@ -578,6 +581,7 @@ function setCookie(name, value, days) {
  * @param options
  */
 function open_iframe_dialog(url, title, options) {
+    Wind.css('artDialog');
     var params = {
         title: title,
         lock: true,
@@ -600,7 +604,7 @@ function open_iframe_dialog(url, title, options) {
  * @param callback
  */
 function open_map_dialog(url, title, options, callback) {
-
+    Wind.css('artDialog');
     var params = {
         title: title,
         lock: true,
@@ -637,6 +641,7 @@ function open_map_dialog(url, title, options, callback) {
  * @param app  应用名，CMF的应用名
  */
 function open_upload_dialog(dialog_title, callback, extra_params, multi, filetype, app) {
+    Wind.css('artDialog');
     multi      = multi ? 1 : 0;
     filetype   = filetype ? filetype : 'image';
     app        = app ? app : GV.APP;
@@ -786,6 +791,7 @@ function image_preview_dialog(img) {
 }
 
 function artdialog_alert(msg) {
+    Wind.css('artDialog');
     Wind.use("artDialog", function () {
         art.dialog({
             id: new Date().getTime(),
