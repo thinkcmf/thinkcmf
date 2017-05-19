@@ -1,5 +1,7 @@
 ThinkCMF 5.0 RC3
 ===============
+### 赞助者招募
+[查看招募令http://www.thinkcmf.com/supportcmf/goldsponsor.html](http://www.thinkcmf.com/supportcmf/goldsponsor.html)
 
 ### 环境推荐
 > php5.5+
