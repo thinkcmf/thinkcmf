@@ -117,7 +117,7 @@ class UserController extends AdminBaseController
                     $this->error($result);
                 } else {
                     $_POST['user_pass'] = cmf_password($_POST['user_pass']);
-                    $result             = DB::name('user')->insert($_POST);
+                    $result             = DB::name('user')->insertGetId($_POST);
                     if ($result !== false) {
                         //$role_user_model=M("RoleUser");
                         foreach ($role_ids as $role_id) {
