@@ -25,8 +25,10 @@ http://demo5.thinkcmf.com/admin/
 ### 自动安装
 > 之前安装过 cmf5的同学,请手动创建`data/install.lock`文件
 
-代码已经加入自动安装程序,如果你在安装中有任何问题请提交 issue, 无法安装成功时请尝试下面
-的`手动安装步骤`.
+代码已经加入自动安装程序,如果你在安装中有任何问题请提交 issue!
+
+1. public目录做为网站根目录,入口文件在 public/index.php
+2. 配置好网站，请访问http://你的域名
 
 enjoy your cmf~!
 
