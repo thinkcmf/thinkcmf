@@ -38,10 +38,11 @@
                 -->
                 <li class="dropdown user login">
                     <a class="dropdown-toggle user" data-toggle="dropdown" href="#">
-                        <if condition="empty($avatar)">
+                        <php>$user=cmf_get_current_user();</php>
+                        <if condition="empty($user['avatar'])">
                             <img src="__TMPL__/public/assets/images/headicon.png" class="headicon">
                             <else/>
-                            <img src="__ROOT__/upload/{$avatar}" class="headicon" width="30"/>
+                            <img src="{:cmf_get_user_avatar_url($user['avatar'])}" class="headicon" width="30"/>
                         </if>
                         <span class="user-nickname"></span><b class="caret"></b>
                     </a>
