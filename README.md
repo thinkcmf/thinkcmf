@@ -22,52 +22,13 @@ ThinkCMF 5.0 RC4 520版
 http://demo5.thinkcmf.com/admin/   
 用户名/密码:demo/thinkcmf
 
-### 自动安装(测试版)
+### 自动安装
 > 之前安装过 cmf5的同学,请手动创建`data/install.lock`文件
 
 代码已经加入自动安装程序,如果你在安装中有任何问题请提交 issue, 无法安装成功时请尝试下面
 的`手动安装步骤`.
 
 enjoy your cmf~!
-
-### 手动安装步骤
-
-1.创建 thinkcmf5数据库(默认编码utf8mb4),并导入 update/thinkcmf5.sql
-
-2.在 data目录下创建 conf/database.php 文件,内容如下:
-
-```php
-<?php
-
-return [
-    // 数据库类型
-    'type'           => 'mysql',
-    // 服务器地址
-    'hostname'       => 'localhost',
-    // 数据库名
-    'database'       => '你的数据库名',
-    // 用户名
-    'username'       => '你的数据库用户名',
-    // 密码
-    'password'       => '你的数据库密码',
-    // 端口
-    'hostport'       => '3306',
-    // 数据库编码默认采用utf8
-    'charset'        => 'utf8mb4',
-    // 数据库表前缀
-    'prefix'         => 'cmf_',
-    "authcode" => 'CviMdXkZ3vUxyJCwNt',
-];
-```
-更改为你的数据库信息
-
-3.创建`data/install.lock`文件
-
-4.把 public目录做为网站根目录,入口文件在 public/index.php
-
-5.后台
-你的域名/admin  
-用户名/密码:admin/111111
 
 ### 系统更新
 如果您是已经安装过 cmf5的用户,请查看 update 目录下的 sql 升级文件,根据自己的下载的程序版本进行更新
