@@ -53,15 +53,18 @@ class RecycleBinController extends AdminBaseController
     {
 
         $id     = $this->request->param('id');
-        $result = Db::name('recycleBin')->where(array('id' => $id))->find();
+        $result = Db::name('recycleBin')->where(['id' => $id])->find();
+
+        $tableName = explode('#', $result['table_name']);
+        $tableName = $tableName[0];
         //还原文章
         if ($result) {
-            $res = Db::name($result['table_name'])
-                ->where(['id'=>$result['object_id']])
+            $res = Db::name($tableName)
+                ->where(['id' => $result['object_id']])
                 ->update(['delete_time' => '0']);
-            if ($res){
+            if ($res) {
                 $re = Db::name('recycleBin')->where('id', $id)->delete();
-                if ($re){
+                if ($re) {
                     $this->success("还原成功！");
                 }
             }
@@ -84,7 +87,7 @@ class RecycleBinController extends AdminBaseController
     function delete()
     {
         $id     = $this->request->param('id');
-        $result = Db::name('recycleBin')->where(array('id' => $id))->find();
+        $result = Db::name('recycleBin')->where(['id' => $id])->find();
         //删除文章
         if ($result) {
             $re = Db::name($result['table_name'])->where('id', $result['object_id'])->delete();

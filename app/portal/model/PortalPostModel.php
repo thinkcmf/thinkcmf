@@ -142,7 +142,7 @@ class PortalPostModel extends Model
                 $recycleData = [
                     'object_id'   => $res['id'],
                     'create_time' => time(),
-                    'table_name'  => 'portal_post',
+                    'table_name'  => 'portal_post#page',
                     'name'        => $res['post_title'],
 
                 ];
