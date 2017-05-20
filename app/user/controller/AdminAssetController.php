@@ -28,11 +28,15 @@ class AdminAssetController extends AdminBaseController
      */
     public function index()
     {
-        $result = Db::name('asset')->select();
-        $user= Db::name('user')->column('user_login','id');
-        $this->assign('user', $user);
-        $this->assign('result', $result);
-        $this->assign('status', ['不可用', '可用']);
+        $join   = [
+            ['__USER__ u', 'a.user_id = u.id']
+        ];
+        $result = Db::name('asset')->field('a.*,u.user_login,u.user_email,u.user_nickname')
+            ->alias('a')->join($join)
+            ->order('create_time', 'DESC')
+            ->paginate(10);
+        $this->assign('assets', $result->items());
+        $this->assign('page', $result->render());
         return $this->fetch();
     }
 
@@ -51,9 +55,9 @@ class AdminAssetController extends AdminBaseController
      */
     public function delete()
     {
-        $id   = $this->request->param('id');
+        $id            = $this->request->param('id');
         $file_filePath = Db::name('asset')->where('id', $id)->value('file_path');
-        $file = 'upload/' . $file_filePath;
+        $file          = 'upload/' . $file_filePath;
         if (file_exists($file)) {
             $res = unlink($file);
             if ($res) {

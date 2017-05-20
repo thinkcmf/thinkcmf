@@ -7,4 +7,5 @@ class AssetModel extends Model
 {
 
 
+
 }
