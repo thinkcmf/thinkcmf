@@ -28,7 +28,7 @@ class PostService
 
         $where = [
             'a.create_time' => ['>=', 0],
-            'a.delete_time' => ['eq', 0]
+            'a.delete_time' => 0
         ];
 
         $join = [
@@ -91,6 +91,7 @@ class PostService
                 'post.post_type'      => 1,
                 'post.published_time' => [['< time', time()], ['> time', 0]],
                 'post.post_status'    => 1,
+                'post.delete_time'    => 0,
                 'post.id'             => $postId
             ];
 
@@ -102,6 +103,7 @@ class PostService
                 'post.post_type'       => 1,
                 'post.published_time'  => [['< time', time()], ['> time', 0]],
                 'post.post_status'     => 1,
+                'post.delete_time'     => 0,
                 'relation.category_id' => $categoryId,
                 'relation.post_id'     => $postId
             ];
@@ -126,6 +128,7 @@ class PostService
             'post_type'      => 2,
             'published_time' => [['< time', time()], ['> time', 0]],
             'post_status'    => 1,
+            'delete_time'    => 0,
             'id'             => $pageId
         ];
 
