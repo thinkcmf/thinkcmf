@@ -39,6 +39,8 @@ class AdminArticleController extends AdminBaseController
         $postService = new PostService();
         $data        = $postService->adminArticleList($param);
 
+        $data->appends($param);
+
         $portalCategoryModel = new PortalCategoryModel();
         $categoryTree        = $portalCategoryModel->adminCategoryTree($categoryId);
 
