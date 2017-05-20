@@ -219,7 +219,7 @@ class UserController extends AdminBaseController
     /**
      * 管理员个人信息修改
      * @adminMenu(
-     *     'name'   => '管理员个人信息修改',
+     *     'name'   => '个人信息',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> true,
