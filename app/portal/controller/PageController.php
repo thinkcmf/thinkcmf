@@ -25,6 +25,8 @@ class PageController extends HomeBaseController
 
         $this->assign('page', $page);
 
+        $more = $page['more'];
+
         $tplName = empty($more['template']) ? 'page' : $more['template'];
 
         return $this->fetch("/$tplName");
