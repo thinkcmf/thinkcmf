@@ -31,11 +31,15 @@ class HomeBaseController extends BaseController
         $themePath = "{$cmfThemePath}{$cmfDefaultTheme}";
 
         $root = cmf_get_root();
-
+		//使cdn设置生效
+		$cdnSettings = cmf_get_option('cdn_settings')['cdn_static_root'];
+		if(empty($cdnSettings)){
+			$cdnSettings = '';
+		}
         $viewReplaceStr = [
             '__ROOT__'     => $root,
-            '__TMPL__'     => "{$root}/{$themePath}",
-            '__STATIC__'   => "{$root}/static",
+            '__TMPL__'     => "{$cdnSettings}{$root}/{$themePath}",
+			'__STATIC__'   => "{$cdnSettings}{$root}/static",
             '__WEB_ROOT__' => $root
         ];
         $viewReplaceStr = array_merge(config('view_replace_str'), $viewReplaceStr);
