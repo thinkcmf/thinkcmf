@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace app\user\controller;
 
+use cmf\lib\Storage;
 use think\Validate;
 use think\Image;
 use cmf\controller\UserBaseController;
@@ -173,6 +174,9 @@ class ProfileController extends UserBaseController
 
             $result = true;
             if ($result === true) {
+                $storage = new Storage();
+                $result  = $storage->upload($avatar, $avatarPath, 'image');
+
                 $userId = cmf_get_current_user_id();
                 Db::name("user")->where(["id" => $userId])->update(["avatar" => $avatar]);
                 session('user.avatar', $avatar);
