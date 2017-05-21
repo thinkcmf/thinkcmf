@@ -221,6 +221,25 @@ tpl;
     }
 
     /**
+     * 文章分类排序
+     * @adminMenu(
+     *     'name'   => '文章分类排序',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '文章分类排序',
+     *     'param'  => ''
+     * )
+     */
+    public function listOrder()
+    {
+        parent::listOrders(Db::name('portal_category'));
+        $this->success("排序更新成功！", '');
+    }
+
+    /**
      * 删除文章分类
      * @adminMenu(
      *     'name'   => '删除文章分类',
