@@ -1412,7 +1412,8 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
     static $routes;
 
     if (empty($routes)) {
-        $routes = cache("routes");
+        $routeModel = new \app\admin\model\RouteModel();
+        $routes     = $routeModel->getRoutes();
     }
 
     if (false === strpos($url, '://') && 0 !== strpos($url, '/')) {
