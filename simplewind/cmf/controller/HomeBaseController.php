@@ -34,17 +34,22 @@ class HomeBaseController extends BaseController
         //使cdn设置生效
         $cdnSettings = cmf_get_option('cdn_settings');
         if (empty($cdnSettings['cdn_static_root'])) {
-            $cdnStaticRoot = '';
+            $viewReplaceStr = [
+                '__ROOT__'     => $root,
+                '__TMPL__'     => "{$root}/{$themePath}",
+                '__STATIC__'   => "{$root}/static",
+                '__WEB_ROOT__' => $root
+            ];
         } else {
-            $cdnStaticRoot = $cdnSettings['cdn_static_root'] . '/';
+            $cdnStaticRoot  = rtrim($cdnSettings['cdn_static_root'], '/');
+            $viewReplaceStr = [
+                '__ROOT__'     => $root,
+                '__TMPL__'     => "{$cdnStaticRoot}/{$themePath}",
+                '__STATIC__'   => "{$cdnStaticRoot}/static",
+                '__WEB_ROOT__' => $cdnStaticRoot
+            ];
         }
 
-        $viewReplaceStr = [
-            '__ROOT__'     => $root,
-            '__TMPL__'     => "{$cdnStaticRoot}{$root}/{$themePath}",
-            '__STATIC__'   => "{$cdnStaticRoot}{$root}/static",
-            '__WEB_ROOT__' => $root
-        ];
         $viewReplaceStr = array_merge(config('view_replace_str'), $viewReplaceStr);
         config('template.view_base', "{$themePath}/");
         config('view_replace_str', $viewReplaceStr);

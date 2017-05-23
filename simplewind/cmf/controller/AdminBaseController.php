@@ -45,14 +45,25 @@ class AdminBaseController extends BaseController
 
         $root = cmf_get_root();
 
-        $viewReplaceStr = [
-            '__ROOT__'     => $root,
-            '__TMPL__'     => "{$root}/{$themePath}",
-            '__STATIC__'   => "{$root}/static",
-            '__WEB_ROOT__' => $root
-        ];
+        //使cdn设置生效
+        $cdnSettings = cmf_get_option('cdn_settings');
+        if (empty($cdnSettings['cdn_static_root'])) {
+            $viewReplaceStr = [
+                '__ROOT__'     => $root,
+                '__TMPL__'     => "{$root}/{$themePath}",
+                '__STATIC__'   => "{$root}/static",
+                '__WEB_ROOT__' => $root
+            ];
+        } else {
+            $cdnStaticRoot  = rtrim($cdnSettings['cdn_static_root'], '/');
+            $viewReplaceStr = [
+                '__ROOT__'     => $root,
+                '__TMPL__'     => "{$cdnStaticRoot}/{$themePath}",
+                '__STATIC__'   => "{$cdnStaticRoot}/static",
+                '__WEB_ROOT__' => $cdnStaticRoot
+            ];
+        }
 
-        //config('template.view_path', "$themePath/");
         $viewReplaceStr = array_merge(config('view_replace_str'), $viewReplaceStr);
         config('template.view_base', "$themePath/");
         config('view_replace_str', $viewReplaceStr);

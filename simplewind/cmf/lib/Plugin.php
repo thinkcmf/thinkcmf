@@ -63,12 +63,11 @@ abstract class Plugin
 
         $config = $this->getConfig();
 
-
         $theme = isset($config['theme']) ? $config['theme'] : '';
 
         $depr = "/";
 
-        $root = $request->root();
+        $root = cmf_get_root();
 
         $themeDir = empty($theme) ? "" : '/' . $theme;
 
@@ -78,21 +77,33 @@ abstract class Plugin
 
         $engineConfig['view_base'] = $this->themeRoot;
 
-        $pluginRoot = $root . "/{$nameCStyle}";
+        $pluginRoot = $root . "/plugins/{$nameCStyle}";
 
         $cmfAdminThemePath    = config('cmf_admin_theme_path');
         $cmfAdminDefaultTheme = config('cmf_admin_default_theme');
 
         $adminThemePath = "{$cmfAdminThemePath}{$cmfAdminDefaultTheme}";
 
-        $root = cmf_get_root();
-
-        $replaceConfig = [
-            '__PLUGIN_TMPL__' => $pluginRoot . '/' . $themePath,
-            '__PLUGIN_ROOT__' => $pluginRoot,
-            '__ADMIN_TMPL__'  => "{$root}/{$adminThemePath}",
-            '__WEB_ROOT__'    => $root
-        ];
+        //使cdn设置生效
+        $cdnSettings = cmf_get_option('cdn_settings');
+        if (empty($cdnSettings['cdn_static_root'])) {
+            $replaceConfig = [
+                '__PLUGIN_TMPL__' => $pluginRoot . '/' . $themePath,
+                '__PLUGIN_ROOT__' => $pluginRoot,
+                '__ADMIN_TMPL__'  => "{$root}/{$adminThemePath}",
+                '__STATIC__'      => "{$root}/static",
+                '__WEB_ROOT__'    => $root
+            ];
+        } else {
+            $cdnStaticRoot = rtrim($cdnSettings['cdn_static_root'], '/');
+            $replaceConfig = [
+                '__PLUGIN_TMPL__' => $cdnStaticRoot . '/' . $pluginRoot . '/' . $themePath,
+                '__PLUGIN_ROOT__' => $cdnStaticRoot . '/' . $pluginRoot,
+                '__ADMIN_TMPL__'  => "{$cdnStaticRoot}/{$adminThemePath}",
+                '__STATIC__'      => "{$cdnStaticRoot}/static",
+                '__WEB_ROOT__'    => $cdnStaticRoot
+            ];
+        }
 
         $this->view = new View($engineConfig, $replaceConfig);
 
