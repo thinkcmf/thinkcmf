@@ -231,8 +231,7 @@ class UserController extends AdminBaseController
      */
     public function userInfo()
     {
-        $id   = cmf_get_current_admin_id();//TODO
-        $id   = isset($id) ? $id : 1;
+        $id   = cmf_get_current_admin_id();
         $user = Db::name('user')->where(["id" => $id])->find();
         $this->assign($user);
         return $this->fetch();
@@ -257,7 +256,7 @@ class UserController extends AdminBaseController
 
             $data             = $this->request->post();
             $data['birthday'] = strtotime($data['birthday']);
-            $data['id']       = 1;//TODO cmf_get_current_admin_id();
+            $data['id']       = cmf_get_current_admin_id();
             $create_result    = Db::name('user')->update($data);;
             if ($create_result !== false) {
                 $this->success("保存成功！");
