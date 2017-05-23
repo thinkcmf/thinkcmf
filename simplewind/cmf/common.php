@@ -23,7 +23,7 @@ Route::get('plugin/[:_plugin]/[:_controller]/[:_action]', "\\cmf\\controller\\Pl
 Route::get('captcha/new', "\\cmf\\controller\\CaptchaController@index");
 
 /**
- * 获取当前登录的管事员id
+ * 获取当前登录的管理员ID
  * @return int
  */
 function cmf_get_current_admin_id()
@@ -750,8 +750,8 @@ function cmf_asset_relative_url($assetUrl)
 }
 
 /**
- * 检查用户对某个url,内容的可访问性，用于记录如是否赞过，是否访问过等等;开发者可以自由控制，对于没有必要做的检查可以不做，以减少服务器压力
- * @param string $object 访问对象的id,格式：不带前缀的表名+id;如posts1表示xx_posts表里id为1的记录;如果object为空，表示只检查对某个url访问的合法性
+ * 检查用户对某个url内容的可访问性，用于记录如是否赞过，是否访问过等等;开发者可以自由控制，对于没有必要做的检查可以不做，以减少服务器压力
+ * @param string $object 访问对象的id,格式：不带前缀的表名+id;如post1表示xx_post表里id为1的记录;如果object为空，表示只检查对某个url访问的合法性
  * @param int $countLimit 访问次数限制,如1，表示只能访问一次
  * @param boolean $ipLimit ip限制,false为不限制，true为限制
  * @param int $expire 距离上次访问的最小时间单位s，0表示不限制，大于0表示最后访问$expire秒后才可以访问
@@ -951,12 +951,11 @@ function cmf_plugin_url($url, $param = [], $domain = false)
 }
 
 /**
- * TODO
  * 检查权限
- * @param $userId  int           认证用户的id
+ * @param $userId  int        要检查权限的用户 ID
  * @param $name string|array  需要验证的规则列表,支持逗号分隔的权限规则或索引数组
  * @param $relation string    如果为 'or' 表示满足任一条规则即通过验证;如果为 'and'则表示需满足所有规则才能通过验证
- * @return boolean           通过验证返回true;失败返回false
+ * @return boolean            通过验证返回true;失败返回false
  */
 function cmf_auth_check($userId, $name = null, $relation = 'or')
 {
