@@ -31,15 +31,18 @@ class HomeBaseController extends BaseController
         $themePath = "{$cmfThemePath}{$cmfDefaultTheme}";
 
         $root = cmf_get_root();
-		//使cdn设置生效
-		$cdnSettings = cmf_get_option('cdn_settings')['cdn_static_root'];
-		if(empty($cdnSettings)){
-			$cdnSettings = '';
-		}
+        //使cdn设置生效
+        $cdnSettings = cmf_get_option('cdn_settings');
+        if (empty($cdnSettings['cdn_static_root'])) {
+            $cdnStaticRoot = '';
+        } else {
+            $cdnStaticRoot = $cdnSettings['cdn_static_root'] . '/';
+        }
+
         $viewReplaceStr = [
             '__ROOT__'     => $root,
-            '__TMPL__'     => "{$cdnSettings}{$root}/{$themePath}",
-			'__STATIC__'   => "{$cdnSettings}{$root}/static",
+            '__TMPL__'     => "{$cdnStaticRoot}{$root}/{$themePath}",
+            '__STATIC__'   => "{$cdnStaticRoot}{$root}/static",
             '__WEB_ROOT__' => $root
         ];
         $viewReplaceStr = array_merge(config('view_replace_str'), $viewReplaceStr);
@@ -177,7 +180,8 @@ class HomeBaseController extends BaseController
         return ['vars' => $vars, 'widgets' => $widgets];
     }
 
-    public function checkUserLogin(){
+    public function checkUserLogin()
+    {
         $userId = cmf_get_current_user_id();
         if (empty($userId)) {
             $this->error("用户尚未登录", url("user/login/index"));
