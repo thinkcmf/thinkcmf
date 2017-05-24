@@ -287,18 +287,17 @@ class ThemeController extends AdminBaseController
 
         }
 
-        if ($tab == 'widget' && !empty($oldMore['widgets']) && is_array($oldMore['widgets'])) {
-            foreach ($oldMore['widgets'] as $widget) {
-                if (!empty($widget['vars']) && is_array($widget['vars'])) {
-                    foreach ($widget['vars'] as $mVarName => $mVar) {
-                        if ($mVarName == $varName) {
-                            if (is_array($mVar['value'])) {
-                                $items = $mVar['value'];
-                            }
+        if ($tab == 'widget' && !empty($oldMore['widgets'][$widgetName]) && is_array($oldMore['widgets'][$widgetName])) {
+            $widget = $oldMore['widgets'][$widgetName];
+            if (!empty($widget['vars']) && is_array($widget['vars'])) {
+                foreach ($widget['vars'] as $mVarName => $mVar) {
+                    if ($mVarName == $varName) {
+                        if (is_array($mVar['value'])) {
+                            $items = $mVar['value'];
+                        }
 
-                            if (isset($mVar['item'])) {
-                                $item = $mVar['item'];
-                            }
+                        if (isset($mVar['item'])) {
+                            $item = $mVar['item'];
                         }
                     }
                 }
@@ -462,8 +461,8 @@ class ThemeController extends AdminBaseController
             }
 
             if ($tab == 'widget') {
-                foreach ($more['widgets'] as $widgetName => $widget) {
-                    if ($widgetName == $widgetName) {
+                foreach ($more['widgets'] as $mWidgetName => $widget) {
+                    if ($widgetName == $mWidgetName) {
                         if (!empty($widget['vars']) && is_array($widget['vars'])) {
                             foreach ($widget['vars'] as $widgetVarName => $widgetVar) {
                                 if ($widgetVarName == $varName && $widgetVar['type'] == 'array') {
