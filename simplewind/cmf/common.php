@@ -88,8 +88,8 @@ function cmf_get_domain()
 }
 
 /**
- * 获取程序web根目录
- * @return string web根目录
+ * 获取网站根目录
+ * @return string 网站根目录
  */
 function cmf_get_root()
 {
@@ -143,8 +143,8 @@ function cmf_get_theme_path($theme = null)
 }
 
 /**
- * 获取用户头像相对网站根目录的地址
- * @param $avatar 用户头像,相对于 upload 目录
+ * 获取用户头像地址
+ * @param $avatar 用户头像文件路径,相对于 upload 目录
  * @return string
  */
 function cmf_get_user_avatar_url($avatar)
@@ -293,7 +293,7 @@ function cmf_save_var($path, $var)
 }
 
 /**
- * 更新系统配置文件
+ * 设置动态配置
  * @param array $data <br>如：["cmf_default_theme"=>'simpleboot3'];
  * @return boolean
  */
@@ -344,6 +344,7 @@ function cmf_param_lable($tag = '')
 
 /**
  * 获取后台管理设置的网站信息，此类信息一般用于前台
+ * @return array
  */
 function cmf_get_site_info()
 {
@@ -384,7 +385,7 @@ function cmf_set_cmf_setting($data)
  * @param string $key 配置键值,都小写
  * @param array $data 配置值，数组
  * @param bool $replace 是否完全替换
- * @return bool
+ * @return bool 是否成功
  */
 function cmf_set_option($key, $data, $replace = false)
 {
@@ -507,8 +508,14 @@ function cmf_get_upload_setting()
 
 /**
  * 获取html文本里的img
- * @param string $content
- * @return array
+ * @param string $content html 内容
+ * @return array 图片列表 数组item格式<pre>
+ * [
+ *  "src"=>'图片链接',
+ *  "title"=>'图片标签的 title 属性',
+ *  "alt"=>'图片标签的 alt 属性'
+ * ]
+ * </pre>
  */
 function cmf_get_content_images($content)
 {
@@ -544,9 +551,9 @@ function cmf_strip_chars($str, $chars = '?<*.>\'\"')
 
 /**
  * 发送邮件
- * @param string $address
- * @param string $subject
- * @param string $message
+ * @param string $address 收件人邮箱
+ * @param string $subject 邮件标题
+ * @param string $message 邮件内容
  * @return array<br>
  * 返回格式：<br>
  * array(<br>
@@ -617,9 +624,9 @@ function cmf_get_asset_url($file, $style = '')
 
 /**
  * 转化数据库保存图片的文件路径，为可以访问的url
- * @param string $file
- * @param mixed $style 图片样式,支持各大云存储
- * @return string
+ * @param string $file 文件路径，数据存储的文件相对路径
+ * @param string $style 图片样式,支持各大云存储
+ * @return string 图片链接
  */
 function cmf_get_image_url($file, $style = '')
 {
@@ -652,11 +659,10 @@ function cmf_get_image_preview_url($file, $style = 'watermark')
 }
 
 /**
- * @TODO七牛
  * 获取文件下载链接
- * @param string $file
- * @param int $expires
- * @return string
+ * @param string $file 文件路径，数据库里保存的相对路径
+ * @param int $expires 过期时间，单位 s
+ * @return string 文件链接
  */
 function cmf_get_file_download_url($file, $expires = 3600)
 {
@@ -833,17 +839,19 @@ function cmf_is_wechat()
  * 添加钩子
  * @param string $hook 钩子名称
  * @param mixed $params 传入参数
+ * @param mixed $extra 额外参数
  * @return void
  */
 function hook($hook, &$params = null, $extra = null)
 {
-    return \think\Hook::listen($hook, $params);
+    return \think\Hook::listen($hook, $params, $extra);
 }
 
 /**
  * 添加钩子,只执行一个
  * @param string $hook 钩子名称
  * @param mixed $params 传入参数
+ * @param mixed $extra 额外参数
  * @return void
  */
 function hook_one($hook, &$params = null, $extra = null)
@@ -922,7 +930,7 @@ function cmf_sub_dirs($dir)
  * 生成访问插件的url
  * @param string $url url格式：插件名://控制器名/方法
  * @param array $param 参数
- * @param bool $domain
+ * @param bool $domain 是否显示域名 或者直接传入域名
  * @return string
  */
 function cmf_plugin_url($url, $param = [], $domain = false)
@@ -1078,7 +1086,8 @@ function cmf_split_sql($file, $tablePre, $charset = 'utf8mb4', $defaultTablePre 
 }
 
 /**
- * 当前的语言包，并返回语言包名
+ * 判断当前的语言包，并返回语言包名
+ * @return string  语言包名
  */
 function cmf_current_lang()
 {
@@ -1096,8 +1105,8 @@ function cmf_get_order_sn()
 
 /**
  * 获取文件扩展名
- * @param string $filename
- * @return string
+ * @param string $filename 文件名
+ * @return string 文件扩展名
  */
 function cmf_get_file_extension($filename)
 {
@@ -1107,7 +1116,7 @@ function cmf_get_file_extension($filename)
 
 /**
  * 检查手机或邮箱是否还可以发送验证码,并返回生成的验证码
- * @param string $account
+ * @param string $account 手机或邮箱
  * @param integer $length 验证码位数,支持4,6,8
  * @return string 数字验证码
  */
@@ -1152,9 +1161,9 @@ function cmf_get_verification_code($account, $length = 6)
 
 /**
  * 更新手机或邮箱验证码发送日志
- * @param string $account
- * @param string $code
- * @param int $expireTime
+ * @param string $account 手机或邮箱
+ * @param string $code 验证码
+ * @param int $expireTime 过期时间
  * @return boolean
  */
 function cmf_verification_code_log($account, $code, $expireTime = 0)
@@ -1194,8 +1203,8 @@ function cmf_verification_code_log($account, $code, $expireTime = 0)
 
 /**
  * 手机或邮箱验证码检查，验证完后销毁验证码增加安全性,返回true验证码正确，false验证码错误
- * @param string $account
- * @param string $code
+ * @param string $account 手机或邮箱
+ * @param string $code 验证码
  * @param boolean $clear 是否验证后销毁验证码
  * @return string  错误消息,空字符串代码验证码正确
  */
@@ -1226,8 +1235,8 @@ function cmf_check_verification_code($account, $code, $clear = false)
 }
 
 /**
- * 清空某个账号的数字验证码,一般在验证码验证正确完成后
- * @param string $account
+ * 清除某个手机或邮箱的数字验证码,一般在验证码验证正确完成后
+ * @param string $account 手机或邮箱
  * @return boolean true：手机验证码正确，false：手机验证码错误
  */
 function cmf_clear_verification_code($account)
@@ -1374,7 +1383,7 @@ function cmf_is_sae()
  * 获取客户端IP地址
  * @param integer $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
  * @param boolean $adv 是否进行高级模式获取（有可能被伪装）
- * @return mixed
+ * @return string
  */
 function get_client_ip($type = 0, $adv = false)
 {
@@ -1383,8 +1392,8 @@ function get_client_ip($type = 0, $adv = false)
 
 /**
  * 生成base64的url,用于数据库存放 url
- * @param $url
- * @param $params
+ * @param $url 路由地址，如 控制器/方法名，应用/控制器/方法名
+ * @param $params url参数
  * @return string
  */
 function cmf_url_encode($url, $params)
