@@ -109,7 +109,7 @@
                     <td>{$vo.post_hits|default=0}</td>
                     <td>
                         <notempty name="vo.comment_count">
-                            <a href="javascript:parent.open_iframe_dialog('{:url('comment/commentadmin/index',array('post_id'=>$vo['id']))}','评论列表')">{$vo.comment_count}</a>
+                            <a href="javascript:parent.openIframeDialog('{:url('comment/commentadmin/index',array('post_id'=>$vo['id']))}','评论列表')">{$vo.comment_count}</a>
                             <else/>
                             {$vo.comment_count|default='0'}
                         </notempty>
@@ -132,7 +132,7 @@
                         </notempty>
 
                         <notempty name="vo.more.thumbnail">
-                            <a href="javascript:parent.image_preview_dialog('{:cmf_get_image_preview_url($vo.more.thumbnail)}');">
+                            <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.more.thumbnail)}');">
                                 <i class="fa fa-photo fa-fw"></i>
                             </a>
                         </notempty>

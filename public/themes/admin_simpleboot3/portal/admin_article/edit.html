@@ -10,8 +10,8 @@
         <input class="form-control" id="photo-{id}-name" type="text" name="photo_names[]" value="{name}"
                style="width: 200px;" title="图片名称">
         <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
-             onclick="image_preview_dialog(this.src);">
-        <a href="javascript:upload_one_image('图片上传','#photo-{id}');">替换</a>
+             onclick="imagePreviewDialog(this.src);">
+        <a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
         <a href="javascript:$('#saved-image{id}').remove();">移除</a>
     </li>
 </script>
@@ -21,7 +21,7 @@
         <input class="form-control" id="file-{id}-name" type="text" name="file_names[]" value="{name}"
                style="width: 200px;" title="文件名称">
         <a id="file-{id}-preview" href="{preview_url}" target="_blank">下载</a>
-        <a href="javascript:upload_one('图片上传','#file-{id}');">替换</a>
+        <a href="javascript:uploadOne('图片上传','#file-{id}');">替换</a>
         <a href="javascript:$('#saved-file{id}').remove();">移除</a>
     </li>
 </script>
@@ -103,14 +103,14 @@
                                             <img id="photo-{$key}-preview"
                                                  src="{:cmf_get_image_preview_url($vo['url'])}"
                                                  style="height:36px;width: 36px;"
-                                                 onclick="parent.image_preview_dialog(this.src);">
-                                            <a href="javascript:upload_one_image('图片上传','#photo-{$key}');">替换</a>
+                                                 onclick="parent.imagePreviewDialog(this.src);">
+                                            <a href="javascript:uploadOneImage('图片上传','#photo-{$key}');">替换</a>
                                             <a href="javascript:$('#saved-image{$key}').remove();">移除</a>
                                         </li>
                                     </foreach>
                                 </notempty>
                             </ul>
-                            <a href="javascript:upload_multi_image('图片上传','#photos','photos-item-tpl');"
+                            <a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-tpl');"
                                class="btn btn-sm btn-default">选择图片</a>
                         </td>
                     </tr>
@@ -128,13 +128,13 @@
                                                    name="file_names[]"
                                                    value="{$vo.name}" style="width: 200px;" title="图片名称">
                                             <a id="file-{$key}-preview" href="{$file_url}" target="_blank">下载</a>
-                                            <a href="javascript:upload_one('图片上传','#file-{$key}');">替换</a>
+                                            <a href="javascript:uploadOne('图片上传','#file-{$key}');">替换</a>
                                             <a href="javascript:$('#saved-file{$key}').remove();">移除</a>
                                         </li>
                                     </foreach>
                                 </notempty>
                             </ul>
-                            <a href="javascript:upload_multi_file('附件上传','#files','files-item-tpl');"
+                            <a href="javascript:uploadMultiFile('附件上传','#files','files-item-tpl');"
                                class="btn btn-sm btn-default">选择文件</a>
                         </td>
                     </tr>
@@ -150,7 +150,7 @@
                             <div style="text-align: center;">
                                 <input type="hidden" name="post[more][thumbnail]" id="thumbnail"
                                        value="{$post.more.thumbnail|default=''}">
-                                <a href="javascript:upload_one_image('图片上传','#thumbnail');">
+                                <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
                                     <if condition="empty($post.more.thumbnail)">
                                         <img src="__TMPL__/public/assets/images/default-thumbnail.png"
                                              id="thumbnail-preview"
@@ -181,7 +181,7 @@
                     <tr>
                         <td>
                             <label style="width: 88px"><a
-                                    href="javascript:open_iframe_dialog('{:url('comment/commentadmin/index',array('post_id'=>$post['id']))}','评论列表')">查看评论</a></label>
+                                    href="javascript:openIframeDialog('{:url('comment/commentadmin/index',array('post_id'=>$post['id']))}','评论列表')">查看评论</a></label>
                         </td>
                     </tr>
                     -->
@@ -270,7 +270,7 @@
 
     function doSelectCategory() {
         var selectedCategoriesId = $('#js-categories-id-input').val();
-        open_iframe_layer("{:url('AdminCategory/select')}?ids=" + selectedCategoriesId, '请选择分类', {
+        openIframeLayer("{:url('AdminCategory/select')}?ids=" + selectedCategoriesId, '请选择分类', {
             area: ['700px', '400px'],
             btn: ['确定', '取消'],
             yes: function (index, layero) {

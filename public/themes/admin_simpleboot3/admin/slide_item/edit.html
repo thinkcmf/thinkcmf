@@ -49,7 +49,7 @@
                         <td>
                             <div style="text-align: center;">
                                 <input type="hidden" name="post[image]" id="thumb" value="{$result.image|default=''}">
-                                <a href="javascript:upload_one_image('图片上传','#thumb');">
+                                <a href="javascript:uploadOneImage('图片上传','#thumb');">
                                     <if condition="empty($result['image'])">
                                         <img src="__TMPL__/public/assets/images/default-thumbnail.png"
                                              id="thumb-preview" width="135" style="cursor: hand"/>

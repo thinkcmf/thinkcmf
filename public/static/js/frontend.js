@@ -1162,72 +1162,7 @@ function setCookie(name, value, options) {
     document.cookie = [name, '=', encodeURIComponent(value), expires, path, domain, secure].join('');
 }
 
-//浮出提示_居中
-function resultTip(options) {
-
-    var cls = (options.error ? 'warning' : 'success');
-    var pop = $('<div style="left:50%;top:30%;" class="pop_showmsg_wrap"><span class="pop_showmsg"><span class="' + cls + '">' + options.msg + '</span></span></div>');
-
-    pop.appendTo($('body')).fadeIn(function () {
-        pop.css({
-            marginLeft: -pop.innerWidth() / 2
-        }); //水平居中
-    }).delay(1500).fadeOut(function () {
-        pop.remove();
-
-        //回调
-        if (options.callback) {
-            options.callback();
-        }
-    });
-
-}
-
-//弹窗居中定位 非ie6 fixed定位
-function popPos(wrap) {
-    var ie6         = false,
-        pos         = 'fixed',
-        top,
-        win_height  = $(window).height(),
-        wrap_height = wrap.outerHeight();
-
-    if ($.browser && $.browser.msie && $.browser.version < 7) {
-        ie6 = true;
-        pos = 'absolute';
-    }
-
-    if (win_height < wrap_height) {
-        top = 0;
-    } else {
-        top = ($(window).height() - wrap.outerHeight()) / 2;
-    }
-
-    wrap.css({
-        position: pos,
-        top: top + (ie6 ? $(document).scrollTop() : 0),
-        left: ($(window).width() - wrap.innerWidth()) / 2
-    }).show();
-}
-
-//新窗口打开
-function openwinx(url, name, w, h) {
-    if (!w) w = screen.width;
-    if (!h) h = screen.height;
-    //window.open(url,name,"top=100,left=400,width=" + w + ",height=" + h + ",toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,status=no");
-    window.open(url, name);
-}
-//询问
-function confirmurl(url, message) {
-    Wind.use("artDialog", "iframeTools", function () {
-        art.dialog.confirm(message, function () {
-            location.href = url;
-        }, function () {
-            art.dialog.tips('你取消了操作');
-        });
-    });
-}
-
-function open_iframe_dialog(url, title, options) {
+function openIframeDialog(url, title, options) {
     var params = {
         title: title,
         lock: true,
@@ -1240,7 +1175,7 @@ function open_iframe_dialog(url, title, options) {
     });
 }
 
-function open_iframe_layer(url, title, options) {
+function openIframeLayer(url, title, options) {
 
     var params = {
         type: 2,

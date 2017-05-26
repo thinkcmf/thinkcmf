@@ -592,7 +592,7 @@ function setCookie(name, value, options) {
  * @param title
  * @param options
  */
-function open_iframe_dialog(url, title, options) {
+function openIframeDialog(url, title, options) {
     Wind.css('artDialog');
     var params = {
         title: title,
@@ -615,7 +615,7 @@ function open_iframe_dialog(url, title, options) {
  * @param options
  * @param callback
  */
-function open_map_dialog(url, title, options, callback) {
+function openMapDialog(url, title, options, callback) {
     Wind.css('artDialog');
     var params = {
         title: title,
@@ -652,7 +652,7 @@ function open_map_dialog(url, title, options, callback) {
  * @param filetype 文件类型，image,video,audio,file
  * @param app  应用名，CMF的应用名
  */
-function open_upload_dialog(dialog_title, callback, extra_params, multi, filetype, app) {
+function openUploadDialog(dialog_title, callback, extra_params, multi, filetype, app) {
     Wind.css('artDialog');
     multi      = multi ? 1 : 0;
     filetype   = filetype ? filetype : 'image';
@@ -694,8 +694,8 @@ function open_upload_dialog(dialog_title, callback, extra_params, multi, filetyp
  * @param extra_params 额外参数，object
  * @param app  应用名,CMF的应用名
  */
-function upload_one(dialog_title, input_selector, filetype, extra_params, app) {
-    open_upload_dialog(dialog_title, function (dialog, files) {
+function uploadOne(dialog_title, input_selector, filetype, extra_params, app) {
+    openUploadDialog(dialog_title, function (dialog, files) {
         $(input_selector).val(files[0].filepath);
         $(input_selector + '-preview').attr('href', files[0].preview_url);
         $(input_selector + '-name').val(files[0].name);
@@ -709,8 +709,8 @@ function upload_one(dialog_title, input_selector, filetype, extra_params, app) {
  * @param extra_params 额外参数，object
  * @param app  应用名,CMF的应用名
  */
-function upload_one_image(dialog_title, input_selector, extra_params, app) {
-    open_upload_dialog(dialog_title, function (dialog, files) {
+function uploadOneImage(dialog_title, input_selector, extra_params, app) {
+    openUploadDialog(dialog_title, function (dialog, files) {
         $(input_selector).val(files[0].filepath);
         $(input_selector + '-preview').attr('src', files[0].preview_url);
         $(input_selector + '-name').val(files[0].name);
@@ -725,8 +725,8 @@ function upload_one_image(dialog_title, input_selector, extra_params, app) {
  * @param extra_params 额外参数，object
  * @param app  应用名,CMF 的应用名
  */
-function upload_multi_image(dialog_title, container_selector, item_tpl_wrapper_id, extra_params, app) {
-    open_upload_dialog(dialog_title, function (dialog, files) {
+function uploadMultiImage(dialog_title, container_selector, item_tpl_wrapper_id, extra_params, app) {
+    openUploadDialog(dialog_title, function (dialog, files) {
         var tpl  = $('#' + item_tpl_wrapper_id).html();
         var html = '';
         $.each(files, function (i, item) {
@@ -752,9 +752,9 @@ function upload_multi_image(dialog_title, container_selector, item_tpl_wrapper_i
  * @param extra_params 额外参数，object
  * @param app  应用名,CMF 的应用名
  */
-function upload_multi_file(dialog_title, container_selector, item_tpl_wrapper_id, filetype, extra_params, app) {
+function uploadMultiFile(dialog_title, container_selector, item_tpl_wrapper_id, filetype, extra_params, app) {
     filetype = filetype ? filetype : 'file';
-    open_upload_dialog(dialog_title, function (dialog, files) {
+    openUploadDialog(dialog_title, function (dialog, files) {
         var tpl  = $('#' + item_tpl_wrapper_id).html();
         var html = '';
         $.each(files, function (i, item) {
@@ -775,7 +775,7 @@ function upload_multi_file(dialog_title, container_selector, item_tpl_wrapper_id
  * 查看图片对话框
  * @param img 图片地址
  */
-function image_preview_dialog(img) {
+function imagePreviewDialog(img) {
     Wind.css('layer');
 
     Wind.use("layer", function () {
@@ -802,7 +802,7 @@ function image_preview_dialog(img) {
     });
 }
 
-function artdialog_alert(msg) {
+function artdialogAlert(msg) {
     Wind.css('artDialog');
     Wind.use("artDialog", function () {
         art.dialog({
@@ -821,7 +821,7 @@ function artdialog_alert(msg) {
 
 }
 
-function open_iframe_layer(url, title, options) {
+function openIframeLayer(url, title, options) {
 
     var params = {
         type: 2,

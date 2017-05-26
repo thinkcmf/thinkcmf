@@ -42,7 +42,7 @@
 <script>
     function doSelectUrl() {
         var selectedCategoriesId = $('#js-categories-id-input').val();
-        open_iframe_layer("{:url('Route/select')}?ids=" + selectedCategoriesId, '请选择URL', {
+        openIframeLayer("{:url('Route/select')}?ids=" + selectedCategoriesId, '请选择URL', {
             area: ['90%', '90%'],
             btn: ['确定', '取消'],
             yes: function (index, layero) {
