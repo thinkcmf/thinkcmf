@@ -36,7 +36,7 @@
         var $obj   = $(obj);
         var fileId = $obj.data('file');
         var title  = $obj.data('title');
-        parent.open_iframe_layer("{:url('theme/fileSetting')}?file_id=" + fileId, title, {
+        parent.openIframeLayer("{:url('theme/fileSetting')}?file_id=" + fileId, title, {
             area: ['700px', '90%'],
             btn: ['确定', '取消'],
             yes: function (index, layero) {

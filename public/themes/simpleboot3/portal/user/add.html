@@ -50,7 +50,7 @@
 							<div class="controls">
 								<div style="display: inline-block;text-align: center;">
 									<input type="hidden" name="post[more][thumbnail]" id="thumbnail" value="">
-									<a href="javascript:upload_one_image('图片上传','#thumbnail');">
+									<a href="javascript:uploadOneImage('图片上传','#thumbnail');">
 										<img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumbnail-preview" width="135" style="cursor: pointer"/>
 									</a>
 									<input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
@@ -103,7 +103,7 @@
 
     function doSelectCategory() {
         var selectedCategoriesId = $('#js-categories-id-input').val();
-        open_iframe_layer("{:url('portal/Article/select')}?ids=" + selectedCategoriesId, '请选择分类', {
+        openIframeLayer("{:url('portal/Article/select')}?ids=" + selectedCategoriesId, '请选择分类', {
             area: ['700px', '400px'],
             btn: ['确定', '取消'],
             yes: function (index, layero) {

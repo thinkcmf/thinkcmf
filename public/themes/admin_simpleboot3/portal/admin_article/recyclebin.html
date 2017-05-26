@@ -51,7 +51,7 @@
 					<td>{$vo.post_hits}</td>
 					<td>
 						<notempty name="vo.comment_count">
-							<a href="javascript:parent.open_iframe_dialog('{:U('comment/commentadmin/index',array('post_id'=>$vo['id']))}','评论列表')">{$vo.comment_count}</a>
+							<a href="javascript:parent.openIframeDialog('{:U('comment/commentadmin/index',array('post_id'=>$vo['id']))}','评论列表')">{$vo.comment_count}</a>
 						<else/>
 							{$vo.comment_count}
 						</notempty>
@@ -75,7 +75,7 @@
 						
 						<php>$smeta=json_decode($vo['smeta'],true);</php>
 						<notempty name="smeta.thumb">
-							<a href="javascript:image_preview_dialog('{:sp_get_image_preview_url($smeta['thumb'])}');">
+							<a href="javascript:imagePreviewDialog('{:sp_get_image_preview_url($smeta['thumb'])}');">
 								<i class="fa fa-photo fa-fw"></i>
 							</a>
 						</notempty>
