@@ -93,7 +93,7 @@ class ApiService
         if (empty($page)) {
             $articles = $articles->limit($limit)->select();
 
-            if (!empty($relation)) {
+            if (!empty($relation) && !empty($articles['items'])) {
                 $articles->load($relation);
             }
 
