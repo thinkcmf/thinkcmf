@@ -19,6 +19,12 @@ return [
         'value' => '',
         'tip'   => '这是密码组件'
     ],
+    'number'     => [
+        'title' => '数字',
+        'type'  => 'number',
+        'value' => '1.0',
+        'tip'   => '这是数字组件的演示'
+    ],
     'select'   => [// 在后台插件配置表单中的键名 ,会是config[select]
         'title'   => '下拉列表',
         'type'    => 'select',
@@ -66,6 +72,42 @@ return [
         'type'  => 'textarea',
         'value' => '这里是你要填写的内容',
         'tip'   => '这是多行文本组件'
-    ]
+    ],
+    'date'     => [
+        'title' => '日期',
+        'type'  => 'date',
+        'value' => '2017-05-20',
+        'tip'   => '这是日期组件的演示'
+    ],
+    'datetime'     => [
+        'title' => '时间',
+        'type'  => 'datetime',
+        'value' => '2017-05-20',
+        'tip'   => '这是时间组件的演示'
+    ],
+    'image'     => [
+        'title' => '图片',
+        'type'  => 'image',
+        'value' => '',
+        'tip'   => '这是图片组件的演示'
+    ],
+//    'photos'     => [
+//        'title' => '相册',
+//        'type'  => 'photos',
+//        'value' => '',
+//        'tip'   => '这是相册组件的演示'
+//    ],
+//    'file'     => [
+//        'title' => '文件',
+//        'type'  => 'file',
+//        'value' => '',
+//        'tip'   => '这是文件组件的演示'
+//    ],
+    'location'     => [
+        'title' => '地理坐标',
+        'type'  => 'location',
+        'value' => '',
+        'tip'   => '这是地理坐标组件的演示'
+    ],
 ];
 					
