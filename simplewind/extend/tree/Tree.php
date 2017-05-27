@@ -171,14 +171,17 @@ class Tree
 
         if (is_array($children)) {
             foreach ($children as $child) {
+                $child['_level']           = $level;
                 $returnArray[$child['id']] = $child;
                 if ($maxLevel === 0 || ($maxLevel !== 0 && $maxLevel > $level)) {
-                    $level++;
-                    $returnArray[$child['id']]["children"] = $this->getTreeArray($child['id'], $maxLevel, $level);
+
+                    $mLevel                                = $level + 1;
+                    $returnArray[$child['id']]["children"] = $this->getTreeArray($child['id'], $maxLevel, $mLevel);
                 }
 
             }
         }
+
         return $returnArray;
     }
 

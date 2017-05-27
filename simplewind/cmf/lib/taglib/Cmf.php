@@ -165,8 +165,10 @@ parse;
     <{$root} class="{$class}">
         {$content}
         <{$dropdown} class="{$dropdownClass}">
-            <php>\$level++;</php>
-            <php>echo \$_parse_navigation_func_name(\$menu['children'],\$level);</php>
+            <php>
+            \$mLevel=\$level+1;
+            </php>
+            <php>echo \$_parse_navigation_func_name(\$menu['children'],\$mLevel);</php>
         </{$dropdown}>
     </{$root}>
 </if>
@@ -257,8 +259,8 @@ parse;
     <{$root} class="{$class}">
         {$content}
         <{$dropdown} class="{$dropdownClass}">
-            <php>\$level++;</php>
-            <php>echo \$_parse_sub_navigation_func_name(\$menu['children'],\$level);</php>
+            <php>\$mLevel=\$level+1;</php>
+            <php>echo \$_parse_sub_navigation_func_name(\$menu['children'],\$mLevel);</php>
         </{$dropdown}>
     </{$root}>
 </if>
