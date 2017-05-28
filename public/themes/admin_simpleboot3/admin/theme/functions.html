@@ -124,8 +124,8 @@
                 </case>
                 <case value="color">
                     <div class="controls">
-                        <input type="text" name="{$inputName}[{$varName}]" class="form-control"
-                               value="{$vars[$varName]['value']}">
+                        <input type="text" name="{$inputName}[{$varName}]" class="form-control js-color"
+                               value="{$vars[$varName]['value']}" id="js-color-{$widget}{$varName}">
                         <present name="var.tip">
                             <p class="help-block">{$var.tip}</p>
                         </present>

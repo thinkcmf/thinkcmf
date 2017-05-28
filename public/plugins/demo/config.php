@@ -85,6 +85,12 @@ return [
         'value' => '2017-05-20',
         'tip'   => '这是时间组件的演示'
     ],
+    'color'     => [
+        'title' => '颜色',
+        'type'  => 'color',
+        'value' => '#103633',
+        'tip'   => '这是颜色组件的演示'
+    ],
     'image'     => [
         'title' => '图片',
         'type'  => 'image',
