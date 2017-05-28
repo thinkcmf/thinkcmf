@@ -1250,6 +1250,7 @@ Wind.ready(function () {
             xd: 'xd',//Iframe跨域通信
 
             noty: 'noty/noty',
+            noty3: 'noty3/noty.min',
             jcrop: 'jcrop/js/jcrop',
             ajaxfileupload: 'ajaxfileupload',
 
@@ -1274,6 +1275,7 @@ Wind.ready(function () {
 
             layer: 'layer/skin/default/layer',
             viewer: 'viewer/viewer',
+            noty3: 'noty3/noty',
             bootstrapDatetimePicker: 'bootstrap-datetimepicker/css/bootstrap-datetimepicker',
             dragula: 'dragula/dragula.min'
         };
