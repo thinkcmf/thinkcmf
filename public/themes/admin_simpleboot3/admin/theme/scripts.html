@@ -1,5 +1,22 @@
 <script src="__STATIC__/js/admin.js"></script>
 <script>
+
+    Wind.use('colorpicker',function(){
+        $('.js-color').each(function () {
+            var $this=$(this);
+            $this.ColorPicker({
+                livePreview:true,
+                onChange: function(hsb, hex, rgb, el) {
+                    $this.val('#'+hex);
+                },
+                onBeforeShow: function () {
+                    $(this).ColorPickerSetColor(this.value);
+                }
+            });
+        });
+
+    });
+
     function doSelectData(obj) {
         var $obj              = $(obj);
         var $realInput        = $obj.next();
@@ -75,4 +92,5 @@
     function confirm() {
         $('#submit-btn').click();
     }
+
 </script>

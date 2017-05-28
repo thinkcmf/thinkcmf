@@ -1259,6 +1259,7 @@ Wind.ready(function () {
 
             echarts: 'echarts/echarts.min',
             viewer: 'viewer/viewer',
+            colorpicker:'colorpicker/js/colorpicker',
             mousewheel: 'jquery.mousewheel/jquery.mousewheel.min',
             bootstrapDatetimePicker: 'bootstrap-datetimepicker/js/bootstrap-datetimepicker',
             dragula: 'dragula/dragula.min',
@@ -1276,6 +1277,7 @@ Wind.ready(function () {
             layer: 'layer/skin/default/layer',
             viewer: 'viewer/viewer',
             noty3: 'noty3/noty',
+            colorpicker: 'colorpicker/css/colorpicker',
             animate: 'animate/animate',
             bootstrapDatetimePicker: 'bootstrap-datetimepicker/css/bootstrap-datetimepicker',
             dragula: 'dragula/dragula.min'

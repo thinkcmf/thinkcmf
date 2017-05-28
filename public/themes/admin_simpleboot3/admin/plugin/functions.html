@@ -196,6 +196,23 @@
                 </div>
             </div>
         </case>
+        <case value="color">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="{$key}">
+                    {$form.title|default=''}
+                    <notempty name="form.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+                <div class="col-md-6 col-sm-10">
+                    <input class="form-control js-color" name="config[{$key}]" id="{$key}"
+                           value="{$form.value}">
+                    <present name="form.tip">
+                        <p class="help-block">{$form.tip}</p>
+                    </present>
+                </div>
+            </div>
+        </case>
         <case value="image">
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="{$key}">

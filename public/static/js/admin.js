@@ -204,7 +204,6 @@
                                     new Noty({
                                         text: data.msg,
                                         type: 'success',
-                                        theme: 'sunset',
                                         layout: 'topCenter',
                                         animation: {
                                             open: 'animated bounceInDown', // Animate.css class names
@@ -232,7 +231,6 @@
                                     new Noty({
                                         text: data.msg,
                                         type: 'error',
-                                        theme: 'sunset',
                                         layout: 'topCenter',
                                         animation: {
                                             open: 'animated bounceInDown', // Animate.css class names
