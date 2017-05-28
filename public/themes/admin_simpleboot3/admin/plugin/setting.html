@@ -32,7 +32,7 @@
             var $this=$(this);
             $this.ColorPicker({
                 livePreview:true,
-                onChange: function(hsb, hex, rgb, el) {
+                onChange: function(hsb, hex, rgb) {
                     $this.val('#'+hex);
                 },
                 onBeforeShow: function () {
