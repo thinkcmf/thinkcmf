@@ -1,3 +1,4 @@
+
 /*!
  @package noty - jQuery Notification Plugin
  @version version: 2.2.5

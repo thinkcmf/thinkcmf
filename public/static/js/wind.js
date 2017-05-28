@@ -1276,6 +1276,7 @@ Wind.ready(function () {
             layer: 'layer/skin/default/layer',
             viewer: 'viewer/viewer',
             noty3: 'noty3/noty',
+            animate: 'animate/animate',
             bootstrapDatetimePicker: 'bootstrap-datetimepicker/css/bootstrap-datetimepicker',
             dragula: 'dragula/dragula.min'
         };
