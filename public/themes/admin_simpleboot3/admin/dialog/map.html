@@ -16,8 +16,11 @@
             z-index: 9999;
             right: 20px;
             top: 20px;
-            line-height: 28px;
+            line-height: 32px;
             padding: 0px 10px;
+            width: 300px;
+            border: 1px solid #e4e6e7;
+
         }
 
         #suggestId:focus {
@@ -49,8 +52,8 @@
 
     var map_ac = new BMap.Autocomplete(    //建立一个自动完成的对象
         {
-            "input": "suggestId"
-            , "location": map
+            "input": "suggestId",
+            "location": map
         });
 
     var marker = new BMap.Marker(center);  // 创建标注
@@ -122,13 +125,13 @@
 
 
     function confirm() {
-        var data={};
-        data.lng=document.getElementById("lng_input").value;
-        data.lat=document.getElementById("lat_input").value;
-        data.address=document.getElementById("address_input").value;
-        data.city=document.getElementById("city_input").value;
-        data.province=document.getElementById("province_input").value;
-        data.district=document.getElementById("district_input").value;
+        var data      = {};
+        data.lng      = document.getElementById("lng_input").value;
+        data.lat      = document.getElementById("lat_input").value;
+        data.address  = document.getElementById("address_input").value;
+        data.city     = document.getElementById("city_input").value;
+        data.province = document.getElementById("province_input").value;
+        data.district = document.getElementById("district_input").value;
 
         return data;
     }
