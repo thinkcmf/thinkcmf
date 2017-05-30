@@ -15,6 +15,7 @@
             word-wrap: break-word;
         }
     </style>
+    <hook name="before_head_end"/>
 </head>
 <body class="body-white">
 <include file="public@nav"/>
@@ -62,7 +63,7 @@
                     ];
                 </php>
 
-                <hook name="comment" param="comment_hook_param"/>
+                {:hook('comment',$comment_hook_param)}
             </div>
 
 
@@ -99,5 +100,6 @@
 </div>
 
 <include file="public@scripts"/>
+<hook name="before_body_end"/>
 </body>
 </html>

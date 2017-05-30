@@ -217,6 +217,7 @@
                                             }
                                         }
                                     }).show();
+                                    $(window).focus();
                                 } else if (data.code == 0) {
                                     var $verify_img = $form.find(".verify_img");
                                     if ($verify_img.length) {
@@ -228,6 +229,7 @@
 
                                     //$('<span class="tips_error">' + data.msg + '</span>').appendTo($btn.parent()).fadeIn('fast');
                                     $btn.removeProp('disabled').removeClass('disabled');
+
                                     new Noty({
                                         text: data.msg,
                                         type: 'error',
@@ -242,6 +244,7 @@
                                             }
                                         }
                                     }).show();
+                                    $(window).focus();
                                 }
 
 
