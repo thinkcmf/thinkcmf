@@ -61,9 +61,18 @@
                     'post_table'=>'portal_post',
                     'post_title'=>$article['post_title']
                     ];
+                    $comment=hook_one('comment',$comment_hook_param);
                 </php>
 
-                {:hook_one('comment',$comment_hook_param)}
+                <if condition="empty($comment) && cmf_get_current_admin_id()">
+                    <div style="border: 1px dashed #ddd;min-height: 200px;padding-top: 50px;">
+                        <div class="alert alert-warning" role="alert">
+                            此区域这为评论区，请安装评论插件！<br>
+                            <em>注：普通用户不会看到此提示！</em>
+                        </div>
+                    </div>
+                </if>
+                {$comment}
             </div>
 
 
