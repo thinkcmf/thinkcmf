@@ -66,23 +66,27 @@ class ApiService
 
         $join = [
             ['__USER__ user', 'post.user_id = user.id'],
-            ['__PORTAL_CATEGORY_POST__ category_post', 'post.id = category_post.post_id']
         ];
 
         if (!empty($categoryIds)) {
+
+            $field = !empty($param['field']) ? $param['field'] : 'post.*,user.user_login,user.user_nickname,user.user_email,category_post.category_id';
+            array_push($join, ['__PORTAL_CATEGORY_POST__ category_post', 'post.id = category_post.post_id']);
 
             if (!is_array($categoryIds)) {
                 $categoryIds = explode(',', $categoryIds);
             }
 
             if (count($categoryIds) == 1) {
-                $where['category_post.category_id'] = ['eq', $categoryIds[0]];
+                $where['category_post.category_id'] = $categoryIds[0];
             } else {
                 $where['category_post.category_id'] = ['in', $categoryIds];
             }
+        }else{
+            $field = !empty($param['field']) ? $param['field'] : 'post.*,user.user_login,user.user_nickname,user.user_email';
         }
 
-        $articles = $portalPostModel->alias('post')->field('post.*,user.user_login,user.user_nickname,user.user_email,category_post.category_id')
+        $articles = $portalPostModel->alias('post')->field($field)
             ->join($join)
             ->where($where)
             ->where($paramWhere)
@@ -113,6 +117,8 @@ class ApiService
             if (!empty($relation) && !empty($articles['items'])) {
                 $articles->load($relation);
             }
+
+            $articles->appends(request()->param());
 
             $return['articles']    = $articles->items();
             $return['page']        = $articles->render();

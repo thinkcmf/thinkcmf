@@ -27,7 +27,7 @@ class Portal extends TagLib
     public function tagArticles($tag, $content)
     {
         $item          = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
-        $field         = empty($tag['field']) ? '*' : $tag['field'];
+        $field         = empty($tag['field']) ? '' : $tag['field'];
         $limit         = empty($tag['limit']) ? '10' : $tag['limit'];
         $order         = empty($tag['order']) ? 'post.published_time DESC' : $tag['order'];
         $relation      = empty($tag['relation']) ? '' : $tag['relation'];

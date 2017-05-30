@@ -22,7 +22,7 @@ class BaseController extends Controller
      */
     public function __construct(Request $request = null)
     {
-        if(!cmf_is_installed() && $request->module()!='install'){
+        if (!cmf_is_installed() && $request->module() != 'install') {
             header('Location: ' . cmf_get_root() . '/index.php?s=install');
             exit;
         }
@@ -64,12 +64,16 @@ class BaseController extends Controller
         if (!is_object($model)) {
             return false;
         }
-        $pk = $model->getPk(); //获取主键名称
 
+        $pk  = $model->getPk(); //获取主键名称
         $ids = $this->request->post("list_orders/a");
-        foreach ($ids as $key => $r) {
-            $data['list_order'] = $r;
-            $model->where([$pk => $key])->update($data);
+
+        if (!empty($ids)) {
+            foreach ($ids as $key => $r) {
+                $data['list_order'] = $r;
+                $model->where([$pk => $key])->update($data);
+            }
+
         }
 
         return true;

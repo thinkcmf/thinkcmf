@@ -50,7 +50,10 @@
             <php>$guestbook=hook_one('guestbook');</php>
             <if condition="empty($guestbook) && cmf_get_current_admin_id()">
                 <div style="border: 1px dashed #ddd;min-height: 300px;padding-top: 100px;">
-                    <div class="alert alert-warning" role="alert">此区域这为留言区，请安装留言插件！</div>
+                    <div class="alert alert-warning" role="alert">
+                        此区域这为留言区，请安装留言插件！<br>
+                        <em>注：普通用户不会看到此提示！</em>
+                    </div>
                 </div>
             </if>
             {$guestbook}
