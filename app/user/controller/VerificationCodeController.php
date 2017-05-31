@@ -47,8 +47,16 @@ class VerificationCodeController extends HomeBaseController
 
         if ($accountType == 'email') {
 
-            $subject = '您的数字验证码是:' . $code;
-            $result  = cmf_send_email($data['username'], 'ThinkCMF验证码', $subject);
+            $emailTemplate = cmf_get_option('email_template_verification_code');
+
+            $user     = cmf_get_current_user();
+            $username = empty($user['user_nickname']) ? $user['user_login'] : $user['user_nickname'];
+
+            $message = htmlspecialchars_decode($emailTemplate['template']);
+            $message = $this->display($message, ['code' => $code, 'username' => $username]);
+            $subject = empty($emailTemplate['subject']) ? 'ThinkCMF验证码' : $emailTemplate['subject'];
+            $result  = cmf_send_email($data['username'], $subject, $message);
+
             if (empty($result['error'])) {
                 cmf_verification_code_log($data['username'], $code);
                 $this->success("验证码已经发送成功!");

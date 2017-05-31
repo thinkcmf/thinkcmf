@@ -61,47 +61,59 @@ class MailerController extends AdminBaseController
     }
 
     /**
-     * 会员注册邮件模板
+     * 邮件模板
      * @adminMenu(
-     *     'name'   => '会员注册邮件模板',
+     *     'name'   => '邮件模板',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '会员注册邮件模板',
+     *     'remark' => '邮件模板',
      *     'param'  => ''
      * )
      */
-    public function active()
+    public function template()
     {
-        $template = cmf_get_option('email_template_user_activation');
+        $allowedTemplateKeys = ['verification_code'];
+        $templateKey         = $this->request->param('template_key');
+
+        if (empty($templateKey) || !in_array($templateKey, $allowedTemplateKeys)) {
+            $this->error('非法请求！');
+        }
+
+        $template = cmf_get_option('email_template_' . $templateKey);
         $this->assign($template);
-        return $this->fetch();
+        return $this->fetch('template_verification_code');
     }
 
     /**
-     * 会员注册邮件模板提交
+     * 邮件模板提交
      * @adminMenu(
-     *     'name'   => '会员注册邮件模板提交',
+     *     'name'   => '邮件模板提交',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '会员注册邮件模板提交',
+     *     'remark' => '邮件模板提交',
      *     'param'  => ''
      * )
      */
-    public function activePost()
+    public function templatePost()
     {
+        $allowedTemplateKeys = ['verification_code'];
+        $templateKey         = $this->request->param('template_key');
+
+        if (empty($templateKey) || !in_array($templateKey, $allowedTemplateKeys)) {
+            $this->error('非法请求！');
+        }
+
         $data = $this->request->param();
 
-        // TODO 非空验证
+        unset($data['template_key']);
 
-        $data['template'] = htmlspecialchars_decode($data['template']);
-
-        cmf_set_option('email_template_user_activation', $data);
+        cmf_set_option('email_template_' . $templateKey, $data);
 
         $this->success("保存成功！");
     }
