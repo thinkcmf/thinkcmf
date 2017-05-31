@@ -96,7 +96,7 @@
                                         <php>$img_url=cmf_get_image_preview_url($vo['url']);</php>
                                         <li id="saved-image{$key}">
                                             <input id="photo-{$key}" type="hidden" name="photo_urls[]"
-                                                   value="{$img_url}">
+                                                   value="{$vo.url}">
                                             <input class="form-control" id="photo-{$key}-name" type="text"
                                                    name="photo_names[]"
                                                    value="{$vo.name|default=''}" style="width: 200px;" title="图片名称">
