@@ -99,71 +99,63 @@ class ThemeModel extends Model
             $more       = $configMore;
 
             if (empty($findFile)) {
-                Db::name('theme_file')->insert(
-                    [
-                        'theme'       => $theme,
-                        'action'      => $config['action'],
-                        'file'        => $file,
-                        'name'        => $config['name'],
-                        'more'        => json_encode($more),
-                        'config_more' => json_encode($configMore),
-                        'description' => $config['description'],
-                        'is_public'   => $isPublic,
-                        'list_order'  => $listOrder
-                    ]);
+                Db::name('theme_file')->insert([
+                    'theme'       => $theme,
+                    'action'      => $config['action'],
+                    'file'        => $file,
+                    'name'        => $config['name'],
+                    'more'        => json_encode($more),
+                    'config_more' => json_encode($configMore),
+                    'description' => $config['description'],
+                    'is_public'   => $isPublic,
+                    'list_order'  => $listOrder
+                ]);
             } else { // 更新文件
                 $moreInDb = json_decode($findFile['more'], true);
-                $more     = array_replace_recursive($configMore, $moreInDb);
-                $more     = array_replace_recursive($more, $this->unsetThemeMoreValue($configMore));
-                Db::name('theme_file')->where(['theme' => $theme, 'file' => $file])->update(
-                    [
-                        'theme'       => $theme,
-                        'action'      => $config['action'],
-                        'file'        => $file,
-                        'name'        => $config['name'],
-                        'more'        => json_encode($more),
-                        'config_more' => json_encode($configMore),
-                        'description' => $config['description'],
-                        'is_public'   => $isPublic,
-                        'list_order'  => $listOrder
-                    ]);
+                $more     = $this->updateThemeConfigMore($configMore,$moreInDb);
+                Db::name('theme_file')->where(['theme' => $theme, 'file' => $file])->update([
+                    'theme'       => $theme,
+                    'action'      => $config['action'],
+                    'file'        => $file,
+                    'name'        => $config['name'],
+                    'more'        => json_encode($more),
+                    'config_more' => json_encode($configMore),
+                    'description' => $config['description'],
+                    'is_public'   => $isPublic,
+                    'list_order'  => $listOrder
+                ]);
             }
         }
     }
 
-    private function unsetThemeMoreValue($more)
+    private function updateThemeConfigMore($configMore, $moreInDb)
     {
 
-        if (!empty($more['vars'])) {
-            foreach ($more['vars'] as $varName => $var) {
-
-                unset($var['value']);
-
-                $more['vars'][$varName] = $var;
-
+        if (!empty($configMore['vars'])) {
+            foreach ($configMore['vars'] as $mVarName => $mVar) {
+                if (isset($moreInDb['vars'][$mVarName]['value']) && $mVar['type'] == $moreInDb['vars'][$mVarName]['type']) {
+                    $configMore['vars'][$mVarName]['value'] = $moreInDb['vars'][$mVarName]['value'];
+                }
             }
         }
 
-        if (!empty($more['widgets'])) {
-            foreach ($more['widgets'] as $widgetName => $widget) {
+        if (!empty($configMore['widgets'])) {
+            foreach ($configMore['widgets'] as $widgetName => $widget) {
 
                 if (!empty($widget['vars'])) {
                     foreach ($widget['vars'] as $widgetVarName => $widgetVar) {
 
-                        unset($widgetVar['value']);
-
-                        $more['widgets'][$widgetName]['vars'][$widgetVarName] = $widgetVar;
+                        if (isset($moreInDb['widgets'][$widgetName]['vars'][$widgetVarName]['value']) && $widgetVar['type'] == $moreInDb['widgets'][$widgetName]['vars'][$widgetVarName]['type']) {
+                            $moreInDb['widgets'][$widgetName]['vars'][$widgetVarName]['value'] = $moreInDb['widgets'][$widgetName]['vars'][$widgetVarName]['value'];
+                        }
 
                     }
                 }
 
-                unset($more['widgets'][$widgetName]['title']);
-                unset($more['widgets'][$widgetName]['display']);
             }
         }
 
-        return $more;
-
+        return $configMore;
     }
 
 
