@@ -4,7 +4,7 @@
 	<div class="wrap">
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="{:url('mailer/index')}">{:lang('ADMIN_MAILER_INDEX')}</a></li>
-			<li><a href="{:url('mailer/active')}">注册邮件模板</a></li>
+			<li><a href="{:url('mailer/template')}?template_key=verification_code">数字验证码邮件模板</a></li>
 		</ul>
 		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Admin/mailer/indexPost')}">
 			<div class="form-group">
