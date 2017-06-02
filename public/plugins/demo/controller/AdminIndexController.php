@@ -22,6 +22,7 @@ class AdminIndexController extends PluginBaseController
             $this->assign("admin_id", $adminId);
         } else {
             //TODO no login
+            $this->error('未登录');
         }
     }
 

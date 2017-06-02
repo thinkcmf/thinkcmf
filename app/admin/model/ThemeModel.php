@@ -112,7 +112,7 @@ class ThemeModel extends Model
                 ]);
             } else { // 更新文件
                 $moreInDb = json_decode($findFile['more'], true);
-                $more     = $this->updateThemeConfigMore($configMore,$moreInDb);
+                $more     = $this->updateThemeConfigMore($configMore, $moreInDb);
                 Db::name('theme_file')->where(['theme' => $theme, 'file' => $file])->update([
                     'theme'       => $theme,
                     'action'      => $config['action'],
@@ -142,11 +142,14 @@ class ThemeModel extends Model
         if (!empty($configMore['widgets'])) {
             foreach ($configMore['widgets'] as $widgetName => $widget) {
 
+                $configMore['widgets'][$widgetName]['title']   = $moreInDb['widgets'][$widgetName]['title'];
+                $configMore['widgets'][$widgetName]['display'] = $moreInDb['widgets'][$widgetName]['display'];
+
                 if (!empty($widget['vars'])) {
                     foreach ($widget['vars'] as $widgetVarName => $widgetVar) {
 
                         if (isset($moreInDb['widgets'][$widgetName]['vars'][$widgetVarName]['value']) && $widgetVar['type'] == $moreInDb['widgets'][$widgetName]['vars'][$widgetVarName]['type']) {
-                            $moreInDb['widgets'][$widgetName]['vars'][$widgetVarName]['value'] = $moreInDb['widgets'][$widgetName]['vars'][$widgetVarName]['value'];
+                            $configMore['widgets'][$widgetName]['vars'][$widgetVarName]['value'] = $moreInDb['widgets'][$widgetName]['vars'][$widgetVarName]['value'];
                         }
 
                     }
