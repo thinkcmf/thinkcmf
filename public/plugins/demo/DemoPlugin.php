@@ -13,14 +13,16 @@ use cmf\lib\Plugin;
 class DemoPlugin extends Plugin
 {
 
-    public $info = array(
+    public $info = [
         'name'        => 'Demo',//Demo插件英文名，改成你的插件英文就行了
         'title'       => '插件演示',
         'description' => '插件演示',
         'status'      => 1,
         'author'      => 'ThinkCMF',
-        'version'     => '1.0'
-    );
+        'version'     => '1.0',
+        'demo_url'    => 'http://demo.thinkcmf.com',
+        'author_url'  => 'http://www.thinkcmf.com'
+    ];
 
     public $hasAdmin = 1;//插件是否有后台管理界面
 
