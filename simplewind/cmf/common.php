@@ -106,6 +106,15 @@ function cmf_get_root()
  */
 function cmf_get_current_theme()
 {
+    $t     = 't';
+    $theme = config('cmf_default_theme');
+    if (isset($_GET[$t])) {
+        $theme = $_GET[$t];
+    } elseif (cookie('cmf_template')) {
+        $theme = cookie('cmf_template');
+    }
+
+    cookie('think_template', $theme, 864000);
 //    $tmpl_path = C("SP_TMPL_PATH");
 //    $theme     = C('SP_DEFAULT_THEME');
 //    if (C('TMPL_DETECT_THEME')) {
@@ -121,7 +130,6 @@ function cmf_get_current_theme()
 //        cookie('think_template', $theme, 864000);
 //    }
 
-    $theme = config('cmf_default_theme');
 
     return $theme;
 }
