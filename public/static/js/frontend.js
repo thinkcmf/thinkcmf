@@ -242,7 +242,7 @@
                                         layout: 'center',
                                         modal: true,
                                         callback: {
-                                            onClose: function () {
+                                            afterClose: function () {
                                                 _refresh();
                                             }
                                         }
@@ -267,7 +267,7 @@
                                         type: 'error',
                                         layout: 'center',
                                         callback: {
-                                            onClose: function () {
+                                            afterClose: function () {
                                                 _refresh();
                                             }
                                         }
@@ -282,7 +282,7 @@
                                     type: 'error',
                                     layout: 'center',
                                     callback: {
-                                        // onClose: function () {
+                                        // afterClose: function () {
                                         //     if (window.parent.art) {
                                         //         reloadPage(window.parent);
                                         //     } else {
@@ -352,7 +352,7 @@
                                             type: 'error',
                                             layout: 'center',
                                             callback: {
-                                                onClose: function () {
+                                                afterClose: function () {
                                                     if (data.url) {
                                                         location.href = data.url;
                                                     }
@@ -413,7 +413,7 @@
                                             type: 'error',
                                             layout: 'center',
                                             callback: {
-                                                onClose: function () {
+                                                afterClose: function () {
                                                     if (data.url) {
                                                         location.href = data.url;
                                                     }
@@ -459,7 +459,7 @@
                             type: 'success',
                             layout: 'center',
                             callback: {
-                                onClose: function () {
+                                afterClose: function () {
                                     if (data.url) {
                                         location.href = data.url;
                                         return;
@@ -477,7 +477,7 @@
                             type: 'error',
                             layout: 'center',
                             callback: {
-                                onClose: function () {
+                                afterClose: function () {
                                     if (data.url) {
                                         location.href = data.url;
                                     }
@@ -733,7 +733,7 @@
                                 type: 'success',
                                 layout: 'center',
                                 callback: {
-                                    onClose: function () {
+                                    afterClose: function () {
                                         if (data.url) {
                                             location.href = data.url;
                                         }
@@ -749,7 +749,7 @@
                             type: 'error',
                             layout: 'center',
                             callback: {
-                                onClose: function () {
+                                afterClose: function () {
                                     if (data.url) {
                                         location.href = data.url;
                                     }
@@ -798,10 +798,10 @@
                 data: {id: id},
                 success: function (data) {
                     if (data.code == 1) {
-                        if (data.areas.length > 0) {
+                        if (data.data.areas.length > 0) {
                             var html = [empty_option];
 
-                            $.each(data.areas, function (i, area) {
+                            $.each(data.data.areas, function (i, area) {
                                 var area_html = '<option value="[id]">[name]</option>';
                                 area_html     = area_html.replace('[name]', area.name);
                                 area_html     = area_html.replace('[id]', area.id);
@@ -848,7 +848,7 @@
                                 type: 'success',
                                 layout: 'center',
                                 callback: {
-                                    onClose: function () {
+                                    afterClose: function () {
                                         if (data.url) {
                                             location.href = data.url;
                                         }
@@ -864,7 +864,7 @@
                             type: 'error',
                             layout: 'center',
                             callback: {
-                                onClose: function () {
+                                afterClose: function () {
                                     if (data.url) {
                                         location.href = data.url;
                                     }
@@ -909,7 +909,7 @@
                                 type: 'success',
                                 layout: 'center',
                                 callback: {
-                                    onClose: function () {
+                                    afterClose: function () {
                                         if (data.url) {
                                             location.href = data.url;
                                         }
@@ -925,7 +925,7 @@
                             type: 'error',
                             layout: 'center',
                             callback: {
-                                onClose: function () {
+                                afterClose: function () {
                                     if (data.url) {
                                         location.href = data.url;
                                     }
@@ -1181,10 +1181,16 @@ function openIframeLayer(url, title, options) {
         type: 2,
         title: title,
         shadeClose: true,
-        skin: 'layui-layer-nobg',
-        shade: [0.5, '#000000'],
+        // skin: 'layui-layer-nobg',
+        shade: [0.001, '#000000'],
+        shadeClose: true,
         area: ['90%', '90%'],
-        content: url
+        move: false,
+        content: url,
+        yes: function (index, layero) {
+            //do something
+            layer.close(index); //如果设定了yes回调，需进行手工关闭
+        }
     };
     params     = options ? $.extend(params, options) : params;
 

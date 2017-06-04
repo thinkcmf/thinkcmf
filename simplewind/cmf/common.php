@@ -100,28 +100,20 @@ function cmf_get_root()
 }
 
 /**
- * @TODO 增加主题切换时获取当然主题
  * 获取当前主题名
  * @return string
  */
 function cmf_get_current_theme()
 {
-//    $tmpl_path = C("SP_TMPL_PATH");
-//    $theme     = C('SP_DEFAULT_THEME');
-//    if (C('TMPL_DETECT_THEME')) {
-//        $t = C('VAR_TEMPLATE');
-//        if (isset($_GET[$t])) {
-//            $theme = $_GET[$t];
-//        } elseif (cookie('think_template')) {
-//            $theme = cookie('think_template');
-//        }
-//        if (!file_exists($tmpl_path . "/" . $theme)) {
-//            $theme = C('SP_DEFAULT_THEME');
-//        }
-//        cookie('think_template', $theme, 864000);
-//    }
-
+    $t     = 't';
     $theme = config('cmf_default_theme');
+    if (isset($_GET[$t])) {
+        $theme = $_GET[$t];
+    } elseif (cookie('cmf_template')) {
+        $theme = cookie('cmf_template');
+    }
+
+    cookie('cmf_template', $theme, 864000);
 
     return $theme;
 }

@@ -26,7 +26,7 @@ class HomeBaseController extends BaseController
     public function _initializeView()
     {
         $cmfThemePath    = config('cmf_theme_path');
-        $cmfDefaultTheme = config('cmf_default_theme');
+        $cmfDefaultTheme = cmf_get_current_theme();
 
         $themePath = "{$cmfThemePath}{$cmfDefaultTheme}";
 
