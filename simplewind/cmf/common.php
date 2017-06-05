@@ -109,11 +109,16 @@ function cmf_get_current_theme()
     $theme = config('cmf_default_theme');
     if (isset($_GET[$t])) {
         $theme = $_GET[$t];
+        cookie('cmf_template', $theme, 864000);
     } elseif (cookie('cmf_template')) {
         $theme = cookie('cmf_template');
     }
 
-    cookie('cmf_template', $theme, 864000);
+    $hookTheme = hook_one('get_current_theme');
+
+    if ($hookTheme) {
+        $theme = $hookTheme;
+    }
 
     return $theme;
 }
