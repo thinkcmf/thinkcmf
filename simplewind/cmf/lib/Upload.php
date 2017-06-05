@@ -303,7 +303,7 @@ class Upload
         }
 
         if ($storage['type'] != 'Local') { //  增加存储驱动
-            $storage = new Storage($storage['type'], $storage[$storage['type']]);
+            $storage = new Storage($storage['type'], $storage['storages'][$storage['type']]);
             $result  = $storage->upload($arrInfo["file_path"], './upload/' . $arrInfo["file_path"], $fileType);
 
             if (!empty($result)) {
