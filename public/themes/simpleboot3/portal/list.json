@@ -2,7 +2,7 @@
     "name": "文章列表页",
     "action": "portal/List/index",
     "description": "文章列表模板文件",
-    "order": 5.0,
+    "order": 10.0,
     "more": {
         "vars": {
 

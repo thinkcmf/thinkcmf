@@ -1,0 +1,22 @@
+{
+    "name": "模板全局配置",
+    "action": "public/Config",
+    "description": "模板全局配置文件",
+    "is_public": "1",
+    "order": 0.0,
+    "more": {
+        "vars": {
+            "enable_mobile": {
+                "title": "手机注册",
+                "value": "ThinkCMF",
+                "type": "select",
+                "value": 1,
+                "options": {
+                    "1": "开启",
+                    "0": "关闭"
+                },
+                "tip": ""
+            }
+        }
+    }
+}

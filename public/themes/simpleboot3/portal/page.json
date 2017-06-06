@@ -2,7 +2,7 @@
     "name": "单页面",
     "action": "portal/Page/index",
     "description": "单页面模板文件",
-    "order": 4.0,
+    "order": 10.0,
     "more": {
         "widgets":{
             "hottest_articles": {
