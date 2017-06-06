@@ -1,5 +1,13 @@
 <?php
-
+// +----------------------------------------------------------------------
+// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: 老猫 <thinkcmf@126.com>
+// +----------------------------------------------------------------------
 namespace app\install\controller;
 
 use app\admin\model\ThemeModel;
@@ -109,8 +117,8 @@ class IndexController extends Controller
         }
 
         if (version_compare(phpversion(), '5.6.0', '>=') && version_compare(phpversion(), '7.0.0', '<') && ini_get('always_populate_raw_post_data') != -1) {
-            $data['always_populate_raw_post_data'] = '<i class="fa fa-remove error"></i> 未关闭';
-            $data['show_always_populate_raw_post_data_tip']=true;
+            $data['always_populate_raw_post_data']          = '<i class="fa fa-remove error"></i> 未关闭';
+            $data['show_always_populate_raw_post_data_tip'] = true;
             $err++;
         } else {
 

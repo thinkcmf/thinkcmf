@@ -4,12 +4,15 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
 // | Author:kane < chengjin005@163.com>
 // +----------------------------------------------------------------------
 namespace app\portal\controller;
 
 use app\portal\model\PortalTagModel;
 use cmf\controller\AdminBaseController;
+use think\Db;
 
 /**
  * Class AdminTagController 标签管理控制器
@@ -33,10 +36,11 @@ class AdminTagController extends AdminBaseController
     public function index()
     {
         $portalTagModel = new PortalTagModel();
-        $objResult      = $portalTagModel->select();
+        $tags           = $portalTagModel->paginate();
 
         $this->assign("arrStatus", $portalTagModel::$STATUS);
-        $this->assign("arrData", $objResult ? $objResult->toArray() : []);
+        $this->assign("tags", $tags);
+        $this->assign('page', $tags->render());
         return $this->fetch();
     }
 
@@ -101,14 +105,14 @@ class AdminTagController extends AdminBaseController
     public function upStatus()
     {
         $intId     = $this->request->param("id");
-        $intItatus = $this->request->param("status");
-        $intItatus = $intItatus ? 1 : 0;
+        $intStatus = $this->request->param("status");
+        $intStatus = $intStatus ? 1 : 0;
         if (empty($intId)) {
             $this->error(lang("NO_ID"));
         }
 
         $portalTagModel = new PortalTagModel();
-        $portalTagModel->isUpdate(true)->save(["status" => $intItatus], ["id" => $intId]);
+        $portalTagModel->isUpdate(true)->save(["status" => $intStatus], ["id" => $intId]);
 
         $this->success(lang("SAVE_SUCCESS"));
 
@@ -129,7 +133,7 @@ class AdminTagController extends AdminBaseController
      */
     public function delete()
     {
-        $intId = $this->request->param("id");
+        $intId = $this->request->param("id", 0, 'intval');
 
         if (empty($intId)) {
             $this->error(lang("NO_ID"));
@@ -137,6 +141,7 @@ class AdminTagController extends AdminBaseController
         $portalTagModel = new PortalTagModel();
 
         $portalTagModel->where(['id' => $intId])->delete();
+        Db::name('portal_tag_post')->where('tag_id', $intId)->delete();
         $this->success(lang("DELETE_SUCCESS"));
     }
 }
