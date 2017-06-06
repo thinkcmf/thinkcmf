@@ -92,6 +92,12 @@ class PortalPostModel extends Model
 
         $this->categories()->save($categories);
 
+        $data['post_keywords'] = str_replace('，', ',', $data['post_keywords']);
+
+        $keywords = explode(',', $data['post_keywords']);
+
+        $this->addTags($keywords, $this->id);
+
         return $this;
 
     }
@@ -124,8 +130,70 @@ class PortalPostModel extends Model
 
         $this->categories()->save($categories);
 
+        $data['post_keywords'] = str_replace('，', ',', $data['post_keywords']);
+
+        $keywords = explode(',', $data['post_keywords']);
+
+        $this->addTags($keywords, $data['id']);
+
         return $this;
 
+    }
+
+    public function addTags($keywords, $articleId)
+    {
+        $portalTagModel = new PortalTagModel();
+
+        $tagIds = [];
+
+        $data = [];
+
+        if (!empty($keywords)) {
+
+            $oldTagIds = Db::name('portal_tag_post')->where('post_id', $articleId)->column('tag_id');
+
+            foreach ($keywords as $keyword) {
+                $keyword = trim($keyword);
+                if (!empty($keyword)) {
+                    $findTag = $portalTagModel->where('name', $keyword)->find();
+                    if (empty($findTag)) {
+                        $tagId = $portalTagModel->insertGetId([
+                            'name' => $keyword
+                        ]);
+                    } else {
+                        $tagId = $findTag['id'];
+                    }
+
+                    if (!in_array($tagId, $oldTagIds)) {
+                        array_push($data, ['tag_id' => $tagId, 'post_id' => $articleId]);
+                    }
+
+                    array_push($tagIds, $tagId);
+
+                }
+            }
+
+
+            if (empty($tagIds) && !empty($oldTagIds)) {
+                Db::name('portal_tag_post')->where('post_id', $articleId)->delete();
+            }
+
+            $sameTagIds = array_intersect($oldTagIds, $tagIds);
+
+            $shouldDeleteTagIds = array_diff($oldTagIds, $sameTagIds);
+
+            if (!empty($shouldDeleteTagIds)) {
+                Db::name('portal_tag_post')->where(['post_id' => $articleId, 'tag_id' => ['in', $shouldDeleteTagIds]])->delete();
+            }
+
+            if (!empty($data)) {
+                Db::name('portal_tag_post')->insertAll($data);
+            }
+
+
+        } else {
+            Db::name('portal_tag_post')->where('post_id', $articleId)->delete();
+        }
     }
 
     public function adminDeletePage($data)

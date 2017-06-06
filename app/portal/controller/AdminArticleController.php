@@ -119,6 +119,8 @@ class AdminArticleController extends AdminBaseController
 
             $portalPostModel->adminAddArticle($data['post'], $data['post']['categories']);
 
+
+
             $this->success('添加成功!', url('AdminArticle/edit', ['id' => $portalPostModel->id]));
         }
 
