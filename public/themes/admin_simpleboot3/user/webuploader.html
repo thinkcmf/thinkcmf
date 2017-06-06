@@ -68,8 +68,11 @@
     function get_selected_files() {
         var files = [];
 
+        var idPre = 'id' + new Date().getTime();
+
         if (jQuery("#wrapper").is(":hidden")) {
             var file         = new Object();
+            file.id          = idPre + '1';
             file.filepath    = jQuery("#info").val();
             file.preview_url = file.filepath;
             file.url         = file.filepath;
@@ -81,6 +84,7 @@
 
                 var file         = new Object();
                 var $file        = jQuery(".filelist li").eq(i);
+                file.id          = idPre + i;
                 file.filepath    = $file.data("filepath");
                 file.preview_url = $file.data("preview_url");//httpUrl+file.filepath;
                 file.url         = $file.data("url");
@@ -97,7 +101,7 @@
         return files;
     }
 
-    var multi = {$multi};//是否允许同时选多个文件
+    var multi    = {$multi};//是否允许同时选多个文件
     var maxFiles = {$max_files};//允许上传多少文件
 
     var fileErrorMsg = {};
@@ -237,7 +241,7 @@
                     app: '{$app}',
                     filetype: '{$filetype}'
                 },
-                accept:{
+                accept: {
                     extensions: '{$extensions}'
                 },
                 dnd: '#dndArea',
@@ -652,7 +656,7 @@
             uploader.on('uploadError', function (file, reason) {
                 console.log(file.id);
                 console.log(reason);
-                if(reason=='server'){
+                if (reason == 'server') {
                     $('#' + file.id).find('p.error').text(fileErrorMsg[file.id]);
                 }
 
@@ -664,7 +668,7 @@
                         code = "文件类型错误！";
                         break;
                     case "Q_EXCEED_NUM_LIMIT":
-                        code = "最多只能上传" + maxFiles+'个文件';
+                        code = "最多只能上传" + maxFiles + '个文件';
                         break;
                     case "F_DUPLICATE":
                         code = "文件重复添加！";
