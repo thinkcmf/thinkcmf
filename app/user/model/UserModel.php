@@ -1,11 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Powerless
- * Date: 2017-3-13
- * Time: 14:03
- */
-
+// +----------------------------------------------------------------------
+// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: Powerless < wzxaini9@gmail.com>
+// +----------------------------------------------------------------------
 namespace app\user\model;
 
 use think\Db;
@@ -226,11 +228,11 @@ class UserModel extends Model
      */
     public function bindingMobile($user)
     {
-        $userId = cmf_get_current_user_id();
-        $mobileCount=$this->where('mobile', $user['mobile'])->count();
-        if($mobileCount>0){
+        $userId      = cmf_get_current_user_id();
+        $mobileCount = $this->where('mobile', $user['mobile'])->count();
+        if ($mobileCount > 0) {
             return 2; //手机已经存在
-        } else{
+        } else {
             Db::name("user")->where('id', $userId)->update($user);
             $data = Db::name("user")->where('id', $userId)->find();
             cmf_update_current_user($data);
@@ -244,11 +246,11 @@ class UserModel extends Model
      */
     public function bindingEmail($user)
     {
-        $userId = cmf_get_current_user_id();
-        $emailCount=$this->where('user_email', $user['user_email'])->count();
-        if($emailCount>0){
+        $userId     = cmf_get_current_user_id();
+        $emailCount = $this->where('user_email', $user['user_email'])->count();
+        if ($emailCount > 0) {
             return 2; //邮箱已经存在
-        }else{
+        } else {
             Db::name("user")->where('id', $userId)->update($user);
             $data = Db::name("user")->where('id', $userId)->find();
             cmf_update_current_user($data);
