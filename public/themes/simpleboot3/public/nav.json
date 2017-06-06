@@ -3,7 +3,7 @@
     "action": "public/Nav",
     "description": "导航条模板文件",
     "is_public": "1",
-    "order": 8.0,
+    "order": 1.0,
     "more": {
         "vars": {
             "company_name": {

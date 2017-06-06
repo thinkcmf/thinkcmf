@@ -210,7 +210,7 @@ class ThemeController extends AdminBaseController
     public function files()
     {
         $theme = $this->request->param('theme');
-        $files = Db::name('theme_file')->where(['theme' => $theme])->order('list_order DESC')->select()->toArray();
+        $files = Db::name('theme_file')->where(['theme' => $theme])->order('list_order ASC')->select()->toArray();
         $this->assign('files', $files);
         return $this->fetch();
     }

@@ -2,7 +2,7 @@
   "name": "搜索页面",
   "action": "portal/search/index",
   "description": "搜索模板文件",
-  "order": 6.0,
+  "order": 10.0,
   "more": {
     "vars": {
       "varName1": {

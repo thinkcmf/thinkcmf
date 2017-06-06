@@ -2,7 +2,7 @@
     "name": "首页",
     "action": "portal/Index/index",
     "description": "首页模板文件",
-    "order": 6.0,
+    "order": 5.0,
     "more": {
         "vars": {
             "top_slide": {
@@ -74,7 +74,10 @@
                             "title": {
                                 "title": "标题",
                                 "value": "",
-                                "type": "text"
+                                "type": "text",
+                                "rule": {
+                                    "require": true
+                                }
                             },
                             "icon": {
                                 "title": "图标",
