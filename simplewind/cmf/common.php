@@ -105,20 +105,32 @@ function cmf_get_root()
  */
 function cmf_get_current_theme()
 {
-    $t     = 't';
-    $theme = config('cmf_default_theme');
-    if (isset($_GET[$t])) {
-        $theme = $_GET[$t];
-        cookie('cmf_template', $theme, 864000);
-    } elseif (cookie('cmf_template')) {
-        $theme = cookie('cmf_template');
+    static $_currentTheme;
+
+    if (!empty($_currentTheme)) {
+        return $_currentTheme;
     }
 
-    $hookTheme = hook_one('get_current_theme');
+    $t     = 't';
+    $theme = config('cmf_default_theme');
+
+    $cmfDetectTheme = config('cmf_detect_theme');
+    if ($cmfDetectTheme) {
+        if (isset($_GET[$t])) {
+            $theme = $_GET[$t];
+            cookie('cmf_template', $theme, 864000);
+        } elseif (cookie('cmf_template')) {
+            $theme = cookie('cmf_template');
+        }
+    }
+
+    $hookTheme = hook_one('switch_theme');
 
     if ($hookTheme) {
         $theme = $hookTheme;
     }
+
+    $_currentTheme = $theme;
 
     return $theme;
 }
