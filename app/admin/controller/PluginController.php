@@ -296,8 +296,7 @@ class PluginController extends AdminBaseController
      *     'param'  => ''
      * )
      */
-    public
-    function install()
+    public function install()
     {
         $pluginName = $this->request->param('name', '', 'trim');
         $class      = cmf_get_plugin_class($pluginName);
@@ -366,8 +365,7 @@ class PluginController extends AdminBaseController
      *     'param'  => ''
      * )
      */
-    public
-    function update()
+    public function update()
     {
         $pluginName = $this->request->param('name', '', 'trim');
         $class      = cmf_get_plugin_class($pluginName);
@@ -418,7 +416,7 @@ class PluginController extends AdminBaseController
 
         $shouldDeleteHooks = array_diff($samePluginHooks, $pluginHooksInDb);
 
-        $newHooks = array_diff($samePluginHooks, $pluginHooks);
+        $newHooks = array_diff($pluginHooks, $samePluginHooks);
 
         if (count($shouldDeleteHooks) > 0) {
             $hookPluginModel->where('hook', 'in', $shouldDeleteHooks)->delete();
@@ -444,8 +442,7 @@ class PluginController extends AdminBaseController
      *     'param'  => ''
      * )
      */
-    public
-    function uninstall()
+    public function uninstall()
     {
         $pluginModel = new PluginModel();
         $id          = $this->request->param('id', 0, 'intval');
