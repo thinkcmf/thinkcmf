@@ -67,6 +67,7 @@ class PluginBaseController extends BaseController
 
         if (is_null($this->plugin)) {
             $pluginName   = $this->request->param('_plugin');
+            $pluginName   = cmf_parse_name($pluginName, 1);
             $class        = cmf_get_plugin_class($pluginName);
             $this->plugin = new $class;
         }
