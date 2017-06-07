@@ -1,5 +1,7 @@
 ThinkCMF 5.0 Beta 高考版
 ===============
+> 致我们正在消逝的青春！
+
 ### 赞助者招募
 [查看招募令http://www.thinkcmf.com/supportcmf/goldsponsor.html](http://www.thinkcmf.com/supportcmf/goldsponsor.html)
 
