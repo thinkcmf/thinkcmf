@@ -85,7 +85,6 @@ thinkcmf  根目录
 ```
 
 ### 开发手册
-http://doc.thinkcmf.com/doc  
 http://www.kancloud.cn/thinkcmf/doc
 
 ### QQ群:
