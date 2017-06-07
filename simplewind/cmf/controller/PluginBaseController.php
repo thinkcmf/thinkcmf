@@ -16,7 +16,7 @@ use think\Config;
 use think\Loader;
 use think\exception\TemplateNotFoundException;
 
-class PluginBaseController
+class PluginBaseController extends BaseController
 {
 
     /**
@@ -224,7 +224,7 @@ class PluginBaseController
                 // 支持场景
                 list($validate, $scene) = explode('.', $validate);
             }
-            $v = Loader::validate($validate);
+            $v = Loader::validate('\\plugins\\' . cmf_parse_name($this->plugin->getName()) . '\\validate\\' . $validate . 'Validate');
             if (!empty($scene)) {
                 $v->scene($scene);
             }

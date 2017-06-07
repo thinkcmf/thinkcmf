@@ -20,7 +20,7 @@ use cmf\lib\Storage;
 // 应用公共文件
 
 //设置插件入口路由
-Route::get('plugin/[:_plugin]/[:_controller]/[:_action]', "\\cmf\\controller\\PluginController@index");
+Route::any('plugin/[:_plugin]/[:_controller]/[:_action]', "\\cmf\\controller\\PluginController@index");
 Route::get('captcha/new', "\\cmf\\controller\\CaptchaController@index");
 
 /**

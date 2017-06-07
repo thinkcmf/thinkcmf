@@ -86,7 +86,7 @@ class PortalPostModel extends Model
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
 
-        $this->allowField(true)->data($data, true)->save();
+        $this->allowField(true)->data($data, true)->isUpdate(false)->save();
 
         if (is_string($categories)) {
             $categories = explode(',', $categories);
