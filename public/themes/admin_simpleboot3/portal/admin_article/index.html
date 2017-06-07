@@ -99,17 +99,19 @@
                     <td><b>{$vo.id}</b></td>
                     <td>
                         <notempty name="category">
-                            <a href="{:url('portal/article/index',array('id'=>$vo['id'],'cid'=>$vo['category_id']))}"
+                            <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id'],'cid'=>$vo['category_id']))}"
                                target="_blank">{$vo.post_title}</a>
                             <else/>
-                            {$vo.post_title}
+                            <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}"
+                               target="_blank">{$vo.post_title}</a>
                         </notempty>
                     </td>
                     <td>{$vo.user_nickname}</td>
                     <td>{$vo.post_hits|default=0}</td>
                     <td>
                         <notempty name="vo.comment_count">
-                            <a href="javascript:parent.openIframeDialog('{:url('comment/commentadmin/index',array('post_id'=>$vo['id']))}','评论列表')">{$vo.comment_count}</a>
+                            {$vo.comment_count|default='0'}
+                            <!--<a href="javascript:parent.openIframeDialog('{:url('comment/commentadmin/index',array('post_id'=>$vo['id']))}','评论列表')">{$vo.comment_count}</a>-->
                             <else/>
                             {$vo.comment_count|default='0'}
                         </notempty>
