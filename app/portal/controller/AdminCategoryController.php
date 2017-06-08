@@ -203,11 +203,10 @@ class AdminCategoryController extends AdminBaseController
 <tr class='data-item-tr'>
     <td>
         <input type='checkbox' class='js-check' data-yid='js-check-y' data-xid='js-check-x' name='ids[]'
-                               value='\$id' data-name='\$name' \$checked>
+               value='\$id' data-name='\$name' \$checked>
     </td>
     <td>\$id</td>
     <td>\$spacer <a href='\$url' target='_blank'>\$name</a></td>
-    <td>\$description</td>
 </tr>
 tpl;
 
