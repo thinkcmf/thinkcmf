@@ -140,7 +140,8 @@ class ProfileController extends UserBaseController
         ])->move('.' . DS . 'upload' . DS . 'avatar' . DS);
 
         if ($result) {
-            $avatar = 'avatar/' . $result->getSaveName();
+            $avatarSaveName = str_replace('//', '/', str_replace('\\', '/', $result->getSaveName()));
+            $avatar         = 'avatar/' . $avatarSaveName;
             session('avatar', $avatar);
 
             return json_encode([
