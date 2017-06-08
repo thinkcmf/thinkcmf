@@ -1559,7 +1559,10 @@ function cmf_replace_content_file_url($content, $isForDbSave = false)
                 }
 
             } else {
-                $link->attr("href", cmf_get_file_download_url($href));
+                if (!(preg_match("/^\//", $href) || preg_match("/^http/", $href))) {
+                    $link->attr("href", cmf_get_file_download_url($href));
+                }
+
             }
 
         }
