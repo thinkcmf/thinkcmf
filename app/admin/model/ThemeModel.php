@@ -150,8 +150,13 @@ class ThemeModel extends Model
         if (!empty($configMore['widgets'])) {
             foreach ($configMore['widgets'] as $widgetName => $widget) {
 
-                $configMore['widgets'][$widgetName]['title']   = $moreInDb['widgets'][$widgetName]['title'];
-                $configMore['widgets'][$widgetName]['display'] = $moreInDb['widgets'][$widgetName]['display'];
+                if(isset($moreInDb['widgets'][$widgetName]['title'])){
+                    $configMore['widgets'][$widgetName]['title']   = $moreInDb['widgets'][$widgetName]['title'];
+                }
+
+                if(isset($moreInDb['widgets'][$widgetName]['display'])){
+                    $configMore['widgets'][$widgetName]['display'] = $moreInDb['widgets'][$widgetName]['display'];
+                }
 
                 if (!empty($widget['vars'])) {
                     foreach ($widget['vars'] as $widgetVarName => $widgetVar) {
