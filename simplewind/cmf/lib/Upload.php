@@ -270,7 +270,7 @@ class Upload
                 $arrInfo["file_sha1"]   = sha1_file($strSaveFilePath);
                 $arrInfo["file_key"]    = $arrInfo["file_md5"] . md5($arrInfo["file_sha1"]);
                 $arrInfo["filename"]    = $fileImage->getInfo("name");
-                $arrInfo["file_path"]   = $strWebPath . $fileImage->getSaveName();
+                $arrInfo["file_path"]   = $strWebPath . $fileSaveName;
                 $arrInfo["suffix"]      = $fileImage->getExtension();
             }
 
