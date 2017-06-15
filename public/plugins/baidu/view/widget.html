@@ -1,0 +1,106 @@
+<script>
+
+        var pv = [{$tongji_pv}];
+        var ip = [{$tongji_ip}];
+        var day = [{$tongji_day}];
+        if(pv && ip && day){
+            $(function(){
+            var data = [
+                {
+                    name : 'PV',
+                    value:[{$tongji_pv}],
+                    color:'#aad0db',
+                    line_width:2
+                },
+                {
+                    name : 'IP',
+                    value:[{$tongji_ip}],
+                    color:'#f68f70',
+                    line_width:2
+                }
+
+            ];
+
+            //创建x轴标签文本
+
+            var labels = [{$tongji_day}];
+
+
+            var chart = new iChart.Area2D({
+                render : 'canvasDiv3',
+                data: data,
+                align:'center',
+                title : '网站近7天流量趋势，（访问量:万）',
+                subtitle : '',
+
+                footnote : '数据来源：百度统计',
+                width : 800,
+                height : 400,
+                background_color:'#FEFEFE',
+                tip:{
+                    enable:true,
+                    shadow:true,
+                    move_duration:400,
+                    border:{
+                        enable:true,
+                        radius : 5,
+                        width:2,
+                        color:'#3f8695'
+                    },
+                    listeners:{
+                        //tip:提示框对象、name:数据名称、value:数据值、text:当前文本、i:数据点的索引
+                        parseText:function(tip,name,value,text,i){
+                            return name+"访问量:"+value+"";
+                        }
+                    }
+                },
+
+                legend : {
+                    enable : true,
+                    row:1,//设置在一行上显示，与column配合使用
+                    column : 'max',
+                    valign:'top',
+                    sign:'bar',
+                    background_color:null,//设置透明背景
+                    offsetx:-80,//设置x轴偏移，满足位置需要
+                    border : true
+                },
+                crosshair:{
+                    enable:true,
+                    line_color:'#3f8695',
+                    line_width:2
+                },
+                sub_option : {
+                    label:false,
+                    point_size:10
+                },
+                coordinate:{
+                    width:640,
+                    height:240,
+                    axis:{
+                        color:'#dcdcdc',
+                        width:1
+                    },
+                    scale:[{
+                        position:'left',
+                        //start_scale:0,
+                        //end_scale:10,
+                        scale_space:1,
+                        scale_size:2,
+                        scale_color:'#9f9f9f'
+                    },{
+                        position:'bottom',
+                        labels:labels,
+                    }]
+                }
+            });
+
+            //开始画图
+            chart.draw();
+        });
+        }
+
+</script>
+
+<div style="float: left;" id='canvasDiv3'></div>
+<script type="text/javascript" src="__PLUGIN_TMPL__/public/ichart.1.2.1.min.js"></script>
