@@ -116,6 +116,8 @@ http://www.kancloud.cn/thinkcmf/doc
 高级群专属权益:  
 第一波:两个后台风格(ThinkCMF官网风格后台主题,蓝色风格后台主题)
 
+`ThinkCMF 铲屎官交流群`:415136742 (生活娱乐，为有喵的猿人准备)
+
 ### 话题专区
 http://www.thinkcmf.com/topic/index/index/cat/11.html
 
