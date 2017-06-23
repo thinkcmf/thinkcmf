@@ -1586,3 +1586,26 @@ function cmf_get_admin_style()
     $adminSettings = cmf_get_option('admin_settings');
     return empty($adminSettings['admin_style']) ? 'flatadmin' : $adminSettings['admin_style'];
 }
+
+/**
+ * curl get 请求
+ * @param $url
+ * @return mixed
+ */
+function cmf_curl_get($url)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_FAILONERROR, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    $SSL = substr($url, 0, 8) == "https://" ? true : false;
+    if ($SSL) {
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 信任任何证书
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // 检查证书中是否设置域名
+    }
+    $content = curl_exec($ch);
+    return $content;
+}
