@@ -71,6 +71,7 @@ class ThemeModel extends Model
     private function updateThemeFiles($theme, $suffix = 'html')
     {
         $dir                = 'themes/' . $theme;
+        $themeDir           = $dir;
         $tplFiles           = [];
         $root_dir_tpl_files = cmf_scan_dir("$dir/*.$suffix");
         foreach ($root_dir_tpl_files as $root_tpl_file) {
@@ -132,6 +133,17 @@ class ThemeModel extends Model
                     'is_public'   => $isPublic,
                     'list_order'  => $listOrder
                 ]);
+            }
+        }
+
+        // 检查安装过的模板文件是否已经删除
+        $files = Db::name('theme_file')->where(['theme' => $theme])->select();
+
+        foreach ($files as $themeFile) {
+            $tplFile = $themeDir . '/' . $themeFile['file'] . '.' . $suffix;
+            $tplFileConfigFile = $themeDir . '/' . $themeFile['file'] . '.json';
+            if (!is_file($tplFile) || !file_exists_case($tplFileConfigFile)) {
+                Db::name('theme_file')->where(['theme' => $theme, 'file' => $themeFile['file']])->delete();
             }
         }
     }
