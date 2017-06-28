@@ -655,8 +655,9 @@ class ThemeController extends AdminBaseController
                     }
 
                     if ($widget['display']) {
-                        $validate = new Validate($rules, $messages);
-                        $result   = $validate->check($post['widget_vars'][$mWidgetName]);
+                        $validate   = new Validate($rules, $messages);
+                        $widgetVars = empty($post['widget_vars'][$mWidgetName]) ? [] : $post['widget_vars'][$mWidgetName];
+                        $result     = $validate->check($widgetVars);
                         if (!$result) {
                             $this->error($widget['title'] . ':' . $validate->getError());
                         }
