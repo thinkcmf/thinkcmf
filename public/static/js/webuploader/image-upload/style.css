@@ -54,10 +54,7 @@ table {
 
 /* ------------ */
 #wrapper {
-    width: 980px;
-    margin: 0 auto;
-
-    margin: 1em;
+    margin: 10px 0 0 0;
     width: auto;
 }
 
@@ -65,12 +62,12 @@ table {
     border: 1px solid #dadada;
     color: #838383;
     font-size: 12px;
-    margin-top: 10px;
+    margin-top: 0px;
     background-color: #FFF;
 }
 
 #uploader .queueList {
-    margin: 20px;
+    margin:15px;
 }
 
 .element-invisible {
@@ -82,9 +79,9 @@ table {
 #uploader .placeholder {
     border: 3px dashed #e6e6e6;
     min-height: 238px;
-    padding-top: 158px;
+    padding-top: 98px;
     text-align: center;
-    background: url(./image.png) center 93px no-repeat;
+    background: url(./image.png) center 33px no-repeat;
     color: #cccccc;
     font-size: 18px;
     position: relative;

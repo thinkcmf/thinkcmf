@@ -149,7 +149,7 @@
   height: 100%;
   background-color: #000;
   z-index: 10000;
-  opacity: .3;
+  opacity: .03;
   left: 0;
   top: 0; }
 
@@ -166,11 +166,11 @@
 
 @-webkit-keyframes noty_modal_in {
   100% {
-    opacity: .3; } }
+    opacity: .03; } }
 
 @keyframes noty_modal_in {
   100% {
-    opacity: .3; } }
+    opacity: .03; } }
 
 @-webkit-keyframes noty_modal_out {
   100% {

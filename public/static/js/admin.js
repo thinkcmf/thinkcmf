@@ -75,30 +75,31 @@
                 if (btn.data('subcheck')) {
                     btn.parent().find('span').remove();
                     if (form.find('input.js-check:checked').length) {
-                        var msg = btn.data('msg');
-                        if (msg) {
-                            art.dialog({
-                                id: 'warning',
-                                icon: 'warning',
-                                content: btn.data('msg'),
-                                cancelVal: '关闭',
-                                cancel: function () {
-                                    //btn.data('subcheck', false);
-                                    //btn.click();
-                                },
-                                ok: function () {
-                                    btn.data('subcheck', false);
-                                    btn.click();
-                                }
-                            });
-                        } else {
-                            btn.data('subcheck', false);
-                            btn.click();
-                        }
-
+                        btn.data('subcheck', false);
                     } else {
                         $('<span class="tips_error">请至少选择一项</span>').appendTo(btn.parent()).fadeIn('fast');
+                        return false;
                     }
+                }
+
+
+                var msg = btn.data('msg');
+                if (msg) {
+                    art.dialog({
+                        id: 'warning',
+                        icon: 'warning',
+                        content: btn.data('msg'),
+                        cancelVal: '关闭',
+                        cancel: function () {
+                            //btn.data('subcheck', false);
+                            //btn.click();
+                        },
+                        ok: function () {
+                            btn.data('msg', false);
+                            btn.click();
+                        }
+                    });
+
                     return false;
                 }
 
@@ -210,6 +211,7 @@
                                         text: data.msg,
                                         type: 'success',
                                         layout: 'topCenter',
+                                        modal: true,
                                         animation: {
                                             open: 'animated bounceInDown', // Animate.css class names
                                             close: 'animated bounceOutUp', // Animate.css class names
@@ -239,6 +241,7 @@
                                         text: data.msg,
                                         type: 'error',
                                         layout: 'topCenter',
+                                        modal: true,
                                         animation: {
                                             open: 'animated bounceInDown', // Animate.css class names
                                             close: 'animated bounceOutUp', // Animate.css class names
@@ -369,32 +372,36 @@
                     },
                     ok: function () {
 
-                        $.getJSON(href).done(function (data) {
-                            if (data.code == '1') {
-                                if (data.url) {
-                                    location.href = data.url;
-                                } else {
+                        $.ajax({
+                            url: href,
+                            type: 'post',
+                            success: function (data) {
+                                if (data.code == 1) {
+                                    if (data.url) {
+                                        location.href = data.url;
+                                    } else {
+                                        art.dialog({
+                                            content: data.msg,
+                                            icon: 'succeed',
+                                            ok: function () {
+                                                reloadPage(window);
+                                                return true;
+                                            }
+                                        });
+                                    }
+                                } else if (data.code == 0) {
+                                    //art.dialog.alert(data.info);
                                     art.dialog({
                                         content: data.msg,
-                                        icon: 'succeed',
+                                        icon: 'warning',
                                         ok: function () {
-                                            reloadPage(window);
+                                            this.title(data.msg);
                                             return true;
                                         }
                                     });
                                 }
-                            } else if (data.code == '0') {
-                                //art.dialog.alert(data.info);
-                                art.dialog({
-                                    content: data.msg,
-                                    icon: 'warning',
-                                    ok: function () {
-                                        this.title(data.msg);
-                                        return true;
-                                    }
-                                });
                             }
-                        });
+                        })
                     },
                     cancelVal: '关闭',
                     cancel: true
@@ -741,8 +748,8 @@ function openUploadDialog(dialog_title, callback, extra_params, multi, filetype,
         art.dialog.open(GV.ROOT + 'user/Asset/webuploader?' + params, {
             title: dialog_title,
             id: new Date().getTime(),
-            width: '650px',
-            height: '420px',
+            width: '600px',
+            height: '350px',
             lock: true,
             fixed: true,
             background: "#CCCCCC",
@@ -909,7 +916,7 @@ function openIframeLayer(url, title, options) {
         // skin: 'layui-layer-nobg',
         shade: [0.001, '#000000'],
         shadeClose: true,
-        area: ['90%', '90%'],
+        area: ['95%', '90%'],
         move: false,
         content: url,
         yes: function (index, layero) {
