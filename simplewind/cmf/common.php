@@ -1469,12 +1469,12 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
     if (!empty($vars) && !empty($routes[$url])) {
 
         foreach ($routes[$url] as $actionRoute) {
-            $sameVars = array_intersect($vars, $actionRoute['vars']);
+            $sameVars = array_intersect_assoc($vars, $actionRoute['vars']);
 
             if (count($sameVars) == count($actionRoute['vars'])) {
                 ksort($sameVars);
                 $url  = $url . '?' . http_build_query($sameVars);
-                $vars = array_diff($vars, $sameVars);
+                $vars = array_diff_assoc($vars, $sameVars);
                 break;
             }
         }
