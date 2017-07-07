@@ -4,4 +4,5 @@
 .settings
 .idea
 composer.lock
-api
+/api
+/public/api
