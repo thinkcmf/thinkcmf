@@ -1,0 +1,65 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminUserAction/index')}">用户操作管理</a></li>
+        <li class="active"><a>编辑用户操作</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('AdminUserAction/editPost')}">
+        <div class="form-group">
+            <label for="input-score" class="col-sm-2 control-label">积分</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" id="input-score" name="score" value="{$score}">
+                <p class="help-block">用户操作时积分更改，可以为负</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-coin" class="col-sm-2 control-label">金币</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" id="input-coin" name="coin" value="{$coin}">
+                <p class="help-block">用户操作时金币更改，可以为负</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-cycle_type" class="col-sm-2 control-label">周期类型</label>
+            <div class="col-md-6 col-sm-10">
+                <select name="cycle_type" id="input-cycle_type" class="form-control">
+                    <option value="0">不限</option>
+                    <option value="1">天</option>
+                    <option value="2">小时</option>
+                    <option value="3">永久</option>
+                </select>
+                <p class="help-block">用户操作时奖励周期类型</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-cycle_time" class="col-sm-2 control-label">周期时间</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" id="input-cycle_time" name="cycle_time" value="{$cycle_time}">
+                <p class="help-block">用户操作时奖励周期时间</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-reward_number" class="col-sm-2 control-label">奖励次数</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" id="input-reward_number" name="reward_number"
+                       value="{$reward_number}">
+                <p class="help-block">用户操作时奖励次数</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="hidden" name="id" value="{$id}">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                <a class="btn btn-default" href="{:url('AdminUserAction/index')}">{:lang('BACK')}</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    $('#input-cycle_type').val("{$cycle_type}");
+</script>
+</body>
+</html>
