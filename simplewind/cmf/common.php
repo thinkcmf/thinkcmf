@@ -1474,7 +1474,7 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
             if (count($sameVars) == count($actionRoute['vars'])) {
                 ksort($sameVars);
                 $url  = $url . '?' . http_build_query($sameVars);
-                $vars = array_diff($vars, $sameVars);
+                $vars = array_diff_assoc($vars, $sameVars);
                 break;
             }
         }
