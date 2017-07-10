@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\model\RouteModel;
 use cmf\controller\AdminBaseController;
 use think\Db;
 
@@ -92,13 +93,27 @@ class RecycleBinController extends AdminBaseController
         $result = Db::name('recycleBin')->where(['id' => $id])->find();
         //删除文章
         if ($result) {
-            $re = Db::name($result['table_name'])->where('id', $result['object_id'])->delete();
+
+            //页面没有单独的表.
+            if($result['table_name'] === 'portal_post#page'){
+                $re = Db::name('portal_post')->where('id', $result['object_id'])->delete();
+                //消除路由
+                $routeModel = new RouteModel();
+                $routeModel->setRoute('', 'portal/Page/index', ['id' => $result['object_id']], 2, 5000);
+                $routeModel->getRoutes(true);
+            }else{
+                $re = Db::name($result['table_name'])->where('id', $result['object_id'])->delete();
+            }
+
             if ($re) {
                 $res = Db::name('recycleBin')->where('id', $id)->delete();
-                $res2 = Db::name('portalCategoryPost')->where('post_id', $result['object_id'])->delete();
-                if ($res && $res2) {
+                if($result['table_name'] === 'portal_post'){
+                    $res2 = Db::name('portalCategoryPost')->where('post_id', $result['object_id'])->delete();
+                }
+                if ($res) {
                     $this->success("删除成功！");
                 }
+
             }
         }
     }
