@@ -1723,3 +1723,14 @@ function cmf_api_request($url, $params = [])
 
     return json_decode($data, true);
 }
+
+/**
+ * 判断是否允许开放注册
+ */
+function cmf_is_open_registration()
+{
+
+    $cmfSettings = cmf_get_option('cmf_settings');
+
+    return empty($cmfSettings['open_registration']) ? false : true;
+}
