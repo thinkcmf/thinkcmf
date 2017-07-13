@@ -25,6 +25,10 @@
                 </ul>
             </notempty>
 
+            <php>
+                $is_open_registration = cmf_is_open_registration();
+            </php>
+
             <div class="tab-content">
                 <notempty name="theme_vars.enable_mobile">
                     <div class="tab-pane {$mobile_tab_active}" id="mobile">
@@ -35,17 +39,19 @@
                                        id="js-mobile-input">
                             </div>
 
-                            <div class="form-group">
-                                <div style="position: relative;">
-                                    <input type="text" name="code" placeholder="手机验证码" style="width:170px;"
-                                           class="form-control">
-                                    <a class="btn btn-success js-get-mobile-code"
-                                       style="width: 163px;position: absolute;top:0;right: 0;"
-                                       data-wait-msg="[second]秒后才能再次获取" data-mobile-input="#js-mobile-input"
-                                       data-url="{:url('user/VerificationCode/send')}"
-                                       data-init-second-left="60">获取手机验证码</a>
+                            <empty name="is_open_registration">
+                                <div class="form-group">
+                                    <div style="position: relative;">
+                                        <input type="text" name="code" placeholder="手机验证码" style="width:170px;"
+                                               class="form-control">
+                                        <a class="btn btn-success js-get-mobile-code"
+                                           style="width: 163px;position: absolute;top:0;right: 0;"
+                                           data-wait-msg="[second]秒后才能再次获取" data-mobile-input="#js-mobile-input"
+                                           data-url="{:url('user/VerificationCode/send')}"
+                                           data-init-second-left="60">获取手机验证码</a>
+                                    </div>
                                 </div>
-                            </div>
+                            </empty>
 
                             <div class="form-group">
                                 <input type="password" name="password" placeholder="密码" class="form-control">
@@ -81,17 +87,19 @@
                                    id="js-email-input">
                         </div>
 
-                        <div class="form-group">
-                            <div style="position: relative;">
-                                <input type="text" name="code" placeholder="邮件验证码" style="width:170px;"
-                                       class="form-control">
-                                <a class="btn btn-success js-get-email-code"
-                                   style="width: 163px;position: absolute;top:0;right: 0;"
-                                   data-wait-msg="[second]秒后才能再次获取" data-email-input="#js-email-input"
-                                   data-url="{:url('user/VerificationCode/send')}"
-                                   data-init-second-left="60">获取邮箱验证码</a>
+                        <empty name="is_open_registration">
+                            <div class="form-group">
+                                <div style="position: relative;">
+                                    <input type="text" name="code" placeholder="邮件验证码" style="width:170px;"
+                                           class="form-control">
+                                    <a class="btn btn-success js-get-email-code"
+                                       style="width: 163px;position: absolute;top:0;right: 0;"
+                                       data-wait-msg="[second]秒后才能再次获取" data-email-input="#js-email-input"
+                                       data-url="{:url('user/VerificationCode/send')}"
+                                       data-init-second-left="60">获取邮箱验证码</a>
+                                </div>
                             </div>
-                        </div>
+                        </empty>
 
                         <div class="form-group">
                             <input type="password" name="password" placeholder="密码" class="form-control">
