@@ -82,6 +82,13 @@ class UserModel extends Model
     {
         $userQuery = Db::name("user");
         $result    = $userQuery->where('user_email', $user['user_email'])->find();
+
+        $userStatus = 1;
+
+        if (cmf_is_open_registration()) {
+            $userStatus = 2;
+        }
+
         if (empty($result)) {
             $data   = [
                 'user_login'      => '',
@@ -92,7 +99,7 @@ class UserModel extends Model
                 'last_login_ip'   => get_client_ip(0, true),
                 'create_time'     => time(),
                 'last_login_time' => time(),
-                'user_status'     => 1,
+                'user_status'     => $userStatus,
                 "user_type"       => 2,
             ];
             $userId = $userQuery->insertGetId($data);
@@ -106,6 +113,13 @@ class UserModel extends Model
     public function registerMobile($user)
     {
         $result = Db::name("user")->where('mobile', $user['mobile'])->find();
+
+        $userStatus = 1;
+
+        if (cmf_is_open_registration()) {
+            $userStatus = 2;
+        }
+
         if (empty($result)) {
             $data   = [
                 'user_login'      => '',
@@ -116,7 +130,7 @@ class UserModel extends Model
                 'last_login_ip'   => get_client_ip(0, true),
                 'create_time'     => time(),
                 'last_login_time' => time(),
-                'user_status'     => 1,
+                'user_status'     => $userStatus,
                 "user_type"       => 2,//会员
             ];
             $userId = Db::name("user")->insertGetId($data);
