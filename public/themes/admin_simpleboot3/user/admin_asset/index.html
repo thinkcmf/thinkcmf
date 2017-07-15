@@ -16,7 +16,7 @@
             <th>图像</th>
             <th>文件路径</th>
             <th>状态</th>
-            <!--<th width="160">{:lang('ACTIONS')}</th>-->
+            <th width="160">{:lang('ACTIONS')}</th>
         </tr>
         </thead>
         <tbody>
@@ -35,9 +35,9 @@
                 </td>
                 <td>{$vo.file_path}</td>
                 <td>{$status[$vo['status']]}</td>
-                <!--<td>-->
-                    <!--<a href="{:url('AdminIndex/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>-->
-                <!--</td>-->
+                <td>
+                    <a href="{:url('AdminAsset/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
+                </td>
             </tr>
         </foreach>
         </tbody>
