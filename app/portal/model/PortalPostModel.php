@@ -112,7 +112,7 @@ class PortalPostModel extends Model
      */
     public function adminEditArticle($data, $categories)
     {
-        $data['user_id'] = cmf_get_current_admin_id();
+        unset($data['user_id']);
 
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
