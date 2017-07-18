@@ -241,14 +241,6 @@
         win.location.reload();
     }
 
-    function refersh_window() {
-        var refersh_time = getCookie('refersh_time');
-        if (refersh_time == 1) {
-        }
-    }
-    setInterval(function () {
-        refersh_window();
-    }, 2000);
     $(function () {
         setCookie("refersh_time", 0);
         Wind.use('ajaxForm', 'artDialog', 'iframeTools', function () {
