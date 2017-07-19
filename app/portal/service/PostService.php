@@ -123,6 +123,94 @@ class PostService
         return $article;
     }
 
+    //上一篇文章
+    public function publishedPrevArticle($postId, $categoryId = 0)
+    {
+        $portalPostModel = new PortalPostModel();
+
+        if (empty($categoryId)) {
+
+            $where = [
+                'post.post_type'      => 1,
+                'post.published_time' => [['< time', time()], ['> time', 0]],
+                'post.post_status'    => 1,
+                'post.delete_time'    => 0,
+                'post.id '             => ['<',$postId]
+            ];
+
+            $article = $portalPostModel->alias('post')->field('post.*')
+                ->where($where)
+                ->find();
+
+        } else {
+            $where = [
+                'post.post_type'       => 1,
+                'post.published_time'  => [['< time', time()], ['> time', 0]],
+                'post.post_status'     => 1,
+                'post.delete_time'     => 0,
+                'relation.category_id' => $categoryId,
+                'relation.post_id'     => ['<',$postId]
+            ];
+
+            $join    = [
+                ['__PORTAL_CATEGORY_POST__ relation', 'post.id = relation.post_id']
+            ];
+            $article = $portalPostModel->alias('post')->field('post.*')
+                ->join($join)
+                ->where($where)
+                ->find();
+        }
+
+
+        return $article;
+    }
+
+    //下一篇文章
+    public function publishedNextArticle($postId, $categoryId = 0)
+    {
+        $portalPostModel = new PortalPostModel();
+
+        if (empty($categoryId)) {
+
+            $where = [
+                'post.post_type'      => 1,
+                'post.published_time' => [['< time', time()], ['> time', 0]],
+                'post.post_status'    => 1,
+                'post.delete_time'    => 0,
+                'post.id'             => ['>',$postId]
+            ];
+
+            $article = $portalPostModel->alias('post')->field('post.*')
+                ->where($where)
+                ->find();
+        } else {
+            $where = [
+                'post.post_type'       => 1,
+                'post.published_time'  => [['< time', time()], ['> time', 0]],
+                'post.post_status'     => 1,
+                'post.delete_time'     => 0,
+                'relation.category_id' => $categoryId,
+                'relation.post_id'     => ['>',$postId]
+            ];
+
+            $join    = [
+                ['__PORTAL_CATEGORY_POST__ relation', 'post.id = relation.post_id']
+            ];
+            $article = $portalPostModel->alias('post')->field('post.*')
+                ->join($join)
+                ->where($where)
+                ->find();
+        }
+
+
+        return $article;
+    }
+
+
+
+
+
+
     public function publishedPage($pageId)
     {
 
