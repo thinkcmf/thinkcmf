@@ -35,7 +35,6 @@ class PortalPostModel extends Model
 
     /**
      * 关联分类表
-     * @return $this
      */
     public function categories()
     {
@@ -112,7 +111,7 @@ class PortalPostModel extends Model
      */
     public function adminEditArticle($data, $categories)
     {
-        $data['user_id'] = cmf_get_current_admin_id();
+        unset($data['user_id']);
 
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
@@ -128,9 +127,19 @@ class PortalPostModel extends Model
             $categories = explode(',', $categories);
         }
 
-        $this->categories()->detach();
+        $oldCategoryIds        = $this->categories()->column('category_id');
+        $sameCategoryIds       = array_intersect($categories, $oldCategoryIds);
+        $needDeleteCategoryIds = array_diff($oldCategoryIds, $sameCategoryIds);
+        $newCategoryIds        = array_diff($categories, $sameCategoryIds);
 
-        $this->categories()->save($categories);
+        if (!empty($needDeleteCategoryIds)) {
+            $this->categories()->detach($needDeleteCategoryIds);
+        }
+
+        if (!empty($newCategoryIds)) {
+            $this->categories()->attach(array_values($newCategoryIds));
+        }
+
 
         $data['post_keywords'] = str_replace('，', ',', $data['post_keywords']);
 

@@ -197,7 +197,7 @@
             </tfoot>
         </table>
         <div class="table-actions">
-            <notempty name="term">
+            <notempty name="category">
                 <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
                         data-action="{:url('AdminArticle/listOrder')}">{:lang('SORT')}
                 </button>
@@ -221,7 +221,7 @@
                     data-action="{:url('AdminArticle/recommend',array('no'=>1))}" data-subcheck="true">取消推荐
             </button>
             <!--
-            <notempty name="term">
+            <notempty name="category">
                 <button class="btn btn-primary btn-sm js-articles-move" type="button">批量移动</button>
             </notempty>
             <button class="btn btn-primary btn-sm js-articles-copy" type="button">批量复制</button>
@@ -241,14 +241,6 @@
         win.location.reload();
     }
 
-    function refersh_window() {
-        var refersh_time = getCookie('refersh_time');
-        if (refersh_time == 1) {
-        }
-    }
-    setInterval(function () {
-        refersh_window();
-    }, 2000);
     $(function () {
         setCookie("refersh_time", 0);
         Wind.use('ajaxForm', 'artDialog', 'iframeTools', function () {

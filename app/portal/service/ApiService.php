@@ -84,7 +84,7 @@ class ApiService
             } else {
                 $where['category_post.category_id'] = ['in', $categoryIds];
             }
-        }else{
+        } else {
             $field = !empty($param['field']) ? $param['field'] : 'post.*,user.user_login,user.user_nickname,user.user_email';
         }
 
@@ -241,13 +241,21 @@ class ApiService
     }
 
     /**
-     * @todo
      * 返回指定分类下的所有子分类
      * @param int $categoryId 分类id
      * @return array 返回指定分类下的所有子分类
      */
     public static function allSubCategories($categoryId)
     {
+        $portalCategoryModel = new PortalCategoryModel();
+
+        $where = [
+            'status'      => 1,
+            'delete_time' => 0,
+            'path'        => ['like', "%$categoryId%"]
+        ];
+
+        return $portalCategoryModel->where($where)->select();
     }
 
     /**
