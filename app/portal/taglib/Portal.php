@@ -94,7 +94,7 @@ parse;
             $this->autoBuildVar($cid);
         }
 
-        $self = isset($tag['self']) ? 'true' : 'false';
+        $self = isset($tag['self']) ? $tag['self'] : 'false';
 
         $parse = <<<parse
 <?php
