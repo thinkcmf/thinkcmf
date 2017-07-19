@@ -7,7 +7,7 @@
 			<li><a href="#B" data-toggle="tab">{:lang('SEO_SETTING')}</a></li>
 			<!--<li><a href="#C" data-toggle="tab">{:lang('URL_SETTING')}</a></li>-->
 			<!--<li><a href="#E" data-toggle="tab">{:lang('COMMENT_SETTING')}</a></li>-->
-			<li><a href="#F" data-toggle="tab">{:lang("USERNAME_FILTER")}</a></li>
+			<li><a href="#F" data-toggle="tab">用户注册设置</a></li>
 			<li><a href="#G" data-toggle="tab">CDN设置</a></li>
 		</ul>
 		<form class="form-horizontal js-ajax-form margin-top-20" role="form" action="{:url('setting/sitePost')}" method="post">
@@ -173,6 +173,16 @@
 						</div>
 						-->
 						<div class="tab-pane" id="F">
+							<div class="form-group">
+								<label for="input-banned_usernames" class="col-sm-2 control-label">是否开放注册</label>
+								<div class="col-md-6 col-sm-10">
+									<select class="form-control" name="cmf_settings[open_registration]">
+										<option value="0">否</option>
+										<php>$open_registration_selected = empty($cmf_settings['open_registration'])?'':'selected';</php>
+										<option value="1" {$open_registration_selected}>是</option>
+									</select>
+								</div>
+							</div>
 							<div class="form-group">
 								<label for="input-banned_usernames" class="col-sm-2 control-label">{:lang('SPECAIL_USERNAME')}</label>
 								<div class="col-md-6 col-sm-10">

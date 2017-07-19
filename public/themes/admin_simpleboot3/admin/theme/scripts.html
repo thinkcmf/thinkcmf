@@ -24,7 +24,7 @@
         var dataSource        = $obj.data('source');
         var title             = $obj.data('title');
         parent.openIframeLayer("{:url('theme/dataSource')}?ids=" + selectedObjectsId + '&data_source=' + dataSource, title, {
-            area: ['90%', '90%'],
+            area: ['95%', '90%'],
             btn: ['确定', '取消'],
             yes: function (index, layero) {
                 var iframeWin       = parent.window[layero.find('iframe')[0]['name']];
@@ -51,7 +51,7 @@
             "{:url('theme/fileArrayData')}?tab={$tab}&file_id={$file_id}&" + 'var=' + mVar + widget,
             title,
             {
-                area: ['90%', '90%'],
+                area: ['95%', '90%'],
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
                     var iframeWin       = parent.window[layero.find('iframe')[0]['name']];
@@ -76,7 +76,7 @@
             "{:url('dialog/map')}?location=" + location,
             title,
             {
-                area: ['90%', '90%'],
+                area: ['95%', '90%'],
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
                     var iframeWin = parent.window[layero.find('iframe')[0]['name']];

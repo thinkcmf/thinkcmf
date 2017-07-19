@@ -203,7 +203,9 @@ class Route
     {
         foreach ($rules as $key => $val) {
             if (is_numeric($key)) {
-                $key = array_shift($val);
+                if(is_array($val)){
+                    $key = array_shift($val);
+                }
             }
             if (empty($val)) {
                 continue;

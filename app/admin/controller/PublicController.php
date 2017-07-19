@@ -98,6 +98,10 @@ class PublicController extends AdminBaseController
                 session('name', $result["user_login"]);
                 $result['last_login_ip']   = get_client_ip(0, true);
                 $result['last_login_time'] = time();
+                $token                     = cmf_generate_user_token($result["id"], 'web');
+                if (!empty($token)) {
+                    session('token', $token);
+                }
                 Db::name('user')->update($result);
                 cookie("admin_username", $name, 3600 * 24 * 30);
                 session("__LOGIN_BY_CMF_ADMIN_PW__", null);
