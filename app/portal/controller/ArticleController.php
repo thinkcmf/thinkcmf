@@ -32,7 +32,9 @@ class ArticleController extends HomeBaseController
             abort(404, '文章不存在!');
         }
 
-        //TODO 上一篇,下一篇
+
+        $prevArticle = $postService->publishedPrevArticle($articleId, $categoryId);
+        $nextArticle = $postService->publishedNextArticle($articleId, $categoryId);
 
         $tplName = 'article';
 
@@ -52,6 +54,8 @@ class ArticleController extends HomeBaseController
         Db::name('portal_post')->where(['id' => $articleId])->setInc('post_hits');
 
         $this->assign('article', $article);
+        $this->assign('prev_article', $prevArticle);
+        $this->assign('next_article', $nextArticle);
 
         $tplName = empty($article['more']['template']) ? $tplName : $article['more']['template'];
 
