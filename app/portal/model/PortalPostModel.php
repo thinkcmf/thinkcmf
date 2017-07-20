@@ -111,6 +111,7 @@ class PortalPostModel extends Model
      */
     public function adminEditArticle($data, $categories)
     {
+
         unset($data['user_id']);
 
         if (!empty($data['more']['thumbnail'])) {
