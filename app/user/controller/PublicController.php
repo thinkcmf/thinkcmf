@@ -29,7 +29,14 @@ class PublicController extends HomeBaseController
         }
 
         if (empty($avatar)) {
-            $avatar = cmf_get_root() . "/static/images/headicon.png";
+            $cdnSettings = cmf_get_option('cdn_settings');
+            if (empty($cdnSettings['cdn_static_root'])) {
+                $avatar = $this->request->domain() . "/static/images/headicon.png";
+            } else {
+                $cdnStaticRoot = rtrim($cdnSettings['cdn_static_root'], '/');
+                $avatar        = $cdnStaticRoot . "/static/images/headicon.png";
+            }
+
         }
 
         return $this->redirect($avatar);
