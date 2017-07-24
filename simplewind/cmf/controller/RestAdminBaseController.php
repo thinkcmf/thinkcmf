@@ -27,8 +27,8 @@ class RestAdminBaseController extends RestBaseController
     public function _initialize()
     {
 
-        $token      = Db::name('user_token')->where('user_id',1)->where('device_type','web')->value('token');//$this->request->header('XX-Token');
-        $deviceType = 'web';//$this->request->header('XX-Device-Type');
+        $token      = $this->request->header('XX-Token');
+        $deviceType = $this->request->header('XX-Device-Type');
 
         if (empty($token)) {
             $this->error(['code' => 10001, 'msg' => 'Token不能为空']);
