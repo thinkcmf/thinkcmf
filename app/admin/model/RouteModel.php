@@ -131,6 +131,14 @@ class RouteModel extends Model
         return empty($url) ? '' : $url;
     }
 
+    public function getFullUrlByUrl($url)
+    {
+        $full_url = $this->where('url', $url)->value('full_url');
+
+        return empty($full_url) ? '' : $full_url;
+        
+    }
+
     public function buildFullUrl($action, $vars)
     {
         // 解析参数

@@ -127,6 +127,16 @@ class PortalCategoryModel extends Model
             $result = false;
         }
 
+        if ($result != false){
+            //设置别名
+            $routeModel = new RouteModel();
+            if (!empty($data['alias']) && !empty($id)) {
+                $routeModel->setRoute($data['alias'], 'portal/List/index', ['id' => $id], 2, 5000);
+                $routeModel->setRoute($data['alias'] . '/:id', 'portal/Article/index', ['cid' => $id], 2, 4999);
+            }
+            $routeModel->getRoutes(true);
+        }
+
         return $result;
     }
 
