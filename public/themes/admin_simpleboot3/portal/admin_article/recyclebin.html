@@ -47,7 +47,7 @@
 					<td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[{$vo.id}]" value="{$vo.id}"></td>
 					<td><b>{$vo.id}</b></td>
 					<td>{$vo.post_title}</td>
-					<td>{$vo.user_nicename|default=$vo.user_login}</td>
+					<td>{$vo.user_nickname|default=$vo.user_login}</td>
 					<td>{$vo.post_hits}</td>
 					<td>
 						<notempty name="vo.comment_count">
