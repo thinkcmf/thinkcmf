@@ -21,6 +21,11 @@ class UserModel extends Model
 
         $result = $userQuery->where('mobile', $user['mobile'])->find();
 
+        //拉黑判断。
+        if($result['user_status']==0){
+            return 3;
+        }
+
         if (!empty($result)) {
             if (cmf_compare_password($user['user_pass'], $result['user_pass'])) {
                 session('user', $result);
@@ -41,7 +46,10 @@ class UserModel extends Model
         $userQuery = Db::name("user");
 
         $result = $userQuery->where('user_login', $user['user_login'])->find();
-
+        //拉黑判断。
+        if($result['user_status']==0){
+            return 3;
+        }
         if (!empty($result)) {
             if (cmf_compare_password($user['user_pass'], $result['user_pass'])) {
                 session('user', $result);
@@ -59,10 +67,15 @@ class UserModel extends Model
 
     public function doEmail($user)
     {
+
         $userQuery = Db::name("user");
 
         $result = $userQuery->where('user_email', $user['user_email'])->find();
 
+        //拉黑判断。
+        if($result['user_status']==0){
+            return 3;
+        }
         if (!empty($result)) {
             if (cmf_compare_password($user['user_pass'], $result['user_pass'])) {
                 session('user', $result);
