@@ -25,3 +25,7 @@ CREATE TABLE `cmf_user_score_log` (
   `coin` int(11) NOT NULL DEFAULT '0' COMMENT '更改金币，可以为负',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='用户操作积分等奖励日志表';
+
+
+--2017-07-25 16:32:01  增加登录时钩子
+INSERT INTO `cmf_hook` VALUES (null, '1', '1', '登录逻辑开始之前', 'user_login_start', 'cmf', '登录逻辑开始之前');
