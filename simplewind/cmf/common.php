@@ -1624,7 +1624,7 @@ function cmf_user_action($action)
         return;
     }
 
-    $findUserAction = Db::name('user_action')->where('action', $action)->find();
+    $findUserAction = Db::name('user_action_log')->where('action', $action)->find();
 
     if (empty($findUserAction)) {
         return;
