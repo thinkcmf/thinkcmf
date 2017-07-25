@@ -89,6 +89,9 @@ class LoginController extends HomeBaseController
                 case 2:
                     $this->error('账户不存在');
                     break;
+                case 3:
+                    $this->error('账号被禁止访问系统');
+                    break;
                 default :
                     $this->error('未受理的请求');
             }
