@@ -21,13 +21,19 @@ class UserModel extends Model
 
         $result = $userQuery->where('mobile', $user['mobile'])->find();
 
-        //拉黑判断。
-        if($result['user_status']==0){
-            return 3;
-        }
 
         if (!empty($result)) {
-            if (cmf_compare_password($user['user_pass'], $result['user_pass'])) {
+            $comparePasswordResult = cmf_compare_password($user['user_pass'], $result['user_pass']);
+            $hookParam =[
+                'user'=>$user,
+                'compare_password_result'=>$comparePasswordResult
+            ];
+            hook_one("user_login_start",$hookParam);
+            if ($comparePasswordResult) {
+                //拉黑判断。
+                if($result['user_status']==0){
+                    return 3;
+                }
                 session('user', $result);
                 $data = [
                     'last_login_time' => time(),
@@ -38,6 +44,11 @@ class UserModel extends Model
             }
             return 1;
         }
+        $hookParam =[
+            'user'=>$user,
+            'compare_password_result'=>false
+        ];
+        hook_one("user_login_start",$hookParam);
         return 2;
     }
 
@@ -46,12 +57,18 @@ class UserModel extends Model
         $userQuery = Db::name("user");
 
         $result = $userQuery->where('user_login', $user['user_login'])->find();
-        //拉黑判断。
-        if($result['user_status']==0){
-            return 3;
-        }
         if (!empty($result)) {
-            if (cmf_compare_password($user['user_pass'], $result['user_pass'])) {
+            $comparePasswordResult = cmf_compare_password($user['user_pass'], $result['user_pass']);
+            $hookParam =[
+                'user'=>$user,
+                'compare_password_result'=>$comparePasswordResult
+            ];
+            hook_one("user_login_start",$hookParam);
+            if ($comparePasswordResult) {
+                //拉黑判断。
+                if($result['user_status']==0){
+                    return 3;
+                }
                 session('user', $result);
                 $data = [
                     'last_login_time' => time(),
@@ -62,6 +79,11 @@ class UserModel extends Model
             }
             return 1;
         }
+        $hookParam =[
+            'user'=>$user,
+            'compare_password_result'=>false
+        ];
+        hook_one("user_login_start",$hookParam);
         return 2;
     }
 
@@ -72,12 +94,20 @@ class UserModel extends Model
 
         $result = $userQuery->where('user_email', $user['user_email'])->find();
 
-        //拉黑判断。
-        if($result['user_status']==0){
-            return 3;
-        }
+
         if (!empty($result)) {
-            if (cmf_compare_password($user['user_pass'], $result['user_pass'])) {
+            $comparePasswordResult = cmf_compare_password($user['user_pass'], $result['user_pass']);
+            $hookParam =[
+                'user'=>$user,
+                'compare_password_result'=>$comparePasswordResult
+            ];
+            hook_one("user_login_start",$hookParam);
+            if ($comparePasswordResult) {
+
+                //拉黑判断。
+                if($result['user_status']==0){
+                    return 3;
+                }
                 session('user', $result);
                 $data = [
                     'last_login_time' => time(),
@@ -88,6 +118,11 @@ class UserModel extends Model
             }
             return 1;
         }
+        $hookParam =[
+            'user'=>$user,
+            'compare_password_result'=>false
+        ];
+        hook_one("user_login_start",$hookParam);
         return 2;
     }
 
