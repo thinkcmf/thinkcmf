@@ -60,7 +60,7 @@ class RecycleBinController extends AdminBaseController
 
         $tableName = explode('#', $result['table_name']);
         $tableName = $tableName[0];
-        //还原文章
+        //还原资源
         if ($result) {
             $res = Db::name($tableName)
                 ->where(['id' => $result['object_id']])
@@ -91,7 +91,7 @@ class RecycleBinController extends AdminBaseController
     {
         $id     = $this->request->param('id');
         $result = Db::name('recycleBin')->where(['id' => $id])->find();
-        //删除文章
+        //删除资源
         if ($result) {
 
             //页面没有单独的表.

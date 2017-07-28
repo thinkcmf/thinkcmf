@@ -115,10 +115,10 @@ class PortalCategoryModel extends Model
             $id = $this->id;
 
             if (empty($data['parent_id'])) {
-                $this->isUpdate(true)->save(['path' => '0-' . $id], ['id' => $id]);
+                $this->where(['id' => $id])->update(['path' => '0-' . $id]);
             } else {
                 $parentPath = $this->where('id', intval($data['parent_id']))->value('path');
-                $this->isUpdate(true)->save(['path' => "$parentPath-$id"], ['id' => $id]);
+                $this->where(['id' => $id])->update(['path' => "$parentPath-$id"]);
             }
 
             self::commit();
@@ -127,7 +127,7 @@ class PortalCategoryModel extends Model
             $result = false;
         }
 
-        if ($result != false){
+        if ($result != false) {
             //设置别名
             $routeModel = new RouteModel();
             if (!empty($data['alias']) && !empty($id)) {
