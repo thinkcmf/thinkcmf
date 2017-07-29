@@ -26,6 +26,9 @@ class PublicController extends HomeBaseController
         $avatar = '';
         if (!empty($user)) {
             $avatar = cmf_get_user_avatar_url($user['avatar']);
+            if (strpos($avatar, "/") === 0) {
+                $avatar = $this->request->domain() . $avatar;
+            }
         }
 
         if (empty($avatar)) {
