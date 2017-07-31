@@ -78,7 +78,7 @@ class ProfileController extends UserBaseController
             }
             $editData = new UserModel();
             if ($editData->editData($data)) {
-                $this->success("保存成功！", url("user/profile/center"));
+                $this->success("保存成功！", "user/profile/center");
             } else {
                 $this->error("没有新的修改信息！");
             }
