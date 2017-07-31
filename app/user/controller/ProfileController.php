@@ -53,7 +53,7 @@ class ProfileController extends UserBaseController
         if ($this->request->isPost()) {
             $validate = new Validate([
                 'user_nickname' => 'chsDash|max:50',
-                'sex'     => 'number',
+                'sex'     => 'number|between:0,2',
                 'birthday'   => 'dateFormat:Y-m-d|after:-88 year|before:-1 day',
                 'user_url'   => 'url|max:100',
                 'signature'   => 'chsDash|max:255',
@@ -61,7 +61,8 @@ class ProfileController extends UserBaseController
             $validate->message([
                 'user_nickname.chsDash' => '昵称只能是汉字、字母、数字和下划线_及破折号-',
                 'user_nickname.max' => '昵称最大长度为50个字符',
-                'sex.number' => '性别类型错误',
+                'sex.number' => '请选择性别',
+                'sex.between' => '无效的性别选项',
                 'birthday.dateFormat' => '生日格式不正确',
                 'birthday.after' => '出生日期也太早了吧？',
                 'birthday.before' => '出生日期也太晚了吧？',
