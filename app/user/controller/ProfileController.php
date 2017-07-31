@@ -52,22 +52,22 @@ class ProfileController extends UserBaseController
     {
         if ($this->request->isPost()) {
             $validate = new Validate([
-                'user_nickname' => 'chsDash|max:50',
+                'user_nickname' => 'chsDash|max:32',
                 'sex'     => 'number|between:0,2',
                 'birthday'   => 'dateFormat:Y-m-d|after:-88 year|before:-1 day',
-                'user_url'   => 'url|max:100',
+                'user_url'   => 'url|max:64',
                 'signature'   => 'chsDash|max:255',
             ]);
             $validate->message([
                 'user_nickname.chsDash' => '昵称只能是汉字、字母、数字和下划线_及破折号-',
-                'user_nickname.max' => '昵称最大长度为50个字符',
+                'user_nickname.max' => '昵称最大长度为32个字符',
                 'sex.number' => '请选择性别',
                 'sex.between' => '无效的性别选项',
                 'birthday.dateFormat' => '生日格式不正确',
                 'birthday.after' => '出生日期也太早了吧？',
                 'birthday.before' => '出生日期也太晚了吧？',
                 'user_url.url' => '个人网址错误',
-                'user_url.max' => '个人网址长度不得超过100个字符',
+                'user_url.max' => '个人网址长度不得超过64个字符',
                 'signature.chsDash' => '个性签名只能是汉字、字母、数字和下划线_及破折号-',
                 'signature.max' => '个性签名长度不得超过255个字符',
             ]);
