@@ -63,7 +63,7 @@ class AdminOauthController extends AdminBaseController
         }
         $result = Db::name("OauthUser")->where("id", $id)->delete();
         if ($result !== false) {
-            $this->success("删除成功！", url("admin_oauth/index"));
+            $this->success("删除成功！", "admin_oauth/index");
         } else {
             $this->error('删除失败！');
         }

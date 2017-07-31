@@ -100,7 +100,7 @@ class AdminIndexController extends AdminBaseController
         if ($id) {
             $result = Db::name("user")->where(["id" => $id, "user_type" => 2])->setField('user_status', 0);
             if ($result) {
-                $this->success("会员拉黑成功！", url("adminIndex/index"));
+                $this->success("会员拉黑成功！", "adminIndex/index");
             } else {
                 $this->error('会员拉黑失败,会员不存在,或者是管理员！');
             }
