@@ -295,15 +295,10 @@ class UserModel extends Model
     public function bindingMobile($user)
     {
         $userId      = cmf_get_current_user_id();
-        $mobileCount = $this->where('mobile', $user['mobile'])->count();
-        if ($mobileCount > 0) {
-            return 2; //手机已经存在
-        } else {
-            Db::name("user")->where('id', $userId)->update($user);
-            $data = Db::name("user")->where('id', $userId)->find();
-            cmf_update_current_user($data);
-        }
-
+        $data ['mobile'] = $user['username'];
+        Db::name("user")->where('id', $userId)->update($data);
+        $userInfo = Db::name("user")->where('id', $userId)->find();
+        cmf_update_current_user($userInfo);
         return 0;
     }
 
@@ -313,15 +308,10 @@ class UserModel extends Model
     public function bindingEmail($user)
     {
         $userId     = cmf_get_current_user_id();
-        $emailCount = $this->where('user_email', $user['user_email'])->count();
-        if ($emailCount > 0) {
-            return 2; //邮箱已经存在
-        } else {
-            Db::name("user")->where('id', $userId)->update($user);
-            $data = Db::name("user")->where('id', $userId)->find();
-            cmf_update_current_user($data);
-        }
-
+        $data ['user_email'] = $user['username'];
+        Db::name("user")->where('id', $userId)->update($data);
+        $userInfo = Db::name("user")->where('id', $userId)->find();
+        cmf_update_current_user($userInfo);
         return 0;
     }
 }

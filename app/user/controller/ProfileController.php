@@ -232,11 +232,13 @@ class ProfileController extends UserBaseController
     {
         if ($this->request->isPost()) {
             $validate = new Validate([
-                'username'          => 'require',
+                'username'          => 'require|number|unique:user,mobile',
                 'verification_code' => 'require',
             ]);
             $validate->message([
                 'username.require'          => '手机号不能为空',
+                'username.number'          => '手机号只能为数字',
+                'username.mobile'          => '手机号已存在',
                 'verification_code.require' => '验证码不能为空',
             ]);
 
@@ -249,13 +251,10 @@ class ProfileController extends UserBaseController
                 $this->error($errMsg);
             }
             $userModel = new UserModel();
-            $log       = $userModel->bindingMobile(['mobile' => $data['username']]);
+            $log       = $userModel->bindingMobile($data);
             switch ($log) {
                 case 0:
                     $this->success('手机号绑定成功');
-                    break;
-                case 2:
-                    $this->error('手机号已存在!');
                     break;
                 default :
                     $this->error('未受理的请求');
@@ -272,12 +271,13 @@ class ProfileController extends UserBaseController
     {
         if ($this->request->isPost()) {
             $validate = new Validate([
-                'username'          => 'require|email',
+                'username'          => 'require|email|unique:user,user_email',
                 'verification_code' => 'require',
             ]);
             $validate->message([
                 'username.require'          => '邮箱地址不能为空',
                 'username.email'            => '邮箱地址不正确',
+                'username.mobile'           => '邮箱地址已存在',
                 'verification_code.require' => '验证码不能为空',
             ]);
 
@@ -290,13 +290,10 @@ class ProfileController extends UserBaseController
                 $this->error($errMsg);
             }
             $userModel = new UserModel();
-            $log       = $userModel->bindingEmail(['user_email' => $data['username']]);
+            $log       = $userModel->bindingEmail($data);
             switch ($log) {
                 case 0:
                     $this->success('邮箱绑定成功');
-                    break;
-                case 2:
-                    $this->error('邮箱已存在!');
                     break;
                 default :
                     $this->error('未受理的请求');
