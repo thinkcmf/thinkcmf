@@ -215,5 +215,16 @@ class RestBaseController
         return Config::get('default_return_type');
     }
 
+    /**
+     * 获取当前登录用户的id
+     * @return int
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+
+
+    }
+
 
 }
