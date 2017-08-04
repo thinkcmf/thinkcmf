@@ -174,8 +174,10 @@ class RestBaseController
             'data' => $data,
         ];
 
-        $type     = $this->getResponseType();
-        $response = Response::create($result, $type)->header($header);
+        $type                                  = $this->getResponseType();
+        $header['Access-Control-Allow-Origin'] = '*';
+        $header['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS';
+        $response                              = Response::create($result, $type)->header($header);
         throw new HttpResponseException($response);
     }
 
@@ -200,8 +202,10 @@ class RestBaseController
             'data' => $data,
         ];
 
-        $type     = $this->getResponseType();
-        $response = Response::create($result, $type)->header($header);
+        $type                                   = $this->getResponseType();
+        $header['Access-Control-Allow-Origin']  = '*';
+        $header['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS';
+        $response                               = Response::create($result, $type)->header($header);
         throw new HttpResponseException($response);
     }
 
@@ -221,6 +225,9 @@ class RestBaseController
      */
     public function getUserId()
     {
+        if (empty($this->userId)) {
+            $this->error(['code' => 10001, 'msg' => '用户未登录']);
+        }
         return $this->userId;
 
 
