@@ -942,162 +942,7 @@
         });
     }
 
-    var $comment_form = $(".comment-area .comment-form");
-    if ($comment_form.length) {
-        Wind.use("ajaxForm", function () {
-
-            $(".js-ajax-submit", $comment_form).on("click", function (e) {
-                var btn  = $(this),
-                    form = btn.parents(".comment-form");
-                e.preventDefault();
-
-                var url  = btn.data('action') ? btn.data('action') : form.attr('action');
-                var data = form.serialize() + "&url=" + encodeURIComponent(location.href);
-                $.ajax({
-                    url: url,
-                    dataType: 'json',
-                    type: "POST",
-                    beforeSend: function () {
-                        var text = btn.text();
-
-                        //按钮文案、状态修改
-                        btn.text(text + '中...').prop('disabled', true).addClass('disabled');
-                    },
-                    data: data,
-                    success: function (data, textStatus, jqXHR) {
-                        var text = btn.text();
-
-                        //按钮文案、状态修改
-                        btn.removeClass('disabled').text(text.replace('中...', '')).parent().find('span').remove();
-                        btn.removeProp('disabled').removeClass('disabled');
-                        if (data.code == 1) {
-                            $('<span class="tips_success">' + data.msg + '</span>').appendTo(btn.parent()).fadeIn('slow').delay(1000).fadeOut(function () {
-                            });
-                        } else if (data.code == 0) {
-                            $('<span class="tips_error">' + data.msg + '</span>').appendTo(btn.parent()).fadeIn('fast');
-                            btn.removeProp('disabled').removeClass('disabled');
-                        }
-
-                        if (data.code == 1) {
-                            var $comments    = form.siblings(".comments");
-                            var comment_tpl  = btn.parents(".comment-area").find(".comment-tpl").html();
-                            var $comment_tpl = $(comment_tpl);
-                            $comment_tpl.attr("data-id", data.data.id);
-                            var $comment_postbox = form.find(".comment-postbox");
-                            var comment_content  = $comment_postbox.val();
-                            $comment_tpl.find(".comment-content .content").html(comment_content);
-                            $comments.append($comment_tpl);
-                            $comment_postbox.val("");
-                        }
-
-                    }
-
-
-                });
-
-                return false;
-
-            });
-        });
-
-    }
-
-
 })();
-
-function comment_reply(obj) {
-
-    $(".comments .comment-reply-submit").hide();
-    var $this         = $(obj);
-    var $comment_body = $this.parents(".comments > .comment> .comment-body");
-
-    var commentid = $this.parents(".comment").data("id");
-
-    var $comment_reply_submit = $comment_body.find(".comment-reply-submit");
-
-    if ($comment_reply_submit.length) {
-        $comment_reply_submit.show();
-    } else {
-        var comment_reply_box_tpl = $comment_body.parents(".comment-area").find(".comment-reply-box-tpl").html();
-        $comment_reply_submit     = $(comment_reply_box_tpl);
-        $comment_body.append($comment_reply_submit);
-    }
-    $comment_reply_submit.find(".textbox").focus();
-    $comment_reply_submit.data("replyid", commentid);
-}
-
-function comment_submit(obj) {
-
-    Wind.use('noty', function () {
-
-        var $this = $(obj);
-
-        var $comment_reply_submit = $this.parents(".comment-reply-submit");
-
-        var $reply_textbox = $comment_reply_submit.find(".textbox");
-        var reply_content  = $reply_textbox.val();
-
-        if (reply_content == '') {
-            $reply_textbox.focus();
-            return;
-        }
-
-        var $comment_body = $this.parents(".comments > .comment> .comment-body");
-
-        var comment_tpl = $comment_body.parents(".comment-area").find(".comment-tpl").html();
-
-        var $comment_tpl = $(comment_tpl);
-
-        var replyid = $comment_reply_submit.data('replyid');
-
-        var $comment = $(".comments [data-id='" + replyid + "']");
-
-        var username = $comment.data("username");
-
-        var comment_content = "回复 " + username + ":" + reply_content;
-        $comment_tpl.find(".comment-content .content").html(comment_content);
-        $comment_reply_submit.before($comment_tpl);
-
-        var $comment_form = $this.parents(".comment-area").find(".comment-form");
-
-        var comment_url = $comment_form.attr("action");
-
-        var post_table = $comment_form.find("[name='post_table']").val();
-        var post_title = $comment_form.find("[name='post_title']").val();
-        var post_id    = $comment_form.find("[name='post_id']").val();
-
-        var uid = $comment.data("uid");
-
-        $.post(comment_url,
-            {
-                post_title: post_title,
-                post_table: post_table,
-                post_id: post_id,
-                to_uid: uid,
-                parentid: replyid,
-                content: reply_content,
-                url: encodeURIComponent(location.href)
-            }, function (data) {
-                if (data.code == 0) {
-                    noty({
-                        text: data.msg,
-                        type: 'error',
-                        layout: 'center'
-                    });
-                    $comment_tpl.remove();
-                }
-
-                if (data.code == 1) {
-                    $comment_tpl.attr("data-id", data.data.id);
-                    $reply_textbox.val('');
-                }
-
-            }, 'json');
-
-        $comment_reply_submit.hide();
-    });
-
-}
 
 //重新刷新页面，使用location.reload()有可能导致重新提交
 function reloadPage(win) {
@@ -1173,6 +1018,170 @@ function openIframeDialog(url, title, options) {
     Wind.use('artDialog', 'iframeTools', function () {
         art.dialog.open(url, params);
     });
+}
+
+/**
+ * 打开地图对话框
+ *
+ * @param url
+ * @param title
+ * @param options
+ * @param callback
+ */
+function openMapDialog(url, title, options, callback) {
+    Wind.css('artDialog');
+    var params = {
+        title: title,
+        lock: true,
+        opacity: 0,
+        width: "95%",
+        height: 400,
+        ok: function () {
+            if (callback) {
+                var d            = this.iframe.contentWindow;
+                var lng          = $("#lng_input", d.document).val();
+                var lat          = $("#lat_input", d.document).val();
+                var address      = {};
+                address.address  = $("#address_input", d.document).val();
+                address.province = $("#province_input", d.document).val();
+                address.city     = $("#city_input", d.document).val();
+                address.district = $("#district_input", d.document).val();
+                callback.apply(this, [lng, lat, address]);
+            }
+        }
+    };
+    params     = options ? $.extend(params, options) : params;
+    Wind.use('artDialog', 'iframeTools', function () {
+        art.dialog.open(url, params);
+    });
+}
+
+/**
+ * 打开文件上传对话框
+ * @param dialog_title 对话框标题
+ * @param callback 回调方法，参数有（当前dialog对象，选择的文件数组，你设置的extra_params）
+ * @param extra_params 额外参数，object
+ * @param multi 是否可以多选
+ * @param filetype 文件类型，image,video,audio,file
+ * @param app  应用名，CMF的应用名
+ */
+function openUploadDialog(dialog_title, callback, extra_params, multi, filetype, app) {
+    Wind.css('artDialog');
+    multi      = multi ? 1 : 0;
+    filetype   = filetype ? filetype : 'image';
+    app        = app ? app : GV.APP;
+    var params = '&multi=' + multi + '&filetype=' + filetype + '&app=' + app;
+    Wind.use("artDialog", "iframeTools", function () {
+        art.dialog.open(GV.ROOT + 'user/Asset/webuploader?' + params, {
+            title: dialog_title,
+            id: new Date().getTime(),
+            width: '600px',
+            height: '350px',
+            lock: true,
+            fixed: true,
+            background: "#CCCCCC",
+            opacity: 0,
+            ok: function () {
+                if (typeof callback == 'function') {
+                    var iframewindow = this.iframe.contentWindow;
+                    var files        = iframewindow.get_selected_files();
+                    console.log(files);
+                    if (files && files.length > 0) {
+                        callback.apply(this, [this, files, extra_params]);
+                    } else {
+                        return false;
+                    }
+
+                }
+            },
+            cancel: true
+        });
+    });
+}
+
+/**
+ * 单个文件上传
+ * @param dialog_title 上传对话框标题
+ * @param input_selector 图片容器
+ * @param filetype 文件类型，image,video,audio,file
+ * @param extra_params 额外参数，object
+ * @param app  应用名,CMF的应用名
+ */
+function uploadOne(dialog_title, input_selector, filetype, extra_params, app) {
+    openUploadDialog(dialog_title, function (dialog, files) {
+        $(input_selector).val(files[0].filepath);
+        $(input_selector + '-preview').attr('href', files[0].preview_url);
+        $(input_selector + '-name').val(files[0].name);
+    }, extra_params, 0, filetype, app);
+}
+
+/**
+ * 单个图片上传
+ * @param dialog_title 上传对话框标题
+ * @param input_selector 图片容器
+ * @param extra_params 额外参数，object
+ * @param app  应用名,CMF的应用名
+ */
+function uploadOneImage(dialog_title, input_selector, extra_params, app) {
+    openUploadDialog(dialog_title, function (dialog, files) {
+        $(input_selector).val(files[0].filepath);
+        $(input_selector + '-preview').attr('src', files[0].preview_url);
+        $(input_selector + '-name').val(files[0].name);
+    }, extra_params, 0, 'image', app);
+}
+
+/**
+ * 多图上传
+ * @param dialog_title 上传对话框标题
+ * @param container_selector 图片容器
+ * @param item_tpl_wrapper_id 单个图片html模板容器id
+ * @param extra_params 额外参数，object
+ * @param app  应用名,CMF 的应用名
+ */
+function uploadMultiImage(dialog_title, container_selector, item_tpl_wrapper_id, extra_params, app) {
+    openUploadDialog(dialog_title, function (dialog, files) {
+        var tpl  = $('#' + item_tpl_wrapper_id).html();
+        var html = '';
+        $.each(files, function (i, item) {
+            var itemtpl = tpl;
+            itemtpl     = itemtpl.replace(/\{id\}/g, item.id);
+            itemtpl     = itemtpl.replace(/\{url\}/g, item.url);
+            itemtpl     = itemtpl.replace(/\{preview_url\}/g, item.preview_url);
+            itemtpl     = itemtpl.replace(/\{filepath\}/g, item.filepath);
+            itemtpl     = itemtpl.replace(/\{name\}/g, item.name);
+            html += itemtpl;
+        });
+        $(container_selector).append(html);
+
+    }, extra_params, 1, 'image', app);
+}
+
+/**
+ * 多文件上传
+ * @param dialog_title 上传对话框标题
+ * @param container_selector 图片容器
+ * @param item_tpl_wrapper_id 单个图片html模板容器id
+ * @param filetype 文件类型，image,video,audio,file
+ * @param extra_params 额外参数，object
+ * @param app  应用名,CMF 的应用名
+ */
+function uploadMultiFile(dialog_title, container_selector, item_tpl_wrapper_id, filetype, extra_params, app) {
+    filetype = filetype ? filetype : 'file';
+    openUploadDialog(dialog_title, function (dialog, files) {
+        var tpl  = $('#' + item_tpl_wrapper_id).html();
+        var html = '';
+        $.each(files, function (i, item) {
+            var itemtpl = tpl;
+            itemtpl     = itemtpl.replace(/\{id\}/g, item.id);
+            itemtpl     = itemtpl.replace(/\{url\}/g, item.url);
+            itemtpl     = itemtpl.replace(/\{preview_url\}/g, item.preview_url);
+            itemtpl     = itemtpl.replace(/\{filepath\}/g, item.filepath);
+            itemtpl     = itemtpl.replace(/\{name\}/g, item.name);
+            html += itemtpl;
+        });
+        $(container_selector).append(html);
+
+    }, extra_params, 1, filetype, app);
 }
 
 function openIframeLayer(url, title, options) {

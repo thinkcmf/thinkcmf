@@ -60,11 +60,5 @@ class RestAdminBaseController extends RestBaseController
         $this->userId = $user['id'];
     }
 
-    public function getUserId()
-    {
-        return $this->userId;
-
-
-    }
 
 }
