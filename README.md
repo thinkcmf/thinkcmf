@@ -1,7 +1,5 @@
-ThinkCMF 5.0 高考版
+ThinkCMF 5.0
 ===============
-> 致我们正在消逝的青春！
-
 ### 最新讲座
 https://segmentfault.com/l/1500000010288611
 
@@ -41,7 +39,7 @@ https://segmentfault.com/l/1500000010288611
 ### 最低环境要求
 > php5.4+
 
-> mysql 5.5+ (mysql5.1稍后兼容)
+> mysql 5.5+ (mysql5.1安装时选择utf8编码，不支持表情符)
 
 > 打开rewrite
 
