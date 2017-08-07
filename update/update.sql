@@ -29,3 +29,6 @@ CREATE TABLE `cmf_user_score_log` (
 
 --2017-07-25 16:32:01  增加登录时钩子
 INSERT INTO `cmf_hook` VALUES (null, '1', '1', '登录逻辑开始之前', 'user_login_start', 'cmf', '登录逻辑开始之前');
+
+--2017-08-07 12:02:01  增加post_excerpt默认值
+ALTER TABLE `cmf_portal_post` CHANGE `post_excerpt` `post_excerpt` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'post摘要';
