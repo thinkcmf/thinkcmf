@@ -19,6 +19,14 @@ use think\Loader;
 
 class RestBaseController
 {
+    //token
+    protected $token = '';
+
+    //设备类型
+    protected $deviceType = '';
+
+    //用户 id
+    protected $userId = 0;
 
     /**
      * @var \think\Request Request实例
