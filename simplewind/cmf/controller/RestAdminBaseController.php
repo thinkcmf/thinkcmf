@@ -14,16 +14,6 @@ use think\Db;
 
 class RestAdminBaseController extends RestBaseController
 {
-
-    //token
-    private $token = '';
-
-    //设备类型
-    private $deviceType = '';
-
-    //用户 id
-    private $userId = 0;
-
     public function _initialize()
     {
 
