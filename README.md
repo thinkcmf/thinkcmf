@@ -119,7 +119,8 @@ http://www.kancloud.cn/thinkcmf/doc
    
 `ThinkCMF 高级交流群`:100828313 (付费)  
 高级群专属权益:  
-第一波:两个后台风格(ThinkCMF官网风格后台主题,蓝色风格后台主题)
+第一波:两个后台风格(ThinkCMF官网风格后台主题,蓝色风格后台主题)  
+第二波:ThinkCMF5完全开发手册离线版(PDF,EPUB,MOBI格式)
 
 `ThinkCMF 铲屎官交流群`:415136742 (生活娱乐，为有喵的猿人准备)
 
