@@ -10,33 +10,78 @@
 // +----------------------------------------------------------------------
 namespace cmf\paginator;
 
+use think\Paginator;
 
-class Bootstrap extends \think\paginator\driver\Bootstrap
+class Bootstrap extends Paginator
 {
     /**
-     * 渲染分页html
-     * @return mixed
+     * 上一页按钮
+     * @param string $text
+     * @return string
      */
-    public function render()
+    protected function getPreviousButton($text = "&laquo;")
     {
-        if ($this->hasPages()) {
-            $request = request();
 
-            if ($this->simple || $request->isMobile()) {
-                return sprintf(
-                    '%s %s',
-                    $this->getPreviousButton(),
-                    $this->getNextButton()
-                );
-            } else {
-                return sprintf(
-                    '%s %s %s',
-                    $this->getPreviousButton(),
-                    $this->getLinks(),
-                    $this->getNextButton()
-                );
-            }
+        if ($this->currentPage() <= 1) {
+            return $this->getDisabledTextWrapper($text);
         }
+
+        $url = $this->url(
+            $this->currentPage() - 1
+        );
+
+        return $this->getPageLinkWrapper($url, $text);
+    }
+
+    /**
+     * 下一页按钮
+     * @param string $text
+     * @return string
+     */
+    protected function getNextButton($text = '&raquo;')
+    {
+        if (!$this->hasMore) {
+            return $this->getDisabledTextWrapper($text);
+        }
+
+        $url = $this->url($this->currentPage() + 1);
+
+        return $this->getPageLinkWrapper($url, $text);
+    }
+
+    /**
+     * 上一页按钮
+     * @param string $text
+     * @return string
+     */
+    protected function getSimplePreviousButton($text = "&larr;")
+    {
+
+        if ($this->currentPage() <= 1) {
+            return '<li class="disabled previous"><span>' . $text . '</span></li>';
+        }
+
+        $url = $this->url(
+            $this->currentPage() - 1
+        );
+
+        return '<li class="previous"><a href="' . htmlentities($url) . '">' . $text . '</a></li>';
+    }
+
+    /**
+     * 下一页按钮
+     * @param string $text
+     * @return string
+     */
+    protected function getSimpleNextButton($text = '&rarr;')
+    {
+        if (!$this->hasMore) {
+            return '<li class="disabled next"><span>' . $text . '</span></li>';
+        }
+
+        $url = $this->url($this->currentPage() + 1);
+
+        return '<li class="next"><a href="' . htmlentities($url) . '">' . $text . '</a></li>';
     }
 
     /**
@@ -88,6 +133,109 @@ class Bootstrap extends \think\paginator\driver\Bootstrap
         }
 
         return $html;
+    }
+
+    /**
+     * 渲染分页html
+     * @return mixed
+     */
+    public function render()
+    {
+        if ($this->hasPages()) {
+            $request = request();
+
+            if ($this->simple || $request->isMobile()) {
+                return sprintf(
+                    '%s %s',
+                    $this->getSimplePreviousButton(),
+                    $this->getSimpleNextButton()
+                );
+            } else {
+                return sprintf(
+                    '%s %s %s',
+                    $this->getPreviousButton(),
+                    $this->getLinks(),
+                    $this->getNextButton()
+                );
+            }
+        }
+    }
+
+    /**
+     * 生成一个可点击的按钮
+     *
+     * @param  string $url
+     * @param  int $page
+     * @return string
+     */
+    protected function getAvailablePageWrapper($url, $page)
+    {
+        return '<li><a href="' . htmlentities($url) . '">' . $page . '</a></li>';
+    }
+
+    /**
+     * 生成一个禁用的按钮
+     *
+     * @param  string $text
+     * @return string
+     */
+    protected function getDisabledTextWrapper($text)
+    {
+        return '<li class="disabled"><span>' . $text . '</span></li>';
+    }
+
+    /**
+     * 生成一个激活的按钮
+     *
+     * @param  string $text
+     * @return string
+     */
+    protected function getActivePageWrapper($text)
+    {
+        return '<li class="active"><span>' . $text . '</span></li>';
+    }
+
+    /**
+     * 生成省略号按钮
+     *
+     * @return string
+     */
+    protected function getDots()
+    {
+        return $this->getDisabledTextWrapper('...');
+    }
+
+    /**
+     * 批量生成页码按钮.
+     *
+     * @param  array $urls
+     * @return string
+     */
+    protected function getUrlLinks(array $urls)
+    {
+        $html = '';
+
+        foreach ($urls as $page => $url) {
+            $html .= $this->getPageLinkWrapper($url, $page);
+        }
+
+        return $html;
+    }
+
+    /**
+     * 生成普通页码按钮
+     *
+     * @param  string $url
+     * @param  int $page
+     * @return string
+     */
+    protected function getPageLinkWrapper($url, $page)
+    {
+        if ($page == $this->currentPage()) {
+            return $this->getActivePageWrapper($page);
+        }
+
+        return $this->getAvailablePageWrapper($url, $page);
     }
 
 
