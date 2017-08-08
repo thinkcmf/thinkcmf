@@ -1016,8 +1016,9 @@ INSERT INTO `cmf_hook` VALUES ('1', '1', '0', '应用初始化', 'app_init', 'cm
 ALTER TABLE `cmf_plugin` ADD `demo_url` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '演示地址，带协议' AFTER `title`;
 ALTER TABLE `cmf_plugin` ADD `author_url` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '作者网站链接' AFTER `author`;
 
-
+--
 -- 2017-07-06 11:10 增加用户操作表
+--
 DROP TABLE IF EXISTS `cmf_user_action`;
 CREATE TABLE `cmf_user_action` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1033,7 +1034,9 @@ CREATE TABLE `cmf_user_action` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='用户操作表';
 
+--
 -- 2017-07-06 11:10 增加用户操作积分等奖励日志表
+--
 DROP TABLE IF EXISTS `cmf_user_score_log`;
 CREATE TABLE `cmf_user_score_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1045,9 +1048,12 @@ CREATE TABLE `cmf_user_score_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='用户操作积分等奖励日志表';
 
-
---2017-07-25 16:32:01  增加登录时钩子
+--
+-- 2017-07-25 16:32:01  增加登录时钩子
+--
 INSERT INTO `cmf_hook` VALUES (null, '1', '1', '登录逻辑开始之前', 'user_login_start', 'cmf', '登录逻辑开始之前');
 
---2017-08-07 12:02:01  增加post_excerpt默认值
+--
+-- 2017-08-07 12:02:01  增加post_excerpt默认值
+--
 ALTER TABLE `cmf_portal_post` CHANGE `post_excerpt` `post_excerpt` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'post摘要';
