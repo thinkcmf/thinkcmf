@@ -197,7 +197,7 @@ class NavMenuController extends AdminBaseController
 
         $arrNav['href_old'] = $arrNav['href'];
 
-        if (strpos($arrNav['href'], "http") === false) {
+        if (strpos($arrNav['href'], "{") === 0 || $arrNav['href'] == 'home') {
             $arrNav['href'] = base64_encode($arrNav['href']);
         }
 
