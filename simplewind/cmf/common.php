@@ -678,8 +678,14 @@ function cmf_get_image_preview_url($file, $style = 'watermark')
  */
 function cmf_get_file_download_url($file, $expires = 3600)
 {
-    $storage = Storage::instance();
-    return $storage->getFileDownloadUrl($file, $expires);
+    if (strpos($file, "http") === 0) {
+        return $file;
+    } else if (strpos($file, "/") === 0) {
+        return $file;
+    } else {
+        $storage = Storage::instance();
+        return $storage->getFileDownloadUrl($file, $expires);
+    }
 }
 
 /**

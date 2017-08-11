@@ -62,7 +62,6 @@ class UeditorController extends HomeBaseController
     function upload()
     {
         error_reporting(E_ERROR);
-        header("Content-Type: text/html; charset=utf-8");
 
         $action = $this->request->param('action');
 
@@ -308,7 +307,7 @@ class UeditorController extends HomeBaseController
         $config['fileMaxSize']    = $upload_setting['file_types']['file']['upload_max_filesize'] * 1024;
         $config['fileAllowFiles'] = array_map([$this, 'ueditorExtension'], explode(",", $upload_setting['file_types']['file']['extensions']));
 
-        return json_encode($config);
+        return json($config);
     }
 
     /**
