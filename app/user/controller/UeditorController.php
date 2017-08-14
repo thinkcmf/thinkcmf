@@ -307,7 +307,7 @@ class UeditorController extends HomeBaseController
         $config['fileMaxSize']    = $upload_setting['file_types']['file']['upload_max_filesize'] * 1024;
         $config['fileAllowFiles'] = array_map([$this, 'ueditorExtension'], explode(",", $upload_setting['file_types']['file']['extensions']));
 
-        return json($config);
+        return json_encode($config);
     }
 
     /**
