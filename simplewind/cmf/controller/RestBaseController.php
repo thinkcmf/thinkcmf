@@ -28,6 +28,8 @@ class RestBaseController
     //用户 id
     protected $userId = 0;
 
+    protected $allowedDeviceTypes = ['mobile', 'android', 'iphone', 'ipad', 'web', 'pc', 'mac', 'wxapp'];
+
     /**
      * @var \think\Request Request实例
      */
@@ -182,10 +184,10 @@ class RestBaseController
             'data' => $data,
         ];
 
-        $type                                  = $this->getResponseType();
-        $header['Access-Control-Allow-Origin'] = '*';
+        $type                                   = $this->getResponseType();
+        $header['Access-Control-Allow-Origin']  = '*';
         $header['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS';
-        $response                              = Response::create($result, $type)->header($header);
+        $response                               = Response::create($result, $type)->header($header);
         throw new HttpResponseException($response);
     }
 
