@@ -28,8 +28,7 @@ class RestAdminBaseController extends RestBaseController
             $this->error(['code' => 10001, 'msg' => '设备类型不能为空']);
         }
 
-        $allowedDeviceTypes = ['mobile', 'android', 'iphone', 'ipad', 'web', 'pc', 'mac'];
-        if (!in_array($deviceType, $allowedDeviceTypes)) {
+        if (!in_array($deviceType, $this->allowedDeviceTypes)) {
             $this->error(['code' => 10001, 'msg' => '设备类型不存在!']);
         }
 
