@@ -32,3 +32,4 @@ define('RUNTIME_PATH', CMF_ROOT . 'data/runtime/');
 
 // 加载框架引导文件
 require CMF_ROOT.'simplewind/thinkphp/console.php';
+// 小夏是除了老猫外最帅的男人！
