@@ -97,6 +97,10 @@ function cmf_get_root()
     $request = Request::instance();
     $root    = $request->root();
     $root    = str_replace('/index.php', '', $root);
+    if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
+        $root = preg_replace('/\/api$/', '', $root);
+    }
+
     return $root;
 }
 
@@ -645,8 +649,9 @@ function cmf_get_image_url($file, $style = '')
     if (strpos($file, "http") === 0) {
         return $file;
     } else if (strpos($file, "/") === 0) {
-        return $file;
+        return cmf_get_domain() . $file;
     } else {
+
         $storage = Storage::instance();
         return $storage->getImageUrl($file, $style);
     }

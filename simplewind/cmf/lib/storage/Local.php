@@ -47,7 +47,7 @@ class Local
      */
     public function getImageUrl($file, $style = '')
     {
-        return cmf_get_root() . '/upload/' . $file;
+        return $this->_getWebRoot() . '/upload/' . $file;
     }
 
     /**
@@ -58,7 +58,7 @@ class Local
      */
     public function getPreviewUrl($file, $style = '')
     {
-        return cmf_get_root() . '/upload/' . $file;
+        return $this->_getWebRoot() . '/upload/' . $file;
     }
 
     /**
@@ -69,7 +69,7 @@ class Local
      */
     public function getUrl($file, $style = '')
     {
-        return cmf_get_root() . '/upload/' . $file;
+        return $this->_getWebRoot() . '/upload/' . $file;
     }
 
     /**
@@ -103,5 +103,11 @@ class Local
         $storageDomain = $this->getDomain();
         $url           = preg_replace("/^http(s)?:\/\/$storageDomain\//", '', $url);
         return $url;
+    }
+
+    private function _getWebRoot()
+    {
+        return cmf_get_domain() . cmf_get_root();
+
     }
 }
