@@ -286,7 +286,14 @@ class Upload
             if (file_exists('./upload/' . $arrInfo["file_path"])) {
                 @unlink($strSaveFilePath); // 删除已经上传的文件
             } else {
-                rename($strSaveFilePath, './upload/' . $arrInfo["file_path"]);
+                $oldFileDir = dirname('./upload/' . $arrInfo["file_path"]);
+
+                if (!file_exists($oldFileDir)) {
+                    mkdir($oldFileDir, 0777, true);
+                }
+
+                @copy($strSaveFilePath, './upload/' . $arrInfo["file_path"]);
+                @unlink($strSaveFilePath);
             }
 
         } else {
