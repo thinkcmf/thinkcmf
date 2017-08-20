@@ -101,7 +101,8 @@ class Local
     public function getFilePath($url)
     {
         $storageDomain = $this->getDomain();
-        $url           = preg_replace("/^http(s)?:\/\/$storageDomain\//", '', $url);
+        $url           = preg_replace("/^http(s)?:\/\/$storageDomain/", '', $url);
+        $url           = preg_replace("/^\/upload\//", '', $url);
         return $url;
     }
 
