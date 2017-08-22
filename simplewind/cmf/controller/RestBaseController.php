@@ -57,6 +57,8 @@ class RestBaseController
             $request = Request::instance();
         }
 
+        Request::instance()->root(cmf_get_root() . '/');
+
         $this->request = $request;
 
         // 控制器初始化
