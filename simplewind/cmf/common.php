@@ -99,6 +99,7 @@ function cmf_get_root()
     $root    = str_replace('/index.php', '', $root);
     if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
         $root = preg_replace('/\/api$/', '', $root);
+        $root = rtrim($root, '/');
     }
 
     return $root;
