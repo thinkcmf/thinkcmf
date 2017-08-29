@@ -106,6 +106,7 @@ class RestBaseController
             return;
         }
 
+        $this->token      = $token;
         $this->deviceType = $deviceType;
 
         $user = Db::name('user_token')
