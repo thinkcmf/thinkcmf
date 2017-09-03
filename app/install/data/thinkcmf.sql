@@ -796,8 +796,8 @@ ALTER TABLE `cmf_third_party_user`
 --
 ALTER TABLE `cmf_user`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_login_key` (`user_login`),
-  ADD KEY `user_nicename` (`user_nickname`);
+  ADD KEY `user_login` (`user_login`),
+  ADD KEY `user_nickname` (`user_nickname`);
 
 --
 -- Indexes for table `cmf_user_action_log`
