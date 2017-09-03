@@ -101,7 +101,7 @@ class SettingController extends AdminBaseController
 
             $routeModel = new RouteModel();
             if (!empty($adminSettings['admin_password'])) {
-                $routeModel->setRoute($adminSettings['admin_password'], 'admin/Index/index', [], 2, 5000);
+                $routeModel->setRoute($adminSettings['admin_password'].'$', 'admin/Index/index', [], 2, 5000);
             } else {
                 $routeModel->deleteRoute('admin/Index/index', []);
             }
