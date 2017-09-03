@@ -34,7 +34,7 @@ class SettingSiteValidate extends Validate
             return true;
         }
 
-        if(preg_match('/\d+/',$value)){
+        if(preg_match('/^\d+$/',$value)){
             return "加密码不能是纯数字！";
         }
 

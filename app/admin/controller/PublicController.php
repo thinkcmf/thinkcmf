@@ -120,6 +120,6 @@ class PublicController extends AdminBaseController
     public function logout()
     {
         session('ADMIN_ID', null);
-        $this->redirect(cmf_get_root() . '/');
+        return redirect(url('/', [], false, true));
     }
 }
