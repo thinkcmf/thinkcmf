@@ -69,7 +69,7 @@ class LoginController extends HomeBaseController
             if (Validate::is($data['username'], 'email')) {
                 $user['user_email'] = $data['username'];
                 $log                = $userModel->doEmail($user);
-            } else if (preg_match('/(^(13\d|15[^4\D]|17[13678]|18\d)\d{8}|170[^346\D]\d{7})$/', $data['username'])) {
+            } else if (preg_match('/(^(13\d|15[^4\D]|17[013678]|18\d)\d{8})$/', $data['username'])) {
                 $user['mobile'] = $data['username'];
                 $log            = $userModel->doMobile($user);
             } else {
@@ -146,7 +146,7 @@ class LoginController extends HomeBaseController
 
                 $log = $userModel->emailPasswordReset($data['username'], $data['password']);
 
-            } else if (preg_match('/(^(13\d|15[^4\D]|17[13678]|18\d)\d{8}|170[^346\D]\d{7})$/', $data['username'])) {
+            } else if (preg_match('/(^(13\d|15[^4\D]|17[013678]|18\d)\d{8})$/', $data['username'])) {
                 $user['mobile'] = $data['username'];
                 $log            = $userModel->mobilePasswordReset($data['username'], $data['password']);
             } else {
