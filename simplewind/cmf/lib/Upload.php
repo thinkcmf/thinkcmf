@@ -293,8 +293,7 @@ class Upload
                     mkdir($oldFileDir, 0777, true);
                 }
 
-                @copy($strSaveFilePath, './upload/' . $arrInfo["file_path"]);
-                @unlink($strSaveFilePath);
+                @rename($strSaveFilePath, './upload/' . $arrInfo["file_path"]);
             }
 
         } else {
