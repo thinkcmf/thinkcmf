@@ -34,7 +34,7 @@ class VerificationCodeController extends HomeBaseController
 
         if (Validate::is($data['username'], 'email')) {
             $accountType = 'email';
-        } else if (preg_match('/(^(13\d|15[^4\D]|17[13678]|18\d)\d{8}|170[^346\D]\d{7})$/', $data['username'])) {
+        } else if (preg_match('/(^(13\d|15[^4\D]|17[013678]|18\d)\d{8})$/', $data['username'])) {
             $accountType = 'mobile';
         } else {
             $this->error("请输入正确的手机或者邮箱格式!");

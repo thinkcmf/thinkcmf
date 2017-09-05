@@ -114,7 +114,7 @@
                                 <option value="">请选择模板</option>
                                 <foreach name="page_theme_files" item="vo">
                                     <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
-                                    <option value="{$value}">{$vo.file}.html</option>
+                                    <option value="{$value}">{$vo.name} {$vo.file}.html</option>
                                 </foreach>
                             </select>
                         </td>

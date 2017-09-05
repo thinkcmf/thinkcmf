@@ -42,22 +42,24 @@ class Auth
             return true;
         }
 
-        $findAuthRuleCount = Db::name('auth_rule')->where([
-            'name' => $name
-        ])->count();
-
-        if ($findAuthRuleCount == 0) {//没有规则时,不验证!
-            return true;
-        }
-
         if (is_string($name)) {
             $name = strtolower($name);
             if (strpos($name, ',') !== false) {
                 $name = explode(',', $name);
             } else {
+
+                $findAuthRuleCount = Db::name('auth_rule')->where([
+                    'name' => $name
+                ])->count();
+
+                if ($findAuthRuleCount == 0) {//没有规则时,不验证!
+                    return true;
+                }
+
                 $name = [$name];
             }
         }
+
         $list   = []; //保存验证通过的规则名
         $groups = Db::name('RoleUser')
             ->alias("a")
