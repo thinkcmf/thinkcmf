@@ -250,13 +250,19 @@ class ApiService
     {
         $portalCategoryModel = new PortalCategoryModel();
 
-        $category = $portalCategoryModel->field('path')->where('id', $categoryId)->find();
+        $categoryId = intval($categoryId);
 
-        if (empty($category)) {
-            return [];
+        if ($categoryId !== 0) {
+            $category = $portalCategoryModel->field('path')->where('id', $categoryId)->find();
+
+            if (empty($category)) {
+                return [];
+            }
+
+            $categoryPath = $category['path'];
+        } else {
+            $categoryPath = 0;
         }
-
-        $categoryPath = $category['path'];
 
         $where = [
             'status'      => 1,
