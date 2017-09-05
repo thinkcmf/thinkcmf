@@ -250,10 +250,18 @@ class ApiService
     {
         $portalCategoryModel = new PortalCategoryModel();
 
+        $category = $portalCategoryModel->field('path')->where('id', $categoryId)->find();
+
+        if (empty($category)) {
+            return [];
+        }
+
+        $categoryPath = $category['path'];
+
         $where = [
             'status'      => 1,
             'delete_time' => 0,
-            'path'        => ['like', "%$categoryId%"]
+            'path'        => ['like', "$categoryPath-%"]
         ];
 
         return $portalCategoryModel->where($where)->select();
