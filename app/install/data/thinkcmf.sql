@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `cmf_admin_menu` (
   `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '父菜单id',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '菜单类型;1:有界面可访问菜单,2:无界面可访问菜单,0:只作为菜单',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '状态;1:显示,0:不显示',
-  `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序ID',
+  `list_order` int(10) unsigned NOT NULL DEFAULT '10000' COMMENT '排序ID',
   `app` varchar(15) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '应用名',
   `controller` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '控制器名',
   `action` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '操作名称',
