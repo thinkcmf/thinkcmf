@@ -19,8 +19,11 @@ class Portal extends TagLib
      */
     protected $tags = [
         // 标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次
-        'articles'   => ['attr' => 'field,where,limit,order,page,relation,returnVarName,pageVarName,categoryIds', 'close' => 1],//非必须属性item
-        'breadcrumb' => ['attr' => 'cid', 'close' => 1],//非必须属性self
+        'articles'         => ['attr' => 'field,where,limit,order,page,relation,returnVarName,pageVarName,categoryIds', 'close' => 1],//非必须属性item
+        'breadcrumb'       => ['attr' => 'cid', 'close' => 1],//非必须属性self
+        'categories'       => ['attr' => 'where,order', 'close' => 1],//非必须属性item
+        'subcategories'    => ['attr' => 'categoryId', 'close' => 1],//非必须属性item
+        'allsubcategories' => ['attr' => 'categoryId', 'close' => 1],//非必须属性item
     ];
 
     /**
@@ -124,5 +127,93 @@ parse;
 
     }
 
+    /**
+     * 文章分类标签
+     */
+    public function tagCategories($tag, $content)
+    {
+        $item          = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
+        $order         = empty($tag['order']) ? '' : $tag['order'];
+        $returnVarName = 'portal_categories_data';
+        $where         = '""';
+        if (!empty($tag['where']) && strpos($tag['where'], '$') === 0) {
+            $where = $tag['where'];
+        }
+
+        $parse = <<<parse
+<?php
+\${$returnVarName} = \app\portal\service\ApiService::categories([
+    'where'   => {$where},
+    'order'   => '{$order}',
+]);
+
+ ?>
+<volist name="{$returnVarName}" id="{$item}">
+{$content}
+</volist>
+parse;
+        return $parse;
+    }
+
+    /**
+     * 文章子分类标签
+     */
+    public function tagSubCategories($tag, $content)
+    {
+        $item          = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
+        $returnVarName = 'portal_sub_categories_data';
+
+        $categoryId = "0";
+        if (!empty($tag['categoryId'])) {
+            if (strpos($tag['categoryId'], '$') === 0) {
+                $categoryId = $tag['categoryId'];
+                $this->autoBuildVar($categoryId);
+            } else {
+                $categoryId = intval($tag['categoryId']);
+                $categoryId = "{$categoryId}";
+            }
+        }
+
+        $parse = <<<parse
+<?php
+\${$returnVarName} = \app\portal\service\ApiService::subCategories({$categoryId});
+ 
+ ?>
+<volist name="{$returnVarName}" id="{$item}">
+{$content}
+</volist>
+parse;
+        return $parse;
+    }
+
+    /**
+     * 文章分类所有子分类标签
+     */
+    public function tagAllSubCategories($tag, $content)
+    {
+        $item          = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
+        $returnVarName = 'portal_all_sub_categories_data';
+
+        $categoryId = "0";
+        if (!empty($tag['categoryId'])) {
+            if (strpos($tag['categoryId'], '$') === 0) {
+                $categoryId = $tag['categoryId'];
+                $this->autoBuildVar($categoryId);
+            } else {
+                $categoryId = intval($tag['categoryId']);
+                $categoryId = "{$categoryId}";
+            }
+        }
+
+        $parse = <<<parse
+<?php
+\${$returnVarName} = \app\portal\service\ApiService::allSubCategories({$categoryId});
+ ?>
+<volist name="{$returnVarName}" id="{$item}">
+{$content}
+</volist>
+parse;
+        return $parse;
+    }
 
 }
