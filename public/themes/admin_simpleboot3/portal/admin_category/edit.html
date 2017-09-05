@@ -99,7 +99,7 @@
                                     <!--<option value="list">portal/list.html(默认)</option>-->
                                     <foreach name="list_theme_files" item="vo">
                                         <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
-                                        <option value="{$value}">{$vo.file}.html</option>
+                                        <option value="{$value}">{$vo.name} {$vo.file}.html</option>
                                     </foreach>
                                 </select>
                             </div>
@@ -111,7 +111,7 @@
                                     <!--<option value="article">portal/article.html(默认)</option>-->
                                     <foreach name="article_theme_files" item="vo">
                                         <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
-                                        <option value="{$value}">{$vo.file}.html</option>
+                                        <option value="{$value}">{$vo.name} {$vo.file}.html</option>
                                     </foreach>
                                 </select>
                             </div>
