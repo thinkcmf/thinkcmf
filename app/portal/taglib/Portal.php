@@ -30,7 +30,6 @@ class Portal extends TagLib
     {
         $item          = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
         $field         = empty($tag['field']) ? '' : $tag['field'];
-        $limit         = empty($tag['limit']) ? '10' : $tag['limit'];
         $order         = empty($tag['order']) ? 'post.published_time DESC' : $tag['order'];
         $relation      = empty($tag['relation']) ? '' : $tag['relation'];
         $pageVarName   = empty($tag['pageVarName']) ? '__PAGE_VAR_NAME__' : $tag['pageVarName'];
@@ -39,6 +38,16 @@ class Portal extends TagLib
         $where = '""';
         if (!empty($tag['where']) && strpos($tag['where'], '$') === 0) {
             $where = $tag['where'];
+        }
+
+        $limit = "''";
+        if (!empty($tag['limit'])) {
+            if (strpos($tag['limit'], '$') === 0) {
+                $limit = $tag['limit'];
+                $this->autoBuildVar($limit);
+            } else {
+                $limit = "'{$tag['limit']}'";
+            }
         }
 
         $page = "''";
@@ -66,7 +75,7 @@ class Portal extends TagLib
 \${$returnVarName} = \app\portal\service\ApiService::articles([
     'field'   => '{$field}',
     'where'   => {$where},
-    'limit'   => '{$limit}',
+    'limit'   => {$limit},
     'order'   => '{$order}',
     'page'    => $page,
     'relation'=> '{$relation}',
