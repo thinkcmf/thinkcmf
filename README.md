@@ -1,9 +1,8 @@
 ThinkCMF 5.0
 ===============
 ### 最新讲座
-https://segmentfault.com/l/1500000010288611
-
-![](http://www.thinkcmf.com/themes/simplecmf/Public/getup/sf0810.jpeg)
+https://segmentfault.com/l/1500000010866346  
+https://segmentfault.com/l/1500000010923687
 
 ### 赞助者招募
 [查看招募令http://www.thinkcmf.com/supportcmf/goldsponsor.html](http://www.thinkcmf.com/supportcmf/goldsponsor.html)
