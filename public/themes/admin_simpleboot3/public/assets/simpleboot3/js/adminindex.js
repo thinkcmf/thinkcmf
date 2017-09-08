@@ -118,6 +118,10 @@ function openapp(url, appId, appname, refresh) {
         $appiframe = $(appiframe_tpl).attr("src", url).attr("id", "appiframe-" + appId);
         $appiframe.appendTo("#content");
         $appiframe.load(function () {
+            var srcLoaded = $appiframe.get(0).contentWindow.location.href;
+            if (srcLoaded.indexOf('admin/public/login') >= 0) {
+                window.location.reload(true);
+            }
             $loading.hide();
         });
         calcTaskContentWidth();
@@ -131,6 +135,10 @@ function openapp(url, appId, appname, refresh) {
             $loading.show();
             $iframe.attr("src", url);
             $iframe.load(function () {
+                var srcLoaded = $iframe.get(0).contentWindow.location.href;
+                if (srcLoaded.indexOf('admin/public/login') >= 0) {
+                    window.location.reload(true);
+                }
                 $loading.hide();
             });
         }
