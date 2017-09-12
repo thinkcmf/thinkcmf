@@ -14,6 +14,7 @@ use cmf\controller\AdminBaseController;
 use app\admin\model\HookModel;
 use app\admin\model\PluginModel;
 use app\admin\model\HookPluginModel;
+use think\Db;
 
 /**
  * Class HookController 钩子管理控制器
@@ -83,6 +84,54 @@ class HookController extends AdminBaseController
         parent::listOrders($hookPluginModel);
 
         $this->success("排序更新成功！");
+    }
+
+    /**
+     * 同步钩子
+     * @adminMenu(
+     *     'name'   => '同步钩子',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '同步钩子',
+     *     'param'  => ''
+     * )
+     */
+    public function sync()
+    {
+
+        $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
+
+        foreach ($apps as $app) {
+            $hookConfigFile = APP_PATH . $app . '/hooks.php';
+            if (file_exists($hookConfigFile)) {
+                $hooksInFile = include $hookConfigFile;
+
+                foreach ($hooksInFile as $hookName => $hook) {
+
+                    $hook['type'] = empty($hook['type']) ? 2 : $hook['type'];
+
+                    if (!in_array($hook['type'], [2, 3, 4])) {
+                        $hook['type'] = 2;
+                    }
+
+                    $findHook = Db::name('hook')->where(['hook' => $hookName])->count();
+
+                    $hook['app'] = $app;
+
+                    if ($findHook > 0) {
+                        Db::name('hook')->where(['hook' => $hookName])->strict(false)->field(true)->update($hook);
+                    } else {
+                        $hook['hook'] = $hookName;
+                        Db::name('hook')->insert($hook);
+                    }
+                }
+            }
+        }
+
+        return $this->fetch();
     }
 
 
