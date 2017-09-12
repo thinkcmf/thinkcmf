@@ -71,6 +71,11 @@ class CaptchaController
             $id = '';
         }
 
+        $defaultCaptchaConfig = config('captcha');
+        if($defaultCaptchaConfig && is_array($defaultCaptchaConfig)){
+            $config = array_merge($defaultCaptchaConfig, $config);
+        }
+
         $captcha = new Captcha($config);
         return $captcha->entry($id);
     }
