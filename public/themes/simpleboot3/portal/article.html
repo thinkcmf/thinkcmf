@@ -53,13 +53,25 @@
                     </if>
                     <else/>
                     <h2 style="text-align: center;">由于某些原因，此帖已被管理员关闭!</h2>
+                    <php>
+                        $after_content_hook_param=[
+                            'object_id'=>$article['id'],
+                            'table_name'=>'portal_post',
+                            'object_title'=>$article['post_title'],
+                            'user_id'=>$article['user_id'],
+                            'url'=>cmf_url_encode('portal/Article/index',array('id'=>$article['id'],'cid'=>$category['id'])),
+                            'object'=>$article
+                        ];
+                    </php>
+                    <hook name="after_content" param="after_content_hook_param"/>
                 </if>
 
                 <php>
                     $comment_hook_param=[
-                    'post_id'=>$article['id'],
-                    'post_table'=>'portal_post',
-                    'post_title'=>$article['post_title']
+                    'object_id'=>$article['id'],
+                    'table_name'=>'portal_post',
+                    'object_title'=>$article['post_title'],
+                    'url'=>cmf_url_encode('portal/Article/index',array('id'=>$article['id'],'cid'=>$category['id']))
                     ];
                     $comment=hook_one('comment',$comment_hook_param);
                 </php>
