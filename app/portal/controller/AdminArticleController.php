@@ -121,6 +121,12 @@ class AdminArticleController extends AdminBaseController
 
             $portalPostModel->adminAddArticle($data['post'], $data['post']['categories']);
 
+            $data['post']['id'] = $portalPostModel->id;
+            $hookParam          = [
+                'is_add'  => true,
+                'article' => $data['post']
+            ];
+            hook('portal_admin_after_save_article', $hookParam);
 
 
             $this->success('添加成功!', url('AdminArticle/edit', ['id' => $portalPostModel->id]));
@@ -203,6 +209,12 @@ class AdminArticleController extends AdminBaseController
             }
 
             $portalPostModel->adminEditArticle($data['post'], $data['post']['categories']);
+
+            $hookParam = [
+                'is_add'  => false,
+                'article' => $data['post']
+            ];
+            hook('portal_admin_after_save_article', $hookParam);
 
             $this->success('保存成功!');
 
