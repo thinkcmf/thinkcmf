@@ -922,7 +922,13 @@ function cmf_get_plugin_config($name)
  */
 function cmf_scan_dir($pattern, $flags = null)
 {
-    $files = array_map('basename', glob($pattern, $flags));
+    $files = glob($pattern, $flags);
+    if (empty($files)) {
+        $files = [];
+    } else {
+        $files = array_map('basename', $files);
+    }
+
     return $files;
 }
 

@@ -95,15 +95,15 @@ class RestBaseController
         $deviceType = $this->request->header('XX-Device-Type');
 
         if (empty($token)) {
-            $this->error(['code' => 10001, 'msg' => 'Token不能为空']);
+            return;
         }
 
         if (empty($deviceType)) {
-            $this->error(['code' => 10001, 'msg' => '设备类型不能为空']);
+            return;
         }
 
         if (!in_array($deviceType, $this->allowedDeviceTypes)) {
-            $this->error(['code' => 10001, 'msg' => '设备类型不存在!']);
+            return;
         }
 
         $this->token      = $token;

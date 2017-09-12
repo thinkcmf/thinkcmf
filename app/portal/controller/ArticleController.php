@@ -38,8 +38,16 @@ class ArticleController extends HomeBaseController
 
         $tplName = 'article';
 
-        if (!empty($categoryId)) {
+        if (empty($categoryId)) {
+            $categories = $article['categories'];
 
+            if (count($categories) > 0) {
+                $this->assign('category', $categories[0]);
+            } else {
+                abort(404, '文章未指定分类!');
+            }
+
+        } else {
             $category = $portalCategoryModel->where('id', $categoryId)->where('status', 1)->find();
 
             if (empty($category)) {
@@ -52,6 +60,9 @@ class ArticleController extends HomeBaseController
         }
 
         Db::name('portal_post')->where(['id' => $articleId])->setInc('post_hits');
+
+
+        hook('portal_before_assign_article', $article);
 
         $this->assign('article', $article);
         $this->assign('prev_article', $prevArticle);

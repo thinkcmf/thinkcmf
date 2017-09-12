@@ -31,10 +31,6 @@
         }
 
         @media (max-width: 767px) {
-            .sy-box {
-                margin: 12px -20px 0 -20px;
-            }
-
             .caption-wraper {
                 left: 0;
                 bottom: 0.4em;
@@ -125,8 +121,11 @@
         </div>
 
         <div class="row">
-            <?php  $widget["vars"]["last_news_category_id"] = empty($widget["vars"]["last_news_category_id"])?1:$widget["vars"]["last_news_category_id"];?>
-            <portal:articles limit="4" order="post.published_time DESC"
+            <php>
+                $widget["vars"]["last_news_category_id"] = empty($widget["vars"]["last_news_category_id"])?1:$widget["vars"]["last_news_category_id"];
+                $last_news_limit=4;
+            </php>
+            <portal:articles limit="$last_news_limit" order="post.published_time DESC"
                              categoryIds="$widget.vars.last_news_category_id">
                 <div class="col-md-3">
                     <div class="tc-gridbox">

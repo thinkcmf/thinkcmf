@@ -79,7 +79,7 @@
 					<select class="form-control" name="type" id="input-type">
 						<option value="1">有界面可访问菜单</option>
 						<php>$type2_selected=$data['type']==2?"selected":"";</php>
-						<option value="2">无界面可访问菜单</option>
+						<option value="2" {$type2_selected}>无界面可访问菜单</option>
 						<php>$type_selected=$data['type']==0?"selected":"";</php>
 						<option value="0" {$type_selected}>只作为菜单</option>
 					</select>

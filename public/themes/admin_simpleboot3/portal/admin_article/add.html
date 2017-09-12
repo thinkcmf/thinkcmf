@@ -37,7 +37,7 @@
             <div class="col-md-9">
                 <table class="table table-bordered">
                     <tr>
-                        <th width="100">分类</th>
+                        <th width="100">分类<span class="form-required">*</span></th>
                         <td>
                             <input class="form-control" type="text" style="width:400px;" required value=""
                                    placeholder="请选择分类" onclick="doSelectCategory();" id="js-categories-name-input"
@@ -164,7 +164,7 @@
                                 <option value="">请选择模板</option>
                                 <foreach name="article_theme_files" item="vo">
                                     <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
-                                    <option value="{$value}">{$vo.file}.html</option>
+                                    <option value="{$value}">{$vo.name} {$vo.file}.html</option>
                                 </foreach>
                             </select>
                         </td>

@@ -66,13 +66,11 @@ class AdminIndexController extends AdminBaseController
         if (!empty($request['keyword'])) {
             $keyword = $request['keyword'];
 
-            $keywordComplex['user_login']    = ['like', "%$keyword%"];
-            $keywordComplex['user_nickname'] = ['like', "%$keyword%"];
-            $keywordComplex['user_email']    = ['like', "%$keyword%"];
+            $keywordComplex['user_login|user_nickname|user_email']    = ['like', "%$keyword%"];
         }
         $usersQuery = Db::name('user');
 
-        $list = $usersQuery->where($where)->whereOr($keywordComplex)->order("create_time DESC")->paginate(10);
+        $list = $usersQuery->whereOr($keywordComplex)->where($where)->order("create_time DESC")->paginate(10);
         // 获取分页显示
         $page = $list->render();
         $this->assign('list', $list);

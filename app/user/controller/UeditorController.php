@@ -62,6 +62,7 @@ class UeditorController extends HomeBaseController
     function upload()
     {
         error_reporting(E_ERROR);
+        header("Content-Type: text/html; charset=utf-8");
 
         $action = $this->request->param('action');
 
