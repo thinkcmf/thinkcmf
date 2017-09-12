@@ -86,6 +86,19 @@ class HookController extends AdminBaseController
         $this->success("排序更新成功！");
     }
 
+    /**
+     * 同步钩子
+     * @adminMenu(
+     *     'name'   => '同步钩子',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '同步钩子',
+     *     'param'  => ''
+     * )
+     */
     public function sync()
     {
 
