@@ -4,8 +4,9 @@
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
         <li class="active"><a>所有钩子</a></li>
+        <li><a href="{:url('Hook/sync')}">同步钩子</a></li>
     </ul>
-    <form action="{:url('Rbac/listorders')}" method="post" class="margin-top-20">
+    <form action="" method="post" class="margin-top-20">
         <php>
             $types = ["1"=>'系统钩子','2'=>'应用钩子','3'=>'模板钩子','4'=>'后台模板钩子'];
         </php>
@@ -27,7 +28,7 @@
                     <td>{$types[$vo.type]}</td>
                     <td>{$vo.description}</td>
                     <td>
-                        <a href="javascript:parent.openIframeLayer('{:url('hook/plugins',['hook'=>$vo['hook']])}','钩子{$vo.name}插件管理',{});">管理插件</a>
+                        <a href="javascript:parent.openIframeLayer('{:url('Hook/plugins',['hook'=>$vo['hook']])}','钩子{$vo.name}插件管理',{});">管理插件</a>
                     </td>
                 </tr>
             </foreach>
