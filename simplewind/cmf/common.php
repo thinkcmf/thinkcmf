@@ -876,7 +876,7 @@ function hook($hook, &$params = null, $extra = null)
  * @param string $hook 钩子名称
  * @param mixed $params 传入参数
  * @param mixed $extra 额外参数
- * @return void
+ * @return mixed
  */
 function hook_one($hook, &$params = null, $extra = null)
 {
