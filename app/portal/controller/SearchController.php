@@ -16,7 +16,6 @@ class SearchController extends HomeBaseController
 {
     public function index()
     {
-//        $this->assign('site_name','ThinkCMF内容管理框架 ');
         $keyword = $this->request->param('keyword');
 
         if (empty($keyword)) {

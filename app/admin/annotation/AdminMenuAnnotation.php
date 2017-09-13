@@ -37,6 +37,7 @@ class AdminMenuAnnotation extends Annotation
 
     /**
      * Initialize the annotation.
+     * @param array $properties
      */
     public function initAnnotation(array $properties)
     {
