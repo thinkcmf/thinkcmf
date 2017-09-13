@@ -762,7 +762,7 @@ function cmf_str_decode($string, $key = '', $expiry = 0, $operation = 'DECODE')
  */
 function cmf_str_encode($string, $key = '', $expiry = 0)
 {
-    return cmf_str_decode($string, "ENCODE", $key, $expiry);
+    return cmf_str_decode($string, $key, $expiry, "ENCODE");
 }
 
 /**
