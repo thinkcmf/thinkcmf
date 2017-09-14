@@ -135,7 +135,7 @@ class PostService
                 'post.published_time' => [['< time', time()], ['> time', 0]],
                 'post.post_status'    => 1,
                 'post.delete_time'    => 0,
-                'post.id '             => ['<',$postId]
+                'post.id '            => ['<', $postId]
             ];
 
             $article = $portalPostModel->alias('post')->field('post.*')
@@ -150,7 +150,7 @@ class PostService
                 'post.post_status'     => 1,
                 'post.delete_time'     => 0,
                 'relation.category_id' => $categoryId,
-                'relation.post_id'     => ['<',$postId]
+                'relation.post_id'     => ['<', $postId]
             ];
 
             $join    = [
@@ -179,7 +179,7 @@ class PostService
                 'post.published_time' => [['< time', time()], ['> time', 0]],
                 'post.post_status'    => 1,
                 'post.delete_time'    => 0,
-                'post.id'             => ['>',$postId]
+                'post.id'             => ['>', $postId]
             ];
 
             $article = $portalPostModel->alias('post')->field('post.*')
@@ -193,7 +193,7 @@ class PostService
                 'post.post_status'     => 1,
                 'post.delete_time'     => 0,
                 'relation.category_id' => $categoryId,
-                'relation.post_id'     => ['>',$postId]
+                'relation.post_id'     => ['>', $postId]
             ];
 
             $join    = [
@@ -209,11 +209,6 @@ class PostService
 
         return $article;
     }
-
-
-
-
-
 
     public function publishedPage($pageId)
     {

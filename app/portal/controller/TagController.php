@@ -11,22 +11,20 @@
 namespace app\portal\controller;
 
 use cmf\controller\HomeBaseController;
-use app\portal\model\PortalCategoryModel;
+use app\portal\model\PortalTagModel;
 
 class TagController extends HomeBaseController
 {
     public function index()
     {
-        $id                  = $this->request->param('id', 0, 'intval');
-        $portalCategoryModel = new PortalCategoryModel();
+        $id             = $this->request->param('id', 0, 'intval');
+        $portalTagModel = new PortalTagModel();
 
-        $category = $portalCategoryModel->where('id', $id)->where('status', 1)->find();
-       
-        $this->assign('category', $category);
+        $tag = $portalTagModel->where('id', $id)->where('status', 1)->find();
 
-        $listTpl = empty($category['list_tpl']) ? 'list' : $category['list_tpl'];
+        $this->assign('tag', $tag);
 
-        return $this->fetch('/' . $listTpl);
+        return $this->fetch('/tag');
     }
 
 }

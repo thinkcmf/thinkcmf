@@ -276,15 +276,14 @@ class ThemeController extends AdminBaseController
         $items = [];
         $item  = [];
 
-        $vars = [];
         if ($tab == 'var' && !empty($oldMore['vars']) && is_array($oldMore['vars'])) {
 
-            if (isset($vars[$varName]) && is_array($vars[$varName])) {
-                $items = $vars[$varName]['value'];
+            if (isset($oldMore['vars'][$varName]) && is_array($oldMore['vars'][$varName])) {
+                $items = $oldMore['vars'][$varName]['value'];
             }
 
-            if (isset($vars[$varName]['item'])) {
-                $item = $vars[$varName]['item'];
+            if (isset($oldMore['vars'][$varName]['item'])) {
+                $item = $oldMore['vars'][$varName]['item'];
             }
 
         }

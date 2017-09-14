@@ -97,6 +97,11 @@ function cmf_get_root()
     $request = Request::instance();
     $root    = $request->root();
     $root    = str_replace('/index.php', '', $root);
+    if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
+        $root = preg_replace('/\/api$/', '', $root);
+        $root = rtrim($root, '/');
+    }
+
     return $root;
 }
 
@@ -645,8 +650,9 @@ function cmf_get_image_url($file, $style = '')
     if (strpos($file, "http") === 0) {
         return $file;
     } else if (strpos($file, "/") === 0) {
-        return $file;
+        return cmf_get_domain() . $file;
     } else {
+
         $storage = Storage::instance();
         return $storage->getImageUrl($file, $style);
     }
@@ -678,8 +684,14 @@ function cmf_get_image_preview_url($file, $style = 'watermark')
  */
 function cmf_get_file_download_url($file, $expires = 3600)
 {
-    $storage = Storage::instance();
-    return $storage->getFileDownloadUrl($file, $expires);
+    if (strpos($file, "http") === 0) {
+        return $file;
+    } else if (strpos($file, "/") === 0) {
+        return $file;
+    } else {
+        $storage = Storage::instance();
+        return $storage->getFileDownloadUrl($file, $expires);
+    }
 }
 
 /**
@@ -750,7 +762,7 @@ function cmf_str_decode($string, $key = '', $expiry = 0, $operation = 'DECODE')
  */
 function cmf_str_encode($string, $key = '', $expiry = 0)
 {
-    return cmf_str_decode($string, "ENCODE", $key, $expiry);
+    return cmf_str_decode($string, $key, $expiry, "ENCODE");
 }
 
 /**
@@ -864,7 +876,7 @@ function hook($hook, &$params = null, $extra = null)
  * @param string $hook 钩子名称
  * @param mixed $params 传入参数
  * @param mixed $extra 额外参数
- * @return void
+ * @return mixed
  */
 function hook_one($hook, &$params = null, $extra = null)
 {
@@ -910,7 +922,13 @@ function cmf_get_plugin_config($name)
  */
 function cmf_scan_dir($pattern, $flags = null)
 {
-    $files = array_map('basename', glob($pattern, $flags));
+    $files = glob($pattern, $flags);
+    if (empty($files)) {
+        $files = [];
+    } else {
+        $files = array_map('basename', $files);
+    }
+
     return $files;
 }
 
@@ -1532,10 +1550,10 @@ function cmf_replace_content_file_url($content, $isForDbSave = false)
             if ($isForDbSave) {
                 if (preg_match("/^\/upload\//", $imgSrc)) {
                     $img->attr("src", preg_replace("/^\/upload\//", '', $imgSrc));
-                } elseif (preg_match("/^http(s)?:\/\/$storageDomain\//", $imgSrc)) {
-                    $img->attr("src", $storage->getFilePath($imgSrc));
                 } elseif (preg_match("/^http(s)?:\/\/$domain\/upload\//", $imgSrc)) {
                     $img->attr("src", $localStorage->getFilePath($imgSrc));
+                } elseif (preg_match("/^http(s)?:\/\/$storageDomain\//", $imgSrc)) {
+                    $img->attr("src", $storage->getFilePath($imgSrc));
                 }
 
             } else {
@@ -1554,10 +1572,10 @@ function cmf_replace_content_file_url($content, $isForDbSave = false)
             if ($isForDbSave) {
                 if (preg_match("/^\/upload\//", $href)) {
                     $link->attr("href", preg_replace("/^\/upload\//", '', $href));
-                } elseif (preg_match("/^http(s)?:\/\/$storageDomain\//", $href)) {
-                    $link->attr("href", $storage->getFilePath($href));
                 } elseif (preg_match("/^http(s)?:\/\/$domain\/upload\//", $href)) {
                     $link->attr("href", $localStorage->getFilePath($href));
+                } elseif (preg_match("/^http(s)?:\/\/$storageDomain\//", $href)) {
+                    $link->attr("href", $storage->getFilePath($href));
                 }
 
             } else {

@@ -1,9 +1,8 @@
 ThinkCMF 5.0
 ===============
 ### 最新讲座
-https://segmentfault.com/l/1500000010288611
-
-![](http://www.thinkcmf.com/themes/simplecmf/Public/getup/sf0810.jpeg)
+https://segmentfault.com/l/1500000010866346  
+https://segmentfault.com/l/1500000010923687
 
 ### 赞助者招募
 [查看招募令http://www.thinkcmf.com/supportcmf/goldsponsor.html](http://www.thinkcmf.com/supportcmf/goldsponsor.html)
@@ -43,9 +42,10 @@ https://segmentfault.com/l/1500000010288611
 
 > 打开rewrite
 
-### 演示站点
-http://demo5.thinkcmf.com/admin/   
-用户名/密码:demo/thinkcmf
+
+### 运行环境配置教程
+https://www.thinkcmf.com/topic/1502.html
+
 
 ### 自动安装
 > 之前安装过 cmf5的同学,请手动创建`data/install.lock`文件

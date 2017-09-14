@@ -275,7 +275,8 @@ class Upload
             }
 
         }
-
+        //关闭文件对象
+        $fileImage = null;
         //检查文件是否已经存在
         $assetModel = new AssetModel();
         $objAsset   = $assetModel->where(["user_id" => $userId, "file_key" => $arrInfo["file_key"]])->find();
@@ -286,7 +287,13 @@ class Upload
             if (file_exists('./upload/' . $arrInfo["file_path"])) {
                 @unlink($strSaveFilePath); // 删除已经上传的文件
             } else {
-                rename($strSaveFilePath, './upload/' . $arrInfo["file_path"]);
+                $oldFileDir = dirname('./upload/' . $arrInfo["file_path"]);
+
+                if (!file_exists($oldFileDir)) {
+                    mkdir($oldFileDir, 0777, true);
+                }
+
+                @rename($strSaveFilePath, './upload/' . $arrInfo["file_path"]);
             }
 
         } else {

@@ -103,7 +103,7 @@
 <div class="wrap">
     <empty name="has_smtp_setting">
         <div class="grid-item col-md-12">
-            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+            <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-bottom: 0;">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -113,6 +113,17 @@
             </div>
         </div>
     </empty>
+
+    <if condition="!extension_loaded('fileinfo')">
+        <div class="grid-item col-md-12">
+            <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-bottom: 0;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>提示!</strong> php_fileinfo扩展没有开启，无法正常上传文件！
+            </div>
+        </div>
+    </if>
 
     <div class="grid-item col-md-12" id="thinkcmf-notices-grid" style="display:none;">
         <div class="dashboard-box">

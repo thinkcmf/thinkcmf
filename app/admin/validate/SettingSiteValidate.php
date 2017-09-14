@@ -23,7 +23,7 @@ class SettingSiteValidate extends Validate
     protected $message = [
         'options.site_name.require'                => '网站名称不能为空',
         'admin_settings.admin_password.alphaNum'   => '后台加密码只能是英文字母和数字',
-        'admin_settings.admin_password.checkAlias' => '后台加密码只能是英文字母和数字',
+        'admin_settings.admin_password.checkAlias' => '此加密码不能使用!',
     ];
 
 
@@ -34,9 +34,13 @@ class SettingSiteValidate extends Validate
             return true;
         }
 
+        if(preg_match('/^\d+$/',$value)){
+            return "加密码不能是纯数字！";
+        }
+
         $routeModel = new RouteModel();
         $fullUrl    = $routeModel->buildFullUrl('admin/Index/index', []);
-        if (!$routeModel->exists($value, $fullUrl)) {
+        if (!$routeModel->exists($value.'$', $fullUrl)) {
             return true;
         } else {
             return "URL规则已经存在,无法设置此加密码!";

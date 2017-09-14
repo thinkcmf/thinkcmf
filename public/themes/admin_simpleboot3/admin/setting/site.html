@@ -25,7 +25,7 @@
 								<label for="input-admin_url_password" class="col-sm-2 control-label">后台加密码</label>
 								<div class="col-md-6 col-sm-10">
 									<input type="text" class="form-control" id="input-admin_url_password" name="admin_settings[admin_password]" value="{$admin_settings.admin_password|default=''}" id="js-site-admin-url-password">
-									<p class="help-block">英文字母数字</p>
+									<p class="help-block">英文字母数字，不能为纯数字</p>
 									<if condition="!empty($admin_settings.admin_password)">
 										<p class="help-block" style="color: red;">设置加密码后必须通过以下地址访问后台,请劳记此地址，为了安全，您也可以定期更换此加密码!</p>
 										<php>

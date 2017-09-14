@@ -914,6 +914,7 @@ function openIframeLayer(url, title, options) {
         title: title,
         shadeClose: true,
         // skin: 'layui-layer-nobg',
+        anim: -1,
         shade: [0.001, '#000000'],
         shadeClose: true,
         area: ['95%', '90%'],
