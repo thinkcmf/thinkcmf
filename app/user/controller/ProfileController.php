@@ -238,7 +238,7 @@ class ProfileController extends UserBaseController
             $validate->message([
                 'username.require'          => '手机号不能为空',
                 'username.number'          => '手机号只能为数字',
-                'username.mobile'          => '手机号已存在',
+                'username.unique'          => '手机号已存在',
                 'verification_code.require' => '验证码不能为空',
             ]);
 
@@ -277,7 +277,7 @@ class ProfileController extends UserBaseController
             $validate->message([
                 'username.require'          => '邮箱地址不能为空',
                 'username.email'            => '邮箱地址不正确',
-                'username.mobile'           => '邮箱地址已存在',
+                'username.unique'           => '邮箱地址已存在',
                 'verification_code.require' => '验证码不能为空',
             ]);
 
