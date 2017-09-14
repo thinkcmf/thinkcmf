@@ -30,12 +30,19 @@ class MainController extends AdminBaseController
         $dashboardWidgets = [];
         $widgets          = cmf_get_option('admin_dashboard_widgets');
 
+        $defaultDashboardWidgets = [
+            '_SystemCmfHub'           => ['name' => 'CmfHub', 'is_system' => 1],
+            '_SystemMainContributors' => ['name' => 'MainContributors', 'is_system' => 1],
+            '_SystemContributors'     => ['name' => 'Contributors', 'is_system' => 1],
+            '_SystemCustom1'          => ['name' => 'Custom1', 'is_system' => 1],
+            '_SystemCustom2'          => ['name' => 'Custom2', 'is_system' => 1],
+            '_SystemCustom3'          => ['name' => 'Custom3', 'is_system' => 1],
+            '_SystemCustom4'          => ['name' => 'Custom4', 'is_system' => 1],
+            '_SystemCustom5'          => ['name' => 'Custom5', 'is_system' => 1],
+        ];
+
         if (empty($widgets)) {
-            $dashboardWidgets = [
-                '_SystemCmfHub'           => ['name' => 'CmfHub', 'is_system' => 1],
-                '_SystemMainContributors' => ['name' => 'MainContributors', 'is_system' => 1],
-                '_SystemContributors'     => ['name' => 'Contributors', 'is_system' => 1],
-            ];
+            $dashboardWidgets = $defaultDashboardWidgets;
         } else {
             foreach ($widgets as $widget) {
                 if ($widget['is_system']) {
@@ -44,6 +51,12 @@ class MainController extends AdminBaseController
                     $dashboardWidgets[$widget['name']] = ['name' => $widget['name'], 'is_system' => 0];
                 }
             }
+
+            foreach ($defaultDashboardWidgets as $widgetName => $widget) {
+                $dashboardWidgets[$widgetName] = $widget;
+            }
+
+
         }
 
         $dashboardWidgetPlugins = [];
