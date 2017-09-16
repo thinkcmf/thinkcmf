@@ -44,10 +44,10 @@
                 </td>
                 <td>{$vo.file_path}
                     <php>
-                        if(!file_exists('upload/'.$vo['file_path'])){
-                        echo "<span style='color:red;'>&nbsp;&nbsp;(文件丢失)</span>";
-                        }
-                    </php>
+                        <if condition="!file_exists('upload/'.$vo['file_path'])">
+                        <span style='color:red;'>&nbsp;&nbsp;(文件丢失)</span>
+
+                    </if>
                 </td>
                 <td>{$status[$vo['status']]}</td>
                 <td>
