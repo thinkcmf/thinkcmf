@@ -44,15 +44,15 @@
 					<td>{$user_statuses[$vo['user_status']]}</td>
 					<td>
 						<if condition="$vo['id'] eq 1 || $vo['id'] eq cmf_get_current_admin_id()">
-						<font color="#cccccc">{:lang('EDIT')}</font> | <font color="#cccccc">{:lang('DELETE')}</font> |
+						<font color="#cccccc">{:lang('EDIT')}</font>  <font color="#cccccc">{:lang('DELETE')}</font>
 							<if condition="$vo['user_status'] eq 1">
 								<font color="#cccccc">{:lang('BLOCK_USER')}</font>
 							<else />
 								<font color="#cccccc">{:lang('ACTIVATE_USER')}</font>
 							</if>
 						<else />
-							<a href='{:url("user/edit",array("id"=>$vo["id"]))}'>{:lang('EDIT')}</a> |
-							<a class="js-ajax-delete" href="{:url('user/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a> |
+							<a href='{:url("user/edit",array("id"=>$vo["id"]))}'>{:lang('EDIT')}</a>
+							<a class="js-ajax-delete" href="{:url('user/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
 							<if condition="$vo['user_status'] eq 1">
 								<a href="{:url('user/ban',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn" data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}">{:lang('BLOCK_USER')}</a>
 							<else />
