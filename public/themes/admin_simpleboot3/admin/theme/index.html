@@ -35,11 +35,11 @@
                     <td>{$vo.author}</td>
                     <td>{$vo.description}</td>
                     <td>
-                        <a href="javascript:parent.openIframeLayer('{:url('theme/files',array('theme'=>$vo['theme']))}','{$vo.name}文件列表',{});">设计</a> |
+                        <a href="javascript:parent.openIframeLayer('{:url('theme/files',array('theme'=>$vo['theme']))}','{$vo.name}文件列表',{});">设计</a>
                         <a href="{:url('theme/update',array('theme'=>$vo['theme']))}" class="js-ajax-dialog-btn"
-                           data-msg="确定更新此模板吗？">更新</a> |
+                           data-msg="确定更新此模板吗？">更新</a>
                         <a href="{:url('theme/uninstall',array('theme'=>$vo['theme']))}" class="js-ajax-dialog-btn"
-                           data-msg="您设置的模板数据将被删除，<br>确定卸载此模板吗？">卸载</a> |
+                           data-msg="您设置的模板数据将被删除，<br>确定卸载此模板吗？">卸载</a>
                         <a href="{:url('theme/active',array('theme'=>$vo['theme']))}" class="js-ajax-dialog-btn"
                            data-msg="确定使用此模板吗？">使用</a>
                     </td>

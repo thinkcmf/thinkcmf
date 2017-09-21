@@ -25,7 +25,7 @@
                 </td>
                 <td> {:date('Y-m-d H:i:s',$vo['create_time'])}</td>
                 <td>
-                    <a href="{:url('RecycleBin/restore',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn" data-msg="确定要还原吗？">还原</a> |
+                    <a href="{:url('RecycleBin/restore',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn" data-msg="确定要还原吗？">还原</a>
                     <a href="{:url('RecycleBin/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
                 </td>
             </tr>

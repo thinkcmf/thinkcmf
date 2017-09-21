@@ -37,23 +37,23 @@
 							<else />
 								<php>$config=json_decode($vo['config'],true);</php>
 								<if condition="!empty($config)">
-									<a href="{:url('plugin/setting',array('id'=>$vo['id']))}">设置</a> |
+									<a href="{:url('plugin/setting',array('id'=>$vo['id']))}">设置</a>
 								<else/>
-									<a href="javascript:;" style="color: #ccc;">设置</a> |
+									<a href="javascript:;" style="color: #ccc;">设置</a>
 								</if>
 
 								<if condition="!empty($vo['has_admin'])">
-									<a href="javascript:parent.openapp('{:cmf_plugin_url($vo['name'].'://AdminIndex/index')}','plugin_{$vo.name}','{$vo.title}')">管理</a> |
+									<a href="javascript:parent.openapp('{:cmf_plugin_url($vo['name'].'://AdminIndex/index')}','plugin_{$vo.name}','{$vo.title}')">管理</a>
 								<else/>
-									<a href="javascript:;" style="color: #ccc;">管理</a> |
+									<a href="javascript:;" style="color: #ccc;">管理</a>
 								</if>
 
-								<a href="{:url('plugin/update',array('name'=>$vo['name']))}" class="js-ajax-dialog-btn" data-msg="确定更新该插件吗？">更新</a> |
+								<a href="{:url('plugin/update',array('name'=>$vo['name']))}" class="js-ajax-dialog-btn" data-msg="确定更新该插件吗？">更新</a>
 
 								<if condition="$vo['status']==0">
-									<a href="{:url('plugin/toggle',array('id'=>$vo['id'],'enable'=>1))}" class="js-ajax-dialog-btn" data-msg="确定启用该插件吗？">启用</a> |
+									<a href="{:url('plugin/toggle',array('id'=>$vo['id'],'enable'=>1))}" class="js-ajax-dialog-btn" data-msg="确定启用该插件吗？">启用</a>
 								<else/>
-									<a href="{:url('plugin/toggle',array('id'=>$vo['id'],'disable'=>1))}" class="js-ajax-dialog-btn" data-msg="确定禁用该插件吗？">禁用</a> |
+									<a href="{:url('plugin/toggle',array('id'=>$vo['id'],'disable'=>1))}" class="js-ajax-dialog-btn" data-msg="确定禁用该插件吗？">禁用</a>
 								</if>
 
 								<a href="{:url('plugin/uninstall',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn" data-msg="确定卸载该插件吗？">卸载</a>
