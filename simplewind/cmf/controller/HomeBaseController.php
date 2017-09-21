@@ -12,6 +12,7 @@ namespace cmf\controller;
 
 use think\Db;
 use app\admin\model\ThemeModel;
+use think\View;
 
 class HomeBaseController extends BaseController
 {
@@ -22,7 +23,7 @@ class HomeBaseController extends BaseController
         hook('home_init');
         parent::_initialize();
         $siteInfo = cmf_get_site_info();
-        $this->assign('site_info', $siteInfo);
+        View::share('site_info', $siteInfo);
     }
 
     public function _initializeView()
