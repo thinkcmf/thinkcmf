@@ -196,18 +196,6 @@
             $('#thumbnail').val('');
         });
 
-        $('#js-custom-upload-btn').click(function () {
-            openUploadDialog('自定义上传', function (param1, files, extra_params) {
-                console.log('param1:');
-                console.log(param1);
-                console.log('files');
-                alert(files[0].filepath);
-                $('#files2').append('<li>'+files[0].filepath+'</li>');
-                console.log(files);
-                console.log('extra_params');
-                console.log(extra_params);
-            },{ddd:'111'},0,);
-        });
     });
 
     function doSelectCategory() {
