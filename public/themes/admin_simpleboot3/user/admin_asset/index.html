@@ -29,11 +29,26 @@
                 <td>{$vo.file_size/1024|round}KB</td>
                 <td>{$vo.filename}</td>
                 <td>
+
+
+                    <if condition="in_array(strtolower($vo['suffix']),config('cmf_admin_asset_img_suffix'))">
                     <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo['file_path'])}');">
                         <i class="fa fa-photo fa-fw"></i>
                     </a>
+                    <else/>
+                    非图片
+                    </if>
+
+
+
                 </td>
-                <td>{$vo.file_path}</td>
+                <td>{$vo.file_path}
+                    <php>
+                        <if condition="!file_exists('upload/'.$vo['file_path'])">
+                        <span style='color:red;'>&nbsp;&nbsp;(文件丢失)</span>
+
+                    </if>
+                </td>
                 <td>{$status[$vo['status']]}</td>
                 <td>
                     <a href="{:url('AdminAsset/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>

@@ -252,6 +252,9 @@ class AdminArticleController extends AdminBaseController
                 ->where(['id' => $id])
                 ->update(['delete_time' => time()]);
             if ($resultPortal) {
+                Db::name('portal_category_post')->where(['post_id'=>$id])->update(['status'=>0]);
+                Db::name('portal_tag_post')->where(['post_id'=>$id])->update(['status'=>0]);
+
                 Db::name('recycleBin')->insert($data);
             }
             $this->success("删除成功！", '');
