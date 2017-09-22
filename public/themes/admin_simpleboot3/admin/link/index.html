@@ -42,7 +42,7 @@
                     <td><a href="{$vo.url}" target="_blank">{$vo.url}</a></td>
                     <td>{$status[$vo['status']]}</td>
                     <td>
-                        <a href="{:url('link/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a> |
+                        <a href="{:url('link/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
                         <a href="{:url('link/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">
                             {:lang('DELETE')}
                         </a>

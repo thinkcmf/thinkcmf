@@ -159,8 +159,8 @@
 <div id="loading"><i class="loadingicon"></i><span>{:lang('LOADING')}</span></div>
 <div id="right-tools-wrapper">
     <!--<span id="right_tools_clearcache" title="清除缓存" onclick="javascript:openapp('{:url('admin/Setting/clearcache')}','right_tool_clearcache','清除缓存');"><i class="fa fa-trash-o right_tool_icon"></i></span>-->
-    <span id="refresh-wrapper" title="{:lang('REFRESH_CURRENT_PAGE')}"><i
-            class="fa fa-refresh right_tool_icon"></i></span>
+    <!--<span id="refresh-wrapper" title="{:lang('REFRESH_CURRENT_PAGE')}"><i-->
+            <!--class="fa fa-refresh right_tool_icon"></i></span>-->
 </div>
 <div class="navbar navbar-default">
     <div class="container-fluid">
@@ -189,7 +189,12 @@
             </div>
 
             <ul class="nav navbar-nav navbar-right simplewind-nav">
-                <li class="light-blue dropdown">
+                <li class="light-blue" style="border-left:none;">
+                    <a id="refresh-wrapper" href="javacript:void(0);" title="{:lang('REFRESH_CURRENT_PAGE')}" style="color:#fff;font-size: 16px">
+                        <i class="fa fa-refresh right_tool_icon"></i>
+                    </a>
+                </li>
+                <li class="light-blue dropdown" style="border-left:none;">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
                         <if condition="isset($admin['avatar']) && $admin['avatar']">
                             <img class="nav-user-photo" width="30" height="30"
