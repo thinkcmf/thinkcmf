@@ -65,6 +65,11 @@ class RecycleBinController extends AdminBaseController
             $res = Db::name($tableName)
                 ->where(['id' => $result['object_id']])
                 ->update(['delete_time' => '0']);
+            if ($tableName =='portal_post'){
+                Db::name('portal_category_post')->where('post_id',$result['object_id'])->update(['status'=>1]);
+                Db::name('portal_tag_post')->where('post_id',$result['object_id'])->update(['status'=>1]);
+            }
+
             if ($res) {
                 $re = Db::name('recycleBin')->where('id', $id)->delete();
                 if ($re) {
@@ -108,7 +113,8 @@ class RecycleBinController extends AdminBaseController
             if ($re) {
                 $res = Db::name('recycleBin')->where('id', $id)->delete();
                 if($result['table_name'] === 'portal_post'){
-                    $res2 = Db::name('portalCategoryPost')->where('post_id', $result['object_id'])->delete();
+                    Db::name('portal_category_post')->where('post_id',$result['object_id'])->delete();
+                    Db::name('portal_tag_post')->where('post_id',$result['object_id'])->delete();
                 }
                 if ($res) {
                     $this->success("删除成功！");

@@ -762,7 +762,7 @@ function cmf_str_decode($string, $key = '', $expiry = 0, $operation = 'DECODE')
  */
 function cmf_str_encode($string, $key = '', $expiry = 0)
 {
-    return cmf_str_decode($string, "ENCODE", $key, $expiry);
+    return cmf_str_decode($string, $key, $expiry, "ENCODE");
 }
 
 /**
@@ -876,7 +876,7 @@ function hook($hook, &$params = null, $extra = null)
  * @param string $hook 钩子名称
  * @param mixed $params 传入参数
  * @param mixed $extra 额外参数
- * @return void
+ * @return mixed
  */
 function hook_one($hook, &$params = null, $extra = null)
 {

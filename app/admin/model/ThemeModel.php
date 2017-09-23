@@ -140,7 +140,7 @@ class ThemeModel extends Model
         $files = Db::name('theme_file')->where(['theme' => $theme])->select();
 
         foreach ($files as $themeFile) {
-            $tplFile = $themeDir . '/' . $themeFile['file'] . '.' . $suffix;
+            $tplFile           = $themeDir . '/' . $themeFile['file'] . '.' . $suffix;
             $tplFileConfigFile = $themeDir . '/' . $themeFile['file'] . '.json';
             if (!is_file($tplFile) || !file_exists_case($tplFileConfigFile)) {
                 Db::name('theme_file')->where(['theme' => $theme, 'file' => $themeFile['file']])->delete();
@@ -155,6 +155,10 @@ class ThemeModel extends Model
             foreach ($configMore['vars'] as $mVarName => $mVar) {
                 if (isset($moreInDb['vars'][$mVarName]['value']) && $mVar['type'] == $moreInDb['vars'][$mVarName]['type']) {
                     $configMore['vars'][$mVarName]['value'] = $moreInDb['vars'][$mVarName]['value'];
+
+                    if (isset($moreInDb['vars'][$mVarName]['valueText'])) {
+                        $configMore['vars'][$mVarName]['valueText'] = $moreInDb['vars'][$mVarName]['valueText'];
+                    }
                 }
             }
         }
@@ -175,6 +179,10 @@ class ThemeModel extends Model
 
                         if (isset($moreInDb['widgets'][$widgetName]['vars'][$widgetVarName]['value']) && $widgetVar['type'] == $moreInDb['widgets'][$widgetName]['vars'][$widgetVarName]['type']) {
                             $configMore['widgets'][$widgetName]['vars'][$widgetVarName]['value'] = $moreInDb['widgets'][$widgetName]['vars'][$widgetVarName]['value'];
+
+                            if (isset($moreInDb['widgets'][$widgetName]['vars'][$widgetVarName]['valueText'])) {
+                                $configMore['widgets'][$widgetName]['vars'][$widgetVarName]['valueText'] = $moreInDb['widgets'][$widgetName]['vars'][$widgetVarName]['valueText'];
+                            }
                         }
 
                     }
