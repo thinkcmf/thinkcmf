@@ -183,6 +183,11 @@ class ThemeController extends AdminBaseController
     public function active()
     {
         $theme      = $this->request->param('theme');
+
+        if ($theme == config('cmf_default_theme')){
+            $this->error('模板已启用');
+        }
+
         $themeModel = new ThemeModel();
         $themeCount = $themeModel->where('theme', $theme)->count();
 
@@ -196,7 +201,7 @@ class ThemeController extends AdminBaseController
             $this->error('配置写入失败!');
         }
 
-        $this->success("模板已启用");
+        $this->success("模板启用成功");
 
     }
 
