@@ -38,11 +38,11 @@ class ThemeController extends AdminBaseController
         $themes     = $themeModel->select();
         $this->assign("themes", $themes);
 
-        $default_theme = config('cmf_default_theme');
+        $defaultTheme = config('cmf_default_theme');
         if ($temp = session('cmf_default_theme')){
-            $default_theme = $temp;
+            $defaultTheme = $temp;
         }
-        $this->assign('default_theme', $default_theme);
+        $this->assign('default_theme', $defaultTheme);
         return $this->fetch();
     }
 
