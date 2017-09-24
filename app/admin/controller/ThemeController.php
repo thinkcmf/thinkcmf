@@ -37,7 +37,12 @@ class ThemeController extends AdminBaseController
         $themeModel = new ThemeModel();
         $themes     = $themeModel->select();
         $this->assign("themes", $themes);
-        $this->assign('default_theme', config('cmf_default_theme'));
+
+        $default_theme = config('cmf_default_theme');
+        if ($temp = session('cmf_default_theme')){
+            $default_theme = $temp;
+        }
+        $this->assign('default_theme', $default_theme);
         return $this->fetch();
     }
 
@@ -185,7 +190,7 @@ class ThemeController extends AdminBaseController
         $theme      = $this->request->param('theme');
 
         if ($theme == config('cmf_default_theme')){
-            $this->error('模板已启用');
+            $this->error('模板已启用',url("theme/index"));
         }
 
         $themeModel = new ThemeModel();
@@ -200,8 +205,9 @@ class ThemeController extends AdminBaseController
         if ($result === false) {
             $this->error('配置写入失败!');
         }
+        session('cmf_default_theme',$theme);
 
-        $this->success("模板启用成功");
+        $this->success("模板启用成功",url("theme/index"));
 
     }
 
