@@ -43,7 +43,9 @@ class SwitchThemeDemoPlugin extends Plugin
     {
         $config = $this->getConfig();
 
-        return 'simpleboot3';
+        $mobileTheme = empty($config['mobile_theme']) ? '' : $config['mobile_theme'];
+
+        return $mobileTheme;
     }
 
 }
