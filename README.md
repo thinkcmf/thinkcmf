@@ -1,6 +1,11 @@
-ThinkCMF 5.0
+ThinkCMF 5.0.170927 就爱吃版
 ===============
-### 最新讲座
+当开学版遇上国庆和中秋，也只能叫就爱吃版了！  
+祝我们的祖国节日快乐，也祝大家中秋快乐！  
+版本特别记事：https://www.thinkcmf.com/topic/1578.html
+
+
+### 系列讲座节日限量优惠中
 https://www.thinkcmf.com/college.html
 
 ### ThinkCMF5主要特性
@@ -174,6 +179,9 @@ https://github.com/thinkcmf/thinkcmf/issues
 * 修复后台编辑文件会覆盖原作者ID #175
 * 修复后台文章保存后排序变化问题
 * 修复添加文章分类时 path 没数据问题
+
+[升级指导]
+https://www.kancloud.cn/thinkcmf/doc/327443
 
 #### 5.0.170607
 [核心]
