@@ -203,9 +203,9 @@ class IndexController extends Controller
             $userEmail = $this->request->param('manager_email');
 
             //检查密码。空 6-32字符。
-            empty($userPass) & $this->error("密码不可以为空");
-            strlen($userPass) < 6 & $this->error("密码长度最少6位");
-            strlen($userPass) > 32 & $this->error("密码长度最多32位");
+            empty($userPass) && $this->error("密码不可以为空");
+            strlen($userPass) < 6 && $this->error("密码长度最少6位");
+            strlen($userPass) > 32 && $this->error("密码长度最多32位");
 
 
             session('install.admin_info', [
