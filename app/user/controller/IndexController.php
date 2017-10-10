@@ -10,8 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\user\controller;
 
+use app\user\model\UserModel;
 use cmf\controller\HomeBaseController;
-use think\Db;
 
 class IndexController extends HomeBaseController
 {
@@ -21,16 +21,14 @@ class IndexController extends HomeBaseController
      */
     public function index()
     {
-        $id   = $this->request->param("id", 0, "intval");
-        $userQuery = Db::name("User");
-        $user = $userQuery->where('id',$id)->find();
+        $id        = $this->request->param("id", 0, "intval");
+        $userModel = new UserModel();
+        $user      = $userModel->where('id', $id)->find();
         if (empty($user)) {
-            session('user',null);
             $this->error("查无此人！");
         }
-        $this->assign($user);
+        $this->assign($user->toArray());
         return $this->fetch(":index");
-
     }
 
     /**
