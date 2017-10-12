@@ -1627,6 +1627,7 @@ function cmf_curl_get($url)
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // 检查证书中是否设置域名
     }
     $content = curl_exec($ch);
+    curl_close($ch);
     return $content;
 }
 

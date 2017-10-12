@@ -27,8 +27,8 @@
 						{$vo.remark}
 					</td>
 					<td>
-                        <a href="{:url('slide/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a> |
-						<a href="javascript:parent.openIframeLayer('{:url('slideItem/index',array('slide_id'=>$vo['id']))}','管理 {$vo.name} 页面',{});">管理页面</a> |
+                        <a href="{:url('slide/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+						<a href="javascript:parent.openIframeLayer('{:url('slideItem/index',array('slide_id'=>$vo['id']))}','管理 {$vo.name} 页面',{});">管理页面</a>
                         <a href="{:url('slide/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
 				</tr>

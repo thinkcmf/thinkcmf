@@ -96,14 +96,6 @@
                                class="btn btn-sm btn-default">选择文件</a>
                         </td>
                     </tr>
-                    <tr>
-                        <th>自定义文件上传</th>
-                        <td>
-                            <ul id="files2" class="pic-list list-unstyled form-inline">
-                            </ul>
-                            <a id="js-custom-upload-btn" class="btn btn-sm btn-default">自定义上传</a>
-                        </td>
-                    </tr>
                 </table>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
@@ -204,18 +196,6 @@
             $('#thumbnail').val('');
         });
 
-        $('#js-custom-upload-btn').click(function () {
-            openUploadDialog('自定义上传', function (param1, files, extra_params) {
-                console.log('param1:');
-                console.log(param1);
-                console.log('files');
-                alert(files[0].filepath);
-                $('#files2').append('<li>'+files[0].filepath+'</li>');
-                console.log(files);
-                console.log('extra_params');
-                console.log(extra_params);
-            },{ddd:'111'},0,);
-        });
     });
 
     function doSelectCategory() {
