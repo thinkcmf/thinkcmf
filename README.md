@@ -1,11 +1,12 @@
-ThinkCMF 5.0
+ThinkCMF 5.0.170927 就爱吃版
 ===============
-### 最新讲座
-https://segmentfault.com/l/1500000010866346  
-https://segmentfault.com/l/1500000010923687
+当开学版遇上国庆和中秋，也只能叫就爱吃版了！  
+祝我们的祖国节日快乐，也祝大家中秋快乐！  
+版本特别记事：https://www.thinkcmf.com/topic/1578.html
 
-### 赞助者招募
-[查看招募令http://www.thinkcmf.com/supportcmf/goldsponsor.html](http://www.thinkcmf.com/supportcmf/goldsponsor.html)
+
+### 系列讲座节日限量优惠中
+https://www.thinkcmf.com/college.html
 
 ### ThinkCMF5主要特性
 * 基于全新 ThinkPHP5.0开发
@@ -130,6 +131,58 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
+#### 5.0.170927
+[核心]
+* 增加是否开放注册设置
+* 增加已经安装模板文件检测是否已经删除功能
+* 增加模板卸载风险提示
+* 增加钩子同步功能
+* 增加用户操作同步功能 #291
+* 增加网站信息【$site_info】变量，可以在插件中使用 #310
+* 修复添加管理员不能登录 #110
+* 优化 admin.js
+* 优化后台模板设计排版
+* 优化后台加密码设置
+* 返回按钮统一优化
+* 优化 url 美化时规划选择
+* 修复`api`模块缺少函数报错
+* 修复回收站还原提示错误 #111
+* 修复原始网址和显示网址同时有参数的情况下，两个参数值相同的时候不能解析URL
+* 修复模板设计数组编辑功能缺失
+* 修复后台登录在双核浏览器下会使用 IE 内核问题#168
+* 修复模板widget只有数组时，后台设计保存时报错
+* 修复日期选择在windows firefox下报错
+* 修复模板设计数据源页面清空链接错误
+* 修复后台模板设计，json文件中的数组数据，不能正常显示 #222
+* 修复`cmf\lib\Auth\check`方法逻辑问题 #252
+* 修复后台用户登录自动退出后iframe页跳转到首页的问题
+* 修复用户个人资料修改问题
+* 修复绑定手机号和绑定邮箱号惟一性提示信息错
+
+[安装程序]
+* 更改安装时数据库默认为127.0.0.1
+* 优化安装时链接生成
+
+[门户应用]
+* 增加前台文章控制器默认分类指定
+* 增加后台文章列表所在分类列
+* 增加后台文章分类必须指定分类验证
+* 增加 portal:articles 标签 limit可以设置变量
+* 增加模板设计页面数据源
+* 完善 ApiService获取指定分类下的所有子分类方法
+* 增加portal:categories,portal:subCategories,portal:allSubCategories标签
+* 增加文章、页面、分类模板选择时模板文件名称查看
+* 增加文章保存钩子
+* 优化指定分类下所有子分类获取方法
+* 修复文章分类管理中不保存选择的模板 #107
+* 修复面包屑标签 self属性无法识别 false
+* 修复后台编辑文件会覆盖原作者ID #175
+* 修复后台文章保存后排序变化问题
+* 修复添加文章分类时 path 没数据问题
+
+[升级指导]
+https://www.kancloud.cn/thinkcmf/doc/327443
+
 #### 5.0.170607
 [核心]
 * 删除 app/common.php
