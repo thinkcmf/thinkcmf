@@ -32,12 +32,12 @@
 						</td>
 						<td>
 							<if condition="$vo['id'] eq 1">
-								<font color="#cccccc">{:lang('ROLE_SETTING')}</font> | <!-- <a href="javascript:openIframeDialog('{:url('rbac/member',array('id'=>$vo['id']))}','成员管理');">成员管理</a> | -->
-								<font color="#cccccc">{:lang('EDIT')}</font> | <font color="#cccccc">{:lang('DELETE')}</font>
+								<font color="#cccccc">{:lang('ROLE_SETTING')}</font>  <!-- <a href="javascript:openIframeDialog('{:url('rbac/member',array('id'=>$vo['id']))}','成员管理');">成员管理</a> | -->
+								<font color="#cccccc">{:lang('EDIT')}</font>  <font color="#cccccc">{:lang('DELETE')}</font>
 							<else />
-								<a href="{:url('Rbac/authorize',array('id'=>$vo['id']))}">{:lang('ROLE_SETTING')}</a> |
+								<a href="{:url('Rbac/authorize',array('id'=>$vo['id']))}">{:lang('ROLE_SETTING')}</a>
 								<!-- <a href="javascript:openIframeDialog('{:url('rbac/member',array('id'=>$vo['id']))}','成员管理');">成员管理</a>| -->
-								<a href="{:url('Rbac/roleedit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a> |
+								<a href="{:url('Rbac/roleedit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
 								<a class="js-ajax-delete" href="{:url('Rbac/roledelete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
 							</if>
 						</td>

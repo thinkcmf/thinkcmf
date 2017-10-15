@@ -26,8 +26,8 @@
                     <td>{$is_main[$vo.is_main]}</td>
                     <td>{$vo.remark}</td>
                     <td>
-                        <a href="javascript:parent.openIframeLayer('{:url('NavMenu/index',array('nav_id'=>$vo['id']))}','{$vo.name}菜单管理',{});">菜单管理</a> |
-                        <a href="{:url('nav/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a> |
+                        <a href="javascript:parent.openIframeLayer('{:url('NavMenu/index',array('nav_id'=>$vo['id']))}','{$vo.name}菜单管理',{});">菜单管理</a>
+                        <a href="{:url('nav/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
                         <a class="js-ajax-delete" href="{:url('nav/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
                     </td>
                 </tr>

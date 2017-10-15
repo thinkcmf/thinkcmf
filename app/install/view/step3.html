@@ -145,7 +145,11 @@
                                    autoComplete="off">
                         </td>
                         <td>
-                            <div id="js-install-tip-manager_pwd"></div>
+                            <div id="js-install-tip-manager_pwd">
+                                 <span class="gray">
+                                密码长度不低于6位,不高于32位。
+                                 </span>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -223,7 +227,7 @@
                 dbprefix: '建议使用默认，同一数据库安装多个ThinkCMF时需修改',
                 dbcharset: '如果您的服务器是虚拟空间不支持uft8mb4,请选择 utf8',
                 manager: '创始人帐号，拥有站点后台所有管理权限',
-                manager_pwd: '',
+                manager_pwd: '密码长度不低于6位,不高于32位',
                 manager_ckpwd: '',
                 sitename: '',
                 siteurl: '请以“/”结尾',
@@ -258,7 +262,7 @@
                     dbname: {required: true},
                     dbprefix: {required: true},
                     manager: {required: true},
-                    manager_pwd: {required: true},
+                    manager_pwd: {required: true,minlength:6,maxlength:32},
                     manager_ckpwd: {required: true, equalTo: '#js-manager-pwd'},
                     manager_email: {required: true, email: true}
                 },
@@ -294,7 +298,7 @@
                     dbname: {required: '数据库名不能为空'},
                     dbprefix: {required: '数据库表前缀不能为空'},
                     manager: {required: '管理员帐号不能为空'},
-                    manager_pwd: {required: '密码不能为空'},
+                    manager_pwd: {required: '密码不能为空',minlength:'密码长度不低于{0}位',maxlength:'密码长度不超过{0}位'},
                     manager_ckpwd: {required: '重复密码不能为空', equalTo: '两次输入的密码不一致,请重新输入.'},
                     manager_email: {required: 'Email不能为空', email: '请输入正确的电子邮箱地址'}
                 },

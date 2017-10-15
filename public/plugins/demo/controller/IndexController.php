@@ -14,14 +14,10 @@ use think\Db;
 class IndexController extends PluginBaseController
 {
 
-    function index($id)
+    function index()
     {
 
         $users = Db::name("user")->limit(0, 5)->select();
-        $demos=PluginDemoModel::all();
-
-       // print_r($demos);
-
         $this->assign("users", $users);
 
         return $this->fetch("/index");

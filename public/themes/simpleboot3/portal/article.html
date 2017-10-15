@@ -23,11 +23,10 @@
     <div class="row">
         <div class="col-md-9">
             <div class="tc-box article-box">
-                <if condition="$article['post_status']">
-                    <h2>{$article.post_title}</h2>
-                    <div class="article-infobox">
-                        <span>{:date('Y-m-d H:i',$article.published_time)} by {$article.user.user_nickname}</span>
-                        <span>
+                <h2>{$article.post_title}</h2>
+                <div class="article-infobox">
+                    <span>{:date('Y-m-d H:i',$article.published_time)} by {$article.user.user_nickname}</span>
+                    <span>
 		    			<a href="javascript:;"><i class="fa fa-eye"></i><span>{$article.post_hits}</span></a>
 						<a href="{:url('portal/Article/doLike',array('id'=>$article['id']))}" class="js-count-btn"><i
                                 class="fa fa-thumbs-up"></i><span class="count">{$article.post_like}</span></a>
@@ -41,30 +40,28 @@
 							<i class="fa fa-star-o"></i>
 						</a>
 					</span>
+                </div>
+                <hr>
+                <div id="article_content">
+                    {$article.post_content}
+                </div>
+                <if condition="!empty($article['post_source'])">
+                    <div>
+                        <b>注：本文转载自{$article.post_source}，转载目的在于传递更多信息，并不代表本网赞同其观点和对其真实性负责。如有侵权行为，请联系我们，我们会及时删除。</b>
                     </div>
-                    <hr>
-                    <div id="article_content">
-                        {$article.post_content}
-                    </div>
-                    <if condition="!empty($article['post_source'])">
-                        <div>
-                            <b>注：本文转载自{$article.post_source}，转载目的在于传递更多信息，并不代表本网赞同其观点和对其真实性负责。如有侵权行为，请联系我们，我们会及时删除。</b>
-                        </div>
-                    </if>
-                    <else/>
-                    <h2 style="text-align: center;">由于某些原因，此帖已被管理员关闭!</h2>
-                    <php>
-                        $after_content_hook_param=[
-                            'object_id'=>$article['id'],
-                            'table_name'=>'portal_post',
-                            'object_title'=>$article['post_title'],
-                            'user_id'=>$article['user_id'],
-                            'url'=>cmf_url_encode('portal/Article/index',array('id'=>$article['id'],'cid'=>$category['id'])),
-                            'object'=>$article
-                        ];
-                    </php>
-                    <hook name="after_content" param="after_content_hook_param"/>
                 </if>
+
+                <php>
+                    $after_content_hook_param=[
+                    'object_id'=>$article['id'],
+                    'table_name'=>'portal_post',
+                    'object_title'=>$article['post_title'],
+                    'user_id'=>$article['user_id'],
+                    'url'=>cmf_url_encode('portal/Article/index',array('id'=>$article['id'],'cid'=>$category['id'])),
+                    'object'=>$article
+                    ];
+                </php>
+                <hook name="after_content" param="after_content_hook_param"/>
 
                 <php>
                     $comment_hook_param=[
