@@ -36,8 +36,10 @@ class Cmf extends TagLib
 
     /**
      * 分页标签
+     * @param array $tag 标签数组
+     * @return string
      */
-    public function tagPage($tag, $content)
+    public function tagPage($tag)
     {
 
         $name = isset($tag['name']) ? $tag['name'] : '__PAGE_VAR_NAME__';
@@ -55,6 +57,9 @@ parse;
 
     /**
      * 组件标签
+     * @param array $tag 标签数组
+     * @param string $content 内容
+     * @return string
      */
     public function tagWidget($tag, $content)
     {
@@ -75,14 +80,11 @@ parse;
 <?php
      if(isset(\$theme_widgets[{$name}]) && \$theme_widgets[{$name}]['display']){
         \$widget=\$theme_widgets[{$name}];
-     
- ?>
+?>
 {$content}
 <?php
     }
- ?>
-
-
+?>
 parse;
 
         return $parse;
@@ -91,15 +93,18 @@ parse;
 
     /**
      * 导航标签
+     * @param array $tag 标签数组
+     * @param string $content 内容
+     * @return string
      */
     public function tagNavigation($tag, $content)
     {
 
         // nav-id,id,root,class
         $navId                   = isset($tag['nav-id']) ? $tag['nav-id'] : 0;
-        $id                      = isset($tag['id']) ? $tag['id'] : '';
+        $id                      = isset($tag['id']) ? "id=\"{$tag['id']}\"" : '';
         $root                    = isset($tag['root']) ? $tag['root'] : 'ul';
-        $class                   = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
+        $class                   = isset($tag['class']) ? "class=\"{$tag['class']}\"" : '';
         $maxLevel                = isset($tag['max-level']) ? intval($tag['max-level']) : 0;
         $parseNavigationFuncName = '__parse_navigation' . md5(uniqid('_nav' . $navId . __LINE__, true));
 
@@ -111,9 +116,8 @@ parse;
 
         $parse = <<<parse
 <?php
-
 function {$parseNavigationFuncName}(\$menus,\$level=1){
-\$_parse_navigation_func_name = '{$parseNavigationFuncName}';
+    \$_parse_navigation_func_name = '{$parseNavigationFuncName}';
 ?>
     <foreach name="menus" item="menu">
     {$content}
@@ -129,7 +133,7 @@ function {$parseNavigationFuncName}(\$menus,\$level=1){
 <if condition="'{$root}'==''">
     {:{$parseNavigationFuncName}(\$menus)}
 <else/>
-    <{$root} id="{$id}" class="{$class}">
+    <{$root} {$id} {$class}>
         {:{$parseNavigationFuncName}(\$menus)}
     </$root>
 </if>
@@ -140,16 +144,19 @@ parse;
 
     /**
      * 导航menu标签
+     * @param array $tag 标签数组
+     * @param string $content 内容
+     * @return string
      */
     public function tagNavigationMenu($tag, $content)
     {
         //root,class
         $root  = !empty($tag['root']) ? $tag['root'] : 'li';
-        $class = !empty($tag['class']) ? $tag['class'] : '';
+        $class = !empty($tag['class']) ? "class=\"{$tag['class']}\"" : '';
 
         $parse = <<<parse
 <if condition="empty(\$menu['children'])">
-    <{$root} class="{$class}">
+    <{$root} {$class}>
     {$content}
     </{$root}>
 </if>
@@ -159,20 +166,23 @@ parse;
 
     /**
      * 导航folder标签
+     * @param array $tag 标签数组
+     * @param string $content 内容
+     * @return string
      */
     public function tagNavigationFolder($tag, $content)
     {
         //root,class,dropdown,dropdown-class
         $root          = isset($tag['root']) ? $tag['root'] : 'li';
-        $class         = isset($tag['class']) ? $tag['class'] : 'dropdown';
+        $class         = isset($tag['class']) ? "class=\"{$tag['class']}\"" : '';
         $dropdown      = isset($tag['dropdown']) ? $tag['dropdown'] : 'ul';
-        $dropdownClass = isset($tag['dropdown-class']) ? $tag['dropdown-class'] : 'dropdown-menu';
+        $dropdownClass = isset($tag['dropdown-class']) ? "class=\"{$tag['dropdown-class']}\"" : '';
 
         $parse = <<<parse
 <if condition="!empty(\$menu['children'])">
-    <{$root} class="{$class}">
+    <{$root} {$class}>
         {$content}
-        <{$dropdown} class="{$dropdownClass}">
+        <{$dropdown} {$dropdownClass}>
             <php>
             \$mLevel=\$level+1;
             </php>
@@ -186,15 +196,18 @@ parse;
 
     /**
      * 子导航标签
+     * @param array $tag 标签数组
+     * @param string $content 内容
+     * @return string
      */
     public function tagSubNavigation($tag, $content)
     {
 
         // parent,id,root,class
         $parent                     = isset($tag['parent']) ? $tag['parent'] : 0;
-        $id                         = isset($tag['id']) ? $tag['id'] : '';
+        $id                         = isset($tag['id']) ? "id=\"{$tag['id']}\"" : '';
         $root                       = isset($tag['root']) ? $tag['root'] : 'ul';
-        $class                      = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
+        $class                      = isset($tag['class']) ? "class=\"{$tag['class']}\"" : '';
         $maxLevel                   = isset($tag['max-level']) ? intval($tag['max-level']) : 0;
         $parseSubNavigationFuncName = '__parse_sub_navigation' . md5(uniqid('_nav' . $parent . $id . __LINE__, true));;
 
@@ -207,7 +220,7 @@ parse;
         $parse = <<<parse
 <?php
 function {$parseSubNavigationFuncName}(\$menus,\$level=1){
-\$_parse_sub_navigation_func_name = '{$parseSubNavigationFuncName}';
+    \$_parse_sub_navigation_func_name = '{$parseSubNavigationFuncName}';
 ?>
     <foreach name="menus" item="menu">
     {$content}
@@ -223,7 +236,7 @@ function {$parseSubNavigationFuncName}(\$menus,\$level=1){
 <if condition="'{$root}'==''">
     {:{$parseSubNavigationFuncName}(\$menus)}
 <else/>
-    <{$root} id="{$id}" class="{$class}">
+    <{$root} {$id} {$class}>
         {:{$parseSubNavigationFuncName}(\$menus)}
     </$root>
 </if>
@@ -234,16 +247,19 @@ parse;
 
     /**
      * 子导航menu标签
+     * @param array $tag 标签数组
+     * @param string $content 内容
+     * @return string
      */
     public function tagSubNavigationMenu($tag, $content)
     {
         //root,class
         $root  = !empty($tag['root']) ? $tag['root'] : 'li';
-        $class = !empty($tag['class']) ? $tag['class'] : '';
+        $class = !empty($tag['class']) ? "class=\"{$tag['class']}\"" : '';
 
         $parse = <<<parse
 <if condition="empty(\$menu['children'])">
-    <{$root} class="{$class}">
+    <{$root} {$class}>
     {$content}
     </{$root}>
 </if>
@@ -253,20 +269,23 @@ parse;
 
     /**
      * 子导航folder标签
+     * @param array $tag 标签数组
+     * @param string $content 内容
+     * @return string
      */
     public function tagSubNavigationFolder($tag, $content)
     {
         //root,class,dropdown,dropdown-class
         $root          = isset($tag['root']) ? $tag['root'] : 'li';
-        $class         = isset($tag['class']) ? $tag['class'] : 'dropdown';
+        $class         = isset($tag['class']) ? "class=\"{$tag['class']}\"" : '';
         $dropdown      = isset($tag['dropdown']) ? $tag['dropdown'] : 'dropdown';
-        $dropdownClass = isset($tag['dropdown-class']) ? $tag['dropdown-class'] : 'dropdown-menu';
+        $dropdownClass = isset($tag['dropdown-class']) ? "class=\"{$tag['dropdown-class']}\"" : 'dropdown-menu';
 
         $parse = <<<parse
 <if condition="!empty(\$menu['children'])">
-    <{$root} class="{$class}">
+    <{$root} {$class}>
         {$content}
-        <{$dropdown} class="{$dropdownClass}">
+        <{$dropdown} {$dropdownClass}>
             <php>\$mLevel=\$level+1;</php>
             <php>echo \$_parse_sub_navigation_func_name(\$menu['children'],\$mLevel);</php>
         </{$dropdown}>
@@ -278,6 +297,9 @@ parse;
 
     /**
      * 友情链接标签
+     * @param array $tag 标签数组
+     * @param string $content 内容
+     * @return string
      */
     public function tagLinks($tag, $content)
     {
@@ -297,6 +319,9 @@ parse;
 
     /**
      * 幻灯片标签
+     * @param array $tag 标签数组
+     * @param string $content 内容
+     * @return string
      */
     public function tagSlides($tag, $content)
     {
@@ -317,6 +342,9 @@ parse;
 
     /**
      * 无幻灯片标签
+     * @param array $tag 标签数组
+     * @param string $content 内容
+     * @return string
      */
     public function tagNoSlides($tag, $content)
     {
@@ -336,6 +364,12 @@ parse;
 
     }
 
+    /**
+     * 验证码标签
+     * @param array $tag 标签数组
+     * @param string $content 内容
+     * @return string
+     */
     public function tagCaptcha($tag, $content)
     {
         //height,width,font-size,length,bg,id
@@ -355,7 +389,12 @@ parse;
         return $parse;
     }
 
-    public function tagHook($tag, $content)
+    /**
+     * 钩子标签
+     * @param array $tag 标签数组
+     * @return string
+     */
+    public function tagHook($tag)
     {
         $name  = empty($tag['name']) ? '' : $tag['name'];
         $param = empty($tag['param']) ? '' : $tag['param'];
