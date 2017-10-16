@@ -263,8 +263,8 @@ tpl;
         if (empty($findCategory)) {
             $this->error('分类不存在!');
         }
-
-        $categoryChildrenCount = $portalCategoryModel->where('parent_id', $id)->count();
+//判断此分类有无子分类（不算被删除的子分类）
+        $categoryChildrenCount = $portalCategoryModel->where(['parent_id' => $id,'delete_time' => 0])->count();
 
         if ($categoryChildrenCount > 0) {
             $this->error('此分类有子类无法删除!');
