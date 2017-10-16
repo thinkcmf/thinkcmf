@@ -80,6 +80,12 @@
                         <present name="var.tip">
                             <p class="help-block">{$var.tip}</p>
                         </present>
+
+                        <if condition="!empty($vars[$varName]['value'])">
+                        <button id="js-{$widget}{$varName}-button-remove" defaultImage="__TMPL__/public/assets/images/default-thumbnail.png" class="removeImage" type="button" onclick="removeImage('{$widget}{$varName}')">取消图片</button>
+                        </if>
+
+
                     </div>
                 </case>
                 <case value="photos">
