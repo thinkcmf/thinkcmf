@@ -28,6 +28,7 @@ class IndexController extends HomeBaseController
             $this->error("查无此人！");
         }
         $this->assign($user->toArray());
+        $this->assign('user',$user);
         return $this->fetch(":index");
     }
 

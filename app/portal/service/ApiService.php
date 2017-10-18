@@ -85,6 +85,7 @@ class ApiService
                 $where['category_post.category_id'] = ['in', $categoryIds];
             }
         } else {
+
             $field = !empty($param['field']) ? $param['field'] : 'post.*,user.user_login,user.user_nickname,user.user_email,category_post.category_id';
             array_push($join, ['__PORTAL_CATEGORY_POST__ category_post', 'post.id = category_post.post_id']);
         }

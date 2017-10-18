@@ -15,114 +15,111 @@ use think\Model;
 
 class UserModel extends Model
 {
+    protected $type = [
+        'more' => 'array',
+    ];
+
     public function doMobile($user)
     {
-        $userQuery = Db::name("user");
-
-        $result = $userQuery->where('mobile', $user['mobile'])->find();
+        $result = $this->where('mobile', $user['mobile'])->find();
 
 
         if (!empty($result)) {
             $comparePasswordResult = cmf_compare_password($user['user_pass'], $result['user_pass']);
-            $hookParam =[
-                'user'=>$user,
-                'compare_password_result'=>$comparePasswordResult
+            $hookParam             = [
+                'user'                    => $user,
+                'compare_password_result' => $comparePasswordResult
             ];
-            hook_one("user_login_start",$hookParam);
+            hook_one("user_login_start", $hookParam);
             if ($comparePasswordResult) {
                 //拉黑判断。
-                if($result['user_status']==0){
+                if ($result['user_status'] == 0) {
                     return 3;
                 }
-                session('user', $result);
+                session('user', $result->toArray());
                 $data = [
                     'last_login_time' => time(),
                     'last_login_ip'   => get_client_ip(0, true),
                 ];
-                $userQuery->where('id', $result["id"])->update($data);
+                $this->where('id', $result["id"])->update($data);
                 return 0;
             }
             return 1;
         }
-        $hookParam =[
-            'user'=>$user,
-            'compare_password_result'=>false
+        $hookParam = [
+            'user'                    => $user,
+            'compare_password_result' => false
         ];
-        hook_one("user_login_start",$hookParam);
+        hook_one("user_login_start", $hookParam);
         return 2;
     }
 
     public function doName($user)
     {
-        $userQuery = Db::name("user");
-
-        $result = $userQuery->where('user_login', $user['user_login'])->find();
+        $result = $this->where('user_login', $user['user_login'])->find();
         if (!empty($result)) {
             $comparePasswordResult = cmf_compare_password($user['user_pass'], $result['user_pass']);
-            $hookParam =[
-                'user'=>$user,
-                'compare_password_result'=>$comparePasswordResult
+            $hookParam             = [
+                'user'                    => $user,
+                'compare_password_result' => $comparePasswordResult
             ];
-            hook_one("user_login_start",$hookParam);
+            hook_one("user_login_start", $hookParam);
             if ($comparePasswordResult) {
                 //拉黑判断。
-                if($result['user_status']==0){
+                if ($result['user_status'] == 0) {
                     return 3;
                 }
-                session('user', $result);
+                session('user', $result->toArray());
                 $data = [
                     'last_login_time' => time(),
                     'last_login_ip'   => get_client_ip(0, true),
                 ];
-                $userQuery->where('id', $result["id"])->update($data);
+                $result->where('id', $result["id"])->update($data);
                 return 0;
             }
             return 1;
         }
-        $hookParam =[
-            'user'=>$user,
-            'compare_password_result'=>false
+        $hookParam = [
+            'user'                    => $user,
+            'compare_password_result' => false
         ];
-        hook_one("user_login_start",$hookParam);
+        hook_one("user_login_start", $hookParam);
         return 2;
     }
 
     public function doEmail($user)
     {
 
-        $userQuery = Db::name("user");
-
-        $result = $userQuery->where('user_email', $user['user_email'])->find();
-
+        $result = $this->where('user_email', $user['user_email'])->find();
 
         if (!empty($result)) {
             $comparePasswordResult = cmf_compare_password($user['user_pass'], $result['user_pass']);
-            $hookParam =[
-                'user'=>$user,
-                'compare_password_result'=>$comparePasswordResult
+            $hookParam             = [
+                'user'                    => $user,
+                'compare_password_result' => $comparePasswordResult
             ];
-            hook_one("user_login_start",$hookParam);
+            hook_one("user_login_start", $hookParam);
             if ($comparePasswordResult) {
 
                 //拉黑判断。
-                if($result['user_status']==0){
+                if ($result['user_status'] == 0) {
                     return 3;
                 }
-                session('user', $result);
+                session('user', $result->toArray());
                 $data = [
                     'last_login_time' => time(),
                     'last_login_ip'   => get_client_ip(0, true),
                 ];
-                $userQuery->where('id', $result["id"])->update($data);
+                $this->where('id', $result["id"])->update($data);
                 return 0;
             }
             return 1;
         }
-        $hookParam =[
-            'user'=>$user,
-            'compare_password_result'=>false
+        $hookParam = [
+            'user'                    => $user,
+            'compare_password_result' => false
         ];
-        hook_one("user_login_start",$hookParam);
+        hook_one("user_login_start", $hookParam);
         return 2;
     }
 
@@ -230,16 +227,15 @@ class UserModel extends Model
 
     public function editData($user)
     {
-        $userId           = cmf_get_current_user_id();
-        $data['user_nickname'] = $user['user_nickname'];
-        $data['sex'] = $user['sex'];
-        $data['birthday'] = strtotime($user['birthday']);
-        $data['user_url'] = $user['user_url'];
-        $data['signature'] = $user['signature'];
-        $userQuery        = Db::name("user");
-        if ($userQuery->where('id', $userId)->update($data)) {
-            $userInfo = $userQuery->where('id', $userId)->find();
-            cmf_update_current_user($userInfo);
+        $userId = cmf_get_current_user_id();
+
+        if (isset($user['birthday'])) {
+            $user['birthday'] = strtotime($user['birthday']);
+        }
+
+        if ($this->allowField('user_nickname,sex,birthday,user_url,signature,more')->save($user, ['id' => $userId])) {
+            $userInfo = $this->where('id', $userId)->find();
+            cmf_update_current_user($userInfo->toArray());
             return 1;
         }
         return 0;
@@ -294,7 +290,7 @@ class UserModel extends Model
      */
     public function bindingMobile($user)
     {
-        $userId      = cmf_get_current_user_id();
+        $userId          = cmf_get_current_user_id();
         $data ['mobile'] = $user['username'];
         Db::name("user")->where('id', $userId)->update($data);
         $userInfo = Db::name("user")->where('id', $userId)->find();
@@ -307,7 +303,7 @@ class UserModel extends Model
      */
     public function bindingEmail($user)
     {
-        $userId     = cmf_get_current_user_id();
+        $userId              = cmf_get_current_user_id();
         $data ['user_email'] = $user['username'];
         Db::name("user")->where('id', $userId)->update($data);
         $userInfo = Db::name("user")->where('id', $userId)->find();

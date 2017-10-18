@@ -11,11 +11,14 @@
 namespace app\portal\controller;
 
 use cmf\controller\HomeBaseController;
+use api\portal\model\UserModel;
 
 class IndexController extends HomeBaseController
 {
     public function index()
     {
+        echo time();
+        $usermodel = new UserModel();
         return $this->fetch(':index');
     }
 }

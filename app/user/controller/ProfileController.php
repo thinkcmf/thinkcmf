@@ -32,6 +32,12 @@ class ProfileController extends UserBaseController
     {
         $user = cmf_get_current_user();
         $this->assign($user);
+
+        $userId = cmf_get_current_user_id();
+
+        $userModel = new UserModel();
+        $user      = $userModel->where('id', $userId)->find();
+        $this->assign('user', $user);
         return $this->fetch();
     }
 
@@ -53,22 +59,22 @@ class ProfileController extends UserBaseController
         if ($this->request->isPost()) {
             $validate = new Validate([
                 'user_nickname' => 'chsDash|max:32',
-                'sex'     => 'number|between:0,2',
-                'birthday'   => 'dateFormat:Y-m-d|after:-88 year|before:-1 day',
-                'user_url'   => 'url|max:64',
-                'signature'   => 'max:128',
+                'sex'           => 'number|between:0,2',
+                'birthday'      => 'dateFormat:Y-m-d|after:-88 year|before:-1 day',
+                'user_url'      => 'url|max:64',
+                'signature'     => 'max:128',
             ]);
             $validate->message([
                 'user_nickname.chsDash' => '昵称只能是汉字、字母、数字和下划线_及破折号-',
-                'user_nickname.max' => '昵称最大长度为32个字符',
-                'sex.number' => '请选择性别',
-                'sex.between' => '无效的性别选项',
-                'birthday.dateFormat' => '生日格式不正确',
-                'birthday.after' => '出生日期也太早了吧？',
-                'birthday.before' => '出生日期也太晚了吧？',
-                'user_url.url' => '个人网址错误',
-                'user_url.max' => '个人网址长度不得超过64个字符',
-                'signature.max' => '个性签名长度不得超过128个字符',
+                'user_nickname.max'     => '昵称最大长度为32个字符',
+                'sex.number'            => '请选择性别',
+                'sex.between'           => '无效的性别选项',
+                'birthday.dateFormat'   => '生日格式不正确',
+                'birthday.after'        => '出生日期也太早了吧？',
+                'birthday.before'       => '出生日期也太晚了吧？',
+                'user_url.url'          => '个人网址错误',
+                'user_url.max'          => '个人网址长度不得超过64个字符',
+                'signature.max'         => '个性签名长度不得超过128个字符',
             ]);
 
             $data = $this->request->post();
@@ -236,8 +242,8 @@ class ProfileController extends UserBaseController
             ]);
             $validate->message([
                 'username.require'          => '手机号不能为空',
-                'username.number'          => '手机号只能为数字',
-                'username.unique'          => '手机号已存在',
+                'username.number'           => '手机号只能为数字',
+                'username.unique'           => '手机号已存在',
                 'verification_code.require' => '验证码不能为空',
             ]);
 
