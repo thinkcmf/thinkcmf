@@ -28,10 +28,10 @@
                     <td>
                         <if condition="$vo['status'] eq 1">
                             <a class="js-ajax-dialog-btn"
-                               href="{:url('AdminTag/upStatus',['id'=>$vo['id'],'status'=>0])}">禁用</a> |
+                               href="{:url('AdminTag/upStatus',['id'=>$vo['id'],'status'=>0])}">禁用</a>
                             <else/>
                             <a class="js-ajax-dialog-btn"
-                               href="{:url('AdminTag/upStatus',['id'=>$vo['id'] ,'status'=>1])}">启用</a> |
+                               href="{:url('AdminTag/upStatus',['id'=>$vo['id'] ,'status'=>1])}">启用</a>
                         </if>
                         <a class="js-ajax-delete" href="{:url('AdminTag/delete',['id'=>$vo['id']])}">删除</a>
                     </td>

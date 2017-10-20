@@ -275,7 +275,8 @@ class Upload
             }
 
         }
-
+        //关闭文件对象
+        $fileImage = null;
         //检查文件是否已经存在
         $assetModel = new AssetModel();
         $objAsset   = $assetModel->where(["user_id" => $userId, "file_key" => $arrInfo["file_key"]])->find();
@@ -292,8 +293,7 @@ class Upload
                     mkdir($oldFileDir, 0777, true);
                 }
 
-                @copy($strSaveFilePath, './upload/' . $arrInfo["file_path"]);
-                @unlink($strSaveFilePath);
+                @rename($strSaveFilePath, './upload/' . $arrInfo["file_path"]);
             }
 
         } else {

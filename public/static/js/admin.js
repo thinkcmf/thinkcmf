@@ -216,6 +216,7 @@
                                             open: 'animated bounceInDown', // Animate.css class names
                                             close: 'animated bounceOutUp', // Animate.css class names
                                         },
+                                        timeout: 1,
                                         callbacks: {
                                             afterClose: function () {
                                                 if ($btn.data('refresh') == undefined || $btn.data('refresh')) {
@@ -246,6 +247,7 @@
                                             open: 'animated bounceInDown', // Animate.css class names
                                             close: 'animated bounceOutUp', // Animate.css class names
                                         },
+                                        timeout: 1,
                                         callbacks: {
                                             afterClose: function () {
                                                 _refresh();
@@ -300,14 +302,16 @@
     //所有的删除操作，删除数据后刷新页面
     if ($('a.js-ajax-delete').length) {
         Wind.css('artDialog');
-        Wind.use('artDialog', function () {
+        Wind.use('artDialog', 'noty3', function () {
             $('.js-ajax-delete').on('click', function (e) {
                 e.preventDefault();
-                var $_this = this,
-                    $this  = $($_this),
-                    href   = $this.data('href'),
-                    msg    = $this.data('msg');
-                href       = href ? href : $this.attr('href');
+                var $_this  = this,
+                    $this   = $($_this),
+                    href    = $this.data('href'),
+                    refresh = $this.data('refresh'),
+                    msg     = $this.data('msg');
+                href        = href ? href : $this.attr('href');
+
                 art.dialog({
                     title: false,
                     icon: 'question',
@@ -321,11 +325,31 @@
                     ok: function () {
                         $.getJSON(href).done(function (data) {
                             if (data.code == '1') {
-                                if (data.url) {
-                                    location.href = data.url;
-                                } else {
-                                    reloadPage(window);
-                                }
+                                new Noty({
+                                    text: data.msg,
+                                    type: 'success',
+                                    layout: 'topCenter',
+                                    modal: true,
+                                    animation: {
+                                        open: 'animated bounceInDown', // Animate.css class names
+                                        close: 'animated bounceOutUp', // Animate.css class names
+                                    },
+                                    timeout: 1,
+                                    callbacks: {
+                                        afterClose: function () {
+                                            if (refresh == undefined || refresh) {
+                                                if (data.url) {
+                                                    //返回带跳转地址
+                                                    window.location.href = data.url;
+                                                } else {
+                                                    //刷新当前页
+                                                    reloadPage(window);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }).show();
+
                             } else if (data.code == '0') {
                                 //art.dialog.alert(data.info);
                                 //alert(data.info);//暂时处理方案
@@ -350,14 +374,15 @@
 
 
     if ($('a.js-ajax-dialog-btn').length) {
-        Wind.use('artDialog', function () {
+        Wind.use('artDialog', 'noty3', function () {
             $('.js-ajax-dialog-btn').on('click', function (e) {
                 e.preventDefault();
-                var $_this = this,
-                    $this  = $($_this),
-                    href   = $this.data('href'),
-                    msg    = $this.data('msg');
-                href       = href ? href : $this.attr('href');
+                var $_this  = this,
+                    $this   = $($_this),
+                    href    = $this.data('href'),
+                    refresh = $this.data('refresh'),
+                    msg     = $this.data('msg');
+                href        = href ? href : $this.attr('href');
                 if (!msg) {
                     msg = "您确定要进行此操作吗？";
                 }
@@ -377,18 +402,31 @@
                             type: 'post',
                             success: function (data) {
                                 if (data.code == 1) {
-                                    if (data.url) {
-                                        location.href = data.url;
-                                    } else {
-                                        art.dialog({
-                                            content: data.msg,
-                                            icon: 'succeed',
-                                            ok: function () {
-                                                reloadPage(window);
-                                                return true;
+                                    new Noty({
+                                        text: data.msg,
+                                        type: 'success',
+                                        layout: 'topCenter',
+                                        modal: true,
+                                        animation: {
+                                            open: 'animated bounceInDown', // Animate.css class names
+                                            close: 'animated bounceOutUp', // Animate.css class names
+                                        },
+                                        timeout: 1,
+                                        callbacks: {
+                                            afterClose: function () {
+                                                if (refresh == undefined || refresh) {
+                                                    if (data.url) {
+                                                        //返回带跳转地址
+                                                        window.location.href = data.url;
+                                                    } else {
+                                                        //刷新当前页
+                                                        reloadPage(window);
+                                                    }
+                                                }
                                             }
-                                        });
-                                    }
+                                        }
+                                    }).show();
+
                                 } else if (data.code == 0) {
                                     //art.dialog.alert(data.info);
                                     art.dialog({
@@ -914,6 +952,7 @@ function openIframeLayer(url, title, options) {
         title: title,
         shadeClose: true,
         // skin: 'layui-layer-nobg',
+        anim: -1,
         shade: [0.001, '#000000'],
         shadeClose: true,
         area: ['95%', '90%'],

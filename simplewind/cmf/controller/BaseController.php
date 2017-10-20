@@ -25,7 +25,7 @@ class BaseController extends Controller
     public function __construct(Request $request = null)
     {
         if (!cmf_is_installed() && $request->module() != 'install') {
-            header('Location: ' . cmf_get_root() . '/index.php?s=install');
+            header('Location: ' . cmf_get_root() . '/?s=install');
             exit;
         }
 

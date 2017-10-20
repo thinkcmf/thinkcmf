@@ -240,11 +240,8 @@ class PortalPostModel extends Model
                     Db::commit();
                 } catch (\Exception $e) {
 
-                    $transStatus = false;
                     // 回滚事务
                     Db::rollback();
-
-
                 }
                 return $transStatus;
 
@@ -285,8 +282,6 @@ class PortalPostModel extends Model
 
                 } catch (\Exception $e) {
 
-                    $transStatus = false;
-
                     // 回滚事务
                     Db::rollback();
 
@@ -297,12 +292,10 @@ class PortalPostModel extends Model
 
             } else {
                 return false;
-                //  $this->error(lang('DELETE_FAILED'));
             }
 
         } else {
             return false;
-            //$this->error(lang('DELETE_FAILED'));
         }
     }
 

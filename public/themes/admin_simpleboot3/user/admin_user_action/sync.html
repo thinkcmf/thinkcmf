@@ -1,0 +1,32 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            <div class="panel panel-default" style="margin-top: 10%">
+                <div class="panel-heading">
+                    <h3 class="panel-title">同步用户操作</h3>
+                </div>
+                <div class="panel-body">
+                    <div style="line-height: 60px;">
+                        用户操作同步成功!
+                    </div>
+                    <div>
+                        <a href="javascript:history.back(-1);" class="btn btn-primary pull-right">{:lang('CLOSE')}</a>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    var closeTimeout = setTimeout(function () {
+        history.back(-1);
+    }, 3000);
+
+</script>
+</body>
+</html>

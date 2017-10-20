@@ -99,6 +99,7 @@ function cmf_get_root()
     $root    = str_replace('/index.php', '', $root);
     if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
         $root = preg_replace('/\/api$/', '', $root);
+        $root = rtrim($root, '/');
     }
 
     return $root;
@@ -761,7 +762,7 @@ function cmf_str_decode($string, $key = '', $expiry = 0, $operation = 'DECODE')
  */
 function cmf_str_encode($string, $key = '', $expiry = 0)
 {
-    return cmf_str_decode($string, "ENCODE", $key, $expiry);
+    return cmf_str_decode($string, $key, $expiry, "ENCODE");
 }
 
 /**
@@ -875,7 +876,7 @@ function hook($hook, &$params = null, $extra = null)
  * @param string $hook 钩子名称
  * @param mixed $params 传入参数
  * @param mixed $extra 额外参数
- * @return void
+ * @return mixed
  */
 function hook_one($hook, &$params = null, $extra = null)
 {
@@ -921,7 +922,13 @@ function cmf_get_plugin_config($name)
  */
 function cmf_scan_dir($pattern, $flags = null)
 {
-    $files = array_map('basename', glob($pattern, $flags));
+    $files = glob($pattern, $flags);
+    if (empty($files)) {
+        $files = [];
+    } else {
+        $files = array_map('basename', $files);
+    }
+
     return $files;
 }
 
@@ -1620,6 +1627,7 @@ function cmf_curl_get($url)
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // 检查证书中是否设置域名
     }
     $content = curl_exec($ch);
+    curl_close($ch);
     return $content;
 }
 

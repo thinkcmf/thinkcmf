@@ -159,8 +159,8 @@
 <div id="loading"><i class="loadingicon"></i><span>{:lang('LOADING')}</span></div>
 <div id="right-tools-wrapper">
     <!--<span id="right_tools_clearcache" title="清除缓存" onclick="javascript:openapp('{:url('admin/Setting/clearcache')}','right_tool_clearcache','清除缓存');"><i class="fa fa-trash-o right_tool_icon"></i></span>-->
-    <span id="refresh-wrapper" title="{:lang('REFRESH_CURRENT_PAGE')}"><i
-            class="fa fa-refresh right_tool_icon"></i></span>
+    <!--<span id="refresh-wrapper" title="{:lang('REFRESH_CURRENT_PAGE')}"><i-->
+            <!--class="fa fa-refresh right_tool_icon"></i></span>-->
 </div>
 <div class="navbar navbar-default">
     <div class="container-fluid">
@@ -189,7 +189,12 @@
             </div>
 
             <ul class="nav navbar-nav navbar-right simplewind-nav">
-                <li class="light-blue dropdown">
+                <li class="light-blue" style="border-left:none;">
+                    <a id="refresh-wrapper" href="javacript:void(0);" title="{:lang('REFRESH_CURRENT_PAGE')}" style="color:#fff;font-size: 16px">
+                        <i class="fa fa-refresh right_tool_icon"></i>
+                    </a>
+                </li>
+                <li class="light-blue dropdown" style="border-left:none;">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
                         <if condition="isset($admin['avatar']) && $admin['avatar']">
                             <img class="nav-user-photo" width="30" height="30"
@@ -231,7 +236,10 @@
 
     <div class="sidebar" id="sidebar">
         <div class="sidebar-shortcuts" id="sidebar-shortcuts">
-            <a class="btn btn-sm btn-warning" href="__ROOT__/" title="{:lang('WEBSITE_HOME_PAGE')}" target="_blank">
+            <a class="btn btn-sm btn-warning" href="__ROOT__/"
+               title="{:lang('WEBSITE_HOME_PAGE')}"
+               target="_blank"
+               data-toggle="tooltip">
                 <i class="fa fa-home"></i>
             </a>
             <!--
@@ -251,7 +259,8 @@
             <if condition="cmf_auth_check(cmf_get_current_admin_id(),'user/AdminAsset/index')">
                 <a class="btn btn-sm btn-info"
                    href="javascript:openapp('{:url('user/AdminAsset/index')}','userAdminAssetindex','资源管理',true);"
-                   title="资源管理">
+                   title="资源管理"
+                   data-toggle="tooltip">
                     <i class="fa fa-file"></i>
                 </a>
             </if>
@@ -259,7 +268,8 @@
             <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/Setting/clearcache')">
                 <a class="btn btn-sm btn-danger"
                    href="javascript:openapp('{:url('admin/Setting/clearcache')}','index_clearcache','{:lang('ADMIN_SETTING_CLEARCACHE')}',true);"
-                   title="{:lang('ADMIN_SETTING_CLEARCACHE')}">
+                   title="{:lang('ADMIN_SETTING_CLEARCACHE')}"
+                   data-toggle="tooltip">
                     <i class="fa fa-trash-o"></i>
                 </a>
             </if>
@@ -267,7 +277,8 @@
             <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/RecycleBin/index')">
                 <a class="btn btn-sm btn-danger"
                    href="javascript:openapp('{:url('admin/RecycleBin/index')}','index_recycle','回收站',true);"
-                   title="回收站">
+                   title="回收站"
+                   data-toggle="tooltip">
                     <i class="fa fa-recycle"></i>
                 </a>
             </if>
@@ -275,7 +286,8 @@
             <if condition="APP_DEBUG">
                 <a class="btn btn-sm btn-default"
                    href="javascript:openapp('{:url('admin/Menu/index')}','index_menu','{:lang('ADMIN_MENU_INDEX')}',true);"
-                   title="{:lang('ADMIN_MENU_INDEX')}">
+                   title="{:lang('ADMIN_MENU_INDEX')}"
+                   data-toggle="tooltip">
                     <i class="fa fa-list"></i>
                 </a>
             </if>

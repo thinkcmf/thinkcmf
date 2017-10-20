@@ -74,6 +74,7 @@
                 </notempty>
                 <th width="50">ID</th>
                 <th>标题</th>
+                <th>分类</th>
                 <th width="50">作者</th>
                 <th width="65">点击量</th>
                 <th width="65">评论量</th>
@@ -105,6 +106,16 @@
                             <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}"
                                target="_blank">{$vo.post_title}</a>
                         </notempty>
+                    </td>
+                    <td>
+                        <foreach name="vo.categories" item="voo">
+                            <span class="label label-default">
+                                <a href="{:cmf_url('portal/List/index',array('id'=>$voo['id']))}"
+                                   style="color: #fff;"
+                                   target="_blank"
+                                >{$voo.name}</a>
+                            </span>&nbsp;
+                        </foreach>
                     </td>
                     <td>{$vo.user_nickname}</td>
                     <td>{$vo.post_hits|default=0}</td>
@@ -171,7 +182,7 @@
                         </notempty>
                     </td>
                     <td>
-                        <a href="{:url('AdminArticle/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a> |
+                        <a href="{:url('AdminArticle/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
                         <a href="{:url('AdminArticle/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>
@@ -185,6 +196,7 @@
                 </notempty>
                 <th width="50">ID</th>
                 <th>标题</th>
+                <th>分类</th>
                 <th width="50">作者</th>
                 <th width="65">点击量</th>
                 <th width="65">评论量</th>

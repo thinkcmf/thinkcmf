@@ -62,7 +62,11 @@ class FavoriteController extends UserBaseController
         $table = $this->request->param('table');
 
 
-        $findFavoriteCount = Db::name("user_favorite")->where(['object_id' => $id, 'table_name' => $table])->count();
+        $findFavoriteCount = Db::name("user_favorite")->where([
+            'object_id'  => $id,
+            'table_name' => $table,
+            'user_id'    => cmf_get_current_user_id()
+        ])->count();
 
         if ($findFavoriteCount > 0) {
             $this->error("您已收藏过啦");

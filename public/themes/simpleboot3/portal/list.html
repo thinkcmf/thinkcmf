@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{$category.name}</title>
-    <meta name="keywords" content=""/>
-    <meta name="description" content="">
+    <title>{$category.name} {$category.seo_title} {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$category.seo_keywords},{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$category.seo_description},{$site_info.site_seo_description|default=''}">
     <include file="public@head"/>
     <hook name="before_head_end"/>
 </head>

@@ -121,6 +121,12 @@ class AdminArticleController extends AdminBaseController
 
             $portalPostModel->adminAddArticle($data['post'], $data['post']['categories']);
 
+            $data['post']['id'] = $portalPostModel->id;
+            $hookParam          = [
+                'is_add'  => true,
+                'article' => $data['post']
+            ];
+            hook('portal_admin_after_save_article', $hookParam);
 
 
             $this->success('添加成功!', url('AdminArticle/edit', ['id' => $portalPostModel->id]));
@@ -204,6 +210,12 @@ class AdminArticleController extends AdminBaseController
 
             $portalPostModel->adminEditArticle($data['post'], $data['post']['categories']);
 
+            $hookParam = [
+                'is_add'  => false,
+                'article' => $data['post']
+            ];
+            hook('portal_admin_after_save_article', $hookParam);
+
             $this->success('保存成功!');
 
         }
@@ -240,6 +252,9 @@ class AdminArticleController extends AdminBaseController
                 ->where(['id' => $id])
                 ->update(['delete_time' => time()]);
             if ($resultPortal) {
+                Db::name('portal_category_post')->where(['post_id'=>$id])->update(['status'=>0]);
+                Db::name('portal_tag_post')->where(['post_id'=>$id])->update(['status'=>0]);
+
                 Db::name('recycleBin')->insert($data);
             }
             $this->success("删除成功！", '');

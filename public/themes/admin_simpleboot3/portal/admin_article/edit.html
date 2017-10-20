@@ -21,7 +21,7 @@
         <input class="form-control" id="file-{id}-name" type="text" name="file_names[]" value="{name}"
                style="width: 200px;" title="文件名称">
         <a id="file-{id}-preview" href="{preview_url}" target="_blank">下载</a>
-        <a href="javascript:uploadOne('图片上传','#file-{id}');">替换</a>
+        <a href="javascript:uploadOne('图片上传','#file-{id}','file');">替换</a>
         <a href="javascript:(function(){$('#saved-file{id}').remove();})();">移除</a>
     </li>
 </script>
@@ -40,7 +40,7 @@
             <div class="col-md-9">
                 <table class="table table-bordered">
                     <tr>
-                        <th width="100">分类</th>
+                        <th width="100">分类<span class="form-required">*</span></th>
                         <td>
                             <input class="form-control" type="text" style="width:400px;" required
                                    value="{:implode(' ',$post_categories)}"
@@ -227,7 +227,7 @@
                                 <option value="">请选择模板</option>
                                 <foreach name="article_theme_files" item="vo">
                                     <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
-                                    <option value="{$value}">{$vo.file}.html</option>
+                                    <option value="{$value}">{$vo.name} {$vo.file}.html</option>
                                 </foreach>
                             </select>
                         </td>
