@@ -27,8 +27,7 @@ var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 var browserSync = new BrowserSyncPlugin(
         Object.assign({
             port: 3000,
-            //proxy: 'example.com',
-            proxy: 'thinkcmf.leleserver.cc',
+            proxy: 'example.com',
             files: [
                 'app/**/*.php',
                 'public/themes/**/*.html',
