@@ -42,6 +42,10 @@ class UserModel extends Model
                     'last_login_ip'   => get_client_ip(0, true),
                 ];
                 $this->where('id', $result["id"])->update($data);
+                $token = cmf_generate_user_token($result["id"], 'web');
+                if (!empty($token)) {
+                    session('token', $token);
+                }
                 return 0;
             }
             return 1;
@@ -75,6 +79,10 @@ class UserModel extends Model
                     'last_login_ip'   => get_client_ip(0, true),
                 ];
                 $result->where('id', $result["id"])->update($data);
+                $token = cmf_generate_user_token($result["id"], 'web');
+                if (!empty($token)) {
+                    session('token', $token);
+                }
                 return 0;
             }
             return 1;
@@ -111,6 +119,10 @@ class UserModel extends Model
                     'last_login_ip'   => get_client_ip(0, true),
                 ];
                 $this->where('id', $result["id"])->update($data);
+                $token = cmf_generate_user_token($result["id"], 'web');
+                if (!empty($token)) {
+                    session('token', $token);
+                }
                 return 0;
             }
             return 1;
@@ -148,8 +160,12 @@ class UserModel extends Model
                 "user_type"       => 2,
             ];
             $userId = $userQuery->insertGetId($data);
-            $date   = $userQuery->where('id', $userId)->find();
-            cmf_update_current_user($date);
+            $data   = $userQuery->where('id', $userId)->find();
+            cmf_update_current_user($data);
+            $token = cmf_generate_user_token($userId, 'web');
+            if (!empty($token)) {
+                session('token', $token);
+            }
             return 0;
         }
         return 1;
@@ -181,6 +197,11 @@ class UserModel extends Model
             $userId = Db::name("user")->insertGetId($data);
             $data   = Db::name("user")->where('id', $userId)->find();
             cmf_update_current_user($data);
+            cmf_update_current_user($data);
+            $token = cmf_generate_user_token($userId, 'web');
+            if (!empty($token)) {
+                session('token', $token);
+            }
             return 0;
         }
         return 1;

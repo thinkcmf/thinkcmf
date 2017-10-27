@@ -1316,14 +1316,19 @@ function cmf_generate_user_token($userId, $deviceType)
             'device_type' => $deviceType
         ]);
     } else {
-        Db::name("user_token")
-            ->where('user_id', $userId)
-            ->where('device_type', $deviceType)
-            ->update([
-                'token'       => $token,
-                'expire_time' => $expireTime,
-                'create_time' => $currentTime
-            ]);
+        if ($findUserToken['expire_time'] <= time()) {
+            Db::name("user_token")
+                ->where('user_id', $userId)
+                ->where('device_type', $deviceType)
+                ->update([
+                    'token'       => $token,
+                    'expire_time' => $expireTime,
+                    'create_time' => $currentTime
+                ]);
+        } else {
+            $token = $findUserToken['token'];
+        }
+
     }
 
     return $token;
