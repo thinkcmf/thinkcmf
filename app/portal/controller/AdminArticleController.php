@@ -54,6 +54,7 @@ class AdminArticleController extends AdminBaseController
         $this->assign('category', $categoryId);
         $this->assign('page', $data->render());
 
+
         return $this->fetch();
     }
 
