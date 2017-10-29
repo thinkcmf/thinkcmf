@@ -5,6 +5,22 @@
 
 <foreach name="pluginConfig" item="form">
     <switch name="form.type">
+        <case value="explain">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="{$key}">
+                {$form.title|default=''}
+                    <notempty name="form.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+                <div class="col-md-6 col-sm-10">
+                    <p>{$form.value}</p>
+                    <present name="form.tip">
+                        <p class="help-block">{$form.tip}</p>
+                    </present>
+                </div>
+            </div>
+        </case>
         <case value="text">
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="{$key}">
@@ -14,7 +30,7 @@
                     </notempty>
                 </label>
                 <div class="col-md-6 col-sm-10">
-                    <input type="text" name="config[{$key}]" class="form-control" value="{$form.value}" id="{$key}">
+                    <input type="text" name="config[{$key}]" class="form-control" {$form.rule.disabled?'disabled':''} value="{$form.value}" id="{$key}">
                     <present name="form.tip">
                         <p class="help-block">{$form.tip}</p>
                     </present>
@@ -47,7 +63,7 @@
                     </notempty>
                 </label>
                 <div class="col-md-6 col-sm-10">
-                    <input type="number" name="config[{$key}]" class="form-control" value="{$form.value}"
+                    <input type="number" name="config[{$key}]" class="form-control" {$form.rule.disabled?'disabled':''} value="{$form.value}"
                            id="{$key}">
                     <present name="form.tip">
                         <p class="help-block">{$form.tip}</p>
@@ -135,7 +151,7 @@
                     </notempty>
                 </label>
                 <div class="col-md-6 col-sm-10">
-                    <textarea class="form-control" name="config[{$key}]" id="{$key}">{$form.value}</textarea>
+                    <textarea class="form-control" name="config[{$key}]" {$form.rule.disabled?'disabled':''} id="{$key}">{$form.value}</textarea>
                     <present name="form.tip">
                         <p class="help-block">{$form.tip}</p>
                     </present>
