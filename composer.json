@@ -27,7 +27,8 @@
         "qiniu/php-sdk": "^7.1",
         "dompdf/dompdf": "^0.8.0",
         "phpoffice/phpexcel": "^1.8",
-        "ezyang/htmlpurifier": "^4.9"
+        "ezyang/htmlpurifier": "^4.9",
+        "topthink/think-queue": "^1.1.4"
     },
     "extra": {
     },
