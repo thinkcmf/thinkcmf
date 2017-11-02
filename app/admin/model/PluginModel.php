@@ -75,7 +75,7 @@ class PluginModel extends Model
         $systemHooks = [
             //系统钩子
             "app_init", "app_begin", "module_init", "action_begin", "view_filter",
-            "app_end", "log_write", "response_end",
+            "app_end", "log_write","log_write_done", "response_end",
             "admin_init",
             "home_init",
             "send_mobile_verification_code",
