@@ -15,8 +15,8 @@ const { mix } = require('laravel-mix');
 // 设置预定义发布目录
 mix.setPublicPath('public').options({
     fileLoaderDirs: {
-        images: 'public/assets/dist/images',
-        fonts: 'public/assets/dist/fonts'
+        images: 'assets/dist/images',
+        fonts: 'assets/dist/fonts'
     }
 });
 
