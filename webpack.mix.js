@@ -12,20 +12,17 @@ const { mix } = require('laravel-mix');
  */
 // mix.setPublicPath('public');
 
-// 预定义目录名称
-const assetsDir = 'assets/';
-
 // 设置预定义发布目录
 mix.setPublicPath('public').options({
     fileLoaderDirs: {
-        images: assetsDir+'images',
-        fonts: assetsDir+'fonts'
+        images: 'public/assets/dist/images',
+        fonts: 'public/assets/dist/fonts'
     }
 });
 
 // 加入需要发布的资源
-mix.js('assets/js/app.js', assetsDir+'js')
-.sass('assets/sass/app.scss', assetsDir+'css');
+mix.js('public/assets/src/js/app.js', 'public/assets/dist/js')
+.sass('public/assets/src/sass/app.scss', 'public/assets/dist/css');
 
 // BrowserSync 自动更新服务配置
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
@@ -38,8 +35,8 @@ var browserSync = new BrowserSyncPlugin(
                 'app/**/*.php',
                 'public/themes/**/*.html',
                 'public/example/**/*.html',
-                'public/assets/js/**/*.js',
-                'public/assets/css/**/*.css'
+                'public/assets/dist/js/**/*.js',
+                'public/assets/dist/css/**/*.css'
             ],
             snippetOptions: {
                 rule: {
