@@ -24,33 +24,15 @@ mix.setPublicPath('public').options({
 mix.js('public/assets/src/js/app.js', 'public/assets/dist/js')
 .sass('public/assets/src/sass/app.scss', 'public/assets/dist/css');
 
-// BrowserSync 自动更新服务配置
-var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-var browserSync = new BrowserSyncPlugin(
-        Object.assign({
-            port: 3000,
-            proxy: 'example.com', // 这里修改成当前项目域名
-            // 这里配置监控目录，只要符合规则的文件被修改，会立即发布资源并刷新页面（只有在 npm run watch 模式下哦）
-            files: [
-                'app/**/*.php',
-                'public/themes/**/*.html',
-                'public/example/**/*.html',
-                'public/assets/dist/js/**/*.js',
-                'public/assets/dist/css/**/*.css'
-            ],
-            snippetOptions: {
-                rule: {
-                    match: /(<\/body>|<\/pre>)/i,
-                    fn: function (snippet, match) {
-                        return snippet + match;
-                    }
-                }
-            }
-        }, Config.browserSync),
-        { reload: false }
-    );
-
-// 将 browserSync 配置注入到 webpack 配置
-mix.webpackConfig({
-    plugins : [browserSync]
+mix.browserSync({
+    port: 3000,
+    proxy: 'example.com', // 这里修改成当前项目域名
+    // 这里配置监控目录，只要符合规则的文件被修改，会立即发布资源并刷新页面（只有在 npm run watch 模式下哦）
+    files: [
+        'app/**/*.php',
+        'public/themes/**/*.html',
+        'public/example/**/*.html',
+        'public/assets/dist/js/**/*.js',
+        'public/assets/dist/css/**/*.css'
+    ]
 });
