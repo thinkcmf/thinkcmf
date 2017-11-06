@@ -215,6 +215,16 @@ abstract class OneToOne extends Relation
     }
 
     /**
+     * 获取绑定属性
+     * @access public
+     * @return array
+     */
+    public function getBindAttr()
+    {
+        return $this->bindAttr;
+    }
+
+    /**
      * 关联统计
      * @access public
      * @param Model    $result  数据对象
@@ -311,11 +321,4 @@ abstract class OneToOne extends Relation
         return $data;
     }
 
-    /**
-     * 执行基础查询（进执行一次）
-     * @access protected
-     * @return void
-     */
-    protected function baseQuery()
-    {}
 }
