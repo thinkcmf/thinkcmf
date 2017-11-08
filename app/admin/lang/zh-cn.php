@@ -11,6 +11,8 @@
 return [
     'ADMIN_CENTER'                       => '后台管理中心',
     'WELCOME_USER'                       => '欢迎, {:user_nickname}',
+    'REFRESH_CURRENT_PAGE'    => '刷新当前页面',
+    'CLOSE_TOP_MENU'    => '关闭顶部菜单',
     'WEBSITE_HOME_PAGE'                  => '网站首页',
     "NICKNAME"                           => '昵称',
     'GENDER'                             => '性别',

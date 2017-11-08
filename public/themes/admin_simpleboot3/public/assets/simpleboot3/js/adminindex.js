@@ -69,6 +69,20 @@ $(function () {
         return false;
     });
 
+    //一键关闭顶部打开的菜单
+    $("#close-wrapper").click(function(){
+        $("#task-content-inner").children().each(function(){
+                //保留首页。保留当前页面菜单。
+                if($(this).attr("app-id") != 0 && $(this).attr("class").indexOf("active") < 0 ){
+                    $(this).remove();
+                }
+        });
+        $("#content iframe:hidden").each(function(){
+            $(this).remove();
+        });
+
+    });
+
     calcTaskContentWidth();
 });
 
