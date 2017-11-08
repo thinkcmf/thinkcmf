@@ -78,7 +78,10 @@ $(function () {
                 }
         });
         $("#content iframe:hidden").each(function(){
-            $(this).remove();
+            //保留首页iframe
+            if($(this).attr("src").indexOf("/admin/main/index") < 0){
+                    $(this).remove();
+            }
         });
 
     });
