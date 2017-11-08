@@ -74,7 +74,7 @@ class HasOne extends OneToOne
         return $this->parent->db()
             ->alias($model)
             ->whereExists(function ($query) use ($table, $model, $relation, $localKey, $foreignKey) {
-                $query->table([$table => $relation])->field($relation . '.' . $foreignKey)->whereExp($model . '.' . $localKey, '=' . $relatoin . '.' . $foreignKey);
+                $query->table([$table => $relation])->field($relation . '.' . $foreignKey)->whereExp($model . '.' . $localKey, '=' . $relation . '.' . $foreignKey);
             });
     }
 
@@ -147,9 +147,10 @@ class HasOne extends OneToOne
                 if (!empty($this->bindAttr)) {
                     // 绑定关联属性
                     $this->bindAttr($relationModel, $result, $this->bindAttr);
+                } else {
+                    // 设置关联属性
+                    $result->setRelation($attr, $relationModel);
                 }
-                // 设置关联属性
-                $result->setRelation($attr, $relationModel);
             }
         }
     }
@@ -180,9 +181,9 @@ class HasOne extends OneToOne
         if (!empty($this->bindAttr)) {
             // 绑定关联属性
             $this->bindAttr($relationModel, $result, $this->bindAttr);
+        } else {
+            $result->setRelation(Loader::parseName($relation), $relationModel);
         }
-
-        $result->setRelation(Loader::parseName($relation), $relationModel);
     }
 
 }

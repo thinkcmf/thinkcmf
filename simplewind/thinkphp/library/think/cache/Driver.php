@@ -120,8 +120,10 @@ abstract class Driver
     public function remember($name, $value, $expire = null)
     {
         if (!$this->has($name)) {
-            while ($this->has($name . '_lock')) {
+            $time = time();
+            while ($time + 5 > time() && $this->has($name . '_lock')) {
                 // 存在锁定则等待
+                usleep(200000);
             }
 
             try {
@@ -136,6 +138,10 @@ abstract class Driver
             } catch (\Exception $e) {
                 // 解锁
                 $this->rm($name . '_lock');
+                throw $e;
+            } catch (\throwable $e) {
+                $this->rm($name . '_lock');
+                throw $e;
             }
         } else {
             $value = $this->get($name);

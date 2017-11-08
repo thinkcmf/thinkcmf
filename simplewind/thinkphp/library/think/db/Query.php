@@ -312,9 +312,9 @@ class Query
      * @param array $sql SQL批处理指令
      * @return boolean
      */
-    public function batchQuery($sql = [])
+    public function batchQuery($sql = [], $bind = [])
     {
-        return $this->connection->batchQuery($sql);
+        return $this->connection->batchQuery($sql, $bind);
     }
 
     /**
@@ -1523,7 +1523,12 @@ class Query
     {
         if (is_array($alias)) {
             foreach ($alias as $key => $val) {
-                $this->options['alias'][$key] = $val;
+                if (false !== strpos($key, '__')) {
+                    $table = $this->parseSqlTable($key);
+                } else {
+                    $table = $key;
+                }
+                $this->options['alias'][$table] = $val;
             }
         } else {
             if (isset($this->options['table'])) {
@@ -1651,46 +1656,49 @@ class Query
      * 查询日期或者时间
      * @access public
      * @param string       $field 日期字段名
-     * @param string       $op    比较运算符或者表达式
+     * @param string|array $op    比较运算符或者表达式
      * @param string|array $range 比较范围
      * @return $this
      */
     public function whereTime($field, $op, $range = null)
     {
         if (is_null($range)) {
-            // 使用日期表达式
-            $date = getdate();
-            switch (strtolower($op)) {
-                case 'today':
-                case 'd':
-                    $range = ['today', 'tomorrow'];
-                    break;
-                case 'week':
-                case 'w':
-                    $range = 'this week 00:00:00';
-                    break;
-                case 'month':
-                case 'm':
-                    $range = mktime(0, 0, 0, $date['mon'], 1, $date['year']);
-                    break;
-                case 'year':
-                case 'y':
-                    $range = mktime(0, 0, 0, 1, 1, $date['year']);
-                    break;
-                case 'yesterday':
-                    $range = ['yesterday', 'today'];
-                    break;
-                case 'last week':
-                    $range = ['last week 00:00:00', 'this week 00:00:00'];
-                    break;
-                case 'last month':
-                    $range = [date('y-m-01', strtotime('-1 month')), mktime(0, 0, 0, $date['mon'], 1, $date['year'])];
-                    break;
-                case 'last year':
-                    $range = [mktime(0, 0, 0, 1, 1, $date['year'] - 1), mktime(0, 0, 0, 1, 1, $date['year'])];
-                    break;
-                default:
-                    $range = $op;
+            if (is_array($op)) {
+                $range = $op;
+            } else {
+                // 使用日期表达式
+                switch (strtolower($op)) {
+                    case 'today':
+                    case 'd':
+                        $range = ['today', 'tomorrow'];
+                        break;
+                    case 'week':
+                    case 'w':
+                        $range = ['this week 00:00:00', 'next week 00:00:00'];
+                        break;
+                    case 'month':
+                    case 'm':
+                        $range = ['first Day of this month 00:00:00', 'first Day of next month 00:00:00'];
+                        break;
+                    case 'year':
+                    case 'y':
+                        $range = ['this year 1/1', 'next year 1/1'];
+                        break;
+                    case 'yesterday':
+                        $range = ['yesterday', 'today'];
+                        break;
+                    case 'last week':
+                        $range = ['last week 00:00:00', 'this week 00:00:00'];
+                        break;
+                    case 'last month':
+                        $range = ['first Day of last month 00:00:00', 'first Day of this month 00:00:00'];
+                        break;
+                    case 'last year':
+                        $range = ['last year 1/1', 'this year 1/1'];
+                        break;
+                    default:
+                        $range = $op;
+                }
             }
             $op = is_array($range) ? 'between' : '>';
         }
@@ -1810,7 +1818,9 @@ class Query
      */
     protected function getFieldBindType($type)
     {
-        if (preg_match('/(int|double|float|decimal|real|numeric|serial|bit)/is', $type)) {
+        if (0 === strpos($type, 'set') || 0 === strpos($type, 'enum')) {
+            $bind = PDO::PARAM_STR;
+        } elseif (preg_match('/(int|double|float|decimal|real|numeric|serial|bit)/is', $type)) {
             $bind = PDO::PARAM_INT;
         } elseif (preg_match('/bool/is', $type)) {
             $bind = PDO::PARAM_BOOL;
@@ -2118,24 +2128,37 @@ class Query
     /**
      * 批量插入记录
      * @access public
-     * @param mixed $dataSet 数据集
-     * @param boolean $replace  是否replace
+     * @param mixed     $dataSet 数据集
+     * @param boolean   $replace  是否replace
+     * @param integer   $limit   每次写入数据限制
      * @return integer|string
      */
-    public function insertAll(array $dataSet, $replace = false)
+    public function insertAll(array $dataSet, $replace = false, $limit = null)
     {
         // 分析查询表达式
         $options = $this->parseExpress();
         if (!is_array(reset($dataSet))) {
             return false;
         }
+
         // 生成SQL语句
-        $sql = $this->builder->insertAll($dataSet, $options, $replace);
+        if (is_null($limit)) {
+            $sql = $this->builder->insertAll($dataSet, $options, $replace);
+        } else {
+            $array = array_chunk($dataSet, $limit, true);
+            foreach ($array as $item) {
+                $sql[] = $this->builder->insertAll($item, $options, $replace);
+            }
+        }
+
         // 获取参数绑定
         $bind = $this->getBind();
         if ($options['fetch_sql']) {
             // 获取实际执行的SQL语句
             return $this->connection->getRealSql($sql, $bind);
+        } elseif (is_array($sql)) {
+            // 执行操作
+            return $this->batchQuery($sql, $bind);
         } else {
             // 执行操作
             return $this->execute($sql, $bind);
@@ -2399,7 +2422,7 @@ class Query
     {
         if (is_scalar($value)) {
             $data = $value;
-        } elseif (is_array($value) && 'eq' == strtolower($value[0])) {
+        } elseif (is_array($value) && is_string($value[0]) && 'eq' == strtolower($value[0])) {
             $data = $value[1];
         }
         if (isset($data)) {
@@ -2605,7 +2628,7 @@ class Query
                 return false;
             }
             $end       = end($resultSet);
-            $lastId    = is_array($end) ? $end[$key] : $end->$key;
+            $lastId    = is_array($end) ? $end[$key] : $end->getData($key);
             $resultSet = $this->options($options)
                 ->limit($count)
                 ->bind($bind)
