@@ -12,6 +12,7 @@ return [
     'ADMIN_CENTER'            => 'Admin Center',
     'WELCOME_USER'            => 'Welcome, {:user_nickname}',
     'REFRESH_CURRENT_PAGE'    => 'Refresh Current Page',
+    'CLOSE_TOP_MENU'    => 'Close Top menu',
     'WEBSITE_HOME_PAGE'       => 'Website Home Page',
     "SAVE"                    => 'Save',
     "CLOSE"                   => 'Close',
