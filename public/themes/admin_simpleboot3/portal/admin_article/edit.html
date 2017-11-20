@@ -128,13 +128,13 @@
                                                    name="file_names[]"
                                                    value="{$vo.name}" style="width: 200px;" title="图片名称">
                                             <a id="file-{$key}-preview" href="{$file_url}" target="_blank">下载</a>
-                                            <a href="javascript:uploadOne('图片上传','#file-{$key}');">替换</a>
+                                            <a href="javascript:uploadOne('图片上传','#file-{$key}','file');">替换</a>
                                             <a href="javascript:(function(){$('#saved-file{$key}').remove();})();">移除</a>
                                         </li>
                                     </foreach>
                                 </notempty>
                             </ul>
-                            <a href="javascript:uploadMultiFile('附件上传','#files','files-item-tpl');"
+                            <a href="javascript:uploadMultiFile('附件上传','#files','files-item-tpl','file');"
                                class="btn btn-sm btn-default">选择文件</a>
                         </td>
                     </tr>
