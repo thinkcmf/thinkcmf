@@ -66,13 +66,11 @@ class AdminIndexController extends AdminBaseController
         if (!empty($request['keyword'])) {
             $keyword = $request['keyword'];
 
-            $keywordComplex['user_login']    = ['like', "%$keyword%"];
-            $keywordComplex['user_nickname'] = ['like', "%$keyword%"];
-            $keywordComplex['user_email']    = ['like', "%$keyword%"];
+            $keywordComplex['user_login|user_nickname|user_email']    = ['like', "%$keyword%"];
         }
         $usersQuery = Db::name('user');
 
-        $list = $usersQuery->where($where)->whereOr($keywordComplex)->order("create_time DESC")->paginate(10);
+        $list = $usersQuery->whereOr($keywordComplex)->where($where)->order("create_time DESC")->paginate(10);
         // 获取分页显示
         $page = $list->render();
         $this->assign('list', $list);
@@ -100,7 +98,7 @@ class AdminIndexController extends AdminBaseController
         if ($id) {
             $result = Db::name("user")->where(["id" => $id, "user_type" => 2])->setField('user_status', 0);
             if ($result) {
-                $this->success("会员拉黑成功！", url("adminIndex/index"));
+                $this->success("会员拉黑成功！", "adminIndex/index");
             } else {
                 $this->error('会员拉黑失败,会员不存在,或者是管理员！');
             }

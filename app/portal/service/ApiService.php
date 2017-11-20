@@ -84,8 +84,9 @@ class ApiService
             } else {
                 $where['category_post.category_id'] = ['in', $categoryIds];
             }
-        }else{
-            $field = !empty($param['field']) ? $param['field'] : 'post.*,user.user_login,user.user_nickname,user.user_email';
+        } else {
+            $field = !empty($param['field']) ? $param['field'] : 'post.*,user.user_login,user.user_nickname,user.user_email,category_post.category_id';
+            array_push($join, ['__PORTAL_CATEGORY_POST__ category_post', 'post.id = category_post.post_id']);
         }
 
         $articles = $portalPostModel->alias('post')->field($field)
@@ -241,13 +242,35 @@ class ApiService
     }
 
     /**
-     * @todo
      * 返回指定分类下的所有子分类
      * @param int $categoryId 分类id
      * @return array 返回指定分类下的所有子分类
      */
     public static function allSubCategories($categoryId)
     {
+        $portalCategoryModel = new PortalCategoryModel();
+
+        $categoryId = intval($categoryId);
+
+        if ($categoryId !== 0) {
+            $category = $portalCategoryModel->field('path')->where('id', $categoryId)->find();
+
+            if (empty($category)) {
+                return [];
+            }
+
+            $categoryPath = $category['path'];
+        } else {
+            $categoryPath = 0;
+        }
+
+        $where = [
+            'status'      => 1,
+            'delete_time' => 0,
+            'path'        => ['like', "$categoryPath-%"]
+        ];
+
+        return $portalCategoryModel->where($where)->select();
     }
 
     /**

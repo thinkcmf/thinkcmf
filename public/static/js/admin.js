@@ -75,30 +75,31 @@
                 if (btn.data('subcheck')) {
                     btn.parent().find('span').remove();
                     if (form.find('input.js-check:checked').length) {
-                        var msg = btn.data('msg');
-                        if (msg) {
-                            art.dialog({
-                                id: 'warning',
-                                icon: 'warning',
-                                content: btn.data('msg'),
-                                cancelVal: '关闭',
-                                cancel: function () {
-                                    //btn.data('subcheck', false);
-                                    //btn.click();
-                                },
-                                ok: function () {
-                                    btn.data('subcheck', false);
-                                    btn.click();
-                                }
-                            });
-                        } else {
-                            btn.data('subcheck', false);
-                            btn.click();
-                        }
-
+                        btn.data('subcheck', false);
                     } else {
                         $('<span class="tips_error">请至少选择一项</span>').appendTo(btn.parent()).fadeIn('fast');
+                        return false;
                     }
+                }
+
+
+                var msg = btn.data('msg');
+                if (msg) {
+                    art.dialog({
+                        id: 'warning',
+                        icon: 'warning',
+                        content: btn.data('msg'),
+                        cancelVal: '关闭',
+                        cancel: function () {
+                            //btn.data('subcheck', false);
+                            //btn.click();
+                        },
+                        ok: function () {
+                            btn.data('msg', false);
+                            btn.click();
+                        }
+                    });
+
                     return false;
                 }
 
@@ -201,14 +202,21 @@
                                 //按钮文案、状态修改
                                 $btn.removeClass('disabled').prop('disabled', false).text(text.replace('中...', '')).parent().find('span').remove();
                                 if (data.code == 1) {
+                                    if ($btn.data('success')) {
+                                        var successCallback = $btn.data('success');
+                                        window[successCallback](data, statusText, xhr, $form);
+                                        return;
+                                    }
                                     new Noty({
                                         text: data.msg,
                                         type: 'success',
                                         layout: 'topCenter',
+                                        modal: true,
                                         animation: {
                                             open: 'animated bounceInDown', // Animate.css class names
                                             close: 'animated bounceOutUp', // Animate.css class names
                                         },
+                                        timeout: 1,
                                         callbacks: {
                                             afterClose: function () {
                                                 if ($btn.data('refresh') == undefined || $btn.data('refresh')) {
@@ -234,10 +242,12 @@
                                         text: data.msg,
                                         type: 'error',
                                         layout: 'topCenter',
+                                        modal: true,
                                         animation: {
                                             open: 'animated bounceInDown', // Animate.css class names
                                             close: 'animated bounceOutUp', // Animate.css class names
                                         },
+                                        timeout: 1,
                                         callbacks: {
                                             afterClose: function () {
                                                 _refresh();
@@ -292,14 +302,16 @@
     //所有的删除操作，删除数据后刷新页面
     if ($('a.js-ajax-delete').length) {
         Wind.css('artDialog');
-        Wind.use('artDialog', function () {
+        Wind.use('artDialog', 'noty3', function () {
             $('.js-ajax-delete').on('click', function (e) {
                 e.preventDefault();
-                var $_this = this,
-                    $this  = $($_this),
-                    href   = $this.data('href'),
-                    msg    = $this.data('msg');
-                href       = href ? href : $this.attr('href');
+                var $_this  = this,
+                    $this   = $($_this),
+                    href    = $this.data('href'),
+                    refresh = $this.data('refresh'),
+                    msg     = $this.data('msg');
+                href        = href ? href : $this.attr('href');
+
                 art.dialog({
                     title: false,
                     icon: 'question',
@@ -313,11 +325,31 @@
                     ok: function () {
                         $.getJSON(href).done(function (data) {
                             if (data.code == '1') {
-                                if (data.url) {
-                                    location.href = data.url;
-                                } else {
-                                    reloadPage(window);
-                                }
+                                new Noty({
+                                    text: data.msg,
+                                    type: 'success',
+                                    layout: 'topCenter',
+                                    modal: true,
+                                    animation: {
+                                        open: 'animated bounceInDown', // Animate.css class names
+                                        close: 'animated bounceOutUp', // Animate.css class names
+                                    },
+                                    timeout: 1,
+                                    callbacks: {
+                                        afterClose: function () {
+                                            if (refresh == undefined || refresh) {
+                                                if (data.url) {
+                                                    //返回带跳转地址
+                                                    window.location.href = data.url;
+                                                } else {
+                                                    //刷新当前页
+                                                    reloadPage(window);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }).show();
+
                             } else if (data.code == '0') {
                                 //art.dialog.alert(data.info);
                                 //alert(data.info);//暂时处理方案
@@ -342,14 +374,15 @@
 
 
     if ($('a.js-ajax-dialog-btn').length) {
-        Wind.use('artDialog', function () {
+        Wind.use('artDialog', 'noty3', function () {
             $('.js-ajax-dialog-btn').on('click', function (e) {
                 e.preventDefault();
-                var $_this = this,
-                    $this  = $($_this),
-                    href   = $this.data('href'),
-                    msg    = $this.data('msg');
-                href       = href ? href : $this.attr('href');
+                var $_this  = this,
+                    $this   = $($_this),
+                    href    = $this.data('href'),
+                    refresh = $this.data('refresh'),
+                    msg     = $this.data('msg');
+                href        = href ? href : $this.attr('href');
                 if (!msg) {
                     msg = "您确定要进行此操作吗？";
                 }
@@ -364,32 +397,49 @@
                     },
                     ok: function () {
 
-                        $.getJSON(href).done(function (data) {
-                            if (data.code == '1') {
-                                if (data.url) {
-                                    location.href = data.url;
-                                } else {
+                        $.ajax({
+                            url: href,
+                            type: 'post',
+                            success: function (data) {
+                                if (data.code == 1) {
+                                    new Noty({
+                                        text: data.msg,
+                                        type: 'success',
+                                        layout: 'topCenter',
+                                        modal: true,
+                                        animation: {
+                                            open: 'animated bounceInDown', // Animate.css class names
+                                            close: 'animated bounceOutUp', // Animate.css class names
+                                        },
+                                        timeout: 1,
+                                        callbacks: {
+                                            afterClose: function () {
+                                                if (refresh == undefined || refresh) {
+                                                    if (data.url) {
+                                                        //返回带跳转地址
+                                                        window.location.href = data.url;
+                                                    } else {
+                                                        //刷新当前页
+                                                        reloadPage(window);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }).show();
+
+                                } else if (data.code == 0) {
+                                    //art.dialog.alert(data.info);
                                     art.dialog({
                                         content: data.msg,
-                                        icon: 'succeed',
+                                        icon: 'warning',
                                         ok: function () {
-                                            reloadPage(window);
+                                            this.title(data.msg);
                                             return true;
                                         }
                                     });
                                 }
-                            } else if (data.code == '0') {
-                                //art.dialog.alert(data.info);
-                                art.dialog({
-                                    content: data.msg,
-                                    icon: 'warning',
-                                    ok: function () {
-                                        this.title(data.msg);
-                                        return true;
-                                    }
-                                });
                             }
-                        });
+                        })
                     },
                     cancelVal: '关闭',
                     cancel: true
@@ -534,6 +584,69 @@
         });
     }
 
+    //地址联动
+    var $js_address_select = $('.js-address-select');
+    if ($js_address_select.length > 0) {
+        $('.js-address-province-select,.js-address-city-select').change(function () {
+            var $this                   = $(this);
+            var id                      = $this.val();
+            var $child_area_select;
+            var $this_js_address_select = $this.parents('.js-address-select');
+            if ($this.is('.js-address-province-select')) {
+                $child_area_select = $this_js_address_select.find('.js-address-city-select');
+                $this_js_address_select.find('.js-address-district-select').hide();
+            } else {
+                $child_area_select = $this_js_address_select.find('.js-address-district-select');
+            }
+
+            var empty_option = '<option class="js-address-empty-option" value="">' + $child_area_select.find('.js-address-empty-option').text() + '</option>';
+            $child_area_select.html(empty_option);
+
+            var child_area_html = $this.data('childarea' + id);
+            if (child_area_html) {
+                $child_area_select.show();
+                $child_area_select.html(child_area_html);
+                return;
+            }
+
+            $.ajax({
+                url: $this_js_address_select.data('url'),
+                type: 'POST',
+                dataType: 'JSON',
+                data: {id: id},
+                success: function (data) {
+                    if (data.code == 1) {
+                        if (data.data.areas.length > 0) {
+                            var html = [empty_option];
+
+                            $.each(data.data.areas, function (i, area) {
+                                var area_html = '<option value="[id]">[name]</option>';
+                                area_html     = area_html.replace('[name]', area.name);
+                                area_html     = area_html.replace('[id]', area.id);
+                                html.push(area_html);
+                            });
+                            html = html.join('', html);
+                            $this.data('childarea' + id, html);
+                            $child_area_select.html(html);
+                            $child_area_select.show();
+                        } else {
+                            $child_area_select.hide();
+
+                        }
+                    }
+                },
+                error: function () {
+
+                },
+                complete: function () {
+
+                }
+            });
+        });
+
+    }
+    //地址联动end
+
 })();
 
 //重新刷新页面，使用location.reload()有可能导致重新提交
@@ -673,8 +786,8 @@ function openUploadDialog(dialog_title, callback, extra_params, multi, filetype,
         art.dialog.open(GV.ROOT + 'user/Asset/webuploader?' + params, {
             title: dialog_title,
             id: new Date().getTime(),
-            width: '650px',
-            height: '420px',
+            width: '600px',
+            height: '350px',
             lock: true,
             fixed: true,
             background: "#CCCCCC",
@@ -839,9 +952,10 @@ function openIframeLayer(url, title, options) {
         title: title,
         shadeClose: true,
         // skin: 'layui-layer-nobg',
+        anim: -1,
         shade: [0.001, '#000000'],
         shadeClose: true,
-        area: ['90%', '90%'],
+        area: ['95%', '90%'],
         move: false,
         content: url,
         yes: function (index, layero) {

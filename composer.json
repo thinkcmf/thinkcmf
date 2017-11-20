@@ -24,7 +24,10 @@
         "phpmailer/phpmailer": "^5.2",
         "mindplay/annotations": "^1.3",
         "topthink/think-image": "^1.0",
-        "qiniu/php-sdk": "^7.1"
+        "qiniu/php-sdk": "^7.1",
+        "dompdf/dompdf": "^0.8.0",
+        "phpoffice/phpexcel": "^1.8",
+        "ezyang/htmlpurifier": "^4.9"
     },
     "extra": {
     },

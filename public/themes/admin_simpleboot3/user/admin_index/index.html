@@ -41,7 +41,7 @@
                     <td>{$vo.id}</td>
                     <td>{$vo['user_login']?$vo['user_login']:($vo['mobile']?$vo['mobile']:lang('THIRD_PARTY_USER'))}
                     </td>
-                    <td>{$vo['user_nicename']?$vo['user_nicename']:lang('NOT_FILLED')}</td>
+                    <td>{$vo['user_nickname']?$vo['user_nickname']:lang('NOT_FILLED')}</td>
                     <td><img width="25" height="25" src="{:url('user/public/avatar',array('id'=>$vo['id']))}"/></td>
                     <td>{$vo.user_email}</td>
                     <td>{$vo.mobile}</td>

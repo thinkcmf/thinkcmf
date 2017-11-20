@@ -78,7 +78,7 @@ class PortalCategoryModel extends Model
         foreach ($categories as $item) {
             $item['checked'] = in_array($item['id'], $currentIds) ? "checked" : "";
             $item['url']     = cmf_url('portal/List/index', ['id' => $item['id']]);;
-            $item['str_action'] = '<a href="' . url("AdminCategory/add", ["parent" => $item['id']]) . '">添加子分类</a> | <a href="' . url("AdminCategory/edit", ["id" => $item['id']]) . '">' . lang('EDIT') . '</a> | <a class="js-ajax-delete" href="' . url("AdminCategory/delete", ["id" => $item['id']]) . '">' . lang('DELETE') . '</a> ';
+            $item['str_action'] = '<a href="' . url("AdminCategory/add", ["parent" => $item['id']]) . '">添加子分类</a>  <a href="' . url("AdminCategory/edit", ["id" => $item['id']]) . '">' . lang('EDIT') . '</a>  <a class="js-ajax-delete" href="' . url("AdminCategory/delete", ["id" => $item['id']]) . '">' . lang('DELETE') . '</a> ';
             array_push($newCategories, $item);
         }
 
@@ -113,18 +113,28 @@ class PortalCategoryModel extends Model
             }
             $this->allowField(true)->save($data);
             $id = $this->id;
-
             if (empty($data['parent_id'])) {
-                $this->isUpdate(true)->save(['path' => '0-' . $id], ['id' => $id]);
+
+                $this->where( ['id' => $id])->update(['path' => '0-' . $id]);
             } else {
                 $parentPath = $this->where('id', intval($data['parent_id']))->value('path');
-                $this->isUpdate(true)->save(['path' => "$parentPath-$id"], ['id' => $id]);
-            }
+                $this->where( ['id' => $id])->update(['path' => "$parentPath-$id"]);
 
+            }
             self::commit();
         } catch (\Exception $e) {
             self::rollback();
             $result = false;
+        }
+
+        if ($result != false) {
+            //设置别名
+            $routeModel = new RouteModel();
+            if (!empty($data['alias']) && !empty($id)) {
+                $routeModel->setRoute($data['alias'], 'portal/List/index', ['id' => $id], 2, 5000);
+                $routeModel->setRoute($data['alias'] . '/:id', 'portal/Article/index', ['cid' => $id], 2, 4999);
+            }
+            $routeModel->getRoutes(true);
         }
 
         return $result;

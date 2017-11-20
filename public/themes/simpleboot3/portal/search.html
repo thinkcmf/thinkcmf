@@ -22,7 +22,7 @@
 				];
 			</php>
 
-			<portal:articles item="vo" field="*" where="$where" order="post.create_time DESC" page="10">
+			<portal:articles item="vo" where="$where" order="post.create_time DESC" page="10">
 
 				<div class="list-boxes">
 					<h2><a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}">{$vo.post_title}</a>

@@ -33,7 +33,7 @@ return [
     'illegal action name'       => '非法的操作名称',
     'url suffix deny'           => '禁止的URL后缀访问',
     'Route Not Found'           => '当前访问路由未定义',
-    'Underfined db type'        => '未定义数据库类型',
+    'Undefined db type'         => '未定义数据库类型',
     'variable type error'       => '变量类型错误',
     'PSR-4 error'               => 'PSR-4 规范错误',
     'not support total'         => '简洁模式下不能获取数据总数',
@@ -65,4 +65,5 @@ return [
     'bind attr has exists'      => '模型的属性已经存在',
     'relation data not exists'  => '关联数据不存在',
     'relation not support'      => '关联不支持',
+    'chunk not support order'   => 'Chunk不支持调用order方法',
 ];

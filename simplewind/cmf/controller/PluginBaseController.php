@@ -48,6 +48,10 @@ class PluginBaseController extends BaseController
 
         $this->view = $this->plugin->getView();
 
+        $siteInfo = cmf_get_site_info();
+
+        $this->assign('site_info', $siteInfo);
+
         // 控制器初始化
         $this->_initialize();
 

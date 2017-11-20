@@ -69,7 +69,7 @@ class LoginController extends HomeBaseController
             if (Validate::is($data['username'], 'email')) {
                 $user['user_email'] = $data['username'];
                 $log                = $userModel->doEmail($user);
-            } else if (preg_match('/(^(13\d|15[^4\D]|17[13678]|18\d)\d{8}|170[^346\D]\d{7})$/', $data['username'])) {
+            } else if (preg_match('/(^(13\d|15[^4\D]|17[013678]|18\d)\d{8})$/', $data['username'])) {
                 $user['mobile'] = $data['username'];
                 $log            = $userModel->doMobile($user);
             } else {
@@ -80,6 +80,7 @@ class LoginController extends HomeBaseController
             $redirect                   = empty($session_login_http_referer) ? $this->request->root() : $session_login_http_referer;
             switch ($log) {
                 case 0:
+                    cmf_user_action('login');
                     $this->success('登录成功', $redirect);
                     break;
                 case 1:
@@ -87,6 +88,9 @@ class LoginController extends HomeBaseController
                     break;
                 case 2:
                     $this->error('账户不存在');
+                    break;
+                case 3:
+                    $this->error('账号被禁止访问系统');
                     break;
                 default :
                     $this->error('未受理的请求');
@@ -142,7 +146,7 @@ class LoginController extends HomeBaseController
 
                 $log = $userModel->emailPasswordReset($data['username'], $data['password']);
 
-            } else if (preg_match('/(^(13\d|15[^4\D]|17[13678]|18\d)\d{8}|170[^346\D]\d{7})$/', $data['username'])) {
+            } else if (preg_match('/(^(13\d|15[^4\D]|17[013678]|18\d)\d{8})$/', $data['username'])) {
                 $user['mobile'] = $data['username'];
                 $log            = $userModel->mobilePasswordReset($data['username'], $data['password']);
             } else {

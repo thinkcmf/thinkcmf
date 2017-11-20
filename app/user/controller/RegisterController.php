@@ -43,12 +43,20 @@ class RegisterController extends HomeBaseController
     public function doRegister()
     {
         if ($this->request->isPost()) {
-            $validate = new Validate([
+            $rules = [
                 'captcha'  => 'require',
                 'code'     => 'require',
                 'password' => 'require|min:6|max:32',
 
-            ]);
+            ];
+
+            $isOpenRegistration=cmf_is_open_registration();
+
+            if ($isOpenRegistration) {
+                unset($rules['code']);
+            }
+
+            $validate = new Validate($rules);
             $validate->message([
                 'code.require'     => '验证码不能为空',
                 'password.require' => '密码不能为空',
@@ -64,9 +72,12 @@ class RegisterController extends HomeBaseController
             if (!cmf_captcha_check($data['captcha'])) {
                 $this->error('验证码错误');
             }
-            $errMsg = cmf_check_verification_code($data['username'], $data['code']);
-            if (!empty($errMsg)) {
-                $this->error($errMsg);
+
+            if(!$isOpenRegistration){
+                $errMsg = cmf_check_verification_code($data['username'], $data['code']);
+                if (!empty($errMsg)) {
+                    $this->error($errMsg);
+                }
             }
 
             $register          = new UserModel();
@@ -74,7 +85,7 @@ class RegisterController extends HomeBaseController
             if (Validate::is($data['username'], 'email')) {
                 $user['user_email'] = $data['username'];
                 $log                = $register->registerEmail($user);
-            } else if (preg_match('/(^(13\d|15[^4\D]|17[13678]|18\d)\d{8}|170[^346\D]\d{7})$/', $data['username'])) {
+            } else if (preg_match('/(^(13\d|15[^4\D]|17[013678]|18\d)\d{8})$/', $data['username'])) {
                 $user['mobile'] = $data['username'];
                 $log            = $register->registerMobile($user);
             } else {

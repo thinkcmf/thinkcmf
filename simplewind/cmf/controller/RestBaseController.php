@@ -16,9 +16,26 @@ use think\Request;
 use think\Config;
 use think\Response;
 use think\Loader;
+use think\Db;
 
 class RestBaseController
 {
+    //token
+    protected $token = '';
+
+    //设备类型
+    protected $deviceType = '';
+
+    //用户 id
+    protected $userId = 0;
+
+    //用户
+    protected $user;
+
+    //用户类型
+    protected $userType;
+
+    protected $allowedDeviceTypes = ['mobile', 'android', 'iphone', 'ipad', 'web', 'pc', 'mac', 'wxapp'];
 
     /**
      * @var \think\Request Request实例
@@ -47,7 +64,12 @@ class RestBaseController
             $request = Request::instance();
         }
 
+        Request::instance()->root(cmf_get_root() . '/');
+
         $this->request = $request;
+
+        // 用户验证初始化
+        $this->_initUser();
 
         // 控制器初始化
         $this->_initialize();
@@ -65,6 +87,41 @@ class RestBaseController
     // 初始化
     protected function _initialize()
     {
+    }
+
+    private function _initUser()
+    {
+        $token      = $this->request->header('XX-Token');
+        $deviceType = $this->request->header('XX-Device-Type');
+
+        if (empty($token)) {
+            return;
+        }
+
+        if (empty($deviceType)) {
+            return;
+        }
+
+        if (!in_array($deviceType, $this->allowedDeviceTypes)) {
+            return;
+        }
+
+        $this->token      = $token;
+        $this->deviceType = $deviceType;
+
+        $user = Db::name('user_token')
+            ->alias('a')
+            ->field('b.*')
+            ->where(['token' => $token, 'device_type' => $deviceType])
+            ->join('__USER__ b', 'a.user_id = b.id')
+            ->find();
+
+        if (!empty($user)) {
+            $this->user     = $user;
+            $this->userId   = $user['id'];
+            $this->userType = $user['user_type'];
+        }
+
     }
 
     /**
@@ -174,8 +231,11 @@ class RestBaseController
             'data' => $data,
         ];
 
-        $type     = $this->getResponseType();
-        $response = Response::create($result, $type)->header($header);
+        $type                                   = $this->getResponseType();
+        $header['Access-Control-Allow-Origin']  = '*';
+        $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,XX-Device-Type,XX-Token';
+        $header['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS';
+        $response                               = Response::create($result, $type)->header($header);
         throw new HttpResponseException($response);
     }
 
@@ -200,8 +260,11 @@ class RestBaseController
             'data' => $data,
         ];
 
-        $type     = $this->getResponseType();
-        $response = Response::create($result, $type)->header($header);
+        $type                                   = $this->getResponseType();
+        $header['Access-Control-Allow-Origin']  = '*';
+        $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,XX-Device-Type,XX-Token';
+        $header['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS';
+        $response                               = Response::create($result, $type)->header($header);
         throw new HttpResponseException($response);
     }
 
@@ -213,6 +276,20 @@ class RestBaseController
     protected function getResponseType()
     {
         return Config::get('default_return_type');
+    }
+
+    /**
+     * 获取当前登录用户的id
+     * @return int
+     */
+    public function getUserId()
+    {
+        if (empty($this->userId)) {
+            $this->error(['code' => 10001, 'msg' => '用户未登录']);
+        }
+        return $this->userId;
+
+
     }
 
 

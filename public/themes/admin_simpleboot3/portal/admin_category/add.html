@@ -33,6 +33,14 @@
                                 <input type="text" class="form-control" id="input-name" name="name">
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="input-name">分类别名</label>
+                            <div>
+                                <input type="text" class="form-control" id="input-alias" name="alias">
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label for="input-description">描述</label>
                             <div>
@@ -83,7 +91,7 @@
                                     <!--<option value="list">portal/list.html(默认)</option>-->
                                     <foreach name="list_theme_files" item="vo">
                                         <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
-                                        <option value="{$value}">{$vo.file}.html</option>
+                                        <option value="{$value}">{$vo.name} {$vo.file}.html</option>
                                     </foreach>
                                 </select>
                             </div>
@@ -95,7 +103,7 @@
                                     <!--<option value="article">portal/article.html(默认)</option>-->
                                     <foreach name="article_theme_files" item="vo">
                                         <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
-                                        <option value="{$value}">{$vo.file}.html</option>
+                                        <option value="{$value}">{$vo.name} {$vo.file}.html</option>
                                     </foreach>
                                 </select>
                             </div>

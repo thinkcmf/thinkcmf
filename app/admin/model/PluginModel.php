@@ -81,6 +81,9 @@ class PluginModel extends Model
             "send_mobile_verification_code",
             //系统钩子结束
 
+            //前台登录钩子
+            "user_login_start",
+
             //模板钩子
             "body_start", "before_head_end", "before_footer", "footer_start", "before_footer_end", "before_body_end",
             "left_sidebar_start",

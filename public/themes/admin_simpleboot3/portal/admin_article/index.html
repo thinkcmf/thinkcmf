@@ -74,6 +74,7 @@
                 </notempty>
                 <th width="50">ID</th>
                 <th>标题</th>
+                <th>分类</th>
                 <th width="50">作者</th>
                 <th width="65">点击量</th>
                 <th width="65">评论量</th>
@@ -105,6 +106,16 @@
                             <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}"
                                target="_blank">{$vo.post_title}</a>
                         </notempty>
+                    </td>
+                    <td>
+                        <foreach name="vo.categories" item="voo">
+                            <span class="label label-default">
+                                <a href="{:cmf_url('portal/List/index',array('id'=>$voo['id']))}"
+                                   style="color: #fff;"
+                                   target="_blank"
+                                >{$voo.name}</a>
+                            </span>&nbsp;
+                        </foreach>
                     </td>
                     <td>{$vo.user_nickname}</td>
                     <td>{$vo.post_hits|default=0}</td>
@@ -171,7 +182,7 @@
                         </notempty>
                     </td>
                     <td>
-                        <a href="{:url('AdminArticle/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a> |
+                        <a href="{:url('AdminArticle/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
                         <a href="{:url('AdminArticle/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>
@@ -180,11 +191,12 @@
             <tr>
                 <th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x"
                                              data-checklist="js-check-x"></label></th>
-                <notempty name="term">
+                <notempty name="category">
                     <th width="50">{:lang('SORT')}</th>
                 </notempty>
                 <th width="50">ID</th>
                 <th>标题</th>
+                <th>分类</th>
                 <th width="50">作者</th>
                 <th width="65">点击量</th>
                 <th width="65">评论量</th>
@@ -197,7 +209,7 @@
             </tfoot>
         </table>
         <div class="table-actions">
-            <notempty name="term">
+            <notempty name="category">
                 <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
                         data-action="{:url('AdminArticle/listOrder')}">{:lang('SORT')}
                 </button>
@@ -221,7 +233,7 @@
                     data-action="{:url('AdminArticle/recommend',array('no'=>1))}" data-subcheck="true">取消推荐
             </button>
             <!--
-            <notempty name="term">
+            <notempty name="category">
                 <button class="btn btn-primary btn-sm js-articles-move" type="button">批量移动</button>
             </notempty>
             <button class="btn btn-primary btn-sm js-articles-copy" type="button">批量复制</button>
@@ -241,14 +253,6 @@
         win.location.reload();
     }
 
-    function refersh_window() {
-        var refersh_time = getCookie('refersh_time');
-        if (refersh_time == 1) {
-        }
-    }
-    setInterval(function () {
-        refersh_window();
-    }, 2000);
     $(function () {
         setCookie("refersh_time", 0);
         Wind.use('ajaxForm', 'artDialog', 'iframeTools', function () {

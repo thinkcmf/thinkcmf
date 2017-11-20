@@ -51,15 +51,15 @@
                     <td>{$statuses[$vo['status']]}</td>
                     <td>
                         <eq name="vo.type" value="2">
-                            编辑 | 禁用 | 启用
+                            编辑  禁用  启用
                             <else/>
-                            <a href="{:url('route/edit',array('id'=>$vo['id']))}">编辑</a> |
+                            <a href="{:url('route/edit',array('id'=>$vo['id']))}">编辑</a>
                             <eq name="vo.status" value="1">
                                 <a href="{:url('route/ban',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn"
-                                   data-msg="确定禁用吗？">禁用</a> |
+                                   data-msg="确定禁用吗？">禁用</a>
                                 <else/>
                                 <a href="{:url('route/open',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn"
-                                   data-msg="确定启用吗？">启用</a> |
+                                   data-msg="确定启用吗？">启用</a>
                             </eq>
                             <a href="{:url('route/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">删除</a>
                         </eq>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh_CN" style="overflow: hidden;">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <!-- Set render engine for 360 browser -->
     <meta name="renderer" content="webkit">
     <meta charset="utf-8">
@@ -16,20 +16,41 @@
     <link rel="stylesheet" href="__TMPL__/public/assets/themes/{:cmf_get_admin_style()}/simplebootadminindex.min.css">
     <style>
         /*-----------------导航hack--------------------*/
-        .nav-list>li.open{position: relative;}
-        .nav-list>li.open .back {display: none;}
-        .nav-list>li.open .normal {display: inline-block !important;}
-        .nav-list>li.open a {padding-left: 7px;}
-        .nav-list>li .submenu>li>a {background: #fff;}
-        .nav-list>li .submenu>li a>[class*="fa-"]:first-child{left:20px;}
-        .nav-list>li ul.submenu ul.submenu>li a>[class*="fa-"]:first-child{left:30px;}
+        .nav-list > li.open {
+            position: relative;
+        }
+
+        .nav-list > li.open .back {
+            display: none;
+        }
+
+        .nav-list > li.open .normal {
+            display: inline-block !important;
+        }
+
+        .nav-list > li.open a {
+            padding-left: 7px;
+        }
+
+        .nav-list > li .submenu > li > a {
+            background: #fff;
+        }
+
+        .nav-list > li .submenu > li a > [class*="fa-"]:first-child {
+            left: 20px;
+        }
+
+        .nav-list > li ul.submenu ul.submenu > li a > [class*="fa-"]:first-child {
+            left: 30px;
+        }
+
         /*----------------导航hack--------------------*/
     </style>
 
     <script>
         //全局变量
         var GV = {
-            HOST:"{$_SERVER['HTTP_HOST']}",
+            HOST: "{$_SERVER['HTTP_HOST']}",
             ROOT: "__ROOT__/",
             WEB_ROOT: "__WEB_ROOT__/",
             JS_ROOT: "static/js/"
@@ -38,35 +59,37 @@
     <php>$submenus=$menus;</php>
 
     <php>function getsubmenu($submenus){</php>
-    <php>foreach($submenus as $menu){ </php>
-    <li>
-        <php>
-            $menu_name=lang($menu['lang']);
-            $menu_name=$menu['lang']==$menu_name?$menu['name']:$menu_name;
-        </php>
-        <php>if(empty($menu['items'])){</php>
-        <a href="javascript:openapp('{$menu.url}','{$menu.id}','{$menu_name}',true);">
-            <i class="fa fa-{$menu.icon|default='desktop'}"></i>
-            <span class="menu-text"> {$menu_name} </span>
-        </a>
-        <php>}else{</php>
-        <a href="#" class="dropdown-toggle">
-            <i class="fa fa-{$menu.icon|default='desktop'} normal"></i>
-            <span class="menu-text normal"> {$menu_name} </span>
-            <b class="arrow fa fa-angle-right normal"></b>
-            <i class="fa fa-reply back"></i>
-            <span class="menu-text back">返回</span>
+    <notempty name="submenus">
+        <php>foreach($submenus as $menu){</php>
+        <li>
+            <php>
+                $menu_name=lang($menu['lang']);
+                $menu_name=$menu['lang']==$menu_name?$menu['name']:$menu_name;
+            </php>
+            <php>if(empty($menu['items'])){</php>
+            <a href="javascript:openapp('{$menu.url}','{$menu.id}','{$menu_name}',true);">
+                <i class="fa fa-{$menu.icon|default='desktop'}"></i>
+                <span class="menu-text"> {$menu_name} </span>
+            </a>
+            <php>}else{</php>
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-{$menu.icon|default='desktop'} normal"></i>
+                <span class="menu-text normal"> {$menu_name} </span>
+                <b class="arrow fa fa-angle-right normal"></b>
+                <i class="fa fa-reply back"></i>
+                <span class="menu-text back">返回</span>
 
-        </a>
+            </a>
 
-        <ul  class="submenu">
-            <php>getsubmenu1($menu['items'])</php>
-        </ul>
+            <ul class="submenu">
+                <php>getsubmenu1($menu['items'])</php>
+            </ul>
+            <php>}</php>
+
+        </li>
+
         <php>}</php>
-
-    </li>
-
-    <php>}</php>
+    </notempty>
     <php>}</php>
 
     <php>function getsubmenu1($submenus){</php>
@@ -91,7 +114,7 @@
 								</span>
             <b class="arrow fa fa-angle-right"></b>
         </a>
-        <ul  class="submenu">
+        <ul class="submenu">
             <php>getsubmenu2($menu['items'])</php>
         </ul>
         <php>}</php>
@@ -123,8 +146,10 @@
 
     <if condition="APP_DEBUG">
         <style>
-            #think_page_trace_open{left: 0 !important;
-                right: initial !important;}
+            #think_page_trace_open {
+                left: 0 !important;
+                right: initial !important;
+            }
         </style>
     </if>
 
@@ -134,7 +159,8 @@
 <div id="loading"><i class="loadingicon"></i><span>{:lang('LOADING')}</span></div>
 <div id="right-tools-wrapper">
     <!--<span id="right_tools_clearcache" title="清除缓存" onclick="javascript:openapp('{:url('admin/Setting/clearcache')}','right_tool_clearcache','清除缓存');"><i class="fa fa-trash-o right_tool_icon"></i></span>-->
-    <span id="refresh-wrapper" title="{:lang('REFRESH_CURRENT_PAGE')}" ><i class="fa fa-refresh right_tool_icon"></i></span>
+    <!--<span id="refresh-wrapper" title="{:lang('REFRESH_CURRENT_PAGE')}"><i-->
+            <!--class="fa fa-refresh right_tool_icon"></i></span>-->
 </div>
 <div class="navbar navbar-default">
     <div class="container-fluid">
@@ -152,7 +178,8 @@
                 <a id="task-pre" class="task-changebt"><i class="fa fa-chevron-left"></i></a>
                 <div id="task-content">
                     <ul class="nav navbar-nav cmf-component-tab" id="task-content-inner">
-                        <li class="cmf-component-tabitem noclose" app-id="0" app-url="{:url('main/index')}" app-name="首页">
+                        <li class="cmf-component-tabitem noclose" app-id="0" app-url="{:url('main/index')}"
+                            app-name="首页">
                             <a class="cmf-tabs-item-text">{:lang('HOME')}</a>
                         </li>
                     </ul>
@@ -162,12 +189,19 @@
             </div>
 
             <ul class="nav navbar-nav navbar-right simplewind-nav">
-                <li class="light-blue dropdown">
+                <li class="light-blue" style="border-left:none;">
+                    <a id="refresh-wrapper" href="javacript:void(0);" title="{:lang('REFRESH_CURRENT_PAGE')}" style="color:#fff;font-size: 16px">
+                        <i class="fa fa-refresh right_tool_icon"></i>
+                    </a>
+                </li>
+                <li class="light-blue dropdown" style="border-left:none;">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
                         <if condition="isset($admin['avatar']) && $admin['avatar']">
-                            <img class="nav-user-photo" width="30" height="30" src="{:cmf_get_user_avatar_url($admin['avatar'])}" alt="{$admin.user_login}">
-                            <else />
-                            <img class="nav-user-photo" width="30" height="30" src="__TMPL__/public/assets/images/logo-18.png" alt="{$admin.user_login|default=''}">
+                            <img class="nav-user-photo" width="30" height="30"
+                                 src="{:cmf_get_user_avatar_url($admin['avatar'])}" alt="{$admin.user_login}">
+                            <else/>
+                            <img class="nav-user-photo" width="30" height="30"
+                                 src="__TMPL__/public/assets/images/logo-18.png" alt="{$admin.user_login|default=''}">
                         </if>
                         <span class="user-info">
 								{:lang('WELCOME_USER',array('user_nickname' => empty($admin['user_nickname'] )? $admin['user_login'] : $admin['user_nickname']))}
@@ -176,13 +210,19 @@
                     </a>
                     <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
                         <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/Setting/site')">
-                            <li><a href="javascript:openapp('{:url('setting/site')}','index_site','{:lang('ADMIN_SETTING_SITE')}');"><i class="fa fa-cog"></i> {:lang('ADMIN_SETTING_SITE')}</a></li>
+                            <li>
+                                <a href="javascript:openapp('{:url('setting/site')}','index_site','{:lang('ADMIN_SETTING_SITE')}');"><i
+                                        class="fa fa-cog"></i> {:lang('ADMIN_SETTING_SITE')}</a></li>
                         </if>
                         <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/user/userinfo')">
-                            <li><a href="javascript:openapp('{:url('user/userinfo')}','index_userinfo','{:lang('ADMIN_USER_USERINFO')}');"><i class="fa fa-user"></i> {:lang('ADMIN_USER_USERINFO')}</a></li>
+                            <li>
+                                <a href="javascript:openapp('{:url('user/userinfo')}','index_userinfo','{:lang('ADMIN_USER_USERINFO')}');"><i
+                                        class="fa fa-user"></i> {:lang('ADMIN_USER_USERINFO')}</a></li>
                         </if>
                         <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/Setting/password')">
-                            <li><a href="javascript:openapp('{:url('setting/password')}','index_password','{:lang('ADMIN_SETTING_PASSWORD')}');"><i class="fa fa-lock"></i> {:lang('ADMIN_SETTING_PASSWORD')}</a></li>
+                            <li>
+                                <a href="javascript:openapp('{:url('setting/password')}','index_password','{:lang('ADMIN_SETTING_PASSWORD')}');"><i
+                                        class="fa fa-lock"></i> {:lang('ADMIN_SETTING_PASSWORD')}</a></li>
                         </if>
                         <li><a href="{:url('Public/logout')}"><i class="fa fa-sign-out"></i> {:lang('LOGOUT')}</a></li>
                     </ul>
@@ -196,7 +236,10 @@
 
     <div class="sidebar" id="sidebar">
         <div class="sidebar-shortcuts" id="sidebar-shortcuts">
-            <a class="btn btn-sm btn-warning" href="__ROOT__/" title="{:lang('WEBSITE_HOME_PAGE')}" target="_blank">
+            <a class="btn btn-sm btn-warning" href="__ROOT__/"
+               title="{:lang('WEBSITE_HOME_PAGE')}"
+               target="_blank"
+               data-toggle="tooltip">
                 <i class="fa fa-home"></i>
             </a>
             <!--
@@ -214,25 +257,37 @@
             -->
 
             <if condition="cmf_auth_check(cmf_get_current_admin_id(),'user/AdminAsset/index')">
-                <a class="btn btn-sm btn-info" href="javascript:openapp('{:url('user/AdminAsset/index')}','userAdminAssetindex','资源管理',true);" title="资源管理">
+                <a class="btn btn-sm btn-info"
+                   href="javascript:openapp('{:url('user/AdminAsset/index')}','userAdminAssetindex','资源管理',true);"
+                   title="资源管理"
+                   data-toggle="tooltip">
                     <i class="fa fa-file"></i>
                 </a>
             </if>
 
             <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/Setting/clearcache')">
-                <a class="btn btn-sm btn-danger" href="javascript:openapp('{:url('admin/Setting/clearcache')}','index_clearcache','{:lang('ADMIN_SETTING_CLEARCACHE')}',true);" title="{:lang('ADMIN_SETTING_CLEARCACHE')}">
+                <a class="btn btn-sm btn-danger"
+                   href="javascript:openapp('{:url('admin/Setting/clearcache')}','index_clearcache','{:lang('ADMIN_SETTING_CLEARCACHE')}',true);"
+                   title="{:lang('ADMIN_SETTING_CLEARCACHE')}"
+                   data-toggle="tooltip">
                     <i class="fa fa-trash-o"></i>
                 </a>
             </if>
 
             <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/RecycleBin/index')">
-                <a class="btn btn-sm btn-danger" href="javascript:openapp('{:url('admin/RecycleBin/index')}','index_recycle','回收站',true);" title="回收站">
+                <a class="btn btn-sm btn-danger"
+                   href="javascript:openapp('{:url('admin/RecycleBin/index')}','index_recycle','回收站',true);"
+                   title="回收站"
+                   data-toggle="tooltip">
                     <i class="fa fa-recycle"></i>
                 </a>
             </if>
 
             <if condition="APP_DEBUG">
-                <a class="btn btn-sm btn-default" href="javascript:openapp('{:url('admin/Menu/index')}','index_menu','{:lang('ADMIN_MENU_INDEX')}',true);" title="{:lang('ADMIN_MENU_INDEX')}">
+                <a class="btn btn-sm btn-default"
+                   href="javascript:openapp('{:url('admin/Menu/index')}','index_menu','{:lang('ADMIN_MENU_INDEX')}',true);"
+                   title="{:lang('ADMIN_MENU_INDEX')}"
+                   data-toggle="tooltip">
                     <i class="fa fa-list"></i>
                 </a>
             </if>
@@ -248,7 +303,8 @@
 
     <div class="main-content">
         <div class="page-content" id="content">
-            <iframe src="{:url('Main/index')}" style="width:100%;height: 100%;" frameborder="0" id="appiframe-0" class="appiframe"></iframe>
+            <iframe src="{:url('Main/index')}" style="width:100%;height: 100%;" frameborder="0" id="appiframe-0"
+                    class="appiframe"></iframe>
         </div>
     </div>
 </div>
@@ -259,17 +315,17 @@
 <script src="__STATIC__/js/admin.js"></script>
 <script src="__TMPL__/public/assets/simpleboot3/js/adminindex.js"></script>
 <script>
-    $(function(){
+    $(function () {
         $("[data-toggle='tooltip']").tooltip();
-        $("li.dropdown").hover(function(){
+        $("li.dropdown").hover(function () {
             $(this).addClass("open");
-        },function(){
+        }, function () {
             $(this).removeClass("open");
         });
     });
 
     var ismenumin = $("#sidebar").hasClass("menu-min");
-    $(".nav-list").on( "click",function(event) {
+    $(".nav-list").on("click", function (event) {
         var closest_a = $(event.target).closest("a");
         if (!closest_a || closest_a.length == 0) {
             return
@@ -289,7 +345,7 @@
             if (ismenumin && closest_ul.hasClass("nav-list")) {
                 return
             }
-            closest_ul.find("> .open > .submenu").each(function() {
+            closest_ul.find("> .open > .submenu").each(function () {
                 if (this != closest_a_next && !$(this.parentNode).hasClass("active")) {
                     $(this).slideUp(150).parent().removeClass("open")
                 }

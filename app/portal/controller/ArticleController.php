@@ -32,12 +32,22 @@ class ArticleController extends HomeBaseController
             abort(404, '文章不存在!');
         }
 
-        //TODO 上一篇,下一篇
+
+        $prevArticle = $postService->publishedPrevArticle($articleId, $categoryId);
+        $nextArticle = $postService->publishedNextArticle($articleId, $categoryId);
 
         $tplName = 'article';
 
-        if (!empty($categoryId)) {
+        if (empty($categoryId)) {
+            $categories = $article['categories'];
 
+            if (count($categories) > 0) {
+                $this->assign('category', $categories[0]);
+            } else {
+                abort(404, '文章未指定分类!');
+            }
+
+        } else {
             $category = $portalCategoryModel->where('id', $categoryId)->where('status', 1)->find();
 
             if (empty($category)) {
@@ -51,7 +61,12 @@ class ArticleController extends HomeBaseController
 
         Db::name('portal_post')->where(['id' => $articleId])->setInc('post_hits');
 
+
+        hook('portal_before_assign_article', $article);
+
         $this->assign('article', $article);
+        $this->assign('prev_article', $prevArticle);
+        $this->assign('next_article', $nextArticle);
 
         $tplName = empty($article['more']['template']) ? $tplName : $article['more']['template'];
 

@@ -4,3 +4,7 @@
 .settings
 .idea
 composer.lock
+/api
+/public/api
+/public/assets
+/node_modules

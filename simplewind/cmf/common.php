@@ -97,6 +97,11 @@ function cmf_get_root()
     $request = Request::instance();
     $root    = $request->root();
     $root    = str_replace('/index.php', '', $root);
+    if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
+        $root = preg_replace('/\/api$/', '', $root);
+        $root = rtrim($root, '/');
+    }
+
     return $root;
 }
 
@@ -578,6 +583,7 @@ function cmf_send_email($address, $subject, $message)
     // 设置PHPMailer使用SMTP服务器发送Email
     $mail->IsSMTP();
     $mail->IsHTML(true);
+    //$mail->SMTPDebug = 3;
     // 设置邮件的字符编码，若不指定，则为'UTF-8'
     $mail->CharSet = 'UTF-8';
     // 添加收件人地址，可以多次使用来添加多个收件人
@@ -602,6 +608,7 @@ function cmf_send_email($address, $subject, $message)
     // 设置为"需要验证"
     $mail->SMTPAuth    = true;
     $mail->SMTPAutoTLS = false;
+    $mail->Timeout     = 10;
     // 设置用户名和密码。
     $mail->Username = $smtpSetting['username'];
     $mail->Password = $smtpSetting['password'];
@@ -643,8 +650,9 @@ function cmf_get_image_url($file, $style = '')
     if (strpos($file, "http") === 0) {
         return $file;
     } else if (strpos($file, "/") === 0) {
-        return $file;
+        return cmf_get_domain() . $file;
     } else {
+
         $storage = Storage::instance();
         return $storage->getImageUrl($file, $style);
     }
@@ -676,8 +684,14 @@ function cmf_get_image_preview_url($file, $style = 'watermark')
  */
 function cmf_get_file_download_url($file, $expires = 3600)
 {
-    $storage = Storage::instance();
-    return $storage->getFileDownloadUrl($file, $expires);
+    if (strpos($file, "http") === 0) {
+        return $file;
+    } else if (strpos($file, "/") === 0) {
+        return $file;
+    } else {
+        $storage = Storage::instance();
+        return $storage->getFileDownloadUrl($file, $expires);
+    }
 }
 
 /**
@@ -748,7 +762,7 @@ function cmf_str_decode($string, $key = '', $expiry = 0, $operation = 'DECODE')
  */
 function cmf_str_encode($string, $key = '', $expiry = 0)
 {
-    return cmf_str_decode($string, "ENCODE", $key, $expiry);
+    return cmf_str_decode($string, $key, $expiry, "ENCODE");
 }
 
 /**
@@ -862,7 +876,7 @@ function hook($hook, &$params = null, $extra = null)
  * @param string $hook 钩子名称
  * @param mixed $params 传入参数
  * @param mixed $extra 额外参数
- * @return void
+ * @return mixed
  */
 function hook_one($hook, &$params = null, $extra = null)
 {
@@ -908,7 +922,13 @@ function cmf_get_plugin_config($name)
  */
 function cmf_scan_dir($pattern, $flags = null)
 {
-    $files = array_map('basename', glob($pattern, $flags));
+    $files = glob($pattern, $flags);
+    if (empty($files)) {
+        $files = [];
+    } else {
+        $files = array_map('basename', $files);
+    }
+
     return $files;
 }
 
@@ -1469,12 +1489,12 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
     if (!empty($vars) && !empty($routes[$url])) {
 
         foreach ($routes[$url] as $actionRoute) {
-            $sameVars = array_intersect($vars, $actionRoute['vars']);
+            $sameVars = array_intersect_assoc($vars, $actionRoute['vars']);
 
             if (count($sameVars) == count($actionRoute['vars'])) {
                 ksort($sameVars);
                 $url  = $url . '?' . http_build_query($sameVars);
-                $vars = array_diff($vars, $sameVars);
+                $vars = array_diff_assoc($vars, $sameVars);
                 break;
             }
         }
@@ -1530,10 +1550,10 @@ function cmf_replace_content_file_url($content, $isForDbSave = false)
             if ($isForDbSave) {
                 if (preg_match("/^\/upload\//", $imgSrc)) {
                     $img->attr("src", preg_replace("/^\/upload\//", '', $imgSrc));
-                } elseif (preg_match("/^http(s)?:\/\/$storageDomain\//", $imgSrc)) {
-                    $img->attr("src", $storage->getFilePath($imgSrc));
                 } elseif (preg_match("/^http(s)?:\/\/$domain\/upload\//", $imgSrc)) {
                     $img->attr("src", $localStorage->getFilePath($imgSrc));
+                } elseif (preg_match("/^http(s)?:\/\/$storageDomain\//", $imgSrc)) {
+                    $img->attr("src", $storage->getFilePath($imgSrc));
                 }
 
             } else {
@@ -1552,10 +1572,10 @@ function cmf_replace_content_file_url($content, $isForDbSave = false)
             if ($isForDbSave) {
                 if (preg_match("/^\/upload\//", $href)) {
                     $link->attr("href", preg_replace("/^\/upload\//", '', $href));
-                } elseif (preg_match("/^http(s)?:\/\/$storageDomain\//", $href)) {
-                    $link->attr("href", $storage->getFilePath($href));
                 } elseif (preg_match("/^http(s)?:\/\/$domain\/upload\//", $href)) {
                     $link->attr("href", $localStorage->getFilePath($href));
+                } elseif (preg_match("/^http(s)?:\/\/$storageDomain\//", $href)) {
+                    $link->attr("href", $storage->getFilePath($href));
                 }
 
             } else {
@@ -1585,4 +1605,151 @@ function cmf_get_admin_style()
 {
     $adminSettings = cmf_get_option('admin_settings');
     return empty($adminSettings['admin_style']) ? 'flatadmin' : $adminSettings['admin_style'];
+}
+
+/**
+ * curl get 请求
+ * @param $url
+ * @return mixed
+ */
+function cmf_curl_get($url)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_FAILONERROR, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    $SSL = substr($url, 0, 8) == "https://" ? true : false;
+    if ($SSL) {
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 信任任何证书
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // 检查证书中是否设置域名
+    }
+    $content = curl_exec($ch);
+    curl_close($ch);
+    return $content;
+}
+
+/**
+ * 用户操作记录
+ * @param string $action 用户操作
+ */
+function cmf_user_action($action)
+{
+    $userId = cmf_get_current_user_id();
+
+    if (empty($userId)) {
+        return;
+    }
+
+    $findUserAction = Db::name('user_action')->where('action', $action)->find();
+
+    if (empty($findUserAction)) {
+        return;
+    }
+
+    $changeScore = false;
+
+    if ($findUserAction['cycle_type'] == 0) {
+        $changeScore = true;
+    } elseif ($findUserAction['reward_number'] > 0) {
+        $findUserScoreLog = Db::name('user_score_log')->order('create_time DESC')->find();
+        if (!empty($findUserScoreLog)) {
+            $cycleType = intval($findUserAction['cycle_type']);
+            switch ($cycleType) {//1:按天;2:按小时;3:永久
+                case 1:
+                    $todayStartTime        = strtotime(date('Y-m-d'));
+                    $todayEndTime          = strtotime(date('Y-m-d', strtotime('+1 day')));
+                    $findUserScoreLogCount = Db::name('user_score_log')->where([
+                        'user_id'     => $userId,
+                        'create_time' => [['gt', $todayStartTime], ['lt', $todayEndTime]]
+                    ])->count();
+                    if ($findUserScoreLogCount < $findUserAction['reward_number']) {
+                        $changeScore = true;
+                    }
+                    break;
+                case 2:
+                    if (($findUserScoreLog['create_time'] + 3600) < time()) {
+                        $changeScore = true;
+                    }
+                    break;
+                case 3:
+
+                    break;
+            }
+        } else {
+            $changeScore = true;
+        }
+    }
+
+    if ($changeScore) {
+        Db::name('user_score_log')->insert([
+            'user_id'     => $userId,
+            'create_time' => time(),
+            'action'      => $action,
+            'score'       => $findUserAction['score'],
+            'coin'        => $findUserAction['coin'],
+        ]);
+
+        $data = [];
+        if ($findUserAction['score'] > 0) {
+            $data['score'] = ['exp', 'score+' . $findUserAction['score']];
+        }
+
+        if ($findUserAction['score'] < 0) {
+            $data['score'] = ['exp', 'score-' . abs($findUserAction['score'])];
+        }
+
+        if ($findUserAction['coin'] > 0) {
+            $data['coin'] = ['exp', 'coin+' . $findUserAction['coin']];
+        }
+
+        if ($findUserAction['coin'] < 0) {
+            $data['coin'] = ['exp', 'coin-' . abs($findUserAction['coin'])];
+        }
+
+        Db::name('user')->where('id', $userId)->update($data);
+
+    }
+
+
+}
+
+function cmf_api_request($url, $params = [])
+{
+    //初始化
+    $curl = curl_init();
+    //设置抓取的url
+    curl_setopt($curl, CURLOPT_URL, 'http://127.0.0.1:1314/api/' . $url);
+    //设置头文件的信息作为数据流输出
+    curl_setopt($curl, CURLOPT_HEADER, 0);
+    //设置获取的信息以文件流的形式返回，而不是直接输出。
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    //设置post方式提交
+    curl_setopt($curl, CURLOPT_POST, 1);
+
+    $token = session('token');
+
+    curl_setopt($curl, CURLOPT_HTTPHEADER, ["XX-Token: $token"]);
+    //设置post数据
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+    //执行命令
+    $data = curl_exec($curl);
+    //关闭URL请求
+    curl_close($curl);
+    //显示获得的数据
+
+    return json_decode($data, true);
+}
+
+/**
+ * 判断是否允许开放注册
+ */
+function cmf_is_open_registration()
+{
+
+    $cmfSettings = cmf_get_option('cmf_settings');
+
+    return empty($cmfSettings['open_registration']) ? false : true;
 }

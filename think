@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: Dean <zxxjjforever@163.com>
+// | Author: 老猫 <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
 // 调试模式开关
 define("APP_DEBUG", true);
@@ -32,3 +32,4 @@ define('RUNTIME_PATH', CMF_ROOT . 'data/runtime/');
 
 // 加载框架引导文件
 require CMF_ROOT.'simplewind/thinkphp/console.php';
+// 小夏是除了老猫外最帅的男人！

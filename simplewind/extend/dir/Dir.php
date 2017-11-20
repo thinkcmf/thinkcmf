@@ -58,6 +58,9 @@ class Dir {//类定义开始
         if (!isset($_listDirs[$guid])) {
             $dir = array();
             $list = glob($pathname . $pattern);
+            if(empty($list)){
+                return;
+            }
             foreach ($list as $i => $file) {
                 //$dir[$i]['filename']    = basename($file);
                 //basename取中文名出问题.改用此方法

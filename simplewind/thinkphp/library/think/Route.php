@@ -255,9 +255,11 @@ class Route
                     $option1  = array_merge($option, $val[1]);
                     $pattern1 = array_merge($pattern, isset($val[2]) ? $val[2] : []);
                 } else {
-                    $route = $val;
+                    $option1  = null;
+                    $pattern1 = null;
+                    $route    = $val;
                 }
-                self::setRule($key, $route, $type, isset($option1) ? $option1 : $option, isset($pattern1) ? $pattern1 : $pattern, $group);
+                self::setRule($key, $route, $type, !is_null($option1) ? $option1 : $option, !is_null($pattern1) ? $pattern1 : $pattern, $group);
             }
         } else {
             self::setRule($rule, $route, $type, $option, $pattern, $group);
@@ -428,7 +430,8 @@ class Route
                     self::$rules['*'][$name]['pattern'] = $pattern;
                 }
             } else {
-                $item = [];
+                $item          = [];
+                $completeMatch = Config::get('route_complete_match');
                 foreach ($routes as $key => $val) {
                     if (is_numeric($key)) {
                         $key = array_shift($val);
@@ -447,6 +450,8 @@ class Route
                         // 是否完整匹配
                         $options['complete_match'] = true;
                         $key                       = substr($key, 0, -1);
+                    } elseif ($completeMatch) {
+                        $options['complete_match'] = true;
                     }
                     $key    = trim($key, '/');
                     $vars   = self::parseVar($key);
@@ -1159,7 +1164,7 @@ class Route
     private static function checkRule($rule, $route, $url, $pattern, $option, $depr)
     {
         // 检查完整规则定义
-        if (isset($pattern['__url__']) && !preg_match('/^' . $pattern['__url__'] . '/', str_replace('|', $depr, $url))) {
+        if (isset($pattern['__url__']) && !preg_match(0 === strpos($pattern['__url__'], '/') ? $pattern['__url__'] : '/^' . $pattern['__url__'] . '/', str_replace('|', $depr, $url))) {
             return false;
         }
         // 检查路由的参数分隔符
@@ -1349,7 +1354,7 @@ class Route
                         if (false === $result) {
                             return false;
                         }
-                    } elseif (!preg_match('/^' . $pattern[$name] . '$/', $m1[$key])) {
+                    } elseif (!preg_match(0 === strpos($pattern[$name], '/') ? $pattern[$name] : '/^' . $pattern[$name] . '$/', $m1[$key])) {
                         return false;
                     }
                 }
@@ -1449,6 +1454,10 @@ class Route
             $request->bind($bind);
         }
 
+        if (!empty($option['response'])) {
+            Hook::add('response_send', $option['response']);
+        }
+
         // 解析额外参数
         self::parseUrlParams(empty($paths) ? '' : implode('|', $paths), $matches);
         // 记录匹配的路由信息
@@ -1503,12 +1512,13 @@ class Route
         if ($request->isGet() && isset($option['cache'])) {
             $cache = $option['cache'];
             if (is_array($cache)) {
-                list($key, $expire) = $cache;
+                list($key, $expire, $tag) = array_pad($cache, 3, null);
             } else {
                 $key    = str_replace('|', '/', $pathinfo);
                 $expire = $cache;
+                $tag    = null;
             }
-            $request->cache($key, $expire);
+            $request->cache($key, $expire, $tag);
         }
         return $result;
     }
@@ -1539,7 +1549,7 @@ class Route
     /**
      * 解析URL地址中的参数Request对象
      * @access private
-     * @param string    $rule 路由规则
+     * @param string    $url 路由规则
      * @param array     $var 变量
      * @return void
      */

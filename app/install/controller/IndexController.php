@@ -39,13 +39,13 @@ class IndexController extends Controller
         $data['phpversion'] = @phpversion();
         $data['os']         = PHP_OS;
         $tmp                = function_exists('gd_info') ? gd_info() : [];
-        $server             = $_SERVER["SERVER_SOFTWARE"];
-        $host               = (empty($_SERVER["SERVER_ADDR"]) ? $_SERVER["SERVER_HOST"] : $_SERVER["SERVER_ADDR"]);
-        $name               = $_SERVER["SERVER_NAME"];
-        $max_execution_time = ini_get('max_execution_time');
-        $allow_reference    = (ini_get('allow_call_time_pass_reference') ? '<font color=green>[√]On</font>' : '<font color=red>[×]Off</font>');
-        $allow_url_fopen    = (ini_get('allow_url_fopen') ? '<font color=green>[√]On</font>' : '<font color=red>[×]Off</font>');
-        $safe_mode          = (ini_get('safe_mode') ? '<font color=red>[×]On</font>' : '<font color=green>[√]Off</font>');
+//        $server             = $_SERVER["SERVER_SOFTWARE"];
+//        $host               = $this->request->host();
+//        $name               = $_SERVER["SERVER_NAME"];
+//        $max_execution_time = ini_get('max_execution_time');
+//        $allow_reference    = (ini_get('allow_call_time_pass_reference') ? '<font color=green>[√]On</font>' : '<font color=red>[×]Off</font>');
+//        $allow_url_fopen    = (ini_get('allow_url_fopen') ? '<font color=green>[√]On</font>' : '<font color=red>[×]Off</font>');
+//        $safe_mode          = (ini_get('safe_mode') ? '<font color=red>[×]On</font>' : '<font color=green>[√]Off</font>');
 
         $err = 0;
         if (empty($tmp['GD Version'])) {
@@ -201,6 +201,12 @@ class IndexController extends Controller
             $userLogin = $this->request->param('manager');
             $userPass  = $this->request->param('manager_pwd');
             $userEmail = $this->request->param('manager_email');
+
+            //检查密码。空 6-32字符。
+            empty($userPass) && $this->error("密码不可以为空");
+            strlen($userPass) < 6 && $this->error("密码长度最少6位");
+            strlen($userPass) > 32 && $this->error("密码长度最多32位");
+
 
             session('install.admin_info', [
                 'user_login' => $userLogin,

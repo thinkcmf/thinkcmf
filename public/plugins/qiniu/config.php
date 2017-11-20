@@ -93,7 +93,7 @@ return [
         "message" => [
             "require" => '样式-水印不能为空'
         ],
-        'tip'     => '请到七牛存储空间->图片样式：添加此样式名称，并进行相应设置'
+        'tip'     => '请到七牛存储空间->图片样式：添加此样式名称，并进行相应设置 处理接口:<br>imageMogr2/auto-orient/thumbnail/1080x1080>/blur/1x0/quality/75|watermark/2/text/VGhpbmtDTUY=/font/5b6u6L2v6ZuF6buR/fontsize/500/fill/I0ZGRkZGRg==/dissolve/100/gravity/SouthEast/dx/10/dy/10'
     ],
     'styles_avatar'             => [
         'title'   => '样式-头像',
@@ -105,7 +105,7 @@ return [
         "message" => [
             "require" => '样式-头像不能为空'
         ],
-        'tip'     => '请到七牛存储空间->图片样式：添加此样式名称，并进行相应设置 处理接口:<br>imageView2/1/w/100/h/100/interlace/0/q/100'
+        'tip'     => '请到七牛存储空间->图片样式：添加此样式名称，并进行相应设置 处理接口:<br>imageMogr2/auto-orient/thumbnail/!100x100r/gravity/Center/crop/100x100/quality/100/interlace/0'
     ],
     'styles_thumbnail120x120'   => [
         'title'   => '样式-缩略图120x120',
@@ -117,7 +117,7 @@ return [
         "message" => [
             "require" => '样式-缩略图120x120不能为空'
         ],
-        'tip'     => '请到七牛存储空间->图片样式：添加此样式名称，并进行相应设置<br>处理接口:<br>imageView2/1/w/120/h/120/interlace/0/q/100'
+        'tip'     => '请到七牛存储空间->图片样式：添加此样式名称，并进行相应设置<br>处理接口:<br>imageMogr2/auto-orient/thumbnail/!120x120r/gravity/Center/crop/120x120/quality/100/interlace/0'
     ],
     'styles_thumbnail300x300'   => [
         'title'   => '样式-缩略图300x300',
@@ -129,7 +129,7 @@ return [
         "message" => [
             "require" => '样式-缩略图300x300不能为空'
         ],
-        'tip'     => '请到七牛存储空间->图片样式：添加此样式名称，并进行相应设置<br>处理接口:<br>imageView2/1/w/300/h/300/interlace/0/q/100'
+        'tip'     => '请到七牛存储空间->图片样式：添加此样式名称，并进行相应设置<br>处理接口:<br>imageMogr2/auto-orient/thumbnail/!300x300r/gravity/Center/crop/300x300/quality/100/interlace/0'
     ],
     'styles_thumbnail640x640'   => [
         'title'   => '样式-缩略图640x640',
@@ -141,7 +141,7 @@ return [
         "message" => [
             "require" => '样式-缩略图640x640不能为空'
         ],
-        'tip'     => '请到七牛存储空间->图片样式：添加此样式名称，并进行相应设置<br>处理接口:<br>imageView2/1/w/640/h/640/interlace/0/q/100'
+        'tip'     => '请到七牛存储空间->图片样式：添加此样式名称，并进行相应设置<br>处理接口:<br>imageMogr2/auto-orient/thumbnail/!640x640r/gravity/Center/crop/640x640/quality/100/interlace/0'
     ],
     'styles_thumbnail1080x1080' => [
         'title'   => '样式-缩略图1080x1080',
@@ -153,7 +153,7 @@ return [
         "message" => [
             "require" => '样式-缩略图1080x1080不能为空'
         ],
-        'tip'     => '请到七牛存储空间->图片样式：添加此样式名称，并进行相应设置<br>处理接口:<br>imageView2/1/w/1080/h/1080/interlace/0/q/100'
+        'tip'     => '请到七牛存储空间->图片样式：添加此样式名称，并进行相应设置<br>处理接口:<br>imageMogr2/auto-orient/thumbnail/!1080x1080r/gravity/Center/crop/1080x1080/quality/100/interlace/0'
     ],
 ];
 					
