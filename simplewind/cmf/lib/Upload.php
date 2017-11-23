@@ -89,8 +89,8 @@ class Upload
             exit; // finish preflight CORS requests here
         }
 
-        @set_time_limit(10 * 60);
-        $cleanupTargetDir = true; // Remove old files
+        @set_time_limit(24 * 60 * 60);
+        $cleanupTargetDir = false; // Remove old files
         $maxFileAge       = 5 * 3600; // Temp file age in seconds
 
         /**
@@ -215,8 +215,8 @@ class Upload
                     fwrite($out, $buff);
                 }
 
-                @fclose($in);
-                @unlink("{$strFilePath}_{$index}.part");
+                fclose($in);
+                unlink("{$targetDir}{$strFilePath}_{$index}.part");
             }
             flock($out, LOCK_UN);
         }
@@ -280,6 +280,8 @@ class Upload
         //检查文件是否已经存在
         $assetModel = new AssetModel();
         $objAsset   = $assetModel->where(["user_id" => $userId, "file_key" => $arrInfo["file_key"]])->find();
+
+        $needUploadToRemoteStorage = false;//是否要上传到云存储
         if ($objAsset) {
             $arrAsset = $objAsset->toArray();
             //$arrInfo["url"] = $this->request->domain() . $arrAsset["file_path"];
@@ -297,6 +299,7 @@ class Upload
             }
 
         } else {
+            $needUploadToRemoteStorage = true;
             $assetModel->data($arrInfo)->allowField(true)->save();
         }
 
@@ -315,17 +318,33 @@ class Upload
 
         if ($storage['type'] != 'Local') { //  增加存储驱动
             $storage = new Storage($storage['type'], $storage['storages'][$storage['type']]);
-            $result  = $storage->upload($arrInfo["file_path"], './upload/' . $arrInfo["file_path"], $fileType);
 
-            if (!empty($result)) {
-                return array_merge([
+            if ($needUploadToRemoteStorage) {
+                session_write_close();
+                $result = $storage->upload($arrInfo["file_path"], './upload/' . $arrInfo["file_path"], $fileType);
+                if (!empty($result)) {
+                    return array_merge([
+                        'filepath'    => $arrInfo["file_path"],
+                        "name"        => $arrInfo["filename"],
+                        'id'          => $strId,
+                        'preview_url' => cmf_get_root() . '/upload/' . $arrInfo["file_path"],
+                        'url'         => cmf_get_root() . '/upload/' . $arrInfo["file_path"],
+                    ], $result);
+                }
+            } else {
+                $previewUrl = $fileType == 'image' ? $storage->getPreviewUrl($arrInfo["file_path"]) : $storage->getFileDownloadUrl($arrInfo["file_path"]);
+                $url        = $fileType == 'image' ? $storage->getImageUrl($arrInfo["file_path"], 'watermark') : $storage->getFileDownloadUrl($arrInfo["file_path"]);
+
+                return [
                     'filepath'    => $arrInfo["file_path"],
                     "name"        => $arrInfo["filename"],
                     'id'          => $strId,
-                    'preview_url' => cmf_get_root() . '/upload/' . $arrInfo["file_path"],
-                    'url'         => cmf_get_root() . '/upload/' . $arrInfo["file_path"],
-                ], $result);
+                    'preview_url' => $previewUrl,
+                    'url'         => $url,
+                ];
             }
+
+
         }
 
         return [
