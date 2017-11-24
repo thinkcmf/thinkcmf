@@ -9,6 +9,8 @@
 namespace plugins\qiniu;
 
 use cmf\lib\Plugin;
+use Qiniu\Auth;
+
 
 class QiniuPlugin extends Plugin
 {
@@ -50,6 +52,18 @@ class QiniuPlugin extends Plugin
 
         cmf_set_option('storage', $storageOption);
         return true;//卸载成功返回true，失败false
+    }
+
+    public function fetchUploadView(&$param)
+    {
+        $config    = $this->getConfig();
+        $accessKey = $config['accessKey'];
+        $secretKey = $config['secretKey'];
+        $auth      = new Auth($accessKey, $secretKey);
+        $token     = $auth->uploadToken($config['bucket']);
+
+        $this->assign('qiniu_up_token', $token);
+        return $this->fetch('upload');
     }
 
 }
