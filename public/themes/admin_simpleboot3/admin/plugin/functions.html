@@ -259,6 +259,26 @@
                 </div>
             </div>
         </case>
+        <case value="file">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="{$key}">
+                    {$form.title|default=''}
+                    <notempty name="form.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+                <div class="col-md-6 col-sm-10">
+                    <div>
+                        <input class="form-control" id="js-{$key}-input" type="text" name="config[{$key}]" value="{$form['value']}"
+                               style="width: 300px;display: inline-block;" title="文件名称">
+                        <a href="javascript:uploadOne('文件上传','#js-{$key}-input','file');">上传文件</a>
+                    </div>
+                    <present name="form.tip">
+                        <p class="help-block">{$form.tip}</p>
+                    </present>
+                </div>
+            </div>
+        </case>
         <case value="location">
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="{$key}">
