@@ -61,7 +61,7 @@ class LoginController extends HomeBaseController
             }
 
             if (!cmf_captcha_check($data['captcha'])) {
-                $this->error('验证码错误');
+                $this->error(lang('CAPTCHA_NOT_RIGHT'));
             }
 
             $userModel         = new UserModel();
@@ -81,10 +81,10 @@ class LoginController extends HomeBaseController
             switch ($log) {
                 case 0:
                     cmf_user_action('login');
-                    $this->success('登录成功', $redirect);
+                    $this->success(lang('LOGIN_SUCCESS'), $redirect);
                     break;
                 case 1:
-                    $this->error('登录密码错误');
+                    $this->error(lang('PASSWORD_NOT_RIGHT'));
                     break;
                 case 2:
                     $this->error('账户不存在');
