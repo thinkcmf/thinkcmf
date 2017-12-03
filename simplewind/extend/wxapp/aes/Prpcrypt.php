@@ -24,7 +24,7 @@ class Prpcrypt
     public function decrypt($aesCipher, $aesIV)
     {
 
-        if (!function_exists('mcrypt_module_open')) {
+        if (function_exists('mcrypt_module_open')) {
             try {
 
                 $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');

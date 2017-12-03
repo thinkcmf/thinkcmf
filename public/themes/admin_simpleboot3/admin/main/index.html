@@ -276,7 +276,7 @@
     }
 
     //获取官方通知
-    $.getJSON("http://www.thinkcmf.com/service/sms_jsonp.php?lang={$lang_set}&v={$thinkcmf_version}&callback=?",
+    $.getJSON("//www.thinkcmf.com/service/sms_jsonp.php?lang={$lang_set}&v={$thinkcmf_version}&callback=?",
         function (data) {
             var tpl      = '<li><em class="title"></em><span class="content"></span></li>';
             var $notices = $("#thinkcmf-notices");

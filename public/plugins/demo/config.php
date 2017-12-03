@@ -97,18 +97,12 @@ return [
         'value' => '',
         'tip'   => '这是图片组件的演示'
     ],
-//    'photos'     => [
-//        'title' => '相册',
-//        'type'  => 'photos',
-//        'value' => '',
-//        'tip'   => '这是相册组件的演示'
-//    ],
-//    'file'     => [
-//        'title' => '文件',
-//        'type'  => 'file',
-//        'value' => '',
-//        'tip'   => '这是文件组件的演示'
-//    ],
+    'file'     => [
+        'title' => '文件',
+        'type'  => 'file',
+        'value' => '',
+        'tip'   => '这是文件组件的演示'
+    ],
     'location'     => [
         'title' => '地理坐标',
         'type'  => 'location',

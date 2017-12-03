@@ -5,6 +5,20 @@
     .state-complete .progress {
         display: none;
     }
+
+    #uploader .statusBar .progress {
+        vertical-align: middle;
+        margin-bottom: 0;
+    }
+
+    #uploader .statusBar{
+        padding: 0 15px;
+    }
+
+    #uploader .statusBar .info {
+        line-height: 1.2 !important;
+        vertical-align: middle;
+    }
 </style>
 </head>
 <body class="body_none">
@@ -46,7 +60,7 @@
                 <div class="bk3"></div>
                 <input type="hidden" id="img_name" value="">
                 <input type="text" id="info" name="info[filename]" class="input form-control" value=""
-                       style="width:600px;" placeholder="http://" onblur="addonlinefile(this)">
+                       style="width:600px;" placeholder="http://">
             </div>
             <div class="tab-pane" id="explorer">
                 <div class="bk3"></div>
@@ -65,6 +79,7 @@
 <script type="text/javascript">
 
     var httpUrl = "{:cmf_get_asset_url('')}";
+
     function get_selected_files() {
         var files = [];
 
@@ -237,6 +252,7 @@
                     label: '点击选择文件',
                     multiple: multi,
                 },
+                timeout: 0,
                 formData: {
                     app: '{$app}',
                     filetype: '{$filetype}'
@@ -302,10 +318,10 @@
             // 当有文件添加进来时执行，负责view的创建
             function addFile(file) {
                 var $li       = $('<li id="' + file.id + '">' +
-                        '<p class="title">' + file.name + '</p>' +
-                        '<p class="imgWrap"></p>' +
-                        '<p class="progress"><span></span></p>' +
-                        '</li>'),
+                    '<p class="title">' + file.name + '</p>' +
+                    '<p class="imgWrap"></p>' +
+                    '<p class="progress"><span></span></p>' +
+                    '</li>'),
 
                     $btns     = $('<div class="file-panel">' +
                         '<span class="cancel">删除</span>' +
@@ -500,12 +516,17 @@
 
                 } else {
                     stats = uploader.getStats();
-                    text  = '共' + fileCount + '个文件（' +
+
+                    text = '共' + fileCount + '个文件（' +
                         WebUploader.formatSize(fileSize) +
                         '），已上传' + stats.successNum + '个';
 
                     if (stats.uploadFailNum) {
                         text += '，失败' + stats.uploadFailNum + '个';
+                    }
+
+                    if (stats.progressNum > 0) {
+                        text += '<br>上传期间请不要关闭对话框';
                     }
                 }
 
