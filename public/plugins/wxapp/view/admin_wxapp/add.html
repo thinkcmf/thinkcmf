@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+    <include file="public/head"/>
+    <title>ThinkCMF插件演示首页</title>
+    <meta name="description" content="ThinkCMF插件演示首页">
+    <meta name="keywords" content="ThinkCMF插件演示首页">
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:cmf_plugin_url('Wxapp://AdminIndex/index')}">小程序管理</a></li>
+        <li class="active"><a href="{:cmf_plugin_url('Wxapp://AdminWxapp/add')}">添加小程序</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20"
+          action="{:cmf_plugin_url('Wxapp://AdminWxapp/addPost')}">
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><span class="form-required">*</span>名称</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="name" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><span class="form-required">*</span>App ID</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="app_id" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><span class="form-required">*</span>App Secret</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="app_secret" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">默认小程序</label>
+            <div class="col-md-6 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="is_default" value="1">
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary js-ajax-submit">{:lang("SAVE")}</button>
+        </div>
+    </form>
+</div>
+<include file="public/scripts"/>
+</body>
+</html>

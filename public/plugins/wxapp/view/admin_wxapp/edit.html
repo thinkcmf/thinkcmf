@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+    <include file="public/head"/>
+    <title>ThinkCMF插件演示首页</title>
+    <meta name="description" content="ThinkCMF插件演示首页">
+    <meta name="keywords" content="ThinkCMF插件演示首页">
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:cmf_plugin_url('Wxapp://AdminIndex/index')}">小程序管理</a></li>
+        <li><a href="{:cmf_plugin_url('Wxapp://AdminWxapp/add')}">添加小程序</a></li>
+        <li class="active"><a>编辑小程序</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20"
+          action="{:cmf_plugin_url('Wxapp://AdminWxapp/editPost')}">
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><span class="form-required">*</span>名称</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="name" value="{$wxapp.name|default=''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><span class="form-required">*</span>App ID</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="app_id" value="{$wxapp.app_id|default=''}" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><span class="form-required">*</span>App Secret</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" name="app_secret" value="{$wxapp.app_secret|default=''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">默认小程序</label>
+            <div class="col-md-6 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <if condition="!empty($default_wxapp['app_id']) && !empty($wxapp['app_id']) && $default_wxapp['app_id']== $wxapp['app_id']">
+                            <input type="checkbox" name="is_default" value="1" checked>
+                            <else/>
+                            <input type="checkbox" name="is_default" value="1">
+                        </if>
+
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary js-ajax-submit">{:lang("SAVE")}</button>
+        </div>
+    </form>
+</div>
+<include file="public/scripts"/>
+</body>
+</html>
