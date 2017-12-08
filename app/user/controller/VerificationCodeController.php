@@ -19,15 +19,21 @@ class VerificationCodeController extends HomeBaseController
     {
         $validate = new Validate([
             'username' => 'require',
+            'captcha'  => 'require',
         ]);
 
         $validate->message([
             'username.require' => '请输入手机号或邮箱!',
+            'captcha.require'  => '图片验证码不能为空',
         ]);
 
         $data = $this->request->param();
         if (!$validate->check($data)) {
             $this->error($validate->getError());
+        }
+
+        if (!cmf_captcha_check($data['captcha'])) {
+            $this->error('图片验证码错误');
         }
 
         $accountType = '';
@@ -38,6 +44,18 @@ class VerificationCodeController extends HomeBaseController
             $accountType = 'mobile';
         } else {
             $this->error("请输入正确的手机或者邮箱格式!");
+        }
+
+        if (isset($data['type']) && $data['type'] == 'register') {
+            if ($accountType == 'email') {
+                $findUserCount = db('user')->where('user_email', $data['username'])->count();
+            } else if ($accountType == 'mobile') {
+                $findUserCount = db('user')->where('mobile', $data['username'])->count();
+            }
+
+            if ($findUserCount > 0) {
+                $this->error('账号已注册！');
+            }
         }
 
         //TODO 限制 每个ip 的发送次数
