@@ -84,5 +84,3 @@ class CaptchaController
         return $captcha->entry($id);
     }
 }
-
-

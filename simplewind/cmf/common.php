@@ -1079,11 +1079,13 @@ function cmf_alpha_id($in, $to_num = false, $pad_up = 4, $passKey = null)
  * 验证码检查，验证完后销毁验证码
  * @param string $value
  * @param string $id
+ * @param bool $reset
  * @return bool
  */
-function cmf_captcha_check($value, $id = "")
+function cmf_captcha_check($value, $id = "", $reset = true)
 {
-    $captcha = new \think\captcha\Captcha();
+    $captcha        = new \think\captcha\Captcha();
+    $captcha->reset = $reset;
     return $captcha->check($value, $id);
 }
 

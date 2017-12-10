@@ -32,8 +32,18 @@ class VerificationCodeController extends HomeBaseController
             $this->error($validate->getError());
         }
 
-        if (!cmf_captcha_check($data['captcha'])) {
-            $this->error('图片验证码错误');
+        $captchaId = empty($data['captcha_id']) ? '' : $data['captcha_id'];
+        if (!cmf_captcha_check($data['captcha'], $captchaId, false)) {
+            $this->error('图片验证码错误!');
+        }
+
+        $registerCaptcha = session('register_captcha');
+
+        session('register_captcha', $data['captcha']);
+
+        if ($registerCaptcha == $data['captcha']) {
+            cmf_captcha_check($data['captcha'], $captchaId, true);
+            $this->error('请输入新图片验证码!');
         }
 
         $accountType = '';

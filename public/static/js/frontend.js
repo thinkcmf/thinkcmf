@@ -322,11 +322,13 @@
         Wind.use('noty', function () {
             $('.js-ajax-delete').on('click', function (e) {
                 e.preventDefault();
-                var $_this = this,
-                    $this  = $($_this),
-                    href   = $this.data('href'),
-                    msg    = $this.data('msg');
-                href       = href ? href : $this.attr('href');
+                var $_this    = this,
+                    $this     = $($_this),
+                    href      = $this.data('href'),
+                    msg       = $this.data('msg');
+                okBtnText     = $this.data('ok-btn');
+                cancelBtnText = $this.data('cancel-btn');
+                href          = href ? href : $this.attr('href');
                 noty({
                     text: msg ? msg : '确定要删除吗？',
                     type: 'confirm',
@@ -336,7 +338,7 @@
                     buttons: [
                         {
                             addClass: 'btn btn-primary',
-                            text: '确定',
+                            text: okBtnText ? okBtnText : '确定',
                             onClick: function ($noty) {
                                 $noty.close();
                                 $.getJSON(href).done(function (data) {
@@ -365,7 +367,7 @@
                         },
                         {
                             addClass: 'btn btn-danger',
-                            text: '取消',
+                            text: cancelBtnText ? cancelBtnText : '取消',
                             onClick: function ($noty) {
                                 $noty.close();
                             }
@@ -535,9 +537,11 @@
                     return;
                 }
 
-                var $form         = $this.parents('form');
-                var $captchaInput = $("input[name='captcha']", $form);
-                var captcha       = $captchaInput.val();
+                var $form           = $this.parents('form');
+                var $captchaInput   = $("input[name='captcha']", $form);
+                var $captchaIdInput = $("input[name='_captcha_id']", $form);
+                var captcha         = $captchaInput.val();
+                var captchaId       = $captchaIdInput.val();
 
                 if (!captcha) {
                     $captchaInput.focus();
@@ -560,7 +564,7 @@
                     url: url,
                     type: 'POST',
                     dataType: 'json',
-                    data: {username: mobile, captcha: captcha, type: codeType},
+                    data: {username: mobile, captcha: captcha, captcha_id: captchaId, type: codeType},
                     success: function (data) {
                         if (data.code == 1) {
                             noty({
@@ -583,6 +587,11 @@
 
                             }, 1000);
                         } else {
+                            $captchaInput.val('');
+                            var $verify_img = $form.find(".verify_img");
+                            if ($verify_img.length) {
+                                $verify_img.attr("src", $verify_img.attr("src") + "&refresh=" + Math.random());
+                            }
                             noty({
                                 text: data.msg,
                                 type: 'error',
@@ -596,10 +605,6 @@
                     },
                     complete: function () {
                         $this.data('loading', false);
-                        var $verify_img = $form.find(".verify_img");
-                        if ($verify_img.length) {
-                            $verify_img.attr("src", $verify_img.attr("src") + "&refresh=" + Math.random());
-                        }
                     }
                 });
             });
@@ -623,9 +628,11 @@
                     return;
                 }
 
-                var $form         = $this.parents('form');
-                var $captchaInput = $("input[name='captcha']", $form);
-                var captcha       = $captchaInput.val();
+                var $form           = $this.parents('form');
+                var $captchaInput   = $("input[name='captcha']", $form);
+                var $captchaIdInput = $("input[name='_captcha_id']", $form);
+                var captcha         = $captchaInput.val();
+                var captchaId       = $captchaIdInput.val();
 
                 if (!captcha) {
                     $captchaInput.focus();
@@ -647,7 +654,7 @@
                     url: url,
                     type: 'POST',
                     dataType: 'json',
-                    data: {username: email, captcha: captcha, type: codeType},
+                    data: {username: email, captcha: captcha, captcha_id: captchaId, type: codeType},
                     success: function (data) {
                         if (data.code == 1) {
                             noty({
@@ -670,6 +677,12 @@
 
                             }, 1000);
                         } else {
+                            $captchaInput.val('');
+                            var $verify_img = $form.find(".verify_img");
+                            if ($verify_img.length) {
+                                $verify_img.attr("src", $verify_img.attr("src") + "&refresh=" + Math.random());
+                            }
+
                             noty({
                                 text: data.msg,
                                 type: 'error',
@@ -683,10 +696,6 @@
                     },
                     complete: function () {
                         $this.data('loading', false);
-                        var $verify_img = $form.find(".verify_img");
-                        if ($verify_img.length) {
-                            $verify_img.attr("src", $verify_img.attr("src") + "&refresh=" + Math.random());
-                        }
                     }
                 });
             });
