@@ -14,7 +14,7 @@ use app\admin\model\NavModel;
 
 class NavApi
 {
-    // 分类列表 用于模板设计
+    // 导航模板数据源 用于模板设计
     public function index($param = [])
     {
         $navModel = new NavModel();

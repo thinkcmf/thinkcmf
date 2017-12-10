@@ -14,7 +14,7 @@ use app\admin\model\NavMenuModel;
 
 class NavMenuApi
 {
-    // 分类列表 用于模板设计
+    // 导航菜单模板数据源 用于模板设计
     public function index($param = [])
     {
         $navMenuModel = new NavMenuModel();
