@@ -50,7 +50,7 @@ class RegisterController extends HomeBaseController
 
             ];
 
-            $isOpenRegistration=cmf_is_open_registration();
+            $isOpenRegistration = cmf_is_open_registration();
 
             if ($isOpenRegistration) {
                 unset($rules['code']);
@@ -69,11 +69,13 @@ class RegisterController extends HomeBaseController
             if (!$validate->check($data)) {
                 $this->error($validate->getError());
             }
-            if (!cmf_captcha_check($data['captcha'])) {
+
+            $captchaId = empty($data['_captcha_id']) ? '' : $data['_captcha_id'];
+            if (!cmf_captcha_check($data['captcha'], $captchaId)) {
                 $this->error('验证码错误');
             }
 
-            if(!$isOpenRegistration){
+            if (!$isOpenRegistration) {
                 $errMsg = cmf_check_verification_code($data['username'], $data['code']);
                 if (!empty($errMsg)) {
                     $this->error($errMsg);

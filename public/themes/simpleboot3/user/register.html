@@ -39,6 +39,14 @@
                                        id="js-mobile-input">
                             </div>
 
+                            <div class="form-group">
+                                <div style="position: relative;">
+                                    <input type="text" name="captcha" placeholder="验证码" class="form-control"
+                                           style="width: 170px;float: left;margin-right: 30px">
+                                    <captcha height="38" width="160" font-size="20"/>
+                                </div>
+                            </div>
+
                             <empty name="is_open_registration">
                                 <div class="form-group">
                                     <div style="position: relative;">
@@ -48,6 +56,7 @@
                                            style="width: 163px;position: absolute;top:0;right: 0;"
                                            data-wait-msg="[second]秒后才能再次获取" data-mobile-input="#js-mobile-input"
                                            data-url="{:url('user/VerificationCode/send')}"
+                                           daty-type="register"
                                            data-init-second-left="60">获取手机验证码</a>
                                     </div>
                                 </div>
@@ -55,14 +64,6 @@
 
                             <div class="form-group">
                                 <input type="password" name="password" placeholder="密码" class="form-control">
-                            </div>
-
-                            <div class="form-group">
-                                <div style="position: relative;">
-                                    <input type="text" name="captcha" placeholder="验证码" class="form-control"
-                                           style="width: 170px;float: left;margin-right: 30px">
-                                    <captcha height="38" width="160" font-size="20"/>
-                                </div>
                             </div>
 
                             <div class="form-group">
@@ -87,6 +88,14 @@
                                    id="js-email-input">
                         </div>
 
+                        <div class="form-group">
+                            <div style="position: relative;">
+                                <input type="text" name="captcha" placeholder="验证码" class="form-control"
+                                       style="width: 170px;float: left;margin-right: 30px">
+                                <captcha height="38" width="160" font-size="20"/>
+                            </div>
+                        </div>
+
                         <empty name="is_open_registration">
                             <div class="form-group">
                                 <div style="position: relative;">
@@ -96,6 +105,7 @@
                                        style="width: 163px;position: absolute;top:0;right: 0;"
                                        data-wait-msg="[second]秒后才能再次获取" data-email-input="#js-email-input"
                                        data-url="{:url('user/VerificationCode/send')}"
+                                       daty-type="register"
                                        data-init-second-left="60">获取邮箱验证码</a>
                                 </div>
                             </div>
@@ -103,14 +113,6 @@
 
                         <div class="form-group">
                             <input type="password" name="password" placeholder="密码" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <div style="position: relative;">
-                                <input type="text" name="captcha" placeholder="验证码" class="form-control"
-                                       style="width: 170px;float: left;margin-right: 30px">
-                                <captcha height="38" width="160" font-size="20"/>
-                            </div>
                         </div>
 
                         <div class="form-group">

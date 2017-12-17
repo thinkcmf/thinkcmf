@@ -15,7 +15,7 @@ use app\admin\model\SlideModel;
 class SlideApi
 {
     /**
-     * 幻灯片列表 用于模板设计
+     * 幻灯片模板数据源 用于模板设计
      * @param array $param
      * @return false|\PDOStatement|string|\think\Collection
      */

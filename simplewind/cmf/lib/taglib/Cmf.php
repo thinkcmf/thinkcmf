@@ -339,7 +339,8 @@ parse;
     public function tagCaptcha($tag, $content)
     {
         //height,width,font-size,length,bg,id
-        $id       = empty($tag['id']) ? '' : '&id=' . $tag['id'];
+        $id       = empty($tag['id']) ? '' : $tag['id'];
+        $paramId  = empty($tag['id']) ? '' : '&id=' . $tag['id'];
         $height   = empty($tag['height']) ? '' : '&height=' . $tag['height'];
         $width    = empty($tag['width']) ? '' : '&width=' . $tag['width'];
         $fontSize = empty($tag['font-size']) ? '' : '&font_size=' . $tag['font-size'];
@@ -347,10 +348,11 @@ parse;
         $bg       = empty($tag['bg']) ? '' : '&bg=' . $tag['bg'];
         $title    = empty($tag['title']) ? '换一张' : $tag['title'];
         $style    = empty($tag['style']) ? 'cursor: pointer;' : $tag['style'];
-        $params   = ltrim("{$id}{$height}{$width}{$fontSize}{$length}{$bg}", '&');
+        $params   = ltrim("{$paramId}{$height}{$width}{$fontSize}{$length}{$bg}", '&');
         $parse    = <<<parse
 <php>\$__CAPTCHA_SRC=url('/captcha/new').'?{$params}';</php>
 <img src="{\$__CAPTCHA_SRC}" onclick="this.src='{\$__CAPTCHA_SRC}&time='+Math.random();" title="{$title}" class="captcha captcha-img verify_img" style="{$style}"/>{$content}
+<input type="hidden" name="_captcha_id" value="{$id}">
 parse;
         return $parse;
     }

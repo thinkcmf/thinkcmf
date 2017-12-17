@@ -6,26 +6,26 @@
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: 老猫 <thinkcmf@126.com>
+// | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
-namespace app\admin\api;
+namespace plugins\wxapp\validate;
 
-use app\admin\model\NavModel;
+use think\Validate;
 
-class NavApi
+class AdminWxappValidate extends Validate
 {
-    // 导航模板数据源 用于模板设计
-    public function index($param = [])
-    {
-        $navModel = new NavModel();
+    protected $rule = [
+        // 用|分开
+        'name'       => 'require',
+        'app_id'     => 'require',
+        'app_secret' => 'require'
+    ];
 
-        $where = [];
+    protected $message = [
+        'name.require'       => "小程序名称不能为空！",
+        'app_id.require'     => "小程序App Id不能为空!",
+        'app_secret.require' => '小程序App Secret不能为空!'
+    ];
 
-        if (!empty($param['keyword'])) {
-            $where['name'] = ['like', "%{$param['keyword']}%"];
-        }
-
-        return $navModel->where($where)->select();
-    }
 
 }
