@@ -248,7 +248,7 @@ class AdminArticleController extends AdminBaseController
                 'create_time' => time(),
                 'table_name'  => 'portal_post',
                 'name'        => $result['post_title'],
-                'user_id'=>session("ADMIN_ID")
+                'user_id'=>cmf_get_current_admin_id()
             ];
             $resultPortal = $portalPostModel
                 ->where(['id' => $id])
@@ -276,7 +276,7 @@ class AdminArticleController extends AdminBaseController
                         'create_time' => time(),
                         'table_name'  => 'portal_post',
                         'name'        => $value['post_title'],
-                        'user_id'=>session("ADMIN_ID")
+                        'user_id'=>cmf_get_current_admin_id()
                     ];
                     Db::name('recycleBin')->insert($data);
                 }
