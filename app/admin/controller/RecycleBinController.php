@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\model\RecycleBinModel;
 use app\admin\model\RouteModel;
 use cmf\controller\AdminBaseController;
 use think\Db;
@@ -31,7 +32,8 @@ class RecycleBinController extends AdminBaseController
      */
     function index()
     {
-        $list = Db::name('recycleBin')->order('create_time desc')->paginate(10);
+        $recycleBinModel = new RecycleBinModel();
+        $list = $recycleBinModel->order('create_time desc')->paginate(10);
         // 获取分页显示
         $page = $list->render();
         $this->assign('page', $page);
