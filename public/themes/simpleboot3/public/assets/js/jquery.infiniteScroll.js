@@ -4,7 +4,23 @@
  * http://www.thinkcmf.com
  * MIT License
  * by Dean(老猫)
+ *
  */
+// examples
+// $('#nextpage').infiniteScroll({
+//     total_pages:5,
+//     pageParam:'page',
+//     loading:'.js-infinite-scroll-loading',
+//     success:function(content){
+//         var $items=$(content).find('#container .item');
+//         if($items.length>0){
+//             $container.append( $items );
+//         }
+//     },
+//     finish:function(){
+//
+//     }
+// });
 ;(function($){
 	$.fn.infiniteScroll=function(options){
 		var opts = $.extend({},$.fn.infiniteScroll.defaults, options); 
@@ -51,7 +67,7 @@
 		});
 	};
 	$.fn.infiniteScroll.defaults = {
-		pageParam:'p',
+		pageParam:'page',
 		loading:'.js-infinite-scroll-loading',
 		page:1,
 		success:function(){},
