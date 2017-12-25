@@ -1249,7 +1249,7 @@ Wind.ready(function () {
             iframeTools: 'artDialog/iframeTools',
             xd: 'xd',//Iframe跨域通信
 
-            noty: 'noty/noty',
+            noty: 'noty/noty-2.4.1',
             noty3: 'noty3/noty.min',
             jcrop: 'jcrop/js/jcrop',
             ajaxfileupload: 'ajaxfileupload',
@@ -1265,6 +1265,7 @@ Wind.ready(function () {
             dragula: 'dragula/dragula.min',
             imagesloaded: 'masonry/imagesloaded.pkgd.min',
             masonry: 'masonry/masonry.pkgd.min',
+            masonry3: 'masonry/masonry-3.3.2.pkgd',
             ueditor:'ueditor/ueditor.all.min'
         },
         //CSS路径
