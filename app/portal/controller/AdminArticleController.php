@@ -247,7 +247,8 @@ class AdminArticleController extends AdminBaseController
                 'object_id'   => $result['id'],
                 'create_time' => time(),
                 'table_name'  => 'portal_post',
-                'name'        => $result['post_title']
+                'name'        => $result['post_title'],
+                'user_id'=>cmf_get_current_admin_id()
             ];
             $resultPortal = $portalPostModel
                 ->where(['id' => $id])
@@ -267,12 +268,15 @@ class AdminArticleController extends AdminBaseController
             $recycle = $portalPostModel->where(['id' => ['in', $ids]])->select();
             $result  = $portalPostModel->where(['id' => ['in', $ids]])->update(['delete_time' => time()]);
             if ($result) {
+                Db::name('portal_category_post')->where(['post_id' => ['in', $ids]])->update(['status'=>0]);
+                Db::name('portal_tag_post')->where(['post_id' => ['in', $ids]])->update(['status'=>0]);
                 foreach ($recycle as $value) {
                     $data = [
                         'object_id'   => $value['id'],
                         'create_time' => time(),
                         'table_name'  => 'portal_post',
-                        'name'        => $value['post_title']
+                        'name'        => $value['post_title'],
+                        'user_id'=>cmf_get_current_admin_id()
                     ];
                     Db::name('recycleBin')->insert($data);
                 }
