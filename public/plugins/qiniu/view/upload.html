@@ -421,7 +421,7 @@
 
                 },
                 'before-send': function (block) {
-                    var server = '//upload.qiniup.com/mkblk/' + block.blob.size;
+                    var server = '//{$upload_host}/mkblk/' + block.blob.size;
                     uploader.option('server', server);
                 }
 
@@ -449,7 +449,7 @@
                 auto: true,
                 chunkSize: 4 * 1024 * 1024,// 单位B
                 compress: false,
-                server: "//upload.qiniup.com/mkblk/4194304",
+                server: "//{$upload_host}/mkblk/4194304",
                 // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
                 disableGlobalDnd: true,
                 threads: 1,
@@ -787,6 +787,7 @@
                     $percent = $li.find('.progress span');
 
                 console.log(file);
+                console.error('percentage:'+percentage);
 
                 $percent.css('width', percentage * 100 + '%');
                 percentages[file.id][1] = percentage;
@@ -828,7 +829,7 @@
                             console.log(file);
 
                             $.ajax({
-                                url: '//upload.qiniup.com/mkfile/' + file.size,
+                                url: '//{$upload_host}/mkfile/' + file.size,
                                 type: 'POST',
                                 dataType: 'json',
                                 contentType: 'text/plain',

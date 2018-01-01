@@ -71,6 +71,24 @@ return [
         ],
         'tip'     => ''
     ],
+    'zone'                      => [// 在后台插件配置表单中的键名 ,会是config[select]
+        'title'   => '存储区域',
+        'type'    => 'select',
+        'options' => [//select 和radio,checkbox的子选项
+            'z0'  => '华东',// 值=>显示
+            'z1'  => '华北',
+            'z2'  => '华南',
+            'na0' => '北美',
+        ],
+        'value'   => 'http',
+        "rule"    => [
+            "require" => true
+        ],
+        "message" => [
+            "require" => '存储区域不能为空'
+        ],
+        'tip'     => ''
+    ],
     'style_separator'           => [
         'title'   => '样式分隔符',
         'type'    => 'text',
