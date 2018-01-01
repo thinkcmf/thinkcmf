@@ -38,6 +38,15 @@ class Portal extends TagLib
         $pageVarName   = empty($tag['pageVarName']) ? '__PAGE_VAR_NAME__' : $tag['pageVarName'];
         $returnVarName = empty($tag['returnVarName']) ? 'articles_data' : $tag['returnVarName'];
 
+        if (!empty($tag['field'])) {
+            if (strpos($tag['field'], '$') === 0) {
+                $field = $tag['field'];
+                $this->autoBuildVar($field);
+            } else {
+                $field = "'{$tag['field']}'";
+            }
+        }
+
         $where = '""';
         if (!empty($tag['where']) && strpos($tag['where'], '$') === 0) {
             $where = $tag['where'];
@@ -73,13 +82,20 @@ class Portal extends TagLib
             }
         }
 
+        if (strpos($tag['order'], '$') === 0) {
+            $order = $tag['order'];
+            $this->autoBuildVar($order);
+        } else {
+            $order = "'{$order}'";
+        }
+
         $parse = <<<parse
 <?php
 \${$returnVarName} = \app\portal\service\ApiService::articles([
-    'field'   => '{$field}',
+    'field'   => {$field},
     'where'   => {$where},
     'limit'   => {$limit},
-    'order'   => '{$order}',
+    'order'   => {$order},
     'page'    => $page,
     'relation'=> '{$relation}',
     'category_ids'=>{$categoryIds}
