@@ -147,7 +147,7 @@ class AdminMenuModel extends Model
             $ret = NULL;
             foreach ($data as $a) {
                 $id         = $a['id'];
-                $name       = $a['app'];
+                $app        = $a['app'];
                 $controller = ucwords($a['controller']);
                 $action     = $a['action'];
                 //附带参数
@@ -155,21 +155,33 @@ class AdminMenuModel extends Model
                 if ($a['param']) {
                     $params = "?" . htmlspecialchars_decode($a['param']);
                 }
+
+                $url = '';
+
+                if (strpos($app, 'plugin/') === 0) {
+                    $pluginName = str_replace('plugin/', '', $app);
+                    $url        = cmf_plugin_url($pluginName . "://{$controller}/{$action}{$params}");
+                } else {
+                    $url = url("{$app}/{$controller}/{$action}{$params}");
+                }
+
+                $app = str_replace('/', '_', $app);
+
                 $array = [
                     "icon"   => $a['icon'],
-                    "id"     => $id . $name,
+                    "id"     => $id . $app,
                     "name"   => $a['name'],
                     "parent" => $parent,
-                    "url"    => url("{$name}/{$controller}/{$action}{$params}"),
-                    'lang'   => strtoupper($name . '_' . $controller . '_' . $action)
+                    "url"    => $url,
+                    'lang'   => strtoupper($app . '_' . $controller . '_' . $action)
                 ];
 
 
-                $ret[$id . $name] = $array;
-                $child            = $this->getTree($a['id'], $id, $Level);
+                $ret[$id . $app] = $array;
+                $child           = $this->getTree($a['id'], $id, $Level);
                 //由于后台管理界面只支持三层，超出的不层级的不显示
                 if ($child && $Level <= 3) {
-                    $ret[$id . $name]['items'] = $child;
+                    $ret[$id . $app]['items'] = $child;
                 }
 
             }
