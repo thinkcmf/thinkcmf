@@ -104,7 +104,7 @@ parse;
         $parseNavigationFuncName = '__parse_navigation' . md5(uniqid('_nav' . $navId . __LINE__, true));
 
         if (strpos($navId, '$') === 0) {
-            $this->autoBuildVar($name);
+            $this->autoBuildVar($navId);
         } else {
             $navId = "'{$navId}'";
         }
@@ -144,18 +144,28 @@ parse;
     public function tagNavigationMenu($tag, $content)
     {
         //root,class
-        $root  = !empty($tag['root']) ? $tag['root'] : 'li';
-        $class = !empty($tag['class']) ? $tag['class'] : '';
+        $root  = empty($tag['root']) ? '' : $tag['root'];
+        $class = empty($tag['class']) ? '' : $tag['class'];
 
-        $parse = <<<parse
+        if (empty($root)) {
+            $parse = <<<parse
+<if condition="empty(\$menu['children'])">
+    {$content}
+</if>
+parse;
+        } else {
+            $parse = <<<parse
 <if condition="empty(\$menu['children'])">
     <{$root} class="{$class}">
     {$content}
     </{$root}>
 </if>
 parse;
+        }
+
         return $parse;
     }
+
 
     /**
      * 导航folder标签
@@ -163,8 +173,8 @@ parse;
     public function tagNavigationFolder($tag, $content)
     {
         //root,class,dropdown,dropdown-class
-        $root          = isset($tag['root']) ? $tag['root'] : 'li';
-        $class         = isset($tag['class']) ? $tag['class'] : 'dropdown';
+        $root          = empty($tag['root']) ? 'li' : $tag['root'];
+        $class         = empty($tag['class']) ? 'dropdown' : $tag['class'];
         $dropdown      = isset($tag['dropdown']) ? $tag['dropdown'] : 'ul';
         $dropdownClass = isset($tag['dropdown-class']) ? $tag['dropdown-class'] : 'dropdown-menu';
 
@@ -181,6 +191,7 @@ parse;
     </{$root}>
 </if>
 parse;
+
         return $parse;
     }
 
@@ -199,7 +210,7 @@ parse;
         $parseSubNavigationFuncName = '__parse_sub_navigation' . md5(uniqid('_nav' . $parent . $id . __LINE__, true));;
 
         if (strpos($parent, '$') === 0) {
-            $this->autoBuildVar($name);
+            $this->autoBuildVar($parent);
         } else {
             $parent = "'{$parent}'";
         }
@@ -238,16 +249,25 @@ parse;
     public function tagSubNavigationMenu($tag, $content)
     {
         //root,class
-        $root  = !empty($tag['root']) ? $tag['root'] : 'li';
+        $root  = !empty($tag['root']) ? $tag['root'] : '';
         $class = !empty($tag['class']) ? $tag['class'] : '';
 
-        $parse = <<<parse
+        if (empty($root)) {
+            $parse = <<<parse
+<if condition="empty(\$menu['children'])">
+    {$content}
+</if>
+parse;
+        } else {
+            $parse = <<<parse
 <if condition="empty(\$menu['children'])">
     <{$root} class="{$class}">
     {$content}
     </{$root}>
 </if>
 parse;
+        }
+
         return $parse;
     }
 
