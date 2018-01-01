@@ -128,7 +128,13 @@ class PluginModel extends Model
                 }
             }
 
+            // 删除后台菜单
             Db::name('admin_menu')->where([
+                'app' => "plugin/{$findPlugin['name']}",
+            ])->delete();
+
+            // 删除权限规则
+            Db::name('auth_rule')->where([
                 'app' => "plugin/{$findPlugin['name']}",
             ])->delete();
 
