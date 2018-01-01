@@ -96,7 +96,7 @@ class Portal extends TagLib
     'where'   => {$where},
     'limit'   => {$limit},
     'order'   => {$order},
-    'page'    => $page,
+    'page'    => {$page},
     'relation'=> '{$relation}',
     'category_ids'=>{$categoryIds}
 ]);
