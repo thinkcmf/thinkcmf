@@ -543,7 +543,7 @@ class ThemeController extends AdminBaseController
             foreach ($more['vars'] as $mVarName => $mVar) {
 
                 if ($mVarName == $varName && $mVar['type'] == 'array') {
-                    if (!empty($var['value']) && is_array($var['value']) && isset($var['value'][$itemIndex])) {
+                    if (!empty($mVar['value']) && is_array($mVar['value']) && isset($mVar['value'][$itemIndex])) {
                         array_splice($more['vars'][$mVarName]['value'], $itemIndex, 1);
                     } else {
                         $this->error('指定数据不存在!');
