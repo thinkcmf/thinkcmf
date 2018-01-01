@@ -61,7 +61,7 @@ class AdminOauthController extends AdminBaseController
         if (empty($id)) {
             $this->error('非法数据！');
         }
-        $result = Db::name("third_party_user")->where("id", $id)->delete();
+        $result = Db::name("OauthUser")->where("id", $id)->delete();
         if ($result !== false) {
             $this->success("删除成功！", "admin_oauth/index");
         } else {
