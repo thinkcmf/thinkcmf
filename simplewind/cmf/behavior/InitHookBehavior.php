@@ -23,9 +23,14 @@ class InitHookBehavior
             return;
         }
 
-        $plugins = Db::name('hook_plugin')->field('hook,plugin')->where('status', 1)
-            ->order('list_order ASC')
-            ->select();
+        $plugins = cache('init_hook_plugins');
+
+        if (empty($plugins)) {
+            $plugins = Db::name('hook_plugin')->field('hook,plugin')->where('status', 1)
+                ->order('list_order ASC')
+                ->select();
+            cache('init_hook_plugins', $plugins);
+        }
 
         if (!empty($plugins)) {
             foreach ($plugins as $hookPlugin) {

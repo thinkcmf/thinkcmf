@@ -111,6 +111,8 @@ class PluginController extends AdminBaseController
 
         }
 
+        cache('init_hook_plugins', null);
+
         $this->success($successMessage);
     }
 
@@ -354,6 +356,8 @@ class PluginController extends AdminBaseController
 
         $this->_getActions($pluginName);
 
+        cache('init_hook_plugins', null);
+
         $this->success('安装成功!');
     }
 
@@ -432,6 +436,8 @@ class PluginController extends AdminBaseController
         }
 
         $this->_getActions($pluginName);
+
+        cache('init_hook_plugins', null);
 
         $this->success('更新成功!');
     }
@@ -574,7 +580,7 @@ class PluginController extends AdminBaseController
                                             'action'     => $action
                                         ])->update([
                                             //'parent_id' => $parentId,
-                                            'type'      => $type,
+                                            'type' => $type,
                                         ]);
                                         $menuName = $findAdminMenu['name'];
                                     }
@@ -642,6 +648,8 @@ class PluginController extends AdminBaseController
         if ($result !== true) {
             $this->error('卸载失败!');
         }
+
+        cache('init_hook_plugins', null);
 
         $this->success('卸载成功!');
     }
