@@ -190,8 +190,16 @@
 
 <div class="wrap " style="padding:5px;">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#wrapper" data-toggle="tab">上传文件</a></li>
-        <li class=""><a href="#B" data-toggle="tab">网络文件</a></li>
+        <php>
+            $url_params=input('param.');
+            $url_params['tab']='local';
+        </php>
+        <li class=""><a href="{:url('user/Asset/webuploader',$url_params)}">上传文件</a></li>
+        <php>
+            $url_params['tab']='url';
+        </php>
+        <li class=""><a href="{:url('user/Asset/webuploader',$url_params)}">网络文件</a></li>
+        <li class="active"><a>上传到云存储</a></li>
         <!--<li class=""><a href="#explorer" data-toggle="tab">文件管理</a></li>-->
     </ul>
     <div class="tabbable">
@@ -787,7 +795,7 @@
                     $percent = $li.find('.progress span');
 
                 console.log(file);
-                console.error('percentage:'+percentage);
+                console.error('percentage:' + percentage);
 
                 $percent.css('width', percentage * 100 + '%');
                 percentages[file.id][1] = percentage;
@@ -869,7 +877,7 @@
                                         error: function () {
 
                                         },
-                                        complete:function () {
+                                        complete: function () {
                                             setState('finish');
                                         }
                                     });

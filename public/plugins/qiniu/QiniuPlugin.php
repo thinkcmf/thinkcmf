@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
@@ -70,6 +70,13 @@ class QiniuPlugin extends Plugin
         $this->assign('upload_host', $uploadHost);
         $this->assign('qiniu_up_token', $token);
         return $this->fetch('upload');
+    }
+
+    public function cloudStorageTab(&$param)
+    {
+
+
+
     }
 
 }

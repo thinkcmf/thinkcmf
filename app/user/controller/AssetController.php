@@ -70,7 +70,7 @@ class AssetController extends AdminBaseController
             } else {
                 $this->error('上传文件类型配置错误！');
             }
-            
+
 
             View::share('filetype', $arrData["filetype"]);
             View::share('extensions', $extensions);
@@ -87,10 +87,21 @@ class AssetController extends AdminBaseController
 
             $content = hook_one('fetch_upload_view');
 
+            $tabs = ['local', 'url', 'cloud'];
+
+            $tab = !empty($arrData['tab']) && in_array($arrData['tab'], $tabs) ? $arrData['tab'] : 'local';
+
             if (!empty($content)) {
+                $this->assign('has_cloud_storage', true);
+            }
+
+            if (!empty($content) && $tab == 'cloud') {
                 return $content;
             }
 
+            $tab = $tab == 'cloud' ? 'local' : $tab;
+
+            $this->assign('tab', $tab);
             return $this->fetch(":webuploader");
 
         }
