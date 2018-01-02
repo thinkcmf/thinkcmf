@@ -169,6 +169,15 @@ class IndexController extends Controller
             $dbConfig['password'] = $this->request->param('dbpw');
             $dbConfig['hostport'] = $this->request->param('dbport');
             $dbConfig['charset']  = $this->request->param('dbcharset', 'utf8mb4');
+
+            $userLogin = $this->request->param('manager');
+            $userPass  = $this->request->param('manager_pwd');
+            $userEmail = $this->request->param('manager_email');
+            //检查密码。空 6-32字符。
+            empty($userPass) && $this->error("密码不可以为空");
+            strlen($userPass) < 6 && $this->error("密码长度最少6位");
+            strlen($userPass) > 32 && $this->error("密码长度最多32位");
+
             $db                   = Db::connect($dbConfig);
             $dbName               = $this->request->param('dbname');
             $sql                  = "CREATE DATABASE IF NOT EXISTS `{$dbName}` DEFAULT CHARACTER SET " . $dbConfig['charset'];
@@ -197,16 +206,6 @@ class IndexController extends Controller
                 'site_seo_keywords'    => $seoKeywords,
                 'site_seo_description' => $siteInfo
             ]);
-
-            $userLogin = $this->request->param('manager');
-            $userPass  = $this->request->param('manager_pwd');
-            $userEmail = $this->request->param('manager_email');
-
-            //检查密码。空 6-32字符。
-            empty($userPass) && $this->error("密码不可以为空");
-            strlen($userPass) < 6 && $this->error("密码长度最少6位");
-            strlen($userPass) > 32 && $this->error("密码长度最多32位");
-
 
             session('install.admin_info', [
                 'user_login' => $userLogin,
