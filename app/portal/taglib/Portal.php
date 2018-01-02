@@ -32,12 +32,12 @@ class Portal extends TagLib
     public function tagArticles($tag, $content)
     {
         $item          = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
-        $field         = empty($tag['field']) ? '' : $tag['field'];
         $order         = empty($tag['order']) ? 'post.published_time DESC' : $tag['order'];
         $relation      = empty($tag['relation']) ? '' : $tag['relation'];
         $pageVarName   = empty($tag['pageVarName']) ? '__PAGE_VAR_NAME__' : $tag['pageVarName'];
         $returnVarName = empty($tag['returnVarName']) ? 'articles_data' : $tag['returnVarName'];
 
+        $field = "''";
         if (!empty($tag['field'])) {
             if (strpos($tag['field'], '$') === 0) {
                 $field = $tag['field'];
