@@ -273,6 +273,8 @@ class RbacController extends AdminBaseController
                     }
                 }
 
+                cache(null, 'admin_menus');// 删除后台菜单缓存
+
                 $this->success("授权成功！");
             } else {
                 //当没有数据时，清除当前角色授权

@@ -15,47 +15,7 @@ use think\Cache;
 
 class AdminMenuModel extends Model
 {
-    //验证菜单是否超出三级
-    public function checkParentId($parentId)
-    {
-        $find = $this->where(["id" => $parentId])->getField("parent_id");
-        if ($find) {
-            $find2 = $this->where(["id" => $find])->getField("parent_id");
-            if ($find2) {
-                $find3 = $this->where(["id" => $find2])->getField("parent_id");
-                if ($find3) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    //验证action是否重复添加
-    public function checkAction($data)
-    {
-        //检查是否重复添加
-        $find = $this->where($data)->find();
-        if ($find) {
-            return false;
-        }
-        return true;
-    }
-
-    //验证action是否重复添加
-    public function checkActionUpdate($data)
-    {
-        //检查是否重复添加
-        $id = $data['id'];
-        unset($data['id']);
-        $find = $this->field('id')->where($data)->find();
-        if (isset($find['id']) && $find['id'] != $id) {
-            return false;
-        }
-        return true;
-    }
-
-
+    
     /**
      * 按父ID查找菜单子项
      * @param int $parentId 父菜单ID
@@ -65,7 +25,7 @@ class AdminMenuModel extends Model
     public function adminMenu($parentId, $withSelf = false)
     {
         //父节点ID
-        $parentId = (int)$parentId;
+        $parentId = intval($parentId);
         $result   = $this->where(['parent_id' => $parentId, 'status' => 1])->order("list_order", "ASC")->select();
 
         if ($withSelf) {
@@ -96,9 +56,9 @@ class AdminMenuModel extends Model
                     $action = $_match[1];
                 }
 
-                $rule_name = strtolower($v['app'] . "/" . $v['controller'] . "/" . $action);
-//                print_r($rule_name);
-                if (cmf_auth_check(cmf_get_current_admin_id(), $rule_name)) {
+                $ruleName = strtolower($v['app'] . "/" . $v['controller'] . "/" . $action);
+//                print_r($ruleName);
+                if (cmf_auth_check(cmf_get_current_admin_id(), $ruleName)) {
                     $array[] = $v;
                 }
 
@@ -156,8 +116,6 @@ class AdminMenuModel extends Model
                     $params = "?" . htmlspecialchars_decode($a['param']);
                 }
 
-                $url = '';
-
                 if (strpos($app, 'plugin/') === 0) {
                     $pluginName = str_replace('plugin/', '', $app);
                     $url        = cmf_plugin_url($pluginName . "://{$controller}/{$action}{$params}");
@@ -207,23 +165,6 @@ class AdminMenuModel extends Model
         return $data;
     }
 
-    /**
-     * 后台有更新/编辑则删除缓存
-     * @param type $data
-     */
-    public function _before_write(&$data)
-    {
-        parent::_before_write($data);
-        F("Menu", NULL);
-    }
-
-    //删除操作时删除缓存
-    public function _after_delete($data, $options)
-    {
-        parent::_after_delete($data, $options);
-        $this->_before_write($data);
-    }
-
     public function menu($parentId, $with_self = false)
     {
         //父节点ID
@@ -238,15 +179,16 @@ class AdminMenuModel extends Model
 
     /**
      * 得到某父级菜单所有子菜单，包括自己
-     * @param number $parentId
+     * @param int $parentId
+     * @return false|\PDOStatement|string|\think\Collection
      */
-    public function get_menu_tree($parentId = 0)
+    public function getMenuTree($parentId = 0)
     {
         $menus = $this->where(["parent_id" => $parentId])->order(["list_order" => "ASC"])->select();
 
         if ($menus) {
             foreach ($menus as $key => $menu) {
-                $children = $this->get_menu_tree($menu['id']);
+                $children = $this->getMenuTree($menu['id']);
                 if (!empty($children)) {
                     $menus[$key]['children'] = $children;
                 }
