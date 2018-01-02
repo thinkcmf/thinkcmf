@@ -11,3 +11,6 @@ VALUES
 
 -- 2017-12-17 23:25:07 增加操作人字段
 ALTER TABLE `cmf_recycle_bin` ADD `user_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '用户id';
+
+-- 2018-01-03 08:00 改 app 字段长度
+ALTER TABLE `cmf_admin_menu` CHANGE `app` `app` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '应用名';
