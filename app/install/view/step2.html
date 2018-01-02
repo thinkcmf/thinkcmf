@@ -2,6 +2,12 @@
 <html>
 <head>
     <include file="public/head"/>
+    <script src="__STATIC__/js/jquery.js"></script>
+    <style>
+        .rewrite-correct, .rewrite-error {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <div class="wrap">
@@ -151,6 +157,22 @@
                         </td>
                     </tr>
                 </notempty>
+                <!-- rewrite检测 -->
+                <tr>
+                    <td class="td1" colspan="4">
+                        rewrite检测
+                    </td>
+                </tr>
+                <tr>
+                    <td>服务器rewrite</td>
+                    <td>开启</td>
+                    <td>
+                        <span class="rewrite-checking">正在检测...</span>
+                        <span class="rewrite-correct"><i class="fa fa-check correct"></i> 支持</span>
+                        <span class="rewrite-error"><i class="fa fa-remove error"></i> 不支持</span>
+                    </td>
+                    <td>开启</td>
+                </tr>
                 <!-- 大小限制检测 -->
                 <tr>
                     <td class="td1" colspan="4">
@@ -202,5 +224,22 @@
     </section>
 </div>
 <include file="public/footer"/>
+<script>
+    $.ajax({
+        url: "__ROOT__/install/index/testRewrite",
+        type: 'POST',
+        dataType: 'JSON',
+        success: function (data) {
+            if (data.code) {
+                $('.rewrite-correct').show();
+                $('.rewrite-checking').hide();
+            }
+        },
+        error: function () {
+            $('.rewrite-error').show();
+            $('.rewrite-checking').hide();
+        }
+    })
+</script>
 </body>
 </html>

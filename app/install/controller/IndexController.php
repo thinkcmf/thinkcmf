@@ -343,5 +343,10 @@ class IndexController extends Controller
 
     }
 
+    public function testRewrite()
+    {
+        $this->success('success');
+    }
+
 }
 
