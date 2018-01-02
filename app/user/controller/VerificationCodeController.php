@@ -107,7 +107,9 @@ class VerificationCodeController extends HomeBaseController
                 $this->error('未安装验证码发送插件,请联系管理员!');
             }
 
-            cmf_verification_code_log($data['username'], $code);
+            $expireTime = empty($result['expire_time']) ? 0 : $result['expire_time'];
+
+            cmf_verification_code_log($data['username'], $code, $expireTime);
 
             if (!empty($result['message'])) {
                 $this->success($result['message']);
