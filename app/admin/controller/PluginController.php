@@ -21,13 +21,13 @@ use think\Validate;
  * Class PluginController
  * @package app\admin\controller
  * @adminMenuRoot(
- *     'name'   =>'插件管理',
+ *     'name'   =>'插件中心',
  *     'action' =>'default',
  *     'parent' =>'',
  *     'display'=> true,
  *     'order'  => 20,
  *     'icon'   =>'cloud',
- *     'remark' =>'插件管理'
+ *     'remark' =>'插件中心'
  * )
  */
 class PluginController extends AdminBaseController
