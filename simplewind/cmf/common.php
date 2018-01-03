@@ -508,7 +508,7 @@ function cmf_get_upload_setting()
             if (!empty($extensions)) {
                 $uploadMaxFileSize = intval($setting['upload_max_filesize']) * 1024;//转化成B
                 foreach ($extensions as $ext) {
-                    if (!isset($uploadMaxFileSizeSetting[$ext]) || $uploadMaxFileSize > $uploadMaxFileSizeSetting[$ext] * 1024) {
+                    if (!isset($uploadMaxFileSizeSetting[$ext]) || $uploadMaxFileSize > $uploadMaxFileSizeSetting[$ext]) {
                         $uploadMaxFileSizeSetting[$ext] = $uploadMaxFileSize;
                     }
                 }
