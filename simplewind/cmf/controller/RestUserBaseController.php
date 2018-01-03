@@ -10,8 +10,6 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
-use think\Db;
-
 class RestUserBaseController extends RestBaseController
 {
 
