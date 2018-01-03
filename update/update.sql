@@ -1,16 +1,37 @@
--- 2017-10-11 22:19 修复用户生日早于1970年报错
-ALTER TABLE `cmf_user` CHANGE `birthday` `birthday` INT NOT NULL DEFAULT '0' COMMENT '生日';
+-- 2018-01-03 08:00 改 app 字段长度
+ALTER TABLE `cmf_admin_menu` CHANGE `app` `app` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '应用名';
 
--- 2017-10-16 21:57 增加余额字段
-ALTER TABLE `cmf_user` ADD `balance` DECIMAL(10,2) NOT NULL DEFAULT '0' COMMENT '余额' AFTER `coin`;
 
-INSERT INTO `cmf_hook` (`id`, `type`, `once`, `name`, `hook`, `app`, `description`)
-VALUES
-	(NULL , 1, 0, '日志写入完成', 'log_write_done', 'cmf', '日志写入完成');
+ALTER TABLE `cmf_hook` CHANGE `type` `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '钩子类型(1:系统钩子;2:应用钩子;3:模板钩子;4:后台模板钩子)';
 
+ALTER TABLE `cmf_hook_plugin` CHANGE `plugin` `plugin` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '插件';
+
+ALTER TABLE `cmf_portal_category` CHANGE `description` `description` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '分类描述';
 
 -- 2017-12-17 23:25:07 增加操作人字段
 ALTER TABLE `cmf_recycle_bin` ADD `user_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '用户id';
 
--- 2018-01-03 08:00 改 app 字段长度
-ALTER TABLE `cmf_admin_menu` CHANGE `app` `app` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '应用名';
+-- 2017-10-16 21:57 增加余额字段
+ALTER TABLE `cmf_user` ADD `balance` DECIMAL(10,2) NOT NULL DEFAULT '0' COMMENT '余额' AFTER `coin`;
+
+-- 2017-10-11 22:19 修复用户生日早于1970年报错
+ALTER TABLE `cmf_user` CHANGE `birthday` `birthday` INT NOT NULL DEFAULT '0' COMMENT '生日';
+
+
+--
+-- 表的结构 `cmf_user_balance_log`
+--
+
+CREATE TABLE IF NOT EXISTS `cmf_user_balance_log` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
+  `create_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `change` decimal(10,0) NOT NULL DEFAULT '0' COMMENT '更改余额',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='用户余额变更日志表';
+
+
+
+
