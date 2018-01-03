@@ -13,11 +13,22 @@
 
         <div class="collapse navbar-collapse active" id="bs-example-navbar-collapse-1">
             <ul id="main-menu" class="nav navbar-nav">
-                <navigation nav-id="" root="" id="main-navigation" class="nav navbar-nav navbar-nav-custom" max-level="0">
-                    <navigationMenu root="li" class="menu-item menu-item-level-{$level}">
-                        <a href="{$menu.href|default=''}" target="{$menu.target|default=''}">
-                            {$menu.name|default=''}
-                        </a>
+                <navigation nav-id="" root="" id="main-navigation" class="nav navbar-nav navbar-nav-custom"
+                            max-level="0">
+                    <navigationMenu>
+                        <if condition="$level gt 1">
+                            <li class="menu-item menu-item-level-{$level} levelgt1">
+                                <a href="{$menu.href|default=''}" target="{$menu.target|default=''}">
+                                    {$menu.name|default=''}
+                                </a>
+                            </li>
+                            <else/>
+                            <li class="menu-item menu-item-level-{$level}">
+                                <a href="{$menu.href|default=''}" target="{$menu.target|default=''}">
+                                    {$menu.name|default=''}
+                                </a>
+                            </li>
+                        </if>
                     </navigationMenu>
                     <navigationFolder root="li"
                                       class="dropdown dropdown-custom dropdown-custom-level-{$level}"
