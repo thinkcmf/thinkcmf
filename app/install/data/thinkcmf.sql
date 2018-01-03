@@ -975,7 +975,13 @@ CREATE TABLE IF NOT EXISTS `cmf_user_action` (
   `app` varchar(50) NOT NULL DEFAULT '' COMMENT '操作所在应用名或插件名等',
   `url` text COMMENT '执行操作的url',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户操作表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='用户操作表';
+
+--
+-- 转存表中的数据 `cmf_user_action`
+--
+
+INSERT INTO `cmf_user_action` VALUES ('1', '1', '1', '1', '2', '1', '用户登录', 'login', 'user', '');
 
 -- --------------------------------------------------------
 
