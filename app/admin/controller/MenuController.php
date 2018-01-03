@@ -482,7 +482,7 @@ class MenuController extends AdminBaseController
                                     'controller' => $controllerName,
                                     'action'     => $action
                                 ])->update([
-                                    'parent_id' => $parentId,
+                                    //'parent_id' => $parentId,
                                     'type'      => $type,
                                 ]);
                                 $menuName = $findAdminMenu['name'];
@@ -638,7 +638,7 @@ class MenuController extends AdminBaseController
                                             'controller' => $controllerName,
                                             'action'     => $action
                                         ])->update([
-                                            'parent_id' => $parentId,
+                                            //'parent_id' => $parentId,
                                             'type'      => $type,
                                         ]);
                                         $menuName = $findAdminMenu['name'];
