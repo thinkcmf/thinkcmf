@@ -178,9 +178,9 @@ class IndexController extends Controller
             strlen($userPass) < 6 && $this->error("密码长度最少6位");
             strlen($userPass) > 32 && $this->error("密码长度最多32位");
 
-            $db                   = Db::connect($dbConfig);
-            $dbName               = $this->request->param('dbname');
-            $sql                  = "CREATE DATABASE IF NOT EXISTS `{$dbName}` DEFAULT CHARACTER SET " . $dbConfig['charset'];
+            $db     = Db::connect($dbConfig);
+            $dbName = $this->request->param('dbname');
+            $sql    = "CREATE DATABASE IF NOT EXISTS `{$dbName}` DEFAULT CHARACTER SET " . $dbConfig['charset'];
             $db->execute($sql) || $this->error($db->getError());
 
             $dbConfig['database'] = $dbName;
@@ -330,14 +330,28 @@ class IndexController extends Controller
             $dbConfig         = $this->request->param();
             $dbConfig['type'] = "mysql";
 
+            $supportInnoDb = false;
+
             try {
                 Db::connect($dbConfig)->query("SELECT VERSION();");
+                $engines = Db::connect($dbConfig)->query("SHOW ENGINES;");
+
+                foreach ($engines as $engine) {
+                    if ($engine['Engine'] == 'InnoDB' && $engine['Support'] != 'NO') {
+                        $supportInnoDb = true;
+                        break;
+                    }
+                }
             } catch (\Exception $e) {
-                die("");
+                $this->error('数据库账号或密码不正确！');
             }
-            exit("1");
+            if($supportInnoDb){
+                $this->success('验证成功！');
+            }else{
+                $this->error('数据库账号密码验证通过，但不支持InnoDb!');
+            }
         } else {
-            exit("need post!");
+            $this->error('非法请求方式！');
         }
 
     }
