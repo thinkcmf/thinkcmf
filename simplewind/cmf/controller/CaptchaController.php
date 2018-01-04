@@ -76,10 +76,11 @@ class CaptchaController
         }
 
         $defaultCaptchaConfig = config('captcha');
-        if($defaultCaptchaConfig && is_array($defaultCaptchaConfig)){
+        if ($defaultCaptchaConfig && is_array($defaultCaptchaConfig)) {
             $config = array_merge($defaultCaptchaConfig, $config);
         }
 
+        ob_clean();// 清除输出缓存
         $captcha = new Captcha($config);
         return $captcha->entry($id);
     }
