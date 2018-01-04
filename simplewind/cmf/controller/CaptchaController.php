@@ -80,8 +80,9 @@ class CaptchaController
             $config = array_merge($defaultCaptchaConfig, $config);
         }
 
-        ob_clean();// 清除输出缓存
         $captcha = new Captcha($config);
+
+        ob_clean();// 清除输出缓存
         return $captcha->entry($id);
     }
 }
