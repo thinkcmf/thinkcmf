@@ -8,25 +8,35 @@
 // +----------------------------------------------------------------------
 namespace plugins\demo\controller; //Demo插件英文名，改成你的插件英文就行了
 
+use cmf\controller\PluginAdminBaseController;
 use think\Db;
-use cmf\controller\PluginBaseController;
-use plugins\Demo\Model\PluginDemoModel;
 
-class AdminIndexController extends PluginBaseController
+class AdminIndexController extends PluginAdminBaseController
 {
 
-    function _initialize()
+    protected function _initialize()
     {
+        parent::_initialize();
         $adminId = cmf_get_current_admin_id();//获取后台管理员id，可判断是否登录
         if (!empty($adminId)) {
             $this->assign("admin_id", $adminId);
-        } else {
-            //TODO no login
-            $this->error('未登录');
         }
     }
 
-    function index()
+    /**
+     * 演示插件
+     * @adminMenu(
+     *     'name'   => '演示插件',
+     *     'parent' => 'admin/Plugin/default',
+     *     'display'=> true,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '演示插件',
+     *     'param'  => ''
+     * )
+     */
+    public function index()
     {
         $users = Db::name("user")->limit(0, 5)->select();
         //$demos = PluginDemoModel::all();

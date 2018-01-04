@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +---------------------------------------------------------------------
@@ -508,7 +508,7 @@ function cmf_get_upload_setting()
             if (!empty($extensions)) {
                 $uploadMaxFileSize = intval($setting['upload_max_filesize']) * 1024;//转化成B
                 foreach ($extensions as $ext) {
-                    if (!isset($uploadMaxFileSizeSetting[$ext]) || $uploadMaxFileSize > $uploadMaxFileSizeSetting[$ext] * 1024) {
+                    if (!isset($uploadMaxFileSizeSetting[$ext]) || $uploadMaxFileSize > $uploadMaxFileSizeSetting[$ext]) {
                         $uploadMaxFileSizeSetting[$ext] = $uploadMaxFileSize;
                     }
                 }
@@ -1664,20 +1664,23 @@ function cmf_user_action($action)
         $findUserScoreLog = Db::name('user_score_log')->order('create_time DESC')->find();
         if (!empty($findUserScoreLog)) {
             $cycleType = intval($findUserAction['cycle_type']);
+            $cycleTime = intval($findUserAction['cycle_time']);
             switch ($cycleType) {//1:按天;2:按小时;3:永久
                 case 1:
-                    $todayStartTime        = strtotime(date('Y-m-d'));
-                    $todayEndTime          = strtotime(date('Y-m-d', strtotime('+1 day')));
+                    $firstDayStartTime = strtotime(date('Y-m-d', $findUserScoreLog['create_time']));
+                    $endDayEndTime     = strtotime(date('Y-m-d', strtotime("+{$cycleTime} day", $firstDayStartTime)));
+//                    $todayStartTime        = strtotime(date('Y-m-d'));
+//                    $todayEndTime          = strtotime(date('Y-m-d', strtotime('+1 day')));
                     $findUserScoreLogCount = Db::name('user_score_log')->where([
                         'user_id'     => $userId,
-                        'create_time' => [['gt', $todayStartTime], ['lt', $todayEndTime]]
+                        'create_time' => [['gt', $firstDayStartTime], ['lt', $endDayEndTime]]
                     ])->count();
                     if ($findUserScoreLogCount < $findUserAction['reward_number']) {
                         $changeScore = true;
                     }
                     break;
                 case 2:
-                    if (($findUserScoreLog['create_time'] + 3600) < time()) {
+                    if (($findUserScoreLog['create_time'] + $cycleTime * 3600) < time()) {
                         $changeScore = true;
                     }
                     break;

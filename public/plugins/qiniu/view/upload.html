@@ -190,8 +190,16 @@
 
 <div class="wrap " style="padding:5px;">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#wrapper" data-toggle="tab">上传文件</a></li>
-        <li class=""><a href="#B" data-toggle="tab">网络文件</a></li>
+        <php>
+            $url_params=input('param.');
+            $url_params['tab']='local';
+        </php>
+        <li class=""><a href="{:url('user/Asset/webuploader',$url_params)}">上传文件</a></li>
+        <php>
+            $url_params['tab']='url';
+        </php>
+        <li class=""><a href="{:url('user/Asset/webuploader',$url_params)}">网络文件</a></li>
+        <li class="active"><a>上传到云存储</a></li>
         <!--<li class=""><a href="#explorer" data-toggle="tab">文件管理</a></li>-->
     </ul>
     <div class="tabbable">
@@ -421,7 +429,7 @@
 
                 },
                 'before-send': function (block) {
-                    var server = '//upload.qiniup.com/mkblk/' + block.blob.size;
+                    var server = '//{$upload_host}/mkblk/' + block.blob.size;
                     uploader.option('server', server);
                 }
 
@@ -449,7 +457,7 @@
                 auto: true,
                 chunkSize: 4 * 1024 * 1024,// 单位B
                 compress: false,
-                server: "//upload.qiniup.com/mkblk/4194304",
+                server: "//{$upload_host}/mkblk/4194304",
                 // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
                 disableGlobalDnd: true,
                 threads: 1,
@@ -787,6 +795,7 @@
                     $percent = $li.find('.progress span');
 
                 console.log(file);
+                console.error('percentage:' + percentage);
 
                 $percent.css('width', percentage * 100 + '%');
                 percentages[file.id][1] = percentage;
@@ -828,7 +837,7 @@
                             console.log(file);
 
                             $.ajax({
-                                url: '//upload.qiniup.com/mkfile/' + file.size,
+                                url: '//{$upload_host}/mkfile/' + file.size,
                                 type: 'POST',
                                 dataType: 'json',
                                 contentType: 'text/plain',
@@ -868,7 +877,7 @@
                                         error: function () {
 
                                         },
-                                        complete:function () {
+                                        complete: function () {
                                             setState('finish');
                                         }
                                     });

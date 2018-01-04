@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
@@ -56,14 +56,27 @@ class QiniuPlugin extends Plugin
 
     public function fetchUploadView(&$param)
     {
-        $config    = $this->getConfig();
-        $accessKey = $config['accessKey'];
-        $secretKey = $config['secretKey'];
-        $auth      = new Auth($accessKey, $secretKey);
-        $token     = $auth->uploadToken($config['bucket']);
+        $config     = $this->getConfig();
+        $accessKey  = $config['accessKey'];
+        $secretKey  = $config['secretKey'];
+        $zone       = $config['zone'];
+        $uploadHost = 'upload.qiniup.com';
+        if (!empty($zone) && $zone != 'z0') {
+            $uploadHost = "upload-{$zone}.qiniup.com";
+        }
+        $auth  = new Auth($accessKey, $secretKey);
+        $token = $auth->uploadToken($config['bucket']);
 
+        $this->assign('upload_host', $uploadHost);
         $this->assign('qiniu_up_token', $token);
         return $this->fetch('upload');
+    }
+
+    public function cloudStorageTab(&$param)
+    {
+
+
+
     }
 
 }

@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2017 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2018 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -341,6 +341,41 @@ class Validate
     }
 
     /**
+     * 根据验证规则验证数据
+     * @access protected
+     * @param  mixed     $value 字段值
+     * @param  mixed     $rules 验证规则
+     * @return bool
+     */
+    protected function checkRule($value, $rules)
+    {
+        if ($rules instanceof \Closure) {
+            return call_user_func_array($rules, [$value]);
+        } elseif (is_string($rules)) {
+            $rules = explode('|', $rules);
+        }
+
+        foreach ($rules as $key => $rule) {
+            if ($rule instanceof \Closure) {
+                $result = call_user_func_array($rule, [$value]);
+            } else {
+                // 判断验证类型
+                list($type, $rule) = $this->getValidateType($key, $rule);
+
+                $callback = isset(self::$type[$type]) ? self::$type[$type] : [$this, $type];
+
+                $result = call_user_func_array($callback, [$value, $rule]);
+            }
+
+            if (true !== $result) {
+                return $result;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * 验证单个字段规则
      * @access protected
      * @param string    $field  字段名
@@ -364,25 +399,7 @@ class Validate
                 $info   = is_numeric($key) ? '' : $key;
             } else {
                 // 判断验证类型
-                if (is_numeric($key)) {
-                    if (strpos($rule, ':')) {
-                        list($type, $rule) = explode(':', $rule, 2);
-                        if (isset($this->alias[$type])) {
-                            // 判断别名
-                            $type = $this->alias[$type];
-                        }
-                        $info = $type;
-                    } elseif (method_exists($this, $rule)) {
-                        $type = $rule;
-                        $info = $rule;
-                        $rule = '';
-                    } else {
-                        $type = 'is';
-                        $info = $rule;
-                    }
-                } else {
-                    $info = $type = $key;
-                }
+                list($type, $rule, $info) = $this->getValidateType($key, $rule);
 
                 // 如果不是require 有数据才会行验证
                 if (0 === strpos($info, 'require') || (!is_null($value) && '' !== $value)) {
@@ -416,6 +433,39 @@ class Validate
             $i++;
         }
         return $result;
+    }
+
+    /**
+     * 获取当前验证类型及规则
+     * @access public
+     * @param  mixed     $key
+     * @param  mixed     $rule
+     * @return array
+     */
+    protected function getValidateType($key, $rule)
+    {
+        // 判断验证类型
+        if (!is_numeric($key)) {
+            return [$key, $rule, $key];
+        }
+
+        if (strpos($rule, ':')) {
+            list($type, $rule) = explode(':', $rule, 2);
+            if (isset($this->alias[$type])) {
+                // 判断别名
+                $type = $this->alias[$type];
+            }
+            $info = $type;
+        } elseif (method_exists($this, $rule)) {
+            $type = $rule;
+            $info = $rule;
+            $rule = '';
+        } else {
+            $type = 'is';
+            $info = $rule;
+        }
+
+        return [$type, $rule, $info];
     }
 
     /**
@@ -681,21 +731,17 @@ class Validate
      */
     protected function fileExt($file, $rule)
     {
-        if (!($file instanceof File)) {
-            return false;
-        }
-        if (is_string($rule)) {
-            $rule = explode(',', $rule);
-        }
         if (is_array($file)) {
             foreach ($file as $item) {
-                if (!$item->checkExt($rule)) {
+                if (!($item instanceof File) || !$item->checkExt($rule)) {
                     return false;
                 }
             }
             return true;
-        } else {
+        } elseif ($file instanceof File) {
             return $file->checkExt($rule);
+        } else {
+            return false;
         }
     }
 
@@ -708,21 +754,17 @@ class Validate
      */
     protected function fileMime($file, $rule)
     {
-        if (!($file instanceof File)) {
-            return false;
-        }
-        if (is_string($rule)) {
-            $rule = explode(',', $rule);
-        }
         if (is_array($file)) {
             foreach ($file as $item) {
-                if (!$item->checkMime($rule)) {
+                if (!($item instanceof File) || !$item->checkMime($rule)) {
                     return false;
                 }
             }
             return true;
-        } else {
+        } elseif ($file instanceof File) {
             return $file->checkMime($rule);
+        } else {
+            return false;
         }
     }
 
@@ -735,18 +777,17 @@ class Validate
      */
     protected function fileSize($file, $rule)
     {
-        if (!($file instanceof File)) {
-            return false;
-        }
         if (is_array($file)) {
             foreach ($file as $item) {
-                if (!$item->checkSize($rule)) {
+                if (!($item instanceof File) || !$item->checkSize($rule)) {
                     return false;
                 }
             }
             return true;
-        } else {
+        } elseif ($file instanceof File) {
             return $file->checkSize($rule);
+        } else {
+            return false;
         }
     }
 
@@ -846,13 +887,14 @@ class Validate
             $map[$key] = $data[$field];
         }
 
-        $pk = strval(isset($rule[3]) ? $rule[3] : $db->getPk());
-        if (isset($rule[2])) {
-            $map[$pk] = ['neq', $rule[2]];
-        } elseif (isset($data[$pk])) {
-            $map[$pk] = ['neq', $data[$pk]];
+        $pk = isset($rule[3]) ? $rule[3] : $db->getPk();
+        if (is_string($pk)) {
+            if (isset($rule[2])) {
+                $map[$pk] = ['neq', $rule[2]];
+            } elseif (isset($data[$pk])) {
+                $map[$pk] = ['neq', $data[$pk]];
+            }
         }
-
         if ($db->where($map)->field($pk)->find()) {
             return false;
         }

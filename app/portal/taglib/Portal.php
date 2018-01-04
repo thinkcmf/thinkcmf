@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -32,11 +32,20 @@ class Portal extends TagLib
     public function tagArticles($tag, $content)
     {
         $item          = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
-        $field         = empty($tag['field']) ? '' : $tag['field'];
         $order         = empty($tag['order']) ? 'post.published_time DESC' : $tag['order'];
         $relation      = empty($tag['relation']) ? '' : $tag['relation'];
         $pageVarName   = empty($tag['pageVarName']) ? '__PAGE_VAR_NAME__' : $tag['pageVarName'];
         $returnVarName = empty($tag['returnVarName']) ? 'articles_data' : $tag['returnVarName'];
+
+        $field = "''";
+        if (!empty($tag['field'])) {
+            if (strpos($tag['field'], '$') === 0) {
+                $field = $tag['field'];
+                $this->autoBuildVar($field);
+            } else {
+                $field = "'{$tag['field']}'";
+            }
+        }
 
         $where = '""';
         if (!empty($tag['where']) && strpos($tag['where'], '$') === 0) {
@@ -73,14 +82,21 @@ class Portal extends TagLib
             }
         }
 
+        if (strpos($tag['order'], '$') === 0) {
+            $order = $tag['order'];
+            $this->autoBuildVar($order);
+        } else {
+            $order = "'{$order}'";
+        }
+
         $parse = <<<parse
 <?php
 \${$returnVarName} = \app\portal\service\ApiService::articles([
-    'field'   => '{$field}',
+    'field'   => {$field},
     'where'   => {$where},
     'limit'   => {$limit},
-    'order'   => '{$order}',
-    'page'    => $page,
+    'order'   => {$order},
+    'page'    => {$page},
     'relation'=> '{$relation}',
     'category_ids'=>{$categoryIds}
 ]);

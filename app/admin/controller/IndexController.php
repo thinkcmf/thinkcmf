@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -36,12 +36,17 @@ class IndexController extends AdminBaseController
     public function index()
     {
         $adminMenuModel = new AdminMenuModel();
-        $menus          = $adminMenuModel->menuTree();
+        $menus          = cache('admin_menus_' . cmf_get_current_admin_id(), '', null, 'admin_menus');
+
+        if (empty($menus)) {
+            $menus = $adminMenuModel->menuTree();
+            cache('admin_menus_' . cmf_get_current_admin_id(), $menus, null, 'admin_menus');
+        }
 
         $this->assign("menus", $menus);
 
-        $admin = Db::name("user")->where('id', cmf_get_current_admin_id())->find();
-        $this->assign('admin', $admin);
+        //$admin = Db::name("user")->where('id', cmf_get_current_admin_id())->find();
+        //$this->assign('admin', $admin);
         return $this->fetch();
     }
 }
