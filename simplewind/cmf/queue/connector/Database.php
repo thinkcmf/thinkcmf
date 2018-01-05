@@ -8,6 +8,22 @@
 // +---------------------------------------------------------------------
 // | Author: 老猫 <catmat@thinkcmf.com>
 // +----------------------------------------------------------------------
+
+/*
+ * 数据库表
+CREATE TABLE `cmf_queue_jobs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
+  `attempts` tinyint(3) unsigned NOT NULL,
+  `reserved` tinyint(3) unsigned NOT NULL,
+  `reserve_time` int(10) unsigned DEFAULT NULL,
+  `available_time` int(10) unsigned NOT NULL,
+  `create_time` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+ */
+
 namespace cmf\queue\connector;
 
 use think\queue\connector\Database as DataBaseConnector;
