@@ -94,7 +94,8 @@ class ApiService
             ->join($join)
             ->where($where)
             ->where($paramWhere)
-            ->order($order);
+            ->order($order)
+            ->group('post.id');
 
         $return = [];
 
