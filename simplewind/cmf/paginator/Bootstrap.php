@@ -86,14 +86,14 @@ class Bootstrap extends Paginator
         }
 
         if ($this->currentPage() <= 1) {
-            return '<li class="disabled previous"><span>' . $text . '</span></li>';
+            return '<li class="disabled previous page-item"><span class="page-link">' . $text . '</span></li>';
         }
 
         $url = $this->url(
             $this->currentPage() - 1
         );
 
-        return '<li class="previous"><a href="' . htmlentities($url) . '">' . $text . '</a></li>';
+        return '<li class="previous page-item"><a class="page-link" href="' . htmlentities($url) . '">' . $text . '</a></li>';
     }
 
     /**
@@ -117,12 +117,12 @@ class Bootstrap extends Paginator
         }
 
         if (!$this->hasMore) {
-            return '<li class="disabled next"><span>' . $text . '</span></li>';
+            return '<li class="disabled next page-item"><span class="page-link">' . $text . '</span></li>';
         }
 
         $url = $this->url($this->currentPage() + 1);
 
-        return '<li class="next"><a href="' . htmlentities($url) . '">' . $text . '</a></li>';
+        return '<li class="next page-item"><a class="page-link" href="' . htmlentities($url) . '">' . $text . '</a></li>';
     }
 
     /**
@@ -211,7 +211,7 @@ class Bootstrap extends Paginator
      */
     protected function getAvailablePageWrapper($url, $page)
     {
-        return '<li><a href="' . htmlentities($url) . '">' . $page . '</a></li>';
+        return '<li class="page-item"><a class="page-link" href="' . htmlentities($url) . '">' . $page . '</a></li>';
     }
 
     /**
@@ -222,7 +222,7 @@ class Bootstrap extends Paginator
      */
     protected function getDisabledTextWrapper($text)
     {
-        return '<li class="disabled"><span>' . $text . '</span></li>';
+        return '<li class="page-item disabled"><span class="page-link">' . $text . '</span></li>';
     }
 
     /**
@@ -233,7 +233,7 @@ class Bootstrap extends Paginator
      */
     protected function getActivePageWrapper($text)
     {
-        return '<li class="active"><span>' . $text . '</span></li>';
+        return '<li class="active page-item disabled" ><span class="page-link">' . $text . '</span></li>';
     }
 
     /**
