@@ -67,12 +67,12 @@ class ApiService
         $categoryIds = empty($param['category_ids']) ? '' : $param['category_ids'];
 
         $join = [
-            ['__USER__ user', 'post.user_id = user.id'],
+            //['__USER__ user', 'post.user_id = user.id'],
         ];
 
         if (!empty($categoryIds)) {
 
-            $field = !empty($param['field']) ? $param['field'] : 'post.*,user.user_login,user.user_nickname,user.user_email,category_post.category_id';
+            $field = !empty($param['field']) ? $param['field'] : 'post.*,category_post.category_id';
             array_push($join, ['__PORTAL_CATEGORY_POST__ category_post', 'post.id = category_post.post_id']);
 
             if (!is_array($categoryIds)) {
@@ -86,7 +86,7 @@ class ApiService
             }
         } else {
 
-            $field = !empty($param['field']) ? $param['field'] : 'post.*,user.user_login,user.user_nickname,user.user_email,category_post.category_id';
+            $field = !empty($param['field']) ? $param['field'] : 'post.*,category_post.category_id';
             array_push($join, ['__PORTAL_CATEGORY_POST__ category_post', 'post.id = category_post.post_id']);
         }
 
@@ -122,7 +122,8 @@ class ApiService
                 $articles->load($relation);
             }
 
-            $articles->appends(request()->param());
+            $articles->appends(request()->get());
+            $articles->appends(request()->post());
 
             $return['articles']    = $articles->items();
             $return['page']        = $articles->render();
