@@ -42,6 +42,14 @@ class PortalPostModel extends Model
     }
 
     /**
+     * 关联标签表
+     */
+    public function tags()
+    {
+        return $this->belongsToMany('PortalTagModel', 'portal_tag_post', 'tag_id', 'post_id');
+    }
+
+    /**
      * post_content 自动转化
      * @param $value
      * @return string
