@@ -32,6 +32,9 @@ CREATE TABLE IF NOT EXISTS `cmf_user_balance_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='用户余额变更日志表';
 
+-- 2018-01-12 11:12 更改 content，more 字段
+ALTER TABLE `cmf_comment` CHANGE `content` `content` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '评论内容';
+ALTER TABLE `cmf_comment` CHANGE `more` `more` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展属性';
 
-
-
+ALTER TABLE `cmf_comment` ADD `like_count` INT UNSIGNED NOT NULL DEFAULT '0' COMMENT '点赞数' AFTER `object_id`;
+ALTER TABLE `cmf_comment` ADD `dislike_count` INT UNSIGNED NOT NULL DEFAULT '0' COMMENT '不喜欢数' AFTER `like_count`;
