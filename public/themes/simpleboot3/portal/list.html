@@ -20,9 +20,9 @@
                     'post.create_time'=>['egt',0]
                     ];
                     $page=[
-                        'list_rows'=>1,
+                        'list_rows'=>10,
                         'next'=>'下一页',
-                    'prev'=>'上一页'
+                        'prev'=>'上一页'
                     ];
                 </php>
                 <portal:articles item="vo" where="$where" order="post.create_time DESC" page="$page"
