@@ -22,6 +22,10 @@ class TagController extends HomeBaseController
 
         $tag = $portalTagModel->where('id', $id)->where('status', 1)->find();
 
+        if (empty($tag)) {
+            abort(404, '标签不存在!');
+        }
+
         $this->assign('tag', $tag);
 
         return $this->fetch('/tag');
