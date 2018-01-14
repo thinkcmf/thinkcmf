@@ -192,8 +192,11 @@ class HomeBaseController extends BaseController
     {
         $userId = cmf_get_current_user_id();
         if (empty($userId)) {
-           // $this->error("用户尚未登录", url("user/login/index"));
-            $this->redirect(cmf_url("user/login/index"));
+            if ($this->request->isAjax()) {
+                $this->error("您尚未登录", cmf_url("user/Login/index"));
+            } else {
+                $this->redirect(cmf_url("user/Login/index"));
+            }
         }
     }
 
