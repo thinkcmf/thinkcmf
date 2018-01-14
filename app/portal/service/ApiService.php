@@ -86,7 +86,7 @@ class ApiService
             }
         } else {
 
-            $field = !empty($param['field']) ? $param['field'] : 'post.*,category_post.category_id';
+            $field = !empty($param['field']) ? $param['field'] : 'post.*,min(category_post.category_id) as category_id';
             array_push($join, ['__PORTAL_CATEGORY_POST__ category_post', 'post.id = category_post.post_id']);
         }
 
