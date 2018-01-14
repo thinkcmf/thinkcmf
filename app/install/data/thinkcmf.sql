@@ -426,6 +426,8 @@ CREATE TABLE IF NOT EXISTS `cmf_comment` (
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '发表评论的用户id',
   `to_user_id` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '被评论的用户id',
   `object_id` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '评论内容 id',
+  `like_count` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '点赞数',
+  `dislike_count` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '不喜欢数',
   `create_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '评论时间',
   `delete_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '删除时间',
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '状态,1:已审核,0:未审核',
@@ -435,8 +437,8 @@ CREATE TABLE IF NOT EXISTS `cmf_comment` (
   `email` varchar(255) NOT NULL DEFAULT '' COMMENT '评论者邮箱',
   `path` varchar(255) NOT NULL DEFAULT '' COMMENT '层级关系',
   `url` text COMMENT '原文地址',
-  `content` text COMMENT '评论内容',
-  `more` text COMMENT '扩展属性',
+  `content` text CHARACTER SET utf8mb4 COMMENT '评论内容',
+  `more` text CHARACTER SET utf8mb4 COMMENT '扩展属性',
   PRIMARY KEY (`id`),
   KEY `comment_post_ID` (`object_id`),
   KEY `comment_approved_date_gmt` (`status`),
@@ -460,7 +462,7 @@ CREATE TABLE IF NOT EXISTS `cmf_hook` (
   `app` varchar(15) NOT NULL DEFAULT '' COMMENT '应用名(只有应用钩子才用)',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子表';
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子表';
 
 --
 -- 转存表中的数据 `cmf_hook`
@@ -500,7 +502,8 @@ INSERT INTO `cmf_hook` (`id`, `type`, `once`, `name`, `hook`, `app`, `descriptio
 (31, 2, 0, '后台文章保存之后', 'portal_admin_after_save_article', 'portal', '后台文章保存之后'),
 (32, 2, 1, '获取上传界面', 'fetch_upload_view', 'user', '获取上传界面'),
 (33, 3, 0, '主要内容之前', 'before_content', 'cmf', '主要内容之前'),
-(34, 1, 0, '日志写入完成', 'log_write_done', 'cmf', '日志写入完成');
+(34, 1, 0, '日志写入完成', 'log_write_done', 'cmf', '日志写入完成'),
+(35, 1, 1, '后台模板切换', 'switch_admin_theme', 'cmf', '后台模板切换');
 
 -- --------------------------------------------------------
 
