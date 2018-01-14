@@ -141,6 +141,43 @@ function cmf_get_current_theme()
     return $theme;
 }
 
+
+/**
+ * 获取当前后台主题名
+ * @return string
+ */
+function cmf_get_current_admin_theme()
+{
+    static $_currentAdminTheme;
+
+    if (!empty($_currentAdminTheme)) {
+        return $_currentAdminTheme;
+    }
+
+    $t     = '_at';
+    $theme = config('cmf_admin_default_theme');
+
+    $cmfDetectTheme = true;
+    if ($cmfDetectTheme) {
+        if (isset($_GET[$t])) {
+            $theme = $_GET[$t];
+            cookie('cmf_admin_theme', $theme, 864000);
+        } elseif (cookie('cmf_admin_theme')) {
+            $theme = cookie('cmf_admin_theme');
+        }
+    }
+
+    $hookTheme = hook_one('switch_admin_theme');
+
+    if ($hookTheme) {
+        $theme = $hookTheme;
+    }
+
+    $_currentAdminTheme = $theme;
+
+    return $theme;
+}
+
 /**
  * 获取前台模板根目录
  * @param string $theme
