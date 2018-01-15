@@ -127,7 +127,7 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
-#### 5.0.180115 beta
+#### 5.0.180115 RC
 [核心]
 * 增加插件后台首页左侧菜单显示 
 * 增加 themes 根命名空间
