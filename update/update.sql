@@ -38,3 +38,4 @@ ALTER TABLE `cmf_comment` CHANGE `more` `more` TEXT CHARACTER SET utf8mb4 COLLAT
 
 ALTER TABLE `cmf_comment` ADD `like_count` INT UNSIGNED NOT NULL DEFAULT '0' COMMENT '点赞数' AFTER `object_id`;
 ALTER TABLE `cmf_comment` ADD `dislike_count` INT UNSIGNED NOT NULL DEFAULT '0' COMMENT '不喜欢数' AFTER `like_count`;
+ALTER TABLE `cmf_comment` ADD `floor` INT UNSIGNED NOT NULL DEFAULT '0' COMMENT '楼层数' AFTER `dislike_count`;
