@@ -828,7 +828,13 @@ function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, 
 {
     $request = request();
     $action  = $request->module() . "/" . $request->controller() . "/" . $request->action();
-    $userId  = cmf_get_current_user_id();
+
+    if (is_array($object)) {
+        $userId = $object['user_id'];
+        $object = $object['object'];
+    } else {
+        $userId = cmf_get_current_user_id();
+    }
 
     $ip = get_client_ip(0, true);//修复ip获取
 
