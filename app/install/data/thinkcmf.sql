@@ -428,6 +428,7 @@ CREATE TABLE IF NOT EXISTS `cmf_comment` (
   `object_id` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '评论内容 id',
   `like_count` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '点赞数',
   `dislike_count` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '不喜欢数',
+  `floor` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '楼层数',
   `create_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '评论时间',
   `delete_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '删除时间',
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '状态,1:已审核,0:未审核',
@@ -440,11 +441,11 @@ CREATE TABLE IF NOT EXISTS `cmf_comment` (
   `content` text CHARACTER SET utf8mb4 COMMENT '评论内容',
   `more` text CHARACTER SET utf8mb4 COMMENT '扩展属性',
   PRIMARY KEY (`id`),
-  KEY `comment_post_ID` (`object_id`),
-  KEY `comment_approved_date_gmt` (`status`),
-  KEY `comment_parent` (`parent_id`),
   KEY `table_id_status` (`table_name`,`object_id`,`status`),
-  KEY `createtime` (`create_time`)
+  KEY `object_id` (`object_id`) USING BTREE,
+  KEY `status` (`status`) USING BTREE,
+  KEY `parent_id` (`parent_id`) USING BTREE,
+  KEY `create_time` (`create_time`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评论表';
 
 -- --------------------------------------------------------
