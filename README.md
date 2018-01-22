@@ -1,4 +1,4 @@
-ThinkCMF 5.0.180115 RC
+ThinkCMF 5.0.180123 正式版
 ===============
 
 ### 系列讲座节日限量优惠中
@@ -127,7 +127,7 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
-#### 5.0.180115 RC
+#### 5.0.180123
 [核心]
 * 增加插件后台首页左侧菜单显示 
 * 增加 themes 根命名空间
@@ -171,6 +171,8 @@ https://github.com/thinkcmf/thinkcmf/issues
 * 优化portal:articles标签所有属性都支持PHP变量
 * 优化标签控制器支持标签名
 * 增加portal:tagArticles标签
+* 取消文章列表用户关联查询
+* 修复文章多分类进文章列表文章重复问题
 
 
 #### 5.0.170927
