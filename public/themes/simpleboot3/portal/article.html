@@ -68,7 +68,8 @@
                     'object_id'=>$article['id'],
                     'table_name'=>'portal_post',
                     'object_title'=>$article['post_title'],
-                    'url'=>cmf_url_encode('portal/Article/index',array('id'=>$article['id'],'cid'=>$category['id']))
+                    'url'=>cmf_url_encode('portal/Article/index',array('id'=>$article['id'],'cid'=>$category['id'])),
+                    'user_id'=>$article['user_id'],
                     ];
                     $comment=hook_one('comment',$comment_hook_param);
                 </php>
