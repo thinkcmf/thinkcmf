@@ -19,7 +19,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "topthink/think-helper":">=1.0",
+        "topthink/think-helper":"^1.0",
         "topthink/think-captcha": "^1.0",
         "phpmailer/phpmailer": "^5.2",
         "mindplay/annotations": "^1.3",
