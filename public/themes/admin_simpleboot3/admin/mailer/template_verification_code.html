@@ -9,16 +9,16 @@
     <form method="post" class="form-horizontal js-ajax-form margin-top-20" role="form"
           action="{:url('admin/mailer/templatePost')}">
         <div class="form-group">
-            <label for="input-title" class="col-sm-2 control-label">{:lang('EMAIL_SUBJECT')}</label>
+            <label for="input-title" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('EMAIL_SUBJECT')}</label>
             <div class="col-md-6 col-sm-10">
                 <input type="text" class="form-control" name="subject" id="input-title" value="{$subject|default=''}">
             </div>
         </div>
         <div class="form-group">
-            <label for="input-title" class="col-sm-2 control-label">{:lang('EMAIL_TEMPLATE')}</label>
+            <label for="input-title" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('EMAIL_TEMPLATE')}</label>
             <div class="col-md-6 col-sm-12">
                 <script type="text/plain" id="content" name="template">{$template|default=""|htmlspecialchars_decode}</script>
-                <literal><span style="color: #ffb752;">请用{$code}代替数字验证码，{$username}代替用户名</span></literal>
+                <literal><span style="color: #ffb752;">请用{$code}代替数字验证码<!--，{$username}代替用户名--></span></literal>
             </div>
         </div>
         <div class="form-group">
