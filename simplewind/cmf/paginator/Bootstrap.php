@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +---------------------------------------------------------------------
@@ -19,8 +19,16 @@ class Bootstrap extends Paginator
      * @param string $text
      * @return string
      */
-    protected function getPreviousButton($text = "&laquo;")
+    protected function getPreviousButton($text = "")
     {
+
+        if (empty($text)) {
+            if (empty($this->options['prev'])) {
+                $text = "&laquo;";
+            } else {
+                $text = $this->options['prev'];
+            }
+        }
 
         if ($this->currentPage() <= 1) {
             return $this->getDisabledTextWrapper($text);
@@ -38,8 +46,16 @@ class Bootstrap extends Paginator
      * @param string $text
      * @return string
      */
-    protected function getNextButton($text = '&raquo;')
+    protected function getNextButton($text = '')
     {
+        if (empty($text)) {
+            if (empty($this->options['next'])) {
+                $text = "&raquo;";
+            } else {
+                $text = $this->options['next'];
+            }
+        }
+
         if (!$this->hasMore) {
             return $this->getDisabledTextWrapper($text);
         }
@@ -54,18 +70,30 @@ class Bootstrap extends Paginator
      * @param string $text
      * @return string
      */
-    protected function getSimplePreviousButton($text = "&larr;")
+    protected function getSimplePreviousButton($text = "")
     {
 
+        if (empty($text)) {
+            if (empty($this->options['prev'])) {
+                $text = "&larr;";
+            } else {
+                $text = $this->options['prev'];
+            }
+
+            if (!empty($this->options['simple_prev'])) {
+                $text = $this->options['simple_prev'];
+            }
+        }
+
         if ($this->currentPage() <= 1) {
-            return '<li class="disabled previous"><span>' . $text . '</span></li>';
+            return '<li class="disabled previous page-item"><span class="page-link">' . $text . '</span></li>';
         }
 
         $url = $this->url(
             $this->currentPage() - 1
         );
 
-        return '<li class="previous"><a href="' . htmlentities($url) . '">' . $text . '</a></li>';
+        return '<li class="previous page-item"><a class="page-link" href="' . htmlentities($url) . '">' . $text . '</a></li>';
     }
 
     /**
@@ -73,15 +101,28 @@ class Bootstrap extends Paginator
      * @param string $text
      * @return string
      */
-    protected function getSimpleNextButton($text = '&rarr;')
+    protected function getSimpleNextButton($text = '')
     {
+        if (empty($text)) {
+            if (empty($this->options['next'])) {
+                $text = "&rarr;";
+            } else {
+                $text = $this->options['next'];
+            }
+
+            if (!empty($this->options['simple_next'])) {
+                $text = $this->options['simple_next'];
+            }
+
+        }
+
         if (!$this->hasMore) {
-            return '<li class="disabled next"><span>' . $text . '</span></li>';
+            return '<li class="disabled next page-item"><span class="page-link">' . $text . '</span></li>';
         }
 
         $url = $this->url($this->currentPage() + 1);
 
-        return '<li class="next"><a href="' . htmlentities($url) . '">' . $text . '</a></li>';
+        return '<li class="next page-item"><a class="page-link" href="' . htmlentities($url) . '">' . $text . '</a></li>';
     }
 
     /**
@@ -170,7 +211,7 @@ class Bootstrap extends Paginator
      */
     protected function getAvailablePageWrapper($url, $page)
     {
-        return '<li><a href="' . htmlentities($url) . '">' . $page . '</a></li>';
+        return '<li class="page-item"><a class="page-link" href="' . htmlentities($url) . '">' . $page . '</a></li>';
     }
 
     /**
@@ -181,7 +222,7 @@ class Bootstrap extends Paginator
      */
     protected function getDisabledTextWrapper($text)
     {
-        return '<li class="disabled"><span>' . $text . '</span></li>';
+        return '<li class="page-item disabled"><span class="page-link">' . $text . '</span></li>';
     }
 
     /**
@@ -192,7 +233,7 @@ class Bootstrap extends Paginator
      */
     protected function getActivePageWrapper($text)
     {
-        return '<li class="active"><span>' . $text . '</span></li>';
+        return '<li class="active page-item disabled" ><span class="page-link">' . $text . '</span></li>';
     }
 
     /**

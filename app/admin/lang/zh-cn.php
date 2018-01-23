@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -11,6 +11,8 @@
 return [
     'ADMIN_CENTER'                       => '后台管理中心',
     'WELCOME_USER'                       => '欢迎, {:user_nickname}',
+    'REFRESH_CURRENT_PAGE'    => '刷新当前页面',
+    'CLOSE_TOP_MENU'    => '关闭顶部菜单',
     'WEBSITE_HOME_PAGE'                  => '网站首页',
     "NICKNAME"                           => '昵称',
     'GENDER'                             => '性别',

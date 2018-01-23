@@ -2,6 +2,12 @@
 <html>
 <head>
     <include file="public/head"/>
+    <script src="__STATIC__/js/jquery.js"></script>
+    <style>
+        .rewrite-correct, .rewrite-error {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <div class="wrap">
@@ -32,7 +38,7 @@
                     <td>PHP版本</td>
                     <td>>5.6.x</td>
                     <td><i class="fa fa-check correct"></i> {$phpversion}</td>
-                    <td>5.3.0</td>
+                    <td>5.4.0</td>
                 </tr>
                 <!-- 模块检测 -->
                 <tr>
@@ -151,6 +157,27 @@
                         </td>
                     </tr>
                 </notempty>
+                <!-- rewrite检测 -->
+                <tr>
+                    <td class="td1" colspan="4">
+                        rewrite检测（开启rewrite更利于网站SEO优化）
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        服务器rewrite
+                        <a href="https://www.kancloud.cn/thinkcmf/faq/493492" target="_blank">
+                            <i class="fa fa-question-circle question"></i>
+                        </a>
+                    </td>
+                    <td>开启</td>
+                    <td>
+                        <span class="rewrite-checking">正在检测...</span>
+                        <span class="rewrite-correct"><i class="fa fa-check correct"></i> 支持</span>
+                        <span class="rewrite-error"><i class="fa fa-remove error"></i> 不支持</span>
+                    </td>
+                    <td>开启</td>
+                </tr>
                 <!-- 大小限制检测 -->
                 <tr>
                     <td class="td1" colspan="4">
@@ -196,11 +223,28 @@
             </table>
         </div>
         <div class="bottom text-center">
-            <a href="{:url('index/step2')}" class="btn btn-primary">重新检测</a>
+            <a href="__ROOT__/?s=install/index/step2" class="btn btn-primary">重新检测</a>
             <a href="{:url('index/step3')}" class="btn btn-primary">下一步</a>
         </div>
     </section>
 </div>
 <include file="public/footer"/>
+<script>
+    $.ajax({
+        url: "__ROOT__/install/index/testRewrite",
+        type: 'POST',
+        dataType: 'JSON',
+        success: function (data) {
+            if (data.code) {
+                $('.rewrite-correct').show();
+                $('.rewrite-checking').hide();
+            }
+        },
+        error: function () {
+            $('.rewrite-error').show();
+            $('.rewrite-checking').hide();
+        }
+    })
+</script>
 </body>
 </html>

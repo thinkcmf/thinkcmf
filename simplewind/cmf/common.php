@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +---------------------------------------------------------------------
@@ -137,6 +137,43 @@ function cmf_get_current_theme()
     }
 
     $_currentTheme = $theme;
+
+    return $theme;
+}
+
+
+/**
+ * 获取当前后台主题名
+ * @return string
+ */
+function cmf_get_current_admin_theme()
+{
+    static $_currentAdminTheme;
+
+    if (!empty($_currentAdminTheme)) {
+        return $_currentAdminTheme;
+    }
+
+    $t     = '_at';
+    $theme = config('cmf_admin_default_theme');
+
+    $cmfDetectTheme = true;
+    if ($cmfDetectTheme) {
+        if (isset($_GET[$t])) {
+            $theme = $_GET[$t];
+            cookie('cmf_admin_theme', $theme, 864000);
+        } elseif (cookie('cmf_admin_theme')) {
+            $theme = cookie('cmf_admin_theme');
+        }
+    }
+
+    $hookTheme = hook_one('switch_admin_theme');
+
+    if ($hookTheme) {
+        $theme = $hookTheme;
+    }
+
+    $_currentAdminTheme = $theme;
 
     return $theme;
 }
@@ -508,7 +545,7 @@ function cmf_get_upload_setting()
             if (!empty($extensions)) {
                 $uploadMaxFileSize = intval($setting['upload_max_filesize']) * 1024;//转化成B
                 foreach ($extensions as $ext) {
-                    if (!isset($uploadMaxFileSizeSetting[$ext]) || $uploadMaxFileSize > $uploadMaxFileSizeSetting[$ext] * 1024) {
+                    if (!isset($uploadMaxFileSizeSetting[$ext]) || $uploadMaxFileSize > $uploadMaxFileSizeSetting[$ext]) {
                         $uploadMaxFileSizeSetting[$ext] = $uploadMaxFileSize;
                     }
                 }
@@ -791,7 +828,13 @@ function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, 
 {
     $request = request();
     $action  = $request->module() . "/" . $request->controller() . "/" . $request->action();
-    $userId  = cmf_get_current_user_id();
+
+    if (is_array($object)) {
+        $userId = $object['user_id'];
+        $object = $object['object'];
+    } else {
+        $userId = cmf_get_current_user_id();
+    }
 
     $ip = get_client_ip(0, true);//修复ip获取
 
@@ -1079,11 +1122,13 @@ function cmf_alpha_id($in, $to_num = false, $pad_up = 4, $passKey = null)
  * 验证码检查，验证完后销毁验证码
  * @param string $value
  * @param string $id
+ * @param bool $reset
  * @return bool
  */
-function cmf_captcha_check($value, $id = "")
+function cmf_captcha_check($value, $id = "", $reset = true)
 {
-    $captcha = new \think\captcha\Captcha();
+    $captcha        = new \think\captcha\Captcha();
+    $captcha->reset = $reset;
     return $captcha->check($value, $id);
 }
 
@@ -1316,14 +1361,19 @@ function cmf_generate_user_token($userId, $deviceType)
             'device_type' => $deviceType
         ]);
     } else {
-        Db::name("user_token")
-            ->where('user_id', $userId)
-            ->where('device_type', $deviceType)
-            ->update([
-                'token'       => $token,
-                'expire_time' => $expireTime,
-                'create_time' => $currentTime
-            ]);
+        if ($findUserToken['expire_time'] <= time()) {
+            Db::name("user_token")
+                ->where('user_id', $userId)
+                ->where('device_type', $deviceType)
+                ->update([
+                    'token'       => $token,
+                    'expire_time' => $expireTime,
+                    'create_time' => $currentTime
+                ]);
+        } else {
+            $token = $findUserToken['token'];
+        }
+
     }
 
     return $token;
@@ -1657,20 +1707,23 @@ function cmf_user_action($action)
         $findUserScoreLog = Db::name('user_score_log')->order('create_time DESC')->find();
         if (!empty($findUserScoreLog)) {
             $cycleType = intval($findUserAction['cycle_type']);
+            $cycleTime = intval($findUserAction['cycle_time']);
             switch ($cycleType) {//1:按天;2:按小时;3:永久
                 case 1:
-                    $todayStartTime        = strtotime(date('Y-m-d'));
-                    $todayEndTime          = strtotime(date('Y-m-d', strtotime('+1 day')));
+                    $firstDayStartTime = strtotime(date('Y-m-d', $findUserScoreLog['create_time']));
+                    $endDayEndTime     = strtotime(date('Y-m-d', strtotime("+{$cycleTime} day", $firstDayStartTime)));
+//                    $todayStartTime        = strtotime(date('Y-m-d'));
+//                    $todayEndTime          = strtotime(date('Y-m-d', strtotime('+1 day')));
                     $findUserScoreLogCount = Db::name('user_score_log')->where([
                         'user_id'     => $userId,
-                        'create_time' => [['gt', $todayStartTime], ['lt', $todayEndTime]]
+                        'create_time' => [['gt', $firstDayStartTime], ['lt', $endDayEndTime]]
                     ])->count();
                     if ($findUserScoreLogCount < $findUserAction['reward_number']) {
                         $changeScore = true;
                     }
                     break;
                 case 2:
-                    if (($findUserScoreLog['create_time'] + 3600) < time()) {
+                    if (($findUserScoreLog['create_time'] + $cycleTime * 3600) < time()) {
                         $changeScore = true;
                     }
                     break;
@@ -1752,4 +1805,54 @@ function cmf_is_open_registration()
     $cmfSettings = cmf_get_option('cmf_settings');
 
     return empty($cmfSettings['open_registration']) ? false : true;
+}
+
+/**
+ * XML编码
+ * @param mixed $data 数据
+ * @param string $root 根节点名
+ * @param string $item 数字索引的子节点名
+ * @param string $attr 根节点属性
+ * @param string $id 数字索引子节点key转换的属性名
+ * @param string $encoding 数据编码
+ * @return string
+ */
+function cmf_xml_encode($data, $root = 'think', $item = 'item', $attr = '', $id = 'id', $encoding = 'utf-8')
+{
+    if (is_array($attr)) {
+        $_attr = [];
+        foreach ($attr as $key => $value) {
+            $_attr[] = "{$key}=\"{$value}\"";
+        }
+        $attr = implode(' ', $_attr);
+    }
+    $attr = trim($attr);
+    $attr = empty($attr) ? '' : " {$attr}";
+    $xml  = "<?xml version=\"1.0\" encoding=\"{$encoding}\"?>";
+    $xml  .= "<{$root}{$attr}>";
+    $xml  .= cmf_data_to_xml($data, $item, $id);
+    $xml  .= "</{$root}>";
+    return $xml;
+}
+
+/**
+ * 数据XML编码
+ * @param mixed $data 数据
+ * @param string $item 数字索引时的节点名称
+ * @param string $id 数字索引key转换为的属性名
+ * @return string
+ */
+function cmf_data_to_xml($data, $item = 'item', $id = 'id')
+{
+    $xml = $attr = '';
+    foreach ($data as $key => $val) {
+        if (is_numeric($key)) {
+            $id && $attr = " {$id}=\"{$key}\"";
+            $key = $item;
+        }
+        $xml .= "<{$key}{$attr}>";
+        $xml .= (is_array($val) || is_object($val)) ? cmf_data_to_xml($val, $item, $id) : $val;
+        $xml .= "</{$key}>";
+    }
+    return $xml;
 }

@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -12,6 +12,7 @@ return [
     'ADMIN_CENTER'            => 'Admin Center',
     'WELCOME_USER'            => 'Welcome, {:user_nickname}',
     'REFRESH_CURRENT_PAGE'    => 'Refresh Current Page',
+    'CLOSE_TOP_MENU'    => 'Close Top menu',
     'WEBSITE_HOME_PAGE'       => 'Website Home Page',
     "SAVE"                    => 'Save',
     "CLOSE"                   => 'Close',

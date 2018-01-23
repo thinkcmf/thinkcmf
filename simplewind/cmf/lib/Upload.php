@@ -98,7 +98,7 @@ class Upload
          */
 
         $app = $this->request->post('app');
-        if (!file_exists(APP_PATH . $app)) {
+        if (empty($app) || !file_exists(APP_PATH . $app)) {
             $app = 'default';
         }
 
@@ -109,7 +109,7 @@ class Upload
 
         $strFileExtension = strtolower(cmf_get_file_extension($originalName));
 
-        if (!in_array($strFileExtension, $arrAllowedExtensions)) {
+        if (!in_array($strFileExtension, $arrAllowedExtensions) || $strFileExtension == 'php') {
             $this->error = "非法文件类型！";
             return false;
         }

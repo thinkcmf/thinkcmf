@@ -1,70 +1,79 @@
-<include file="public@header" />
+<include file="public@header"/>
 </head>
 <body>
-	<div class="wrap js-check-wrap">
-		<ul class="nav nav-tabs">
-			<li class="active"><a href="{:url('plugin/index')}">{:lang('ADMIN_PLUGIN_INDEX')}</a></li>
-			<li><a href="http://www.thinkcmf.com/appstore/plugin.html" target="_blank">插件市场</a></li>
-			<li><a href="http://www.thinkcmf.com/topic/index/index/cat/9.html" target="_blank">插件交流</a></li>
-			<li><a href="http://www.thinkcmf.com/docs/cmfx/plugin.html" target="_blank">插件文档</a></li>
-		</ul>
-		<form method="post" class="js-ajax-form margin-top-20">
-			<php>
-			$status=array("1"=>'开启',"0"=>'禁用',"3"=>'未安装');
-			</php>
-			<table class="table table-hover table-bordered">
-				<thead>
-					<tr>
-						<th>插件名称</th>
-						<th>插件标识</th>
-						<th>描述</th>
-						<th>作者</th>
-						<th width="60">状态</th>
-						<th width="210">操作</th>
-					</tr>
-				</thead>
-				<tbody>
-					<foreach name="plugins" item="vo">
-					<tr>
-						<td>{$vo.title}</td>
-						<td>{$vo.name}</td>
-						<td>{$vo.description}</td>
-						<td>{$vo.author}</td>
-						<td>{$status[$vo['status']]}</td>
-						<td>
-							<if condition="$vo['status']==3">
-								<a href="{:url('plugin/install',array('name'=>$vo['name']))}" class="js-ajax-dialog-btn" data-msg="确定安装该插件吗？">安装</a>
-							<else />
-								<php>$config=json_decode($vo['config'],true);</php>
-								<if condition="!empty($config)">
-									<a href="{:url('plugin/setting',array('id'=>$vo['id']))}">设置</a>
-								<else/>
-									<a href="javascript:;" style="color: #ccc;">设置</a>
-								</if>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('plugin/index')}">{:lang('ADMIN_PLUGIN_INDEX')}</a></li>
+        <li><a href="http://www.thinkcmf.com/appstore/plugin.html" target="_blank">插件市场</a></li>
+        <li><a href="http://www.thinkcmf.com/topic/index/index/cat/9.html" target="_blank">插件交流</a></li>
+        <li><a href="https://www.kancloud.cn/thinkcmf/doc/266542" target="_blank">插件文档</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20">
+        <php>
+            $status=array("1"=>'开启',"0"=>'禁用',"3"=>'未安装');
+        </php>
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>插件名称</th>
+                <th>插件标识</th>
+                <th>描述</th>
+                <th>作者</th>
+                <th width="60">状态</th>
+                <th width="210">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="plugins" item="vo">
+                <tr>
+                    <td>{$vo.title}</td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.description}</td>
+                    <td>{$vo.author}</td>
+                    <td>{$status[$vo['status']]}</td>
+                    <td>
+                        <if condition="$vo['status']==3">
+                            <a href="{:url('plugin/install',array('name'=>$vo['name']))}" class="js-ajax-dialog-btn"
+                               data-msg="确定安装该插件吗？">安装</a>
+                            <else/>
+                            <php>$config=json_decode($vo['config'],true);</php>
+                            <if condition="!empty($config)">
+                                <empty name="config.custom_config">
+                                    <a href="{:url('plugin/setting',array('id'=>$vo['id']))}">设置</a>
+                                    <else/>
+                                    <a href="{:cmf_plugin_url($vo['name'].'://AdminIndex/setting')}">设置</a>
+                                </empty>
+                                <else/>
+                                <a href="javascript:;" style="color: #ccc;">设置</a>
+                            </if>
 
-								<if condition="!empty($vo['has_admin'])">
-									<a href="javascript:parent.openapp('{:cmf_plugin_url($vo['name'].'://AdminIndex/index')}','plugin_{$vo.name}','{$vo.title}')">管理</a>
-								<else/>
-									<a href="javascript:;" style="color: #ccc;">管理</a>
-								</if>
+                            <if condition="!empty($vo['has_admin'])">
+                                <a href="javascript:parent.openapp('{:cmf_plugin_url($vo['name'].'://AdminIndex/index')}','plugin_{$vo.name}','{$vo.title}')">管理</a>
+                                <else/>
+                                <a href="javascript:;" style="color: #ccc;">管理</a>
+                            </if>
 
-								<a href="{:url('plugin/update',array('name'=>$vo['name']))}" class="js-ajax-dialog-btn" data-msg="确定更新该插件吗？">更新</a>
+                            <a href="{:url('plugin/update',array('name'=>$vo['name']))}" class="js-ajax-dialog-btn"
+                               data-msg="确定更新该插件吗？">更新</a>
 
-								<if condition="$vo['status']==0">
-									<a href="{:url('plugin/toggle',array('id'=>$vo['id'],'enable'=>1))}" class="js-ajax-dialog-btn" data-msg="确定启用该插件吗？">启用</a>
-								<else/>
-									<a href="{:url('plugin/toggle',array('id'=>$vo['id'],'disable'=>1))}" class="js-ajax-dialog-btn" data-msg="确定禁用该插件吗？">禁用</a>
-								</if>
+                            <if condition="$vo['status']==0">
+                                <a href="{:url('plugin/toggle',array('id'=>$vo['id'],'enable'=>1))}"
+                                   class="js-ajax-dialog-btn" data-msg="确定启用该插件吗？">启用</a>
+                                <else/>
+                                <a href="{:url('plugin/toggle',array('id'=>$vo['id'],'disable'=>1))}"
+                                   class="js-ajax-dialog-btn" data-msg="确定禁用该插件吗？">禁用</a>
+                            </if>
 
-								<a href="{:url('plugin/uninstall',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn" data-msg="确定卸载该插件吗？">卸载</a>
-							</if>
-						</td>
-					</tr>
-					</foreach>
-				</tbody>
-			</table>
-		</form>
-	</div>
-	<script src="__STATIC__/js/admin.js"></script>
+                            <a href="{:url('plugin/uninstall',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn"
+                               data-msg="确定卸载该插件吗？">卸载</a>
+                        </if>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
 </body>
 </html>

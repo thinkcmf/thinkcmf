@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +---------------------------------------------------------------------
@@ -192,7 +192,11 @@ class HomeBaseController extends BaseController
     {
         $userId = cmf_get_current_user_id();
         if (empty($userId)) {
-            $this->error("用户尚未登录", url("user/login/index"));
+            if ($this->request->isAjax()) {
+                $this->error("您尚未登录", cmf_url("user/Login/index"));
+            } else {
+                $this->redirect(cmf_url("user/Login/index"));
+            }
         }
     }
 

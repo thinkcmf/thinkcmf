@@ -2,7 +2,7 @@
 // +---------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +---------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +---------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +---------------------------------------------------------------------
@@ -23,9 +23,14 @@ class InitHookBehavior
             return;
         }
 
-        $plugins = Db::name('hook_plugin')->field('hook,plugin')->where('status', 1)
-            ->order('list_order ASC')
-            ->select();
+        $plugins = cache('init_hook_plugins');
+
+        if (empty($plugins)) {
+            $plugins = Db::name('hook_plugin')->field('hook,plugin')->where('status', 1)
+                ->order('list_order ASC')
+                ->select();
+            cache('init_hook_plugins', $plugins);
+        }
 
         if (!empty($plugins)) {
             foreach ($plugins as $hookPlugin) {

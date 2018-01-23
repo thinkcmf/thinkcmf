@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: 老猫 <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
@@ -32,7 +32,7 @@ define('VENDOR_PATH', CMF_ROOT . 'simplewind/vendor/');
 define('RUNTIME_PATH', CMF_ROOT . 'data/runtime/');
 
 // 定义CMF 版本号
-define('THINKCMF_VERSION', '5.0.170927');
+define('THINKCMF_VERSION', '5.0.180123');
 
 // 加载框架基础文件
 require CMF_ROOT . 'simplewind/thinkphp/base.php';

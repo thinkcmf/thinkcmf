@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
@@ -11,7 +11,7 @@ return array (
 		'title' => 'ACCOUNT SID', // 表单的label标题
 		'type' => 'text',// 表单的类型：text,password,textarea,checkbox,radio,select等
 		'value' => '',// 表单的默认值
-		'tip' => '主帐号,对应开官网发者主账号下的ACCOUNT SID' //表单的帮助提示
+		'tip' => '主帐号,对应开发者官网主账号下的ACCOUNT SID' //表单的帮助提示
 	),
     'auth_token' => array (// 在后台插件配置表单中的键名 ,会是config[text]
         'title' => 'AUTH TOKEN', // 表单的label标题

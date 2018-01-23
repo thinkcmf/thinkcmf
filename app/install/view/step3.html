@@ -197,15 +197,17 @@
             $.ajax({
                 type: "POST",
                 url: url,
+                dataType: 'JSON',
                 data: data,
                 beforeSend: function () {
                 },
-                success: function (msg) {
-                    if (msg) {
+                success: function (data) {
+                    if (data.code) {
 
                     } else {
                         $('#dbpw').val("");
-                        $('#js-install-tip-dbpw').html('<span for="dbname" generated="true" class="tips-error" style="">数据库链接配置失败</span>');
+                        //数据库链接配置失败
+                        $('#js-install-tip-dbpw').html('<span for="dbname" generated="true" class="tips-error" style="">' + data.msg + '</span>');
                     }
                 },
                 complete: function () {
@@ -216,10 +218,11 @@
                 }
             });
         }
+
         $(function () {
             //聚焦时默认提示
             var focus_tips = {
-                dbhost: '数据库服务器地址，一般为localhost',
+                dbhost: '数据库服务器地址，一般为127.0.0.1或localhost',
                 dbport: '数据库服务器端口，一般为3306',
                 dbuser: '',
                 dbpw: '',
@@ -262,7 +265,7 @@
                     dbname: {required: true},
                     dbprefix: {required: true},
                     manager: {required: true},
-                    manager_pwd: {required: true,minlength:6,maxlength:32},
+                    manager_pwd: {required: true, minlength: 6, maxlength: 32},
                     manager_ckpwd: {required: true, equalTo: '#js-manager-pwd'},
                     manager_email: {required: true, email: true}
                 },
@@ -298,7 +301,7 @@
                     dbname: {required: '数据库名不能为空'},
                     dbprefix: {required: '数据库表前缀不能为空'},
                     manager: {required: '管理员帐号不能为空'},
-                    manager_pwd: {required: '密码不能为空',minlength:'密码长度不低于{0}位',maxlength:'密码长度不超过{0}位'},
+                    manager_pwd: {required: '密码不能为空', minlength: '密码长度不低于{0}位', maxlength: '密码长度不超过{0}位'},
                     manager_ckpwd: {required: '重复密码不能为空', equalTo: '两次输入的密码不一致,请重新输入.'},
                     manager_email: {required: 'Email不能为空', email: '请输入正确的电子邮箱地址'}
                 },

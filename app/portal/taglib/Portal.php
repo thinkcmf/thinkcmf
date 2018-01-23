@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -20,6 +20,7 @@ class Portal extends TagLib
     protected $tags = [
         // 标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次
         'articles'         => ['attr' => 'field,where,limit,order,page,relation,returnVarName,pageVarName,categoryIds', 'close' => 1],//非必须属性item
+        'tagarticles'      => ['attr' => 'field,where,limit,order,page,relation,returnVarName,pageVarName,tagId', 'close' => 1],//非必须属性item
         'breadcrumb'       => ['attr' => 'cid', 'close' => 1],//非必须属性self
         'categories'       => ['attr' => 'where,order', 'close' => 1],//非必须属性item
         'subcategories'    => ['attr' => 'categoryId', 'close' => 1],//非必须属性item
@@ -32,11 +33,20 @@ class Portal extends TagLib
     public function tagArticles($tag, $content)
     {
         $item          = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
-        $field         = empty($tag['field']) ? '' : $tag['field'];
         $order         = empty($tag['order']) ? 'post.published_time DESC' : $tag['order'];
         $relation      = empty($tag['relation']) ? '' : $tag['relation'];
         $pageVarName   = empty($tag['pageVarName']) ? '__PAGE_VAR_NAME__' : $tag['pageVarName'];
         $returnVarName = empty($tag['returnVarName']) ? 'articles_data' : $tag['returnVarName'];
+
+        $field = "''";
+        if (!empty($tag['field'])) {
+            if (strpos($tag['field'], '$') === 0) {
+                $field = $tag['field'];
+                $this->autoBuildVar($field);
+            } else {
+                $field = "'{$tag['field']}'";
+            }
+        }
 
         $where = '""';
         if (!empty($tag['where']) && strpos($tag['where'], '$') === 0) {
@@ -73,16 +83,108 @@ class Portal extends TagLib
             }
         }
 
+        if (strpos($tag['order'], '$') === 0) {
+            $order = $tag['order'];
+            $this->autoBuildVar($order);
+        } else {
+            $order = "'{$order}'";
+        }
+
         $parse = <<<parse
 <?php
 \${$returnVarName} = \app\portal\service\ApiService::articles([
-    'field'   => '{$field}',
+    'field'   => {$field},
     'where'   => {$where},
     'limit'   => {$limit},
-    'order'   => '{$order}',
-    'page'    => $page,
+    'order'   => {$order},
+    'page'    => {$page},
     'relation'=> '{$relation}',
     'category_ids'=>{$categoryIds}
+]);
+
+\${$pageVarName} = isset(\${$returnVarName}['page'])?\${$returnVarName}['page']:'';
+
+ ?>
+<volist name="{$returnVarName}.articles" id="{$item}">
+{$content}
+</volist>
+parse;
+        return $parse;
+    }
+
+    /**
+     * 标签文章列表标签
+     */
+    public function tagTagArticles($tag, $content)
+    {
+        $item          = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
+        $order         = empty($tag['order']) ? 'post.published_time DESC' : $tag['order'];
+        $relation      = empty($tag['relation']) ? '' : $tag['relation'];
+        $pageVarName   = empty($tag['pageVarName']) ? '__PAGE_VAR_NAME__' : $tag['pageVarName'];
+        $returnVarName = empty($tag['returnVarName']) ? 'tag_articles_data' : $tag['returnVarName'];
+
+        $field = "''";
+        if (!empty($tag['field'])) {
+            if (strpos($tag['field'], '$') === 0) {
+                $field = $tag['field'];
+                $this->autoBuildVar($field);
+            } else {
+                $field = "'{$tag['field']}'";
+            }
+        }
+
+        $where = '""';
+        if (!empty($tag['where']) && strpos($tag['where'], '$') === 0) {
+            $where = $tag['where'];
+        }
+
+        $limit = "''";
+        if (!empty($tag['limit'])) {
+            if (strpos($tag['limit'], '$') === 0) {
+                $limit = $tag['limit'];
+                $this->autoBuildVar($limit);
+            } else {
+                $limit = "'{$tag['limit']}'";
+            }
+        }
+
+        $page = "''";
+        if (!empty($tag['page'])) {
+            if (strpos($tag['page'], '$') === 0) {
+                $page = $tag['page'];
+            } else {
+                $page = intval($tag['page']);
+                $page = "'{$page}'";
+            }
+        }
+
+        $tagId = "''";
+        if (!empty($tag['tagId'])) {
+            if (strpos($tag['tagId'], '$') === 0) {
+                $tagId = $tag['tagId'];
+                $this->autoBuildVar($tagId);
+            } else {
+                $tagId = "'{$tag['tagId']}'";
+            }
+        }
+
+        if (strpos($tag['order'], '$') === 0) {
+            $order = $tag['order'];
+            $this->autoBuildVar($order);
+        } else {
+            $order = "'{$order}'";
+        }
+
+        $parse = <<<parse
+<?php
+\${$returnVarName} = \app\portal\service\ApiService::tagArticles([
+    'field'   => {$field},
+    'where'   => {$where},
+    'limit'   => {$limit},
+    'order'   => {$order},
+    'page'    => {$page},
+    'relation'=> '{$relation}',
+    'tag_id'=>{$tagId}
 ]);
 
 \${$pageVarName} = isset(\${$returnVarName}['page'])?\${$returnVarName}['page']:'';

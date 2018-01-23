@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
@@ -15,11 +15,11 @@ class SwitchThemeDemoPlugin extends Plugin
 
     public $info = [
         'name'        => 'SwitchThemeDemo',//Demo插件英文名，改成你的插件英文就行了
-        'title'       => '模板切换演示',
-        'description' => '模板切换演示',
+        'title'       => '前台模板切换演示',
+        'description' => '前台模板切换演示',
         'status'      => 1,
         'author'      => 'ThinkCMF',
-        'version'     => '1.0',
+        'version'     => '1.0.1',
         'demo_url'    => 'http://demo.thinkcmf.com',
         'author_url'  => 'http://www.thinkcmf.com'
     ];
@@ -38,7 +38,7 @@ class SwitchThemeDemoPlugin extends Plugin
         return true;//卸载成功返回true，失败false
     }
 
-    //实现的footer_start钩子方法
+    //实现的switch_theme钩子方法
     public function switchTheme($param)
     {
         $config = $this->getConfig();

@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+    <include file="public/head"/>
+    <title>ThinkCMF插件演示首页</title>
+    <meta name="description" content="ThinkCMF插件演示首页">
+    <meta name="keywords" content="ThinkCMF插件演示首页">
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>小程序管理</a></li>
+        <li><a href="{:cmf_plugin_url('Wxapp://AdminWxapp/add')}">添加小程序</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20" action="#">
+        <div class="table_list">
+            <table width="100%" class="table table-hover">
+                <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>App ID</th>
+                    <th>App Secret</th>
+                    <th>默认小程序</th>
+                    <th width="120">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <foreach name="wxapps" item="vo">
+                    <tr>
+                        <td>{$vo.name|default=''}</td>
+                        <td>{$vo.app_id|default=''}</td>
+                        <td>{$vo.app_secret|default=''}</td>
+                        <td>
+                            <if condition="!empty($default_wxapp['app_id']) && !empty($vo['app_id']) &&$default_wxapp['app_id']== $vo['app_id']">
+                                是
+                                <else/>
+                                否
+                            </if>
+                        </td>
+                        <td>
+                            <a href="{:cmf_plugin_url('Wxapp://AdminWxapp/edit',['id'=>$vo.app_id])}">编辑</a>
+                            <a  class="js-ajax-delete" href="{:cmf_plugin_url('Wxapp://AdminWxapp/delete',['id'=>$vo.app_id])}">删除</a>
+                        </td>
+                    </tr>
+                </foreach>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>
+<include file="public/scripts"/>
+</body>
+</html>

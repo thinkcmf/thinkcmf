@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -75,7 +75,7 @@ class PluginModel extends Model
         $systemHooks = [
             //系统钩子
             "app_init", "app_begin", "module_init", "action_begin", "view_filter",
-            "app_end", "log_write", "response_end",
+            "app_end", "log_write", "log_write_done", "response_end",
             "admin_init",
             "home_init",
             "send_mobile_verification_code",
@@ -127,6 +127,16 @@ class PluginModel extends Model
                     return -2;
                 }
             }
+
+            // 删除后台菜单
+            Db::name('admin_menu')->where([
+                'app' => "plugin/{$findPlugin['name']}",
+            ])->delete();
+
+            // 删除权限规则
+            Db::name('auth_rule')->where([
+                'app' => "plugin/{$findPlugin['name']}",
+            ])->delete();
 
             Db::commit();
         } catch (\Exception $e) {

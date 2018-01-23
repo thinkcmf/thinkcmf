@@ -76,16 +76,11 @@
                                          width="135" style="cursor: pointer"/>
                                 </if>
                             </a>
+                            <if condition="!empty($vars[$varName]['value'])">
+                                <br>
+                                <button id="js-{$widget}{$varName}-button-remove" defaultImage="__TMPL__/public/assets/images/default-thumbnail.png" class="removeImage btn btn-sm" type="button" onclick="removeImage('{$widget}{$varName}')">取消图片</button>
+                            </if>
                         </div>
-                        <present name="var.tip">
-                            <p class="help-block">{$var.tip}</p>
-                        </present>
-                    </div>
-                </case>
-                <case value="photos">
-                    <div class="controls">
-                        <input type="text" name="{$inputName}[{$varName}]" class="form-control"
-                               value="{$vars[$varName]['value']}">
                         <present name="var.tip">
                             <p class="help-block">{$var.tip}</p>
                         </present>
@@ -115,8 +110,11 @@
                 </case>
                 <case value="file">
                     <div class="controls">
-                        <input type="text" name="{$inputName}[{$varName}]" class="form-control"
-                               value="{$vars[$varName]['value']}">
+                        <div class="input-group">
+                            <input type="text" name="{$inputName}[{$varName}]" class="form-control"
+                                   value="{$vars[$varName]['value']}" id="js-{$widget}{$varName}-input-file">
+                            <span class="input-group-addon"> <a href="javascript:uploadOne('图片上传','#js-{$widget}{$varName}-input-file','file');">上传</a></span>
+                        </div>
                         <present name="var.tip">
                             <p class="help-block">{$var.tip}</p>
                         </present>
@@ -134,8 +132,8 @@
 
                 <case value="array">
                     <div class="controls">
-                        <php>$arrayValueText=is_array($var['value'])
-                            &&count($var['value'])>0?count($var['value']).'条数据,点击添加更多...':'';
+                        <php>
+                            $arrayValueText=is_array($var['value'])&&count($var['value'])>0?count($var['value']).'条数据,点击添加更多...':'';
                         </php>
                         <textarea class="form-control" placeholder="点击添加数据"
                                   onclick="doEditArrayData(this)"

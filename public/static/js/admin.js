@@ -63,7 +63,7 @@
     var ajaxForm_list = $('form.js-ajax-form');
     if (ajaxForm_list.length) {
         Wind.css('artDialog');
-        Wind.use('ajaxForm', 'artDialog', 'noty3', 'validate', function () {
+        Wind.use('ajaxForm', 'artDialog', 'noty', 'validate', function () {
             var $btn;
             $('button.js-ajax-submit').on('click', function (e) {
                 var btn = $(this), form = btn.parents('form.js-ajax-form');
@@ -181,7 +181,7 @@
                                 var text = $btn.text();
 
                                 //按钮文案、状态修改
-                                $btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                                $btn.text(text + '...').prop('disabled', true).addClass('disabled');
                             },
                             success: function (data, statusText, xhr, $form) {
 
@@ -200,24 +200,24 @@
                                 var text = $btn.text();
 
                                 //按钮文案、状态修改
-                                $btn.removeClass('disabled').prop('disabled', false).text(text.replace('中...', '')).parent().find('span').remove();
+                                $btn.removeClass('disabled').prop('disabled', false).text(text.replace('...', '')).parent().find('span').remove();
                                 if (data.code == 1) {
                                     if ($btn.data('success')) {
                                         var successCallback = $btn.data('success');
                                         window[successCallback](data, statusText, xhr, $form);
                                         return;
                                     }
-                                    new Noty({
+                                    noty({
                                         text: data.msg,
                                         type: 'success',
                                         layout: 'topCenter',
                                         modal: true,
-                                        animation: {
-                                            open: 'animated bounceInDown', // Animate.css class names
-                                            close: 'animated bounceOutUp', // Animate.css class names
-                                        },
-                                        timeout: 1,
-                                        callbacks: {
+                                        // animation: {
+                                        //     open: 'animated bounceInDown', // Animate.css class names
+                                        //     close: 'animated bounceOutUp', // Animate.css class names
+                                        // },
+                                        timeout: 800,
+                                        callback: {
                                             afterClose: function () {
                                                 if ($btn.data('refresh') == undefined || $btn.data('refresh')) {
                                                     _refresh();
@@ -238,17 +238,17 @@
                                     //$('<span class="tips_error">' + data.msg + '</span>').appendTo($btn.parent()).fadeIn('fast');
                                     $btn.removeProp('disabled').removeClass('disabled');
 
-                                    new Noty({
+                                    noty({
                                         text: data.msg,
                                         type: 'error',
                                         layout: 'topCenter',
                                         modal: true,
-                                        animation: {
-                                            open: 'animated bounceInDown', // Animate.css class names
-                                            close: 'animated bounceOutUp', // Animate.css class names
-                                        },
-                                        timeout: 1,
-                                        callbacks: {
+                                        // animation: {
+                                        //     open: 'animated bounceInDown', // Animate.css class names
+                                        //     close: 'animated bounceOutUp', // Animate.css class names
+                                        // },
+                                        timeout: 800,
+                                        callback: {
                                             afterClose: function () {
                                                 _refresh();
                                             }
@@ -302,7 +302,7 @@
     //所有的删除操作，删除数据后刷新页面
     if ($('a.js-ajax-delete').length) {
         Wind.css('artDialog');
-        Wind.use('artDialog', 'noty3', function () {
+        Wind.use('artDialog', 'noty', function () {
             $('.js-ajax-delete').on('click', function (e) {
                 e.preventDefault();
                 var $_this  = this,
@@ -325,17 +325,17 @@
                     ok: function () {
                         $.getJSON(href).done(function (data) {
                             if (data.code == '1') {
-                                new Noty({
+                                noty({
                                     text: data.msg,
                                     type: 'success',
                                     layout: 'topCenter',
                                     modal: true,
-                                    animation: {
-                                        open: 'animated bounceInDown', // Animate.css class names
-                                        close: 'animated bounceOutUp', // Animate.css class names
-                                    },
-                                    timeout: 1,
-                                    callbacks: {
+                                    // animation: {
+                                    //     open: 'animated bounceInDown', // Animate.css class names
+                                    //     close: 'animated bounceOutUp', // Animate.css class names
+                                    // },
+                                    timeout: 800,
+                                    callback: {
                                         afterClose: function () {
                                             if (refresh == undefined || refresh) {
                                                 if (data.url) {
@@ -374,7 +374,7 @@
 
 
     if ($('a.js-ajax-dialog-btn').length) {
-        Wind.use('artDialog', 'noty3', function () {
+        Wind.use('artDialog', 'noty', function () {
             $('.js-ajax-dialog-btn').on('click', function (e) {
                 e.preventDefault();
                 var $_this  = this,
@@ -402,17 +402,17 @@
                             type: 'post',
                             success: function (data) {
                                 if (data.code == 1) {
-                                    new Noty({
+                                    noty({
                                         text: data.msg,
                                         type: 'success',
                                         layout: 'topCenter',
                                         modal: true,
-                                        animation: {
-                                            open: 'animated bounceInDown', // Animate.css class names
-                                            close: 'animated bounceOutUp', // Animate.css class names
-                                        },
-                                        timeout: 1,
-                                        callbacks: {
+                                        // animation: {
+                                        //     open: 'animated bounceInDown', // Animate.css class names
+                                        //     close: 'animated bounceOutUp', // Animate.css class names
+                                        // },
+                                        timeout: 800,
+                                        callback: {
                                             afterClose: function () {
                                                 if (refresh == undefined || refresh) {
                                                     if (data.url) {
@@ -819,6 +819,7 @@ function openUploadDialog(dialog_title, callback, extra_params, multi, filetype,
  * @param app  应用名,CMF的应用名
  */
 function uploadOne(dialog_title, input_selector, filetype, extra_params, app) {
+    filetype   = filetype ? filetype : 'file';
     openUploadDialog(dialog_title, function (dialog, files) {
         $(input_selector).val(files[0].filepath);
         $(input_selector + '-preview').attr('href', files[0].preview_url);

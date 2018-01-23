@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +---------------------------------------------------------------------
@@ -41,7 +41,7 @@ class AdminBaseController extends BaseController
     public function _initializeView()
     {
         $cmfAdminThemePath    = config('cmf_admin_theme_path');
-        $cmfAdminDefaultTheme = config('cmf_admin_default_theme');
+        $cmfAdminDefaultTheme = cmf_get_current_admin_theme();
 
         $themePath = "{$cmfAdminThemePath}{$cmfAdminDefaultTheme}";
 

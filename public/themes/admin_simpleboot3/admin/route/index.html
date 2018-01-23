@@ -51,7 +51,7 @@
                     <td>{$statuses[$vo['status']]}</td>
                     <td>
                         <eq name="vo.type" value="2">
-                            编辑  禁用  启用
+                            编辑  禁用  删除
                             <else/>
                             <a href="{:url('route/edit',array('id'=>$vo['id']))}">编辑</a>
                             <eq name="vo.status" value="1">

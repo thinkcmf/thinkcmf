@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +---------------------------------------------------------------------
@@ -104,7 +104,7 @@ parse;
         $parseNavigationFuncName = '__parse_navigation' . md5(uniqid('_nav' . $navId . __LINE__, true));
 
         if (strpos($navId, '$') === 0) {
-            $this->autoBuildVar($name);
+            $this->autoBuildVar($navId);
         } else {
             $navId = "'{$navId}'";
         }
@@ -144,18 +144,28 @@ parse;
     public function tagNavigationMenu($tag, $content)
     {
         //root,class
-        $root  = !empty($tag['root']) ? $tag['root'] : 'li';
-        $class = !empty($tag['class']) ? $tag['class'] : '';
+        $root  = empty($tag['root']) ? '' : $tag['root'];
+        $class = empty($tag['class']) ? '' : $tag['class'];
 
-        $parse = <<<parse
+        if (empty($root)) {
+            $parse = <<<parse
+<if condition="empty(\$menu['children'])">
+    {$content}
+</if>
+parse;
+        } else {
+            $parse = <<<parse
 <if condition="empty(\$menu['children'])">
     <{$root} class="{$class}">
     {$content}
     </{$root}>
 </if>
 parse;
+        }
+
         return $parse;
     }
+
 
     /**
      * 导航folder标签
@@ -163,8 +173,8 @@ parse;
     public function tagNavigationFolder($tag, $content)
     {
         //root,class,dropdown,dropdown-class
-        $root          = isset($tag['root']) ? $tag['root'] : 'li';
-        $class         = isset($tag['class']) ? $tag['class'] : 'dropdown';
+        $root          = empty($tag['root']) ? 'li' : $tag['root'];
+        $class         = empty($tag['class']) ? 'dropdown' : $tag['class'];
         $dropdown      = isset($tag['dropdown']) ? $tag['dropdown'] : 'ul';
         $dropdownClass = isset($tag['dropdown-class']) ? $tag['dropdown-class'] : 'dropdown-menu';
 
@@ -181,6 +191,7 @@ parse;
     </{$root}>
 </if>
 parse;
+
         return $parse;
     }
 
@@ -199,7 +210,7 @@ parse;
         $parseSubNavigationFuncName = '__parse_sub_navigation' . md5(uniqid('_nav' . $parent . $id . __LINE__, true));;
 
         if (strpos($parent, '$') === 0) {
-            $this->autoBuildVar($name);
+            $this->autoBuildVar($parent);
         } else {
             $parent = "'{$parent}'";
         }
@@ -238,16 +249,25 @@ parse;
     public function tagSubNavigationMenu($tag, $content)
     {
         //root,class
-        $root  = !empty($tag['root']) ? $tag['root'] : 'li';
+        $root  = !empty($tag['root']) ? $tag['root'] : '';
         $class = !empty($tag['class']) ? $tag['class'] : '';
 
-        $parse = <<<parse
+        if (empty($root)) {
+            $parse = <<<parse
+<if condition="empty(\$menu['children'])">
+    {$content}
+</if>
+parse;
+        } else {
+            $parse = <<<parse
 <if condition="empty(\$menu['children'])">
     <{$root} class="{$class}">
     {$content}
     </{$root}>
 </if>
 parse;
+        }
+
         return $parse;
     }
 
@@ -339,7 +359,8 @@ parse;
     public function tagCaptcha($tag, $content)
     {
         //height,width,font-size,length,bg,id
-        $id       = empty($tag['id']) ? '' : '&id=' . $tag['id'];
+        $id       = empty($tag['id']) ? '' : $tag['id'];
+        $paramId  = empty($tag['id']) ? '' : '&id=' . $tag['id'];
         $height   = empty($tag['height']) ? '' : '&height=' . $tag['height'];
         $width    = empty($tag['width']) ? '' : '&width=' . $tag['width'];
         $fontSize = empty($tag['font-size']) ? '' : '&font_size=' . $tag['font-size'];
@@ -347,10 +368,11 @@ parse;
         $bg       = empty($tag['bg']) ? '' : '&bg=' . $tag['bg'];
         $title    = empty($tag['title']) ? '换一张' : $tag['title'];
         $style    = empty($tag['style']) ? 'cursor: pointer;' : $tag['style'];
-        $params   = ltrim("{$id}{$height}{$width}{$fontSize}{$length}{$bg}", '&');
+        $params   = ltrim("{$paramId}{$height}{$width}{$fontSize}{$length}{$bg}", '&');
         $parse    = <<<parse
 <php>\$__CAPTCHA_SRC=url('/captcha/new').'?{$params}';</php>
 <img src="{\$__CAPTCHA_SRC}" onclick="this.src='{\$__CAPTCHA_SRC}&time='+Math.random();" title="{$title}" class="captcha captcha-img verify_img" style="{$style}"/>{$content}
+<input type="hidden" name="_captcha_id" value="{$id}">
 parse;
         return $parse;
     }

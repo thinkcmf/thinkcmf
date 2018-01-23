@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -46,20 +46,21 @@ class UserController extends AdminBaseController
     {
         $where = ["user_type" => 1];
         /**搜索条件**/
-        $user_login = $this->request->param('user_login');
-        $user_email = trim($this->request->param('user_email'));
+        $userLogin = $this->request->param('user_login');
+        $userEmail = trim($this->request->param('user_email'));
 
-        if ($user_login) {
-            $where['user_login'] = ['like', "%$user_login%"];
+        if ($userLogin) {
+            $where['user_login'] = ['like', "%$userLogin%"];
         }
 
-        if ($user_email) {
-            $where['user_email'] = ['like', "%$user_email%"];;
+        if ($userEmail) {
+            $where['user_email'] = ['like', "%$userEmail%"];;
         }
         $users = Db::name('user')
             ->where($where)
             ->order("id DESC")
             ->paginate(10);
+        $users->appends(['user_login' => $userLogin, 'user_email' => $userEmail]);
         // 获取分页显示
         $page = $users->render();
 

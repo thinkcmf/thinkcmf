@@ -6,14 +6,19 @@
     <meta name="renderer" content="webkit">
     <meta charset="utf-8">
     <title>ThinkCMF {:lang('ADMIN_CENTER')}</title>
-
     <meta name="description" content="This is page-header (.page-header &gt; h1)">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <!-- HTML5 shim for IE8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <![endif]-->
     <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style()}/bootstrap.min.css" rel="stylesheet">
     <link href="__TMPL__/public/assets/simpleboot3/css/simplebootadmin.css" rel="stylesheet">
     <link href="__STATIC__/font-awesome/css/font-awesome.min.css?page=index" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="__TMPL__/public/assets/themes/{:cmf_get_admin_style()}/simplebootadminindex.min.css">
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
     <style>
         /*-----------------导航hack--------------------*/
         .nav-list > li.open {
@@ -189,6 +194,11 @@
             </div>
 
             <ul class="nav navbar-nav navbar-right simplewind-nav">
+                <li class="light-blue" style="border-left:none;display: none;" id="close-all-tabs-btn">
+                    <a id="close-wrapper" href="javacript:void(0);" title="{:lang('CLOSE_TOP_MENU')}" style="color:#fff;font-size: 16px">
+                        <i class="fa fa-times right_tool_icon"></i>
+                    </a>
+                </li>
                 <li class="light-blue" style="border-left:none;">
                     <a id="refresh-wrapper" href="javacript:void(0);" title="{:lang('REFRESH_CURRENT_PAGE')}" style="color:#fff;font-size: 16px">
                         <i class="fa fa-refresh right_tool_icon"></i>

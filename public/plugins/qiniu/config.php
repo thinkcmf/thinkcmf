@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
@@ -68,6 +68,24 @@ return [
         ],
         "message" => [
             "require" => '空间名称不能为空'
+        ],
+        'tip'     => ''
+    ],
+    'zone'                      => [// 在后台插件配置表单中的键名 ,会是config[select]
+        'title'   => '存储区域',
+        'type'    => 'select',
+        'options' => [//select 和radio,checkbox的子选项
+            'z0'  => '华东',// 值=>显示
+            'z1'  => '华北',
+            'z2'  => '华南',
+            'na0' => '北美',
+        ],
+        'value'   => 'http',
+        "rule"    => [
+            "require" => true
+        ],
+        "message" => [
+            "require" => '存储区域不能为空'
         ],
         'tip'     => ''
     ],

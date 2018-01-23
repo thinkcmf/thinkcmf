@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -46,5 +46,30 @@ return [
     'USER_INDEXADMIN_INDEX'         => '本站用户',
     'USER_OAUTHADMIN_DELETE'        => '第三方用户解绑',
     'USER_OAUTHADMIN_INDEX'         => '第三方用户',
-    'USER_INDEXADMIN_DEFAULT'       => '用户管理'
+    'USER_INDEXADMIN_DEFAULT'       => '用户管理',
+
+    'NICKNAME_IS_TO0_LONG'  => '昵称最大长度为32个字符!',
+    'SEX_IS_INVALID'        => '无效的性别选项!',
+    'BIRTHDAY_IS_INVALID'   => '生日格式不正确!',
+    'BIRTHDAY_IS_TOO_EARLY' => '您出生也太早了吧？',
+    'BIRTHDAY_IS_TOO_LATE'  => '您出生也太晚了吧？',
+    'URL_FORMAT_IS_WRONG'   => '个人网址错误!',
+    'URL_IS_TO0_LONG'       => '个人网址长度不得超过64个字符!',
+    'SIGNATURE_IS_TO0_LONG' => '个性签名长度不得超过128个字符!',
+    'NO_NEW_INFORMATION'    => "没有新的修改信息！",
+    'ERROR'                 => "请求错误",
+
+    'old_password_is_required'     => '旧密码不能为空！',
+    'old_password_is_too_long'     => '旧密码不能超过32个字符！',
+    'old_password_is_too_short'    => '旧密码不能小于6个字符！',
+    'password_is_required'         => '新密码不能为空！',
+    'password_is_too_long'         => '新密码不能超过32个字符！',
+    'password_is_too_short'        => '新密码不能小于6个字符！',
+    'repeat_password_is_required'  => '重复密码不能为空！',
+    'repeat_password_is_too_long'  => '重复密码不能超过32个字符！',
+    'repeat_password_is_too_short' => '重复密码不能小于6个字符！',
+    'change_success'               => '修改成功！',
+    'password_repeat_wrong'=>'密码输入不一致!',
+    'old_password_is_wrong'        => '原始密码不正确！',
+
 ];

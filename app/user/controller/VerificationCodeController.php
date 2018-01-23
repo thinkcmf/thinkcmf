@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -19,15 +19,31 @@ class VerificationCodeController extends HomeBaseController
     {
         $validate = new Validate([
             'username' => 'require',
+            'captcha'  => 'require',
         ]);
 
         $validate->message([
             'username.require' => '请输入手机号或邮箱!',
+            'captcha.require'  => '图片验证码不能为空',
         ]);
 
         $data = $this->request->param();
         if (!$validate->check($data)) {
             $this->error($validate->getError());
+        }
+
+        $captchaId = empty($data['captcha_id']) ? '' : $data['captcha_id'];
+        if (!cmf_captcha_check($data['captcha'], $captchaId, false)) {
+            $this->error('图片验证码错误!');
+        }
+
+        $registerCaptcha = session('register_captcha');
+
+        session('register_captcha', $data['captcha']);
+
+        if ($registerCaptcha == $data['captcha']) {
+            cmf_captcha_check($data['captcha'], $captchaId, true);
+            $this->error('请输入新图片验证码!');
         }
 
         $accountType = '';
@@ -38,6 +54,18 @@ class VerificationCodeController extends HomeBaseController
             $accountType = 'mobile';
         } else {
             $this->error("请输入正确的手机或者邮箱格式!");
+        }
+
+        if (isset($data['type']) && $data['type'] == 'register') {
+            if ($accountType == 'email') {
+                $findUserCount = db('user')->where('user_email', $data['username'])->count();
+            } else if ($accountType == 'mobile') {
+                $findUserCount = db('user')->where('mobile', $data['username'])->count();
+            }
+
+            if ($findUserCount > 0) {
+                $this->error('账号已注册！');
+            }
         }
 
         //TODO 限制 每个ip 的发送次数
@@ -79,7 +107,9 @@ class VerificationCodeController extends HomeBaseController
                 $this->error('未安装验证码发送插件,请联系管理员!');
             }
 
-            cmf_verification_code_log($data['username'], $code);
+            $expireTime = empty($result['expire_time']) ? 0 : $result['expire_time'];
+
+            cmf_verification_code_log($data['username'], $code, $expireTime);
 
             if (!empty($result['message'])) {
                 $this->success($result['message']);

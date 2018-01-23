@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -17,10 +17,20 @@ class TagController extends HomeBaseController
 {
     public function index()
     {
-        $id             = $this->request->param('id', 0, 'intval');
+        $id             = $this->request->param('id');
+
         $portalTagModel = new PortalTagModel();
 
-        $tag = $portalTagModel->where('id', $id)->where('status', 1)->find();
+        if(is_numeric($id)){
+            $tag = $portalTagModel->where('id', $id)->where('status', 1)->find();
+        }else{
+            $tag = $portalTagModel->where('name', $id)->where('status', 1)->find();
+        }
+
+
+        if (empty($tag)) {
+            abort(404, '标签不存在!');
+        }
 
         $this->assign('tag', $tag);
 

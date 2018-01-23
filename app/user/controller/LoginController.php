@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -61,7 +61,7 @@ class LoginController extends HomeBaseController
             }
 
             if (!cmf_captcha_check($data['captcha'])) {
-                $this->error('验证码错误');
+                $this->error(lang('CAPTCHA_NOT_RIGHT'));
             }
 
             $userModel         = new UserModel();
@@ -81,10 +81,10 @@ class LoginController extends HomeBaseController
             switch ($log) {
                 case 0:
                     cmf_user_action('login');
-                    $this->success('登录成功', $redirect);
+                    $this->success(lang('LOGIN_SUCCESS'), $redirect);
                     break;
                 case 1:
-                    $this->error('登录密码错误');
+                    $this->error(lang('PASSWORD_NOT_RIGHT'));
                     break;
                 case 2:
                     $this->error('账户不存在');
@@ -133,9 +133,11 @@ class LoginController extends HomeBaseController
                 $this->error($validate->getError());
             }
 
-            if (!cmf_captcha_check($data['captcha'])) {
+            $captchaId = empty($data['_captcha_id']) ? '' : $data['_captcha_id'];
+            if (!cmf_captcha_check($data['captcha'], $captchaId)) {
                 $this->error('验证码错误');
             }
+
             $errMsg = cmf_check_verification_code($data['username'], $data['verification_code']);
             if (!empty($errMsg)) {
                 $this->error($errMsg);

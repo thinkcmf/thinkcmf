@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -39,6 +39,14 @@ class PortalPostModel extends Model
     public function categories()
     {
         return $this->belongsToMany('PortalCategoryModel', 'portal_category_post', 'category_id', 'post_id');
+    }
+
+    /**
+     * 关联标签表
+     */
+    public function tags()
+    {
+        return $this->belongsToMany('PortalTagModel', 'portal_tag_post', 'tag_id', 'post_id');
     }
 
     /**

@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -12,6 +12,7 @@ namespace app\user\controller;
 
 use cmf\controller\AdminBaseController;
 use cmf\lib\Upload;
+use think\View;
 
 /**
  * 附件上传控制器
@@ -70,19 +71,37 @@ class AssetController extends AdminBaseController
                 $this->error('上传文件类型配置错误！');
             }
 
-            $this->assign('filetype', $arrData["filetype"]);
-            $this->assign('extensions', $extensions);
-            $this->assign('upload_max_filesize', $fileTypeUploadMaxFileSize * 1024);
-            $this->assign('upload_max_filesize_mb', intval($fileTypeUploadMaxFileSize / 1024));
+
+            View::share('filetype', $arrData["filetype"]);
+            View::share('extensions', $extensions);
+            View::share('upload_max_filesize', $fileTypeUploadMaxFileSize * 1024);
+            View::share('upload_max_filesize_mb', intval($fileTypeUploadMaxFileSize / 1024));
             $maxFiles  = intval($uploadSetting['max_files']);
             $maxFiles  = empty($maxFiles) ? 20 : $maxFiles;
             $chunkSize = intval($uploadSetting['chunk_size']);
             $chunkSize = empty($chunkSize) ? 512 : $chunkSize;
-            $this->assign('max_files', $arrData["multi"] ? $maxFiles : 1);
-            $this->assign('chunk_size', $chunkSize); //// 单位KB
-            $this->assign('multi', $arrData["multi"]);
-            $this->assign('app', $arrData["app"]);
+            View::share('max_files', $arrData["multi"] ? $maxFiles : 1);
+            View::share('chunk_size', $chunkSize); //// 单位KB
+            View::share('multi', $arrData["multi"]);
+            View::share('app', $arrData["app"]);
 
+            $content = hook_one('fetch_upload_view');
+
+            $tabs = ['local', 'url', 'cloud'];
+
+            $tab = !empty($arrData['tab']) && in_array($arrData['tab'], $tabs) ? $arrData['tab'] : 'local';
+
+            if (!empty($content)) {
+                $this->assign('has_cloud_storage', true);
+            }
+
+            if (!empty($content) && $tab == 'cloud') {
+                return $content;
+            }
+
+            $tab = $tab == 'cloud' ? 'local' : $tab;
+
+            $this->assign('tab', $tab);
             return $this->fetch(":webuploader");
 
         }

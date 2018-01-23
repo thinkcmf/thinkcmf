@@ -93,4 +93,16 @@
         $('#submit-btn').click();
     }
 
+    function removeImage(wigetVarName) {
+        //需要定位input和image
+        //清空Input
+        $('#js-'+wigetVarName+'-input').val('');
+        //修改Image为原图。
+        var defaultImage = $('#js-'+wigetVarName+'-button-remove').attr('defaultImage');
+        $('#js-'+wigetVarName+'-input-preview').attr('src',defaultImage);
+        //移除自身
+        $('#js-'+wigetVarName+'-button-remove').remove();
+
+    }
+
 </script>

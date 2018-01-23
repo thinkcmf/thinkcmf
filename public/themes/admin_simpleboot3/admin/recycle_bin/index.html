@@ -12,6 +12,7 @@
             <th>内容名称</th>
             <th>内容类型</th>
             <th>删除时间</th>
+            <th>操作人</th>
             <th width="130">{:lang('ACTIONS')}</th>
         </tr>
         </thead>
@@ -24,6 +25,7 @@
                     {:lang('TABLE_'.strtoupper($vo['table_name']))}
                 </td>
                 <td> {:date('Y-m-d H:i:s',$vo['create_time'])}</td>
+                <td> {:$vo.user.user_login}</td>
                 <td>
                     <a href="{:url('RecycleBin/restore',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn" data-msg="确定要还原吗？">还原</a>
                     <a href="{:url('RecycleBin/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>

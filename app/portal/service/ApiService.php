@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -18,7 +18,7 @@ class ApiService
 {
     /**
      * 功能:查询文章列表,支持分页;<br>
-     * 注:此方法查询时关联三个表portal_category_post(category_post),portal_post(post),user;在指定排序(order),指定查询条件(where)最好指定一下表别名
+     * 注:此方法查询时关联两个表portal_category_post(category_post),portal_post(post);在指定排序(order),指定查询条件(where)最好指定一下表别名
      * @param array $param 查询参数<pre>
      * array(
      *  'category_ids'=>'',
@@ -32,7 +32,7 @@ class ApiService
      * category_ids:文章所在分类,可指定一个或多个分类id,以英文逗号分隔,如1或1,2,3 默认值为全部
      * field:调用指定的字段@todo
      *   如只调用posts表里的id和post_title字段可以是post.id,post.post_title; 默认全部,
-     *   此方法查询时关联三个表portal_category_post(category_post),portal_post(post),user;
+     *   此方法查询时关联两个表portal_category_post(category_post),portal_post(post);
      *   所以最好指定一下表名,以防字段冲突
      * limit:数据条数,默认值为10,可以指定从第几条开始,如3,8(表示共调用8条,从第3条开始)
      * order:排序方式,如按posts表里的published_time字段倒序排列：post.published_time desc
@@ -67,12 +67,12 @@ class ApiService
         $categoryIds = empty($param['category_ids']) ? '' : $param['category_ids'];
 
         $join = [
-            ['__USER__ user', 'post.user_id = user.id'],
+            //['__USER__ user', 'post.user_id = user.id'],
         ];
 
         if (!empty($categoryIds)) {
 
-            $field = !empty($param['field']) ? $param['field'] : 'post.*,user.user_login,user.user_nickname,user.user_email,category_post.category_id';
+            $field = !empty($param['field']) ? $param['field'] : 'post.*,min(category_post.category_id) as category_id';
             array_push($join, ['__PORTAL_CATEGORY_POST__ category_post', 'post.id = category_post.post_id']);
 
             if (!is_array($categoryIds)) {
@@ -85,8 +85,119 @@ class ApiService
                 $where['category_post.category_id'] = ['in', $categoryIds];
             }
         } else {
-            $field = !empty($param['field']) ? $param['field'] : 'post.*,user.user_login,user.user_nickname,user.user_email,category_post.category_id';
+
+            $field = !empty($param['field']) ? $param['field'] : 'post.*,min(category_post.category_id) as category_id';
             array_push($join, ['__PORTAL_CATEGORY_POST__ category_post', 'post.id = category_post.post_id']);
+        }
+
+        $articles = $portalPostModel->alias('post')->field($field)
+            ->join($join)
+            ->where($where)
+            ->where($paramWhere)
+            ->order($order)
+            ->group('post.id');
+
+        $return = [];
+
+        if (empty($page)) {
+            $articles = $articles->limit($limit)->select();
+
+            if (!empty($relation) && !empty($articles['items'])) {
+                $articles->load($relation);
+            }
+
+            $return['articles'] = $articles;
+        } else {
+
+            if (is_array($page)) {
+                if (empty($page['list_rows'])) {
+                    $page['list_rows'] = 10;
+                }
+
+                $articles = $articles->paginate($page);
+            } else {
+                $articles = $articles->paginate(intval($page));
+            }
+
+            if (!empty($relation) && !empty($articles['items'])) {
+                $articles->load($relation);
+            }
+
+            $articles->appends(request()->get());
+            $articles->appends(request()->post());
+
+            $return['articles']    = $articles->items();
+            $return['page']        = $articles->render();
+            $return['total']       = $articles->total();
+            $return['total_pages'] = $articles->lastPage();
+        }
+
+
+        return $return;
+
+    }
+
+    /**
+     * 功能:查询标签文章列表,支持分页;<br>
+     * 注:此方法查询时关联两个表portal_tag_post(tag_post),portal_post(post);在指定排序(order),指定查询条件(where)最好指定一下表别名
+     * @param array $param 查询参数<pre>
+     * array(
+     *  'tag_id'=>'',
+     *  'where'=>'',
+     *  'limit'=>'',
+     *  'order'=>'',
+     *  'page'=>'',
+     *  'relation'=>''
+     * )
+     * 字段说明:
+     * field:调用指定的字段@todo
+     *   如只调用posts表里的id和post_title字段可以是post.id,post.post_title; 默认全部,
+     *   此方法查询时关联两个表portal_tag_post(category_post),portal_post(post);
+     *   所以最好指定一下表名,以防字段冲突
+     * limit:数据条数,默认值为10,可以指定从第几条开始,如3,8(表示共调用8条,从第3条开始)
+     * order:排序方式,如按posts表里的published_time字段倒序排列：post.published_time desc
+     * where:查询条件,字符串形式,和sql语句一样,请在事先做好安全过滤,最好使用第二个参数$where的数组形式进行过滤,此方法查询时关联多个表,所以最好指定一下表名,以防字段冲突,查询条件(只支持数组),格式和thinkPHP的where方法一样,此方法查询时关联多个表,所以最好指定一下表名,以防字段冲突;
+     * </pre>
+     * @return array 包括分页的文章列表<pre>
+     * 格式:
+     * array(
+     *     "articles"=>array(),//文章列表,array
+     *     "page"=>"",//生成的分页html,不分页则没有此项
+     *     "total"=>100, //符合条件的文章总数,不分页则没有此项
+     *     "total_pages"=>5 // 总页数,不分页则没有此项
+     * )</pre>
+     */
+    public static function tagArticles($param)
+    {
+        $portalPostModel = new PortalPostModel();
+
+        $where = [
+            'post.published_time' => [['> time', 0], ['<', time()]],
+            'post.post_status'    => 1,
+            'post.post_type'      => 1,
+            'post.delete_time'    => 0
+        ];
+
+        $paramWhere = empty($param['where']) ? '' : $param['where'];
+
+        $limit    = empty($param['limit']) ? 10 : $param['limit'];
+        $order    = empty($param['order']) ? '' : $param['order'];
+        $page     = isset($param['page']) ? $param['page'] : false;
+        $relation = empty($param['relation']) ? '' : $param['relation'];
+        $tagId    = empty($param['tag_id']) ? '' : $param['tag_id'];
+
+        $join = [
+            //['__USER__ user', 'post.user_id = user.id'],
+        ];
+
+        if (empty($tagId)) {
+            return null;
+
+        } else {
+            $field = !empty($param['field']) ? $param['field'] : 'post.*';
+            array_push($join, ['__PORTAL_TAG_POST__ tag_post', 'post.id = tag_post.post_id']);
+
+            $where['tag_post.tag_id'] = $tagId;
         }
 
         $articles = $portalPostModel->alias('post')->field($field)
@@ -121,7 +232,8 @@ class ApiService
                 $articles->load($relation);
             }
 
-            $articles->appends(request()->param());
+            $articles->appends(request()->get());
+            $articles->appends(request()->post());
 
             $return['articles']    = $articles->items();
             $return['page']        = $articles->render();
@@ -129,9 +241,7 @@ class ApiService
             $return['total_pages'] = $articles->lastPage();
         }
 
-
         return $return;
-
     }
 
     /**

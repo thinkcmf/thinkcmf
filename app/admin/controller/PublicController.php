@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -26,17 +26,18 @@ class PublicController extends AdminBaseController
     {
         $loginAllowed = session("__LOGIN_BY_CMF_ADMIN_PW__");
         if (empty($loginAllowed)) {
-            $this->error('非法登录!', cmf_get_root() . '/');
+            //$this->error('非法登录!', cmf_get_root() . '/');
+            return redirect(cmf_get_root() . "/");
         }
 
         $admin_id = session('ADMIN_ID');
         if (!empty($admin_id)) {//已经登录
-            redirect(url("admin/Index/index"));
+            return redirect(url("admin/Index/index"));
         } else {
             $site_admin_url_password = config("cmf_SITE_ADMIN_URL_PASSWORD");
             $upw                     = session("__CMF_UPW__");
             if (!empty($site_admin_url_password) && $upw != $site_admin_url_password) {
-                redirect(ROOT_PATH . "/");
+                return redirect(cmf_get_root() . "/");
             } else {
                 session("__SP_ADMIN_LOGIN_PAGE_SHOWED_SUCCESS__", true);
                 $result = hook_one('admin_login');

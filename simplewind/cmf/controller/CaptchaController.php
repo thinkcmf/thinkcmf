@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +---------------------------------------------------------------------
@@ -26,6 +26,10 @@ class CaptchaController
         $config = [
             // 验证码字体大小(px)
             'fontSize' => 25,
+            // 验证码字体大小(px)
+            'useCurve' => true,
+            // 是否画混淆曲线
+            'useNoise' => true,
             // 验证码图片高度
             'imageH'   => 0,
             // 验证码图片宽度
@@ -72,11 +76,13 @@ class CaptchaController
         }
 
         $defaultCaptchaConfig = config('captcha');
-        if($defaultCaptchaConfig && is_array($defaultCaptchaConfig)){
+        if ($defaultCaptchaConfig && is_array($defaultCaptchaConfig)) {
             $config = array_merge($defaultCaptchaConfig, $config);
         }
         ob_clean();//解决验证码不显示问题
         $captcha = new Captcha($config);
+
+        ob_clean();// 清除输出缓存
         return $captcha->entry($id);
     }
 }

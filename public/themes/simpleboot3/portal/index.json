@@ -14,7 +14,7 @@
                     "multi": false
                 },
                 "placeholder": "请选择顶部幻灯片",
-                "tip": "",
+                "tip": "顶部幻灯片",
                 "rule": {
                     "require": true
                 }
@@ -104,7 +104,7 @@
                         "value": "",
                         "type": "text",
                         "dataSource": {
-                            "api": "portal/category/index",
+                            "api": "portal/Category/index",
                             "multi": true
                         },
                         "placeholder": "请选择分类",

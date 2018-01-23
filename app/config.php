@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -26,7 +26,7 @@ $configs = [
     // 入口自动绑定模块
     'auto_bind_module'        => false,
     // 注册的根命名空间
-    'root_namespace'          => ['cmf' => CMF_PATH, 'plugins' => PLUGINS_PATH],
+    'root_namespace'          => ['cmf' => CMF_PATH, 'plugins' => PLUGINS_PATH, 'themes' => PLUGINS_PATH . '../themes', 'api' => CMF_ROOT . 'api/'],
     // 扩展函数文件
     'extra_file_list'         => [CMF_PATH . 'common' . EXT, THINK_PATH . 'helper' . EXT],
     // 默认输出类型
@@ -218,6 +218,9 @@ $configs = [
         'type'      => '\cmf\paginator\Bootstrap',
         'var_page'  => 'page',
         'list_rows' => 15,
+    ],
+    'queue'                   => [
+        'connector' => '\cmf\queue\connector\Database'
     ],
     // +----------------------------------------------------------------------
     // | CMF 设置

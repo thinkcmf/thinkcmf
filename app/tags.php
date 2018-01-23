@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -27,6 +27,8 @@ return [
     'view_filter'  => [],
     // 日志写入
     'log_write'    => [],
+    //日志写入完成
+    'log_write_done'=>[],
     // 应用结束
     'app_end'      => [],
     // 应用开始

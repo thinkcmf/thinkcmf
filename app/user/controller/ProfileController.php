@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -32,6 +32,12 @@ class ProfileController extends UserBaseController
     {
         $user = cmf_get_current_user();
         $this->assign($user);
+
+        $userId = cmf_get_current_user_id();
+
+        $userModel = new UserModel();
+        $user      = $userModel->where('id', $userId)->find();
+        $this->assign('user', $user);
         return $this->fetch();
     }
 
@@ -52,24 +58,21 @@ class ProfileController extends UserBaseController
     {
         if ($this->request->isPost()) {
             $validate = new Validate([
-                'user_nickname' => 'chsDash|max:32',
-                'sex'     => 'number|between:0,2',
-                'birthday'   => 'dateFormat:Y-m-d|after:-88 year|before:-1 day',
-                'user_url'   => 'url|max:64',
-                'signature'   => 'chsDash|max:128',
+                'user_nickname' => 'max:32',
+                'sex'           => 'between:0,2',
+                'birthday'      => 'dateFormat:Y-m-d|after:-88 year|before:-1 day',
+                'user_url'      => 'url|max:64',
+                'signature'     => 'max:128',
             ]);
             $validate->message([
-                'user_nickname.chsDash' => '昵称只能是汉字、字母、数字和下划线_及破折号-',
-                'user_nickname.max' => '昵称最大长度为32个字符',
-                'sex.number' => '请选择性别',
-                'sex.between' => '无效的性别选项',
-                'birthday.dateFormat' => '生日格式不正确',
-                'birthday.after' => '出生日期也太早了吧？',
-                'birthday.before' => '出生日期也太晚了吧？',
-                'user_url.url' => '个人网址错误',
-                'user_url.max' => '个人网址长度不得超过64个字符',
-                'signature.chsDash' => '个性签名只能是汉字、字母、数字和下划线_及破折号-',
-                'signature.max' => '个性签名长度不得超过128个字符',
+                'user_nickname.max'   => lang('NICKNAME_IS_TO0_LONG'),
+                'sex.between'         => lang('SEX_IS_INVALID'),
+                'birthday.dateFormat' => lang('BIRTHDAY_IS_INVALID'),
+                'birthday.after'      => lang('BIRTHDAY_IS_TOO_EARLY'),
+                'birthday.before'     => lang('BIRTHDAY_IS_TOO_LATE'),
+                'user_url.url'        => lang('URL_FORMAT_IS_WRONG'),
+                'user_url.max'        => lang('URL_IS_TO0_LONG'),
+                'signature.max'       => lang('SIGNATURE_IS_TO0_LONG'),
             ]);
 
             $data = $this->request->post();
@@ -78,12 +81,12 @@ class ProfileController extends UserBaseController
             }
             $editData = new UserModel();
             if ($editData->editData($data)) {
-                $this->success("保存成功！", "user/profile/center");
+                $this->success(lang('EDIT_SUCCESS'), "user/profile/center");
             } else {
-                $this->error("没有新的修改信息！");
+                $this->error(lang('NO_NEW_INFORMATION'));
             }
         } else {
-            $this->error("请求错误");
+            $this->error(lang('ERROR'));
         }
     }
 
@@ -109,15 +112,15 @@ class ProfileController extends UserBaseController
                 'repassword'   => 'require|min:6|max:32',
             ]);
             $validate->message([
-                'old_password.require' => '旧密码不能为空',
-                'old_password.max'     => '旧密码不能超过32个字符',
-                'old_password.min'     => '旧密码不能小于6个字符',
-                'password.require'     => '新密码不能为空',
-                'password.max'         => '新密码不能超过32个字符',
-                'password.min'         => '新密码不能小于6个字符',
-                'repassword.require'   => '重复密码不能为空',
-                'repassword.max'       => '重复密码不能超过32个字符',
-                'repassword.min'       => '重复密码不能小于6个字符',
+                'old_password.require' => lang('old_password_is_required'),
+                'old_password.max'     => lang('old_password_is_too_long'),
+                'old_password.min'     => lang('old_password_is_too_short'),
+                'password.require'     => lang('password_is_required'),
+                'password.max'         => lang('password_is_too_long'),
+                'password.min'         => lang('password_is_too_short'),
+                'repassword.require'   => lang('repeat_password_is_required'),
+                'repassword.max'       => lang('repeat_password_is_too_long'),
+                'repassword.min'       => lang('repeat_password_is_too_short'),
             ]);
 
             $data = $this->request->post();
@@ -129,19 +132,19 @@ class ProfileController extends UserBaseController
             $log   = $login->editPassword($data);
             switch ($log) {
                 case 0:
-                    $this->success('修改成功');
+                    $this->success(lang('change_success'));
                     break;
                 case 1:
-                    $this->error('密码输入不一致');
+                    $this->error(lang('password_repeat_wrong'));
                     break;
                 case 2:
-                    $this->error('原始密码不正确');
+                    $this->error(lang('old_password_is_wrong'));
                     break;
                 default :
-                    $this->error('未受理的请求');
+                    $this->error(lang('ERROR'));
             }
         } else {
-            $this->error("请求错误");
+            $this->error(lang('ERROR'));
         }
 
     }
@@ -237,8 +240,8 @@ class ProfileController extends UserBaseController
             ]);
             $validate->message([
                 'username.require'          => '手机号不能为空',
-                'username.number'          => '手机号只能为数字',
-                'username.unique'          => '手机号已存在',
+                'username.number'           => '手机号只能为数字',
+                'username.unique'           => '手机号已存在',
                 'verification_code.require' => '验证码不能为空',
             ]);
 

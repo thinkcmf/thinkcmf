@@ -42,6 +42,18 @@
 					</span>
                 </div>
                 <hr>
+                <php>
+                    $before_content_hook_param=[
+                    'object_id'=>$article['id'],
+                    'table_name'=>'portal_post',
+                    'object_title'=>$article['post_title'],
+                    'user_id'=>$article['user_id'],
+                    'url'=>cmf_url_encode('portal/Article/index',array('id'=>$article['id'],'cid'=>$category['id'])),
+                    'object'=>$article
+                    ];
+                </php>
+                <hook name="before_content" param="before_content_hook_param"/>
+
                 <div id="article_content">
                     {$article.post_content}
                 </div>
@@ -68,7 +80,8 @@
                     'object_id'=>$article['id'],
                     'table_name'=>'portal_post',
                     'object_title'=>$article['post_title'],
-                    'url'=>cmf_url_encode('portal/Article/index',array('id'=>$article['id'],'cid'=>$category['id']))
+                    'url'=>cmf_url_encode('portal/Article/index',array('id'=>$article['id'],'cid'=>$category['id'])),
+                    'user_id'=>$article['user_id'],
                     ];
                     $comment=hook_one('comment',$comment_hook_param);
                 </php>
