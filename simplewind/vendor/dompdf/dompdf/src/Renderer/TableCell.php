@@ -54,6 +54,11 @@ class TableCell extends Block
 
         $cellmap = $table->get_cellmap();
         $cells = $cellmap->get_spanned_cells($frame);
+
+        if (is_null($cells)) {
+            return;
+        }
+
         $num_rows = $cellmap->get_num_rows();
         $num_cols = $cellmap->get_num_cols();
 
@@ -94,8 +99,9 @@ class TableCell extends Block
 
             if ($draw_bottom) {
                 $bp = $cellmap->get_border_properties($num_rows - 1, $j);
-                if ($bp["bottom"]["style"] === "none" || $bp["bottom"]["width"] <= 0)
+                if ($bp["bottom"]["style"] === "none" || $bp["bottom"]["width"] <= 0) {
                     continue;
+                }
 
                 $y = $bottom_row["y"] + $bottom_row["height"] + $bp["bottom"]["width"] / 2;
 

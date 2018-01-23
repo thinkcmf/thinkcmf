@@ -5,6 +5,7 @@ namespace Sabberworm\CSS;
 use Sabberworm\CSS\CSSList\CSSList;
 use Sabberworm\CSS\CSSList\Document;
 use Sabberworm\CSS\CSSList\KeyFrame;
+use Sabberworm\CSS\Parsing\SourceException;
 use Sabberworm\CSS\Property\AtRule;
 use Sabberworm\CSS\Property\Import;
 use Sabberworm\CSS\Property\Charset;
@@ -17,9 +18,10 @@ use Sabberworm\CSS\Value\RuleValueList;
 use Sabberworm\CSS\Value\Size;
 use Sabberworm\CSS\Value\Color;
 use Sabberworm\CSS\Value\URL;
-use Sabberworm\CSS\Value\String;
+use Sabberworm\CSS\Value\CSSString;
 use Sabberworm\CSS\Rule\Rule;
 use Sabberworm\CSS\Parsing\UnexpectedTokenException;
+use Sabberworm\CSS\Comment\Comment;
 
 /**
  * Parser class parses CSS from text into a data structure.
@@ -27,17 +29,27 @@ use Sabberworm\CSS\Parsing\UnexpectedTokenException;
 class Parser {
 
 	private $sText;
+	private $aText;
 	private $iCurrentPosition;
 	private $oParserSettings;
 	private $sCharset;
 	private $iLength;
-	private $peekCache = null;
 	private $blockRules;
 	private $aSizeUnits;
+	private $iLineNo;
 
-	public function __construct($sText, Settings $oParserSettings = null) {
+	/**
+	 * Parser constructor.
+	 * Note that that iLineNo starts from 1 and not 0
+	 *
+	 * @param $sText
+	 * @param Settings|null $oParserSettings
+	 * @param int $iLineNo
+	 */
+	public function __construct($sText, Settings $oParserSettings = null, $iLineNo = 1) {
 		$this->sText = $sText;
 		$this->iCurrentPosition = 0;
+		$this->iLineNo = $iLineNo;
 		if ($oParserSettings === null) {
 			$oParserSettings = Settings::create();
 		}
@@ -56,7 +68,8 @@ class Parser {
 
 	public function setCharset($sCharset) {
 		$this->sCharset = $sCharset;
-		$this->iLength = $this->strlen($this->sText);
+		$this->aText = $this->strsplit($this->sText);
+		$this->iLength = count($this->aText);
 	}
 
 	public function getCharset() {
@@ -65,46 +78,71 @@ class Parser {
 
 	public function parse() {
 		$this->setCharset($this->oParserSettings->sDefaultCharset);
-		$oResult = new Document();
+		$oResult = new Document($this->iLineNo);
 		$this->parseDocument($oResult);
 		return $oResult;
 	}
 
 	private function parseDocument(Document $oDocument) {
-		$this->consumeWhiteSpace();
 		$this->parseList($oDocument, true);
 	}
 
 	private function parseList(CSSList $oList, $bIsRoot = false) {
 		while (!$this->isEnd()) {
-			if ($this->comes('@')) {
-				$oList->append($this->parseAtRule());
-			} else if ($this->comes('}')) {
-				$this->consume('}');
-				if ($bIsRoot) {
-					throw new \Exception("Unopened {");
-				} else {
-					return;
+			$comments = $this->consumeWhiteSpace();
+			$oListItem = null;
+			if($this->oParserSettings->bLenientParsing) {
+				try {
+					$oListItem = $this->parseListItem($oList, $bIsRoot);
+				} catch (UnexpectedTokenException $e) {
+					$oListItem = false;
 				}
 			} else {
-				if($this->oParserSettings->bLenientParsing) {
-					try {
-						$oList->append($this->parseSelector());
-					} catch (UnexpectedTokenException $e) {}
-				} else {
-					$oList->append($this->parseSelector());
-				}
+				$oListItem = $this->parseListItem($oList, $bIsRoot);
 			}
-			$this->consumeWhiteSpace();
+			if($oListItem === null) {
+				// List parsing finished
+				return;
+			}
+			if($oListItem) {
+				$oListItem->setComments($comments);
+				$oList->append($oListItem);
+			}
 		}
 		if (!$bIsRoot) {
-			throw new \Exception("Unexpected end of document");
+			throw new SourceException("Unexpected end of document", $this->iLineNo);
+		}
+	}
+	
+	private function parseListItem(CSSList $oList, $bIsRoot = false) {
+		if ($this->comes('@')) {
+			$oAtRule = $this->parseAtRule();
+			if($oAtRule instanceof Charset) {
+				if(!$bIsRoot) {
+					throw new UnexpectedTokenException('@charset may only occur in root document', '', 'custom', $this->iLineNo);
+				}
+				if(count($oList->getContents()) > 0) {
+					throw new UnexpectedTokenException('@charset must be the first parseable token in a document', '', 'custom', $this->iLineNo);
+				}
+				$this->setCharset($oAtRule->getCharset()->getString());
+			}
+			return $oAtRule;
+		} else if ($this->comes('}')) {
+			$this->consume('}');
+			if ($bIsRoot) {
+				throw new SourceException("Unopened {", $this->iLineNo);
+			} else {
+				return null;
+			}
+		} else {
+			return $this->parseSelector();
 		}
 	}
 
 	private function parseAtRule() {
 		$this->consume('@');
-		$sIdentifier = $this->parseIdentifier();
+		$sIdentifier = $this->parseIdentifier(false);
+		$iIdentifierLineNum = $this->iLineNo;
 		$this->consumeWhiteSpace();
 		if ($sIdentifier === 'import') {
 			$oLocation = $this->parseURLValue();
@@ -114,18 +152,16 @@ class Parser {
 				$sMediaQuery = $this->consumeUntil(';');
 			}
 			$this->consume(';');
-			return new Import($oLocation, $sMediaQuery);
+			return new Import($oLocation, $sMediaQuery, $iIdentifierLineNum);
 		} else if ($sIdentifier === 'charset') {
 			$sCharset = $this->parseStringValue();
 			$this->consumeWhiteSpace();
 			$this->consume(';');
-			$this->setCharset($sCharset->getString());
-			return new Charset($sCharset);
+			return new Charset($sCharset, $iIdentifierLineNum);
 		} else if ($this->identifierIs($sIdentifier, 'keyframes')) {
-			$oResult = new KeyFrame();
+			$oResult = new KeyFrame($iIdentifierLineNum);
 			$oResult->setVendorKeyFrame($sIdentifier);
 			$oResult->setAnimationName(trim($this->consumeUntil('{', false, true)));
-			$this->consumeWhiteSpace();
 			$this->parseList($oResult);
 			return $oResult;
 		} else if ($sIdentifier === 'namespace') {
@@ -137,16 +173,15 @@ class Parser {
 			}
 			$this->consume(';');
 			if ($sPrefix !== null && !is_string($sPrefix)) {
-				throw new \Exception('Wrong namespace prefix '.$sPrefix);
+				throw new UnexpectedTokenException('Wrong namespace prefix', $sPrefix, 'custom', $iIdentifierLineNum);
 			}
-			if (!($mUrl instanceof String || $mUrl instanceof URL)) {
-				throw new \Exception('Wrong namespace url of invalid type '.$mUrl);
+			if (!($mUrl instanceof CSSString || $mUrl instanceof URL)) {
+				throw new UnexpectedTokenException('Wrong namespace url of invalid type', $mUrl, 'custom', $iIdentifierLineNum);
 			}
-			return new CSSNamespace($mUrl, $sPrefix);
+			return new CSSNamespace($mUrl, $sPrefix, $iIdentifierLineNum);
 		} else {
 			//Unknown other at rule (font-face or such)
 			$sArgs = trim($this->consumeUntil('{', false, true));
-			$this->consumeWhiteSpace();
 			$bUseRuleSet = true;
 			foreach($this->blockRules as $sBlockRuleName) {
 				if($this->identifierIs($sIdentifier, $sBlockRuleName)) {
@@ -155,10 +190,10 @@ class Parser {
 				}
 			}
 			if($bUseRuleSet) {
-				$oAtRule = new AtRuleSet($sIdentifier, $sArgs);
+				$oAtRule = new AtRuleSet($sIdentifier, $sArgs, $iIdentifierLineNum);
 				$this->parseRuleSet($oAtRule);
 			} else {
-				$oAtRule = new AtRuleBlockList($sIdentifier, $sArgs);
+				$oAtRule = new AtRuleBlockList($sIdentifier, $sArgs, $iIdentifierLineNum);
 				$this->parseList($oAtRule);
 			}
 			return $oAtRule;
@@ -168,7 +203,7 @@ class Parser {
 	private function parseIdentifier($bAllowFunctions = true, $bIgnoreCase = true) {
 		$sResult = $this->parseCharacter(true);
 		if ($sResult === null) {
-			throw new UnexpectedTokenException($sResult, $this->peek(5), 'identifier');
+			throw new UnexpectedTokenException($sResult, $this->peek(5), 'identifier', $this->iLineNo);
 		}
 		$sCharacter = null;
 		while (($sCharacter = $this->parseCharacter(true)) !== null) {
@@ -180,7 +215,7 @@ class Parser {
 		if ($bAllowFunctions && $this->comes('(')) {
 			$this->consume('(');
 			$aArguments = $this->parseValue(array('=', ' ', ','));
-			$sResult = new CSSFunction($sResult, $aArguments);
+			$sResult = new CSSFunction($sResult, $aArguments, ',', $this->iLineNo);
 			$this->consume(')');
 		}
 		return $sResult;
@@ -208,17 +243,21 @@ class Parser {
 			while (!$this->comes($sQuote)) {
 				$sContent = $this->parseCharacter(false);
 				if ($sContent === null) {
-					throw new \Exception("Non-well-formed quoted string {$this->peek(3)}");
+					throw new SourceException("Non-well-formed quoted string {$this->peek(3)}", $this->iLineNo);
 				}
 				$sResult .= $sContent;
 			}
 			$this->consume($sQuote);
 		}
-		return new String($sResult);
+		return new CSSString($sResult, $this->iLineNo);
 	}
 
 	private function parseCharacter($bIsForIdentifier) {
 		if ($this->peek() === '\\') {
+			if ($bIsForIdentifier && $this->oParserSettings->bLenientParsing && ($this->comes('\0') || $this->comes('\9'))) {
+				// Non-strings can contain \0 or \9 which is an IE hack supported in lenient parsing.
+				return null;
+			}
 			$this->consume('\\');
 			if ($this->comes('\n') || $this->comes('\r')) {
 				return '';
@@ -263,9 +302,10 @@ class Parser {
 	}
 
 	private function parseSelector() {
-		$oResult = new DeclarationBlock();
-		$oResult->setSelector($this->consumeUntil('{', false, true));
-		$this->consumeWhiteSpace();
+		$aComments = array();
+		$oResult = new DeclarationBlock($this->iLineNo);
+		$oResult->setSelector($this->consumeUntil('{', false, true, $aComments));
+		$oResult->setComments($aComments);
 		$this->parseRuleSet($oResult);
 		return $oResult;
 	}
@@ -273,7 +313,6 @@ class Parser {
 	private function parseRuleSet($oRuleSet) {
 		while ($this->comes(';')) {
 			$this->consume(';');
-			$this->consumeWhiteSpace();
 		}
 		while (!$this->comes('}')) {
 			$oRule = null;
@@ -284,11 +323,9 @@ class Parser {
 					try {
 						$sConsume = $this->consumeUntil(array("\n", ";", '}'), true);
 						// We need to “unfind” the matches to the end of the ruleSet as this will be matched later
-						if($this->streql($this->substr($sConsume, $this->strlen($sConsume)-1, 1), '}')) {
+						if($this->streql(substr($sConsume, -1), '}')) {
 							--$this->iCurrentPosition;
-							$this->peekCache = null;
 						} else {
-							$this->consumeWhiteSpace();
 							while ($this->comes(';')) {
 								$this->consume(';');
 							}
@@ -304,17 +341,25 @@ class Parser {
 			if($oRule) {
 				$oRuleSet->addRule($oRule);
 			}
-			$this->consumeWhiteSpace();
 		}
 		$this->consume('}');
 	}
 
 	private function parseRule() {
-		$oRule = new Rule($this->parseIdentifier());
-		$this->consumeWhiteSpace();
+		$aComments = $this->consumeWhiteSpace();
+		$oRule = new Rule($this->parseIdentifier(), $this->iLineNo);
+		$oRule->setComments($aComments);
+		$oRule->addComments($this->consumeWhiteSpace());
 		$this->consume(':');
 		$oValue = $this->parseValue(self::listDelimiterForRule($oRule->getRule()));
 		$oRule->setValue($oValue);
+		if ($this->oParserSettings->bLenientParsing) {
+			while ($this->comes('\\')) {
+				$this->consume('\\');
+				$oRule->addIeHack($this->consume());
+				$this->consumeWhiteSpace();
+			}
+		}
 		if ($this->comes('!')) {
 			$this->consume('!');
 			$this->consumeWhiteSpace();
@@ -323,7 +368,6 @@ class Parser {
 		}
 		while ($this->comes(';')) {
 			$this->consume(';');
-			$this->consumeWhiteSpace();
 		}
 		return $oRule;
 	}
@@ -332,7 +376,7 @@ class Parser {
 		$aStack = array();
 		$this->consumeWhiteSpace();
 		//Build a list of delimiters and parsed values
-		while (!($this->comes('}') || $this->comes(';') || $this->comes('!') || $this->comes(')'))) {
+		while (!($this->comes('}') || $this->comes(';') || $this->comes('!') || $this->comes(')') || $this->comes('\\'))) {
 			if (count($aStack) > 0) {
 				$bFoundDelimiter = false;
 				foreach ($aListDelimiters as $sDelimiter) {
@@ -364,7 +408,7 @@ class Parser {
 						break;
 					}
 				}
-				$oList = new RuleValueList($sDelimiter);
+				$oList = new RuleValueList($sDelimiter, $this->iLineNo);
 				for ($i = $iStartPosition - 1; $i - $iStartPosition + 1 < $iLength * 2; $i+=2) {
 					$oList->addListComponent($aStack[$i]);
 				}
@@ -414,12 +458,15 @@ class Parser {
 
 		$sUnit = null;
 		foreach ($this->aSizeUnits as $iLength => &$aValues) {
-			if(($sUnit = @$aValues[strtolower($this->peek($iLength))]) !== null) {
-				$this->consume($iLength);
-				break;
+			$sKey = strtolower($this->peek($iLength));
+			if(array_key_exists($sKey, $aValues)) {
+				if (($sUnit = $aValues[$sKey]) !== null) {
+					$this->consume($iLength);
+					break;
+				}
 			}
 		}
-		return new Size(floatval($sSize), $sUnit, $bForColor);
+		return new Size(floatval($sSize), $sUnit, $bForColor, $this->iLineNo);
 	}
 
 	private function parseColorValue() {
@@ -430,7 +477,7 @@ class Parser {
 			if ($this->strlen($sValue) === 3) {
 				$sValue = $sValue[0] . $sValue[0] . $sValue[1] . $sValue[1] . $sValue[2] . $sValue[2];
 			}
-			$aColor = array('r' => new Size(intval($sValue[0] . $sValue[1], 16), null, true), 'g' => new Size(intval($sValue[2] . $sValue[3], 16), null, true), 'b' => new Size(intval($sValue[4] . $sValue[5], 16), null, true));
+			$aColor = array('r' => new Size(intval($sValue[0] . $sValue[1], 16), null, true, $this->iLineNo), 'g' => new Size(intval($sValue[2] . $sValue[3], 16), null, true, $this->iLineNo), 'b' => new Size(intval($sValue[4] . $sValue[5], 16), null, true, $this->iLineNo));
 		} else {
 			$sColorMode = $this->parseIdentifier(false);
 			$this->consumeWhiteSpace();
@@ -446,7 +493,7 @@ class Parser {
 			}
 			$this->consume(')');
 		}
-		return new Color($aColor);
+		return new Color($aColor, $this->iLineNo);
 	}
 
 	private function parseURLValue() {
@@ -457,7 +504,7 @@ class Parser {
 			$this->consume('(');
 		}
 		$this->consumeWhiteSpace();
-		$oResult = new URL($this->parseStringValue());
+		$oResult = new URL($this->parseStringValue(), $this->iLineNo);
 		if ($bUseUrl) {
 			$this->consumeWhiteSpace();
 			$this->consume(')');
@@ -466,8 +513,8 @@ class Parser {
 	}
 
 	/**
-	* Tests an identifier for a given value. Since identifiers are all keywords, they can be vendor-prefixed. We need to check for these versions too.
-	*/
+	 * Tests an identifier for a given value. Since identifiers are all keywords, they can be vendor-prefixed. We need to check for these versions too.
+	 */
 	private function identifierIs($sIdentifier, $sMatch) {
 		return (strcasecmp($sIdentifier, $sMatch) === 0)
 			?: preg_match("/^(-\\w+-)?$sMatch$/i", $sIdentifier) === 1;
@@ -481,38 +528,31 @@ class Parser {
 	}
 
 	private function peek($iLength = 1, $iOffset = 0) {
-		if (($peek = (!$iOffset && ($iLength === 1))) &&
-			!is_null($this->peekCache)) {
-			return $this->peekCache;
-		}
 		$iOffset += $this->iCurrentPosition;
 		if ($iOffset >= $this->iLength) {
 			return '';
 		}
-		$iLength = min($iLength, $this->iLength-$iOffset);
-		$out = $this->substr($this->sText, $iOffset, $iLength);
-		if ($peek) {
-			$this->peekCache = $out;
-		}
-		return $out;
+		return $this->substr($iOffset, $iLength);
 	}
 
 	private function consume($mValue = 1) {
 		if (is_string($mValue)) {
+			$iLineCount = substr_count($mValue, "\n");
 			$iLength = $this->strlen($mValue);
-			if (!$this->streql($this->substr($this->sText, $this->iCurrentPosition, $iLength), $mValue)) {
-				throw new UnexpectedTokenException($mValue, $this->peek(max($iLength, 5)));
+			if (!$this->streql($this->substr($this->iCurrentPosition, $iLength), $mValue)) {
+				throw new UnexpectedTokenException($mValue, $this->peek(max($iLength, 5)), $this->iLineNo);
 			}
+			$this->iLineNo += $iLineCount;
 			$this->iCurrentPosition += $this->strlen($mValue);
-			$this->peekCache = null;
 			return $mValue;
 		} else {
 			if ($this->iCurrentPosition + $mValue > $this->iLength) {
-				throw new UnexpectedTokenException($mValue, $this->peek(5), 'count');
+				throw new UnexpectedTokenException($mValue, $this->peek(5), 'count', $this->iLineNo);
 			}
-			$sResult = $this->substr($this->sText, $this->iCurrentPosition, $mValue);
+			$sResult = $this->substr($this->iCurrentPosition, $mValue);
+			$iLineCount = substr_count($sResult, "\n");
+			$this->iLineNo += $iLineCount;
 			$this->iCurrentPosition += $mValue;
-			$this->peekCache = null;
 			return $sResult;
 		}
 	}
@@ -522,52 +562,69 @@ class Parser {
 		if (preg_match($mExpression, $this->inputLeft(), $aMatches, PREG_OFFSET_CAPTURE) === 1) {
 			return $this->consume($aMatches[0][0]);
 		}
-		throw new UnexpectedTokenException($mExpression, $this->peek(5), 'expression');
+		throw new UnexpectedTokenException($mExpression, $this->peek(5), 'expression', $this->iLineNo);
 	}
 
 	private function consumeWhiteSpace() {
+		$comments = array();
 		do {
 			while (preg_match('/\\s/isSu', $this->peek()) === 1) {
 				$this->consume(1);
 			}
 			if($this->oParserSettings->bLenientParsing) {
 				try {
-					$bHasComment = $this->consumeComment();
+					$oComment = $this->consumeComment();
 				} catch(UnexpectedTokenException $e) {
 					// When we can’t find the end of a comment, we assume the document is finished.
 					$this->iCurrentPosition = $this->iLength;
 					return;
 				}
 			} else {
-				$bHasComment = $this->consumeComment();
+				$oComment = $this->consumeComment();
 			}
-		} while($bHasComment);
+			if ($oComment !== false) {
+				$comments[] = $oComment;
+			}
+		} while($oComment !== false);
+		return $comments;
 	}
 
+	/**
+	 * @return false|Comment
+	 */
 	private function consumeComment() {
+		$mComment = false;
 		if ($this->comes('/*')) {
+			$iLineNo = $this->iLineNo;
 			$this->consume(1);
-			while ($this->consume(1) !== '') {
+			$mComment = '';
+			while (($char = $this->consume(1)) !== '') {
+				$mComment .= $char;
 				if ($this->comes('*/')) {
 					$this->consume(2);
-					return true;
+					break;
 				}
 			}
 		}
-		return false;
+
+		if ($mComment !== false) {
+			// We skip the * which was included in the comment.
+			return new Comment(substr($mComment, 1), $iLineNo);
+		}
+
+		return $mComment;
 	}
 
 	private function isEnd() {
 		return $this->iCurrentPosition >= $this->iLength;
 	}
 
-	private function consumeUntil($aEnd, $bIncludeEnd = false, $consumeEnd = false) {
+	private function consumeUntil($aEnd, $bIncludeEnd = false, $consumeEnd = false, array &$comments = array()) {
 		$aEnd = is_array($aEnd) ? $aEnd : array($aEnd);
 		$out = '';
 		$start = $this->iCurrentPosition;
 
 		while (($char = $this->consume(1)) !== '') {
-			$this->consumeComment();
 			if (in_array($char, $aEnd)) {
 				if ($bIncludeEnd) {
 					$out .= $char;
@@ -577,22 +634,33 @@ class Parser {
 				return $out;
 			}
 			$out .= $char;
+			if ($comment = $this->consumeComment()) {
+				$comments[] = $comment;
+			}
 		}
 
 		$this->iCurrentPosition = $start;
-		throw new UnexpectedTokenException('One of ("'.implode('","', $aEnd).'")', $this->peek(5), 'search');
+		throw new UnexpectedTokenException('One of ("'.implode('","', $aEnd).'")', $this->peek(5), 'search', $this->iLineNo);
 	}
 
 	private function inputLeft() {
-		return $this->substr($this->sText, $this->iCurrentPosition, -1);
+		return $this->substr($this->iCurrentPosition, -1);
 	}
 
-	private function substr($sString, $iStart, $iLength) {
-		if ($this->oParserSettings->bMultibyteSupport) {
-			return mb_substr($sString, $iStart, $iLength, $this->sCharset);
-		} else {
-			return substr($sString, $iStart, $iLength);
+	private function substr($iStart, $iLength) {
+		if ($iLength < 0) {
+			$iLength = $this->iLength - $iStart + $iLength;
 		}
+		if ($iStart + $iLength > $this->iLength) {
+			$iLength = $this->iLength - $iStart;
+		}
+		$sResult = '';
+		while ($iLength > 0) {
+			$sResult .= $this->aText[$iStart];
+			$iStart++;
+			$iLength--;
+		}
+		return $sResult;
 	}
 
 	private function strlen($sString) {
@@ -616,6 +684,27 @@ class Parser {
 			return mb_strtolower($sString, $this->sCharset);
 		} else {
 			return strtolower($sString);
+		}
+	}
+
+	private function strsplit($sString) {
+		if ($this->oParserSettings->bMultibyteSupport) {
+			if ($this->streql($this->sCharset, 'utf-8')) {
+				return preg_split('//u', $sString, null, PREG_SPLIT_NO_EMPTY);
+			} else {
+				$iLength = mb_strlen($sString, $this->sCharset);
+				$aResult = array();
+				for ($i = 0; $i < $iLength; ++$i) {
+					$aResult[] = mb_substr($sString, $i, 1, $this->sCharset);
+				}
+				return $aResult;
+			}
+		} else {
+			if($sString === '') {
+				return array();
+			} else {
+				return str_split($sString);
+			}
 		}
 	}
 

@@ -2,12 +2,13 @@
 
 namespace Sabberworm\CSS\Value;
 
-class String extends PrimitiveValue {
+class CSSString extends PrimitiveValue {
 
 	private $sString;
 
-	public function __construct($sString) {
+	public function __construct($sString, $iLineNo = 0) {
 		$this->sString = $sString;
+		parent::__construct($iLineNo);
 	}
 
 	public function setString($sString) {
