@@ -15,8 +15,6 @@ use Dompdf\Renderer\TableCell;
 use Dompdf\Renderer\TableRowGroup;
 use Dompdf\Renderer\Text;
 
-use Dompdf\Frame;
-
 /**
  * Concrete renderer
  *
@@ -58,6 +56,8 @@ class Renderer extends AbstractRenderer
     {
         global $_dompdf_debug;
 
+        $this->_check_callbacks("begin_frame", $frame);
+
         if ($_dompdf_debug) {
             echo $frame;
             flush();
@@ -84,8 +84,8 @@ class Renderer extends AbstractRenderer
                 }
 
                 $values = array_map("floatval", $values);
-                $values[] = $x + (float)$style->length_in_pt($origin[0], $style->width);
-                $values[] = $y + (float)$style->length_in_pt($origin[1], $style->height);
+                $values[] = $x + (float)$style->length_in_pt($origin[0], (float)$style->length_in_pt($style->width));
+                $values[] = $y + (float)$style->length_in_pt($origin[1], (float)$style->length_in_pt($style->height));
 
                 call_user_func_array(array($this->_canvas, $function), $values);
             }

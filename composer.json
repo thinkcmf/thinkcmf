@@ -31,6 +31,7 @@
         "topthink/think-queue": "^1.1.4"
     },
     "extra": {
+        "think-path":"simplewind/thinkphp"
     },
     "config": {
         "vendor-dir":"simplewind/vendor"

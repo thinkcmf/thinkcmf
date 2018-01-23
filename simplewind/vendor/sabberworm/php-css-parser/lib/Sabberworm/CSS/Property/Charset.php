@@ -12,9 +12,20 @@ namespace Sabberworm\CSS\Property;
 class Charset implements AtRule {
 
 	private $sCharset;
+	protected $iLineNo;
+	protected $aComment;
 
-	public function __construct($sCharset) {
+	public function __construct($sCharset, $iLineNo = 0) {
 		$this->sCharset = $sCharset;
+		$this->iLineNo = $iLineNo;
+		$this->aComments = array();
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getLineNo() {
+		return $this->iLineNo;
 	}
 
 	public function setCharset($sCharset) {
@@ -39,5 +50,17 @@ class Charset implements AtRule {
 
 	public function atRuleArgs() {
 		return $this->sCharset;
+	}
+
+	public function addComments(array $aComments) {
+		$this->aComments = array_merge($this->aComments, $aComments);
+	}
+
+	public function getComments() {
+		return $this->aComments;
+	}
+
+	public function setComments(array $aComments) {
+		$this->aComments = $aComments;
 	}
 }

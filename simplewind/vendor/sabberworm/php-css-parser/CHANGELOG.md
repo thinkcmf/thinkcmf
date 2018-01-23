@@ -1,5 +1,54 @@
 # Revision History
 
+## 8.0
+
+### 8.0.0 (2016-06-30)
+
+* Store source CSS line numbers in tokens and parsing exceptions.
+* *No deprecations*
+
+#### Backwards-incompatible changes
+
+* Unrecoverable parser errors throw an exception of type `Sabberworm\CSS\Parsing\SourceException` instead of `\Exception`.
+
+### 8.1.0 (2016-07-19)
+
+* Comments are no longer silently ignored but stored with the object with which they appear (no render support, though). Thanks to @FMCorz.
+* The IE hacks using `\0` and `\9` can now be parsed (and rendered) in lenient mode. Thanks (again) to @FMCorz.
+* Media queries with or without spaces before the query are parsed. Still no *real* parsing support, though. Sorry…
+* PHPUnit is now listed as a dev-dependency in composer.json.
+* *No backwards-incompatible changes*
+* *No deprecations*
+
+## 7.0
+
+### 7.0.0 (2015-08-24)
+
+* Compatibility with PHP 7. Well timed, eh?
+* *No deprecations*
+
+#### Backwards-incompatible changes
+
+* The `Sabberworm\CSS\Value\String` class has been renamed to `Sabberworm\CSS\Value\CSSString`.
+
+### 7.0.1 (2015-12-25)
+
+* No more suppressed `E_NOTICE`
+* *No backwards-incompatible changes*
+* *No deprecations*
+
+### 7.0.2 (2016-02-11)
+
+* 150 time performance boost thanks to @[ossinkine](https://github.com/ossinkine)
+* *No backwards-incompatible changes*
+* *No deprecations*
+
+### 7.0.3 (2016-04-27)
+
+* Fixed parsing empty CSS when multibyte is off
+* *No backwards-incompatible changes*
+* *No deprecations*
+
 ## 6.0
 
 ### 6.0.0 (2014-07-03)
@@ -11,7 +60,7 @@
 
 * The parse() method replaces __toString with an optional argument (instance of the OutputFormat class)
 
-### 6.0.1 (2014-08-24)
+### 6.0.1 (2015-08-24)
 
 * Remove some declarations in interfaces incompatible with PHP 5.3 (< 5.3.9)
 * *No deprecations*
@@ -92,7 +141,9 @@
 
 ### 5.1.2 (2013-10-30)
 
-* Remove the use of consumeUntil in comment parsing. This makes it possible to parse comments such as “/** Perfectly valid **/”
+* Remove the use of consumeUntil in comment parsing. This makes it possible to parse comments such as `/** Perfectly valid **/`
+* Add fr relative size unit
+* Fix some issues with HHVM
 * *No backwards-incompatible changes*
 * *No deprecations*
 

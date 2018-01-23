@@ -2,10 +2,13 @@
 
 namespace Sabberworm\CSS;
 
+use Sabberworm\CSS\CSSList\KeyFrame;
 use Sabberworm\CSS\Value\Size;
 use Sabberworm\CSS\Property\Selector;
 use Sabberworm\CSS\RuleSet\DeclarationBlock;
 use Sabberworm\CSS\Property\AtRule;
+use Sabberworm\CSS\Value\URL;
+use Sabberworm\CSS\Parsing\UnexpectedTokenException;
 
 class ParserTest extends \PHPUnit_Framework_TestCase {
 
@@ -52,21 +55,21 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 				$this->assertSame('red', $oColor);
 				$aColorRule = $oRuleSet->getRules('background-');
 				$oColor = $aColorRule[0]->getValue();
-				$this->assertEquals(array('r' => new Size(35.0, null, true), 'g' => new Size(35.0, null, true), 'b' => new Size(35.0, null, true)), $oColor->getColor());
+				$this->assertEquals(array('r' => new Size(35.0, null, true, $oColor->getLineNo()), 'g' => new Size(35.0, null, true, $oColor->getLineNo()), 'b' => new Size(35.0, null, true, $oColor->getLineNo())), $oColor->getColor());
 				$aColorRule = $oRuleSet->getRules('border-color');
 				$oColor = $aColorRule[0]->getValue();
-				$this->assertEquals(array('r' => new Size(10.0, null, true), 'g' => new Size(100.0, null, true), 'b' => new Size(230.0, null, true)), $oColor->getColor());
+				$this->assertEquals(array('r' => new Size(10.0, null, true, $oColor->getLineNo()), 'g' => new Size(100.0, null, true, $oColor->getLineNo()), 'b' => new Size(230.0, null, true, $oColor->getLineNo())), $oColor->getColor());
 				$oColor = $aColorRule[1]->getValue();
-				$this->assertEquals(array('r' => new Size(10.0, null, true), 'g' => new Size(100.0, null, true), 'b' => new Size(231.0, null, true), 'a' => new Size("0000.3", null, true)), $oColor->getColor());
+				$this->assertEquals(array('r' => new Size(10.0, null, true, $oColor->getLineNo()), 'g' => new Size(100.0, null, true, $oColor->getLineNo()), 'b' => new Size(231.0, null, true, $oColor->getLineNo()), 'a' => new Size("0000.3", null, true, $oColor->getLineNo())), $oColor->getColor());
 				$aColorRule = $oRuleSet->getRules('outline-color');
 				$oColor = $aColorRule[0]->getValue();
-				$this->assertEquals(array('r' => new Size(34.0, null, true), 'g' => new Size(34.0, null, true), 'b' => new Size(34.0, null, true)), $oColor->getColor());
+				$this->assertEquals(array('r' => new Size(34.0, null, true, $oColor->getLineNo()), 'g' => new Size(34.0, null, true, $oColor->getLineNo()), 'b' => new Size(34.0, null, true, $oColor->getLineNo())), $oColor->getColor());
 			} else if($sSelector === '#yours') {
 				$aColorRule = $oRuleSet->getRules('background-color');
 				$oColor = $aColorRule[0]->getValue();
-				$this->assertEquals(array('h' => new Size(220.0, null, true), 's' => new Size(10.0, '%', true), 'l' => new Size(220.0, '%', true)), $oColor->getColor());
+				$this->assertEquals(array('h' => new Size(220.0, null, true, $oColor->getLineNo()), 's' => new Size(10.0, '%', true, $oColor->getLineNo()), 'l' => new Size(220.0, '%', true, $oColor->getLineNo())), $oColor->getColor());
 				$oColor = $aColorRule[1]->getValue();
-				$this->assertEquals(array('h' => new Size(220.0, null, true), 's' => new Size(10.0, '%', true), 'l' => new Size(220.0, '%', true), 'a' => new Size(0000.3, null, true)), $oColor->getColor());
+				$this->assertEquals(array('h' => new Size(220.0, null, true, $oColor->getLineNo()), 's' => new Size(10.0, '%', true, $oColor->getLineNo()), 'l' => new Size(220.0, '%', true, $oColor->getLineNo()), 'a' => new Size(0000.3, null, true, $oColor->getLineNo())), $oColor->getColor());
 			}
 		}
 		foreach ($oDoc->getAllValues('color') as $sColor) {
@@ -350,7 +353,7 @@ foo|test {gaga: 1;}
 		$this->assertSame('@media screen {html {some: -test(val2);}}
 #unrelated {other: yes;}', $oDoc->render());
 	}
-  
+	
 	/**
 	* @expectedException Sabberworm\CSS\Parsing\OutputException
 	*/
@@ -377,10 +380,206 @@ body {font-size: 1.6em;}';
 		$this->assertSame($sExpected, $oDoc->render());
 	}
 
-	function parsedStructureForFile($sFileName) {
+	function testUrlInFile() {
+		$oDoc = $this->parsedStructureForFile('url', Settings::create()->withMultibyteSupport(true));
+		$sExpected = 'body {background: #fff url("http://somesite.com/images/someimage.gif") repeat top center;}
+body {background-url: url("http://somesite.com/images/someimage.gif");}';
+		$this->assertSame($sExpected, $oDoc->render());
+	}
+
+	function testUrlInFileMbOff() {
+		$oDoc = $this->parsedStructureForFile('url', Settings::create()->withMultibyteSupport(false));
+		$sExpected = 'body {background: #fff url("http://somesite.com/images/someimage.gif") repeat top center;}
+body {background-url: url("http://somesite.com/images/someimage.gif");}';
+		$this->assertSame($sExpected, $oDoc->render());
+	}
+
+	function testEmptyFile() {
+		$oDoc = $this->parsedStructureForFile('-empty', Settings::create()->withMultibyteSupport(true));
+		$sExpected = '';
+		$this->assertSame($sExpected, $oDoc->render());
+	}
+
+	function testEmptyFileMbOff() {
+		$oDoc = $this->parsedStructureForFile('-empty', Settings::create()->withMultibyteSupport(false));
+		$sExpected = '';
+		$this->assertSame($sExpected, $oDoc->render());
+	}
+
+	function testCharsetLenient1() {
+		$oDoc = $this->parsedStructureForFile('-charset-after-rule', Settings::create()->withLenientParsing(true));
+		$sExpected = '#id {prop: var(--val);}';
+		$this->assertSame($sExpected, $oDoc->render());
+	}
+
+	function testCharsetLenient2() {
+		$oDoc = $this->parsedStructureForFile('-charset-in-block', Settings::create()->withLenientParsing(true));
+		$sExpected = '@media print {}';
+		$this->assertSame($sExpected, $oDoc->render());
+	}
+
+	/**
+	* @expectedException Sabberworm\CSS\Parsing\UnexpectedTokenException
+	*/
+	function testCharsetFailure1() {
+		$this->parsedStructureForFile('-charset-after-rule', Settings::create()->withLenientParsing(false));
+	}
+
+	/**
+	* @expectedException Sabberworm\CSS\Parsing\UnexpectedTokenException
+	*/
+	function testCharsetFailure2() {
+		$this->parsedStructureForFile('-charset-in-block', Settings::create()->withLenientParsing(false));
+	}
+
+	function parsedStructureForFile($sFileName, $oSettings = null) {
 		$sFile = dirname(__FILE__) . '/../../files' . DIRECTORY_SEPARATOR . "$sFileName.css";
-		$oParser = new Parser(file_get_contents($sFile));
+		$oParser = new Parser(file_get_contents($sFile), $oSettings);
 		return $oParser->parse();
 	}
 
+	/**
+	 * @depends testFiles
+	 */
+	function testLineNumbersParsing() {
+		$oDoc = $this->parsedStructureForFile('line-numbers');
+		// array key is the expected line number
+		$aExpected = array(
+			1 => array('Sabberworm\CSS\Property\Charset'),
+			3 => array('Sabberworm\CSS\Property\CSSNamespace'),
+			5 => array('Sabberworm\CSS\RuleSet\AtRuleSet'),
+			11 => array('Sabberworm\CSS\RuleSet\DeclarationBlock'),
+			// Line Numbers of the inner declaration blocks
+			17 => array('Sabberworm\CSS\CSSList\KeyFrame', 18, 20),
+			23 => array('Sabberworm\CSS\Property\Import'),
+			25 => array('Sabberworm\CSS\RuleSet\DeclarationBlock')
+		);
+
+		$aActual = array();
+		foreach ($oDoc->getContents() as $oContent) {
+			$aActual[$oContent->getLineNo()] = array(get_class($oContent));
+			if ($oContent instanceof KeyFrame) {
+				foreach ($oContent->getContents() as $block) {
+					$aActual[$oContent->getLineNo()][] = $block->getLineNo();
+				}
+			}
+		}
+
+		$aUrlExpected = array(7, 26); // expected line numbers
+		$aUrlActual = array();
+		foreach ($oDoc->getAllValues() as $oValue) {
+			if ($oValue instanceof URL) {
+				$aUrlActual[] = $oValue->getLineNo();
+			}
+		}
+
+		// Checking for the multiline color rule lines 27-31
+		$aExpectedColorLines = array(28, 29, 30);
+		$aDeclBlocks = $oDoc->getAllDeclarationBlocks();
+		// Choose the 2nd one
+		$oDeclBlock = $aDeclBlocks[1];
+		$aRules = $oDeclBlock->getRules();
+		// Choose the 2nd one
+		$oColor = $aRules[1]->getValue();
+		$this->assertEquals(27, $aRules[1]->getLineNo());
+
+		foreach ($oColor->getColor() as $oSize) {
+			$aActualColorLines[] = $oSize->getLineNo();
+		}
+
+		$this->assertEquals($aExpectedColorLines, $aActualColorLines);
+		$this->assertEquals($aUrlExpected, $aUrlActual);
+		$this->assertEquals($aExpected, $aActual);
+	}
+
+	/**
+	 * @expectedException \Sabberworm\CSS\Parsing\UnexpectedTokenException
+	 * Credit: This test by @sabberworm (from https://github.com/sabberworm/PHP-CSS-Parser/pull/105#issuecomment-229643910 )
+	 */
+	function testUnexpectedTokenExceptionLineNo() {
+		$oParser = new Parser("\ntest: 1;", Settings::create()->beStrict());
+		try {
+			$oParser->parse();
+		} catch (UnexpectedTokenException $e) {
+			$this->assertSame(2, $e->getLineNo());
+			throw $e;
+		}
+	}
+
+	/**
+	* @expectedException Sabberworm\CSS\Parsing\UnexpectedTokenException
+	*/
+	function testIeHacksStrictParsing() {
+		// We can't strictly parse IE hacks.
+		$this->parsedStructureForFile('ie-hacks', Settings::create()->beStrict());
+	}
+
+	function testIeHacksParsing() {
+		$oDoc = $this->parsedStructureForFile('ie-hacks', Settings::create()->withLenientParsing(true));
+		$sExpected = 'p {padding-right: .75rem \9;background-image: none \9;color: red \9\0;background-color: red \9\0;background-color: red \9\0 !important;content: "red 	\0";content: "red઼";}';
+		$this->assertEquals($sExpected, $oDoc->render());
+	}
+
+	/**
+	 * @depends testFiles
+	 */
+	function testCommentExtracting() {
+		$oDoc = $this->parsedStructureForFile('comments');
+		$aNodes = $oDoc->getContents();
+
+		// Import property.
+		$importComments = $aNodes[0]->getComments();
+		$this->assertCount(1, $importComments);
+		$this->assertEquals("*\n * Comments Hell.\n ", $importComments[0]->getComment());
+
+		// Declaration block.
+		$fooBarBlock = $aNodes[1];
+		$fooBarBlockComments = $fooBarBlock->getComments();
+		// TODO Support comments in selectors.
+		// $this->assertCount(2, $fooBarBlockComments);
+		// $this->assertEquals("* Number 4 *", $fooBarBlockComments[0]->getComment());
+		// $this->assertEquals("* Number 5 *", $fooBarBlockComments[1]->getComment());
+
+		// Declaration rules.
+		$fooBarRules = $fooBarBlock->getRules();
+		$fooBarRule = $fooBarRules[0];
+		$fooBarRuleComments = $fooBarRule->getComments();
+		$this->assertCount(1, $fooBarRuleComments);
+		$this->assertEquals(" Number 6 ", $fooBarRuleComments[0]->getComment());
+
+		// Media property.
+		$mediaComments = $aNodes[2]->getComments();
+		$this->assertCount(0, $mediaComments);
+
+		// Media children.
+		$mediaRules = $aNodes[2]->getContents();
+		$fooBarComments = $mediaRules[0]->getComments();
+		$this->assertCount(1, $fooBarComments);
+		$this->assertEquals("* Number 10 *", $fooBarComments[0]->getComment());
+
+		// Media -> declaration -> rule.
+		$fooBarRules = $mediaRules[0]->getRules();
+		$fooBarChildComments = $fooBarRules[0]->getComments();
+		$this->assertCount(1, $fooBarChildComments);
+		$this->assertEquals("* Number 10b *", $fooBarChildComments[0]->getComment());
+	}
+
+	function testFlatCommentExtracting() {
+		$parser = new Parser('div {/*Find Me!*/left:10px; text-align:left;}');
+		$doc = $parser->parse();
+		$contents = $doc->getContents();
+		$divRules = $contents[0]->getRules();
+		$comments = $divRules[0]->getComments();
+		$this->assertCount(1, $comments);
+		$this->assertEquals("Find Me!", $comments[0]->getComment());
+	}
+
+	function testTopLevelCommentExtracting() {
+		$parser = new Parser('/*Find Me!*/div {left:10px; text-align:left;}');
+		$doc = $parser->parse();
+		$contents = $doc->getContents();
+		$comments = $contents[0]->getComments();
+		$this->assertCount(1, $comments);
+		$this->assertEquals("Find Me!", $comments[0]->getComment());
+	}
 }
