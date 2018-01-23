@@ -1,7 +1,7 @@
 ThinkCMF 5.0.180123 正式版
 ===============
 
-### 系列讲座节日限量优惠中
+### 系列讲座
 https://www.thinkcmf.com/college.html
 
 ### ThinkCMF5主要特性
