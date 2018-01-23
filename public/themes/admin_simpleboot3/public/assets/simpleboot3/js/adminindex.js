@@ -83,7 +83,8 @@ $(function () {
                 $(this).remove();
             }
         });
-
+        calcTaskContentWidth();
+        $("#task-next").click();
     });
 
     calcTaskContentWidth();
