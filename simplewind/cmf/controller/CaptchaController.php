@@ -82,7 +82,7 @@ class CaptchaController
 
         $captcha = new Captcha($config);
 
-        @ob_clean();// 清除输出缓存
+        @ob_clean();// 清除输出缓存 
         return $captcha->entry($id);
     }
 }
