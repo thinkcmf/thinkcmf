@@ -168,6 +168,7 @@ class MenuController extends AdminBaseController
                 $sessionAdminMenuIndex = session('admin_menu_index');
                 $to                    = empty($sessionAdminMenuIndex) ? "Menu/index" : $sessionAdminMenuIndex;
                 $this->_exportAppMenuDefaultLang();
+                cache(null, 'admin_menus');// 删除后台菜单缓存
                 $this->success("添加成功！", url($to));
             }
         }
@@ -272,6 +273,7 @@ class MenuController extends AdminBaseController
                     ])->update(["title" => $menuName, 'param' => $param]);//type 1-admin rule;2-user rule
                 }
                 $this->_exportAppMenuDefaultLang();
+                cache(null, 'admin_menus');// 删除后台菜单缓存
                 $this->success("保存成功！");
             }
         }
@@ -690,6 +692,8 @@ class MenuController extends AdminBaseController
         }
         $this->assign("app", $app);
         $this->assign("new_menus", $newMenus);
+
+        cache(null, 'admin_menus');// 删除后台菜单缓存
 
         return $this->fetch();
 

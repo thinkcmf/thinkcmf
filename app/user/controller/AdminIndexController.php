@@ -66,7 +66,7 @@ class AdminIndexController extends AdminBaseController
         if (!empty($request['keyword'])) {
             $keyword = $request['keyword'];
 
-            $keywordComplex['user_login|user_nickname|user_email']    = ['like', "%$keyword%"];
+            $keywordComplex['user_login|user_nickname|user_email|mobile']    = ['like', "%$keyword%"];
         }
         $usersQuery = Db::name('user');
 

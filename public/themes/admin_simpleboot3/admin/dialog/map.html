@@ -100,6 +100,8 @@
     }
 
     function mgetLocation(point) {
+        document.getElementById("lng_input").value = point.lng;
+        document.getElementById("lat_input").value = point.lat;
         gc.getLocation(point, function (rs) {
             var addComp = rs.addressComponents;
             marker.openInfoWindow(new BMap.InfoWindow(rs.address, opts));
@@ -110,6 +112,7 @@
             //alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
         });
     }
+
     marker.addEventListener("dragend", msetpoint)
 
     map.addEventListener("click", msetpoint);
@@ -121,6 +124,7 @@
         // map.setZoom(8);  //将视图切换到指定的缩放等级，中心点坐标不变
         map.removeEventListener("tilesloaded", tilesloaded);
     }
+
     map.addEventListener("tilesloaded", tilesloaded);
 
 

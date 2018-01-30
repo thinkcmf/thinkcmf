@@ -51,4 +51,32 @@ class AdminIndexController extends PluginAdminBaseController
         return $this->fetch('/admin_index');
     }
 
+    /**
+     * 演示插件设置
+     * @adminMenu(
+     *     'name'   => '演示插件设置',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '演示插件设置',
+     *     'param'  => ''
+     * )
+     */
+    public function setting()
+    {
+        $users = Db::name("user")->limit(0, 5)->select();
+        //$demos = PluginDemoModel::all();
+
+        // print_r($demos);
+
+        $this->assign("users", $users);
+
+
+        $this->assign("users", $users);
+
+        return $this->fetch('/admin_index');
+    }
+
 }

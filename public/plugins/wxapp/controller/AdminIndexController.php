@@ -8,13 +8,12 @@
 // +----------------------------------------------------------------------
 namespace plugins\wxapp\controller; //Demo插件英文名，改成你的插件英文就行了
 
-use think\Db;
-use cmf\controller\PluginBaseController;
+use cmf\controller\PluginAdminBaseController;
 
-class AdminIndexController extends PluginBaseController
+class AdminIndexController extends PluginAdminBaseController
 {
 
-    function _initialize()
+    public function _initialize()
     {
         $adminId = cmf_get_current_admin_id();//获取后台管理员id，可判断是否登录
         if (!empty($adminId)) {
@@ -24,7 +23,20 @@ class AdminIndexController extends PluginBaseController
         }
     }
 
-    function index()
+    /**
+     * 小程序管理
+     * @adminMenu(
+     *     'name'   => '小程序管理',
+     *     'parent' => 'admin/Plugin/default',
+     *     'display'=> true,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '小程序管理',
+     *     'param'  => ''
+     * )
+     */
+    public function index()
     {
 
         $wxappSettings = cmf_get_option('wxapp_settings');

@@ -1,7 +1,7 @@
-ThinkCMF 5.0.180103 beta
+ThinkCMF 5.0.180123 正式版
 ===============
 
-### 系列讲座节日限量优惠中
+### 系列讲座
 https://www.thinkcmf.com/college.html
 
 ### ThinkCMF5主要特性
@@ -127,16 +127,18 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
-#### 5.0.180103 beta
+#### 5.0.180123
 [核心]
+* 增加小程序管理插件
 * 增加插件后台首页左侧菜单显示 
 * 增加 themes 根命名空间
 * 增加模板设计图片模板变量取消功能
 * 增加插件自定义处理配置功能
 * 增加插件后台权限管理功能
+* 增加后台模板切换
 * 增加直传云存储功能
 * 增强导航和子导航标签，自定义更随意
-* 增加before_content,fetch_upload_view,log_write_done钩子
+* 增加before_content,fetch_upload_view,log_write_done,switch_admin_theme钩子
 * 增加PluginAdminBaseController基类
 * 增加系统钩子同步
 * 增加插件中可使用$site_info变量
@@ -156,6 +158,9 @@ https://github.com/thinkcmf/thinkcmf/issues
 * 修复用户行为周期设置无效 #382
 * 修复个人信息编辑签名验证问题
 * 修复用户生日早于1970年报错
+* 修复地址坐标选择搜索后无法确定坐标问题
+* 优化IE8,9下的兼容问题
+* 优化前台未登录时跳转方式
 
 [安装程序]
 * 增加安装时管理员密码长度限制 #334 
@@ -166,6 +171,10 @@ https://github.com/thinkcmf/thinkcmf/issues
 [门户应用]
 * 优化portal:articles标签可在模板里设置分页参数和样式
 * 优化portal:articles标签所有属性都支持PHP变量
+* 优化标签控制器支持标签名
+* 增加portal:tagArticles标签
+* 取消文章列表用户关联查询
+* 修复文章多分类进文章列表文章重复问题
 
 
 #### 5.0.170927

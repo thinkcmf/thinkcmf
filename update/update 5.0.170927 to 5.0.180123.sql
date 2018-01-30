@@ -26,12 +26,17 @@ CREATE TABLE IF NOT EXISTS `cmf_user_balance_log` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
   `create_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `change` decimal(10,0) NOT NULL DEFAULT '0' COMMENT '更改余额',
+  `change` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '更改余额',
+  `balance` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '更改后余额',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='用户余额变更日志表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户余额变更日志表';
 
+-- 2018-01-12 11:12 更改 content，more 字段
+ALTER TABLE `cmf_comment` CHANGE `content` `content` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '评论内容';
+ALTER TABLE `cmf_comment` CHANGE `more` `more` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展属性';
 
-
-
+ALTER TABLE `cmf_comment` ADD `like_count` INT UNSIGNED NOT NULL DEFAULT '0' COMMENT '点赞数' AFTER `object_id`;
+ALTER TABLE `cmf_comment` ADD `dislike_count` INT UNSIGNED NOT NULL DEFAULT '0' COMMENT '不喜欢数' AFTER `like_count`;
+ALTER TABLE `cmf_comment` ADD `floor` INT UNSIGNED NOT NULL DEFAULT '0' COMMENT '楼层数' AFTER `dislike_count`;

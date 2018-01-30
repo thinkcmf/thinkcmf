@@ -83,7 +83,7 @@ class ProfileController extends UserBaseController
             if ($editData->editData($data)) {
                 $this->success(lang('EDIT_SUCCESS'), "user/profile/center");
             } else {
-                $this->error(lang('NO_NEW_INFORMATIONl'));
+                $this->error(lang('NO_NEW_INFORMATION'));
             }
         } else {
             $this->error(lang('ERROR'));

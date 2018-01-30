@@ -376,12 +376,12 @@ class SurfaceCpdf implements SurfaceInterface
         $this->style = $style;
         $canvas = $this->canvas;
 
-        if ($stroke = $style->stroke) {
-            $canvas->setStrokeColor(array($stroke[0]/255, $stroke[1]/255, $stroke[2]/255), true);
+        if (is_array($style->stroke) && $stroke = $style->stroke) {
+            $canvas->setStrokeColor(array((float)$stroke[0]/255, (float)$stroke[1]/255, (float)$stroke[2]/255), true);
         }
 
-        if ($fill = $style->fill) {
-            $canvas->setColor(array($fill[0]/255, $fill[1]/255, $fill[2]/255), true);
+        if (is_array($style->fill) && $fill = $style->fill) {
+            $canvas->setColor(array((float)$fill[0]/255, (float)$fill[1]/255, (float)$fill[2]/255), true);
         }
 
         if ($fillRule = strtolower($style->fillRule)) {

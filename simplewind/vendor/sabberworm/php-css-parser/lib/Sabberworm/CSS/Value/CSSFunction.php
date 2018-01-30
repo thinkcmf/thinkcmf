@@ -6,13 +6,14 @@ class CSSFunction extends ValueList {
 
 	private $sName;
 
-	public function __construct($sName, $aArguments, $sSeparator = ',') {
+	public function __construct($sName, $aArguments, $sSeparator = ',', $iLineNo = 0) {
 		if($aArguments instanceof RuleValueList) {
 			$sSeparator = $aArguments->getListSeparator();
 			$aArguments = $aArguments->getListComponents();
 		}
 		$this->sName = $sName;
-		parent::__construct($aArguments, $sSeparator);
+		$this->iLineNo = $iLineNo;
+		parent::__construct($aArguments, $sSeparator, $iLineNo);
 	}
 
 	public function getName() {

@@ -45,6 +45,7 @@ class PluginAdminBaseController extends PluginBaseController
 
         $pluginName = $this->request->param('_plugin');
         $controller = $this->request->param('_controller');
+        $controller = cmf_parse_name($controller, 1);
         $action     = $this->request->param('_action');
 
         return cmf_auth_check($userId, "plugin/{$pluginName}/$controller/$action");

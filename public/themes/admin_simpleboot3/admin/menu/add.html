@@ -3,9 +3,9 @@
 <body>
 	<div class="wrap">
 		<ul class="nav nav-tabs">
-			<li><a href="{:url('menu/index')}">{:lang('ADMIN_MENU_INDEX')}</a></li>
-			<li class="active"><a href="{:url('menu/add')}">{:lang('ADMIN_MENU_ADD')}</a></li>
-			<li><a href="{:url('menu/lists')}">{:lang('ADMIN_MENU_LISTS')}</a></li>
+			<li><a href="{:url('Menu/index')}">后台菜单</a></li>
+			<li class="active"><a href="{:url('Menu/add')}">添加菜单</a></li>
+			<li><a href="{:url('Menu/lists')}">所有菜单</a></li>
 		</ul>
 		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('menu/addPost')}">
 			<div class="form-group">
@@ -52,7 +52,7 @@
 				<div class="col-md-6 col-sm-10">
 					<input type="text" class="form-control" id="input-icon" name="icon">
 					<p class="help-block">
-						<a href="http://www.thinkcmf.com/font/icons" target="_blank">选择图标</a> 不带前缀fa-，如fa-user => user
+						<a href="http://www.thinkcmf.com/font/font_awesome/icons.html" target="_blank">选择图标</a> 不带前缀fa-，如fa-user => user
 					</p>
 				</div>
 			</div>

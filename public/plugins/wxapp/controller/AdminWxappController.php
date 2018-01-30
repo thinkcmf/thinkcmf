@@ -8,28 +8,43 @@
 // +----------------------------------------------------------------------
 namespace plugins\wxapp\controller; //Demo插件英文名，改成你的插件英文就行了
 
-use think\Db;
-use cmf\controller\PluginBaseController;
+use cmf\controller\PluginAdminBaseController;
 
-class AdminWxappController extends PluginBaseController
+class AdminWxappController extends PluginAdminBaseController
 {
 
-    function _initialize()
-    {
-        $adminId = cmf_get_current_admin_id();//获取后台管理员id，可判断是否登录
-        if (!empty($adminId)) {
-            $this->assign("admin_id", $adminId);
-        } else {
-            $this->error('未登录');
-        }
-    }
-
+    /**
+     * 添加小程序
+     * @adminMenu(
+     *     'name'   => '添加小程序',
+     *     'parent' => 'AdminIndex/index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加小程序',
+     *     'param'  => ''
+     * )
+     */
     public function add()
     {
 
         return $this->fetch();
     }
 
+    /**
+     * 添加小程序提交保存
+     * @adminMenu(
+     *     'name'   => '添加小程序提交保存',
+     *     'parent' => 'AdminIndex/index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加小程序提交保存',
+     *     'param'  => ''
+     * )
+     */
     public function addPost()
     {
         $data = $this->request->param();
@@ -57,6 +72,19 @@ class AdminWxappController extends PluginBaseController
 
     }
 
+    /**
+     * 编辑小程序
+     * @adminMenu(
+     *     'name'   => '编辑小程序',
+     *     'parent' => 'AdminIndex/index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑小程序',
+     *     'param'  => ''
+     * )
+     */
     public function edit()
     {
         $appId = $this->request->param('id');
@@ -74,6 +102,19 @@ class AdminWxappController extends PluginBaseController
         return $this->fetch();
     }
 
+    /**
+     * 编辑小程序提交保存
+     * @adminMenu(
+     *     'name'   => '编辑小程序提交保存',
+     *     'parent' => 'AdminIndex/index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑小程序',
+     *     'param'  => ''
+     * )
+     */
     public function editPost()
     {
         $data = $this->request->param();
@@ -99,6 +140,19 @@ class AdminWxappController extends PluginBaseController
         $this->success('保存成功！');
     }
 
+    /**
+     * 删除小程序
+     * @adminMenu(
+     *     'name'   => '删除小程序',
+     *     'parent' => 'AdminIndex/index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '删除小程序',
+     *     'param'  => ''
+     * )
+     */
     public function delete()
     {
         $appId = $this->request->param('id');

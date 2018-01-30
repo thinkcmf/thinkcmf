@@ -28,7 +28,7 @@ class ArticleController extends HomeBaseController
         $categoryId = $this->request->param('cid', 0, 'intval');
         $article    = $postService->publishedArticle($articleId, $categoryId);
 
-        if (empty($articleId)) {
+        if (empty($article)) {
             abort(404, '文章不存在!');
         }
 

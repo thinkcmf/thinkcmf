@@ -181,7 +181,7 @@
                                 var text = $btn.text();
 
                                 //按钮文案、状态修改
-                                $btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                                $btn.text(text + '...').prop('disabled', true).addClass('disabled');
                             },
                             success: function (data, statusText, xhr, $form) {
 
@@ -200,7 +200,7 @@
                                 var text = $btn.text();
 
                                 //按钮文案、状态修改
-                                $btn.removeClass('disabled').prop('disabled', false).text(text.replace('中...', '')).parent().find('span').remove();
+                                $btn.removeClass('disabled').prop('disabled', false).text(text.replace('...', '')).parent().find('span').remove();
                                 if (data.code == 1) {
                                     if ($btn.data('success')) {
                                         var successCallback = $btn.data('success');
@@ -212,11 +212,11 @@
                                         type: 'success',
                                         layout: 'topCenter',
                                         modal: true,
-                                        animation: {
-                                            open: 'animated bounceInDown', // Animate.css class names
-                                            close: 'animated bounceOutUp', // Animate.css class names
-                                        },
-                                        timeout: 1,
+                                        // animation: {
+                                        //     open: 'animated bounceInDown', // Animate.css class names
+                                        //     close: 'animated bounceOutUp', // Animate.css class names
+                                        // },
+                                        timeout: 800,
                                         callback: {
                                             afterClose: function () {
                                                 if ($btn.data('refresh') == undefined || $btn.data('refresh')) {
@@ -243,11 +243,11 @@
                                         type: 'error',
                                         layout: 'topCenter',
                                         modal: true,
-                                        animation: {
-                                            open: 'animated bounceInDown', // Animate.css class names
-                                            close: 'animated bounceOutUp', // Animate.css class names
-                                        },
-                                        timeout: 1,
+                                        // animation: {
+                                        //     open: 'animated bounceInDown', // Animate.css class names
+                                        //     close: 'animated bounceOutUp', // Animate.css class names
+                                        // },
+                                        timeout: 800,
                                         callback: {
                                             afterClose: function () {
                                                 _refresh();
@@ -330,11 +330,11 @@
                                     type: 'success',
                                     layout: 'topCenter',
                                     modal: true,
-                                    animation: {
-                                        open: 'animated bounceInDown', // Animate.css class names
-                                        close: 'animated bounceOutUp', // Animate.css class names
-                                    },
-                                    timeout: 1,
+                                    // animation: {
+                                    //     open: 'animated bounceInDown', // Animate.css class names
+                                    //     close: 'animated bounceOutUp', // Animate.css class names
+                                    // },
+                                    timeout: 800,
                                     callback: {
                                         afterClose: function () {
                                             if (refresh == undefined || refresh) {
@@ -407,11 +407,11 @@
                                         type: 'success',
                                         layout: 'topCenter',
                                         modal: true,
-                                        animation: {
-                                            open: 'animated bounceInDown', // Animate.css class names
-                                            close: 'animated bounceOutUp', // Animate.css class names
-                                        },
-                                        timeout: 1,
+                                        // animation: {
+                                        //     open: 'animated bounceInDown', // Animate.css class names
+                                        //     close: 'animated bounceOutUp', // Animate.css class names
+                                        // },
+                                        timeout: 800,
                                         callback: {
                                             afterClose: function () {
                                                 if (refresh == undefined || refresh) {
@@ -819,6 +819,7 @@ function openUploadDialog(dialog_title, callback, extra_params, multi, filetype,
  * @param app  应用名,CMF的应用名
  */
 function uploadOne(dialog_title, input_selector, filetype, extra_params, app) {
+    filetype   = filetype ? filetype : 'file';
     openUploadDialog(dialog_title, function (dialog, files) {
         $(input_selector).val(files[0].filepath);
         $(input_selector + '-preview').attr('href', files[0].preview_url);
