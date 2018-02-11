@@ -1,3 +1,11 @@
+此项目forked from thinkcmf/thinkcmf
+===============
+
+### update
+* 新版本binding.html由于缺少验证码而无法获取mobile、mail验证码的问题修复
+* 用户中心部分按钮样式不一致修复
+* binding.html页面自适应修复
+
 ThinkCMF 5.0.180123 正式版
 ===============
 
