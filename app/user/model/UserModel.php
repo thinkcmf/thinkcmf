@@ -135,10 +135,21 @@ class UserModel extends Model
         return 2;
     }
 
-    public function registerEmail($user)
+    public function register($user,$type)
     {
-        $userQuery = Db::name("user");
-        $result    = $userQuery->where('user_email', $user['user_email'])->find();
+        switch ($type){
+            case 1:
+                $result = Db::name("user")->where('user_login', $user['user_login'])->find();
+                break;
+            case 2:
+                $result = Db::name("user")->where('mobile', $user['mobile'])->find();
+                break;
+            case 3:
+                $result = Db::name("user")->where('user_email', $user['user_email'])->find();
+                break;
+            default:
+                $result = 0;
+        }
 
         $userStatus = 1;
 
@@ -146,46 +157,11 @@ class UserModel extends Model
             $userStatus = 2;
         }
 
-        if (empty($result)) {
+        if ($result) {
             $data   = [
-                'user_login'      => '',
-                'user_email'      => $user['user_email'],
-                'mobile'          => '',
-                'user_nickname'   => '',
-                'user_pass'       => cmf_password($user['user_pass']),
-                'last_login_ip'   => get_client_ip(0, true),
-                'create_time'     => time(),
-                'last_login_time' => time(),
-                'user_status'     => $userStatus,
-                "user_type"       => 2,
-            ];
-            $userId = $userQuery->insertGetId($data);
-            $data   = $userQuery->where('id', $userId)->find();
-            cmf_update_current_user($data);
-            $token = cmf_generate_user_token($userId, 'web');
-            if (!empty($token)) {
-                session('token', $token);
-            }
-            return 0;
-        }
-        return 1;
-    }
-
-    public function registerMobile($user)
-    {
-        $result = Db::name("user")->where('mobile', $user['mobile'])->find();
-
-        $userStatus = 1;
-
-        if (cmf_is_open_registration()) {
-            $userStatus = 2;
-        }
-
-        if (empty($result)) {
-            $data   = [
-                'user_login'      => '',
-                'user_email'      => '',
-                'mobile'          => $user['mobile'],
+                'user_login'      => empty($user['user_login']) ? $user['user_login'] : '',
+                'user_email'      => empty($user['mobile']) ? $user['mobile'] : '',
+                'mobile'          => empty($user['user_email']) ? $user['user_email'] : '',
                 'user_nickname'   => '',
                 'user_pass'       => cmf_password($user['user_pass']),
                 'last_login_ip'   => get_client_ip(0, true),
@@ -196,7 +172,6 @@ class UserModel extends Model
             ];
             $userId = Db::name("user")->insertGetId($data);
             $data   = Db::name("user")->where('id', $userId)->find();
-            cmf_update_current_user($data);
             cmf_update_current_user($data);
             $token = cmf_generate_user_token($userId, 'web');
             if (!empty($token)) {
