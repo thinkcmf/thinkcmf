@@ -159,9 +159,9 @@ class UserModel extends Model
 
         if ($result) {
             $data   = [
-                'user_login'      => empty($user['user_login']) ? $user['user_login'] : '',
-                'user_email'      => empty($user['mobile']) ? $user['mobile'] : '',
-                'mobile'          => empty($user['user_email']) ? $user['user_email'] : '',
+                'user_login'      => empty($user['user_login']) ? '' : $user['user_login'],
+                'user_email'      => empty($user['mobile']) ? '' : $user['mobile'],
+                'mobile'          => empty($user['user_email']) ? '' : $user['user_email'],
                 'user_nickname'   => '',
                 'user_pass'       => cmf_password($user['user_pass']),
                 'last_login_ip'   => get_client_ip(0, true),
