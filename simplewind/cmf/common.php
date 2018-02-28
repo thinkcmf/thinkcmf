@@ -50,6 +50,7 @@ function cmf_get_current_user()
 {
     $sessionUser = session('user');
     if (!empty($sessionUser)) {
+        unset($sessionUser['user_pass']); // 销毁敏感数据
         return $sessionUser;
     } else {
         return false;
