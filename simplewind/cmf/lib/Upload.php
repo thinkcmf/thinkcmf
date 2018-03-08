@@ -275,14 +275,21 @@ class Upload
             }
 
         }
+
         //关闭文件对象
         $fileImage = null;
         //检查文件是否已经存在
         $assetModel = new AssetModel();
         $objAsset   = $assetModel->where(["user_id" => $userId, "file_key" => $arrInfo["file_key"]])->find();
 
+        $storage = cmf_get_option('storage');
+
+        if (empty($storage['type'])) {
+            $storage['type'] = 'Local';
+        }
+
         $needUploadToRemoteStorage = false;//是否要上传到云存储
-        if ($objAsset) {
+        if ($objAsset && $storage['type'] =='Local') {
             $arrAsset = $objAsset->toArray();
             //$arrInfo["url"] = $this->request->domain() . $arrAsset["file_path"];
             $arrInfo["file_path"] = $arrAsset["file_path"];
@@ -310,13 +317,8 @@ class Upload
 //        }
         @rmdir($targetDir);
 
-        $storage = cmf_get_option('storage');
-
-        if (empty($storage['type'])) {
-            $storage['type'] = 'Local';
-        }
-
         if ($storage['type'] != 'Local') { //  增加存储驱动
+            $watermark = cmf_get_plugin_config($storage['type']);
             $storage = new Storage($storage['type'], $storage['storages'][$storage['type']]);
 
             if ($needUploadToRemoteStorage) {
@@ -333,8 +335,8 @@ class Upload
                 }
             } else {
                 $previewUrl = $fileType == 'image' ? $storage->getPreviewUrl($arrInfo["file_path"]) : $storage->getFileDownloadUrl($arrInfo["file_path"]);
-                $url        = $fileType == 'image' ? $storage->getImageUrl($arrInfo["file_path"], 'watermark') : $storage->getFileDownloadUrl($arrInfo["file_path"]);
-
+                $url        = $fileType == 'image' ? $storage->getImageUrl($arrInfo["file_path"], $watermark['styles_watermark']) : $storage->getFileDownloadUrl($arrInfo["file_path"]);
+                            //测试ing
                 return [
                     'filepath'    => $arrInfo["file_path"],
                     "name"        => $arrInfo["filename"],
