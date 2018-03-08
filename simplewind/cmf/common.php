@@ -689,7 +689,12 @@ function cmf_get_image_url($file, $style = '')
     } else if (strpos($file, "/") === 0) {
         return cmf_get_domain() . $file;
     } else {
-
+        $storage = cmf_get_option('storage');
+        if (empty($storage['type'])) {
+            $storage['type'] = 'Local';
+        }
+        $watermark = cmf_get_plugin_config($storage['type']);
+        $style = empty($style)?$watermark['styles_watermark']:$style;
         $storage = Storage::instance();
         return $storage->getImageUrl($file, $style);
     }
