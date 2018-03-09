@@ -675,7 +675,7 @@ function cmf_get_asset_url($file, $style = '')
         if (empty($storage['type'])) {
             $storage['type'] = 'Local';
         }
-        if($storage['type'] == 'Qiniu'){
+        if($storage['type'] != 'Local'){
             $watermark = cmf_get_plugin_config($storage['type']);
             $style = empty($style)?$watermark['styles_watermark']:$style;
         }
@@ -701,7 +701,7 @@ function cmf_get_image_url($file, $style = '')
         if (empty($storage['type'])) {
             $storage['type'] = 'Local';
         }
-        if($storage['type'] == 'Qiniu'){
+        if($storage['type'] != 'Local'){
             $watermark = cmf_get_plugin_config($storage['type']);
             $style = empty($style)?$watermark['styles_watermark']:$style;
         }
@@ -727,7 +727,7 @@ function cmf_get_image_preview_url($file, $style = '')
         if (empty($storage['type'])) {
             $storage['type'] = 'Local';
         }
-        if($storage['type'] == 'Qiniu'){
+        if($storage['type'] != 'Local'){
             $watermark = cmf_get_plugin_config($storage['type']);
             $style = empty($style)?$watermark['styles_watermark']:$style;
         }
