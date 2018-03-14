@@ -672,6 +672,14 @@ function cmf_get_asset_url($file, $style = '')
     } else if (strpos($file, "/") === 0) {
         return $file;
     } else {
+        $storage = cmf_get_option('storage');
+        if (empty($storage['type'])) {
+            $storage['type'] = 'Local';
+        }
+        if($storage['type'] != 'Local'){
+            $watermark = cmf_get_plugin_config($storage['type']);
+            $style = empty($style)?$watermark['styles_watermark']:$style;
+        }
         $storage = Storage::instance();
         return $storage->getUrl($file, $style);
     }
@@ -690,7 +698,14 @@ function cmf_get_image_url($file, $style = '')
     } else if (strpos($file, "/") === 0) {
         return cmf_get_domain() . $file;
     } else {
-
+        $storage = cmf_get_option('storage');
+        if (empty($storage['type'])) {
+            $storage['type'] = 'Local';
+        }
+        if($storage['type'] != 'Local'){
+            $watermark = cmf_get_plugin_config($storage['type']);
+            $style = empty($style)?$watermark['styles_watermark']:$style;
+        }
         $storage = Storage::instance();
         return $storage->getImageUrl($file, $style);
     }
@@ -702,13 +717,21 @@ function cmf_get_image_url($file, $style = '')
  * @param string $style 图片样式,支持各大云存储
  * @return string
  */
-function cmf_get_image_preview_url($file, $style = 'watermark')
+function cmf_get_image_preview_url($file, $style = '')
 {
     if (strpos($file, "http") === 0) {
         return $file;
     } else if (strpos($file, "/") === 0) {
         return $file;
     } else {
+        $storage = cmf_get_option('storage');
+        if (empty($storage['type'])) {
+            $storage['type'] = 'Local';
+        }
+        if($storage['type'] != 'Local'){
+            $watermark = cmf_get_plugin_config($storage['type']);
+            $style = empty($style)?$watermark['styles_watermark']:$style;
+        }
         $storage = Storage::instance();
         return $storage->getPreviewUrl($file, $style);
     }

@@ -86,6 +86,13 @@ class Dir {//类定义开始
                 $dir[$i]['isWritable'] = is_writable($file);
             }
 
+            /*
+            $cmp_func = create_function('$a,$b', '
+            $k  =  "isDir";
+            if($a[$k]  ==  $b[$k])  return  0;
+            return  $a[$k]>$b[$k]?-1:1;
+            ');
+            */
             $cmp_func = function ($a, $b)
             {
                 $k  =  "isDir";

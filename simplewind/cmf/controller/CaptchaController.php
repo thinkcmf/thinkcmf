@@ -79,7 +79,7 @@ class CaptchaController
         if ($defaultCaptchaConfig && is_array($defaultCaptchaConfig)) {
             $config = array_merge($defaultCaptchaConfig, $config);
         }
-
+        ob_clean();//解决验证码不显示问题
         $captcha = new Captcha($config);
 
         @ob_clean();// 清除输出缓存 

@@ -43,14 +43,15 @@ class Qiniu
     {
         $accessKey = $this->config['accessKey'];
         $secretKey = $this->config['secretKey'];
+        $watermark = $this->config['styles_watermark'];
         $upManager = new UploadManager();
         $auth      = new Auth($accessKey, $secretKey);
         $token     = $auth->uploadToken($this->config['bucket']);
 
         $result = $upManager->putFile($token, $file, $filePath);
 
-        $previewUrl = $fileType == 'image' ? $this->getPreviewUrl($file) : $this->getFileDownloadUrl($file);
-        $url        = $fileType == 'image' ? $this->getImageUrl($file, 'watermark') : $this->getFileDownloadUrl($file);
+        $previewUrl = $fileType == 'image' ? $this->getPreviewUrl($file, $watermark) : $this->getFileDownloadUrl($file);
+        $url        = $fileType == 'image' ? $this->getImageUrl($file, $watermark) : $this->getFileDownloadUrl($file);
 
         return [
             'preview_url' => $previewUrl,

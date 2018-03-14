@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
-namespace plugins\qiniu\controller; //Demo插件英文名，改成你的插件英文就行了
+namespace plugins\qiniu\controller;
 use cmf\controller\PluginBaseController;
 use plugins\qiniu\lib\Qiniu;
 use think\Validate;
@@ -25,9 +25,10 @@ class AssetController extends PluginBaseController
 
         $file     = $this->request->param('file');
         $fileType = $this->request->param('filetype');
+        $config = $this->getPlugin()->getConfig();
 
-        $previewUrl = $fileType == 'image' ? $qiniu->getPreviewUrl($file) : $qiniu->getFileDownloadUrl($file);
-        $url        = $fileType == 'image' ? $qiniu->getImageUrl($file, 'watermark') : $qiniu->getFileDownloadUrl($file);
+        $previewUrl = $fileType == 'image' ? $qiniu->getPreviewUrl($file, $config['styles_watermark']) : $qiniu->getFileDownloadUrl($file);
+        $url        = $fileType == 'image' ? $qiniu->getImageUrl($file, $config['styles_watermark']) : $qiniu->getFileDownloadUrl($file);
 
         return $this->success('success', null, ['url' => $url, 'preview_url' => $previewUrl]);
     }
