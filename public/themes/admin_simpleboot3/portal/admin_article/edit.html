@@ -322,7 +322,7 @@
             //取消发布
             $.ajax({ url: publishNoUrl,type:"post",dataType:"json",data: {ids:postId}, success: function(data){
                 if(data.code !=1){
-                    $('#post-status-checkbox').removeAttr("checked");
+                    $('#post-status-checkbox').prop("checked",'true');
                     $('#post-status-error').html(data.msg).show();
                 }else{
                     $('#post-status-error').hide();
@@ -348,7 +348,7 @@
             //取消置顶
             $.ajax({ url: topNoUrl,type:"post",dataType:"json",data: {ids:postId}, success: function(data){
                 if(data.code !=1){
-                    $('#is-top-checkbox').removeAttr("checked");
+                    $('#is-top-checkbox').prop("checked",'true');
                     $('#is-top-error').html(data.msg).show();
                 }else{
                     $('#is-top-error').hide();
@@ -373,7 +373,7 @@
             //取消推荐
             $.ajax({ url: recommendNoUrl,type:"post",dataType:"json",data: {ids:postId}, success: function(data){
                 if(data.code !=1){
-                    $('#recommended-checkbox').removeAttr("checked");
+                    $('#recommended-checkbox').prop("checked",'true');
                     $('#recommended-error').html(data.msg).show();
                 }else{
                     $('#recommended-error').hide();
