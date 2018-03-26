@@ -852,8 +852,10 @@
                                         type: 'POST',
                                         dataType: 'json',
                                         data: {
+                                            filename: file.name,
                                             filetype: filetype,
-                                            file: data.key
+                                            file: data.key,
+                                            file_hash: data.hash
                                         },
                                         success: function (data2) {
                                             $file.data("url", data2.data.url);
@@ -869,7 +871,7 @@
                                         dataType: 'json',
                                         data: {
                                             filename: file.name,
-                                            file_key: data.key,
+                                            file_key: data.hash
                                         },
                                         success: function (data3) {
 
