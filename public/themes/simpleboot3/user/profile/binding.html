@@ -25,21 +25,46 @@
 							<if condition="!$mobile">
 							<form class="js-ajax-form" action="{:url('user/Profile/bindingMobile')}" method="post">
 								<div class="form-group">
-									<label for="js-mobile-input">手机号</label>
-									<div style="position: relative;height: 38px;">
-										<input type="text" class="form-control" placeholder="手机号"id="js-mobile-input" name="username" style="width: 180px;float: left;margin-right: 30px">
-										<input type="text" class="form-control" placeholder="手机验证码" name="verification_code" style="width: 180px;float: left;margin-right: 30px">
-										<a class="btn btn-success js-get-mobile-code" style="width: 180px;float: left;margin-right: 30px" data-wait-msg="[second]后才能再次获取" data-mobile-input="#js-mobile-input" data-url="{:url('user/VerificationCode/send')}">获取手机验证码</a>
-										<button type="submit" class="btn btn-primary js-ajax-submit"style="width: 170px;position: absolute;top:0;right: 0;">验证</button>
+									<label for="js-mobile-input">手机</label>
+									<div class="row">
+										<div class="col-md-6">
+											<input type="text" class="form-control" placeholder="手机号" id="js-mobile-input" name="username"><br>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-3">
+											<input type="text" name="captcha" placeholder="验证码" class="form-control"><br>
+                                        </div>
+                                        <div class="col-md-3">
+                                    		<captcha height="38" width="180" font-size="20"/><br><br>
+                                    	</div>
+									</div>
+									<div class="row">
+										
+										<div class="col-md-3">
+											<input type="text" class="form-control" placeholder="手机验证码" name="verification_code"><br>
+										</div>
+										<div class="col-md-3">
+											<a class="btn btn-success btn-block js-get-mobile-code" data-wait-msg="[second]后才能再次获取" data-mobile-input="#js-mobile-input" data-url="{:url('user/VerificationCode/send')}">获取手机验证码</a><br>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-6">
+											<button type="submit" class="btn btn-primary btn-block js-ajax-submit">验证</button><br>
+										</div>
 									</div>
 								</div>
 							</form>
 								<else />
 								<div class="form-group">
-									<label for="js-mobile">手机号</label>
-									<div style="position: relative;height: 38px;">
-										<input type="text" class="form-control" placeholder="邮箱"id="js-mobile" name="mobile" value="{$mobile}" disabled>
-										<button type="submit" class="btn"style="width: 170px;position: absolute;top:0;right: 0;">已绑定邮箱</button>
+									<label for="js-mobile">手机</label>
+									<div class="row">
+										<div class="col-md-6">
+											<input type="text" class="form-control" placeholder="手机" id="js-mobile" name="mobile" value="{$mobile}" disabled><br>
+										</div>
+										<div class="col-md-3">
+											<button type="submit" class="btn btn-primary btn-block" disabled>已绑定手机</button><br>
+										</div>
 									</div>
 								</div>
 							</if>
@@ -47,20 +72,44 @@
 								<form class="js-ajax-form" action="{:url('user/Profile/bindingEmail')}" method="post">
 									<div class="form-group">
 										<label for="js-email-input">邮箱</label>
-										<div style="position: relative;height: 38px;">
-											<input type="text" class="form-control" placeholder="邮箱"id="js-email-input" name="username"  style="width: 180px;float: left;margin-right: 30px">
-											<input type="text" class="form-control" placeholder="邮件验证码" name="verification_code" style="width: 180px;float: left;margin-right: 30px">
-											<a class="btn btn-success js-get-email-code" style="width: 180px;float: left;margin-right: 30px" data-wait-msg="[second]后才能再次获取" data-email-input="#js-email-input" data-url="{:url('user/VerificationCode/send')}" data-init-second-left="60">获取邮箱验证码</a>
-											<button type="submit" class="btn btn-primary js-ajax-submit"style="width: 170px;position: absolute;top:0;right: 0;">验证</button>
+										<div class="row">
+											<div class="col-md-6">
+												<input type="text" class="form-control" placeholder="邮箱" id="js-email-input" name="username"><br>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-3">
+												<input type="text" name="captcha" placeholder="验证码" class="form-control"><br>
+	                                        </div>
+	                                        <div class="col-md-3">
+	                                    		<captcha height="38" width="180" font-size="20"/><br><br>
+	                                    	</div>
+	                                    </div>
+										<div class="row">
+											<div class="col-md-3">
+												<input type="text" class="form-control" placeholder="邮件验证码" name="verification_code"><br>
+											</div>
+											<div class="col-md-3">
+												<a class="btn btn-success btn-block js-get-email-code" data-wait-msg="[second]后才能再次获取" data-email-input="#js-email-input" data-url="{:url('user/VerificationCode/send')}" data-init-second-left="60">获取邮箱验证码</a><br>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6">
+												<button type="submit" class="btn btn-primary btn-block js-ajax-submit">验证</button><br>
+											</div>
 										</div>
 									</div>
 								</form>
 								<else />
 								<div class="form-group">
 									<label for="js-email">邮箱</label>
-									<div style="position: relative;height: 38px;">
-										<input type="text" class="form-control" placeholder="邮箱"id="js-email" name="mobile" value="{$user_email}" disabled>
-										<button type="submit" class="btn"style="width: 170px;position: absolute;top:0;right: 0;">已绑定邮箱</button>
+									<div class="row">
+										<div class="col-md-6">
+											<input type="text" class="form-control" placeholder="邮箱" id="js-email" name="email" value="{$user_email}" disabled><br>
+										</div>
+										<div class="col-md-3">
+											<button type="submit" class="btn btn-primary btn-block" disabled>已绑定邮箱</button><br>
+										</div>
 									</div>
 								</div>
 							</if>

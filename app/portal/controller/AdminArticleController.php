@@ -96,7 +96,14 @@ class AdminArticleController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             $data   = $this->request->param();
+
+            //状态只能设置默认值。未发布、未置顶、未推荐
+            $data['post']['post_status'] = 0;
+            $data['post']['is_top'] = 0;
+            $data['post']['recommended'] = 0;
+
             $post   = $data['post'];
+
             $result = $this->validate($post, 'AdminArticle');
             if ($result !== true) {
                 $this->error($result);
@@ -119,6 +126,8 @@ class AdminArticleController extends AdminBaseController
                     array_push($data['post']['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
                 }
             }
+
+
 
             $portalPostModel->adminAddArticle($data['post'], $data['post']['categories']);
 
@@ -185,6 +194,12 @@ class AdminArticleController extends AdminBaseController
 
         if ($this->request->isPost()) {
             $data   = $this->request->param();
+
+            //需要抹除发布、置顶、推荐的修改。
+            unset($data['post']['post_status']);
+            unset($data['post']['is_top']);
+            unset($data['post']['recommended']);
+
             $post   = $data['post'];
             $result = $this->validate($post, 'AdminArticle');
             if ($result !== true) {

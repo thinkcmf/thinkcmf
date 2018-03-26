@@ -139,9 +139,8 @@ class Tree
                 $selected = $value['id'] == $sid ? 'selected' : '';
                 $id       = 0;
                 $nstr     = '';
-                @extract($value);
-
                 $parentId = $value['parent_id'];
+                @extract($value);
 
 
                 $parentId == 0 && $str_group ? eval("\$nstr = \"$str_group\";") : eval("\$nstr = \"$str\";");
