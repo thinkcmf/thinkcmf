@@ -286,4 +286,11 @@ return [
         'list_rows' => 15,
     ],
 
+    //控制台配置
+    'console'                => [
+        'name'    => 'Think Console',
+        'version' => '0.1',
+        'user'    => null,
+    ],
+
 ];

@@ -26,7 +26,7 @@ abstract class Builder
     protected $exp = ['eq' => '=', 'neq' => '<>', 'gt' => '>', 'egt' => '>=', 'lt' => '<', 'elt' => '<=', 'notlike' => 'NOT LIKE', 'not like' => 'NOT LIKE', 'like' => 'LIKE', 'in' => 'IN', 'exp' => 'EXP', 'notin' => 'NOT IN', 'not in' => 'NOT IN', 'between' => 'BETWEEN', 'not between' => 'NOT BETWEEN', 'notbetween' => 'NOT BETWEEN', 'exists' => 'EXISTS', 'notexists' => 'NOT EXISTS', 'not exists' => 'NOT EXISTS', 'null' => 'NULL', 'notnull' => 'NOT NULL', 'not null' => 'NOT NULL', '> time' => '> TIME', '< time' => '< TIME', '>= time' => '>= TIME', '<= time' => '<= TIME', 'between time' => 'BETWEEN TIME', 'not between time' => 'NOT BETWEEN TIME', 'notbetween time' => 'NOT BETWEEN TIME'];
 
     // SQL表达式
-    protected $selectSql    = 'SELECT%DISTINCT% %FIELD% FROM %TABLE%%FORCE%%UNION%%JOIN%%WHERE%%GROUP%%HAVING%%ORDER%%LIMIT%%LOCK%%COMMENT%';
+    protected $selectSql    = 'SELECT%DISTINCT% %FIELD% FROM %TABLE%%FORCE%%JOIN%%WHERE%%GROUP%%HAVING%%UNION%%ORDER%%LIMIT%%LOCK%%COMMENT%';
     protected $insertSql    = '%INSERT% INTO %TABLE% (%FIELD%) VALUES (%DATA%) %COMMENT%';
     protected $insertAllSql = '%INSERT% INTO %TABLE% (%FIELD%) %DATA% %COMMENT%';
     protected $updateSql    = 'UPDATE %TABLE% SET %SET% %JOIN% %WHERE% %ORDER%%LIMIT% %LOCK%%COMMENT%';
@@ -116,10 +116,14 @@ abstract class Builder
                         $result[$item] = $val[1];
                         break;
                     case 'inc':
-                        $result[$item] = $this->parseKey($val[1]) . '+' . floatval($val[2]);
+                        if ($key == $val[1]) {
+                            $result[$item] = $this->parseKey($val[1]) . '+' . floatval($val[2]);
+                        }
                         break;
                     case 'dec':
-                        $result[$item] = $this->parseKey($val[1]) . '-' . floatval($val[2]);
+                        if ($key == $val[1]) {
+                            $result[$item] = $this->parseKey($val[1]) . '-' . floatval($val[2]);
+                        }
                         break;
                 }
             } elseif (is_scalar($val)) {
@@ -207,9 +211,6 @@ abstract class Builder
         $item = [];
         foreach ((array) $tables as $key => $table) {
             if (!is_numeric($key)) {
-                if (strpos($key, '@think')) {
-                    $key = strstr($key, '@think', true);
-                }
                 $key    = $this->parseSqlTable($key);
                 $item[] = $this->parseKey($key) . ' ' . (isset($options['alias'][$table]) ? $this->parseKey($options['alias'][$table]) : $this->parseKey($table));
             } else {
@@ -341,7 +342,7 @@ abstract class Builder
                 throw new Exception('where express error:' . $exp);
             }
         }
-        $bindName = $bindName ?: 'where_' . str_replace(['.', '-'], '_', $field);
+        $bindName = $bindName ?: 'where_' . $rule . '_' . str_replace(['.', '-'], '_', $field);
         if (preg_match('/\W/', $bindName)) {
             // 处理带非单词字符的字段名
             $bindName = md5($bindName);
