@@ -35,6 +35,10 @@ class AdminPageValidate extends Validate
             return true;
         }
 
+        if (preg_match("/^\d+$/", $value)) {
+            return "别名不能为纯数字!";
+        }
+
         $routeModel = new RouteModel();
         $fullUrl    = $routeModel->buildFullUrl('portal/Page/index', ['id' => $data['id']]);
         if (!$routeModel->exists($value, $fullUrl)) {
