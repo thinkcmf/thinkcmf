@@ -1578,9 +1578,9 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
         $url = $url . '#' . $anchor;
     }
 
-    if (!empty($domain)) {
-        $url = $url . '@' . $domain;
-    }
+//    if (!empty($domain)) {
+//        $url = $url . '@' . $domain;
+//    }
 
     return Url::build($url, $vars, $suffix, $domain);
 }
