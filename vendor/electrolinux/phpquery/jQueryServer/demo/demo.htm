@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>jQuery Server Plugin</title>
+	<script type="text/javascript" src='jquery.js'></script>
+	<script type="text/javascript" src='../jQueryServer.js'></script>
+	<script type="text/javascript">
+jQuery.serverConfig.url = '/phpQuery/jQueryServer/jQueryServer.php';
+function demo() {
+	$.server({
+			url: document.location.toString(),
+			dataType: 'json'
+		})
+		.find('li')
+		.client(function(response){
+			$.each(response, function(k, li){
+				$('ul').append(li);
+			});
+		});
+}
+$(function(){
+	$('ul').append('<li>above LIs will be downloaded and appended below in 2 seconds...</li>');
+	setTimeout(demo, 2000);
+});
+	</script>
+</head>
+<body>
+<div>jQuery Server Plugin demo...</div>
+<ul>
+	<li>test1</li>
+	<li>test2</li>
+	<li>test3</li>
+</ul>	
+</body>
+</html>
