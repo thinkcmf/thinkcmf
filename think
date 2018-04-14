@@ -28,7 +28,7 @@ define('EXTEND_PATH', CMF_ROOT . 'simplewind/extend/');
 define('VENDOR_PATH', CMF_ROOT . 'simplewind/vendor/');
 
 // 定义应用的运行时目录
-define('RUNTIME_PATH', CMF_ROOT . 'data/runtime/');
+define('RUNTIME_PATH', CMF_ROOT . 'data/console_runtime/');
 
 // 加载框架引导文件
 require CMF_ROOT.'simplewind/thinkphp/console.php';

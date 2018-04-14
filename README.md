@@ -1,4 +1,4 @@
-ThinkCMF 5.0.180123 正式版
+ThinkCMF 5.1.0开发版，仅限学习使用
 ===============
 
 ### 系列讲座
@@ -25,7 +25,7 @@ https://www.thinkcmf.com/college.html
 * 后台首页插件化，用户可以定制的网站后台首页
 
 ### 环境推荐
-> php5.5+
+> php7.1
 
 > mysql 5.6+
 
@@ -33,7 +33,7 @@ https://www.thinkcmf.com/college.html
 
 
 ### 最低环境要求
-> php5.4+
+> php5.6+
 
 > mysql 5.5+ (mysql5.1安装时选择utf8编码，不支持表情符)
 

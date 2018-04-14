@@ -9,6 +9,8 @@
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
 
+return [];
+
 $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
 
 $returnCommands = [];
@@ -25,3 +27,4 @@ foreach ($apps as $app) {
 }
 
 return $returnCommands;
+
