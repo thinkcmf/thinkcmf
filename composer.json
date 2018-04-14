@@ -29,7 +29,8 @@
         "dompdf/dompdf": "^0.8.0",
         "phpoffice/phpexcel": "^1.8",
         "ezyang/htmlpurifier": "^4.9",
-        "topthink/think-queue": "^1.1.4"
+        "topthink/think-queue": "^1.1.4",
+        "electrolinux/phpquery": "^0.9.6"
     },
     "extra": {
         "think-path":"simplewind/thinkphp"

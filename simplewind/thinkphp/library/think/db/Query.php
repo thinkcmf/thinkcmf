@@ -769,8 +769,15 @@ class Query
     {
         if (empty($field)) {
             return $this;
+        } elseif ($field instanceof Expression) {
+            $this->options['field'][] = $field;
+            return $this;
         }
+
         if (is_string($field)) {
+            if (preg_match('/[\<\'\"\(]/', $field)) {
+                return $this->fieldRaw($field);
+            }
             $field = array_map('trim', explode(',', $field));
         }
         if (true === $field) {
@@ -797,6 +804,24 @@ class Query
             $field = array_merge((array) $this->options['field'], $field);
         }
         $this->options['field'] = array_unique($field);
+        return $this;
+    }
+
+    /**
+     * 表达式方式指定查询字段
+     * @access public
+     * @param  string $field    字段名
+     * @param  array  $bind     参数绑定
+     * @return $this
+     */
+    public function fieldRaw($field, array $bind = [])
+    {
+        $this->options['field'][] = $this->raw($field);
+
+        if ($bind) {
+            $this->bind($bind);
+        }
+
         return $this;
     }
 
@@ -828,7 +853,7 @@ class Query
     {
         $fields = is_string($field) ? explode(',', $field) : $field;
         foreach ($fields as $field) {
-            $this->data($field, ['inc', $field, $step]);
+            $this->data($field, ['inc', $step]);
         }
         return $this;
     }
@@ -844,7 +869,7 @@ class Query
     {
         $fields = is_string($field) ? explode(',', $field) : $field;
         foreach ($fields as $field) {
-            $this->data($field, ['dec', $field, $step]);
+            $this->data($field, ['dec', $step]);
         }
         return $this;
     }
@@ -860,6 +885,17 @@ class Query
     {
         $this->data($field, ['exp', $value]);
         return $this;
+    }
+
+    /**
+     * 使用表达式设置数据
+     * @access public
+     * @param  mixed $value 表达式
+     * @return Expression
+     */
+    public function raw($value)
+    {
+        return new Expression($value);
     }
 
     /**
@@ -973,6 +1009,37 @@ class Query
         array_shift($param);
         $this->parseWhereExp('XOR', $field, $op, $condition, $param);
         return $this;
+    }
+
+    /**
+     * 指定表达式查询条件
+     * @access public
+     * @param  string $where  查询条件
+     * @param  array  $bind   参数绑定
+     * @param  string $logic  查询逻辑 and or xor
+     * @return $this
+     */
+    public function whereRaw($where, $bind = [], $logic = 'AND')
+    {
+        $this->options['where'][$logic][] = $this->raw($where);
+
+        if ($bind) {
+            $this->bind($bind);
+        }
+
+        return $this;
+    }
+
+    /**
+     * 指定表达式查询条件 OR
+     * @access public
+     * @param  string $where  查询条件
+     * @param  array  $bind   参数绑定
+     * @return $this
+     */
+    public function whereOrRaw($where, $bind = [])
+    {
+        return $this->whereRaw($where, $bind, 'OR');
     }
 
     /**
@@ -1163,7 +1230,9 @@ class Query
             $field = $this->options['via'] . '.' . $field;
         }
 
-        if ($strict) {
+        if ($field instanceof Expression) {
+            return $this->whereRaw($field, is_array($op) ? $op : []);
+        } elseif ($strict) {
             // 使用严格模式查询
             $where[$field] = [$op, $condition];
 
@@ -1423,31 +1492,55 @@ class Query
      */
     public function order($field, $order = null)
     {
-        if (!empty($field)) {
-            if (is_string($field)) {
-                if (!empty($this->options['via'])) {
-                    $field = $this->options['via'] . '.' . $field;
-                }
-                $field = empty($order) ? $field : [$field => $order];
-            } elseif (!empty($this->options['via'])) {
-                foreach ($field as $key => $val) {
-                    if (is_numeric($key)) {
-                        $field[$key] = $this->options['via'] . '.' . $val;
-                    } else {
-                        $field[$this->options['via'] . '.' . $key] = $val;
-                        unset($field[$key]);
-                    }
-                }
+        if (empty($field)) {
+            return $this;
+        } elseif ($field instanceof Expression) {
+            $this->options['order'][] = $field;
+            return $this;
+        }
+
+        if (is_string($field)) {
+            if (!empty($this->options['via'])) {
+                $field = $this->options['via'] . '.' . $field;
             }
-            if (!isset($this->options['order'])) {
-                $this->options['order'] = [];
-            }
-            if (is_array($field)) {
-                $this->options['order'] = array_merge($this->options['order'], $field);
-            } else {
-                $this->options['order'][] = $field;
+            $field = empty($order) ? $field : [$field => $order];
+        } elseif (!empty($this->options['via'])) {
+            foreach ($field as $key => $val) {
+                if (is_numeric($key)) {
+                    $field[$key] = $this->options['via'] . '.' . $val;
+                } else {
+                    $field[$this->options['via'] . '.' . $key] = $val;
+                    unset($field[$key]);
+                }
             }
         }
+        if (!isset($this->options['order'])) {
+            $this->options['order'] = [];
+        }
+        if (is_array($field)) {
+            $this->options['order'] = array_merge($this->options['order'], $field);
+        } else {
+            $this->options['order'][] = $field;
+        }
+
+        return $this;
+    }
+
+    /**
+     * 表达式方式指定Field排序
+     * @access public
+     * @param  string $field 排序字段
+     * @param  array  $bind  参数绑定
+     * @return $this
+     */
+    public function orderRaw($field, array $bind = [])
+    {
+        $this->options['order'][] = $this->raw($field);
+
+        if ($bind) {
+            $this->bind($bind);
+        }
+
         return $this;
     }
 
@@ -2436,8 +2529,12 @@ class Query
 
         if (isset($data)) {
             return 'think:' . $prefix . (is_array($options['table']) ? key($options['table']) : $options['table']) . '|' . $data;
-        } else {
+        }
+
+        try {
             return md5($prefix . serialize($options) . serialize($bind));
+        } catch (\Exception $e) {
+            throw new Exception('closure not support cache(true)');
         }
     }
 

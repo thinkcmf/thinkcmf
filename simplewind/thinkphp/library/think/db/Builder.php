@@ -11,7 +11,6 @@
 
 namespace think\db;
 
-use BadMethodCallException;
 use PDO;
 use think\Exception;
 
@@ -99,8 +98,11 @@ abstract class Builder
 
         $result = [];
         foreach ($data as $key => $val) {
-            $item = $this->parseKey($key, $options);
-            if (is_object($val) && method_exists($val, '__toString')) {
+            $item = $this->parseKey($key, $options, true);
+            if ($val instanceof Expression) {
+                $result[$item] = $val->getValue();
+                continue;
+            } elseif (is_object($val) && method_exists($val, '__toString')) {
                 // 对象数据写入
                 $val = $val->__toString();
             }
@@ -116,14 +118,10 @@ abstract class Builder
                         $result[$item] = $val[1];
                         break;
                     case 'inc':
-                        if ($key == $val[1]) {
-                            $result[$item] = $this->parseKey($val[1]) . '+' . floatval($val[2]);
-                        }
+                        $result[$item] = $item . '+' . floatval($val[2]);
                         break;
                     case 'dec':
-                        if ($key == $val[1]) {
-                            $result[$item] = $this->parseKey($val[1]) . '-' . floatval($val[2]);
-                        }
+                        $result[$item] = $item . '-' . floatval($val[2]);
                         break;
                 }
             } elseif (is_scalar($val)) {
@@ -147,7 +145,7 @@ abstract class Builder
      * @param array  $options
      * @return string
      */
-    protected function parseKey($key, $options = [])
+    protected function parseKey($key, $options = [], $strict = false)
     {
         return $key;
     }
@@ -188,10 +186,12 @@ abstract class Builder
             // 支持 'field1'=>'field2' 这样的字段别名定义
             $array = [];
             foreach ($fields as $key => $field) {
-                if (!is_numeric($key)) {
-                    $array[] = $this->parseKey($key, $options) . ' AS ' . $this->parseKey($field, $options);
+                if ($field instanceof Expression) {
+                    $array[] = $field->getValue();
+                } elseif (!is_numeric($key)) {
+                    $array[] = $this->parseKey($key, $options) . ' AS ' . $this->parseKey($field, $options, true);
                 } else {
-                    $array[] = $this->parseKey($field, $options);
+                    $array[] = $this->parseKey($field, $options, true);
                 }
             }
             $fieldsStr = implode(',', $array);
@@ -268,6 +268,10 @@ abstract class Builder
         foreach ($where as $key => $val) {
             $str = [];
             foreach ($val as $field => $value) {
+                if ($value instanceof Expression) {
+                    $str[] = ' ' . $logic . ' ( ' . $value->getValue() . ' )';
+                    continue;
+                }
                 if ($value instanceof \Closure) {
                     // 使用闭包查询
                     $query = new Query($this->connection);
@@ -309,7 +313,7 @@ abstract class Builder
     protected function parseWhereItem($field, $val, $rule = '', $options = [], $binds = [], $bindName = null)
     {
         // 字段分析
-        $key = $field ? $this->parseKey($field, $options) : '';
+        $key = $field ? $this->parseKey($field, $options, true) : '';
 
         // 查询规则和条件
         if (!is_array($val)) {
@@ -348,7 +352,9 @@ abstract class Builder
             $bindName = md5($bindName);
         }
 
-        if (is_object($value) && method_exists($value, '__toString')) {
+        if ($value instanceof Expression) {
+
+        } elseif (is_object($value) && method_exists($value, '__toString')) {
             // 对象数据写入
             $value = $value->__toString();
         }
@@ -557,28 +563,29 @@ abstract class Builder
      */
     protected function parseOrder($order, $options = [])
     {
-        if (is_array($order)) {
-            $array = [];
-            foreach ($order as $key => $val) {
-                if (is_numeric($key)) {
-                    if ('[rand]' == $val) {
-                        if (method_exists($this, 'parseRand')) {
-                            $array[] = $this->parseRand();
-                        } else {
-                            throw new BadMethodCallException('method not exists:' . get_class($this) . '-> parseRand');
-                        }
-                    } elseif (false === strpos($val, '(')) {
-                        $array[] = $this->parseKey($val, $options);
-                    } else {
-                        $array[] = $val;
-                    }
-                } else {
-                    $sort    = in_array(strtolower(trim($val)), ['asc', 'desc']) ? ' ' . $val : '';
-                    $array[] = $this->parseKey($key, $options) . ' ' . $sort;
-                }
-            }
-            $order = implode(',', $array);
+        if (empty($order)) {
+            return '';
         }
+
+        $array = [];
+        foreach ($order as $key => $val) {
+            if ($val instanceof Expression) {
+                $array[] = $val->getValue();
+            } elseif ('[rand]' == $val) {
+                $array[] = $this->parseRand();
+            } else {
+                if (is_numeric($key)) {
+                    list($key, $sort) = explode(' ', strpos($val, ' ') ? $val : $val . ' ');
+                } else {
+                    $sort = $val;
+                }
+
+                $sort    = in_array(strtolower($sort), ['asc', 'desc'], true) ? ' ' . $sort : '';
+                $array[] = $this->parseKey($key, $options, true) . $sort;
+            }
+        }
+        $order = implode(',', $array);
+
         return !empty($order) ? ' ORDER BY ' . $order : '';
     }
 

@@ -693,17 +693,17 @@
     },
     {
         "name": "topthink/framework",
-        "version": "v5.0.16",
-        "version_normalized": "5.0.16.0",
+        "version": "v5.0.17",
+        "version_normalized": "5.0.17.0",
         "source": {
             "type": "git",
             "url": "https://github.com/top-think/framework.git",
-            "reference": "97de5ec026074ff9721fe8743396095f34712da0"
+            "reference": "e4d4911b461d08f88120a0277c23f9b58f6b3187"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/top-think/framework/zipball/97de5ec026074ff9721fe8743396095f34712da0",
-            "reference": "97de5ec026074ff9721fe8743396095f34712da0",
+            "url": "https://api.github.com/repos/top-think/framework/zipball/e4d4911b461d08f88120a0277c23f9b58f6b3187",
+            "reference": "e4d4911b461d08f88120a0277c23f9b58f6b3187",
             "shasum": ""
         },
         "require": {
@@ -718,7 +718,7 @@
             "phpunit/phpunit": "4.8.*",
             "sebastian/phpcpd": "2.*"
         },
-        "time": "2018-03-26 09:24:20",
+        "time": "2018-04-13 03:33:30",
         "type": "think-framework",
         "installation-source": "dist",
         "autoload": {
@@ -743,5 +743,47 @@
             "orm",
             "thinkphp"
         ]
+    },
+    {
+        "name": "electrolinux/phpquery",
+        "version": "0.9.6",
+        "version_normalized": "0.9.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/electrolinux/phpquery.git",
+            "reference": "6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/electrolinux/phpquery/zipball/6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a",
+            "reference": "6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a",
+            "shasum": ""
+        },
+        "time": "2013-03-21 12:39:33",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "phpQuery/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Tobiasz Cudnik",
+                "email": "tobiasz.cudnik@gmail.com",
+                "homepage": "https://github.com/TobiaszCudnik",
+                "role": "Developer"
+            },
+            {
+                "name": "didier Belot",
+                "role": "Packager"
+            }
+        ],
+        "description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library",
+        "homepage": "http://code.google.com/p/phpquery/"
     }
 ]

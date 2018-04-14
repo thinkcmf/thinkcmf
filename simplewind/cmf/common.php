@@ -572,7 +572,7 @@ function cmf_get_upload_setting()
  */
 function cmf_get_content_images($content)
 {
-    import('phpQuery.phpQuery', EXTEND_PATH);
+    //import('phpQuery.phpQuery', EXTEND_PATH);
     \phpQuery::newDocumentHTML($content);
     $pq         = pq(null);
     $images     = $pq->find("img");
@@ -1606,7 +1606,7 @@ function cmf_is_installed()
  */
 function cmf_replace_content_file_url($content, $isForDbSave = false)
 {
-    import('phpQuery.phpQuery', EXTEND_PATH);
+    //import('phpQuery.phpQuery', EXTEND_PATH);
     \phpQuery::newDocumentHTML($content);
     $pq = pq(null);
 
