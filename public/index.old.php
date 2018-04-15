@@ -21,8 +21,6 @@ define('APP_PATH', CMF_ROOT . 'app/');
 // 定义插件目录
 define('PLUGINS_PATH', __DIR__ . '/plugins/');
 
-define('THINKPHP_PATH', CMF_ROOT . 'thinkphp/');
-
 // 定义扩展目录
 define('EXTEND_PATH', CMF_ROOT . 'extend/');
 define('VENDOR_PATH', CMF_ROOT . 'vendor/');
@@ -34,7 +32,7 @@ define('RUNTIME_PATH', CMF_ROOT . 'data/runtime/');
 define('THINKCMF_VERSION', '5.1.0-dev');
 
 // 加载框架基础文件
-require EXTEND_PATH . 'cmf/base.php';
+require CMF_ROOT . 'thinkphp/base.php';
 
 // 执行应用并响应
 Container::get('app')->path(APP_PATH)->run()->send();
