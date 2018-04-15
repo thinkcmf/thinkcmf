@@ -128,6 +128,7 @@ class App implements \ArrayAccess
      * @var string
      */
     protected $bind;
+    private $i = 0;
 
     public function __construct($appPath = '')
     {
@@ -272,6 +273,7 @@ class App implements \ArrayAccess
             }
 
             if ('' == $module) {
+                include __DIR__ . '/../helper.php';
                 // 加载系统助手函数
                 include $this->thinkPath . 'helper.php';
             }
@@ -312,6 +314,12 @@ class App implements \ArrayAccess
         $this->request->filter($this->config('app.default_filter'));
     }
 
+    public function runTest()
+    {
+        $this->i++;
+        print_r("\nI:{$this->i}\n\n");
+    }
+
     /**
      * 执行应用程序
      * @access public
@@ -322,7 +330,7 @@ class App implements \ArrayAccess
     {
         try {
             // 初始化应用
-            $this->initialize();
+            //$this->initialize();
 
             if ($this->bind) {
                 // 模块/控制器绑定
