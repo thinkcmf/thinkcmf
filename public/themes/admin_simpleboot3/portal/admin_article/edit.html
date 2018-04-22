@@ -21,7 +21,7 @@
         <input class="form-control" id="file-{id}-name" type="text" name="file_names[]" value="{name}"
                style="width: 200px;" title="文件名称">
         <a id="file-{id}-preview" href="{preview_url}" target="_blank">下载</a>
-        <a href="javascript:uploadOne('图片上传','#file-{id}','file');">替换</a>
+        <a href="javascript:uploadOne('文件上传','#file-{id}','file');">替换</a>
         <a href="javascript:(function(){$('#saved-file{id}').remove();})();">移除</a>
     </li>
 </script>
@@ -128,7 +128,7 @@
                                                    name="file_names[]"
                                                    value="{$vo.name}" style="width: 200px;" title="图片名称">
                                             <a id="file-{$key}-preview" href="{$file_url}" target="_blank">下载</a>
-                                            <a href="javascript:uploadOne('图片上传','#file-{$key}','file');">替换</a>
+                                            <a href="javascript:uploadOne('文件上传','#file-{$key}','file');">替换</a>
                                             <a href="javascript:(function(){$('#saved-file{$key}').remove();})();">移除</a>
                                         </li>
                                     </foreach>
