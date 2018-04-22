@@ -114,14 +114,11 @@ abstract class Builder
                 $result[$item] = 'NULL';
             } elseif (is_array($val) && !empty($val)) {
                 switch ($val[0]) {
-                    case 'exp':
-                        $result[$item] = $val[1];
-                        break;
                     case 'inc':
-                        $result[$item] = $item . '+' . floatval($val[2]);
+                        $result[$item] = $item . '+' . floatval($val[1]);
                         break;
                     case 'dec':
-                        $result[$item] = $item . '-' . floatval($val[2]);
+                        $result[$item] = $item . '-' . floatval($val[1]);
                         break;
                 }
             } elseif (is_scalar($val)) {
@@ -191,7 +188,7 @@ abstract class Builder
                 } elseif (!is_numeric($key)) {
                     $array[] = $this->parseKey($key, $options) . ' AS ' . $this->parseKey($field, $options, true);
                 } else {
-                    $array[] = $this->parseKey($field, $options, true);
+                    $array[] = $this->parseKey($field, $options);
                 }
             }
             $fieldsStr = implode(',', $array);
@@ -391,7 +388,11 @@ abstract class Builder
             }
         } elseif ('EXP' == $exp) {
             // 表达式查询
-            $whereStr .= '( ' . $key . ' ' . $value . ' )';
+            if ($value instanceof Expression) {
+                $whereStr .= '( ' . $key . ' ' . $value->getValue() . ' )';
+            } else {
+                throw new Exception('where express error:' . $exp);
+            }
         } elseif (in_array($exp, ['NOT NULL', 'NULL'])) {
             // NULL 查询
             $whereStr .= $key . ' IS ' . $exp;
@@ -509,6 +510,11 @@ abstract class Builder
             }
         }
         $bindName = $bindName ?: $key;
+
+        if ($this->query->isBind($bindName)) {
+            $bindName .= '_' . str_replace('.', '_', uniqid('', true));
+        }
+
         $this->query->bind($bindName, $value, $bindType);
         return ':' . $bindName;
     }
@@ -579,8 +585,8 @@ abstract class Builder
                 } else {
                     $sort = $val;
                 }
-
-                $sort    = in_array(strtolower($sort), ['asc', 'desc'], true) ? ' ' . $sort : '';
+                $sort    = strtoupper($sort);
+                $sort    = in_array($sort, ['ASC', 'DESC'], true) ? ' ' . $sort : '';
                 $array[] = $this->parseKey($key, $options, true) . $sort;
             }
         }
@@ -668,11 +674,7 @@ abstract class Builder
             return '';
         }
 
-        if (is_array($index)) {
-            $index = join(",", $index);
-        }
-
-        return sprintf(" FORCE INDEX ( %s ) ", $index);
+        return sprintf(" FORCE INDEX ( %s ) ", is_array($index) ? implode(',', $index) : $index);
     }
 
     /**
@@ -790,8 +792,12 @@ abstract class Builder
             $values[] = 'SELECT ' . implode(',', $value);
 
             if (!isset($insertFields)) {
-                $insertFields = array_map([$this, 'parseKey'], array_keys($data));
+                $insertFields = array_keys($data);
             }
+        }
+
+        foreach ($insertFields as $field) {
+            $fields[] = $this->parseKey($query, $field, true);
         }
 
         return str_replace(
