@@ -676,9 +676,9 @@ function cmf_get_asset_url($file, $style = '')
         if (empty($storage['type'])) {
             $storage['type'] = 'Local';
         }
-        if($storage['type'] != 'Local'){
+        if ($storage['type'] != 'Local') {
             $watermark = cmf_get_plugin_config($storage['type']);
-            $style = empty($style)?$watermark['styles_watermark']:$style;
+            $style     = empty($style) ? $watermark['styles_watermark'] : $style;
         }
         $storage = Storage::instance();
         return $storage->getUrl($file, $style);
@@ -702,9 +702,9 @@ function cmf_get_image_url($file, $style = 'watermark')
         if (empty($storage['type'])) {
             $storage['type'] = 'Local';
         }
-        if($storage['type'] != 'Local'){
+        if ($storage['type'] != 'Local') {
             $watermark = cmf_get_plugin_config($storage['type']);
-            $style = empty($style)?$watermark['styles_watermark']:$style;
+            $style     = empty($style) ? $watermark['styles_watermark'] : $style;
         }
         $storage = Storage::instance();
         return $storage->getImageUrl($file, $style);
@@ -728,9 +728,9 @@ function cmf_get_image_preview_url($file, $style = 'watermark')
         if (empty($storage['type'])) {
             $storage['type'] = 'Local';
         }
-        if($storage['type'] != 'Local'){
+        if ($storage['type'] != 'Local') {
             $watermark = cmf_get_plugin_config($storage['type']);
-            $style = empty($style)?$watermark['styles_watermark']:$style;
+            $style     = empty($style) ? $watermark['styles_watermark'] : $style;
         }
         $storage = Storage::instance();
         return $storage->getPreviewUrl($file, $style);
@@ -873,7 +873,7 @@ function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, 
     $time = time();
     if ($findLog) {
         Db::name('user_action_log')->where($where)->update([
-            "count"           => ["exp", "count+1"],
+            "count"           => Db::raw("count+1"),
             "last_visit_time" => $time,
             "ip"              => $ip
         ]);
@@ -890,7 +890,7 @@ function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, 
             "user_id"         => $userId,
             "action"          => $action,
             "object"          => $object,
-            "count"           => ["exp", "count+1"],
+            "count"           => Db::raw("count+1"),
             "last_visit_time" => $time, "ip" => $ip
         ]);
     }
@@ -1276,7 +1276,7 @@ function cmf_verification_code_log($account, $code, $expireTime = 0)
         if ($findVerificationCode['send_time'] <= $todayStartTime) {
             $count = 1;
         } else {
-            $count = ['exp', 'count+1'];
+            $count = Db::raw('count+1');
         }
         $result = $verificationCodeQuery
             ->where('account', $account)
@@ -1771,19 +1771,19 @@ function cmf_user_action($action)
 
         $data = [];
         if ($findUserAction['score'] > 0) {
-            $data['score'] = ['exp', 'score+' . $findUserAction['score']];
+            $data['score'] = Db::raw('score+' . $findUserAction['score']);
         }
 
         if ($findUserAction['score'] < 0) {
-            $data['score'] = ['exp', 'score-' . abs($findUserAction['score'])];
+            $data['score'] = Db::raw('score-' . abs($findUserAction['score']));
         }
 
         if ($findUserAction['coin'] > 0) {
-            $data['coin'] = ['exp', 'coin+' . $findUserAction['coin']];
+            $data['coin'] = Db::raw('coin+' . $findUserAction['coin']);
         }
 
         if ($findUserAction['coin'] < 0) {
-            $data['coin'] = ['exp', 'coin-' . abs($findUserAction['coin'])];
+            $data['coin'] = Db::raw('coin-' . abs($findUserAction['coin']));
         }
 
         Db::name('user')->where('id', $userId)->update($data);
