@@ -127,9 +127,9 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
-#### 5.0.180422
+#### 5.0.180425
 [核心]
-* 升级TP到5.0.18，增强安全性
+* 升级TP到5.0.19，增强安全性
 * 修复模板设计数组编辑验证规则不生效 #440
 * 修复后台登录失效后iframe里加载首页
 * 修复七牛插件上传云存储文件没有后缀名问题#437

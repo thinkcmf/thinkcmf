@@ -23,7 +23,7 @@ class Loader
     /**
      * @var array 类名映射
      */
-    protected static $map = [];
+    protected static $classMap = [];
 
     /**
      * @var array 命名空间别名
@@ -56,9 +56,9 @@ class Loader
     private static $fallbackDirsPsr0 = [];
 
     /**
-     * @var array 自动加载的文件
+     * @var array 需要加载的文件
      */
-    private static $autoloadFiles = [];
+    private static $files = [];
 
     /**
      * 自动加载
@@ -99,8 +99,8 @@ class Loader
     private static function findFile($class)
     {
         // 类库映射
-        if (!empty(self::$map[$class])) {
-            return self::$map[$class];
+        if (!empty(self::$classMap[$class])) {
+            return self::$classMap[$class];
         }
 
         // 查找 PSR-4
@@ -156,7 +156,7 @@ class Loader
         }
 
         // 找不到则设置映射为 false 并返回
-        return self::$map[$class] = false;
+        return self::$classMap[$class] = false;
     }
 
     /**
@@ -169,9 +169,9 @@ class Loader
     public static function addClassMap($class, $map = '')
     {
         if (is_array($class)) {
-            self::$map = array_merge(self::$map, $class);
+            self::$classMap = array_merge(self::$classMap, $class);
         } else {
-            self::$map[$class] = $map;
+            self::$classMap[$class] = $map;
         }
     }
 
@@ -292,12 +292,11 @@ class Loader
                 $declaredClass = get_declared_classes();
                 $composerClass = array_pop($declaredClass);
 
-                self::$prefixLengthsPsr4 = $composerClass::$prefixLengthsPsr4;
-
-                self::$prefixDirsPsr4 = property_exists($composerClass, 'prefixDirsPsr4') ? $composerClass::$prefixDirsPsr4 : [];
-
-                self::$prefixesPsr0 = property_exists($composerClass, 'prefixesPsr0') ? $composerClass::$prefixesPsr0 : [];
-                self::$map          = property_exists($composerClass, 'classMap') ? $composerClass::$classMap : [];
+                foreach (['prefixLengthsPsr4', 'prefixDirsPsr4', 'fallbackDirsPsr4', 'prefixesPsr0', 'fallbackDirsPsr0', 'classMap', 'files'] as $attr) {
+                    if (property_exists($composerClass, $attr)) {
+                        self::${$attr} = $composerClass::${$attr};
+                    }
+                }
             } else {
                 self::registerComposerLoader();
             }
@@ -348,22 +347,20 @@ class Loader
                 self::addClassMap($classMap);
             }
         }
+
+        if (is_file(VENDOR_PATH . 'composer/autoload_files.php')) {
+            self::$files = require VENDOR_PATH . 'composer/autoload_files.php';
+        }
     }
 
     // 加载composer autofile文件
     public static function loadComposerAutoloadFiles()
     {
-        if (is_file(VENDOR_PATH . 'composer/autoload_files.php')) {
-            $includeFiles = require VENDOR_PATH . 'composer/autoload_files.php';
-            foreach ($includeFiles as $fileIdentifier => $file) {
-                if (isset($GLOBALS['__composer_autoload_files'][$fileIdentifier])) {
-                    continue;
-                }
+        foreach (self::$files as $fileIdentifier => $file) {
+            if (empty($GLOBALS['__composer_autoload_files'][$fileIdentifier])) {
+                __require_file($file);
 
-                if (empty(self::$autoloadFiles[$fileIdentifier])) {
-                    __require_file($file);
-                    self::$autoloadFiles[$fileIdentifier] = true;
-                }
+                $GLOBALS['__composer_autoload_files'][$fileIdentifier] = true;
             }
         }
     }

@@ -266,7 +266,7 @@ abstract class Builder
             $str = [];
             foreach ($val as $field => $value) {
                 if ($value instanceof Expression) {
-                    $str[] = ' ' . $logic . ' ( ' . $value->getValue() . ' )';
+                    $str[] = ' ' . $key . ' ( ' . $value->getValue() . ' )';
                     continue;
                 }
                 if ($value instanceof \Closure) {
@@ -625,6 +625,9 @@ abstract class Builder
      */
     protected function parseComment($comment)
     {
+        if (false !== strpos($comment, '*/')) {
+            $comment = strstr($coment, '*/', true);
+        }
         return !empty($comment) ? ' /* ' . $comment . ' */' : '';
     }
 
