@@ -115,10 +115,10 @@ class PortalCategoryModel extends Model
             $id = $this->id;
             if (empty($data['parent_id'])) {
 
-                $this->where( ['id' => $id])->update(['path' => '0-' . $id]);
+                $this->where(['id' => $id])->update(['path' => '0-' . $id]);
             } else {
                 $parentPath = $this->where('id', intval($data['parent_id']))->value('path');
-                $this->where( ['id' => $id])->update(['path' => "$parentPath-$id"]);
+                $this->where(['id' => $id])->update(['path' => "$parentPath-$id"]);
 
             }
             self::commit();
@@ -163,19 +163,17 @@ class PortalCategoryModel extends Model
             $result = false;
         } else {
 
-
             $data['path'] = $newPath;
             if (!empty($data['more']['thumbnail'])) {
                 $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
             }
             $this->isUpdate(true)->allowField(true)->save($data, ['id' => $id]);
 
-            $children = $this->field('id,path')->where('path', 'like', "%-$id-%")->select();
-
-            if (!empty($children)) {
+            $children = $this->field('id,path')->where('path', 'like', $oldCategory['path'] . "-%")->select();
+            if (!$children->isEmpty()) {
                 foreach ($children as $child) {
                     $childPath = str_replace($oldCategory['path'] . '-', $newPath . '-', $child['path']);
-                    $this->isUpdate(true)->save(['path' => $childPath], ['id' => $child['id']]);
+                    $this->where('id', $child['id'])->update(['path' => $childPath], ['id' => $child['id']]);
                 }
             }
 

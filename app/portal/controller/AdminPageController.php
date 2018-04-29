@@ -90,6 +90,22 @@ class AdminPageController extends AdminBaseController
             $this->error($result);
         }
 
+        if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
+            $data['post']['more']['photos'] = [];
+            foreach ($data['photo_urls'] as $key => $url) {
+                $photoUrl = cmf_asset_relative_url($url);
+                array_push($data['post']['more']['photos'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
+            }
+        }
+
+        if (!empty($data['file_names']) && !empty($data['file_urls'])) {
+            $data['post']['more']['files'] = [];
+            foreach ($data['file_urls'] as $key => $url) {
+                $fileUrl = cmf_asset_relative_url($url);
+                array_push($data['post']['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
+            }
+        }
+
         $portalPostModel = new PortalPostModel();
         $portalPostModel->adminAddPage($data['post']);
         $this->success(lang('ADD_SUCCESS'), url('AdminPage/edit', ['id' => $portalPostModel->id]));
@@ -148,6 +164,22 @@ class AdminPageController extends AdminBaseController
         $result = $this->validate($data['post'], 'AdminPage');
         if ($result !== true) {
             $this->error($result);
+        }
+
+        if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
+            $data['post']['more']['photos'] = [];
+            foreach ($data['photo_urls'] as $key => $url) {
+                $photoUrl = cmf_asset_relative_url($url);
+                array_push($data['post']['more']['photos'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
+            }
+        }
+
+        if (!empty($data['file_names']) && !empty($data['file_urls'])) {
+            $data['post']['more']['files'] = [];
+            foreach ($data['file_urls'] as $key => $url) {
+                $fileUrl = cmf_asset_relative_url($url);
+                array_push($data['post']['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
+            }
         }
 
         $portalPostModel = new PortalPostModel();

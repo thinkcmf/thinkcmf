@@ -12,8 +12,8 @@ class AtRuleSet extends RuleSet implements AtRule {
 	private $sType;
 	private $sArgs;
 
-	public function __construct($sType, $sArgs = '') {
-		parent::__construct();
+	public function __construct($sType, $sArgs = '', $iLineNo = 0) {
+		parent::__construct($iLineNo);
 		$this->sType = $sType;
 		$this->sArgs = $sArgs;
 	}

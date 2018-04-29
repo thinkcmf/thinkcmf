@@ -39,7 +39,7 @@ class ThemeController extends AdminBaseController
         $this->assign("themes", $themes);
 
         $defaultTheme = config('cmf_default_theme');
-        if ($temp = session('cmf_default_theme')){
+        if ($temp = session('cmf_default_theme')) {
             $defaultTheme = $temp;
         }
         $this->assign('default_theme', $defaultTheme);
@@ -99,8 +99,8 @@ class ThemeController extends AdminBaseController
      */
     public function uninstall()
     {
-        $theme      = $this->request->param('theme');
-        if ($theme == "simpleboot3" || config('cmf_default_theme') == $theme ){
+        $theme = $this->request->param('theme');
+        if ($theme == "simpleboot3" || config('cmf_default_theme') == $theme) {
             $this->error("官方自带模板或当前使用中的模板不可以卸载");
         }
 
@@ -187,10 +187,10 @@ class ThemeController extends AdminBaseController
      */
     public function active()
     {
-        $theme      = $this->request->param('theme');
+        $theme = $this->request->param('theme');
 
-        if ($theme == config('cmf_default_theme')){
-            $this->error('模板已启用',url("theme/index"));
+        if ($theme == config('cmf_default_theme')) {
+            $this->error('模板已启用', url("theme/index"));
         }
 
         $themeModel = new ThemeModel();
@@ -205,9 +205,9 @@ class ThemeController extends AdminBaseController
         if ($result === false) {
             $this->error('配置写入失败!');
         }
-        session('cmf_default_theme',$theme);
+        session('cmf_default_theme', $theme);
 
-        $this->success("模板启用成功",url("theme/index"));
+        $this->success("模板启用成功", url("theme/index"));
 
     }
 
@@ -456,48 +456,90 @@ class ThemeController extends AdminBaseController
             $post = $this->request->param();
 
             $more = json_decode($file['more'], true);
-            if ($tab == 'var') {
-                foreach ($more['vars'] as $mVarName => $mVar) {
 
-                    if ($mVarName == $varName && $mVar['type'] == 'array') {
+            if ($tab == 'var') {
+                if (isset($more['vars'][$varName])) {
+                    $mVar = $more['vars'][$varName];
+                    if ($mVar['type'] == 'array') {
+
+                        $messages = [];
+                        $rules    = [];
+
+                        foreach ($mVar['item'] as $varItemKey => $varItem) {
+                            if (!empty($varItem['rule'])) {
+                                $rules[$varItemKey] = $this->_parseRules($varItem['rule']);
+                            }
+
+                            if (!empty($varItem['message'])) {
+                                foreach ($varItem['message'] as $rule => $msg) {
+                                    $messages[$varItemKey . '.' . $rule] = $msg;
+                                }
+                            }
+                        }
+
+                        $validate = new Validate($rules, $messages);
+                        $result   = $validate->check($post['item']);
+                        if (!$result) {
+                            $this->error($validate->getError());
+                        }
+
                         if ($itemIndex === '') {
                             if (!empty($mVar['value']) && is_array($mVar['value'])) {
-                                array_push($more['vars'][$mVarName]['value'], $post['item']);
+                                array_push($more['vars'][$varName]['value'], $post['item']);
                             } else {
-                                $more['vars'][$mVarName]['value'] = [$post['item']];
+                                $more['vars'][$varName]['value'] = [$post['item']];
                             }
                         } else {
                             if (!empty($mVar['value']) && is_array($mVar['value']) && isset($mVar['value'][$itemIndex])) {
-                                $more['vars'][$mVarName]['value'][$itemIndex] = $post['item'];
+                                $more['vars'][$varName]['value'][$itemIndex] = $post['item'];
                             }
                         }
-                        break;
                     }
                 }
             }
 
             if ($tab == 'widget') {
-                foreach ($more['widgets'] as $mWidgetName => $widget) {
-                    if ($widgetName == $mWidgetName) {
-                        if (!empty($widget['vars']) && is_array($widget['vars'])) {
-                            foreach ($widget['vars'] as $widgetVarName => $widgetVar) {
-                                if ($widgetVarName == $varName && $widgetVar['type'] == 'array') {
-                                    if ($itemIndex === '') {
-                                        if (!empty($widgetVar['value']) && is_array($widgetVar['value'])) {
-                                            array_push($more['widgets'][$widgetName]['vars'][$widgetVarName]['value'], $post['item']);
-                                        } else {
-                                            $more['widgets'][$widgetName]['vars'][$widgetVarName]['value'] = [$post['item']];
-                                        }
-                                    } else {
-                                        if (!empty($widgetVar['value']) && is_array($widgetVar['value']) && isset($widgetVar['value'][$itemIndex])) {
-                                            $more['widgets'][$widgetName]['vars'][$widgetVarName]['value'][$itemIndex] = $post['item'];
+                if (isset($more['widgets'][$widgetName])) {
+                    $widget = $more['widgets'][$widgetName];
+                    if (!empty($widget['vars']) && is_array($widget['vars'])) {
+                        if (isset($widget['vars'][$varName])) {
+                            $widgetVar = $widget['vars'][$varName];
+                            if ($widgetVar['type'] == 'array') {
+                                $messages = [];
+                                $rules    = [];
+
+                                foreach ($widgetVar['item'] as $widgetArrayVarItemKey => $widgetArrayVarItem) {
+                                    if (!empty($widgetArrayVarItem['rule'])) {
+                                        $rules[$widgetArrayVarItemKey] = $this->_parseRules($widgetArrayVarItem['rule']);
+                                    }
+
+                                    if (!empty($widgetArrayVarItem['message'])) {
+                                        foreach ($widgetArrayVarItem['message'] as $rule => $msg) {
+                                            $messages[$widgetArrayVarItemKey . '.' . $rule] = $msg;
                                         }
                                     }
-                                    break;
+                                }
+
+                                $validate = new Validate($rules, $messages);
+                                $result   = $validate->check($post['item']);
+                                if (!$result) {
+                                    $this->error($validate->getError());
+                                }
+
+                                if ($itemIndex === '') {
+                                    if (!empty($widgetVar['value']) && is_array($widgetVar['value'])) {
+                                        array_push($more['widgets'][$widgetName]['vars'][$varName]['value'], $post['item']);
+                                    } else {
+                                        $more['widgets'][$widgetName]['vars'][$varName]['value'] = [$post['item']];
+                                    }
+                                } else {
+                                    if (!empty($widgetVar['value']) && is_array($widgetVar['value']) && isset($widgetVar['value'][$itemIndex])) {
+                                        $more['widgets'][$widgetName]['vars'][$varName]['value'][$itemIndex] = $post['item'];
+                                    }
                                 }
                             }
+
                         }
-                        break;
                     }
                 }
             }

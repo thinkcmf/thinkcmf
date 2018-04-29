@@ -1,4 +1,30 @@
 <include file="public@header"/>
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+<script type="text/html" id="photos-item-tpl">
+    <li id="saved-image{id}">
+        <input id="photo-{id}" type="hidden" name="photo_urls[]" value="{filepath}">
+        <input class="form-control" id="photo-{id}-name" type="text" name="photo_names[]" value="{name}"
+               style="width: 200px;" title="图片名称">
+        <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
+             onclick="imagePreviewDialog(this.src);">
+        <a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
+        <a href="javascript:(function(){$('#saved-image{id}').remove();})();">移除</a>
+    </li>
+</script>
+<script type="text/html" id="files-item-tpl">
+    <li id="saved-file{id}">
+        <input id="file-{id}" type="hidden" name="file_urls[]" value="{filepath}">
+        <input class="form-control" id="file-{id}-name" type="text" name="file_names[]" value="{name}"
+               style="width: 200px;" title="文件名称">
+        <a id="file-{id}-preview" href="{preview_url}" target="_blank">下载</a>
+        <a href="javascript:uploadOne('文件上传','#file-{id}','file');">替换</a>
+        <a href="javascript:(function(){$('#saved-file{id}').remove();})();">移除</a>
+    </li>
+</script>
 </head>
 <body>
 <div class="wrap js-check-wrap">
@@ -37,6 +63,23 @@
                             <script type="text/plain" id="content" name="post[post_content]"></script>
                         </td>
                     </tr>
+                    <tr>
+                        <th>相册</th>
+                        <td>
+                            <ul id="photos" class="pic-list list-unstyled form-inline"></ul>
+                            <a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-tpl');"
+                               class="btn btn-default btn-sm">选择图片</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>附件</th>
+                        <td>
+                            <ul id="files" class="pic-list list-unstyled form-inline">
+                            </ul>
+                            <a href="javascript:uploadMultiFile('附件上传','#files','files-item-tpl','file');"
+                               class="btn btn-sm btn-default">选择文件</a>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
                 <div class="form-group">
@@ -57,7 +100,8 @@
                             <div style="text-align: center;">
                                 <input type='hidden' name='post[more][thumbnail]' id='thumbnail'>
                                 <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
-                                    <img src="__TMPL__/public/assets/images/default-thumbnail.png" id='thumbnail-preview'
+                                    <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                         id='thumbnail-preview'
                                          width='135' height='135' style='cursor: hand'/>
                                 </a>
                                 <input type="button" class="btn btn-sm"

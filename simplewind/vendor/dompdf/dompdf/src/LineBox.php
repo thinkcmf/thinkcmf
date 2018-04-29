@@ -7,7 +7,6 @@
  */
 namespace Dompdf;
 
-use Dompdf\Frame;
 use Dompdf\FrameDecorator\Block;
 use Dompdf\FrameDecorator\Page;
 
@@ -130,7 +129,7 @@ class LineBox
         foreach ($floating_frames as $_floating) {
             $p = $_floating->get_parent();
 
-            while (($p = $p->get_parent()) && $p !== $parent) ;
+            while (($p = $p->get_parent()) && $p !== $parent);
 
             if ($p) {
                 $childs[] = $p;
@@ -218,11 +217,11 @@ class LineBox
         }
 
         $this->left += $inside_left_floating_width;
-        if ($outside_left_floating_width > (float)$style->length_in_pt($style->margin_left) + (float)$style->length_in_pt($style->padding_left)) {
+        if ($outside_left_floating_width > 0 && $outside_left_floating_width > ((float)$style->length_in_pt($style->margin_left) + (float)$style->length_in_pt($style->padding_left))) {
             $this->left += $outside_left_floating_width - (float)$style->length_in_pt($style->margin_left) - (float)$style->length_in_pt($style->padding_left);
         }
         $this->right += $inside_right_floating_width;
-        if ($outside_right_floating_width > (float)$style->length_in_pt($style->margin_left) + (float)$style->length_in_pt($style->padding_right)) {
+        if ($outside_right_floating_width > 0 && $outside_right_floating_width > ((float)$style->length_in_pt($style->margin_left) + (float)$style->length_in_pt($style->padding_right))) {
             $this->right += $outside_right_floating_width - (float)$style->length_in_pt($style->margin_right) - (float)$style->length_in_pt($style->padding_right);
         }
     }
