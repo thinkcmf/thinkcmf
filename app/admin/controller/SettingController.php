@@ -54,7 +54,7 @@ class SettingController extends AdminBaseController
         $cmfSettings    = cmf_get_option('cmf_settings');
         $adminSettings  = cmf_get_option('admin_settings');
 
-        $this->assign(cmf_get_option('site_info'));
+        $this->assign('site_info', cmf_get_option('site_info'));
         $this->assign("admin_styles", $adminStyles);
         $this->assign("templates", []);
         $this->assign("cdn_settings", $cdnSettings);
@@ -101,7 +101,7 @@ class SettingController extends AdminBaseController
 
             $routeModel = new RouteModel();
             if (!empty($adminSettings['admin_password'])) {
-                $routeModel->setRoute($adminSettings['admin_password'].'$', 'admin/Index/index', [], 2, 5000);
+                $routeModel->setRoute($adminSettings['admin_password'] . '$', 'admin/Index/index', [], 2, 5000);
             } else {
                 $routeModel->deleteRoute('admin/Index/index', []);
             }

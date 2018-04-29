@@ -21,7 +21,7 @@
                                     class="form-required">*</span>{:lang('WEBSITE_NAME')}</label>
                             <div class="col-md-6 col-sm-10">
                                 <input type="text" class="form-control" id="input-site-name" name="options[site_name]"
-                                       value="{$site_name|default=''}">
+                                       value="{$site_info.site_name|default=''}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -41,12 +41,11 @@
                                 <p class="help-block" style="color: red;">
                                     设置加密码后必须通过以下地址访问后台,请劳记此地址，为了安全，您也可以定期更换此加密码!</p>
                                 <php>
-                                    $site_admin_url_password =config("SP_SITE_ADMIN_URL_PASSWORD");
                                     $root=cmf_get_root();
                                     $root=empty($root)?'':'/'.$root;
                                     $site_domain = cmf_get_domain().$root;
                                 </php>
-                                <p class="help-block">后台登录地址：<span id="js-site-admin-url">{:$site_domain}/{$admin_settings.admin_password|default='admin'}</span>
+                                <p class="help-block">后台登录地址：<span id="js-site-admin-url">{$site_domain}/{$admin_settings.admin_password|default='admin'}</span>
                                 </p>
                             </div>
                         </div>
@@ -91,27 +90,27 @@
                             <label for="input-site_icp" class="col-sm-2 control-label">{:lang('WEBSITE_ICP')}</label>
                             <div class="col-md-6 col-sm-10">
                                 <input type="text" class="form-control" id="input-site_icp" name="options[site_icp]"
-                                       value="{$site_icp|default=''}">
+                                       value="{$site_info.site_icp|default=''}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="input-site_icp" class="col-sm-2 control-label">{:lang('WEBSITE_GWA')}</label>
                             <div class="col-md-6 col-sm-10">
                                 <input type="text" class="form-control" id="input-site_gwa" name="options[site_gwa]"
-                                       value="{$site_gwa|default=''}">
+                                       value="{$site_info.site_gwa|default=''}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="input-site_admin_email" class="col-sm-2 control-label">{:lang('WEBMASTER_EMAIL')}</label>
                             <div class="col-md-6 col-sm-10">
                                 <input type="text" class="form-control" id="input-site_admin_email"
-                                       name="options[site_admin_email]" value="{$site_admin_email|default=''}">
+                                       name="options[site_admin_email]" value="{$site_info.site_admin_email|default=''}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="input-site_analytics" class="col-sm-2 control-label">{:lang('WEBSITE_STATISTICAL_CODE')}</label>
                             <div class="col-md-6 col-sm-10">
-                                <textarea class="form-control" id="input-site_analytics" name="options[site_analytics]">{$site_analytics|default=''}</textarea>
+                                <textarea class="form-control" id="input-site_analytics" name="options[site_analytics]">{$site_info.site_analytics|default=''}</textarea>
                             </div>
                         </div>
                         <!--<div class="form-group">-->
@@ -133,21 +132,21 @@
                             <label for="input-site_seo_title" class="col-sm-2 control-label">{:lang('WEBSITE_SEO_TITLE')}</label>
                             <div class="col-md-6 col-sm-10">
                                 <input type="text" class="form-control" id="input-site_seo_title"
-                                       name="options[site_seo_title]" value="{$site_seo_title|default=''}">
+                                       name="options[site_seo_title]" value="{$site_info.site_seo_title|default=''}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="input-site_seo_keywords" class="col-sm-2 control-label">{:lang('WEBSITE_SEO_KEYWORDS')}</label>
                             <div class="col-md-6 col-sm-10">
                                 <input type="text" class="form-control" id="input-site_seo_keywords"
-                                       name="options[site_seo_keywords]" value="{$site_seo_keywords|default=''}">
+                                       name="options[site_seo_keywords]" value="{$site_info.site_seo_keywords|default=''}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="input-site_seo_description" class="col-sm-2 control-label">{:lang('WEBSITE_SEO_DESCRIPTION')}</label>
                             <div class="col-md-6 col-sm-10">
                                 <textarea class="form-control" id="input-site_seo_description"
-                                          name="options[site_seo_description]">{$site_seo_description|default=''}</textarea>
+                                          name="options[site_seo_description]">{$site_info.site_seo_description|default=''}</textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -158,64 +157,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane" id="C">
-                        <div class="form-group">
-                            <label for="input-urlmode" class="col-sm-2 control-label">{:lang('URL_MODE')}</label>
-                            <div class="col-md-6 col-sm-10">
-                                <php>$url_modes=array( "1"=>lang('URL_PATHINFO_MODE'), "2"=>lang('URL_REWRITE_MODE'));
-                                </php>
-                                <select class="form-control" name="options[urlmode]" id="input-urlmode">
-                                    <foreach name="url_modes" item="vo">
-                                        <php>$url_mode_selected=isset($urlmode)&&$key==$urlmode?"selected":"";</php>
-                                        <option value="{$key}" {$url_mode_selected}>{$vo}</option>
-                                    </foreach>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="input-html_suffix"
-                                   class="col-sm-2 control-label">{:lang('URL_REWRITE_SUFFIX')}</label>
-                            <div class="col-md-6 col-sm-10">
-                                <input type="text" class="form-control" id="input-html_suffix"
-                                       name="options[html_suffix]" value="{$html_suffix|default=''}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">
-                                    {:lang('SAVE')}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!--
-                    <div class="tab-pane" id="E">
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">{:lang('COMMENT_CHECK')}</label>
-                            <div class="col-md-6 col-sm-10">
-                                <php>$comment_need_checked=empty($comment_need_check)?"":"checked";</php>
-                                <div class="checkbox">
-                                    <label><input type="checkbox" name="options[comment_need_check]" value="1" {$comment_need_checked}></label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="input-comment_time_interval" class="col-sm-2 control-label">{:lang('COMMENT_TIME_INTERVAL')}</label>
-                            <div class="col-md-6 col-sm-10">
-                                <input type="text" class="form-control" id="input-comment_time_interval" name="options[comment_time_interval]" value="{$comment_time_interval|default=60}">
-                                <p class="help-block">单位秒</p>
-                            </div>
-                        </div>
-                    </div>
-                    -->
                     <div class="tab-pane" id="F">
                         <div class="form-group">
                             <label for="input-banned_usernames" class="col-sm-2 control-label">用户注册验证</label>
                             <div class="col-md-6 col-sm-10">
                                 <select class="form-control" name="cmf_settings[open_registration]">
                                     <option value="0">否</option>
-                                    <php>$open_registration_selected =
-                                        empty($cmf_settings['open_registration'])?'':'selected';
+                                    <php>
+                                        $open_registration_selected = empty($cmf_settings['open_registration'])?'':'selected';
                                     </php>
                                     <option value="1" {$open_registration_selected}>是</option>
                                 </select>
