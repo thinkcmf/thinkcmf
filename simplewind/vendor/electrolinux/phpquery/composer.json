@@ -1,0 +1,24 @@
+{
+    "name": "electrolinux/phpquery"
+    ,"type": "library"
+    ,"description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library"
+    ,"version": "0.9.6"
+    ,"keywords": []
+    ,"homepage": "http://code.google.com/p/phpquery/"
+    ,"license": "MIT"
+    ,"authors": [
+        {
+            "name": "Tobiasz Cudnik"
+            ,"email": "tobiasz.cudnik@gmail.com"
+            ,"homepage": "https://github.com/TobiaszCudnik"
+            ,"role": "Developer"
+        }
+        ,{
+            "name": "didier Belot"
+            ,"role": "Packager"
+        }
+    ],
+    "autoload": {
+        "classmap": ["phpQuery/"]
+    }
+}

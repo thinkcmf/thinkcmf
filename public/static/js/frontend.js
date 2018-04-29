@@ -325,6 +325,7 @@
                 var $_this    = this,
                     $this     = $($_this),
                     href      = $this.data('href'),
+                    refresh   = $this.data('refresh'),
                     msg       = $this.data('msg');
                 okBtnText     = $this.data('ok-btn');
                 cancelBtnText = $this.data('cancel-btn');
@@ -345,7 +346,7 @@
                                     if (data.code == 1) {
                                         if (data.url) {
                                             location.href = data.url;
-                                        } else {
+                                        } else if (refresh || refresh == undefined) {
                                             reloadPage(window);
                                         }
                                     } else if (data.code == 0) {
@@ -385,11 +386,12 @@
         Wind.use('noty', function () {
             $('.js-ajax-dialog-btn').on('click', function (e) {
                 e.preventDefault();
-                var $_this = this,
-                    $this  = $($_this),
-                    href   = $this.data('href'),
-                    msg    = $this.data('msg');
-                href       = href ? href : $this.attr('href');
+                var $_this  = this,
+                    $this   = $($_this),
+                    href    = $this.data('href'),
+                    refresh = $this.data('refresh'),
+                    msg     = $this.data('msg');
+                href        = href ? href : $this.attr('href');
                 noty({
                     text: msg,
                     type: 'confirm',
@@ -406,7 +408,7 @@
                                     if (data.code == 1) {
                                         if (data.url) {
                                             location.href = data.url;
-                                        } else {
+                                        } else if (refresh || refresh == undefined) {
                                             reloadPage(window);
                                         }
                                     } else if (data.code == 0) {

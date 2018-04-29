@@ -125,11 +125,6 @@ class PortalPostModel extends Model
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
-
-        $data['post_status'] = empty($data['post_status']) ? 0 : 1;
-        $data['is_top']      = empty($data['is_top']) ? 0 : 1;
-        $data['recommended'] = empty($data['recommended']) ? 0 : 1;
-
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
 
         if (is_string($categories)) {

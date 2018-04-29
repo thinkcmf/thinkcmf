@@ -19,11 +19,16 @@
         Icons from
         <a href="http://fortawesome.github.com/Font-Awesome/" target="_blank">Font Awesome</a>
         <br>
-        备案号:
         <notempty name="site_info.site_icp">
             <a href="http://www.miitbeian.gov.cn/" target="_blank">{$site_info.site_icp}</a>
             <else/>
-            请在后台设置"网站信息"设置"备案信息"
+            请在后台设置"网站信息"设置"ICP备"
+        </notempty>
+        <notempty name="site_info.site_gwa">
+            <img src="__TMPL__/public/assets/images/ghs.png">
+            <a href="http://beian.gov.cn/" target="_blank">{$site_info.site_gwa}</a>
+            <else/>
+            请在后台设置"网站信息"设置"公网安备"
         </notempty>
 
 

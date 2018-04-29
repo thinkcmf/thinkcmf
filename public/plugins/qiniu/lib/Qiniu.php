@@ -43,14 +43,15 @@ class Qiniu
     {
         $accessKey = $this->config['accessKey'];
         $secretKey = $this->config['secretKey'];
+        $watermark = $this->config['styles_watermark'];
         $upManager = new UploadManager();
         $auth      = new Auth($accessKey, $secretKey);
         $token     = $auth->uploadToken($this->config['bucket']);
 
         $result = $upManager->putFile($token, $file, $filePath);
 
-        $previewUrl = $fileType == 'image' ? $this->getPreviewUrl($file) : $this->getFileDownloadUrl($file);
-        $url        = $fileType == 'image' ? $this->getImageUrl($file, 'watermark') : $this->getFileDownloadUrl($file);
+        $previewUrl = $fileType == 'image' ? $this->getPreviewUrl($file, $watermark) : $this->getFileDownloadUrl($file);
+        $url        = $fileType == 'image' ? $this->getImageUrl($file, $watermark) : $this->getFileDownloadUrl($file);
 
         return [
             'preview_url' => $previewUrl,
@@ -64,10 +65,8 @@ class Qiniu
      * @param string $style
      * @return mixed
      */
-    public function getPreviewUrl($file, $style = '')
+    public function getPreviewUrl($file, $style = 'watermark')
     {
-        $style = empty($style) ? 'watermark' : $style;
-
         $url = $this->getUrl($file, $style);
 
         return $url;
@@ -79,9 +78,8 @@ class Qiniu
      * @param string $style
      * @return mixed
      */
-    public function getImageUrl($file, $style = '')
+    public function getImageUrl($file, $style = 'watermark')
     {
-        $style  = empty($style) ? 'watermark' : $style;
         $config = $this->config;
         $url    = $this->storageRoot . $file;
 

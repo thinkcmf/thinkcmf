@@ -32,6 +32,7 @@ class MainController extends AdminBaseController
 
         $defaultDashboardWidgets = [
             '_SystemCmfHub'           => ['name' => 'CmfHub', 'is_system' => 1],
+            '_SystemCmfDocuments'     => ['name' => 'CmfDocuments', 'is_system' => 1],
             '_SystemMainContributors' => ['name' => 'MainContributors', 'is_system' => 1],
             '_SystemContributors'     => ['name' => 'Contributors', 'is_system' => 1],
             '_SystemCustom1'          => ['name' => 'Custom1', 'is_system' => 1],

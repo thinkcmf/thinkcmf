@@ -9,8 +9,8 @@ class KeyFrame extends CSSList implements AtRule {
 	private $vendorKeyFrame;
 	private $animationName;
 
-	public function __construct() {
-		parent::__construct();
+	public function __construct($iLineNo = 0) {
+		parent::__construct($iLineNo);
 		$this->vendorKeyFrame = null;
 		$this->animationName  = null;
 	}

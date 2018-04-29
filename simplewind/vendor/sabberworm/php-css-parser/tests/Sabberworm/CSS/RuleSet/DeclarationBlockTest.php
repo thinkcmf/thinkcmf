@@ -3,6 +3,8 @@
 namespace Sabberworm\CSS\RuleSet;
 
 use Sabberworm\CSS\Parser;
+use Sabberworm\CSS\Rule\Rule;
+use Sabberworm\CSS\Value\Size;
 
 class DeclarationBlockTest extends \PHPUnit_Framework_TestCase {
 
@@ -203,6 +205,63 @@ class DeclarationBlockTest extends \PHPUnit_Framework_TestCase {
 			array('body {background-color: #f00;background-image: url(foobar.png);background-repeat: no-repeat;background-position: center;}', 'body {background: #f00 url("foobar.png") no-repeat center;}'),
 			array('body {background-color: #f00;background-image: url(foobar.png);background-repeat: no-repeat;background-position: top left;}', 'body {background: #f00 url("foobar.png") no-repeat top left;}'),
 		);
+	}
+
+	public function testOverrideRules() {
+		$sCss = '.wrapper { left: 10px; text-align: left; }';
+		$oParser = new Parser($sCss);
+		$oDoc = $oParser->parse();
+		$oRule = new Rule('right');
+		$oRule->setValue('-10px');
+		$aContents = $oDoc->getContents();
+		$oWrapper = $aContents[0];
+
+		$this->assertCount(2, $oWrapper->getRules());
+		$aContents[0]->setRules(array($oRule));
+
+		$aRules = $oWrapper->getRules();
+		$this->assertCount(1, $aRules);
+		$this->assertEquals('right', $aRules[0]->getRule());
+		$this->assertEquals('-10px', $aRules[0]->getValue());
+	}
+	
+	public function testRuleInsertion() {
+		$sCss = '.wrapper { left: 10px; text-align: left; }';
+		$oParser = new Parser($sCss);
+		$oDoc = $oParser->parse();
+		$aContents = $oDoc->getContents();
+		$oWrapper = $aContents[0];
+
+		$oFirst = $oWrapper->getRules('left');
+		$this->assertCount(1, $oFirst);
+		$oFirst = $oFirst[0];
+
+		$oSecond = $oWrapper->getRules('text-');
+		$this->assertCount(1, $oSecond);
+		$oSecond = $oSecond[0];
+
+		$oBefore = new Rule('left');
+		$oBefore->setValue(new Size(16, 'em'));
+
+		$oMiddle = new Rule('text-align');
+		$oMiddle->setValue(new Size(1));
+
+		$oAfter = new Rule('border-bottom-width');
+		$oAfter->setValue(new Size(1, 'px'));
+
+		$oWrapper->addRule($oAfter);
+		$oWrapper->addRule($oBefore, $oFirst);
+		$oWrapper->addRule($oMiddle, $oSecond);
+
+		$aRules = $oWrapper->getRules();
+
+		$this->assertSame($oBefore, $aRules[0]);
+		$this->assertSame($oFirst, $aRules[1]);
+		$this->assertSame($oMiddle, $aRules[2]);
+		$this->assertSame($oSecond, $aRules[3]);
+		$this->assertSame($oAfter, $aRules[4]);
+
+		$this->assertSame('.wrapper {left: 16em;left: 10px;text-align: 1;text-align: left;border-bottom-width: 1px;}', $oDoc->render());
 	}
 
 }

@@ -23,13 +23,22 @@ class AssetController extends PluginBaseController
 
         $qiniu = new Qiniu([]);
 
-        $file     = $this->request->param('file');
+        $fileHash = $this->request->param('file_hash');
+        $filname  = $this->request->param('filename');
         $fileType = $this->request->param('filetype');
+
+        $suffix = cmf_get_file_extension($filname);
+
+        $file = $fileHash . ".{$suffix}";
 
         $previewUrl = $fileType == 'image' ? $qiniu->getPreviewUrl($file) : $qiniu->getFileDownloadUrl($file);
         $url        = $fileType == 'image' ? $qiniu->getImageUrl($file, 'watermark') : $qiniu->getFileDownloadUrl($file);
 
-        return $this->success('success', null, ['url' => $url, 'preview_url' => $previewUrl]);
+        return $this->success('success', null, [
+            'url'         => $url,
+            'preview_url' => $previewUrl,
+            'filepath'    => $file
+        ]);
     }
 
     public function saveFile()
@@ -53,6 +62,8 @@ class AssetController extends PluginBaseController
             $this->error($validate);
         }
 
+        $fileKey = $data['file_key'];
+
         $suffix = cmf_get_file_extension($data['filename']);
 
         $config = $this->getPlugin()->getConfig();
@@ -65,21 +76,38 @@ class AssetController extends PluginBaseController
 
         $client = new Client();
 
-        $encodedEntryURI = \Qiniu\base64_urlSafeEncode($config['bucket'] . ':' . $data['file_key']);
+        $encodedEntryURISrc  = \Qiniu\base64_urlSafeEncode($config['bucket'] . ':' . $fileKey);
+        $encodedEntryURIDest = \Qiniu\base64_urlSafeEncode($config['bucket'] . ':' . $fileKey . ".{$suffix}");
 
-        $authorization = $auth->signRequest('/stat/' . $encodedEntryURI, '');
+        $signingStr    = "/move/{$encodedEntryURISrc}/{$encodedEntryURIDest}";
+        $authorization = $auth->signRequest($signingStr, '');
 
+        $url = 'http://rs.qiniu.com/' . $signingStr;
 
-        $response = $client->get('http://rs.qiniu.com/stat/' . $encodedEntryURI, ['Authorization' => 'QBox ' . $authorization]);
+        $response = $client->post($url, null, ['Authorization' => 'QBox ' . $authorization]);
+
+        if ($response->statusCode == 612) {
+            $this->error('文件不存在！');
+        }
+
+        if ($response->statusCode == 599) {
+            $this->error('文件保存失败！');
+        }
+
+        $signingStr    = "/stat/{$encodedEntryURIDest}";
+        $authorization = $auth->signRequest($signingStr, '');
+
+        $url = 'http://rs.qiniu.com/' . $signingStr;
+
+        $response = $client->get($url, ['Authorization' => 'QBox ' . $authorization]);
 
         if ($response->statusCode != 200) {
-
-            $this->error('文件不存在！');
+            $this->error('操作失败！');
         }
 
         $fileInfo = $response->json();
 
-        $findAsset = Db::name('asset')->where('file_key', $fileInfo['hash'])->find();
+        $findAsset = Db::name('asset')->where('file_key', $fileKey)->find();
 
 
         if (empty($findAsset)) {
@@ -89,8 +117,8 @@ class AssetController extends PluginBaseController
                 'file_size'   => $fileInfo['fsize'],
                 'filename'    => $data['filename'],
                 'create_time' => time(),
-                'file_key'    => $fileInfo['hash'],
-                'file_path'   => $fileInfo['hash'],
+                'file_key'    => $fileKey,
+                'file_path'   => $fileKey . ".{$suffix}",
                 'suffix'      => $suffix
             ]);
         }
