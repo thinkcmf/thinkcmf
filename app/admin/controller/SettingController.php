@@ -201,7 +201,7 @@ class SettingController extends AdminBaseController
     public function upload()
     {
         $uploadSetting = cmf_get_upload_setting();
-        $this->assign($uploadSetting);
+        $this->assign('upload_setting',$uploadSetting);
         return $this->fetch();
     }
 
