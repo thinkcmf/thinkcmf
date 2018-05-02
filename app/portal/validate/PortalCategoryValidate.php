@@ -35,11 +35,15 @@ class PortalCategoryValidate extends Validate
             return true;
         }
 
+        if (preg_match("/^\d+$/", $value)) {
+            return "别名不能为纯数字!";
+        }
+
         $routeModel = new RouteModel();
-        if (isset($data['id']) && $data['id'] > 0){
-            $fullUrl    = $routeModel->buildFullUrl('portal/List/index', ['id' => $data['id']]);
-        }else{
-            $fullUrl    = $routeModel->getFullUrlByUrl($data['alias']);
+        if (isset($data['id']) && $data['id'] > 0) {
+            $fullUrl = $routeModel->buildFullUrl('portal/List/index', ['id' => $data['id']]);
+        } else {
+            $fullUrl = $routeModel->getFullUrlByUrl($data['alias']);
         }
         if (!$routeModel->exists($value, $fullUrl)) {
             return true;

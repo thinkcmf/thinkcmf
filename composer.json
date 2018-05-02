@@ -19,6 +19,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
+        "topthink/framework": "~5.0.0",
         "topthink/think-helper":"^1.0",
         "topthink/think-captcha": "^1.0",
         "phpmailer/phpmailer": "^5.2",
@@ -28,7 +29,8 @@
         "dompdf/dompdf": "^0.8.0",
         "phpoffice/phpexcel": "^1.8",
         "ezyang/htmlpurifier": "^4.9",
-        "topthink/think-queue": "^1.1.4"
+        "topthink/think-queue": "^1.1.4",
+        "electrolinux/phpquery": "^0.9.6"
     },
     "extra": {
         "think-path":"simplewind/thinkphp"
