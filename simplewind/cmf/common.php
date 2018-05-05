@@ -303,7 +303,7 @@ function cmf_clear_cache()
     $dirs     = [];
     $rootDirs = cmf_scan_dir(RUNTIME_PATH . "*");
     //$noNeedClear=array(".","..","Data");
-    $noNeedClear = [".", ".."];
+    $noNeedClear = ['.', '..', 'log'];
     $rootDirs    = array_diff($rootDirs, $noNeedClear);
     foreach ($rootDirs as $dir) {
 
