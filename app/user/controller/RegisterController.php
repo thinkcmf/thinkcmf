@@ -52,13 +52,13 @@ class RegisterController extends HomeBaseController
 
             $isOpenRegistration = cmf_is_open_registration();
 
-            if ($isOpenRegistration) {
+            if (!$isOpenRegistration) {
                 unset($rules['code']);
             }
 
             $validate = new Validate($rules);
             $validate->message([
-                'code.require'     => '验证码不能为空',
+                'code.require'     => '手机验证码不能为空',
                 'password.require' => '密码不能为空',
                 'password.max'     => '密码不能超过32个字符',
                 'password.min'     => '密码不能小于6个字符',
