@@ -75,7 +75,7 @@ class RegisterController extends HomeBaseController
                 $this->error('验证码错误');
             }
 
-            if (!$isOpenRegistration) {
+            if ($isOpenRegistration) {
                 $errMsg = cmf_check_verification_code($data['username'], $data['code']);
                 if (!empty($errMsg)) {
                     $this->error($errMsg);
@@ -95,6 +95,9 @@ class RegisterController extends HomeBaseController
             }
             $sessionLoginHttpReferer = session('login_http_referer');
             $redirect                = empty($sessionLoginHttpReferer) ? cmf_get_root() . '/' : $sessionLoginHttpReferer;
+
+            
+            
             switch ($log) {
                 case 0:
                     $this->success('注册成功', $redirect);
