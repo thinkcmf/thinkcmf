@@ -322,6 +322,7 @@
 <script src="__STATIC__/js/wind.js"></script>
 <script src="__TMPL__/public/assets/js/bootstrap.min.js"></script>
 <script src="__STATIC__/js/admin.js"></script>
+<script src="__STATIC__/js/base.js"></script>
 <script src="__TMPL__/public/assets/simpleboot3/js/adminindex.js"></script>
 <script>
     $(function () {
@@ -331,6 +332,28 @@
         }, function () {
             $(this).removeClass("open");
         });
+
+
+        function GetQueryString(name)
+        {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r!=null)return  unescape(r[2]); return null;
+        }
+
+        //读取url参数。尝试执行菜单功能。
+        var menuParams=GetQueryString("menuParams");
+        if (menuParams !=null){
+            var menuParamsDecode = Base64.decode(menuParams);
+            var menuParamsArr=menuParamsDecode.split(",");
+            if(menuParamsArr.length==4){
+                openapp(menuParamsArr[0],menuParamsArr[1],menuParamsArr[2],menuParamsArr[3]);
+            }
+        }
+
+
+
+
     });
 
     var ismenumin = $("#sidebar").hasClass("menu-min");
@@ -366,6 +389,9 @@
         $(closest_a_next).slideToggle(150).parent().toggleClass("open");
         return false;
     });
+
+
+
 </script>
 </body>
 </html>
