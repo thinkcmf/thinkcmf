@@ -52,13 +52,13 @@ class RegisterController extends HomeBaseController
 
             $isOpenRegistration = cmf_is_open_registration();
 
-            if ($isOpenRegistration) {
+            if (!$isOpenRegistration) {
                 unset($rules['code']);
             }
 
             $validate = new Validate($rules);
             $validate->message([
-                'code.require'     => '验证码不能为空',
+                'code.require'     => '手机验证码不能为空',
                 'password.require' => '密码不能为空',
                 'password.max'     => '密码不能超过32个字符',
                 'password.min'     => '密码不能小于6个字符',
@@ -75,7 +75,7 @@ class RegisterController extends HomeBaseController
                 $this->error('验证码错误');
             }
 
-            if (!$isOpenRegistration) {
+            if ($isOpenRegistration) {
                 $errMsg = cmf_check_verification_code($data['username'], $data['code']);
                 if (!empty($errMsg)) {
                     $this->error($errMsg);
@@ -95,6 +95,9 @@ class RegisterController extends HomeBaseController
             }
             $sessionLoginHttpReferer = session('login_http_referer');
             $redirect                = empty($sessionLoginHttpReferer) ? cmf_get_root() . '/' : $sessionLoginHttpReferer;
+
+            
+            
             switch ($log) {
                 case 0:
                     $this->success('注册成功', $redirect);
