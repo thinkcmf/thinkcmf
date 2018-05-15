@@ -322,7 +322,6 @@
 <script src="__STATIC__/js/wind.js"></script>
 <script src="__TMPL__/public/assets/js/bootstrap.min.js"></script>
 <script src="__STATIC__/js/admin.js"></script>
-<script src="__STATIC__/js/base.js"></script>
 <script src="__TMPL__/public/assets/simpleboot3/js/adminindex.js"></script>
 <script>
     $(function () {
@@ -334,21 +333,18 @@
         });
 
 
-        function GetQueryString(name)
-        {
-            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if(r!=null)return  unescape(r[2]); return null;
-        }
-
         //读取url参数。尝试执行菜单功能。
-        var menuParams=GetQueryString("menuParams");
-        if (menuParams !=null){
-            var menuParamsDecode = Base64.decode(menuParams);
-            var menuParamsArr=menuParamsDecode.split(",");
-            if(menuParamsArr.length==4){
-                openapp(menuParamsArr[0],menuParamsArr[1],menuParamsArr[2],menuParamsArr[3]);
-            }
+        var tw = window.top;
+        var twa =tw.location.href.split("#");
+        var url = twa[1];
+        if (url !=null){
+            $.ajax({ url: "{:url('Menu/view')}",data:{url:url}, success: function(data){
+                var code = data.code;
+                if (code == 1){
+                    var data = data.data.data;
+                    openapp(url,data.id+data.app,data.name,true);
+                }
+            }});
         }
 
 

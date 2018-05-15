@@ -206,6 +206,47 @@ class MenuController extends AdminBaseController
         return $this->fetch();
     }
 
+    public function view()
+    {
+        $url    = $this->request->param("url", "");
+        $url = trim($url,".html");
+        $url = trim($url,"/");
+        //拆解为3部分。
+        $tmp = explode("/",$url);
+
+        $urlApp="";
+        $urlController="";
+        $urlAction="";
+        //大多数情况。
+        if (count($tmp) >= 3){
+            $urlApp = $tmp[0];
+            $urlController = ucfirst($tmp[1]);
+            $urlAction = $tmp[2];
+        }
+        //说明模块是2个单词。例如plugin/Wxapp
+        if (count($tmp) == 4){
+            $urlApp = $tmp[0]."/".ucfirst($tmp[1]);
+            $urlController = ucfirst($tmp[2]);
+            $urlAction = $tmp[3];
+        }
+        //控制器存在_的情况。例如 user/admin_index/index.html
+        if ($urlController !="" && strpos($urlController,"_")){
+            $urlControllerArr = explode("_",$urlController);
+            $urlControllerTmp = "";
+            foreach ($urlControllerArr as $item){
+                $urlControllerTmp .= ucfirst($item);
+            }
+            $urlController  = $urlControllerTmp;
+        }
+        $rs     = Db::name('AdminMenu')->where(["app" => $urlApp,"controller"=>$urlController,"action"=>$urlAction])->find();
+        if(count($rs) > 0){
+            return $this->success("操作成功","",["data"=>$rs]);
+        }else{
+            return $this->error("操作失败","");
+        }
+
+    }
+
     /**
      * 后台菜单编辑提交保存
      * @adminMenu(
