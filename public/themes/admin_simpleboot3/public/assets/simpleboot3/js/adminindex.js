@@ -169,8 +169,9 @@ function openapp(url, appId, appname, refresh) {
     // 支持History API
     if (window.history && history.pushState){
         var tw = window.top;
-        var twa =tw.location.href.split("?");
-        var newUrl =  twa[0]+"?menuParams="+Base64.encode(url+","+appId+","+appname+","+refresh);
+
+        var twa =tw.location.href.split("#");
+        var newUrl =  twa[0]+"#"+url;
         tw.history.replaceState(null,null,newUrl);
     }
 
