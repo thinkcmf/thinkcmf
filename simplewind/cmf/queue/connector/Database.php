@@ -111,7 +111,7 @@ class Database extends DataBaseConnector
             ->update([
                 'reserved'     => 0,
                 'reserve_time' => null,
-                'attempts'     => ['exp', 'attempts + 1']
+                'attempts'     => $this->db->raw('attempts + 1')
             ]);
     }
 
