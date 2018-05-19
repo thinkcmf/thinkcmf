@@ -1,4 +1,4 @@
-ThinkCMF 5.0.180501 正式版
+ThinkCMF 5.0.180508 正式版
 ===============
 
 ### 系列讲座
@@ -127,6 +127,10 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
+#### 5.0.180508
+* 修复用户注册问题
+* 优化缓存清理，防止删除日志文件
+
 #### 5.0.180501
 [核心]
 * 升级TP到5.0.19，增强安全性
