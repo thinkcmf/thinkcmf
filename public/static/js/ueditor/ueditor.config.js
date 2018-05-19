@@ -410,7 +410,7 @@
 			hr:     ['class', 'style', 'id'],
 			i:      ['class', 'style', 'id'],
 			iframe: ['src', 'width', 'height', 'class', 'id', 'style', 'frameborder', 'name'],
-			img:    ['src', 'alt', 'title', 'width', 'height', 'id', '_src', 'loadingclass', '_url', 'data-latex'],
+			img:    ['src', 'alt', 'title', 'width', 'height', 'id', '_src', 'loadingclass', '_url', 'data-latex','style'],
 			ins:    ['datetime', 'class', 'style', 'id'],
 			li:     ['class', 'style', 'id'],
 			mark:   [],
