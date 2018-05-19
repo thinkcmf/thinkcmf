@@ -76,7 +76,7 @@ abstract class Plugin
 
         $engineConfig['view_base'] = $this->themeRoot;
 
-        $pluginRoot = $root . "plugins/{$nameCStyle}";
+        $pluginRoot = $root . "/plugins/{$nameCStyle}";
 
         $cmfAdminThemePath    = config('cmf_admin_theme_path');
         $cmfAdminDefaultTheme = config('cmf_admin_default_theme');
