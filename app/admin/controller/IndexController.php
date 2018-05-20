@@ -45,6 +45,18 @@ class IndexController extends AdminBaseController
 
         $this->assign("menus", $menus);
 
+
+        $result = Db::name('AdminMenu')->order(["app" => "ASC", "controller" => "ASC", "action" => "ASC"])->select();
+        $menusTmp = array();
+        foreach ($result as $item){
+            //去掉/ _ 全部小写。作为索引。
+            $indexTmp = $item['app'].$item['controller'].$item['action'];
+            $indexTmp = preg_replace("/[\\/|_]/","",$indexTmp);
+            $indexTmp = strtolower($indexTmp);
+            $menusTmp[$indexTmp] = $item;
+        }
+        $this->assign("menusJsVar",json_encode($menusTmp));
+
         //$admin = Db::name("user")->where('id', cmf_get_current_admin_id())->find();
         //$this->assign('admin', $admin);
         return $this->fetch();

@@ -322,7 +322,6 @@
 <script src="__STATIC__/js/wind.js"></script>
 <script src="__TMPL__/public/assets/js/bootstrap.min.js"></script>
 <script src="__STATIC__/js/admin.js"></script>
-<script src="__STATIC__/js/menu.js"></script>
 <script src="__TMPL__/public/assets/simpleboot3/js/adminindex.js"></script>
 <script>
     $(function () {
@@ -332,6 +331,8 @@
         }, function () {
             $(this).removeClass("open");
         });
+
+        var menus= {:$menusJsVar};
         //读取url参数。尝试执行菜单功能。
         if(typeof(menus) != "undefined"){
 

@@ -246,19 +246,6 @@ class SettingController extends AdminBaseController
     public function clearCache()
     {
         cmf_clear_cache();
-        //更新一次菜单的js文件。
-        //产生js文件。
-        $result = Db::name('AdminMenu')->order(["app" => "ASC", "controller" => "ASC", "action" => "ASC"])->select();
-        $menusTmp = array();
-        foreach ($result as $item){
-            //去掉/ _ 全部小写。作为索引。
-            $indexTmp = $item['app'].$item['controller'].$item['action'];
-            $indexTmp = preg_replace("/[\\/|_]/","",$indexTmp);
-            $indexTmp = strtolower($indexTmp);
-            $menusTmp[$indexTmp] = $item;
-        }
-        //缓存成js文件。以供前台调用。以url为索引。
-        file_put_contents("static/js/menu.js","var menus=".json_encode($menusTmp));
         return $this->fetch();
     }
 
