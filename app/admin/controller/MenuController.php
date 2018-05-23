@@ -205,6 +205,7 @@ class MenuController extends AdminBaseController
         $this->assign("select_category", $selectCategory);
         return $this->fetch();
     }
+
     /**
      * 后台菜单编辑提交保存
      * @adminMenu(

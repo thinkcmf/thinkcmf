@@ -691,7 +691,7 @@ function cmf_get_asset_url($file, $style = '')
  * @param string $style 图片样式,支持各大云存储
  * @return string 图片链接
  */
-function cmf_get_image_url($file, $style = '')
+function cmf_get_image_url($file, $style = 'watermark')
 {
     if (strpos($file, "http") === 0) {
         return $file;
