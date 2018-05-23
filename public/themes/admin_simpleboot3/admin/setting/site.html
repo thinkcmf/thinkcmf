@@ -162,15 +162,15 @@
                             <label for="input-banned_usernames" class="col-sm-2 control-label">用户注册验证</label>
                             <div class="col-md-6 col-sm-10">
                                 <select class="form-control" name="cmf_settings[open_registration]">
-                                    <option value="0">否</option>
+                                    <option value="0">是</option>
                                     <php>
                                         $open_registration_selected = empty($cmf_settings['open_registration'])?'':'selected';
                                     </php>
-                                    <option value="1" {$open_registration_selected}>是</option>
+                                    <option value="1" {$open_registration_selected}>否</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display: none;">
                             <label for="input-banned_usernames" class="col-sm-2 control-label">{:lang('SPECAIL_USERNAME')}</label>
                             <div class="col-md-6 col-sm-10">
                                 <textarea class="form-control" id="input-banned_usernames"

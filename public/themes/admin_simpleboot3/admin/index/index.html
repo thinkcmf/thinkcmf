@@ -331,6 +331,29 @@
         }, function () {
             $(this).removeClass("open");
         });
+
+        var menus= {:$menus_js_var};
+        //读取url参数。尝试执行菜单功能。
+        if(typeof(menus) != "undefined"){
+
+            var tw = window.top;
+            var twa =tw.location.href.split("#");
+            var url = twa[1];
+            var urlTmp = url;
+            if (url !=null ){
+                //去掉/ 去掉_ 全部小写。
+                urlTmp = urlTmp.replace(/[\\/|_|]/g,"");
+                urlTmp = urlTmp.replace(".html","");
+                var menu = menus[urlTmp];
+                if (menu){
+                    openapp(url,menu.id+menu.app,menu.name,true);
+                }
+            }
+        }
+
+
+
+
     });
 
     var ismenumin = $("#sidebar").hasClass("menu-min");
@@ -366,6 +389,9 @@
         $(closest_a_next).slideToggle(150).parent().toggleClass("open");
         return false;
     });
+
+
+
 </script>
 </body>
 </html>

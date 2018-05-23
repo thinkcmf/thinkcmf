@@ -12,6 +12,7 @@ namespace cmf\controller;
 
 use think\Controller;
 use think\Request;
+use think\Response;
 use think\View;
 use think\Config;
 
@@ -79,6 +80,34 @@ class BaseController extends Controller
         }
 
         return true;
+    }
+
+    /**
+     * 加载模板输出
+     * @access protected
+     * @param  string $template 模板文件名
+     * @param  array $vars 模板输出变量
+     * @param  array $replace 模板替换
+     * @param  array $config 模板参数
+     * @return mixed
+     */
+    protected function fetch($template = '', $vars = [], $replace = [], $config = [])
+    {
+        return Response::create($this->view->fetch($template, $vars, $replace, $config), '\\cmf\\response\\Html');
+    }
+
+    /**
+     * 渲染内容输出
+     * @access protected
+     * @param  string $content 模板内容
+     * @param  array $vars 模板输出变量
+     * @param  array $replace 替换内容
+     * @param  array $config 模板参数
+     * @return mixed
+     */
+    protected function display($content = '', $vars = [], $replace = [], $config = [])
+    {
+        return Response::create($this->view->display($content, $vars, $replace, $config), '\\cmf\\response\\Html');
     }
 
 

@@ -165,6 +165,18 @@ function openapp(url, appId, appname, refresh) {
         $iframe.show();
     }
 
+    //url要添加参数。获取最外部的window.修改href
+    // 支持History API
+    if (window.history && history.pushState){
+        var tw = window.top;
+
+        var twa =tw.location.href.split("#");
+        var newUrl =  twa[0]+"#"+url;
+        tw.history.replaceState(null,null,newUrl);
+    }
+
+
+
     var taskContentInner = $("#task-content-inner").width();
     var contentWidth     = $("#task-content").width();
     if (taskContentInner <= contentWidth) { //如果没有开始滚动就不用进行下去了
