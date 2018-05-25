@@ -26,6 +26,8 @@ class RestBaseController
     //设备类型
     protected $deviceType = '';
 
+    protected $apiVersion;
+
     //用户 id
     protected $userId = 0;
 
@@ -67,6 +69,8 @@ class RestBaseController
         Request::instance()->root(cmf_get_root() . '/');
 
         $this->request = $request;
+
+        $this->apiVersion = $this->request->header('XX-Api-Version');
 
         // 用户验证初始化
         $this->_initUser();
