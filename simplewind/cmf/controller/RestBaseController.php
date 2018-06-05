@@ -70,7 +70,7 @@ class RestBaseController
 
         $this->request = $request;
 
-        $this->apiVersion = $this->request->header('XX-Api-Version');
+        $this->apiVersion = $this->request->header('XX-Api-Version','');
 
         // 用户验证初始化
         $this->_initUser();
