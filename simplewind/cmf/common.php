@@ -1880,3 +1880,14 @@ function cmf_data_to_xml($data, $item = 'item', $id = 'id')
     }
     return $xml;
 }
+
+/**
+ * 检查手机格式，中国手机不带国家代码，国际手机号格式为：国家代码-手机号
+ * @param $mobile
+ * @return bool
+ */
+function cmf_check_mobile($mobile)
+{
+    return preg_match('/(^(13\d|14\d|15\d|16\d|17\d|18\d|19\d)\d{8})$/', $mobile) ||
+        preg_match('/^\d{1,4}-\d{5,11}$/', $mobile);
+}
