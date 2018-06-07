@@ -1888,6 +1888,18 @@ function cmf_data_to_xml($data, $item = 'item', $id = 'id')
  */
 function cmf_check_mobile($mobile)
 {
-    return preg_match('/(^(13\d|14\d|15\d|16\d|17\d|18\d|19\d)\d{8})$/', $mobile) ||
-        preg_match('/^\d{1,4}-\d{5,11}$/', $mobile);
+    if (preg_match('/(^(13\d|14\d|15\d|16\d|17\d|18\d|19\d)\d{8})$/', $mobile)) {
+        return true;
+    } else {
+        if (preg_match('/^\d{1,4}-\d{5,11}$/', $mobile)) {
+            if (preg_match('/^\d{1,4}-0+/', $mobile)) {
+                //不能以0开头
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
 }
