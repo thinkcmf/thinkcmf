@@ -279,7 +279,7 @@ class RestBaseController
      */
     protected function getResponseType()
     {
-        return Config::get('default_return_type');
+        return 'json';
     }
 
     /**
