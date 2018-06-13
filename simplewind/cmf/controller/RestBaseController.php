@@ -98,10 +98,6 @@ class RestBaseController
         $token      = $this->request->header('XX-Token');
         $deviceType = $this->request->header('XX-Device-Type');
 
-        if (empty($token)) {
-            return;
-        }
-
         if (empty($deviceType)) {
             return;
         }
@@ -110,8 +106,13 @@ class RestBaseController
             return;
         }
 
-        $this->token      = $token;
         $this->deviceType = $deviceType;
+
+        if (empty($token)) {
+            return;
+        }
+
+        $this->token = $token;
 
         $user = Db::name('user_token')
             ->alias('a')
