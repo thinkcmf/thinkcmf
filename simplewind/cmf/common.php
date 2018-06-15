@@ -693,6 +693,10 @@ function cmf_get_asset_url($file, $style = '')
  */
 function cmf_get_image_url($file, $style = 'watermark')
 {
+    if (empty($file)) {
+        return '';
+    }
+
     if (strpos($file, "http") === 0) {
         return $file;
     } else if (strpos($file, "/") === 0) {
@@ -719,6 +723,10 @@ function cmf_get_image_url($file, $style = 'watermark')
  */
 function cmf_get_image_preview_url($file, $style = 'watermark')
 {
+    if (empty($file)) {
+        return '';
+    }
+
     if (strpos($file, "http") === 0) {
         return $file;
     } else if (strpos($file, "/") === 0) {
@@ -745,6 +753,10 @@ function cmf_get_image_preview_url($file, $style = 'watermark')
  */
 function cmf_get_file_download_url($file, $expires = 3600)
 {
+    if (empty($file)) {
+        return '';
+    }
+
     if (strpos($file, "http") === 0) {
         return $file;
     } else if (strpos($file, "/") === 0) {
