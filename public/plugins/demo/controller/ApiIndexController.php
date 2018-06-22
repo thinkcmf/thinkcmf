@@ -16,7 +16,6 @@ class ApiIndexController extends PluginRestBaseController
 
     public function index()
     {
-
         $this->success('success', ['hello' => 'hello ThinkCMF!']);
     }
 
