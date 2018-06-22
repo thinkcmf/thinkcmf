@@ -91,6 +91,7 @@ class PortalPostModel extends Model
 
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
+            $data['thumbnail']         = $data['more']['thumbnail'];
         }
 
         $this->allowField(true)->data($data, true)->isUpdate(false)->save();
@@ -124,6 +125,7 @@ class PortalPostModel extends Model
 
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
+            $data['thumbnail']         = $data['more']['thumbnail'];
         }
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
 
