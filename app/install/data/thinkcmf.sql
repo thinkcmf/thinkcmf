@@ -1121,13 +1121,13 @@ ALTER TABLE `cmf_user_favorite` CHANGE `description` `description` TEXT CHARACTE
 ALTER TABLE `cmf_user_favorite` CHANGE `table_name` `table_name` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '收藏实体以前所在表,不带前缀';
 
 
-CREATE TABLE `cmf_user_like` IF NOT EXISTS `cmf_user_like`; (
+CREATE TABLE `cmf_user_like` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '用户 id',
   `object_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '内容原来的主键id',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `table_name` varchar(64) NOT NULL DEFAULT '' COMMENT '内容以前所在表,不带前缀',
-  `url` varchar(255) NOT NULL DEFAULT '' COMMENT '内容的原文地址，JSON格式',
+  `url` varchar(255) NOT NULL DEFAULT '' COMMENT '内容的原文地址，不带域名',
   `title` varchar(100) NOT NULL DEFAULT '' COMMENT '内容的标题',
   `thumbnail` varchar(100) NOT NULL DEFAULT '' COMMENT '缩略图',
   `description` text COMMENT '内容的描述',
