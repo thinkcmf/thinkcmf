@@ -1134,3 +1134,5 @@ CREATE TABLE `cmf_user_like` IF NOT EXISTS `cmf_user_like`; (
   PRIMARY KEY (`id`),
   KEY `uid` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='用户点赞表';
+
+ALTER TABLE `cmf_user` CHANGE `mobile` `mobile` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '中国手机不带国家代码，国际手机号格式为：国家代码-手机号';
