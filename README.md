@@ -128,7 +128,7 @@ https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
 #### 5.0.180626
-* Restful api基类增加apiVerion属性
+* Restful api基类增加apiVersion属性
 * 修复邮箱验证码发送失败
 * 七牛插件增加东南亚节点
 * 优化百度编辑器视频上传
@@ -138,6 +138,7 @@ https://github.com/thinkcmf/thinkcmf/issues
 * 优化图片和文件链接转化函数
 * 增加插件REST api基类`PluginRestBaseController`
 * 增加我的喜欢功能
+* 升级TP到`5.0.20`
 
 [门户应用]
 * 增加文章`thumbnail`字段
