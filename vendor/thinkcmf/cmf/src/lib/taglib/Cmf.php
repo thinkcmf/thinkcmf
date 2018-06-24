@@ -385,7 +385,8 @@ parse;
         $once  = empty($tag['once']) ? 'false' : 'true';
 
         if (empty($param)) {
-            $param = '$temp' . uniqid();
+            //$param = '$temp' . uniqid();
+            $param = 'null';
         } else if (strpos($param, '$') === false) {
             $this->autoBuildVar($param);
         }
@@ -399,7 +400,7 @@ parse;
 
         $parse = <<<parse
 <php>
-    \\think\\Hook::listen('{$name}',{$param},{$extra},{$once});
+    \\think\\facade\\Hook::listen('{$name}',{$param},{$extra},{$once});
 </php>
 parse;
         return $parse;

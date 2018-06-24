@@ -45,7 +45,7 @@ class PortalCategoryValidate extends Validate
         } else {
             $fullUrl = $routeModel->getFullUrlByUrl($data['alias']);
         }
-        if (!$routeModel->exists($value, $fullUrl)) {
+        if (!$routeModel->existsRoute($value, $fullUrl)) {
             return true;
         } else {
             return "别名已经存在!";

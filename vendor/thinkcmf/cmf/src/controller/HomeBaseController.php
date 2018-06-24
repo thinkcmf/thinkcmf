@@ -28,7 +28,8 @@ class HomeBaseController extends BaseController
 
     protected function _initializeView()
     {
-        $cmfThemePath    = config('template.cmf_theme_path');
+        $cmfThemePath = config('template.cmf_theme_path');
+
         $cmfDefaultTheme = cmf_get_current_theme();
 
         $themePath = "{$cmfThemePath}{$cmfDefaultTheme}";
@@ -104,6 +105,8 @@ class HomeBaseController extends BaseController
         }
 
         $viewBase = config('template.view_base');
+
+        echo $viewBase;
 
         if ($viewBase) {
             // 基础视图目录

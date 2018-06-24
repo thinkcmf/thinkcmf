@@ -40,7 +40,7 @@ class SettingSiteValidate extends Validate
 
         $routeModel = new RouteModel();
         $fullUrl    = $routeModel->buildFullUrl('admin/Index/index', []);
-        if (!$routeModel->exists($value.'$', $fullUrl)) {
+        if (!$routeModel->existsRoute($value.'$', $fullUrl)) {
             return true;
         } else {
             return "URL规则已经存在,无法设置此加密码!";

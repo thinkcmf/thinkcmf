@@ -41,7 +41,7 @@ class AdminPageValidate extends Validate
 
         $routeModel = new RouteModel();
         $fullUrl    = $routeModel->buildFullUrl('portal/Page/index', ['id' => $data['id']]);
-        if (!$routeModel->exists($value, $fullUrl)) {
+        if (!$routeModel->existsRoute($value, $fullUrl)) {
             return true;
         } else {
             return "别名已经存在!";

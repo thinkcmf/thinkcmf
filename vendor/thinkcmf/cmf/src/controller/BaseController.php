@@ -37,7 +37,7 @@ class BaseController extends Controller
         $this->request = $request;
 
         $this->_initializeView();
-        $this->view = View::instance(Config::get('template'), Config::get('view_replace_str'));
+        $this->view = View::init(Config::get('template.'));
 
 
         // 控制器初始化

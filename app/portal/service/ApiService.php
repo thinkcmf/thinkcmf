@@ -52,10 +52,9 @@ class ApiService
         $portalPostModel = new PortalPostModel();
 
         $where = [
-            'post.published_time' => [['> time', 0], ['<', time()]],
-            'post.post_status'    => 1,
-            'post.post_type'      => 1,
-            'post.delete_time'    => 0
+            'post.post_status' => 1,
+            'post.post_type'   => 1,
+            'post.delete_time' => 0
         ];
 
         $paramWhere = empty($param['where']) ? '' : $param['where'];
@@ -94,6 +93,7 @@ class ApiService
             ->join($join)
             ->where($where)
             ->where($paramWhere)
+            ->where('post.published_time', ['> time', 0], ['<', time()], 'and')
             ->order($order)
             ->group('post.id');
 
@@ -172,10 +172,9 @@ class ApiService
         $portalPostModel = new PortalPostModel();
 
         $where = [
-            'post.published_time' => [['> time', 0], ['<', time()]],
-            'post.post_status'    => 1,
-            'post.post_type'      => 1,
-            'post.delete_time'    => 0
+            'post.post_status' => 1,
+            'post.post_type'   => 1,
+            'post.delete_time' => 0
         ];
 
         $paramWhere = empty($param['where']) ? '' : $param['where'];
@@ -204,6 +203,7 @@ class ApiService
             ->join($join)
             ->where($where)
             ->where($paramWhere)
+            ->where('post.published_time', ['> time', 0], ['<', time()], 'and')
             ->order($order);
 
         $return = [];
@@ -254,14 +254,15 @@ class ApiService
         $portalPostModel = new PortalPostModel();
 
         $where = [
-            'published_time' => [['> time', 0], ['<', time()]],
-            'post_status'    => 1,
-            'post_type'      => 1,
-            'id'             => $id,
-            'delete_time'    => 0
+            'post_status' => 1,
+            'post_type'   => 1,
+            'id'          => $id,
+            'delete_time' => 0
         ];
 
-        return $portalPostModel->where($where)->find();
+        return $portalPostModel->where($where)
+            ->where('published_time', ['> time', 0], ['<', time()], 'and')
+            ->find();
     }
 
     /**
@@ -282,15 +283,15 @@ class ApiService
         $portalPostModel = new PortalPostModel();
 
         $where = [
-            'published_time' => [['> time', 0], ['<', time()]],
-            'post_status'    => 1,
-            'post_type'      => 2, //页面
-            'delete_time'    => 0
+            'post_status' => 1,
+            'post_type'   => 2, //页面
+            'delete_time' => 0
         ];
 
         return $portalPostModel
             ->where($where)
             ->where($paramWhere)
+            ->where('published_time', [['> time', 0], ['<', time()]], 'and')
             ->order($order)
             ->select();
     }
@@ -305,14 +306,15 @@ class ApiService
         $portalPostModel = new PortalPostModel();
 
         $where = [
-            'published_time' => [['> time', 0], ['<', time()]],
-            'post_status'    => 1,
-            'post_type'      => 2,
-            'id'             => $id,
-            'delete_time'    => 0
+            'post_status' => 1,
+            'post_type'   => 2,
+            'id'          => $id,
+            'delete_time' => 0
         ];
 
-        return $portalPostModel->where($where)->find();
+        return $portalPostModel->where($where)
+            ->where('published_time', ['> time', 0], ['<', time()], 'and')
+            ->find();
     }
 
     /**

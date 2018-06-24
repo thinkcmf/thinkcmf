@@ -214,16 +214,17 @@ class PostService
     {
 
         $where = [
-            'post_type'      => 2,
-            'published_time' => [['< time', time()], ['> time', 0]],
-            'post_status'    => 1,
-            'delete_time'    => 0,
-            'id'             => $pageId
+            'post_type' => 2,
+
+            'post_status' => 1,
+            'delete_time' => 0,
+            'id'          => $pageId
         ];
 
         $portalPostModel = new PortalPostModel();
         $page            = $portalPostModel
             ->where($where)
+            ->where('published_time', ['< time', time()], ['> time', 0], 'and')
             ->find();
 
         return $page;

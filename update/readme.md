@@ -1,0 +1,1 @@
+* app/admin/model/RouteModel.php `exists`方法改为`existsRoute`
