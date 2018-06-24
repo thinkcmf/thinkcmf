@@ -82,6 +82,13 @@ class PublicController extends AdminBaseController
             $where['user_login'] = $name;
         }
 
+        $ip = get_client_ip(0,true);
+        //登录检查。15分钟限制5次尝试。
+        if (cmf_check_user_login($name,$ip) <=0){
+            $this->error(lang('login_user_lock'));
+        }
+
+
         $result = Db::name('user')->where($where)->find();
 
         if (!empty($result) && $result['user_type'] == 1) {
@@ -108,6 +115,7 @@ class PublicController extends AdminBaseController
                 session("__LOGIN_BY_CMF_ADMIN_PW__", null);
                 $this->success(lang('LOGIN_SUCCESS'), url("admin/Index/index"));
             } else {
+                cmf_loginfailed($name,$ip);
                 $this->error(lang('PASSWORD_NOT_RIGHT'));
             }
         } else {

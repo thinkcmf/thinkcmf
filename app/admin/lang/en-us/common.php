@@ -9,5 +9,5 @@
 // | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
 return [
-
+    'login_user_lock' => 'Due to an excessive number of login password errors, this login request has been rejected. Please retry after 15 minutes.',
 ];

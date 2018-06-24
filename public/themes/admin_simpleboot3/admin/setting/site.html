@@ -49,6 +49,19 @@
                                 </p>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="input-login_failedtime" class="col-sm-2 control-label">
+                                后台登录失败次数
+                            </label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="input-admin_url_password"
+                                       name="admin_settings[login_failedtime]"
+                                       value="{$admin_settings.login_failedtime|default='5'}"
+                                       id="js-login_failedtime">
+                                <p class="help-block">15分钟内连续错误登录次数,避免暴力破解</p>
+                            </div>
+                        </div>
                         <!--
                         <div class="form-group">
                             <label for="input-mobile_tpl_enabled" class="col-sm-2 control-label">{:lang('ENABLE_MOBILE_THEME')}</label>

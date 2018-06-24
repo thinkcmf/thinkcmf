@@ -899,6 +899,71 @@ function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, 
 }
 
 /**
+ * 登录次数检查
+ *
+ * @param $username
+ * @param $ip
+ * @return mixed
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\ModelNotFoundException
+ * @throws \think\exception\DbException
+ */
+function cmf_check_user_login($username,$ip)
+{
+    $adminSettings  = cmf_get_option('admin_settings');
+    $check_times =  $adminSettings['login_failedtime'];
+
+    $now_time = time();
+
+    $username = substr(md5($username), 8, 15);
+    $expire = 15 * 60;
+    if(!$ip) {
+        $ip = get_client_ip(0, true);;
+    }
+    $ip_check = $user_check = array();
+
+    $condition = array();
+    $condition['ip'] = array(array('=',$ip),array('=',$username), 'or');;
+    $failedlogins = Db::name('failedlogins')->where($condition)->select();
+    foreach ($failedlogins as $row){
+        if($row['ip'] === $username) {
+            $user_check = $row;
+        } elseif($row['ip'] === $ip) {
+            $ip_check = $row;
+        }
+    }
+
+    if(empty($ip_check) || (time() - $ip_check['lastupdate'] > $expire)) {
+        $ip_check = array();
+        Db::execute("REPLACE INTO ".config('database.prefix')."failedlogins (ip, count, lastupdate) VALUES ('{$ip}', '0', '{$now_time}')");
+    }
+
+    if(empty($user_check) || (time() - $user_check['lastupdate'] > $expire)) {
+        $user_check = array();
+        Db::execute("REPLACE INTO ".config('database.prefix')."failedlogins (ip, count, lastupdate) VALUES ('{$username}', '0', '{$now_time}')");
+    }
+
+    if ($ip_check || $user_check) {
+        $time_left = min(($check_times - $ip_check['count']), ($check_times - $user_check['count']));
+        return $time_left;
+
+    }
+
+    Db::execute("DELETE FROM ".config('database.prefix')."failedlogins WHERE lastupdate<".($now_time - ($expire + 1)));
+
+    return $check_times;
+}
+
+function cmf_loginfailed($username, $ip = '') {
+    $username = substr(md5($username), 8, 15);
+    if(!$ip) {
+        $ip = get_client_ip(0,true);
+    }
+    $now_time = time();
+    Db::execute("UPDATE ".config('database.prefix')."failedlogins SET count=count+1, lastupdate='".$now_time."' WHERE ip='".$ip."' OR ip='$username'");
+}
+
+/**
  * 判断是否为手机访问
  * @return  boolean
  */
