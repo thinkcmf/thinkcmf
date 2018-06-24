@@ -1,19 +1,19 @@
 {
-    "name": "topthink/think-helper",
-    "description": "The ThinkPHP5 Helper Package",
+    "name": "thinkcmf/cmf",
+    "description": "The ThinkCMF Core Package",
     "license": "Apache-2.0",
     "authors": [
         {
-            "name": "yunwuxin",
-            "email": "448901948@qq.com"
+            "name": "catman",
+            "email": "catman@thinkcmf.com"
         }
     ],
     "autoload": {
         "psr-4": {
-            "think\\helper\\": "src"
+            "cmf\\": "src"
         },
         "files": [
-            "src/helper.php"
+            "src/common.php"
         ]
     }
 }
