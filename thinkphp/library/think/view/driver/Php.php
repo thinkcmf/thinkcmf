@@ -11,7 +11,7 @@
 
 namespace think\view\driver;
 
-use think\Container;
+use think\App;
 use think\exception\TemplateNotFoundException;
 use think\Loader;
 
@@ -31,8 +31,13 @@ class Php
         'view_depr'   => DIRECTORY_SEPARATOR,
     ];
 
-    public function __construct($config = [])
+    protected $template;
+    protected $app;
+    protected $content;
+
+    public function __construct(App $app, $config = [])
     {
+        $this->app    = $app;
         $this->config = array_merge($this->config, (array) $config);
     }
 
@@ -71,18 +76,14 @@ class Php
             throw new TemplateNotFoundException('template not exists:' . $template, $template);
         }
 
+        $this->template = $template;
+
         // 记录视图信息
-        Container::get('app')
+        $this->app
             ->log('[ VIEW ] ' . $template . ' [ ' . var_export(array_keys($data), true) . ' ]');
 
-        if (isset($data['template'])) {
-            $__template__ = $template;
-            extract($data, EXTR_OVERWRITE);
-            include $__template__;
-        } else {
-            extract($data, EXTR_OVERWRITE);
-            include $template;
-        }
+        extract($data, EXTR_OVERWRITE);
+        include $this->template;
     }
 
     /**
@@ -94,14 +95,10 @@ class Php
      */
     public function display($content, $data = [])
     {
-        if (isset($data['content'])) {
-            $__content__ = $content;
-            extract($data, EXTR_OVERWRITE);
-            eval('?>' . $__content__);
-        } else {
-            extract($data, EXTR_OVERWRITE);
-            eval('?>' . $content);
-        }
+        $this->content = $content;
+
+        extract($data, EXTR_OVERWRITE);
+        eval('?>' . $this->content);
     }
 
     /**
@@ -113,10 +110,10 @@ class Php
     private function parseTemplate($template)
     {
         if (empty($this->config['view_path'])) {
-            $this->config['view_path'] = Container::get('app')->getModulePath() . 'view' . DIRECTORY_SEPARATOR;
+            $this->config['view_path'] = $this->app->getModulePath() . 'view' . DIRECTORY_SEPARATOR;
         }
 
-        $request = Container::get('request');
+        $request = $this->app['request'];
 
         // 获取视图根目录
         if (strpos($template, '@')) {
@@ -129,7 +126,7 @@ class Php
             $module = isset($module) ? $module : $request->module();
             $path   = $this->config['view_base'] . ($module ? $module . DIRECTORY_SEPARATOR : '');
         } else {
-            $path = isset($module) ? Container::get('app')->getAppPath() . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR : $this->config['view_path'];
+            $path = isset($module) ? $this->app->getAppPath() . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR : $this->config['view_path'];
         }
 
         $depr = $this->config['view_depr'];

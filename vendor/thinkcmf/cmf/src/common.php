@@ -8,12 +8,15 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
-use think\Config;
+use think\facade\Config;
 use think\Db;
+use think\facade\Url;
 use dir\Dir;
+use think\facade\Route;
 use think\Loader;
-use think\Request;
+use think\facade\Request;
 use cmf\lib\Storage;
+use think\facade\Hook;
 
 // 应用公共文件
 
@@ -93,15 +96,15 @@ function cmf_get_domain()
  */
 function cmf_get_root()
 {
-//    $request = Request::instance();
-//    $root    = $request->root();
-//    $root    = str_replace('/index.php', '', $root);
-//    if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
-//        $root = preg_replace('/\/api$/', '', $root);
-//        $root = rtrim($root, '/');
-//    }
+    $request = Request::instance();
+    $root    = $request->root();
+    $root    = str_replace('/index.php', '', $root);
+    if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
+        $root = preg_replace('/\/api$/', '', $root);
+        $root = rtrim($root, '/');
+    }
 
-    return '';
+    return $root;
 }
 
 /**
@@ -117,9 +120,9 @@ function cmf_get_current_theme()
     }
 
     $t     = 't';
-    $theme = config('cmf_default_theme');
+    $theme = config('template.cmf_default_theme');
 
-    $cmfDetectTheme = config('cmf_detect_theme');
+    $cmfDetectTheme = config('template.cmf_detect_theme');
     if ($cmfDetectTheme) {
         if (isset($_GET[$t])) {
             $theme = $_GET[$t];
@@ -301,7 +304,7 @@ function cmf_clear_cache()
     $dirs     = [];
     $rootDirs = cmf_scan_dir(RUNTIME_PATH . "*");
     //$noNeedClear=array(".","..","Data");
-    $noNeedClear = [".", ".."];
+    $noNeedClear = ['.', '..', 'log'];
     $rootDirs    = array_diff($rootDirs, $noNeedClear);
     foreach ($rootDirs as $dir) {
 
@@ -670,14 +673,14 @@ function cmf_get_asset_url($file, $style = '')
     } else if (strpos($file, "/") === 0) {
         return $file;
     } else {
-        $storage = cmf_get_option('storage');
-        if (empty($storage['type'])) {
-            $storage['type'] = 'Local';
-        }
-        if($storage['type'] != 'Local'){
-            $watermark = cmf_get_plugin_config($storage['type']);
-            $style = empty($style)?$watermark['styles_watermark']:$style;
-        }
+//        $storage = cmf_get_option('storage');
+//        if (empty($storage['type'])) {
+//            $storage['type'] = 'Local';
+//        }
+//        if ($storage['type'] != 'Local') {
+//            $watermark = cmf_get_plugin_config($storage['type']);
+//            $style     = empty($style) ? $watermark['styles_watermark'] : $style;
+//        }
         $storage = Storage::instance();
         return $storage->getUrl($file, $style);
     }
@@ -689,21 +692,25 @@ function cmf_get_asset_url($file, $style = '')
  * @param string $style 图片样式,支持各大云存储
  * @return string 图片链接
  */
-function cmf_get_image_url($file, $style = '')
+function cmf_get_image_url($file, $style = 'watermark')
 {
+    if (empty($file)) {
+        return '';
+    }
+
     if (strpos($file, "http") === 0) {
         return $file;
     } else if (strpos($file, "/") === 0) {
         return cmf_get_domain() . $file;
     } else {
-        $storage = cmf_get_option('storage');
-        if (empty($storage['type'])) {
-            $storage['type'] = 'Local';
-        }
-        if($storage['type'] != 'Local'){
-            $watermark = cmf_get_plugin_config($storage['type']);
-            $style = empty($style)?$watermark['styles_watermark']:$style;
-        }
+//        $storage = cmf_get_option('storage');
+//        if (empty($storage['type'])) {
+//            $storage['type'] = 'Local';
+//        }
+//        if ($storage['type'] != 'Local') {
+//            $watermark = cmf_get_plugin_config($storage['type']);
+//            $style     = empty($style) ? $watermark['styles_watermark'] : $style;
+//        }
         $storage = Storage::instance();
         return $storage->getImageUrl($file, $style);
     }
@@ -715,21 +722,25 @@ function cmf_get_image_url($file, $style = '')
  * @param string $style 图片样式,支持各大云存储
  * @return string
  */
-function cmf_get_image_preview_url($file, $style = '')
+function cmf_get_image_preview_url($file, $style = 'watermark')
 {
+    if (empty($file)) {
+        return '';
+    }
+
     if (strpos($file, "http") === 0) {
         return $file;
     } else if (strpos($file, "/") === 0) {
         return $file;
     } else {
-        $storage = cmf_get_option('storage');
-        if (empty($storage['type'])) {
-            $storage['type'] = 'Local';
-        }
-        if($storage['type'] != 'Local'){
-            $watermark = cmf_get_plugin_config($storage['type']);
-            $style = empty($style)?$watermark['styles_watermark']:$style;
-        }
+//        $storage = cmf_get_option('storage');
+//        if (empty($storage['type'])) {
+//            $storage['type'] = 'Local';
+//        }
+//        if ($storage['type'] != 'Local') {
+//            $watermark = cmf_get_plugin_config($storage['type']);
+//            $style     = empty($style) ? $watermark['styles_watermark'] : $style;
+//        }
         $storage = Storage::instance();
         return $storage->getPreviewUrl($file, $style);
     }
@@ -743,6 +754,10 @@ function cmf_get_image_preview_url($file, $style = '')
  */
 function cmf_get_file_download_url($file, $expires = 3600)
 {
+    if (empty($file)) {
+        return '';
+    }
+
     if (strpos($file, "http") === 0) {
         return $file;
     } else if (strpos($file, "/") === 0) {
@@ -871,7 +886,7 @@ function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, 
     $time = time();
     if ($findLog) {
         Db::name('user_action_log')->where($where)->update([
-            "count"           => ["exp", "count+1"],
+            "count"           => Db::raw("count+1"),
             "last_visit_time" => $time,
             "ip"              => $ip
         ]);
@@ -888,7 +903,7 @@ function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, 
             "user_id"         => $userId,
             "action"          => $action,
             "object"          => $object,
-            "count"           => ["exp", "count+1"],
+            "count"           => Db::raw("count+1"),
             "last_visit_time" => $time, "ip" => $ip
         ]);
     }
@@ -1274,7 +1289,7 @@ function cmf_verification_code_log($account, $code, $expireTime = 0)
         if ($findVerificationCode['send_time'] <= $todayStartTime) {
             $count = 1;
         } else {
-            $count = ['exp', 'count+1'];
+            $count = Db::raw('count+1');
         }
         $result = $verificationCodeQuery
             ->where('account', $account)
@@ -1350,7 +1365,7 @@ function cmf_clear_verification_code($account)
 function file_exists_case($filename)
 {
     if (is_file($filename)) {
-        if (IS_WIN && APP_DEBUG) {
+        if (APP_DEBUG) {
             if (basename(realpath($filename)) != basename($filename))
                 return false;
         }
@@ -1383,7 +1398,9 @@ function cmf_generate_user_token($userId, $deviceType)
             'device_type' => $deviceType
         ]);
     } else {
-        if ($findUserToken['expire_time'] <= time()) {
+        if ($findUserToken['expire_time'] > time() && !empty($findUserToken['token'])) {
+            $token = $findUserToken['token'];
+        } else {
             Db::name("user_token")
                 ->where('user_id', $userId)
                 ->where('device_type', $deviceType)
@@ -1392,8 +1409,6 @@ function cmf_generate_user_token($userId, $deviceType)
                     'expire_time' => $expireTime,
                     'create_time' => $currentTime
                 ]);
-        } else {
-            $token = $findUserToken['token'];
         }
 
     }
@@ -1487,7 +1502,7 @@ function cmf_is_sae()
  * @param boolean $adv 是否进行高级模式获取（有可能被伪装）
  * @return string
  */
-function get_client_ip($type = 0, $adv = false)
+function get_client_ip($type = 0, $adv = true)
 {
     return request()->ip($type, $adv);
 }
@@ -1769,19 +1784,19 @@ function cmf_user_action($action)
 
         $data = [];
         if ($findUserAction['score'] > 0) {
-            $data['score'] = ['exp', 'score+' . $findUserAction['score']];
+            $data['score'] = Db::raw('score+' . $findUserAction['score']);
         }
 
         if ($findUserAction['score'] < 0) {
-            $data['score'] = ['exp', 'score-' . abs($findUserAction['score'])];
+            $data['score'] = Db::raw('score-' . abs($findUserAction['score']));
         }
 
         if ($findUserAction['coin'] > 0) {
-            $data['coin'] = ['exp', 'coin+' . $findUserAction['coin']];
+            $data['coin'] = Db::raw('coin+' . $findUserAction['coin']);
         }
 
         if ($findUserAction['coin'] < 0) {
-            $data['coin'] = ['exp', 'coin-' . abs($findUserAction['coin'])];
+            $data['coin'] = Db::raw('coin-' . abs($findUserAction['coin']));
         }
 
         Db::name('user')->where('id', $userId)->update($data);
@@ -1877,4 +1892,27 @@ function cmf_data_to_xml($data, $item = 'item', $id = 'id')
         $xml .= "</{$key}>";
     }
     return $xml;
+}
+
+/**
+ * 检查手机格式，中国手机不带国家代码，国际手机号格式为：国家代码-手机号
+ * @param $mobile
+ * @return bool
+ */
+function cmf_check_mobile($mobile)
+{
+    if (preg_match('/(^(13\d|14\d|15\d|16\d|17\d|18\d|19\d)\d{8})$/', $mobile)) {
+        return true;
+    } else {
+        if (preg_match('/^\d{1,4}-\d{5,11}$/', $mobile)) {
+            if (preg_match('/^\d{1,4}-0+/', $mobile)) {
+                //不能以0开头
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
 }

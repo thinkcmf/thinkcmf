@@ -76,7 +76,7 @@ abstract class Plugin
 
         $engineConfig['view_base'] = $this->themeRoot;
 
-        $pluginRoot = $root . "plugins/{$nameCStyle}";
+        $pluginRoot = "plugins/{$nameCStyle}";
 
         $cmfAdminThemePath    = config('cmf_admin_theme_path');
         $cmfAdminDefaultTheme = config('cmf_admin_default_theme');
@@ -87,8 +87,8 @@ abstract class Plugin
         $cdnSettings = cmf_get_option('cdn_settings');
         if (empty($cdnSettings['cdn_static_root'])) {
             $replaceConfig = [
-                '__PLUGIN_TMPL__' => $pluginRoot . '/' . $themePath,
-                '__PLUGIN_ROOT__' => $pluginRoot,
+                '__PLUGIN_TMPL__' => $root . '/' . $pluginRoot . '/' . $themePath,
+                '__PLUGIN_ROOT__' => $root . '/' . $pluginRoot,
                 '__ADMIN_TMPL__'  => "{$root}/{$adminThemePath}",
                 '__STATIC__'      => "{$root}/static",
                 '__WEB_ROOT__'    => $root

@@ -18,9 +18,9 @@ use think\route\Dispatch;
 /**
  * App 应用管理
  */
-class App implements \ArrayAccess
+class App extends Container
 {
-    const VERSION = '5.1.9';
+    const VERSION = '5.1.17';
 
     /**
      * 当前模块路径
@@ -32,7 +32,7 @@ class App implements \ArrayAccess
      * 应用调试模式
      * @var bool
      */
-    protected $debug = true;
+    protected $appDebug = true;
 
     /**
      * 应用开始时间
@@ -113,21 +113,26 @@ class App implements \ArrayAccess
     protected $dispatch;
 
     /**
-     * 容器对象实例
-     * @var Container
-     */
-    protected $container;
-
-    /**
      * 绑定模块（控制器）
      * @var string
      */
-    protected $bind;
+    protected $bindModule;
+
+    /**
+     * 初始化
+     * @var bool
+     */
+    protected $initialized = false;
 
     public function __construct($appPath = '')
     {
-        $this->appPath   = $appPath ? realpath($appPath) . DIRECTORY_SEPARATOR : $this->getAppPath();
-        $this->container = Container::getInstance();
+        $this->appPath = $appPath ? realpath($appPath) . DIRECTORY_SEPARATOR : $this->getAppPath();
+
+        $this->thinkPath   = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR;
+        $this->rootPath    = dirname($this->appPath) . DIRECTORY_SEPARATOR;
+        $this->runtimePath = $this->rootPath . 'runtime' . DIRECTORY_SEPARATOR;
+        $this->routePath   = $this->rootPath . 'route' . DIRECTORY_SEPARATOR;
+        $this->configPath  = $this->rootPath . 'config' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -138,7 +143,7 @@ class App implements \ArrayAccess
      */
     public function bind($bind)
     {
-        $this->bind = $bind;
+        $this->bindModule = $bind;
         return $this;
     }
 
@@ -161,13 +166,20 @@ class App implements \ArrayAccess
      */
     public function initialize()
     {
+        if ($this->initialized) {
+            return;
+        }
+
+        $this->initialized = true;
         $this->beginTime   = microtime(true);
         $this->beginMem    = memory_get_usage();
-        $this->thinkPath   = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR;
-        $this->rootPath    = dirname($this->appPath) . DIRECTORY_SEPARATOR;
-        $this->runtimePath = $this->rootPath . 'runtime' . DIRECTORY_SEPARATOR;
-        $this->routePath   = $this->rootPath . 'route' . DIRECTORY_SEPARATOR;
-        $this->configPath  = $this->rootPath . 'config' . DIRECTORY_SEPARATOR;
+
+        static::setInstance($this);
+
+        $this->instance('app', $this);
+
+        // 加载惯例配置文件
+        $this->config->set(include $this->thinkPath . 'convention.php');
 
         // 设置路径环境变量
         $this->env->set([
@@ -201,10 +213,10 @@ class App implements \ArrayAccess
         $this->suffix = $this->config('app.class_suffix');
 
         // 应用调试模式
-        $this->debug = $this->env->get('app_debug', $this->config('app.app_debug'));
-        $this->env->set('app_debug', $this->debug);
+        $this->appDebug = $this->env->get('app_debug', $this->config('app.app_debug'));
+        $this->env->set('app_debug', $this->appDebug);
 
-        if (!$this->debug) {
+        if (!$this->appDebug) {
             ini_set('display_errors', 'Off');
         } elseif (PHP_SAPI != 'cli') {
             //重新申请一块比较大的buffer
@@ -217,13 +229,24 @@ class App implements \ArrayAccess
             }
         }
 
+        // 注册异常处理类
+        if ($this->config('app.exception_handle')) {
+            Error::setExceptionHandler($this->config('app.exception_handle'));
+        }
+
         // 注册根命名空间
         if (!empty($this->config('app.root_namespace'))) {
             Loader::addNamespace($this->config('app.root_namespace'));
         }
 
+        // 加载composer autofile文件
+        Loader::loadComposerAutoloadFiles();
+
         // 注册类库别名
         Loader::addClassAlias($this->config->pull('alias'));
+
+        // 数据库配置初始化
+        Db::init($this->config->pull('database'));
 
         // 设置系统时区
         date_default_timezone_set($this->config('app.default_timezone'));
@@ -283,7 +306,7 @@ class App implements \ArrayAccess
             if (is_file($path . 'provider.php')) {
                 $provider = include $path . 'provider.php';
                 if (is_array($provider)) {
-                    $this->container->bind($provider);
+                    $this->bindTo($provider);
                 }
             }
 
@@ -304,7 +327,43 @@ class App implements \ArrayAccess
             }
         }
 
-        $this->request->filter($this->config('app.default_filter'));
+        $this->setModulePath($path);
+
+        if ($module) {
+            // 对容器中的对象实例进行配置更新
+            $this->containerConfigUpdate($module);
+        }
+    }
+
+    protected function containerConfigUpdate($module)
+    {
+        $config = $this->config->get();
+
+        // 注册异常处理类
+        if ($config['app']['exception_handle']) {
+            Error::setExceptionHandler($config['app']['exception_handle']);
+        }
+
+        Db::init($config['database']);
+        $this->middleware->setConfig($config['middleware']);
+        $this->route->setConfig($config['app']);
+        $this->request->init($config['app']);
+        $this->cookie->init($config['cookie']);
+        $this->view->init($config['template']);
+        $this->log->init($config['log']);
+        $this->session->setConfig($config['session']);
+        $this->debug->setConfig($config['trace']);
+        $this->cache->init($config['cache'], true);
+
+        // 加载当前模块语言包
+        $this->lang->load($this->appPath . $module . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $this->request->langset() . '.php');
+
+        // 模块请求缓存检查
+        $this->checkRequestCache(
+            $config['app']['request_cache'],
+            $config['app']['request_cache_expire'],
+            $config['app']['request_cache_except']
+        );
     }
 
     /**
@@ -319,9 +378,9 @@ class App implements \ArrayAccess
             // 初始化应用
             $this->initialize();
 
-            if ($this->bind) {
+            if ($this->bindModule) {
                 // 模块/控制器绑定
-                $this->route->bind($this->bind);
+                $this->route->bind($this->bindModule);
             } elseif ($this->config('app.auto_bind_module')) {
                 // 入口自动绑定
                 $name = pathinfo($this->request->baseFile(), PATHINFO_FILENAME);
@@ -333,23 +392,18 @@ class App implements \ArrayAccess
             // 监听app_dispatch
             $this->hook->listen('app_dispatch');
 
-            // 获取应用调度信息
             $dispatch = $this->dispatch;
+
             if (empty($dispatch)) {
                 // 路由检测
-                $this->route
-                    ->lazy($this->config('app.url_lazy_route'))
-                    ->autoSearchController($this->config('app.controller_auto_search'))
-                    ->mergeRuleRegex($this->config('app.route_rule_merge'));
-
-                $dispatch = $this->routeCheck();
+                $dispatch = $this->routeCheck()->init();
             }
 
             // 记录当前调度信息
             $this->request->dispatch($dispatch);
 
             // 记录路由和请求信息
-            if ($this->debug) {
+            if ($this->appDebug) {
                 $this->log('[ ROUTE ] ' . var_export($this->request->routeInfo(), true));
                 $this->log('[ HEADER ] ' . var_export($this->request->header(), true));
                 $this->log('[ PARAM ] ' . var_export($this->request->param(), true));
@@ -359,10 +413,10 @@ class App implements \ArrayAccess
             $this->hook->listen('app_begin');
 
             // 请求缓存检查
-            $this->request->cache(
-                $this->config('app.request_cache'),
-                $this->config('app.request_cache_expire'),
-                $this->config('app.request_cache_except')
+            $this->checkRequestCache(
+                $this->config('request_cache'),
+                $this->config('request_cache_expire'),
+                $this->config('request_cache_except')
             );
 
             $data = null;
@@ -372,28 +426,7 @@ class App implements \ArrayAccess
         }
 
         $this->middleware->add(function (Request $request, $next) use ($dispatch, $data) {
-            if (is_null($data)) {
-                try {
-                    // 执行调度
-                    $data = $dispatch->run();
-                } catch (HttpResponseException $exception) {
-                    $data = $exception->getResponse();
-                }
-            }
-
-            // 输出数据到客户端
-            if ($data instanceof Response) {
-                $response = $data;
-            } elseif (!is_null($data)) {
-                // 默认自动识别响应输出类型
-                $isAjax = $request->isAjax();
-                $type   = $isAjax ? $this->config('app.default_ajax_return') : $this->config('app.default_return_type');
-
-                $response = Response::create($data, $type);
-            } else {
-                $response = Response::create();
-            }
-            return $response;
+            return is_null($data) ? $dispatch->run() : $data;
         });
 
         $response = $this->middleware->dispatch($this->request);
@@ -404,22 +437,63 @@ class App implements \ArrayAccess
         return $response;
     }
 
+    protected function getRouteCacheKey()
+    {
+        if ($this->config->get('route_check_cache_key')) {
+            $closure  = $this->config->get('route_check_cache_key');
+            $routeKey = $closure($this->request);
+        } else {
+            $routeKey = md5($this->request->baseUrl(true) . ':' . $this->request->method());
+        }
+
+        return $routeKey;
+    }
+
     protected function loadLangPack()
     {
         // 读取默认语言
         $this->lang->range($this->config('app.default_lang'));
+
         if ($this->config('app.lang_switch_on')) {
             // 开启多语言机制 检测当前语言
             $this->lang->detect();
         }
 
-        $this->request->langset($this->lang->range());
+        $this->request->setLangset($this->lang->range());
 
         // 加载系统语言包
         $this->lang->load([
             $this->thinkPath . 'lang' . DIRECTORY_SEPARATOR . $this->request->langset() . '.php',
             $this->appPath . 'lang' . DIRECTORY_SEPARATOR . $this->request->langset() . '.php',
         ]);
+    }
+
+    /**
+     * 设置当前地址的请求缓存
+     * @access public
+     * @param  string $key 缓存标识，支持变量规则 ，例如 item/:name/:id
+     * @param  mixed  $expire 缓存有效期
+     * @param  array  $except 缓存排除
+     * @param  string $tag    缓存标签
+     * @return void
+     */
+    public function checkRequestCache($key, $expire = null, $except = [], $tag = null)
+    {
+        $cache = $this->request->cache($key, $expire, $except, $tag);
+
+        if ($cache) {
+            list($key, $expire, $tag) = $cache;
+            if (strtotime($this->request->server('HTTP_IF_MODIFIED_SINCE')) + $expire > $this->request->server('REQUEST_TIME')) {
+                // 读取缓存
+                $response = Response::create()->code(304);
+                throw new HttpResponseException($response);
+            } elseif ($this->cache->has($key)) {
+                list($content, $header) = $this->cache->get($key);
+
+                $response = Response::create($content)->header($header);
+                throw new HttpResponseException($response);
+            }
+        }
     }
 
     /**
@@ -443,7 +517,7 @@ class App implements \ArrayAccess
      */
     public function log($msg, $type = 'info')
     {
-        $this->debug && $this->log->record($msg, $type);
+        $this->appDebug && $this->log->record($msg, $type);
     }
 
     /**
@@ -464,8 +538,18 @@ class App implements \ArrayAccess
      */
     public function routeCheck()
     {
+        // 检测路由缓存
+        if (!$this->appDebug && $this->config->get('route_check_cache')) {
+            $routeKey = $this->getRouteCacheKey();
+            $option   = $this->config->get('route_cache_option') ?: $this->cache->getConfig();
+
+            if ($this->cache->connect($option)->has($routeKey)) {
+                return $this->cache->connect($option)->get($routeKey);
+            }
+        }
+
+        // 获取应用调度信息
         $path = $this->request->path();
-        $depr = $this->config('app.pathinfo_depr');
 
         // 路由检测
         $files = scandir($this->routePath);
@@ -480,10 +564,10 @@ class App implements \ArrayAccess
             }
         }
 
-        if ($this->config('app.route_annotation')) {
+        if ($this->config('route.route_annotation')) {
             // 自动生成路由定义
-            if ($this->debug) {
-                $this->build->buildRoute($this->config('app.controller_suffix'));
+            if ($this->appDebug) {
+                $this->build->buildRoute($this->config('route.controller_suffix'));
             }
 
             $filename = $this->runtimePath . 'build_route.php';
@@ -493,15 +577,24 @@ class App implements \ArrayAccess
             }
         }
 
-        if (is_file($this->runtimePath . 'rule_regex.php')) {
-            $this->route->setRuleRegexs(include $this->runtimePath . 'rule_regex.php');
-        }
-
         // 是否强制路由模式
-        $must = !is_null($this->routeMust) ? $this->routeMust : $this->config('app.url_route_must');
+        $must = !is_null($this->routeMust) ? $this->routeMust : $this->route->config('url_route_must');
 
         // 路由检测 返回一个Dispatch对象
-        return $this->route->check($path, $depr, $must, $this->config('app.route_complete_match'));
+        $dispatch = $this->route->check($path, $must);
+
+        if (!empty($routeKey)) {
+            try {
+                $this->cache
+                    ->connect($option)
+                    ->tag('route_cache')
+                    ->set($routeKey, $dispatch);
+            } catch (\Exception $e) {
+                // 存在闭包的时候缓存无效
+            }
+        }
+
+        return $dispatch;
     }
 
     /**
@@ -674,7 +767,7 @@ class App implements \ArrayAccess
             }
         }
 
-        return $this->container->invokeMethod([$class, $action . $this->config('action_suffix')], $vars);
+        return $this->invokeMethod([$class, $action . $this->config('action_suffix')], $vars);
     }
 
     /**
@@ -713,7 +806,7 @@ class App implements \ArrayAccess
      */
     public function isDebug()
     {
-        return $this->debug;
+        return $this->appDebug;
     }
 
     /**
@@ -864,53 +957,4 @@ class App implements \ArrayAccess
         return $this->beginMem;
     }
 
-    /**
-     * 获取容器实例
-     * @access public
-     * @return Container
-     */
-    public function container()
-    {
-        return $this->container;
-    }
-
-    public function __set($name, $value)
-    {
-        $this->container->bind($name, $value);
-    }
-
-    public function __get($name)
-    {
-        return $this->container->make($name);
-    }
-
-    public function __isset($name)
-    {
-        return $this->container->bound($name);
-    }
-
-    public function __unset($name)
-    {
-        $this->container->__unset($name);
-    }
-
-    public function offsetExists($key)
-    {
-        return $this->__isset($key);
-    }
-
-    public function offsetGet($key)
-    {
-        return $this->__get($key);
-    }
-
-    public function offsetSet($key, $value)
-    {
-        $this->__set($key, $value);
-    }
-
-    public function offsetUnset($key)
-    {
-        $this->__unset($key);
-    }
 }

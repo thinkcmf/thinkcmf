@@ -12,23 +12,23 @@ namespace cmf\controller;
 
 use think\Db;
 use app\admin\model\ThemeModel;
-use think\View;
+use think\facade\View;
 
 class HomeBaseController extends BaseController
 {
 
-    public function _initialize()
+    protected function initialize()
     {
         // 监听home_init
         hook('home_init');
-        parent::_initialize();
+        parent::initialize();
         $siteInfo = cmf_get_site_info();
         View::share('site_info', $siteInfo);
     }
 
-    public function _initializeView()
+    protected function _initializeView()
     {
-        $cmfThemePath    = config('cmf_theme_path');
+        $cmfThemePath    = config('template.cmf_theme_path');
         $cmfDefaultTheme = cmf_get_current_theme();
 
         $themePath = "{$cmfThemePath}{$cmfDefaultTheme}";
@@ -53,9 +53,8 @@ class HomeBaseController extends BaseController
             ];
         }
 
-//        $viewReplaceStr = array_merge(config('tpl_replace_string'), $viewReplaceStr);
         config('template.view_base', "{$themePath}/");
-        config('tpl_replace_string', $viewReplaceStr);
+        config('template.tpl_replace_string', $viewReplaceStr);
 
         $themeErrorTmpl = "{$themePath}/error.html";
         if (file_exists_case($themeErrorTmpl)) {
@@ -109,9 +108,9 @@ class HomeBaseController extends BaseController
         if ($viewBase) {
             // 基础视图目录
             $module = isset($module) ? $module : $request->module();
-            $path   = $viewBase . ($module ? $module . DS : '');
+            $path   = $viewBase . ($module ? $module . DIRECTORY_SEPARATOR : '');
         } else {
-            $path = isset($module) ? APP_PATH . $module . DS . 'view' . DS : config('template.view_path');
+            $path = isset($module) ? APP_PATH . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR : config('template.view_path');
         }
 
         $depr = config('template.view_depr');
@@ -121,9 +120,9 @@ class HomeBaseController extends BaseController
             if ($controller) {
                 if ('' == $template) {
                     // 如果模板文件名为空 按照默认规则定位
-                    $template = str_replace('.', DS, $controller) . $depr . $request->action();
+                    $template = str_replace('.', DIRECTORY_SEPARATOR, $controller) . $depr . cmf_parse_name($request->action(true));
                 } elseif (false === strpos($template, $depr)) {
-                    $template = str_replace('.', DS, $controller) . $depr . $template;
+                    $template = str_replace('.', DIRECTORY_SEPARATOR, $controller) . $depr . $template;
                 }
             }
         } else {
@@ -150,7 +149,7 @@ class HomeBaseController extends BaseController
             $themeModel->updateTheme($theme);
         }
 
-        $themePath = config('cmf_theme_path');
+        $themePath = config('template.cmf_theme_path');
         $file      = str_replace('\\', '/', $file);
         $file      = str_replace('//', '/', $file);
         $file      = str_replace(['.html', '.php', $themePath . $theme . "/"], '', $file);

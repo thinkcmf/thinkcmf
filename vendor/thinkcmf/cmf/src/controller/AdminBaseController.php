@@ -66,9 +66,9 @@ class AdminBaseController extends BaseController
             ];
         }
 
-//        $viewReplaceStr = array_merge(config('tpl_replace_string'), $viewReplaceStr);
+        $viewReplaceStr = array_merge(config('view_replace_str'), $viewReplaceStr);
         config('template.view_base', "$themePath/");
-        config('tpl_replace_string', $viewReplaceStr);
+        config('view_replace_str', $viewReplaceStr);
     }
 
     /**

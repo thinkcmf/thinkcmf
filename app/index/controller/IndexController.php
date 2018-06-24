@@ -11,9 +11,8 @@
 namespace app\index\controller;
 
 use cmf\controller\HomeBaseController;
-use think\Controller;
 
-class IndexController extends Controller
+class IndexController extends HomeBaseController
 {
     public function index()
     {

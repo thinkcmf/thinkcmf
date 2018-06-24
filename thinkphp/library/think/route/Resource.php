@@ -17,8 +17,7 @@ class Resource extends RuleGroup
 {
     // 资源路由名称
     protected $resource;
-    // 资源路由地址
-    protected $route;
+
     // REST路由方法定义
     protected $rest = [];
 
@@ -81,6 +80,8 @@ class Resource extends RuleGroup
             $rule = implode('/', $item) . '/' . $last;
         }
 
+        $prefix = substr($rule, strlen($this->name) + 1);
+
         // 注册资源路由
         foreach ($this->rest as $key => $val) {
             if ((isset($option['only']) && !in_array($key, $option['only']))
@@ -94,9 +95,7 @@ class Resource extends RuleGroup
                 $val[1] = str_replace('<id>', '<' . $option['var'][$rule] . '>', $val[1]);
             }
 
-            $option['rest'] = $key;
-
-            $this->addRule(trim($val[1], '/'), $this->route . '/' . $val[2], $val[0], $option);
+            $this->addRule(trim($prefix . $val[1], '/'), $this->route . '/' . $val[2], $val[0]);
         }
 
         $this->router->setGroup($origin);

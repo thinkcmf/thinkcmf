@@ -41,7 +41,7 @@ class Topthink extends Connector
 
     protected $headers = [];
 
-    public function __construct($options)
+    public function __construct(array $options)
     {
         if (!empty($options)) {
             $this->options = array_merge($this->options, $options);

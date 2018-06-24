@@ -1,10 +1,13 @@
 # think-queue for ThinkPHP5.1
 
 ## 安装
+
 > composer require topthink/think-queue
 
 ## 配置
-> 配置文件位于 `application/extra/queue.php`
+
+> 配置文件位于 `config/queue.php`
+
 ### 公共配置
 
 ```

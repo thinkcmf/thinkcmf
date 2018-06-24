@@ -19,7 +19,7 @@ use ReflectionFunction;
 use ReflectionMethod;
 use think\exception\ClassNotFoundException;
 
-class Container
+class Container implements \ArrayAccess
 {
     /**
      * 容器对象实例
@@ -37,7 +37,35 @@ class Container
      * 容器绑定标识
      * @var array
      */
-    protected $bind = [];
+    protected $bind = [
+        'app'                   => App::class,
+        'build'                 => Build::class,
+        'cache'                 => Cache::class,
+        'config'                => Config::class,
+        'cookie'                => Cookie::class,
+        'debug'                 => Debug::class,
+        'env'                   => Env::class,
+        'hook'                  => Hook::class,
+        'lang'                  => Lang::class,
+        'log'                   => Log::class,
+        'middleware'            => Middleware::class,
+        'request'               => Request::class,
+        'response'              => Response::class,
+        'route'                 => Route::class,
+        'session'               => Session::class,
+        'url'                   => Url::class,
+        'validate'              => Validate::class,
+        'view'                  => View::class,
+        'rule_name'             => route\RuleName::class,
+        // 接口依赖注入
+        'think\LoggerInterface' => Log::class,
+    ];
+
+    /**
+     * 容器标识别名
+     * @var array
+     */
+    protected $name = [];
 
     /**
      * 获取当前容器的实例（单例）
@@ -51,6 +79,17 @@ class Container
         }
 
         return static::$instance;
+    }
+
+    /**
+     * 设置当前容器的实例
+     * @access public
+     * @param  object        $instance
+     * @return void
+     */
+    public static function setInstance($instance)
+    {
+        static::$instance = $instance;
     }
 
     /**
@@ -75,7 +114,7 @@ class Container
      */
     public static function set($abstract, $concrete = null)
     {
-        return static::getInstance()->bind($abstract, $concrete);
+        return static::getInstance()->bindTo($abstract, $concrete);
     }
 
     /**
@@ -106,7 +145,7 @@ class Container
      * @param  mixed         $concrete    要绑定的类、闭包或者实例
      * @return $this
      */
-    public function bind($abstract, $concrete = null)
+    public function bindTo($abstract, $concrete = null)
     {
         if (is_array($abstract)) {
             $this->bind = array_merge($this->bind, $abstract);
@@ -124,17 +163,21 @@ class Container
     /**
      * 绑定一个类实例当容器
      * @access public
-     * @param  string    $abstract    类名或者标识
-     * @param  object    $instance    类的实例
+     * @param  string           $abstract    类名或者标识
+     * @param  object|\Closure  $instance    类的实例
      * @return $this
      */
     public function instance($abstract, $instance)
     {
-        if (isset($this->bind[$abstract])) {
-            $abstract = $this->bind[$abstract];
-        }
+        if ($instance instanceof \Closure) {
+            $this->bind[$abstract] = $instance;
+        } else {
+            if (isset($this->bind[$abstract])) {
+                $abstract = $this->bind[$abstract];
+            }
 
-        $this->instances[$abstract] = $instance;
+            $this->instances[$abstract] = $instance;
+        }
 
         return $this;
     }
@@ -148,6 +191,21 @@ class Container
     public function bound($abstract)
     {
         return isset($this->bind[$abstract]) || isset($this->instances[$abstract]);
+    }
+
+    /**
+     * 判断容器中是否存在对象实例
+     * @access public
+     * @param  string    $abstract    类名或者标识
+     * @return bool
+     */
+    public function exists($abstract)
+    {
+        if (isset($this->bind[$abstract])) {
+            $abstract = $this->bind[$abstract];
+        }
+
+        return isset($this->instances[$abstract]);
     }
 
     /**
@@ -177,6 +235,8 @@ class Container
             $vars        = [];
         }
 
+        $abstract = isset($this->name[$abstract]) ? $this->name[$abstract] : $abstract;
+
         if (isset($this->instances[$abstract]) && !$newInstance) {
             return $this->instances[$abstract];
         }
@@ -187,7 +247,8 @@ class Container
             if ($concrete instanceof Closure) {
                 $object = $this->invokeFunction($concrete, $vars);
             } else {
-                $object = $this->make($concrete, $vars, $newInstance);
+                $this->name[$abstract] = $concrete;
+                return $this->make($concrete, $vars, $newInstance);
             }
         } else {
             $object = $this->invokeClass($abstract, $vars);
@@ -203,13 +264,17 @@ class Container
     /**
      * 删除容器中的对象实例
      * @access public
-     * @param  string    $abstract    类名或者标识
+     * @param  string|array    $abstract    类名或者标识
      * @return void
      */
     public function delete($abstract)
     {
-        if (isset($this->instances[$abstract])) {
-            unset($this->instances[$abstract]);
+        foreach ((array) $abstract as $name) {
+            $name = isset($this->name[$name]) ? $this->name[$name] : $name;
+
+            if (isset($this->instances[$name])) {
+                unset($this->instances[$name]);
+            }
         }
     }
 
@@ -222,6 +287,7 @@ class Container
     {
         $this->instances = [];
         $this->bind      = [];
+        $this->name      = [];
     }
 
     /**
@@ -238,7 +304,7 @@ class Container
 
             $args = $this->bindParams($reflect, $vars);
 
-            return $reflect->invokeArgs($args);
+            return call_user_func_array($function, $args);
         } catch (ReflectionException $e) {
             throw new Exception('function not exists: ' . $function . '()');
         }
@@ -266,6 +332,10 @@ class Container
 
             return $reflect->invokeArgs(isset($class) ? $class : null, $args);
         } catch (ReflectionException $e) {
+            if (is_array($method) && is_object($method[0])) {
+                $method[0] = get_class($method[0]);
+            }
+
             throw new Exception('method not exists: ' . (is_array($method) ? $method[0] . '::' . $method[1] : $method) . '()');
         }
     }
@@ -313,11 +383,21 @@ class Container
         try {
             $reflect = new ReflectionClass($class);
 
+            if ($reflect->hasMethod('__make')) {
+                $method = new ReflectionMethod($class, '__make');
+
+                if ($method->isPublic() && $method->isStatic()) {
+                    $args = $this->bindParams($method, $vars);
+                    return $method->invokeArgs(null, $args);
+                }
+            }
+
             $constructor = $reflect->getConstructor();
 
             $args = $constructor ? $this->bindParams($constructor, $vars) : [];
 
             return $reflect->newInstanceArgs($args);
+
         } catch (ReflectionException $e) {
             throw new ClassNotFoundException('class not exists: ' . $class, $class);
         }
@@ -346,8 +426,7 @@ class Container
             $class = $param->getClass();
 
             if ($class) {
-                $className = $class->getName();
-                $args[]    = $this->make($className);
+                $args[] = $this->getObjectParam($class->getName(), $vars);
             } elseif (1 == $type && !empty($vars)) {
                 $args[] = array_shift($vars);
             } elseif (0 == $type && isset($vars[$name])) {
@@ -362,4 +441,65 @@ class Container
         return $args;
     }
 
+    /**
+     * 获取对象类型的参数值
+     * @access protected
+     * @param  string   $className  类名
+     * @param  array    $vars       参数
+     * @return mixed
+     */
+    protected function getObjectParam($className, &$vars)
+    {
+        $array = $vars;
+        $value = array_shift($array);
+
+        if ($value instanceof $className) {
+            $result = $value;
+            array_shift($vars);
+        } else {
+            $result = $this->make($className);
+        }
+
+        return $result;
+    }
+
+    public function __set($name, $value)
+    {
+        $this->bindTo($name, $value);
+    }
+
+    public function __get($name)
+    {
+        return $this->make($name);
+    }
+
+    public function __isset($name)
+    {
+        return $this->bound($name);
+    }
+
+    public function __unset($name)
+    {
+        $this->delete($name);
+    }
+
+    public function offsetExists($key)
+    {
+        return $this->__isset($key);
+    }
+
+    public function offsetGet($key)
+    {
+        return $this->__get($key);
+    }
+
+    public function offsetSet($key, $value)
+    {
+        $this->__set($key, $value);
+    }
+
+    public function offsetUnset($key)
+    {
+        $this->__unset($key);
+    }
 }

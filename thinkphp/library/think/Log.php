@@ -11,8 +11,6 @@
 
 namespace think;
 
-use think\exception\ClassNotFoundException;
-
 class Log implements LoggerInterface
 {
     const EMERGENCY = 'emergency';
@@ -66,6 +64,11 @@ class Log implements LoggerInterface
         $this->app = $app;
     }
 
+    public static function __make(App $app, Config $config)
+    {
+        return (new static($app))->init($config->pull('log'));
+    }
+
     /**
      * 日志初始化
      * @access public
@@ -74,24 +77,17 @@ class Log implements LoggerInterface
      */
     public function init($config = [])
     {
-        $type  = isset($config['type']) ? $config['type'] : 'File';
-        $class = false !== strpos($type, '\\') ? $type : '\\think\\log\\driver\\' . ucwords($type);
+        $type = isset($config['type']) ? $config['type'] : 'File';
 
         $this->config = $config;
 
         unset($config['type']);
+
         if (!empty($config['close'])) {
             $this->allowWrite = false;
         }
 
-        if (class_exists($class)) {
-            $this->driver = new $class($config);
-        } else {
-            throw new ClassNotFoundException('class not exists:' . $class, $class);
-        }
-
-        // 记录初始化信息
-        $this->app->isDebug() && $this->record('[ LOG ] INIT ' . $type);
+        $this->driver = Loader::factory($type, '\\think\\log\\driver\\', $config);
 
         return $this;
     }
@@ -121,7 +117,7 @@ class Log implements LoggerInterface
             return;
         }
 
-        if (is_string($msg)) {
+        if (is_string($msg) && !empty($context)) {
             $replace = [];
             foreach ($context as $key => $val) {
                 $replace['{' . $key . '}'] = $val;
@@ -130,11 +126,11 @@ class Log implements LoggerInterface
             $msg = strtr($msg, $replace);
         }
 
-        $this->log[$type][] = $msg;
-
         if (PHP_SAPI == 'cli') {
             // 命令行日志实时写入
-            $this->save();
+            $this->write($msg, $type, true);
+        } else {
+            $this->log[$type][] = $msg;
         }
 
         return $this;
@@ -204,10 +200,6 @@ class Log implements LoggerInterface
             return true;
         }
 
-        if (is_null($this->driver)) {
-            $this->init($this->app['config']->pull('log'));
-        }
-
         if (!$this->check($this->config)) {
             // 检测日志写入权限
             return false;
@@ -229,7 +221,8 @@ class Log implements LoggerInterface
             }
         }
 
-        $result = $this->driver->save($log);
+        $result = $this->driver->save($log, true);
+
         if ($result) {
             $this->log = [];
         }
@@ -248,11 +241,11 @@ class Log implements LoggerInterface
     public function write($msg, $type = 'info', $force = false)
     {
         // 封装日志信息
-        $log = $this->log;
+        if (empty($this->config['level'])) {
+            $force = true;
+        }
 
-        if (true === $force || empty($this->config['level'])) {
-            $log[$type][] = $msg;
-        } elseif (in_array($type, $this->config['level'])) {
+        if (true === $force || in_array($type, $this->config['level'])) {
             $log[$type][] = $msg;
         } else {
             return false;
@@ -261,18 +254,8 @@ class Log implements LoggerInterface
         // 监听log_write
         $this->app['hook']->listen('log_write', $log);
 
-        if (is_null($this->driver)) {
-            $this->init($this->app['config']->pull('log'));
-        }
-
         // 写入日志
-        $result = $this->driver->save($log);
-
-        if ($result) {
-            $this->log = [];
-        }
-
-        return $result;
+        return $this->driver->save($log, false);
     }
 
     /**

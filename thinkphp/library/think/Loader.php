@@ -11,6 +11,8 @@
 
 namespace think;
 
+use think\exception\ClassNotFoundException;
+
 class Loader
 {
     /**
@@ -41,10 +43,10 @@ class Loader
     private static $fallbackDirsPsr0 = [];
 
     /**
-     * 自动加载的文件列表
+     * 需要加载的文件
      * @var array
      */
-    private static $autoloadFiles = [];
+    private static $files = [];
 
     /**
      * Composer安装路径
@@ -56,13 +58,7 @@ class Loader
     public static function getRootPath()
     {
         if ('cli' == PHP_SAPI) {
-            $cwdPath = getcwd();
-
-            if (0 === strpos($_SERVER['argv'][0], $cwdPath)) {
-                $scriptName = $_SERVER['argv'][0];
-            } else {
-                $scriptName = $cwdPath . DIRECTORY_SEPARATOR . $_SERVER['argv'][0];
-            }
+            $scriptName = realpath($_SERVER['argv'][0]);
         } else {
             $scriptName = $_SERVER['SCRIPT_FILENAME'];
         }
@@ -94,7 +90,7 @@ class Loader
                 $declaredClass = get_declared_classes();
                 $composerClass = array_pop($declaredClass);
 
-                foreach (['prefixLengthsPsr4', 'prefixDirsPsr4', 'prefixesPsr0', 'classMap'] as $attr) {
+                foreach (['prefixLengthsPsr4', 'prefixDirsPsr4', 'fallbackDirsPsr4', 'prefixesPsr0', 'fallbackDirsPsr0', 'classMap', 'files'] as $attr) {
                     if (property_exists($composerClass, $attr)) {
                         self::${$attr} = $composerClass::${$attr};
                     }
@@ -346,22 +342,20 @@ class Loader
                 self::addClassMap($classMap);
             }
         }
+
+        if (is_file($composerPath . 'autoload_files.php')) {
+            self::$files = require $composerPath . 'autoload_files.php';
+        }
     }
 
     // 加载composer autofile文件
     public static function loadComposerAutoloadFiles()
     {
-        if (is_file(self::$composerPath . 'autoload_files.php')) {
-            $includeFiles = require self::$composerPath . 'autoload_files.php';
-            foreach ($includeFiles as $fileIdentifier => $file) {
-                if (isset($GLOBALS['__composer_autoload_files'][$fileIdentifier])) {
-                    continue;
-                }
+        foreach (self::$files as $fileIdentifier => $file) {
+            if (empty($GLOBALS['__composer_autoload_files'][$fileIdentifier])) {
+                __require_file($file);
 
-                if (empty(self::$autoloadFiles[$fileIdentifier])) {
-                    __require_file($file);
-                    self::$autoloadFiles[$fileIdentifier] = true;
-                }
+                $GLOBALS['__composer_autoload_files'][$fileIdentifier] = true;
             }
         }
     }
@@ -385,6 +379,24 @@ class Loader
         }
 
         return strtolower(trim(preg_replace("/[A-Z]/", "_\\0", $name), "_"));
+    }
+
+    /**
+     * 创建工厂对象实例
+     * @access public
+     * @param  string $name         工厂类名
+     * @param  string $namespace    默认命名空间
+     * @return mixed
+     */
+    public static function factory($name, $namespace = '', ...$args)
+    {
+        $class = false !== strpos($name, '\\') ? $name : $namespace . ucwords($name);
+
+        if (class_exists($class)) {
+            return Container::getInstance()->invokeClass($class, $args);
+        } else {
+            throw new ClassNotFoundException('class not exists:' . $class, $class);
+        }
     }
 }
 

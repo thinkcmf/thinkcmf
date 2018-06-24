@@ -37,6 +37,18 @@ trait Attribute
     protected $json = [];
 
     /**
+     * JSON数据取出是否需要转换为数组
+     * @var bool
+     */
+    protected $jsonAssoc = false;
+
+    /**
+     * JSON数据表字段类型
+     * @var array
+     */
+    protected $jsonType = [];
+
+    /**
      * 数据表废弃字段
      * @var array
      */
@@ -442,7 +454,7 @@ trait Attribute
         } elseif (isset($this->type[$name])) {
             // 类型转换
             $value = $this->readTransform($value, $this->type[$name]);
-        } elseif (in_array($name, [$this->createTime, $this->updateTime])) {
+        } elseif ($this->autoWriteTimestamp && in_array($name, [$this->createTime, $this->updateTime])) {
             if (is_string($this->autoWriteTimestamp) && in_array(strtolower($this->autoWriteTimestamp), [
                 'datetime',
                 'date',

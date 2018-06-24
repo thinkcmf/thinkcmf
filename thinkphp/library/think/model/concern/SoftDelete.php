@@ -11,6 +11,12 @@ trait SoftDelete
 {
 
     /**
+     * 是否包含软删除数据
+     * @var bool
+     */
+    protected $withTrashed = false;
+
+    /**
      * 判断当前实例是否被软删除
      * @access public
      * @return boolean
@@ -35,7 +41,19 @@ trait SoftDelete
     {
         $model = new static();
 
-        return $model->db(false);
+        return $model->withTrashedData(true)->db(false);
+    }
+
+    /**
+     * 是否包含软删除数据
+     * @access protected
+     * @param  bool $withTrashed 是否包含软删除数据
+     * @return $this
+     */
+    protected function withTrashedData($withTrashed)
+    {
+        $this->withTrashed = $withTrashed;
+        return $this;
     }
 
     /**
@@ -71,22 +89,23 @@ trait SoftDelete
     /**
      * 删除当前的记录
      * @access public
-     * @param  bool  $force 是否强制删除
-     * @return integer
+     * @return bool
      */
-    public function delete($force = false)
+    public function delete()
     {
-        if (false === $this->trigger('before_delete', $this)) {
+        if (!$this->isExists() || false === $this->trigger('before_delete', $this)) {
             return false;
         }
 
         $name = $this->getDeleteTimeField();
 
-        if ($name && !$force) {
+        if ($name && !$this->isForce()) {
             // 软删除
             $this->data($name, $this->autoWriteTimestamp($name));
 
-            $result = $this->isUpdate()->save();
+            $result = $this->isUpdate()->withEvent(false)->save();
+
+            $this->withEvent(true);
         } else {
             // 读取更新条件
             $where = $this->getWhere();
@@ -102,11 +121,9 @@ trait SoftDelete
 
         $this->trigger('after_delete', $this);
 
-        // 清空数据
-        $this->data   = [];
-        $this->origin = [];
+        $this->exists(false);
 
-        return $result;
+        return true;
     }
 
     /**
@@ -114,7 +131,7 @@ trait SoftDelete
      * @access public
      * @param  mixed $data 主键列表 支持闭包查询条件
      * @param  bool  $force 是否强制删除
-     * @return integer 成功删除的记录数
+     * @return bool
      */
     public static function destroy($data, $force = false)
     {
@@ -128,47 +145,53 @@ trait SoftDelete
             call_user_func_array($data, [ & $query]);
             $data = null;
         } elseif (is_null($data)) {
-            return 0;
+            return false;
         }
 
         $resultSet = $query->select($data);
-        $count     = 0;
 
         if ($resultSet) {
             foreach ($resultSet as $data) {
-                $result = $data->delete($force);
-                $count += $result;
+                $data->force($force)->delete();
             }
         }
 
-        return $count;
+        return true;
     }
 
     /**
      * 恢复被软删除的记录
      * @access public
      * @param  array $where 更新条件
-     * @return integer
+     * @return bool
      */
     public function restore($where = [])
     {
         $name = $this->getDeleteTimeField();
 
-        if (empty($where)) {
-            $pk = $this->getPk();
-
-            $where[] = [$pk, '=', $this->getData($pk)];
-        }
-
         if ($name) {
+            if (false === $this->trigger('before_restore')) {
+                return false;
+            }
+
+            if (empty($where)) {
+                $pk = $this->getPk();
+
+                $where[] = [$pk, '=', $this->getData($pk)];
+            }
+
             // 恢复删除
-            return $this->db(false)
+            $this->db(false)
                 ->where($where)
                 ->useSoftDelete($name, $this->getWithTrashedExp())
                 ->update([$name => $this->defaultSoftDelete]);
+
+            $this->trigger('after_restore');
+
+            return true;
         }
 
-        return 0;
+        return false;
     }
 
     /**

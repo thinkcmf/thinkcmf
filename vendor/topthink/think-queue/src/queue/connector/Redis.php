@@ -29,10 +29,10 @@ class Redis extends Connector
         'password'   => '',
         'select'     => 0,
         'timeout'    => 0,
-        'persistent' => false
+        'persistent' => false,
     ];
 
-    public function __construct($options)
+    public function __construct(array $options)
     {
         if (!extension_loaded('redis')) {
             throw new Exception('redis扩展未安装');
@@ -80,7 +80,7 @@ class Redis extends Connector
 
         $job = $this->redis->lPop($queue);
 
-        if ($job !== false) {
+        if (false !== $job) {
             $this->redis->zAdd($queue . ':reserved', time() + $this->options['expire'], $job);
 
             return new RedisJob($this, $job, $original);

@@ -77,14 +77,16 @@ class Sqlsrv extends Builder
      * 字段和表名处理
      * @access public
      * @param  Query     $query     查询对象
-     * @param  string    $key       字段名
+     * @param  mixed     $key       字段名
      * @param  bool      $strict   严格检测
      * @return string
      */
     public function parseKey(Query $query, $key, $strict = false)
     {
-        if (is_int($key)) {
+        if (is_numeric($key)) {
             return $key;
+        } elseif ($key instanceof Expression) {
+            return $key->getValue();
         }
 
         $key = trim($key);
@@ -104,7 +106,7 @@ class Sqlsrv extends Builder
             }
         }
 
-        if ($strict || !preg_match('/[,\'\"\*\(\)\[.\s]/', $key)) {
+        if ('*' != $key && ($strict || !preg_match('/[,\'\"\*\(\)\[.\s]/', $key))) {
             $key = '[' . $key . ']';
         }
 
