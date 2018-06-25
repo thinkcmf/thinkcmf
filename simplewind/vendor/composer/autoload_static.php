@@ -9,9 +9,9 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
     public static $files = array (
         '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
         '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
-        'cc56288302d9df745d97c934d6a6e5f0' => __DIR__ . '/..' . '/topthink/think-queue/src/common.php',
-        '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
+        '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
+        'cc56288302d9df745d97c934d6a6e5f0' => __DIR__ . '/..' . '/topthink/think-queue/src/common.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -56,8 +56,8 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         'think\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-image/src',
-            1 => __DIR__ . '/..' . '/topthink/think-queue/src',
-            2 => __DIR__ . '/../../..' . '/simplewind/thinkphp/library/think',
+            1 => __DIR__ . '/../../..' . '/simplewind/thinkphp/library/think',
+            2 => __DIR__ . '/..' . '/topthink/think-queue/src',
         ),
         'mindplay\\annotations\\' => 
         array (

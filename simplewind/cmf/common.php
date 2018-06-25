@@ -693,6 +693,10 @@ function cmf_get_asset_url($file, $style = '')
  */
 function cmf_get_image_url($file, $style = 'watermark')
 {
+    if (empty($file)) {
+        return '';
+    }
+
     if (strpos($file, "http") === 0) {
         return $file;
     } else if (strpos($file, "/") === 0) {
@@ -719,6 +723,10 @@ function cmf_get_image_url($file, $style = 'watermark')
  */
 function cmf_get_image_preview_url($file, $style = 'watermark')
 {
+    if (empty($file)) {
+        return '';
+    }
+
     if (strpos($file, "http") === 0) {
         return $file;
     } else if (strpos($file, "/") === 0) {
@@ -745,6 +753,10 @@ function cmf_get_image_preview_url($file, $style = 'watermark')
  */
 function cmf_get_file_download_url($file, $expires = 3600)
 {
+    if (empty($file)) {
+        return '';
+    }
+
     if (strpos($file, "http") === 0) {
         return $file;
     } else if (strpos($file, "/") === 0) {
@@ -924,6 +936,60 @@ function cmf_is_wechat()
         return true;
     }
     return false;
+}
+
+/**
+ * 判断是否为Android访问
+ * @return boolean
+ */
+function cmf_is_android()
+{
+    if (strpos($_SERVER['HTTP_USER_AGENT'], 'Android') !== false) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * 判断是否为ios访问
+ * @return boolean
+ */
+function cmf_is_ios()
+{
+    if (strpos($_SERVER['HTTP_USER_AGENT'], 'iPhone') || strpos($_SERVER['HTTP_USER_AGENT'], 'iPad')) {
+        {
+            return true;
+        }
+        return false;
+    }
+}
+
+/**
+ * 判断是否为iPhone访问
+ * @return boolean
+ */
+function cmf_is_iphone()
+{
+    if (strpos($_SERVER['HTTP_USER_AGENT'], 'iPhone')) {
+        {
+            return true;
+        }
+        return false;
+    }
+}
+
+/**
+ * 判断是否为iPad访问
+ * @return boolean
+ */
+function cmf_is_ipad()
+{
+    if (strpos($_SERVER['HTTP_USER_AGENT'], 'iPad')) {
+        {
+            return true;
+        }
+        return false;
+    }
 }
 
 /**
@@ -1385,7 +1451,9 @@ function cmf_generate_user_token($userId, $deviceType)
             'device_type' => $deviceType
         ]);
     } else {
-        if ($findUserToken['expire_time'] <= time()) {
+        if ($findUserToken['expire_time'] > time() && !empty($findUserToken['token'])) {
+            $token = $findUserToken['token'];
+        } else {
             Db::name("user_token")
                 ->where('user_id', $userId)
                 ->where('device_type', $deviceType)
@@ -1394,8 +1462,6 @@ function cmf_generate_user_token($userId, $deviceType)
                     'expire_time' => $expireTime,
                     'create_time' => $currentTime
                 ]);
-        } else {
-            $token = $findUserToken['token'];
         }
 
     }
@@ -1489,7 +1555,7 @@ function cmf_is_sae()
  * @param boolean $adv 是否进行高级模式获取（有可能被伪装）
  * @return string
  */
-function get_client_ip($type = 0, $adv = false)
+function get_client_ip($type = 0, $adv = true)
 {
     return request()->ip($type, $adv);
 }
@@ -1879,4 +1945,27 @@ function cmf_data_to_xml($data, $item = 'item', $id = 'id')
         $xml .= "</{$key}>";
     }
     return $xml;
+}
+
+/**
+ * 检查手机格式，中国手机不带国家代码，国际手机号格式为：国家代码-手机号
+ * @param $mobile
+ * @return bool
+ */
+function cmf_check_mobile($mobile)
+{
+    if (preg_match('/(^(13\d|14\d|15\d|16\d|17\d|18\d|19\d)\d{8})$/', $mobile)) {
+        return true;
+    } else {
+        if (preg_match('/^\d{1,4}-\d{5,11}$/', $mobile)) {
+            if (preg_match('/^\d{1,4}-0+/', $mobile)) {
+                //不能以0开头
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
 }

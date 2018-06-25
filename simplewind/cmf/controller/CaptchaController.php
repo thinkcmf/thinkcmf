@@ -77,7 +77,7 @@ class CaptchaController
 
         $defaultCaptchaConfig = config('captcha');
         if ($defaultCaptchaConfig && is_array($defaultCaptchaConfig)) {
-            $config = array_merge($defaultCaptchaConfig, $config);
+            $config = array_merge($config, $defaultCaptchaConfig);
         }
         $captcha = new Captcha($config);
 

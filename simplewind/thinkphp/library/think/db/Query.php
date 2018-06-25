@@ -53,6 +53,8 @@ class Query
     protected static $info = [];
     // 回调事件
     private static $event = [];
+    // 读取主库
+    private static $readMaster = [];
 
     /**
      * 构造函数
@@ -141,16 +143,22 @@ class Query
     }
 
     /**
-     * 设置模型从主库读取数据
+     * 设置后续从主库读取数据
      * @access public
-     * @param  bool $master
+     * @param  bool $allTable
      * @return void
      */
-    public function setModelReadMaster($master = true)
+    public function readMaster($allTable = false)
     {
-        if ($this->model) {
-            $this->model->readMaster($master);
+        if ($allTable) {
+            $table = '*';
+        } else {
+            $table = isset($this->options['table']) ? $this->options['table'] : $this->getTable();
         }
+
+        static::$readMaster[$table] = true;
+
+        return $this;
     }
 
     /**
@@ -916,7 +924,7 @@ class Query
      * @access public
      * @param string|array $table 数据表
      * @param string|array $field 查询字段
-     * @param string|array $on    JOIN条件
+     * @param mixed        $on    JOIN条件
      * @param string       $type  JOIN类型
      * @return $this
      */
@@ -2934,6 +2942,10 @@ class Query
             if (!isset($options[$name])) {
                 $options[$name] = false;
             }
+        }
+
+        if (isset(static::$readMaster['*']) || (is_string($options['table']) && isset(static::$readMaster[$options['table']]))) {
+            $options['master'] = true;
         }
 
         foreach (['join', 'union', 'group', 'having', 'limit', 'order', 'force', 'comment'] as $name) {

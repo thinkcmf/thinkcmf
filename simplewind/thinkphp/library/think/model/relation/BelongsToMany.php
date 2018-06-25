@@ -71,17 +71,31 @@ class BelongsToMany extends Relation
     }
 
     /**
-     * 实例化中间表模型
+     * 获取中间表更新条件
      * @param $data
+     * @return array
+     */
+    protected function getUpdateWhere($data)
+    {
+        return [
+            $this->localKey   => $data[$this->localKey],
+            $this->foreignKey => $data[$this->foreignKey],
+        ];
+    }
+
+    /**
+     * 实例化中间表模型
+     * @param  array    $data
+     * @param  bool     $isUpdate
      * @return Pivot
      * @throws Exception
      */
-    protected function newPivot($data = [])
+    protected function newPivot($data = [], $isUpdate = false)
     {
         $class = $this->pivotName ?: '\\think\\model\\Pivot';
         $pivot = new $class($data, $this->parent, $this->middle);
         if ($pivot instanceof Pivot) {
-            return $pivot;
+            return $isUpdate ? $pivot->isUpdate(true, $this->getUpdateWhere($data)) : $pivot;
         } else {
             throw new Exception('pivot model must extends: \think\model\Pivot');
         }
@@ -104,7 +118,7 @@ class BelongsToMany extends Relation
                     }
                 }
             }
-            $model->setRelation('pivot', $this->newPivot($pivot));
+            $model->setRelation('pivot', $this->newPivot($pivot, true));
         }
     }
 
@@ -370,7 +384,7 @@ class BelongsToMany extends Relation
                     }
                 }
             }
-            $set->setRelation('pivot', $this->newPivot($pivot));
+            $set->setRelation('pivot', $this->newPivot($pivot, true));
             $data[$pivot[$this->localKey]][] = $set;
         }
         return $data;
@@ -473,7 +487,7 @@ class BelongsToMany extends Relation
             foreach ($ids as $id) {
                 $pivot[$this->foreignKey] = $id;
                 $this->pivot->insert($pivot, true);
-                $result[] = $this->newPivot($pivot);
+                $result[] = $this->newPivot($pivot, true);
             }
             if (count($result) == 1) {
                 // 返回中间表模型对象
