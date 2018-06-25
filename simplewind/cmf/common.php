@@ -965,6 +965,34 @@ function cmf_is_ios()
 }
 
 /**
+ * 判断是否为iPhone访问
+ * @return boolean
+ */
+function cmf_is_iphone()
+{
+    if (strpos($_SERVER['HTTP_USER_AGENT'], 'iPhone')) {
+        {
+            return true;
+        }
+        return false;
+    }
+}
+
+/**
+ * 判断是否为iPad访问
+ * @return boolean
+ */
+function cmf_is_ipad()
+{
+    if (strpos($_SERVER['HTTP_USER_AGENT'], 'iPad')) {
+        {
+            return true;
+        }
+        return false;
+    }
+}
+
+/**
  * 添加钩子
  * @param string $hook 钩子名称
  * @param mixed $params 传入参数
