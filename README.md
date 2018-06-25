@@ -139,6 +139,7 @@ https://github.com/thinkcmf/thinkcmf/issues
 * 增加插件REST api基类`PluginRestBaseController`
 * 增加我的喜欢功能
 * 升级TP到`5.0.20`
+* 增加手机相关设备类型判断
 
 [门户应用]
 * 增加文章`thumbnail`字段
