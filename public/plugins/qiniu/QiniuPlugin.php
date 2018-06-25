@@ -18,7 +18,7 @@ class QiniuPlugin extends Plugin
     public $info = [
         'name'        => 'Qiniu',
         'title'       => '七牛云存储',
-        'description' => '七牛云存储',
+        'description' => 'ThinkCMF七牛专享优惠码:507670e8',
         'status'      => 1,
         'author'      => 'ThinkCMF',
         'version'     => '1.0'

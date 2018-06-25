@@ -1,4 +1,4 @@
-ThinkCMF 5.0.180525 正式版
+ThinkCMF 5.0.180626 正式版
 ===============
 
 ### 系列讲座
@@ -127,6 +127,24 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
+#### 5.0.180626
+* 升级TP到`5.0.20`
+* 增加插件REST api基类`PluginRestBaseController`
+* 增加我的喜欢功能
+* 增加手机相关设备类型判断函数
+* 优化百度编辑器视频上传
+* 优化get_client_ip()方法，默认使用高级模式
+* 优化手机号检查支持国际手机号
+* 优化图片和文件链接转化函数
+* Restful api基类增加apiVersion属性
+* 修复邮箱验证码发送失败
+* 七牛插件增加东南亚节点
+* 前台模板文件解析标准化
+
+[门户应用]
+* 增加文章`thumbnail`字段
+* 增加文章收藏数功能
+
 #### 5.0.180525
 * 修复ajax请求普通页面时返回格式为json
 * 优化图片链接生成

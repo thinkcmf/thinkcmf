@@ -50,7 +50,7 @@ class VerificationCodeController extends HomeBaseController
 
         if (Validate::is($data['username'], 'email')) {
             $accountType = 'email';
-        } else if (preg_match('/(^(13\d|15[^4\D]|17[013678]|18\d)\d{8})$/', $data['username'])) {
+        } else if (cmf_check_mobile($data['username'])) {
             $accountType = 'mobile';
         } else {
             $this->error("请输入正确的手机或者邮箱格式!");
@@ -83,7 +83,7 @@ class VerificationCodeController extends HomeBaseController
             $username = empty($user['user_nickname']) ? $user['user_login'] : $user['user_nickname'];
 
             $message = htmlspecialchars_decode($emailTemplate['template']);
-            $message = $this->display($message, ['code' => $code, 'username' => $username]);
+            $message = $this->view->display($message, ['code' => $code, 'username' => $username]);
             $subject = empty($emailTemplate['subject']) ? 'ThinkCMF验证码' : $emailTemplate['subject'];
             $result  = cmf_send_email($data['username'], $subject, $message);
 

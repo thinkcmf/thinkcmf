@@ -395,6 +395,7 @@
                 server: actionUrl,
                 fileVal: editor.getOpt('videoFieldName'),
                 duplicate: true,
+                timeout: 0,
                 fileSingleSizeLimit: fileMaxSize,
                 compress: false,
                 chunked: true,//开启分片

@@ -121,7 +121,7 @@ class HomeBaseController extends BaseController
             if ($controller) {
                 if ('' == $template) {
                     // 如果模板文件名为空 按照默认规则定位
-                    $template = str_replace('.', DS, $controller) . $depr . $request->action();
+                    $template = str_replace('.', DS, $controller) . $depr . cmf_parse_name($request->action(true));
                 } elseif (false === strpos($template, $depr)) {
                     $template = str_replace('.', DS, $controller) . $depr . $template;
                 }
