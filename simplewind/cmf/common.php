@@ -939,6 +939,32 @@ function cmf_is_wechat()
 }
 
 /**
+ * 判断是否为Android访问
+ * @return boolean
+ */
+function cmf_is_android()
+{
+    if (strpos($_SERVER['HTTP_USER_AGENT'], 'Android') !== false) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * 判断是否为ios访问
+ * @return boolean
+ */
+function cmf_is_ios()
+{
+    if (strpos($_SERVER['HTTP_USER_AGENT'], 'iPhone') || strpos($_SERVER['HTTP_USER_AGENT'], 'iPad')) {
+        {
+            return true;
+        }
+        return false;
+    }
+}
+
+/**
  * 添加钩子
  * @param string $hook 钩子名称
  * @param mixed $params 传入参数
