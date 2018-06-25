@@ -106,8 +106,6 @@ class HomeBaseController extends BaseController
 
         $viewBase = config('template.view_base');
 
-        echo $viewBase;
-
         if ($viewBase) {
             // 基础视图目录
             $module = isset($module) ? $module : $request->module();

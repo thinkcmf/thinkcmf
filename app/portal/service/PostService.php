@@ -90,20 +90,19 @@ class PostService
         if (empty($categoryId)) {
 
             $where = [
-                'post.post_type'      => 1,
-                'post.published_time' => [['< time', time()], ['> time', 0]],
-                'post.post_status'    => 1,
-                'post.delete_time'    => 0,
-                'post.id'             => $postId
+                'post.post_type'   => 1,
+                'post.post_status' => 1,
+                'post.delete_time' => 0,
+                'post.id'          => $postId
             ];
 
             $article = $portalPostModel->alias('post')->field('post.*')
                 ->where($where)
+                ->where('post.published_time', ['< time', time()], ['> time', 0], 'and')
                 ->find();
         } else {
             $where = [
                 'post.post_type'       => 1,
-                'post.published_time'  => [['< time', time()], ['> time', 0]],
                 'post.post_status'     => 1,
                 'post.delete_time'     => 0,
                 'relation.category_id' => $categoryId,
@@ -116,6 +115,7 @@ class PostService
             $article = $portalPostModel->alias('post')->field('post.*')
                 ->join($join)
                 ->where($where)
+                ->where('post.published_time', ['< time', time()], ['> time', 0], 'and')
                 ->find();
         }
 
@@ -132,7 +132,6 @@ class PostService
 
             $where = [
                 'post.post_type'      => 1,
-                'post.published_time' => [['< time', time()], ['> time', 0]],
                 'post.post_status'    => 1,
                 'post.delete_time'    => 0,
                 'post.id '            => ['<', $postId]
@@ -140,13 +139,13 @@ class PostService
 
             $article = $portalPostModel->alias('post')->field('post.*')
                 ->where($where)
+                ->where('post.published_time', ['< time', time()], ['> time', 0], 'and')
                 ->order('id', 'DESC')
                 ->find();
 
         } else {
             $where = [
                 'post.post_type'       => 1,
-                'post.published_time'  => [['< time', time()], ['> time', 0]],
                 'post.post_status'     => 1,
                 'post.delete_time'     => 0,
                 'relation.category_id' => $categoryId,
@@ -159,6 +158,7 @@ class PostService
             $article = $portalPostModel->alias('post')->field('post.*')
                 ->join($join)
                 ->where($where)
+                ->where('post.published_time', ['< time', time()], ['> time', 0], 'and')
                 ->order('id', 'DESC')
                 ->find();
         }
@@ -176,7 +176,6 @@ class PostService
 
             $where = [
                 'post.post_type'      => 1,
-                'post.published_time' => [['< time', time()], ['> time', 0]],
                 'post.post_status'    => 1,
                 'post.delete_time'    => 0,
                 'post.id'             => ['>', $postId]
@@ -184,12 +183,12 @@ class PostService
 
             $article = $portalPostModel->alias('post')->field('post.*')
                 ->where($where)
+                ->where('post.published_time', ['< time', time()], ['> time', 0], 'and')
                 ->order('id', 'ASC')
                 ->find();
         } else {
             $where = [
                 'post.post_type'       => 1,
-                'post.published_time'  => [['< time', time()], ['> time', 0]],
                 'post.post_status'     => 1,
                 'post.delete_time'     => 0,
                 'relation.category_id' => $categoryId,
@@ -202,6 +201,7 @@ class PostService
             $article = $portalPostModel->alias('post')->field('post.*')
                 ->join($join)
                 ->where($where)
+                ->where('post.published_time', ['< time', time()], ['> time', 0], 'and')
                 ->order('id', 'ASC')
                 ->find();
         }
