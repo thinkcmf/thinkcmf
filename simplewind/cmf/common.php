@@ -911,7 +911,7 @@ function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, 
 function cmf_check_user_login($username,$ip)
 {
     $adminSettings  = cmf_get_option('admin_settings');
-    $check_times =  $adminSettings['login_failedtime'];
+    $check_times =    $adminSettings['login_failedtime']<1 ? 5 : $adminSettings['login_failedtime'];
 
     $now_time = time();
 
