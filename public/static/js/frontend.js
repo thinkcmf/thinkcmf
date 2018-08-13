@@ -1222,12 +1222,9 @@ function uploadOne(dialog_title, input_selector, filetype, extra_params, app) {
         $(input_selector).val(files[0].filepath);
         $(input_selector + '-preview').attr('href', files[0].preview_url);
 
-        var $name = $(input_selector + '-name');
-        if ($name.is(':input')) {
-            $name.val(files[0].name);
-        } else {
-            $name.text(files[0].name);
-        }
+        $(input_selector + '-name').val(files[0].name);
+        $(input_selector + '-name-text').val(files[0].name);
+
 
     }, extra_params, 0, filetype, app);
 }
@@ -1244,12 +1241,9 @@ function uploadOneImage(dialog_title, input_selector, extra_params, app) {
         $(input_selector).val(files[0].filepath);
         $(input_selector + '-preview').attr('src', files[0].preview_url);
 
-        var $name = $(input_selector + '-name');
-        if ($name.is(':input')) {
-            $name.val(files[0].name);
-        } else {
-            $name.text(files[0].name);
-        }
+        $(input_selector + '-name').val(files[0].name);
+        $(input_selector + '-name-text').val(files[0].name);
+
     }, extra_params, 0, 'image', app);
 }
 
