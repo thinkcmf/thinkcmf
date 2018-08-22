@@ -42,7 +42,7 @@ class Captcha
         // 验证码位数
         'fontttf'  => '',
         // 验证码字体，不设置随机获取
-        'bg'       => [243, 251, 254],
+        'bg'       => [255, 255, 255],
         // 背景颜色
         'reset'    => true,
         // 验证成功后是否重置
@@ -145,9 +145,9 @@ class Captcha
         imagecolorallocate($this->_image, $this->bg[0], $this->bg[1], $this->bg[2]);
 
         // 验证码字体随机颜色
-        $this->_color = imagecolorallocate($this->_image, mt_rand(1, 150), mt_rand(1, 150), mt_rand(1, 150));
+        $this->_color = imagecolorallocate($this->_image, mt_rand(1, 255), mt_rand(1, 150), mt_rand(1, 255));
         // 验证码使用随机字体
-        $ttfPath = VENDOR_PATH . 'topthink/think-captcha/assets/' . ($this->useZh ? 'zhttfs' : 'ttfs') . '/';
+        $ttfPath = CMF_PATH . 'lib/captcha/assets/' . ($this->useZh ? 'zhttfs' : 'ttfs') . '/';
 
         if (empty($this->fontttf)) {
             $dir  = dir($ttfPath);
@@ -162,7 +162,7 @@ class Captcha
         }
         $this->fontttf = $ttfPath . $this->fontttf;
 
-        file_put_contents('ttf.txt', $this->fontttf);
+        //file_put_contents('ttf.txt',$this->fontttf);
 
         if ($this->useImgBg) {
             $this->_background();
@@ -182,9 +182,11 @@ class Captcha
         $code   = []; // 验证码
         $codeNX = 0; // 验证码第N个字符的左边距
         if ($this->useZh) {
-            
+
             // 中文验证码
             for ($i = 0; $i < $this->length; $i++) {
+                // 验证码字体随机颜色
+                $this->_color = imagecolorallocate($this->_image, mt_rand(1, 255), mt_rand(1, 150), mt_rand(1, 255));
                 $code[$i] = iconv_substr($this->zhSet, floor(mt_rand(0, mb_strlen($this->zhSet, 'utf-8') - 1)), 1, 'utf-8');
                 imagettftext($this->_image, $this->fontSize, mt_rand(-40, 40), $this->fontSize * ($i + 1) * 1.5, $this->fontSize + mt_rand(10, 20), $this->_color, $this->fontttf, $code[$i]);
             }
@@ -196,6 +198,8 @@ class Captcha
                 for ($i = 0; $i < $this->length; $i++) {
                     $code[$i] = $this->codeSet[mt_rand(0, strlen($this->codeSet) - 1)];
                     $codeNX   += mt_rand($this->fontSize * 1.2, $this->fontSize * 1.6);
+                    // 验证码字体随机颜色
+                    $this->_color = imagecolorallocate($this->_image, mt_rand(1, 255), mt_rand(1, 150), mt_rand(1, 255));
                     imagettftext($this->_image, $this->fontSize, mt_rand(-40, 40), $codeNX, $this->fontSize * 1.6, $this->_color, $this->fontttf, $code[$i]);
                 }
             } else {
@@ -229,6 +233,8 @@ class Captcha
 
 
                 for ($i = 0; $i < 5; $i++) {
+                    // 验证码字体随机颜色
+                    $this->_color = imagecolorallocate($this->_image, mt_rand(1, 255), mt_rand(1, 150), mt_rand(1, 255));
                     $codeNX += mt_rand($this->fontSize * 1.2, $this->fontSize * 1.6);
                     imagettftext($this->_image, $this->fontSize, mt_rand(-40, 40), $codeNX, $this->fontSize * 1.6, $this->_color, $this->fontttf, $mCode[$i]);
                 }
@@ -320,8 +326,8 @@ class Captcha
         $codeSet = '2345678abcdefhijkmnpqrstuvwxyz';
         for ($i = 0; $i < 10; $i++) {
             //杂点颜色
-            $noiseColor = imagecolorallocate($this->_image, mt_rand(150, 225), mt_rand(150, 225), mt_rand(150, 225));
-            for ($j = 0; $j < 5; $j++) {
+            $noiseColor = imagecolorallocate($this->_image, mt_rand(150, 255), mt_rand(150, 225), mt_rand(1, 255));
+            for ($j = 0; $j < 10; $j++) {
                 // 绘杂点
                 imagestring($this->_image, mt_rand(1, 5), mt_rand(-10, $this->imageW), mt_rand(-10, $this->imageH), $codeSet[mt_rand(0, 29)], $noiseColor);
             }

@@ -37,7 +37,7 @@ class CaptchaController
             // 验证码位数
             'length'   => 4,
             // 背景颜色
-            'bg'       => [243, 251, 254],
+            'bg'       => [255, 255, 255],
         ];
 
         $fontSize = $request->param('font_size', 25, 'intval');
