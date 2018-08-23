@@ -11,7 +11,7 @@
 
 namespace cmf\controller;
 
-use cmf\lib\Captcha;
+use think\captcha\Captcha;
 use think\Request;
 
 class CaptchaController
@@ -72,16 +72,20 @@ class CaptchaController
 
         $id = $request->param('id', 0, 'intval');
         if ($id > 5 || empty($id)) {
-            $id = '';
+            $id                   = '';
+            $config['captcha_id'] = $id;
         }
 
-        $defaultCaptchaConfig = config('captcha');
-        if ($defaultCaptchaConfig && is_array($defaultCaptchaConfig)) {
-            $config = array_merge($config, $defaultCaptchaConfig);
+        $response = hook_one('captcha_image', $config);
+        if (empty($response)) {
+            $defaultCaptchaConfig = config('captcha');
+            if ($defaultCaptchaConfig && is_array($defaultCaptchaConfig)) {
+                $config = array_merge($config, $defaultCaptchaConfig);
+            }
+            $captcha  = new Captcha($config);
+            $response = $captcha->entry($id);
         }
-        $captcha = new Captcha($config);
-
-        @ob_clean();// 清除输出缓存 
-        return $captcha->entry($id);
+        @ob_clean();// 清除输出缓存
+        return $response;
     }
 }

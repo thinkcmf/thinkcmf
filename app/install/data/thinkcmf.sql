@@ -504,7 +504,8 @@ INSERT INTO `cmf_hook` (`id`, `type`, `once`, `name`, `hook`, `app`, `descriptio
 (32, 2, 1, '获取上传界面', 'fetch_upload_view', 'user', '获取上传界面'),
 (33, 3, 0, '主要内容之前', 'before_content', 'cmf', '主要内容之前'),
 (34, 1, 0, '日志写入完成', 'log_write_done', 'cmf', '日志写入完成'),
-(35, 1, 1, '后台模板切换', 'switch_admin_theme', 'cmf', '后台模板切换');
+(35, 1, 1, '后台模板切换', 'switch_admin_theme', 'cmf', '后台模板切换'),
+(36, 1, 1, '验证码图片', 'captcha_image', 'cmf', '验证码图片');
 
 -- --------------------------------------------------------
 
