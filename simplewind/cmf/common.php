@@ -137,6 +137,14 @@ function cmf_get_current_theme()
         $theme = $hookTheme;
     }
 
+    $designT='_design_theme';
+    if (isset($_GET[$designT])) {
+        $theme = $_GET[$designT];
+        cookie('cmf_design_theme', $theme, 864000);
+    } elseif (cookie('cmf_design_theme')) {
+        $theme = cookie('cmf_design_theme');
+    }
+
     $_currentTheme = $theme;
 
     return $theme;
@@ -1224,8 +1232,8 @@ function cmf_captcha_check($value, $id = "", $reset = true)
 
 /**
  * 切分SQL文件成多个可以单独执行的sql语句
- * @param $file sql文件路径
- * @param $tablePre 表前缀
+ * @param $file string sql文件路径
+ * @param $tablePre string 表前缀
  * @param string $charset 字符集
  * @param string $defaultTablePre 默认表前缀
  * @param string $defaultCharset 默认字符集

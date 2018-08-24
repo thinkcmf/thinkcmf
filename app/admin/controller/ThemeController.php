@@ -247,9 +247,17 @@ class ThemeController extends AdminBaseController
      */
     public function fileSetting()
     {
-        $tab                 = $this->request->param('tab', 'widget');
-        $fileId              = $this->request->param('file_id', 0, 'intval');
-        $file                = Db::name('theme_file')->where(['id' => $fileId])->find();
+        $tab    = $this->request->param('tab', 'widget');
+        $fileId = $this->request->param('file_id', 0, 'intval');
+        if (empty($fileId)) {
+            $file  = $this->request->param('file');
+            $theme = $this->request->param('theme');
+            $file  = Db::name('theme_file')->where(['file' => $file, 'theme' => $theme])->find();
+        } else {
+            $file = Db::name('theme_file')->where(['id' => $fileId])->find();
+        }
+        $fileId = $file['id'];
+
         $file['config_more'] = json_decode($file['config_more'], true);
         $file['more']        = json_decode($file['more'], true);
         $this->assign('tab', $tab);
@@ -725,7 +733,7 @@ class ThemeController extends AdminBaseController
 
             $more = json_encode($more);
             Db::name('theme_file')->where(['id' => $id])->update(['more' => $more]);
-            $this->success("保存成功！");
+            $this->success("保存成功！", '');
         }
     }
 
@@ -873,6 +881,25 @@ class ThemeController extends AdminBaseController
         $this->assign('filters', $filters);
         return $this->fetch();
 
+    }
+
+    /**
+     * 模板设计
+     * @adminMenu(
+     *     'name'   => '模板设计',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '模板设计',
+     *     'param'  => ''
+     * )
+     */
+    public function design()
+    {
+        session('admin_designing_theme', true);
+        return $this->fetch();
     }
 
 }
