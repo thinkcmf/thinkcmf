@@ -34,6 +34,12 @@ class AdminPageController extends AdminBaseController
      */
     public function index()
     {
+        $content = hook_one('portal_admin_page_index_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $param = $this->request->param();
 
         $postService = new PostService();

@@ -34,6 +34,12 @@ class AdminCategoryController extends AdminBaseController
      */
     public function index()
     {
+        $content = hook_one('portal_admin_category_index_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $portalCategoryModel = new PortalCategoryModel();
         $categoryTree        = $portalCategoryModel->adminCategoryTableTree();
 
