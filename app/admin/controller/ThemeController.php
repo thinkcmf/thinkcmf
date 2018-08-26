@@ -937,7 +937,11 @@ class ThemeController extends AdminBaseController
     public function design()
     {
         session('admin_designing_theme', true);
-        return $this->fetch();
+        $content = hook_one('admin_theme_design_view');
+        if (empty($content)) {
+            $content = $this->fetch();
+        }
+        return $content;
     }
 
 }
