@@ -77,7 +77,8 @@
                                         <div class="panel-body">
                                             {:_parse_vars($widget.vars,'files['.$file['id'].'][widget_vars]['.$widgetName.']',1,$widgetName)}
                                             <notempty name="file.is_public">
-                                                <div>公共组件</div>
+                                                <span class="pull-right label label-success">公共组件</span>
+                                                <!--<a class="pull-right" title="公共组件" data-toggle="tooltip"><i class="fa fa-question-circle"></i></a>-->
                                             </notempty>
                                         </div>
                                     </div>
