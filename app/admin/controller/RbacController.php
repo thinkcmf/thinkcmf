@@ -33,6 +33,12 @@ class RbacController extends AdminBaseController
      */
     public function index()
     {
+        $content = hook_one('admin_rbac_index_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $data = Db::name('role')->order(["list_order" => "ASC", "id" => "DESC"])->select();
         $this->assign("roles", $data);
         return $this->fetch();

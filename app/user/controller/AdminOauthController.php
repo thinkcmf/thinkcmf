@@ -31,6 +31,12 @@ class AdminOauthController extends AdminBaseController
      */
     public function index()
     {
+        $content = hook_one('user_admin_oauth_index_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $oauthUserQuery = Db::name('third_party_user');
 
         $lists = $oauthUserQuery->field('a.*,u.user_nickname,u.sex,u.avatar')->alias('a')->join('__USER__ u', 'a.user_id = u.id')->where("status", 1)->order("create_time DESC")->paginate(10);

@@ -44,6 +44,12 @@ class UserController extends AdminBaseController
      */
     public function index()
     {
+        $content = hook_one('admin_user_index_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $where = ["user_type" => 1];
         /**搜索条件**/
         $userLogin = $this->request->param('user_login');
