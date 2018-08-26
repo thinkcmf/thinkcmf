@@ -41,7 +41,7 @@ class ThemeDesignDemoPlugin extends Plugin
     //实现的admin_theme_design_view钩子方法
     public function adminThemeDesignView($param)
     {
-        return "test";
+        return $this->fetch('design');
     }
 
 }
