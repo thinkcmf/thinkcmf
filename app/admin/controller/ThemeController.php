@@ -169,7 +169,7 @@ class ThemeController extends AdminBaseController
         if ($result === false) {
             $this->error('模板不存在!');
         }
-        $this->success("更新成功", url("theme/index"));
+        $this->success("更新成功");
     }
 
     /**

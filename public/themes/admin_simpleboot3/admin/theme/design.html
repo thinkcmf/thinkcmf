@@ -66,22 +66,43 @@
         background: #fff;
     }
 
+    #update-theme-btn {
+        position: fixed;
+        top: 30px;
+        right: 30px;
+        z-index: 99;
+        font-size: 20px;
+        line-height: 50px;
+        width: 50px;
+        border: 1px solid #eee;
+        text-align: center;
+        border-radius: 50%;
+        cursor: pointer;
+        background: #fff;
+    }
+
+    #update-theme-btn:focus {
+        outline: none;
+    }
+
     #show-setting-panel:hover {
         background: #eee;
         border-color: #ddd;
     }
 
-    #think_page_trace{
+    #think_page_trace {
         display: none !important;
     }
 
-    #think_page_trace_open{
+    #think_page_trace_open {
         display: none !important;
     }
 </style>
 </head>
 <body>
 <a id="show-setting-panel"><i class="fa fa-pencil"></i></a>
+<a id="update-theme-btn" class="js-ajax-dialog-btn" href="{:url('Theme/update',array('theme'=>input('param.theme')))}"
+   data-msg="您更新此模板吗？"><i class="fa fa-refresh"></i></a>
 <div class="setting-panel-wrap">
     <a href="javascript:;" id="close-setting-panel"><i class="fa fa-close"></i></a>
     <div id="setting-iframe-wrap">
@@ -89,6 +110,8 @@
     </div>
     <div class="footer text-center">
         <a id="save-btn" class="btn btn-primary">保存</a>
+        <a class="btn btn-success js-ajax-dialog-btn" href="{:url('Theme/update',array('theme'=>input('param.theme')))}"
+           data-msg="您更新此模板吗？" data-refresh="1">更新模板</a>
     </div>
 </div>
 <iframe src="/?_design_theme={:input('param.theme')}" frameborder="0" id="simulator"></iframe>
@@ -145,7 +168,7 @@
                     var target = $(this).attr('target');
                     var href   = $(this).attr('href');
                     if (target == '_blank' && href.indexOf('http') < 0) {
-                        simulator.location.href=href;
+                        simulator.location.href = href;
                         return false;
                     }
                 });
