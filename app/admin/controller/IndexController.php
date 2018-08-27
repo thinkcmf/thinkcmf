@@ -35,6 +35,12 @@ class IndexController extends AdminBaseController
      */
     public function index()
     {
+        $content = hook_one('admin_index_index_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $adminMenuModel = new AdminMenuModel();
         $menus          = cache('admin_menus_' . cmf_get_current_admin_id(), '', null, 'admin_menus');
 

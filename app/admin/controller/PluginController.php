@@ -14,7 +14,6 @@ use cmf\controller\AdminBaseController;
 use app\admin\model\PluginModel;
 use app\admin\model\HookPluginModel;
 use mindplay\annotations\Annotations;
-use think\Cache;
 use think\Db;
 use think\Validate;
 
@@ -112,7 +111,7 @@ class PluginController extends AdminBaseController
 
         }
 
-        Cache::clear('init_hook_plugins');
+        cache(null, 'init_hook_plugins');
 
         $this->success($successMessage);
     }
@@ -357,7 +356,7 @@ class PluginController extends AdminBaseController
 
         $this->_getActions($pluginName);
 
-        Cache::clear('init_hook_plugins');
+        cache(null, 'init_hook_plugins');
         cache(null, 'admin_menus');// 删除后台菜单缓存
 
         $this->success('安装成功!');
@@ -439,7 +438,7 @@ class PluginController extends AdminBaseController
 
         $this->_getActions($pluginName);
 
-        Cache::clear('init_hook_plugins');
+        cache(null, 'init_hook_plugins');
         cache(null, 'admin_menus');// 删除后台菜单缓存
 
         $this->success('更新成功!');
@@ -652,7 +651,7 @@ class PluginController extends AdminBaseController
             $this->error('卸载失败!');
         }
 
-        Cache::clear('init_hook_plugins');
+        cache(null, 'init_hook_plugins');
         cache(null, 'admin_menus');// 删除后台菜单缓存
 
         $this->success('卸载成功!');
