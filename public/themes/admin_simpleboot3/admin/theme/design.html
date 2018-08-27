@@ -100,12 +100,8 @@
 </style>
 </head>
 <body>
-<a id="show-setting-panel"><i class="fa fa-pencil"></i></a>
-<if condition="APP_DEBUG">
-    <a id="update-theme-btn" class="js-ajax-dialog-btn"
-       href="{:url('Theme/update',array('theme'=>input('param.theme')))}"
-       data-msg="您更新此模板吗？"><i class="fa fa-refresh"></i></a>
-</if>
+<a id="show-setting-panel" title="编辑当前页" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
+<a id="update-theme-btn" title="刷新当前页" data-toggle="tooltip"><i class="fa fa-refresh"></i></a>
 <div class="setting-panel-wrap">
     <a href="javascript:;" id="close-setting-panel"><i class="fa fa-close"></i></a>
     <div id="setting-iframe-wrap">
@@ -123,8 +119,10 @@
     var $settingIframe       = $('#setting-iframe');
     var simulatorNeedRefresh = true;
 
-    $simulator.ready(function () {
+    $('#update-theme-btn').click(function () {
+        simulator.location.reload(true);
     });
+
 
     $('#save-btn').click(function () {
         $settingIframe.get(0).contentWindow.confirm();
