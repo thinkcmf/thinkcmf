@@ -101,8 +101,11 @@
 </head>
 <body>
 <a id="show-setting-panel"><i class="fa fa-pencil"></i></a>
-<a id="update-theme-btn" class="js-ajax-dialog-btn" href="{:url('Theme/update',array('theme'=>input('param.theme')))}"
-   data-msg="您更新此模板吗？"><i class="fa fa-refresh"></i></a>
+<if condition="APP_DEBUG">
+    <a id="update-theme-btn" class="js-ajax-dialog-btn"
+       href="{:url('Theme/update',array('theme'=>input('param.theme')))}"
+       data-msg="您更新此模板吗？"><i class="fa fa-refresh"></i></a>
+</if>
 <div class="setting-panel-wrap">
     <a href="javascript:;" id="close-setting-panel"><i class="fa fa-close"></i></a>
     <div id="setting-iframe-wrap">
@@ -110,8 +113,6 @@
     </div>
     <div class="footer text-center">
         <a id="save-btn" class="btn btn-primary">保存</a>
-        <a class="btn btn-success js-ajax-dialog-btn" href="{:url('Theme/update',array('theme'=>input('param.theme')))}"
-           data-msg="您更新此模板吗？" data-refresh="1">更新模板</a>
     </div>
 </div>
 <iframe src="/?_design_theme={:input('param.theme')}" frameborder="0" id="simulator"></iframe>
