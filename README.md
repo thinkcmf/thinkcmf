@@ -144,6 +144,7 @@ https://github.com/thinkcmf/thinkcmf/issues
 * 增加后台首页界面钩子
 * 增加后台回收站界面钩子
 * 增加后台菜单管理界面钩子
+* 增加后台自定义登录是否开启钩子
 * 增加admin.js`js-ajax-btn`组件 
 * 优化插件加载
 * 优化前后台上传js
