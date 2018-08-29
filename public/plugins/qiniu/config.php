@@ -104,7 +104,7 @@ return [
     ],
     'styles_watermark'          => [
         'title'   => '样式-水印',
-        'type'    => 'text',
+        'type'    => 'explain',
         'value'   => 'watermark',
         "rule"    => [
             "require" => true
@@ -112,11 +112,11 @@ return [
         "message" => [
             "require" => '样式-水印不能为空'
         ],
-        'tip'     => '请到七牛存储空间->图片样式：添加此样式名称，并进行相应设置 处理接口:<br>imageMogr2/auto-orient/thumbnail/1080x1080>/blur/1x0/quality/75|watermark/2/text/VGhpbmtDTUY=/font/5b6u6L2v6ZuF6buR/fontsize/500/fill/I0ZGRkZGRg==/dissolve/100/gravity/SouthEast/dx/10/dy/10'
+        'tip'     => '请到七牛存储空间->图片样式：添加此样式名称，并进行相应设置 处理接口<span style="color: red;">（请注意修改水印文字）</span>:<br>imageMogr2/auto-orient/thumbnail/1080x1080>/blur/1x0/quality/75|watermark/2/text/VGhpbmtDTUY=/font/5b6u6L2v6ZuF6buR/fontsize/500/fill/I0ZGRkZGRg==/dissolve/100/gravity/SouthEast/dx/10/dy/10'
     ],
     'styles_avatar'             => [
         'title'   => '样式-头像',
-        'type'    => 'text',
+        'type'    => 'explain',
         'value'   => 'avatar',
         "rule"    => [
             "require" => true
@@ -128,7 +128,7 @@ return [
     ],
     'styles_thumbnail120x120'   => [
         'title'   => '样式-缩略图120x120',
-        'type'    => 'text',
+        'type'    => 'explain',
         'value'   => 'thumbnail120x120',
         "rule"    => [
             "require" => true
@@ -140,7 +140,7 @@ return [
     ],
     'styles_thumbnail300x300'   => [
         'title'   => '样式-缩略图300x300',
-        'type'    => 'text',
+        'type'    => 'explain',
         'value'   => 'thumbnail300x300',
         "rule"    => [
             "require" => true
@@ -152,7 +152,7 @@ return [
     ],
     'styles_thumbnail640x640'   => [
         'title'   => '样式-缩略图640x640',
-        'type'    => 'text',
+        'type'    => 'explain',
         'value'   => 'thumbnail640x640',
         "rule"    => [
             "require" => true
@@ -164,7 +164,7 @@ return [
     ],
     'styles_thumbnail1080x1080' => [
         'title'   => '样式-缩略图1080x1080',
-        'type'    => 'text',
+        'type'    => 'explain',
         'value'   => 'thumbnail1080x1080',
         "rule"    => [
             "require" => true
