@@ -122,6 +122,7 @@
                         </td>
                     </tr>
                 </table>
+                <hook name="portal_admin_article_edit_view_main"/>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
@@ -172,6 +173,8 @@
                         </td>
                     </tr>
                 </table>
+
+                <hook name="portal_admin_article_edit_view_right_sidebar"/>
             </div>
         </div>
     </form>

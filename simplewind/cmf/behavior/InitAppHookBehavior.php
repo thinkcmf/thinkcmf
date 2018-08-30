@@ -26,7 +26,7 @@ class InitAppHookBehavior
         $appHookPlugins         = cache($appHookPluginsCacheKey);
 
         if (empty($appHookPlugins)) {
-            $appHooks = Db::name('hook')->where('type', 2)->where('app', $app)->column('hook');
+            $appHooks = Db::name('hook')->where('app', $app)->column('hook');
 
             $appHookPlugins = Db::name('hook_plugin')->field('hook,plugin')->where('status', 1)
                 ->where('hook', 'in', $appHooks)

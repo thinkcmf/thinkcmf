@@ -137,13 +137,25 @@ class TestHookPlugin extends Plugin
     //admin_index_index_view 钩子方法
     public function adminIndexIndexView()
     {
-        //return "test admin_index_index_view";
+        return "test admin_index_index_view";
     }
 
     //admin_custom_login_open 钩子方法
-    public function admin_custom_login_open($param)
+    public function adminCustomLoginOpen($param)
     {
         return false;
+    }
+
+    //portal_admin_article_edit_view_main 钩子方法
+    public function portalAdminArticleEditViewMain($param)
+    {
+        echo  "portal_admin_article_edit_view_main";
+    }
+
+    //portal_admin_article_edit_view_right_sidebar 钩子方法
+    public function portalAdminArticleEditViewRightSidebar($param)
+    {
+        echo "portal_admin_article_edit_view_right_sidebar";
     }
 
 }
