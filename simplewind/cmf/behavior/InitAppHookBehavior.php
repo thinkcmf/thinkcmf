@@ -20,6 +20,10 @@ class InitAppHookBehavior
     // 行为扩展的执行入口必须是run
     public function run(&$param)
     {
+        if (!cmf_is_installed()) {
+            return;
+        }
+
         $app        = request()->module();
 
         $appHookPluginsCacheKey = "init_hook_plugins_app_{$app}_hook_plugins";
