@@ -59,6 +59,12 @@ class RbacController extends AdminBaseController
      */
     public function roleAdd()
     {
+        $content = hook_one('admin_rbac_role_add_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         return $this->fetch();
     }
 
@@ -110,6 +116,12 @@ class RbacController extends AdminBaseController
      */
     public function roleEdit()
     {
+        $content = hook_one('admin_rbac_role_edit_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $id = $this->request->param("id", 0, 'intval');
         if ($id == 1) {
             $this->error("超级管理员角色不能被修改！");
@@ -205,6 +217,12 @@ class RbacController extends AdminBaseController
      */
     public function authorize()
     {
+        $content = hook_one('admin_rbac_authorize_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $AuthAccess     = Db::name("AuthAccess");
         $adminMenuModel = new AdminMenuModel();
         //角色ID

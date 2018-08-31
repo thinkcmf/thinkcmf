@@ -79,6 +79,12 @@ class AdminArticleController extends AdminBaseController
      */
     public function add()
     {
+        $content = hook_one('portal_admin_article_add_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $themeModel        = new ThemeModel();
         $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
         $this->assign('article_theme_files', $articleThemeFiles);
@@ -164,6 +170,12 @@ class AdminArticleController extends AdminBaseController
      */
     public function edit()
     {
+        $content = hook_one('portal_admin_article_edit_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $id = $this->request->param('id', 0, 'intval');
 
         $portalPostModel = new PortalPostModel();

@@ -83,7 +83,19 @@ class TestHookPlugin extends Plugin
     //portal_admin_article_index_view 钩子方法
     public function portalAdminArticleIndexView($param)
     {
-        return "test portal_admin_article_index_view";
+        //return "test portal_admin_article_index_view";
+    }
+
+    //portal_admin_article_add_view 钩子方法
+    public function portalAdminArticleAddView($param)
+    {
+        return "test portal_admin_article_add_view";
+    }
+
+    //portal_admin_article_edit_view 钩子方法
+    public function portalAdminArticleEditView($param)
+    {
+        return "test portal_admin_article_edit_view";
     }
 
     //portal_admin_category_index_view 钩子方法
@@ -137,7 +149,7 @@ class TestHookPlugin extends Plugin
     //admin_index_index_view 钩子方法
     public function adminIndexIndexView()
     {
-        return "test admin_index_index_view";
+     //   return "test admin_index_index_view";
     }
 
     //admin_custom_login_open 钩子方法

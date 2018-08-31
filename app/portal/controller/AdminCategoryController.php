@@ -72,6 +72,12 @@ class AdminCategoryController extends AdminBaseController
      */
     public function add()
     {
+        $content = hook_one('portal_admin_category_add_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $parentId            = $this->request->param('parent', 0, 'intval');
         $portalCategoryModel = new PortalCategoryModel();
         $categoriesTree      = $portalCategoryModel->adminCategoryTree($parentId);
@@ -136,6 +142,13 @@ class AdminCategoryController extends AdminBaseController
      */
     public function edit()
     {
+
+        $content = hook_one('portal_admin_category_edit_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $id = $this->request->param('id', 0, 'intval');
         if ($id > 0) {
             $category = PortalCategoryModel::get($id)->toArray();
