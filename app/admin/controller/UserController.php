@@ -44,6 +44,12 @@ class UserController extends AdminBaseController
      */
     public function index()
     {
+        $content = hook_one('admin_user_index_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $where = ["user_type" => 1];
         /**搜索条件**/
         $userLogin = $this->request->param('user_login');
@@ -91,6 +97,12 @@ class UserController extends AdminBaseController
      */
     public function add()
     {
+        $content = hook_one('admin_user_add_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $roles = Db::name('role')->where(['status' => 1])->order("id DESC")->select();
         $this->assign("roles", $roles);
         return $this->fetch();
@@ -156,6 +168,12 @@ class UserController extends AdminBaseController
      */
     public function edit()
     {
+        $content = hook_one('admin_user_edit_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $id    = $this->request->param('id', 0, 'intval');
         $roles = DB::name('role')->where(['status' => 1])->order("id DESC")->select();
         $this->assign("roles", $roles);

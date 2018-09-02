@@ -94,6 +94,14 @@ class PortalPostModel extends Model
             $data['thumbnail']         = $data['more']['thumbnail'];
         }
 
+        if (!empty($data['more']['audio'])) {
+            $data['more']['audio'] = cmf_asset_relative_url($data['more']['audio']);
+        }
+
+        if (!empty($data['more']['video'])) {
+            $data['more']['video'] = cmf_asset_relative_url($data['more']['video']);
+        }
+
         $this->allowField(true)->data($data, true)->isUpdate(false)->save();
 
         if (is_string($categories)) {
@@ -127,6 +135,15 @@ class PortalPostModel extends Model
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
             $data['thumbnail']         = $data['more']['thumbnail'];
         }
+
+        if (!empty($data['more']['audio'])) {
+            $data['more']['audio'] = cmf_asset_relative_url($data['more']['audio']);
+        }
+
+        if (!empty($data['more']['video'])) {
+            $data['more']['video'] = cmf_asset_relative_url($data['more']['video']);
+        }
+
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
 
         if (is_string($categories)) {

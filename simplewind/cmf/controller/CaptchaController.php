@@ -37,7 +37,7 @@ class CaptchaController
             // 验证码位数
             'length'   => 4,
             // 背景颜色
-            'bg'       => [243, 251, 254],
+            'bg'       => [255, 255, 255],
         ];
 
         $fontSize = $request->param('font_size', 25, 'intval');
@@ -72,16 +72,20 @@ class CaptchaController
 
         $id = $request->param('id', 0, 'intval');
         if ($id > 5 || empty($id)) {
-            $id = '';
+            $id                   = '';
+            $config['captcha_id'] = $id;
         }
 
-        $defaultCaptchaConfig = config('captcha');
-        if ($defaultCaptchaConfig && is_array($defaultCaptchaConfig)) {
-            $config = array_merge($config, $defaultCaptchaConfig);
+        $response = hook_one('captcha_image', $config);
+        if (empty($response)) {
+            $defaultCaptchaConfig = config('captcha');
+            if ($defaultCaptchaConfig && is_array($defaultCaptchaConfig)) {
+                $config = array_merge($config, $defaultCaptchaConfig);
+            }
+            $captcha  = new Captcha($config);
+            $response = $captcha->entry($id);
         }
-        $captcha = new Captcha($config);
-
-        @ob_clean();// 清除输出缓存 
-        return $captcha->entry($id);
+        @ob_clean();// 清除输出缓存
+        return $response;
     }
 }

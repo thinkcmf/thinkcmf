@@ -1,0 +1,71 @@
+<include file="theme/functions"/>
+<include file="public@header"/>
+<style>
+    .form-control-widget-title {
+        border: none;
+        padding: 0;
+        margin: 0;
+        font-size: inherit;
+        line-height: inherit;
+        background: transparent;
+    }
+
+    .form-control-widget-title:focus {
+        outline: none;
+        background: #fff;
+    }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="{:url('theme/fileSetting',['file_id'=>$file_id,'tab'=>'widget'])}">
+                组件设置
+            </a>
+        </li>
+        <li>
+            <a href="{:url('theme/fileSetting',['file_id'=>$file_id,'tab'=>'var'])}">
+                变量设置
+            </a>
+        </li>
+    </ul>
+    <form method="post" class="js-ajax-form  margin-top-20" action="{:url('theme/settingPost')}">
+        <notempty name="file['more']['widgets']">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <foreach name="file['more']['widgets']" item="widget" key="widgetName" index="index">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <!--<a role="button" data-toggle="collapse" data-parent="#accordion"-->
+                            <!--href="#collapse-{$widgetName}">-->
+                            <!--{$widget.title}-->
+                            <!--</a>-->
+                            <input class="form-control-widget-title" type="text" value="{$widget.title}"
+                                   name="widget[{$widgetName}][title]">
+                            <label class="checkbox-inline pull-right">
+                                <php>$display_checked=empty($widget['display'])?'':'checked';</php>
+                                <input type="checkbox" name="widget[{$widgetName}][display]" value="1"
+                                       {$display_checked}>
+                                显示
+                            </label>
+                        </div>
+                        <div id="collapse-{$widgetName}" class="panel-collapse collapse in" role="tabpanel">
+                            <div class="panel-body">
+                                {:_parse_vars($widget.vars,'widget_vars['.$widgetName.']',1,$widgetName)}
+                            </div>
+                        </div>
+                    </div>
+                </foreach>
+            </div>
+            <else/>
+            <div>本页面没有设置任何组件</div>
+        </notempty>
+        <div class="form-group" style="display:none;">
+            <input type="hidden" name="id" value="{$file.id}">
+            <button type="submit" class="btn btn-primary js-ajax-submit" id="submit-btn">{:lang('SAVE')}</button>
+        </div>
+    </form>
+</div>
+<include file="theme/scripts"/>
+</body>
+</html>

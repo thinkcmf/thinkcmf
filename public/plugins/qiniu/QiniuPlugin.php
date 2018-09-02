@@ -21,7 +21,7 @@ class QiniuPlugin extends Plugin
         'description' => 'ThinkCMF七牛专享优惠码:507670e8',
         'status'      => 1,
         'author'      => 'ThinkCMF',
-        'version'     => '1.0'
+        'version'     => '1.0.1'
     ];
 
     public $hasAdmin = 0;//插件是否有后台管理界面

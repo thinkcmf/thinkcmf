@@ -436,7 +436,7 @@
 			tt:     ['class', 'style', 'id'],
 			u:      [],
 			ul:     ['class', 'style', 'id'],
-			video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width', 'class', 'style', 'id']
+			video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width', 'class', 'style', 'id', 'poster']
 		}
     };
 

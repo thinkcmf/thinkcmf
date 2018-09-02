@@ -14,7 +14,7 @@ use think\db\Query;
 use think\Hook;
 use think\Db;
 
-class InitHookBehavior
+class InitAppHookBehavior
 {
 
     // 行为扩展的执行入口必须是run
@@ -24,24 +24,25 @@ class InitHookBehavior
             return;
         }
 
-        $systemHookPlugins = cache('init_hook_plugins_system_hook_plugins');
-        if (empty($systemHookPlugins)) {
-            $systemHooks = Db::name('hook')->where('type', 1)->whereOr(function (Query $query) {
-                $query->where('type', 3)->where('app', ['eq', ''], ['eq', 'cmf'], 'or');
-            })->column('hook');
+        $app        = request()->module();
 
-            $systemHookPlugins = Db::name('hook_plugin')->field('hook,plugin')->where('status', 1)
-                ->where('hook', 'in', $systemHooks)
+        $appHookPluginsCacheKey = "init_hook_plugins_app_{$app}_hook_plugins";
+        $appHookPlugins         = cache($appHookPluginsCacheKey);
+
+        if (empty($appHookPlugins)) {
+            $appHooks = Db::name('hook')->where('app', $app)->column('hook');
+
+            $appHookPlugins = Db::name('hook_plugin')->field('hook,plugin')->where('status', 1)
+                ->where('hook', 'in', $appHooks)
                 ->order('list_order ASC')
                 ->select();
-            cache('init_hook_plugins_system_hook_plugins', $systemHookPlugins, null, 'init_hook_plugins');
+            cache($appHookPluginsCacheKey, $appHookPlugins, null, 'init_hook_plugins');
         }
 
-        if (!empty($systemHookPlugins)) {
-            foreach ($systemHookPlugins as $hookPlugin) {
+        if (!empty($appHookPlugins)) {
+            foreach ($appHookPlugins as $hookPlugin) {
                 Hook::add($hookPlugin['hook'], cmf_get_plugin_class($hookPlugin['plugin']));
             }
         }
-
     }
 }

@@ -449,6 +449,60 @@
         });
     }
 
+    if ($('a.js-ajax-btn').length) {
+        Wind.use('noty', function () {
+            $('.js-ajax-btn').on('click', function (e) {
+                e.preventDefault();
+                var $_this = this,
+                    $this  = $($_this),
+                    href   = $this.data('href'),
+                    msg    = $this.data('msg');
+                refresh    = $this.data('refresh');
+                href       = href ? href : $this.attr('href');
+                refresh    = refresh == undefined ? 1 : refresh;
+
+
+                $.getJSON(href).done(function (data) {
+                    if (data.code == 1) {
+                        noty({
+                            text: data.msg,
+                            type: 'success',
+                            layout: 'center',
+                            callback: {
+                                afterClose: function () {
+                                    if (data.url) {
+                                        location.href = data.url;
+                                        return;
+                                    }
+
+                                    if (refresh || refresh == undefined) {
+                                        reloadPage(window);
+                                    }
+                                }
+                            }
+                        });
+                    } else if (data.code == 0) {
+                        noty({
+                            text: data.msg,
+                            type: 'error',
+                            layout: 'center',
+                            callback: {
+                                afterClose: function () {
+                                    if (data.url) {
+                                        location.href = data.url;
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+
+            });
+
+        });
+    }
+
+
     /*复选框全选(支持多个，纵横双控全选)。
      *实例：版块编辑-权限相关（双控），验证机制-验证策略（单控）
      *说明：
@@ -823,7 +877,9 @@ function uploadOne(dialog_title, input_selector, filetype, extra_params, app) {
     openUploadDialog(dialog_title, function (dialog, files) {
         $(input_selector).val(files[0].filepath);
         $(input_selector + '-preview').attr('href', files[0].preview_url);
+
         $(input_selector + '-name').val(files[0].name);
+        $(input_selector + '-name-text').text(files[0].name);
     }, extra_params, 0, filetype, app);
 }
 
@@ -838,7 +894,10 @@ function uploadOneImage(dialog_title, input_selector, extra_params, app) {
     openUploadDialog(dialog_title, function (dialog, files) {
         $(input_selector).val(files[0].filepath);
         $(input_selector + '-preview').attr('src', files[0].preview_url);
+
         $(input_selector + '-name').val(files[0].name);
+        $(input_selector + '-name-text').text(files[0].name);
+        
     }, extra_params, 0, 'image', app);
 }
 

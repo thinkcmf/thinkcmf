@@ -337,7 +337,6 @@ class ApiService
 	 * 返回指定分类下的子分类
 	 * @param int $categoryId 分类id
 	 * @param $field string  指定查询字段
-	 * @return false|\PDOStatement|string|\think\Collection
 	 * @throws \think\db\exception\DataNotFoundException
 	 * @throws \think\db\exception\ModelNotFoundException
 	 * @throws \think\exception\DbException

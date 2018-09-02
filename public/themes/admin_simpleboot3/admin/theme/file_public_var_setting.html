@@ -10,14 +10,14 @@
             </a>
         </li>
         <notempty name="file.more.vars">
-            <li class="active">
+            <li>
                 <a href="{:url('theme/fileSetting',['file_id'=>$file_id,'tab'=>'var'])}">
                     设置
                 </a>
             </li>
         </notempty>
         <notempty name="has_public_var">
-            <li>
+            <li class="active">
                 <a href="{:url('theme/fileSetting',['file_id'=>$file_id,'tab'=>'public_var'])}">
                     全局设置
                 </a>
@@ -26,10 +26,14 @@
     </ul>
 
     <form method="post" class="js-ajax-form  margin-top-20" action="{:url('theme/settingPost')}">
-        <notempty name="file['more']['vars']">
-            {:_parse_vars($file.more.vars,'files['.$file['id'].'][vars]')}
-            <else/>
-        </notempty>
+        <foreach name="files" item="file">
+            <if condition="$file.id neq $file_id">
+                <notempty name="file['more']['vars']">
+                    {:_parse_vars($file.more.vars,'files['.$file['id'].'][vars]')}
+                    <else/>
+                </notempty>
+            </if>
+        </foreach>
         <div class="form-group text-center" style="display: none;">
             <!--<input type="hidden" name="id" value="{$file.id}">-->
             <button type="submit" class="btn btn-primary js-ajax-submit" id="submit-btn" data-success="successCallback">

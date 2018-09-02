@@ -12,6 +12,7 @@ namespace cmf\controller;
 
 use think\Db;
 use app\admin\model\ThemeModel;
+use think\Debug;
 use think\View;
 
 class HomeBaseController extends BaseController
@@ -85,7 +86,37 @@ class HomeBaseController extends BaseController
         $more     = $this->getThemeFileMore($template);
         $this->assign('theme_vars', $more['vars']);
         $this->assign('theme_widgets', $more['widgets']);
-        return parent::fetch($template, $vars, $replace, $config);
+        $content = parent::fetch($template, $vars, $replace, $config);
+
+        $designingTheme = session('admin_designing_theme');
+
+        if ($designingTheme) {
+            $app        = $this->request->module();
+            $controller = $this->request->controller();
+            $action     = $this->request->action();
+
+            $output = <<<hello
+<script>
+var _themeDesign=true;
+var _themeTest="test";
+var _app='{$app}';
+var _controller='{$controller}';
+var _action='{$action}';
+var _themeFile='{$more['file']}';
+parent.simulatorRefresh();
+</script>
+hello;
+
+            $pos = strripos($content, '</body>');
+            if (false !== $pos) {
+                $content = substr($content, 0, $pos) . $output . substr($content, $pos);
+            } else {
+                $content = $content . $output;
+            }
+        }
+
+
+        return $content;
     }
 
     /**
@@ -153,10 +184,10 @@ class HomeBaseController extends BaseController
         $themePath = config('cmf_theme_path');
         $file      = str_replace('\\', '/', $file);
         $file      = str_replace('//', '/', $file);
-        $file      = str_replace(['.html', '.php', $themePath . $theme . "/"], '', $file);
+        $themeFile = str_replace(['.html', '.php', $themePath . $theme . "/"], '', $file);
 
-        $files = Db::name('theme_file')->field('more')->where(['theme' => $theme])->where(function ($query) use ($file) {
-            $query->where(['is_public' => 1])->whereOr(['file' => $file]);
+        $files = Db::name('theme_file')->field('more')->where(['theme' => $theme])->where(function ($query) use ($themeFile) {
+            $query->where(['is_public' => 1])->whereOr(['file' => $themeFile]);
         })->select();
 
         $vars    = [];
@@ -185,7 +216,7 @@ class HomeBaseController extends BaseController
             }
         }
 
-        return ['vars' => $vars, 'widgets' => $widgets];
+        return ['vars' => $vars, 'widgets' => $widgets, 'file' => $themeFile];
     }
 
     public function checkUserLogin()

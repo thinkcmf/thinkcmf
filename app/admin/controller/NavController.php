@@ -35,6 +35,12 @@ class NavController extends AdminBaseController
      */
     public function index()
     {
+        $content = hook_one('admin_nav_index_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $navModel = new NavModel();
 
         $navs = $navModel->select();

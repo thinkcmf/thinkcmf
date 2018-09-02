@@ -32,6 +32,12 @@ class LinkController extends AdminBaseController
      */
     public function index()
     {
+        $content = hook_one('admin_link_index_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $linkModel = new LinkModel();
         $links     = $linkModel->select();
         $this->assign('links', $links);
