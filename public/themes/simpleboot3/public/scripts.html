@@ -18,7 +18,6 @@
 		});
 		
 		$.post("{:url('user/index/isLogin')}",{},function(data){
-		    console.log(data);
 			if(data.code==1){
 				if(data.data.user.avatar){
 				}
