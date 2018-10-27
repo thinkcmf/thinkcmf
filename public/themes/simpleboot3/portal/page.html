@@ -24,16 +24,6 @@
                 <div id="article_content">
                     {$page.post_content|default=''}
                 </div>
-
-                <php>
-                    $comment_hook_param=[
-                    'post_id'=>$page['id'],
-                    'post_table'=>'portal_post',
-                    'post_title'=>$page['post_title']
-                    ];
-                </php>
-
-                <hook name="comment" param="comment_hook_param"/>
             </div>
 
         </div>
