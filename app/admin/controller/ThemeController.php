@@ -405,6 +405,8 @@ class ThemeController extends AdminBaseController
         $items = [];
         $item  = [];
 
+        $tab = ($tab == 'public_var') ? 'var' : $tab;
+
         if ($tab == 'var' && !empty($oldMore['vars']) && is_array($oldMore['vars'])) {
 
             if (isset($oldMore['vars'][$varName]) && is_array($oldMore['vars'][$varName])) {
