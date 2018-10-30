@@ -601,6 +601,22 @@
         });
     }
 
+    // bootstrap年选择器
+    var bootstrapYearInput = $("input.js-bootstrap-year")
+    if (bootstrapYearInput.length) {
+        Wind.css('bootstrapDatetimePicker');
+        Wind.use('bootstrapDatetimePicker', function () {
+            bootstrapYearInput.datetimepicker({
+                language: 'zh-CN',
+                format: 'yyyy',
+                minView: 'decade',
+                startView: 'decade',
+                todayBtn: 1,
+                autoclose: true
+            });
+        });
+    }
+
     // bootstrap日期选择器
     var bootstrapDateInput = $("input.js-bootstrap-date")
     if (bootstrapDateInput.length) {
@@ -873,7 +889,7 @@ function openUploadDialog(dialog_title, callback, extra_params, multi, filetype,
  * @param app  应用名,CMF的应用名
  */
 function uploadOne(dialog_title, input_selector, filetype, extra_params, app) {
-    filetype   = filetype ? filetype : 'file';
+    filetype = filetype ? filetype : 'file';
     openUploadDialog(dialog_title, function (dialog, files) {
         $(input_selector).val(files[0].filepath);
         $(input_selector + '-preview').attr('href', files[0].preview_url);
@@ -897,7 +913,7 @@ function uploadOneImage(dialog_title, input_selector, extra_params, app) {
 
         $(input_selector + '-name').val(files[0].name);
         $(input_selector + '-name-text').text(files[0].name);
-        
+
     }, extra_params, 0, 'image', app);
 }
 
