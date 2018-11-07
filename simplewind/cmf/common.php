@@ -2005,6 +2005,13 @@ function cmf_counter_inc($name, $min = 1, $step = 1)
     $id = cache('core_counter_' . $name);
     if (empty($id)) {
         $id = Db::name('core_counter')->where('name', $name)->value('id');
+
+        if (empty($id)) {
+            $id = Db::name('core_counter')->insertGetId([
+                'name'  => $name,
+                'value' => 0
+            ]);
+        }
         cache('core_counter_' . $name, $id);
     }
 
