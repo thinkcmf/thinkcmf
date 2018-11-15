@@ -1,13 +1,13 @@
 <script src="__STATIC__/js/admin.js"></script>
 <script>
 
-    Wind.use('colorpicker',function(){
+    Wind.use('colorpicker', function () {
         $('.js-color').each(function () {
-            var $this=$(this);
+            var $this = $(this);
             $this.ColorPicker({
-                livePreview:true,
-                onChange: function(hsb, hex, rgb) {
-                    $this.val('#'+hex);
+                livePreview: true,
+                onChange: function (hsb, hex, rgb) {
+                    $this.val('#' + hex);
                 },
                 onBeforeShow: function () {
                     $(this).ColorPickerSetColor(this.value);
@@ -46,18 +46,22 @@
         var title  = $obj.data('title');
         var widget = $obj.data('widget');
         widget     = widget ? '&widget=' + widget : '';
+        var fileId = $obj.data('file_id');
+        if (!fileId) {
+            fileId = '{$file_id}';
+        }
 
         parent.openIframeLayer(
-            "{:url('theme/fileArrayData')}?tab={$tab}&file_id={$file_id}&" + 'var=' + mVar + widget,
+            "{:url('theme/fileArrayData')}?tab={$tab}&file_id="+fileId+"&" + 'var=' + mVar + widget,
             title,
             {
                 area: ['95%', '90%'],
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
-                    var iframeWin       = parent.window[layero.find('iframe')[0]['name']];
-                    var result=iframeWin.confirm();
+                    var iframeWin = parent.window[layero.find('iframe')[0]['name']];
+                    var result    = iframeWin.confirm();
 
-                    if(result){
+                    if (result) {
                         parent.layer.close(index); //如果设定了yes回调，需进行手工关闭
                     }
 
@@ -96,12 +100,12 @@
     function removeImage(wigetVarName) {
         //需要定位input和image
         //清空Input
-        $('#js-'+wigetVarName+'-input').val('');
+        $('#js-' + wigetVarName + '-input').val('');
         //修改Image为原图。
-        var defaultImage = $('#js-'+wigetVarName+'-button-remove').attr('defaultImage');
-        $('#js-'+wigetVarName+'-input-preview').attr('src',defaultImage);
+        var defaultImage = $('#js-' + wigetVarName + '-button-remove').attr('defaultImage');
+        $('#js-' + wigetVarName + '-input-preview').attr('src', defaultImage);
         //移除自身
-        $('#js-'+wigetVarName+'-button-remove').remove();
+        $('#js-' + wigetVarName + '-button-remove').remove();
 
     }
 

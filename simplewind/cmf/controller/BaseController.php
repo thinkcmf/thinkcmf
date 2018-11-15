@@ -12,6 +12,7 @@ namespace cmf\controller;
 
 use think\Controller;
 use think\Request;
+use think\Response;
 use think\View;
 use think\Config;
 
@@ -80,6 +81,5 @@ class BaseController extends Controller
 
         return true;
     }
-
 
 }

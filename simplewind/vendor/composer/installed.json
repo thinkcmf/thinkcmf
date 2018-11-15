@@ -230,53 +230,6 @@
         "description": "The ThinkPHP5 Helper Package"
     },
     {
-        "name": "topthink/think-queue",
-        "version": "v1.1.4",
-        "version_normalized": "1.1.4.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/think-queue.git",
-            "reference": "ad709611d516e13d6760234bc98e91faa901cae8"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/top-think/think-queue/zipball/ad709611d516e13d6760234bc98e91faa901cae8",
-            "reference": "ad709611d516e13d6760234bc98e91faa901cae8",
-            "shasum": ""
-        },
-        "require": {
-            "topthink/think-helper": ">=1.0.4",
-            "topthink/think-installer": ">=1.0.10"
-        },
-        "time": "2017-06-25 00:49:56",
-        "type": "think-extend",
-        "extra": {
-            "think-config": {
-                "queue": "src/config.php"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "think\\": "src"
-            },
-            "files": [
-                "src/common.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "yunwuxin",
-                "email": "448901948@qq.com"
-            }
-        ],
-        "description": "The ThinkPHP5 Queue Package"
-    },
-    {
         "name": "phpmailer/phpmailer",
         "version": "v5.2.26",
         "version_normalized": "5.2.26.0",
@@ -547,59 +500,6 @@
         "homepage": "https://github.com/dompdf/dompdf"
     },
     {
-        "name": "qiniu/php-sdk",
-        "version": "v7.2.3",
-        "version_normalized": "7.2.3.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/qiniu/php-sdk.git",
-            "reference": "67852ba9cdd7f48e0e080961abebafee134fb329"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/qiniu/php-sdk/zipball/67852ba9cdd7f48e0e080961abebafee134fb329",
-            "reference": "67852ba9cdd7f48e0e080961abebafee134fb329",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~4.0",
-            "squizlabs/php_codesniffer": "~2.3"
-        },
-        "time": "2018-02-20 13:59:54",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Qiniu\\": "src/Qiniu"
-            },
-            "files": [
-                "src/Qiniu/functions.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Qiniu",
-                "email": "sdk@qiniu.com",
-                "homepage": "http://www.qiniu.com"
-            }
-        ],
-        "description": "Qiniu Resource (Cloud) Storage SDK for PHP",
-        "homepage": "http://developer.qiniu.com/",
-        "keywords": [
-            "cloud",
-            "qiniu",
-            "sdk",
-            "storage"
-        ]
-    },
-    {
         "name": "ezyang/htmlpurifier",
         "version": "v4.10.0",
         "version_normalized": "4.10.0.0",
@@ -735,17 +635,17 @@
     },
     {
         "name": "topthink/framework",
-        "version": "v5.0.19",
-        "version_normalized": "5.0.19.0",
+        "version": "v5.0.20",
+        "version_normalized": "5.0.20.0",
         "source": {
             "type": "git",
             "url": "https://github.com/top-think/framework.git",
-            "reference": "0ad75865563ee4c1ac2ca80061ed1d4fb54edb1d"
+            "reference": "e20f6e8cadbbc6e246a0c121c89bfd278f30c76b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/top-think/framework/zipball/0ad75865563ee4c1ac2ca80061ed1d4fb54edb1d",
-            "reference": "0ad75865563ee4c1ac2ca80061ed1d4fb54edb1d",
+            "url": "https://api.github.com/repos/top-think/framework/zipball/e20f6e8cadbbc6e246a0c121c89bfd278f30c76b",
+            "reference": "e20f6e8cadbbc6e246a0c121c89bfd278f30c76b",
             "shasum": ""
         },
         "require": {
@@ -760,7 +660,7 @@
             "phpunit/phpunit": "4.8.*",
             "sebastian/phpcpd": "2.*"
         },
-        "time": "2018-04-25 02:43:06",
+        "time": "2018-05-11 08:02:47",
         "type": "think-framework",
         "installation-source": "dist",
         "autoload": {
@@ -785,5 +685,105 @@
             "orm",
             "thinkphp"
         ]
+    },
+    {
+        "name": "qiniu/php-sdk",
+        "version": "v7.2.6",
+        "version_normalized": "7.2.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/qiniu/php-sdk.git",
+            "reference": "305ce1c1c0c71f794661fe45a96facf61ef96c5d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/qiniu/php-sdk/zipball/305ce1c1c0c71f794661fe45a96facf61ef96c5d",
+            "reference": "305ce1c1c0c71f794661fe45a96facf61ef96c5d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0",
+            "squizlabs/php_codesniffer": "~2.3"
+        },
+        "time": "2018-05-18 04:37:29",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Qiniu\\": "src/Qiniu"
+            },
+            "files": [
+                "src/Qiniu/functions.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Qiniu",
+                "email": "sdk@qiniu.com",
+                "homepage": "http://www.qiniu.com"
+            }
+        ],
+        "description": "Qiniu Resource (Cloud) Storage SDK for PHP",
+        "homepage": "http://developer.qiniu.com/",
+        "keywords": [
+            "cloud",
+            "qiniu",
+            "sdk",
+            "storage"
+        ]
+    },
+    {
+        "name": "topthink/think-queue",
+        "version": "v1.1.5",
+        "version_normalized": "1.1.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/top-think/think-queue.git",
+            "reference": "465320c9cb7811df22d4ff8f29f58ead7d104348"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/top-think/think-queue/zipball/465320c9cb7811df22d4ff8f29f58ead7d104348",
+            "reference": "465320c9cb7811df22d4ff8f29f58ead7d104348",
+            "shasum": ""
+        },
+        "require": {
+            "topthink/think-helper": ">=1.0.4",
+            "topthink/think-installer": ">=1.0.10"
+        },
+        "time": "2018-05-04 05:29:53",
+        "type": "think-extend",
+        "extra": {
+            "think-config": {
+                "queue": "src/config.php"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "think\\": "src"
+            },
+            "files": [
+                "src/common.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "yunwuxin",
+                "email": "448901948@qq.com"
+            }
+        ],
+        "description": "The ThinkPHP5 Queue Package"
     }
 ]

@@ -34,6 +34,9 @@
             var page      = opts.page;
 
             function _loadData() {
+                if ($this.data('loading')) {
+                    return;
+                }
                 $this.data('loading', true);
                 $loading.show();
                 var data = {};
@@ -97,7 +100,7 @@
         startLoading: function () {
             //
         },
-        complete:function () {
+        complete: function () {
             // 数据加载完成
         }
 

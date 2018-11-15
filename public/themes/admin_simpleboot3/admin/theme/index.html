@@ -35,31 +35,25 @@
                     <td>{$vo.author}</td>
                     <td>{$vo.description}</td>
                     <td>
-                        <a href="javascript:parent.openIframeLayer('{:url('theme/files',array('theme'=>$vo['theme']))}','{$vo.name}文件列表',{});">设计</a>
+                        <a href="{:url('Theme/design',['theme'=>$vo.theme])}" target="_blank">设计</a>
                         <a href="{:url('theme/update',array('theme'=>$vo['theme']))}" class="js-ajax-dialog-btn"
                            data-msg="确定更新此模板吗？">更新</a>
 
 
                         <if condition="($vo.name == 'simpleboot3') OR ($vo.theme == $default_theme) ">
                             <font color="#cccccc">卸载</font>
-                            <else />
+                            <else/>
                             <a href="{:url('theme/uninstall',array('theme'=>$vo['theme']))}" class="js-ajax-dialog-btn"
                                data-msg="您设置的模板数据将被删除，<br>确定卸载此模板吗？">卸载</a>
                         </if>
 
 
-
                         <if condition="$vo.theme == $default_theme">
                             <font color="#cccccc">启用</font>
-                            <else />
+                            <else/>
                             <a href="{:url('theme/active',array('theme'=>$vo['theme']))}" class="js-ajax-dialog-btn"
                                data-msg="确定使用此模板吗？">启用</a>
                         </if>
-
-
-
-
-
 
 
                     </td>

@@ -34,6 +34,12 @@ class AdminPageController extends AdminBaseController
      */
     public function index()
     {
+        $content = hook_one('portal_admin_page_index_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $param = $this->request->param();
 
         $postService = new PostService();
@@ -62,6 +68,12 @@ class AdminPageController extends AdminBaseController
      */
     public function add()
     {
+        $content = hook_one('portal_admin_page_add_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $themeModel     = new ThemeModel();
         $pageThemeFiles = $themeModel->getActionThemeFiles('portal/Page/index');
         $this->assign('page_theme_files', $pageThemeFiles);
@@ -127,6 +139,12 @@ class AdminPageController extends AdminBaseController
      */
     public function edit()
     {
+        $content = hook_one('portal_admin_page_edit_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $id = $this->request->param('id', 0, 'intval');
 
         $portalPostModel = new PortalPostModel();

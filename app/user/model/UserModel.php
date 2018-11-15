@@ -229,12 +229,8 @@ class UserModel extends Model
             $user['birthday'] = strtotime($user['birthday']);
         }
 
-        $get_current_user = cmf_get_current_user();
-        if ($get_current_user['user_login']) {
-            $field = 'user_nickname,sex,birthday,user_url,signature,more';
-        } else {
-            $field = 'user_login,user_nickname,sex,birthday,user_url,signature,more';
-        }
+        $field = 'user_nickname,sex,birthday,user_url,signature,more';
+
         if ($this->allowField($field)->save($user, ['id' => $userId])) {
             $userInfo = $this->where('id', $userId)->find();
             cmf_update_current_user($userInfo->toArray());

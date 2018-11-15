@@ -1,0 +1,83 @@
+<include file="theme/functions"/>
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li>
+            <a href="{:url('theme/fileSetting',['file_id'=>$file_id,'tab'=>'widget'])}">
+                组件
+            </a>
+        </li>
+        <notempty name="file.more.vars">
+            <li>
+                <a href="{:url('theme/fileSetting',['file_id'=>$file_id,'tab'=>'var'])}">
+                    设置
+                </a>
+            </li>
+        </notempty>
+        <notempty name="has_public_var">
+            <li class="active">
+                <a href="{:url('theme/fileSetting',['file_id'=>$file_id,'tab'=>'public_var'])}">
+                    全局设置
+                </a>
+            </li>
+        </notempty>
+    </ul>
+
+    <form method="post" class="js-ajax-form  margin-top-20" action="{:url('theme/settingPost')}">
+        <foreach name="files" item="file">
+            <if condition="$file.id neq $file_id">
+                <notempty name="file['more']['vars']">
+                    {:_parse_vars($file.more.vars,'files['.$file['id'].'][vars]',1,'',$file['id'])}
+                    <else/>
+                </notempty>
+            </if>
+        </foreach>
+        <div class="form-group text-center" style="display: none;">
+            <!--<input type="hidden" name="id" value="{$file.id}">-->
+            <button type="submit" class="btn btn-primary js-ajax-submit" id="submit-btn" data-success="successCallback">
+                {:lang('SAVE')}
+            </button>
+        </div>
+    </form>
+
+</div>
+<include file="theme/scripts"/>
+<script>
+    function successCallback(data, statusText, xhr, $form) {
+        function _refresh() {
+            if (data.url) {
+                //返回带跳转地址
+                window.location.href = data.url;
+            } else {
+                if (data.code == 1) {
+                    //刷新当前页
+                    reloadPage(window);
+                }
+            }
+        }
+
+        noty({
+            text: data.msg,
+            type: 'success',
+            layout: 'topCenter',
+            modal: true,
+            // animation: {
+            //     open: 'animated bounceInDown', // Animate.css class names
+            //     close: 'animated bounceOutUp', // Animate.css class names
+            // },
+            timeout: 800,
+            callback: {
+                afterClose: function () {
+                    if (parent.afterSaveSetting) {
+                        parent.afterSaveSetting();
+                    }
+                    _refresh();
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

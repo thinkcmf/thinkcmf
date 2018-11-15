@@ -333,23 +333,27 @@ class ApiService
         return $portalCategoryModel->where($where)->find();
     }
 
-    /**
-     * 返回指定分类下的子分类
-     * @param int $categoryId 分类id
-     * @return false|\PDOStatement|string|\think\Collection 返回指定分类下的子分类
-     */
-    public static function subCategories($categoryId)
-    {
-        $portalCategoryModel = new PortalCategoryModel();
+	/**
+	 * 返回指定分类下的子分类
+	 * @param int $categoryId 分类id
+	 * @param $field string  指定查询字段
+	 * @throws \think\db\exception\DataNotFoundException
+	 * @throws \think\db\exception\ModelNotFoundException
+	 * @throws \think\exception\DbException
+	 * @return false|\PDOStatement|string|\think\Collection 返回指定分类下的子分类
+	 */
+	public static function subCategories($categoryId,$field='*')
+	{
+		$portalCategoryModel = new PortalCategoryModel();
 
-        $where = [
-            'status'      => 1,
-            'delete_time' => 0,
-            'parent_id'   => $categoryId
-        ];
+		$where = [
+			'status'      => 1,
+			'delete_time' => 0,
+			'parent_id'   => $categoryId
+		];
 
-        return $portalCategoryModel->where($where)->select();
-    }
+		return $portalCategoryModel->field($field)->where($where)->select();
+	}
 
     /**
      * 返回指定分类下的所有子分类

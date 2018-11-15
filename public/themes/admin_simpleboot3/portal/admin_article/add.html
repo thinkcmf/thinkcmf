@@ -96,7 +96,33 @@
                                class="btn btn-sm btn-default">选择文件</a>
                         </td>
                     </tr>
+                    <tr>
+                        <th>音频</th>
+                        <td class="form-inline">
+                            <input id="file-audio" class="form-control" type="text" name="post[more][audio]"
+                                   value="{$post.more.audio|default=''}" placeholder="请上传音频文件" style="width: 200px;">
+                            <notempty name="post.more.audio">
+                                <a id="file-audio-preview" href="{:cmf_get_file_download_url($post.more.audio)}"
+                                   target="_blank">下载</a>
+                            </notempty>
+
+                            <a href="javascript:uploadOne('文件上传','#file-audio','audio');">上传</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>视频</th>
+                        <td class="form-inline">
+                            <input id="file-video" class="form-control" type="text" name="post[more][video]"
+                                   value="{$post.more.video|default=''}" placeholder="请上传视频文件" style="width: 200px;">
+                            <notempty name="post.more.video">
+                                <a id="file-video-preview" href="{:cmf_get_file_download_url($post.more.video)}"
+                                   target="_blank">下载</a>
+                            </notempty>
+                            <a href="javascript:uploadOne('文件上传','#file-video','video');">上传</a>
+                        </td>
+                    </tr>
                 </table>
+                <hook name="portal_admin_article_edit_view_main"/>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
@@ -147,6 +173,8 @@
                         </td>
                     </tr>
                 </table>
+
+                <hook name="portal_admin_article_edit_view_right_sidebar"/>
             </div>
         </div>
     </form>

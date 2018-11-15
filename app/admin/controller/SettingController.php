@@ -46,6 +46,12 @@ class SettingController extends AdminBaseController
      */
     public function site()
     {
+        $content = hook_one('admin_setting_site_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $noNeedDirs     = [".", "..", ".svn", 'fonts'];
         $adminThemesDir = config('cmf_admin_theme_path') . config('cmf_admin_default_theme') . '/public/assets/themes/';
         $adminStyles    = cmf_scan_dir($adminThemesDir . '*', GLOB_ONLYDIR);
@@ -201,7 +207,7 @@ class SettingController extends AdminBaseController
     public function upload()
     {
         $uploadSetting = cmf_get_upload_setting();
-        $this->assign('upload_setting',$uploadSetting);
+        $this->assign('upload_setting', $uploadSetting);
         return $this->fetch();
     }
 
@@ -245,6 +251,12 @@ class SettingController extends AdminBaseController
      */
     public function clearCache()
     {
+        $content = hook_one('admin_setting_clear_cache_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         cmf_clear_cache();
         return $this->fetch();
     }

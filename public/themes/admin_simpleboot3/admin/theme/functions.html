@@ -1,5 +1,5 @@
 <php>
-    function _parse_vars($vars,$inputName,$level=1,$widget=''){
+    function _parse_vars($vars,$inputName,$level=1,$widget='',$file_id=''){
 
 </php>
 <foreach name="vars" item="var" key="varName">
@@ -139,7 +139,8 @@
                                   onclick="doEditArrayData(this)"
                                   data-var="{$varName}"
                                   data-widget="{$widget}"
-                                  data-title="编辑{$var.title}">{$arrayValueText}</textarea>
+                                  data-title="编辑{$var.title}"
+                                    data-file_id="{$file_id}">{$arrayValueText}</textarea>
                         <present name="var.tip">
                             <p class="help-block">{$var.tip}</p>
                         </present>

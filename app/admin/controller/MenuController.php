@@ -33,6 +33,12 @@ class MenuController extends AdminBaseController
      */
     public function index()
     {
+        $content = hook_one('admin_menu_index_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         session('admin_menu_index', 'Menu/index');
         $result     = Db::name('AdminMenu')->order(["list_order" => "ASC"])->select()->toArray();
         $tree       = new Tree();
@@ -205,6 +211,7 @@ class MenuController extends AdminBaseController
         $this->assign("select_category", $selectCategory);
         return $this->fetch();
     }
+
     /**
      * 后台菜单编辑提交保存
      * @adminMenu(

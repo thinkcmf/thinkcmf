@@ -34,10 +34,26 @@ class AdminCategoryController extends AdminBaseController
      */
     public function index()
     {
-        $portalCategoryModel = new PortalCategoryModel();
-        $categoryTree        = $portalCategoryModel->adminCategoryTableTree();
+        $content = hook_one('portal_admin_category_index_view');
 
-        $this->assign('category_tree', $categoryTree);
+        if (!empty($content)) {
+            return $content;
+        }
+
+        $portalCategoryModel = new PortalCategoryModel();
+        $keyword             = $this->request->param('keyword');
+
+        if (empty($keyword)) {
+            $categoryTree = $portalCategoryModel->adminCategoryTableTree();
+            $this->assign('category_tree', $categoryTree);
+        } else {
+            $categories = $portalCategoryModel->where('name', 'like', "%{$keyword}%")
+                ->where('delete_time', 0)->select();
+            $this->assign('categories', $categories);
+        }
+
+        $this->assign('keyword', $keyword);
+
         return $this->fetch();
     }
 
@@ -56,6 +72,12 @@ class AdminCategoryController extends AdminBaseController
      */
     public function add()
     {
+        $content = hook_one('portal_admin_category_add_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $parentId            = $this->request->param('parent', 0, 'intval');
         $portalCategoryModel = new PortalCategoryModel();
         $categoriesTree      = $portalCategoryModel->adminCategoryTree($parentId);
@@ -120,6 +142,13 @@ class AdminCategoryController extends AdminBaseController
      */
     public function edit()
     {
+
+        $content = hook_one('portal_admin_category_edit_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $id = $this->request->param('id', 0, 'intval');
         if ($id > 0) {
             $category = PortalCategoryModel::get($id)->toArray();
@@ -238,6 +267,38 @@ tpl;
     {
         parent::listOrders(Db::name('portal_category'));
         $this->success("排序更新成功！", '');
+    }
+
+    /**
+     * 文章分类显示隐藏
+     * @adminMenu(
+     *     'name'   => '文章分类显示隐藏',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '文章分类显示隐藏',
+     *     'param'  => ''
+     * )
+     */
+    public function toggle()
+    {
+        $data                = $this->request->param();
+        $portalCategoryModel = new PortalCategoryModel();
+
+        if (isset($data['ids']) && !empty($data["display"])) {
+            $ids = $this->request->param('ids/a');
+            $portalCategoryModel->where(['id' => ['in', $ids]])->update(['status' => 1]);
+            $this->success("更新成功！");
+        }
+
+        if (isset($data['ids']) && !empty($data["hide"])) {
+            $ids = $this->request->param('ids/a');
+            $portalCategoryModel->where(['id' => ['in', $ids]])->update(['status' => 0]);
+            $this->success("更新成功！");
+        }
+
     }
 
     /**

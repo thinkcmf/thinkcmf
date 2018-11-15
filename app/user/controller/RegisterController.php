@@ -86,10 +86,10 @@ class RegisterController extends HomeBaseController
             $user['user_pass'] = $data['password'];
             if (Validate::is($data['username'], 'email')) {
                 $user['user_email'] = $data['username'];
-                $log                = $register->register($user,3);
-            } else if (preg_match('/(^(13\d|15[^4\D]|17[013678]|18\d)\d{8})$/', $data['username'])) {
+                $log                = $register->register($user, 3);
+            } else if (cmf_check_mobile($data['username'])) {
                 $user['mobile'] = $data['username'];
-                $log            = $register->register($user,2);
+                $log            = $register->register($user, 2);
             } else {
                 $log = 2;
             }

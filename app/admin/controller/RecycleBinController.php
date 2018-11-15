@@ -32,6 +32,12 @@ class RecycleBinController extends AdminBaseController
      */
     function index()
     {
+        $content = hook_one('admin_recycle_bin_index_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $recycleBinModel = new RecycleBinModel();
         $list = $recycleBinModel->order('create_time desc')->paginate(10);
         // 获取分页显示

@@ -23,10 +23,6 @@
                                    <div class="tab-pane active" id="one">
                                    		<br>
                                    		<form class="js-ajax-form" action="{:url('user/profile/editPost')}" method="post">
-											<div class="form-group">
-												<label for="input-user_login">账号<if condition="!$user_login">(设置后不可修改)</if></label>
-												<input type="text" class="form-control" <if condition="$user_login"> value="{$user_login}" disabled<else>id="input-user_login" placeholder="账号" name="user_login"</if>>
-											</div>
                                    			<div class="form-group">
                                    				<label for="input-user_nickname">昵称</label>
                                    				<input type="text" class="form-control" id="input-user_nickname" placeholder="昵称" name="user_nickname" value="{$user_nickname}">

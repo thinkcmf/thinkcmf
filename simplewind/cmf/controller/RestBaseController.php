@@ -26,6 +26,8 @@ class RestBaseController
     //设备类型
     protected $deviceType = '';
 
+    protected $apiVersion;
+
     //用户 id
     protected $userId = 0;
 
@@ -68,6 +70,8 @@ class RestBaseController
 
         $this->request = $request;
 
+        $this->apiVersion = $this->request->header('XX-Api-Version');
+
         // 用户验证初始化
         $this->_initUser();
 
@@ -94,10 +98,6 @@ class RestBaseController
         $token      = $this->request->header('XX-Token');
         $deviceType = $this->request->header('XX-Device-Type');
 
-        if (empty($token)) {
-            return;
-        }
-
         if (empty($deviceType)) {
             return;
         }
@@ -106,8 +106,13 @@ class RestBaseController
             return;
         }
 
-        $this->token      = $token;
         $this->deviceType = $deviceType;
+
+        if (empty($token)) {
+            return;
+        }
+
+        $this->token = $token;
 
         $user = Db::name('user_token')
             ->alias('a')
@@ -233,7 +238,7 @@ class RestBaseController
 
         $type                                   = $this->getResponseType();
         $header['Access-Control-Allow-Origin']  = '*';
-        $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,XX-Device-Type,XX-Token';
+        $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,XX-Device-Type,XX-Token,XX-Api-Version,XX-Wxapp-AppId';
         $header['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS';
         $response                               = Response::create($result, $type)->header($header);
         throw new HttpResponseException($response);
@@ -275,7 +280,7 @@ class RestBaseController
      */
     protected function getResponseType()
     {
-        return Config::get('default_return_type');
+        return 'json';
     }
 
     /**
