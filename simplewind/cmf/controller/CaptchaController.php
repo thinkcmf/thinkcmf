@@ -31,9 +31,9 @@ class CaptchaController
             // 是否画混淆曲线
             'useNoise' => true,
             // 验证码图片高度
-            'imageH'   => 0,
+            'imageH'   => 38,
             // 验证码图片宽度
-            'imageW'   => 0,
+            'imageW'   => 120,
             // 验证码位数
             'length'   => 4,
             // 背景颜色
@@ -41,22 +41,23 @@ class CaptchaController
         ];
 
         $fontSize = $request->param('font_size', 25, 'intval');
-        if ($fontSize > 8) {
+        if ($fontSize > 8 && $fontSize < 100) {
             $config['fontSize'] = $fontSize;
         }
 
+
         $imageH = $request->param('height', '');
-        if ($imageH != '') {
+        if ($imageH != '' && $imageH < 100) {
             $config['imageH'] = intval($imageH);
         }
 
         $imageW = $request->param('width', '');
-        if ($imageW != '') {
+        if ($imageW != '' && $imageW < 200 ) {
             $config['imageW'] = intval($imageW);
         }
 
         $length = $request->param('length', 4, 'intval');
-        if ($length > 2) {
+        if ($length > 2 && $length <= 100) {
             $config['length'] = $length;
         }
 
