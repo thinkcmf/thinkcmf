@@ -256,7 +256,7 @@ abstract class Plugin
         $config = [];
         if (file_exists($this->configFilePath)) {
             $tempArr = include $this->configFilePath;
-            if (!empty($tempArr)) {
+            if (!empty($tempArr) && is_array($tempArr)) {
                 foreach ($tempArr as $key => $value) {
                     if ($value['type'] == 'group') {
                         foreach ($value['options'] as $gkey => $gvalue) {
