@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 use think\facade\Config;
 use think\Db;
+use think\facade\Env;
 use think\facade\Url;
 use dir\Dir;
 use think\facade\Route;
@@ -310,14 +311,14 @@ function cmf_random_string($len = 6)
 function cmf_clear_cache()
 {
     $dirs     = [];
-    $rootDirs = cmf_scan_dir(RUNTIME_PATH . "*");
+    $rootDirs = cmf_scan_dir(Env::get('runtime_path') . "*");
     //$noNeedClear=array(".","..","Data");
     $noNeedClear = ['.', '..', 'log'];
     $rootDirs    = array_diff($rootDirs, $noNeedClear);
     foreach ($rootDirs as $dir) {
 
         if ($dir != "." && $dir != "..") {
-            $dir = RUNTIME_PATH . $dir;
+            $dir = Env::get('runtime_path') . $dir;
             if (is_dir($dir)) {
                 //array_push ( $dirs, $dir );
                 $tmpRootDirs = cmf_scan_dir($dir . "/*");
