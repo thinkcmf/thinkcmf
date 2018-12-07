@@ -40,9 +40,9 @@ class MenuController extends AdminBaseController
         }
 
         session('admin_menu_index', 'Menu/index');
-        $result     = Db::name('AdminMenu')->order(["list_order" => "ASC"])->select()->toArray();
+        $result     = Db::name('AdminMenu')->order(["list_order" => "ASC"])->select();
         $tree       = new Tree();
-        $tree->icon = ['&nbsp;&nbsp;&nbsp;│ ', '&nbsp;&nbsp;&nbsp;├─ ', '&nbsp;&nbsp;&nbsp;└─ '];
+        $tree->icon = ['&nbsp;&nbsp;&nbsp;│ ', '&nbsp;&nbsp;&nbsp;├一', '&nbsp;&nbsp;&nbsp;└一 '];
         $tree->nbsp = '&nbsp;&nbsp;&nbsp;';
 
         $newMenus = [];
