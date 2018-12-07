@@ -13,7 +13,7 @@ namespace app\install\controller;
 use app\admin\model\ThemeModel;
 use think\Controller;
 use think\Db;
-
+use think\facade\Env;
 class IndexController extends Controller
 {
 
@@ -27,6 +27,7 @@ class IndexController extends Controller
     // 安装首页
     public function index()
     {
+//        print_r(Env::get('runtime_path'));exit;
         return $this->fetch(":index");
     }
 
@@ -126,8 +127,8 @@ class IndexController extends Controller
         }
 
         $folders    = [
-            realpath(CMF_ROOT . 'data') . DS,
-            realpath('./upload') . DS,
+            realpath(CMF_ROOT . 'data') . DIRECTORY_SEPARATOR,
+            realpath('./upload') . DIRECTORY_SEPARATOR,
         ];
         $newFolders = [];
         foreach ($folders as $dir) {
@@ -305,7 +306,7 @@ class IndexController extends Controller
     public function installTheme()
     {
         $themeModel = new ThemeModel();
-        $result     = $themeModel->installTheme(config('cmf_default_theme'));
+        $result     = $themeModel->installTheme(config('template.cmf_default_theme'));
         if ($result === false) {
             $this->error('模板不存在!');
         }

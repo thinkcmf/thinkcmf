@@ -7,7 +7,7 @@ return [
     // 视图基础目录，配置目录为所有模块的视图起始目录
     'view_base'               => '',
     // 当前模板的视图目录 留空为自动获取
-    'view_path'               => '/eee',
+    'view_path'               => '',
     // 模板后缀
     'view_suffix'             => 'html',
     // 模板文件名分隔符
@@ -29,4 +29,8 @@ return [
     'cmf_default_theme'       => 'simpleboot3',
     'cmf_admin_theme_path'    => 'themes/',
     'cmf_admin_default_theme' => 'admin_simpleboot3',
+    'tpl_replace_string'      => [
+        '__STATIC__' => '/static',
+        '__ROOT__'   => '',
+    ]
 ];
