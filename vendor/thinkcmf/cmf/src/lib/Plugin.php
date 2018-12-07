@@ -11,9 +11,9 @@
 namespace cmf\lib;
 
 use think\exception\TemplateNotFoundException;
-use think\Lang;
+use think\facade\Request;
 use think\Loader;
-use think\Request;
+
 use think\View;
 use think\Config;
 use think\Db;
@@ -46,12 +46,15 @@ abstract class Plugin
     private $configFilePath = '';
     private $themeRoot = "";
 
+    /**
+     * Plugin constructor.
+     */
     public function __construct()
     {
 
-        $request = Request::instance();
 
-        $engineConfig = Config::get('template');
+
+        $engineConfig = Config('template');
 
         $this->name = $this->getName();
 
@@ -107,9 +110,9 @@ abstract class Plugin
         $this->view = new View($engineConfig, $replaceConfig);
 
         //加载多语言
-        $langSet   = $request->langset();
+        $langSet   = Request::langset();
         $lang_file = $this->pluginPath . "lang/" . $langSet . ".php";
-        Lang::load($lang_file);
+        Lang($lang_file);
 
     }
 
@@ -117,7 +120,8 @@ abstract class Plugin
      * 加载模板输出
      * @access protected
      * @param string $template 模板文件名
-     * @return mixed
+     * @return string
+     * @throws \Exception
      */
     final protected function fetch($template)
     {
