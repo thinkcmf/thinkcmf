@@ -17,7 +17,7 @@ use app\admin\model\AdminMenuModel;
 class IndexController extends AdminBaseController
 {
 
-    public function _initialize()
+    public function initialize()
     {
         $adminSettings = cmf_get_option('admin_settings');
         if (empty($adminSettings['admin_password']) || $this->request->path() == $adminSettings['admin_password']) {
@@ -27,7 +27,7 @@ class IndexController extends AdminBaseController
             }
         }
 
-        parent::_initialize();
+        parent::initialize();
     }
 
     /**

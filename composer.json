@@ -45,5 +45,11 @@
         "files": [
             "vendor/thinkcmf/cmf/src/common.php"
         ]
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
     }
 }

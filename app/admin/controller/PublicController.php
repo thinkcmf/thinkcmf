@@ -15,7 +15,7 @@ use think\Db;
 
 class PublicController extends AdminBaseController
 {
-    public function _initialize()
+    public function initialize()
     {
     }
 
@@ -63,6 +63,7 @@ class PublicController extends AdminBaseController
         if (empty($captcha)) {
             $this->error(lang('CAPTCHA_REQUIRED'));
         }
+
         //验证码
         if (!cmf_captcha_check($captcha)) {
             $this->error(lang('CAPTCHA_NOT_RIGHT'));

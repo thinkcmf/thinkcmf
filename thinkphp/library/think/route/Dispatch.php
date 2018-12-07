@@ -13,6 +13,7 @@ namespace think\route;
 
 use think\Container;
 use think\exception\ValidateException;
+use think\App;
 use think\Request;
 use think\Response;
 
@@ -126,7 +127,9 @@ abstract class Dispatch
 
         // 指定Response响应数据
         if (!empty($option['response'])) {
-            $this->app['hook']->add('response_send', $option['response']);
+            foreach ($option['response'] as $response) {
+                $this->app['hook']->add('response_send', $response);
+            }
         }
 
         // 开启请求缓存
@@ -179,9 +182,9 @@ abstract class Dispatch
             $response = Response::create($data, $type);
         } else {
             $data     = ob_get_clean();
-            $data     = false === $data ? '' : $data;
-            $status   = '' === $data ? 204 : 200;
-            $response = Response::create($data, '', $status);
+            $content  = false === $data ? '' : $data;
+            $status   = '' === $content && $this->request->isAjax() ? 204 : 200;
+            $response = Response::create($content, '', $status);
         }
 
         return $response;
@@ -271,7 +274,8 @@ abstract class Dispatch
             $tag    = null;
         }
 
-        $this->request->cache($key, $expire, $tag);
+        $cache = $this->request->cache($key, $expire, $tag);
+        $this->app->setResponseCache($cache);
     }
 
     /**
@@ -349,5 +353,13 @@ abstract class Dispatch
     {
         $this->app     = Container::get('app');
         $this->request = $this->app['request'];
+    }
+
+    public function __debugInfo()
+    {
+        $data = get_object_vars($this);
+        unset($data['app'], $data['request'], $data['rule']);
+
+        return $data;
     }
 }

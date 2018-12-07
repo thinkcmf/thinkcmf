@@ -10,8 +10,8 @@
 // +---------------------------------------------------------------------
 namespace cmf\behavior;
 
-use think\Lang;
-use think\Request;
+use think\facade\Lang;
+use think\facade\Request;
 
 class LangBehavior
 {
@@ -19,17 +19,17 @@ class LangBehavior
     // 行为扩展的执行入口必须是run
     public function run()
     {
-        $request = Request::instance();
-        $langSet = $request->langset();
+
+        $langSet = Request::langset();
         Lang::load([
-            CMF_PATH . 'lang' . DS . $langSet . EXT,
+            __DIR__ . '/../lang' . DIRECTORY_SEPARATOR . $langSet . '.php',
         ]);
 
         // 加载应用公共语言包
         $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
         foreach ($apps as $app) {
             Lang::load([
-                APP_PATH . $app . DS . 'lang' . DS . $langSet . DS . 'common' . EXT,
+                APP_PATH . $app . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'common' . '.php',
             ]);
         }
 

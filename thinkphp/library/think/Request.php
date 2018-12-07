@@ -50,6 +50,12 @@ class Request
     protected $method;
 
     /**
+     * 主机名（含端口）
+     * @var string
+     */
+    protected $host;
+
+    /**
      * 域名（含协议及端口）
      * @var string
      */
@@ -252,7 +258,6 @@ class Request
      * php://input内容
      * @var string
      */
-    // php://input
     protected $input;
 
     /**
@@ -517,6 +522,18 @@ class Request
     }
 
     /**
+     * 设置当前完整URL 包括QUERY_STRING
+     * @access public
+     * @param  string $url URL
+     * @return $this
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        return $this;
+    }
+
+    /**
      * 获取当前完整URL 包括QUERY_STRING
      * @access public
      * @param  bool $complete 是否包含域名
@@ -539,6 +556,18 @@ class Request
         }
 
         return $complete ? $this->domain() . $this->url : $this->url;
+    }
+
+    /**
+     * 设置当前完整URL 不包括QUERY_STRING
+     * @access public
+     * @param  string $url URL
+     * @return $this
+     */
+    public function setBaseUrl($url)
+    {
+        $this->baseUrl = $url;
+        return $this;
     }
 
     /**
@@ -635,6 +664,12 @@ class Request
         return $root;
     }
 
+    public function setPathinfo($pathinfo)
+    {
+        $this->pathinfo = $pathinfo;
+        return $this;
+    }
+
     /**
      * 获取当前请求URL的pathinfo信息（含URL后缀）
      * @access public
@@ -683,6 +718,7 @@ class Request
         if (is_null($this->path)) {
             $suffix   = $this->config['url_html_suffix'];
             $pathinfo = $this->pathinfo();
+
             if (false === $suffix) {
                 // 禁止伪静态访问
                 $this->path = $pathinfo;
@@ -770,7 +806,7 @@ class Request
     {
         if ($origin) {
             // 获取原始请求类型
-            return $this->isCli() ? 'GET' : $this->server('REQUEST_METHOD');
+            return $this->server('REQUEST_METHOD') ?: 'GET';
         } elseif (!$this->method) {
             if (isset($_POST[$this->config['var_method']])) {
                 $this->method    = strtoupper($_POST[$this->config['var_method']]);
@@ -779,7 +815,7 @@ class Request
             } elseif ($this->server('HTTP_X_HTTP_METHOD_OVERRIDE')) {
                 $this->method = strtoupper($this->server('HTTP_X_HTTP_METHOD_OVERRIDE'));
             } else {
-                $this->method = $this->isCli() ? 'GET' : $this->server('REQUEST_METHOD');
+                $this->method = $this->server('REQUEST_METHOD') ?: 'GET';
             }
         }
 
@@ -973,7 +1009,7 @@ class Request
     public function post($name = '', $default = null, $filter = '')
     {
         if (empty($this->post)) {
-            $this->post = !empty($_POST) ? $_POST : $this->getJsonInputData($this->input);
+            $this->post = !empty($_POST) ? $_POST : $this->getInputData($this->input);
         }
 
         return $this->input($this->post, $name, $default, $filter);
@@ -990,22 +1026,19 @@ class Request
     public function put($name = '', $default = null, $filter = '')
     {
         if (is_null($this->put)) {
-            $data = $this->getJsonInputData($this->input);
-
-            if (!empty($data)) {
-                $this->put = $data;
-            } else {
-                parse_str($this->input, $this->put);
-            }
+            $this->put = $this->getInputData($this->input);
         }
 
         return $this->input($this->put, $name, $default, $filter);
     }
 
-    protected function getJsonInputData($content)
+    protected function getInputData($content)
     {
-        if (false !== strpos($this->contentType(), 'application/json')) {
+        if (false !== strpos($this->contentType(), 'application/json') || 0 === strpos($content, '{"')) {
             return (array) json_decode($content, true);
+        } elseif (strpos($content, '=')) {
+            parse_str($content, $data);
+            return $data;
         }
 
         return [];
@@ -1141,12 +1174,12 @@ class Request
 
         $files = $this->file;
         if (!empty($files)) {
-            // 处理上传文件
-            $array = $this->dealUploadFile($files);
-
             if (strpos($name, '.')) {
                 list($name, $sub) = explode('.', $name);
             }
+
+            // 处理上传文件
+            $array = $this->dealUploadFile($files, $name);
 
             if ('' === $name) {
                 // 获取全部文件
@@ -1161,18 +1194,24 @@ class Request
         return;
     }
 
-    protected function dealUploadFile($files)
+    protected function dealUploadFile($files, $name)
     {
         $array = [];
         foreach ($files as $key => $file) {
-            if (is_array($file['name'])) {
+            if ($file instanceof File) {
+                $array[$key] = $file;
+            } elseif (is_array($file['name'])) {
                 $item  = [];
                 $keys  = array_keys($file);
                 $count = count($file['name']);
 
                 for ($i = 0; $i < $count; $i++) {
-                    if (empty($file['tmp_name'][$i]) || !is_file($file['tmp_name'][$i])) {
-                        continue;
+                    if ($file['error'][$i] > 0) {
+                        if ($name == $key) {
+                            $this->throwUploadFileError($file['error'][$i]);
+                        } else {
+                            continue;
+                        }
                     }
 
                     $temp['key'] = $key;
@@ -1186,19 +1225,35 @@ class Request
 
                 $array[$key] = $item;
             } else {
-                if ($file instanceof File) {
-                    $array[$key] = $file;
-                } else {
-                    if (empty($file['tmp_name']) || !is_file($file['tmp_name'])) {
+                if ($file['error'] > 0) {
+                    if ($key == $name) {
+                        $this->throwUploadFileError($file['error']);
+                    } else {
                         continue;
                     }
-
-                    $array[$key] = (new File($file['tmp_name']))->setUploadInfo($file);
                 }
+
+                $array[$key] = (new File($file['tmp_name']))->setUploadInfo($file);
             }
         }
 
         return $array;
+    }
+
+    protected function throwUploadFileError($error)
+    {
+        static $fileUploadErrors = [
+            1 => 'upload File size exceeds the maximum value',
+            2 => 'upload File size exceeds the maximum value',
+            3 => 'only the portion of file is uploaded',
+            4 => 'no file to uploaded',
+            6 => 'upload temp dir not found',
+            7 => 'file write error',
+        ];
+
+        $msg = $fileUploadErrors[$error];
+
+        throw new Exception($msg);
     }
 
     /**
@@ -1260,6 +1315,21 @@ class Request
     }
 
     /**
+     * 递归重置数组指针
+     * @access public
+     * @param array $data 数据源
+     * @return void
+     */
+    public function arrayReset(array &$data) {
+        foreach ($data as &$value) {
+            if (is_array($value)) {
+                $this->arrayReset($value);
+            }
+        }
+        reset($data);
+    }
+
+    /**
      * 获取变量 支持过滤和默认值
      * @access public
      * @param  array         $data 数据源
@@ -1298,7 +1368,10 @@ class Request
 
         if (is_array($data)) {
             array_walk_recursive($data, [$this, 'filterValue'], $filter);
-            reset($data);
+            if (version_compare(PHP_VERSION, '7.1.0', '<')) {
+                // 恢复PHP版本低于 7.1 时 array_walk_recursive 中消耗的内部指针
+                $this->arrayReset($data);
+            }
         } else {
             $this->filterValue($data, $name, $filter);
         }
@@ -1567,7 +1640,9 @@ class Request
             return $result;
         }
 
-        return $this->param($this->config['var_ajax']) ? true : $result;
+        $result           = $this->param($this->config['var_ajax']) ? true : $result;
+        $this->mergeParam = false;
+        return $result;
     }
 
     /**
@@ -1584,7 +1659,9 @@ class Request
             return $result;
         }
 
-        return $this->param($this->config['var_pjax']) ? true : $result;
+        $result           = $this->param($this->config['var_pjax']) ? true : $result;
+        $this->mergeParam = false;
+        return $result;
     }
 
     /**
@@ -1681,6 +1758,19 @@ class Request
     }
 
     /**
+     * 设置当前请求的host（包含端口）
+     * @access public
+     * @param  string $host 主机名（含端口）
+     * @return $this
+     */
+    public function setHost($host)
+    {
+        $this->host = $host;
+
+        return $this;
+    }
+
+    /**
      * 当前请求的host
      * @access public
      * @param bool $strict  true 仅仅获取HOST
@@ -1688,9 +1778,11 @@ class Request
      */
     public function host($strict = false)
     {
-        $host = $this->server('HTTP_X_REAL_HOST') ?: $this->server('HTTP_HOST');
+        if (!$this->host) {
+            $this->host = $this->server('HTTP_X_REAL_HOST') ?: $this->server('HTTP_HOST');
+        }
 
-        return true === $strict && strpos($host, ':') ? strstr($host, ':', true) : $host;
+        return true === $strict && strpos($this->host, ':') ? strstr($this->host, ':', true) : $this->host;
     }
 
     /**
@@ -2004,6 +2096,114 @@ class Request
     }
 
     /**
+     * 设置GET数据
+     * @access public
+     * @param  array $get 数据
+     * @return $this
+     */
+    public function withGet(array $get)
+    {
+        $this->get = $get;
+        return $this;
+    }
+
+    /**
+     * 设置POST数据
+     * @access public
+     * @param  array $post 数据
+     * @return $this
+     */
+    public function withPost(array $post)
+    {
+        $this->post = $post;
+        return $this;
+    }
+
+    /**
+     * 设置php://input数据
+     * @access public
+     * @param  string $input RAW数据
+     * @return $this
+     */
+    public function withInput($input)
+    {
+        $this->input = $input;
+        return $this;
+    }
+
+    /**
+     * 设置文件上传数据
+     * @access public
+     * @param  array $files 上传信息
+     * @return $this
+     */
+    public function withFiles(array $files)
+    {
+        $this->file = $files;
+        return $this;
+    }
+
+    /**
+     * 设置COOKIE数据
+     * @access public
+     * @param  array $cookie 数据
+     * @return $this
+     */
+    public function withCookie(array $cookie)
+    {
+        $this->cookie = $cookie;
+        return $this;
+    }
+
+    /**
+     * 设置SERVER数据
+     * @access public
+     * @param  array $server 数据
+     * @return $this
+     */
+    public function withServer(array $server)
+    {
+        $this->server = array_change_key_case($server, CASE_UPPER);
+        return $this;
+    }
+
+    /**
+     * 设置HEADER数据
+     * @access public
+     * @param  array $header 数据
+     * @return $this
+     */
+    public function withHeader(array $header)
+    {
+        $this->header = array_change_key_case($header);
+        return $this;
+    }
+
+    /**
+     * 设置ENV数据
+     * @access public
+     * @param  array $env 数据
+     * @return $this
+     */
+    public function withEnv(array $env)
+    {
+        $this->env = $env;
+        return $this;
+    }
+
+    /**
+     * 设置ROUTE变量
+     * @access public
+     * @param  array $route 数据
+     * @return $this
+     */
+    public function withRoute(array $route)
+    {
+        $this->route = $route;
+        return $this;
+    }
+
+    /**
      * 设置请求数据
      * @access public
      * @param  string    $name  参数名
@@ -2034,5 +2234,13 @@ class Request
     public function __isset($name)
     {
         return isset($this->param[$name]);
+    }
+
+    public function __debugInfo()
+    {
+        $data = get_object_vars($this);
+        unset($data['dispatch'], $data['config']);
+
+        return $data;
     }
 }

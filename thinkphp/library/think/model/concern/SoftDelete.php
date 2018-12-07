@@ -91,15 +91,16 @@ trait SoftDelete
      * @access public
      * @return bool
      */
-    public function delete()
+    public function delete($force = false)
     {
         if (!$this->isExists() || false === $this->trigger('before_delete', $this)) {
             return false;
         }
 
-        $name = $this->getDeleteTimeField();
+        $force = $force ?: $this->isForce();
+        $name  = $this->getDeleteTimeField();
 
-        if ($name && !$this->isForce()) {
+        if ($name && !$force) {
             // 软删除
             $this->data($name, $this->autoWriteTimestamp($name));
 
@@ -111,7 +112,10 @@ trait SoftDelete
             $where = $this->getWhere();
 
             // 删除当前模型数据
-            $result = $this->db(false)->where($where)->delete();
+            $result = $this->db(false)
+                ->where($where)
+                ->removeOption('soft_delete')
+                ->delete();
         }
 
         // 关联删除
@@ -136,7 +140,7 @@ trait SoftDelete
     public static function destroy($data, $force = false)
     {
         // 包含软删除数据
-        $query = self::withTrashed();
+        $query = (new static())->db(false);
 
         if (is_array($data) && key($data) !== 0) {
             $query->where($data);
@@ -208,7 +212,7 @@ trait SoftDelete
             return false;
         }
 
-        if (!strpos($field, '.')) {
+        if (false === strpos($field, '.')) {
             $field = '__TABLE__.' . $field;
         }
 

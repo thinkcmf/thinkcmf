@@ -2,7 +2,7 @@
 /**
  * PHPExcel
  *
- * Copyright (C) 2006 - 2014 PHPExcel
+ * Copyright (c) 2006 - 2015 PHPExcel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +20,7 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel
- * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2015 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version    ##VERSION##, ##DATE##
  */
@@ -35,7 +35,6 @@ define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
 
 /** Include PHPExcel */
 require_once dirname(__FILE__) . '/../Classes/PHPExcel.php';
-
 
 // Create new PHPExcel object
 echo date('H:i:s') , " Create new PHPExcel object" , EOL;
@@ -69,6 +68,14 @@ $objPHPExcel->setActiveSheetIndex(0)
 $objPHPExcel->getActiveSheet()->setCellValue('A8',"Hello\nWorld");
 $objPHPExcel->getActiveSheet()->getRowDimension(8)->setRowHeight(-1);
 $objPHPExcel->getActiveSheet()->getStyle('A8')->getAlignment()->setWrapText(true);
+
+
+$value = "-ValueA\n-Value B\n-Value C";
+$objPHPExcel->getActiveSheet()->setCellValue('A10', $value);
+$objPHPExcel->getActiveSheet()->getRowDimension(10)->setRowHeight(-1);
+$objPHPExcel->getActiveSheet()->getStyle('A10')->getAlignment()->setWrapText(true);
+$objPHPExcel->getActiveSheet()->getStyle('A10')->setQuotePrefix(true);
+
 
 
 // Rename worksheet

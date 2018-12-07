@@ -22,7 +22,7 @@ use think\facade\Hook;
 
 //设置插件入口路由
 Route::any('plugin/[:_plugin]/[:_controller]/[:_action]', "\\cmf\\controller\\PluginController@index");
-Route::get('captcha/new', "\\cmf\\controller\\CaptchaController@index");
+Route::get('new_captcha', "\\cmf\\controller\\CaptchaController@index");
 
 /**
  * 获取当前登录的管理员ID
@@ -157,7 +157,7 @@ function cmf_get_current_admin_theme()
     }
 
     $t     = '_at';
-    $theme = config('cmf_admin_default_theme');
+    $theme = config('template.cmf_admin_default_theme');
 
     $cmfDetectTheme = true;
     if ($cmfDetectTheme) {
