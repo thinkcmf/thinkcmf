@@ -1427,7 +1427,7 @@ function cmf_clear_verification_code($account)
 function file_exists_case($filename)
 {
     if (is_file($filename)) {
-        if (IS_WIN && APP_DEBUG) {
+        if (APP_DEBUG) {
             if (basename(realpath($filename)) != basename($filename))
                 return false;
         }
