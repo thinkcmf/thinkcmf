@@ -10,47 +10,41 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
+use think\App;
+use think\Container;
 use think\Controller;
-use think\Request;
-use think\Response;
 use think\facade\View;
 use think\facade\Config;
 
 class BaseController extends Controller
 {
     /**
-     * 构造函数
-     * @param Request $request Request对象
-     * @access public
+     * BaseController constructor.
+     * @param App|null $app
      */
-    public function __construct(Request $request = null)
+    public function __construct(App $app = null)
     {
-        if (!cmf_is_installed() && $request->module() != 'install') {
+        $this->app     = $app ?: Container::get('app');
+        $this->request = $this->app['request'];
+
+        if (!cmf_is_installed() && $this->request->module() != 'install') {
             header('Location: ' . cmf_get_root() . '/?s=install');
             exit;
         }
 
-        if (is_null($request)) {
-            $request = Request::instance();
-        }
-
-        $this->request = $request;
-
         $this->_initializeView();
         $this->view = View::init(Config::get('template.'));
-
 
         // 控制器初始化
         $this->initialize();
 
-        // 前置操作方法
-        if ($this->beforeActionList) {
-            foreach ($this->beforeActionList as $method => $options) {
-                is_numeric($method) ?
-                    $this->beforeAction($options) :
-                    $this->beforeAction($method, $options);
-            }
+        // 前置操作方法 即将废弃
+        foreach ((array) $this->beforeActionList as $method => $options) {
+            is_numeric($method) ?
+                $this->beforeAction($options) :
+                $this->beforeAction($method, $options);
         }
+
     }
 
 
