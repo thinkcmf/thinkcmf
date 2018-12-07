@@ -35,9 +35,9 @@ class PluginController extends AdminBaseController
 
     protected $pluginModel;
 
-    public function _initialize()
+    public function initialize()
     {
-        parent::_initialize();
+        parent::initialize();
     }
 
     /**
