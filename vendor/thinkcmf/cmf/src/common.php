@@ -87,8 +87,7 @@ function cmf_get_current_user_id()
  */
 function cmf_get_domain()
 {
-    $request = Request::instance();
-    return $request->domain();
+    return Request::domain();
 }
 
 /**
@@ -97,8 +96,7 @@ function cmf_get_domain()
  */
 function cmf_get_root()
 {
-    $request = Request::instance();
-    $root    = $request->root();
+    $root    = Request::root();
     $root    = str_replace('/index.php', '', $root);
     if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
         $root = preg_replace('/\/api$/', '', $root);
@@ -931,7 +929,7 @@ function cmf_is_mobile()
     if (isset($cmf_is_mobile))
         return $cmf_is_mobile;
 
-    $cmf_is_mobile = Request::instance()->isMobile();
+    $cmf_is_mobile = Request::isMobile();
 
     return $cmf_is_mobile;
 }
