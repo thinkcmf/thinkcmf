@@ -15,6 +15,7 @@ use app\admin\model\HookModel;
 use app\admin\model\PluginModel;
 use app\admin\model\HookPluginModel;
 use think\Db;
+use think\facade\Env;
 
 /**
  * Class HookController 钩子管理控制器
@@ -112,7 +113,7 @@ class HookController extends AdminBaseController
 
         foreach ($apps as $app) {
             if ($app == 'cmf') {
-                $hookConfigFile = CMF_PATH . '/hooks.php';
+                $hookConfigFile = Env::get('root_path') . '/vendor/thinkcmf/cmf/src/hooks.php';
             } else {
                 $hookConfigFile = APP_PATH . $app . '/hooks.php';
             }
