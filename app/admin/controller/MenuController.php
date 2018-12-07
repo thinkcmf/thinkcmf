@@ -11,6 +11,7 @@
 namespace app\admin\controller;
 
 use app\admin\model\AdminMenuModel;
+use app\admin\validate\AdminMenuValidate;
 use cmf\controller\AdminBaseController;
 use think\Db;
 use tree\Tree;
@@ -143,9 +144,10 @@ class MenuController extends AdminBaseController
     public function addPost()
     {
         if ($this->request->isPost()) {
-            $result = $this->validate($this->request->param(), 'AdminMenu');
-            if ($result !== true) {
-                $this->error($result);
+            $validate = new AdminMenuValidate;
+            $result = $validate->scene('add')->check($this->request->param());
+            if (!$result) {
+                $this->error($validate->getError());
             } else {
                 $data = $this->request->param();
                 Db::name('AdminMenu')->strict(false)->field(true)->insert($data);
