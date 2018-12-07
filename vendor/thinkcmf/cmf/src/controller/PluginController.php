@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
-use think\App;
+use think\facade\App;
 use think\Loader;
 
 class PluginController extends HomeBaseController
