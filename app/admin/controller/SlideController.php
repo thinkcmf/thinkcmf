@@ -32,6 +32,12 @@ class SlideController extends AdminBaseController
      */
     public function index()
     {
+        $content = hook_one('admin_slide_index_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $slidePostModel = new SlideModel();
         $slides         = $slidePostModel->where(['delete_time' => ['eq', 0]])->select();
         $this->assign('slides', $slides);

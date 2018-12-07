@@ -35,6 +35,12 @@ class AdminTagController extends AdminBaseController
      */
     public function index()
     {
+        $content = hook_one('portal_admin_tag_index_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $portalTagModel = new PortalTagModel();
         $tags           = $portalTagModel->paginate();
 

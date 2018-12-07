@@ -1,4 +1,30 @@
 <include file="public@header"/>
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+<script type="text/html" id="photos-item-tpl">
+    <li id="saved-image{id}">
+        <input id="photo-{id}" type="hidden" name="photo_urls[]" value="{filepath}">
+        <input class="form-control" id="photo-{id}-name" type="text" name="photo_names[]" value="{name}"
+               style="width: 200px;" title="图片名称">
+        <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
+             onclick="imagePreviewDialog(this.src);">
+        <a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
+        <a href="javascript:(function(){$('#saved-image{id}').remove();})();">移除</a>
+    </li>
+</script>
+<script type="text/html" id="files-item-tpl">
+    <li id="saved-file{id}">
+        <input id="file-{id}" type="hidden" name="file_urls[]" value="{filepath}">
+        <input class="form-control" id="file-{id}-name" type="text" name="file_names[]" value="{name}"
+               style="width: 200px;" title="文件名称">
+        <a id="file-{id}-preview" href="{preview_url}" target="_blank">下载</a>
+        <a href="javascript:uploadOne('文件上传','#file-{id}','file');">替换</a>
+        <a href="javascript:(function(){$('#saved-file{id}').remove();})();">移除</a>
+    </li>
+</script>
 </head>
 <body>
 <div class="wrap js-check-wrap">
@@ -45,6 +71,57 @@
                         <th>内容</th>
                         <td>
                             <script type="text/plain" id="content" name="post[post_content]">{$post.post_content}</script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>相册</th>
+                        <td>
+                            <ul id="photos" class="pic-list list-unstyled form-inline">
+                                <notempty name="post.more.photos">
+                                    <foreach name="post.more.photos" item="vo">
+                                        <php>$img_url=cmf_get_image_preview_url($vo['url']);</php>
+                                        <li id="saved-image{$key}">
+                                            <input id="photo-{$key}" type="hidden" name="photo_urls[]"
+                                                   value="{$vo.url}">
+                                            <input class="form-control" id="photo-{$key}-name" type="text"
+                                                   name="photo_names[]"
+                                                   value="{$vo.name|default=''}" style="width: 200px;" title="图片名称">
+                                            <img id="photo-{$key}-preview"
+                                                 src="{:cmf_get_image_preview_url($vo['url'])}"
+                                                 style="height:36px;width: 36px;"
+                                                 onclick="parent.imagePreviewDialog(this.src);">
+                                            <a href="javascript:uploadOneImage('图片上传','#photo-{$key}');">替换</a>
+                                            <a href="javascript:(function(){$('#saved-image{$key}').remove();})();">移除</a>
+                                        </li>
+                                    </foreach>
+                                </notempty>
+                            </ul>
+                            <a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-tpl');"
+                               class="btn btn-sm btn-default">选择图片</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>附件</th>
+                        <td>
+                            <ul id="files" class="pic-list list-unstyled form-inline">
+                                <notempty name="post.more.files">
+                                    <foreach name="post.more.files" item="vo">
+                                        <php>$file_url=cmf_get_file_download_url($vo['url']);</php>
+                                        <li id="saved-file{$key}">
+                                            <input id="file-{$key}" type="hidden" name="file_urls[]"
+                                                   value="{$vo.url}">
+                                            <input class="form-control" id="file-{$key}-name" type="text"
+                                                   name="file_names[]"
+                                                   value="{$vo.name}" style="width: 200px;" title="图片名称">
+                                            <a id="file-{$key}-preview" href="{$file_url}" target="_blank">下载</a>
+                                            <a href="javascript:uploadOne('文件上传','#file-{$key}','file');">替换</a>
+                                            <a href="javascript:(function(){$('#saved-file{$key}').remove();})();">移除</a>
+                                        </li>
+                                    </foreach>
+                                </notempty>
+                            </ul>
+                            <a href="javascript:uploadMultiFile('附件上传','#files','files-item-tpl','file');"
+                               class="btn btn-sm btn-default">选择文件</a>
                         </td>
                     </tr>
                     </tbody>

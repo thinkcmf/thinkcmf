@@ -31,6 +31,12 @@ class SlideItemController extends AdminBaseController
      */
     public function index()
     {
+        $content = hook_one('admin_slide_item_index_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $id      = $this->request->param('slide_id');
         $slideId = !empty($id) ? $id : 1;
         $result  = Db::name('slideItem')->where(['slide_id' => $slideId])->select()->toArray();
@@ -55,6 +61,12 @@ class SlideItemController extends AdminBaseController
      */
     public function add()
     {
+        $content = hook_one('admin_slide_item_add_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $slideId = $this->request->param('slide_id');
         $this->assign('slide_id', $slideId);
         return $this->fetch();
@@ -95,6 +107,12 @@ class SlideItemController extends AdminBaseController
      */
     public function edit()
     {
+        $content = hook_one('admin_slide_item_edit_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $id     = $this->request->param('id');
         $result = Db::name('slideItem')->where(['id' => $id])->find();
 

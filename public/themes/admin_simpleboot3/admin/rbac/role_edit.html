@@ -1,0 +1,47 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('rbac/index')}">{:lang('ADMIN_RBAC_INDEX')}</a></li>
+        <li><a href="{:url('rbac/roleadd')}">{:lang('ADMIN_RBAC_ROLEADD')}</a></li>
+        <li class="active"><a>编辑角色</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form margin-top-20" action="{:url('rbac/roleeditpost')}" method="post">
+        <div class="form-group">
+            <label for="input-name" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('ROLE_NAME')}</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" id="input-name" name="name" value="{$data.name}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-remark" class="col-sm-2 control-label">{:lang('ROLE_DESCRIPTION')}</label>
+            <div class="col-md-6 col-sm-10">
+                <textarea type="text" class="form-control" id="input-remark" name="remark">{$data.remark}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">{:lang('STATUS')}</label>
+            <div class="col-md-6 col-sm-10">
+                <label class="radio-inline">
+                    <php>$active_true_checked=($data['status']==1)?"checked":"";</php>
+                    <input type="radio" name="status" value="1" {$active_true_checked}> {:lang('ENABLED')}
+                </label>
+                <label class="radio-inline">
+                    <php>$active_false_checked=($data['status']==0)?"checked":"";</php>
+                    <input type="radio" name="status" value="0" {$active_false_checked}> {:lang('DISABLED')}
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="hidden" name="id" value="{$data.id}"/>
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                <a class="btn btn-default" href="{:url('admin/rbac/index')}">{:lang('BACK')}</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

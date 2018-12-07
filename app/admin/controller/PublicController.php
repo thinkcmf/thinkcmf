@@ -54,6 +54,10 @@ class PublicController extends AdminBaseController
      */
     public function doLogin()
     {
+        if (hook_one('admin_custom_login_open')) {
+            $this->error('您已经通过插件自定义后台登录！');
+        }
+
         $loginAllowed = session("__LOGIN_BY_CMF_ADMIN_PW__");
         if (empty($loginAllowed)) {
             $this->error('非法登录!', cmf_get_root() . '/');
@@ -63,7 +67,6 @@ class PublicController extends AdminBaseController
         if (empty($captcha)) {
             $this->error(lang('CAPTCHA_REQUIRED'));
         }
-
         //验证码
         if (!cmf_captcha_check($captcha)) {
             $this->error(lang('CAPTCHA_NOT_RIGHT'));

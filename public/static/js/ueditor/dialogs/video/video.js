@@ -395,8 +395,13 @@
                 server: actionUrl,
                 fileVal: editor.getOpt('videoFieldName'),
                 duplicate: true,
+                timeout: 0,
                 fileSingleSizeLimit: fileMaxSize,
-                compress: false
+                compress: false,
+                chunked: true,//开启分片
+                chunkSize: 512 * 1024,// 单位B
+                // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
+                disableGlobalDnd: true
             });
             uploader.addButton({
                 id: '#filePickerBlock'

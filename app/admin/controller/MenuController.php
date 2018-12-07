@@ -33,6 +33,12 @@ class MenuController extends AdminBaseController
      */
     public function index()
     {
+        $content = hook_one('admin_menu_index_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         session('admin_menu_index', 'Menu/index');
         $result     = Db::name('AdminMenu')->order(["list_order" => "ASC"])->select()->toArray();
         $tree       = new Tree();

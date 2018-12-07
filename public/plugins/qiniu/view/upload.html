@@ -845,7 +845,6 @@
                                 headers: {Authorization: 'UpToken {$qiniu_up_token}'},
                                 success: function (data) {
                                     var $file = jQuery("#" + file.id);
-                                    $file.data("filepath", data.key);
                                     $file.data("name", file.name);
                                     $.ajax({
                                         url: "{:cmf_plugin_url('Qiniu://Asset/getUrl')}",
@@ -860,6 +859,7 @@
                                         success: function (data2) {
                                             $file.data("url", data2.data.url);
                                             $file.data("preview_url", data2.data.preview_url);
+                                            $file.data("filepath", data2.data.filepath);
                                         },
                                         error: function () {
 

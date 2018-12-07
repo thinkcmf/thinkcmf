@@ -325,6 +325,7 @@
                 var $_this    = this,
                     $this     = $($_this),
                     href      = $this.data('href'),
+                    refresh   = $this.data('refresh'),
                     msg       = $this.data('msg');
                 okBtnText     = $this.data('ok-btn');
                 cancelBtnText = $this.data('cancel-btn');
@@ -345,7 +346,7 @@
                                     if (data.code == 1) {
                                         if (data.url) {
                                             location.href = data.url;
-                                        } else {
+                                        } else if (refresh || refresh == undefined) {
                                             reloadPage(window);
                                         }
                                     } else if (data.code == 0) {
@@ -385,11 +386,12 @@
         Wind.use('noty', function () {
             $('.js-ajax-dialog-btn').on('click', function (e) {
                 e.preventDefault();
-                var $_this = this,
-                    $this  = $($_this),
-                    href   = $this.data('href'),
-                    msg    = $this.data('msg');
-                href       = href ? href : $this.attr('href');
+                var $_this  = this,
+                    $this   = $($_this),
+                    href    = $this.data('href'),
+                    refresh = $this.data('refresh'),
+                    msg     = $this.data('msg');
+                href        = href ? href : $this.attr('href');
                 noty({
                     text: msg,
                     type: 'confirm',
@@ -406,7 +408,7 @@
                                     if (data.code == 1) {
                                         if (data.url) {
                                             location.href = data.url;
-                                        } else {
+                                        } else if (refresh || refresh == undefined) {
                                             reloadPage(window);
                                         }
                                     } else if (data.code == 0) {
@@ -785,6 +787,22 @@
         Wind.use('datePicker', function () {
             dateTimeInput.datePicker({
                 time: true
+            });
+        });
+    }
+
+    // bootstrap年选择器
+    var bootstrapYearInput = $("input.js-bootstrap-year")
+    if (bootstrapYearInput.length) {
+        Wind.css('bootstrapDatetimePicker');
+        Wind.use('bootstrapDatetimePicker', function () {
+            bootstrapYearInput.datetimepicker({
+                language: 'zh-CN',
+                format: 'yyyy',
+                minView: 'decade',
+                startView: 'decade',
+                todayBtn: 1,
+                autoclose: true
             });
         });
     }
@@ -1219,7 +1237,11 @@ function uploadOne(dialog_title, input_selector, filetype, extra_params, app) {
     openUploadDialog(dialog_title, function (dialog, files) {
         $(input_selector).val(files[0].filepath);
         $(input_selector + '-preview').attr('href', files[0].preview_url);
+
         $(input_selector + '-name').val(files[0].name);
+        $(input_selector + '-name-text').text(files[0].name);
+
+
     }, extra_params, 0, filetype, app);
 }
 
@@ -1234,7 +1256,10 @@ function uploadOneImage(dialog_title, input_selector, extra_params, app) {
     openUploadDialog(dialog_title, function (dialog, files) {
         $(input_selector).val(files[0].filepath);
         $(input_selector + '-preview').attr('src', files[0].preview_url);
+
         $(input_selector + '-name').val(files[0].name);
+        $(input_selector + '-name-text').text(files[0].name);
+
     }, extra_params, 0, 'image', app);
 }
 

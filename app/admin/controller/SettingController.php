@@ -46,6 +46,12 @@ class SettingController extends AdminBaseController
      */
     public function site()
     {
+        $content = hook_one('admin_setting_site_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $noNeedDirs     = [".", "..", ".svn", 'fonts'];
         $adminThemesDir = config('cmf_admin_theme_path') . config('cmf_admin_default_theme') . '/public/assets/themes/';
         $adminStyles    = cmf_scan_dir($adminThemesDir . '*', GLOB_ONLYDIR);
@@ -54,7 +60,7 @@ class SettingController extends AdminBaseController
         $cmfSettings    = cmf_get_option('cmf_settings');
         $adminSettings  = cmf_get_option('admin_settings');
 
-        $this->assign(cmf_get_option('site_info'));
+        $this->assign('site_info', cmf_get_option('site_info'));
         $this->assign("admin_styles", $adminStyles);
         $this->assign("templates", []);
         $this->assign("cdn_settings", $cdnSettings);
@@ -101,7 +107,7 @@ class SettingController extends AdminBaseController
 
             $routeModel = new RouteModel();
             if (!empty($adminSettings['admin_password'])) {
-                $routeModel->setRoute($adminSettings['admin_password'].'$', 'admin/Index/index', [], 2, 5000);
+                $routeModel->setRoute($adminSettings['admin_password'] . '$', 'admin/Index/index', [], 2, 5000);
             } else {
                 $routeModel->deleteRoute('admin/Index/index', []);
             }
@@ -201,7 +207,7 @@ class SettingController extends AdminBaseController
     public function upload()
     {
         $uploadSetting = cmf_get_upload_setting();
-        $this->assign($uploadSetting);
+        $this->assign('upload_setting', $uploadSetting);
         return $this->fetch();
     }
 
@@ -245,6 +251,12 @@ class SettingController extends AdminBaseController
      */
     public function clearCache()
     {
+        $content = hook_one('admin_setting_clear_cache_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         cmf_clear_cache();
         return $this->fetch();
     }

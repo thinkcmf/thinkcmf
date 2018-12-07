@@ -34,7 +34,11 @@ class AssetController extends PluginBaseController
         $previewUrl = $fileType == 'image' ? $qiniu->getPreviewUrl($file) : $qiniu->getFileDownloadUrl($file);
         $url        = $fileType == 'image' ? $qiniu->getImageUrl($file, 'watermark') : $qiniu->getFileDownloadUrl($file);
 
-        return $this->success('success', null, ['url' => $url, 'preview_url' => $previewUrl]);
+        return $this->success('success', null, [
+            'url'         => $url,
+            'preview_url' => $previewUrl,
+            'filepath'    => $file
+        ]);
     }
 
     public function saveFile()

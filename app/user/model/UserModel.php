@@ -135,9 +135,9 @@ class UserModel extends Model
         return 2;
     }
 
-    public function register($user,$type)
+    public function register($user, $type)
     {
-        switch ($type){
+        switch ($type) {
             case 1:
                 $result = Db::name("user")->where('user_login', $user['user_login'])->find();
                 break;
@@ -157,11 +157,11 @@ class UserModel extends Model
             $userStatus = 2;
         }
 
-        if ($result) {
+        if (empty($result)) {
             $data   = [
                 'user_login'      => empty($user['user_login']) ? '' : $user['user_login'],
-                'user_email'      => empty($user['mobile']) ? '' : $user['mobile'],
-                'mobile'          => empty($user['user_email']) ? '' : $user['user_email'],
+                'user_email'      => empty($user['user_email']) ? '' : $user['user_email'],
+                'mobile'          => empty($user['mobile']) ? '' : $user['mobile'],
                 'user_nickname'   => '',
                 'user_pass'       => cmf_password($user['user_pass']),
                 'last_login_ip'   => get_client_ip(0, true),
@@ -229,12 +229,8 @@ class UserModel extends Model
             $user['birthday'] = strtotime($user['birthday']);
         }
 
-        $get_current_user = cmf_get_current_user();
-        if($get_current_user['user_login']){
-            $field ='user_nickname,sex,birthday,user_url,signature,more';
-        }else{
-            $field ='user_login,user_nickname,sex,birthday,user_url,signature,more';
-        }
+        $field = 'user_nickname,sex,birthday,user_url,signature,more';
+
         if ($this->allowField($field)->save($user, ['id' => $userId])) {
             $userInfo = $this->where('id', $userId)->find();
             cmf_update_current_user($userInfo->toArray());

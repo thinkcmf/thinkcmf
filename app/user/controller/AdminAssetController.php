@@ -30,6 +30,12 @@ class AdminAssetController extends AdminBaseController
      */
     public function index()
     {
+        $content = hook_one('user_admin_asset_index_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
         $join   = [
             ['__USER__ u', 'a.user_id = u.id']
         ];

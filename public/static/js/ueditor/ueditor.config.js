@@ -410,7 +410,7 @@
 			hr:     ['class', 'style', 'id'],
 			i:      ['class', 'style', 'id'],
 			iframe: ['src', 'width', 'height', 'class', 'id', 'style', 'frameborder', 'name'],
-			img:    ['src', 'alt', 'title', 'width', 'height', 'id', '_src', 'loadingclass', '_url', 'data-latex'],
+			img:    ['src', 'alt', 'title', 'width', 'height', 'id', '_src', 'loadingclass', 'class', 'style','_url', 'data-latex'],
 			ins:    ['datetime', 'class', 'style', 'id'],
 			li:     ['class', 'style', 'id'],
 			mark:   [],
@@ -436,7 +436,7 @@
 			tt:     ['class', 'style', 'id'],
 			u:      [],
 			ul:     ['class', 'style', 'id'],
-			video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width', 'class', 'style', 'id']
+			video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width', 'class', 'style', 'id', 'poster']
 		}
     };
 
