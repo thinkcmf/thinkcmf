@@ -21,10 +21,6 @@ define('APP_PATH', CMF_ROOT . 'app/');
 // 定义插件目录
 define('PLUGINS_PATH', __DIR__ . '/plugins/');
 
-
-// 定义应用的运行时目录
-define('RUNTIME_PATH', CMF_ROOT . 'data/runtime/');
-
 // 定义CMF 版本号
 define('THINKCMF_VERSION', '5.1.0-dev');
 
