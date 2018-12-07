@@ -21,7 +21,7 @@ return [
     ],
     // 模块初始化
     'module_init' => [
-//        'cmf\\behavior\\InitAppHookBehavior',
+        'cmf\\behavior\\InitAppHookBehavior',
     ],
 //    // 操作开始执行
 //    'action_begin' => [],
@@ -38,6 +38,6 @@ return [
         'cmf\\behavior\\AdminLangBehavior',
     ],
     'home_init'    => [
-//        'cmf\\behavior\\HomeLangBehavior',
+        'cmf\\behavior\\HomeLangBehavior',
     ]
 ];

@@ -10,15 +10,14 @@
 // +---------------------------------------------------------------------
 namespace cmf\behavior;
 
-use think\db\Query;
-use think\Hook;
 use think\Db;
+use think\facade\Hook;
 
 class InitAppHookBehavior
 {
 
     // 行为扩展的执行入口必须是run
-    public function run(&$param)
+    public function run($param)
     {
         if (!cmf_is_installed()) {
             return;
