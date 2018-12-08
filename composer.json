@@ -33,7 +33,7 @@
         "electrolinux/phpquery": "^0.9.6"
     },
     "extra": {
-        "think-path":"thinkphp"
+        "think-path":"vendor/thinkphp"
     },
     "config": {
         "vendor-dir":"vendor"

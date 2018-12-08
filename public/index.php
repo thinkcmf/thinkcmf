@@ -25,7 +25,10 @@ define('PLUGINS_PATH', __DIR__ . '/plugins/');
 define('THINKCMF_VERSION', '5.1.0-dev');
 
 // 加载基础文件
-require __DIR__ . '/../thinkphp/base.php';
+require __DIR__ . '/../vendor/thinkphp/base.php';
 
+$app = new \cmf\App(APP_PATH);
+Container::set('app', $app);
+$app->run()->send();
 // 执行应用并响应
-Container::get('app',[APP_PATH])->run()->send();
+//Container::get('app',[APP_PATH])->run()->send();
