@@ -15,7 +15,6 @@ use think\facade\Url;
 use dir\Dir;
 use think\facade\Route;
 use think\Loader;
-use think\facade\Request;
 use cmf\lib\Storage;
 use think\facade\Hook;
 
@@ -87,7 +86,7 @@ function cmf_get_current_user_id()
  */
 function cmf_get_domain()
 {
-    return Request::domain();
+    return request()->domain();
 }
 
 /**
@@ -96,8 +95,8 @@ function cmf_get_domain()
  */
 function cmf_get_root()
 {
-    $root    = Request::root();
-    $root    = str_replace('/index.php', '', $root);
+    $root = request()->root();
+    $root = str_replace('/index.php', '', $root);
     if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
         $root = preg_replace('/\/api$/', '', $root);
         $root = rtrim($root, '/');
@@ -929,7 +928,7 @@ function cmf_is_mobile()
     if (isset($cmf_is_mobile))
         return $cmf_is_mobile;
 
-    $cmf_is_mobile = Request::isMobile();
+    $cmf_is_mobile = request()->isMobile();
 
     return $cmf_is_mobile;
 }
