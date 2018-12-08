@@ -149,9 +149,9 @@ class App
             $response = $data;
         } elseif (!is_null($data)) {
             // 默认自动识别响应输出类型
-            $type = $request->isAjax() ?
-            Config::get('default_ajax_return') :
-            Config::get('default_return_type');
+            $type = $request->isAjax() && !is_string($data) ?
+                Config::get('default_ajax_return') :
+                Config::get('default_return_type');
 
             $response = Response::create($data, $type);
         } else {
