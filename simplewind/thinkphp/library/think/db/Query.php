@@ -436,12 +436,13 @@ class Query
                 // 返回SQL语句
                 return $pdo;
             }
+
             $result = $pdo->fetchColumn();
             if ($force) {
-                $result += 0;
+                $result = (float) $result;
             }
 
-            if (isset($cache)) {
+            if (isset($cache) && false !== $result) {
                 // 缓存数据
                 $this->cacheData($key, $result, $cache);
             }
@@ -531,13 +532,39 @@ class Query
     public function count($field = '*')
     {
         if (isset($this->options['group'])) {
+            if (!preg_match('/^[\w\.\*]+$/', $field)) {
+                throw new Exception('not support data:' . $field);
+            }
             // 支持GROUP
             $options = $this->getOptions();
             $subSql  = $this->options($options)->field('count(' . $field . ')')->bind($this->bind)->buildSql();
-            return $this->table([$subSql => '_group_count_'])->value('COUNT(*) AS tp_count', 0, true);
+
+            $count = $this->table([$subSql => '_group_count_'])->value('COUNT(*) AS tp_count', 0);
+        } else {
+            $count = $this->aggregate('COUNT', $field);
         }
 
-        return $this->value('COUNT(' . $field . ') AS tp_count', 0, true);
+        return is_string($count) ? $count : (int) $count;
+
+    }
+
+    /**
+     * 聚合查询
+     * @access public
+     * @param  string $aggregate    聚合方法
+     * @param  string $field        字段名
+     * @param  bool   $force        强制转为数字类型
+     * @return mixed
+     */
+    public function aggregate($aggregate, $field, $force = false)
+    {
+        if (!preg_match('/^[\w\.\*]+$/', $field)) {
+            throw new Exception('not support data:' . $field);
+        }
+
+        $result = $this->value($aggregate . '(' . $field . ') AS tp_' . strtolower($aggregate), 0, $force);
+
+        return $result;
     }
 
     /**
@@ -548,7 +575,7 @@ class Query
      */
     public function sum($field)
     {
-        return $this->value('SUM(' . $field . ') AS tp_sum', 0, true);
+        return $this->aggregate('SUM', $field, true);
     }
 
     /**
@@ -560,7 +587,7 @@ class Query
      */
     public function min($field, $force = true)
     {
-        return $this->value('MIN(' . $field . ') AS tp_min', 0, $force);
+        return $this->aggregate('MIN', $field, $force);
     }
 
     /**
@@ -572,7 +599,7 @@ class Query
      */
     public function max($field, $force = true)
     {
-        return $this->value('MAX(' . $field . ') AS tp_max', 0, $force);
+        return $this->aggregate('MAX', $field, $force);
     }
 
     /**
@@ -583,7 +610,7 @@ class Query
      */
     public function avg($field)
     {
-        return $this->value('AVG(' . $field . ') AS tp_avg', 0, true);
+        return $this->aggregate('AVG', $field, true);
     }
 
     /**

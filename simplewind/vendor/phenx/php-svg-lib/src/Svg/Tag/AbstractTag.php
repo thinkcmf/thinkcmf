@@ -3,7 +3,7 @@
  * @package php-svg-lib
  * @link    http://github.com/PhenX/php-svg-lib
  * @author  Fabien Ménager <fabien.menager@gmail.com>
- * @license http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @license GNU LGPLv3+ http://www.gnu.org/copyleft/lesser.html
  */
 
 namespace Svg\Tag;
@@ -21,7 +21,7 @@ abstract class AbstractTag
     /** @var Style */
     protected $style;
 
-    protected $attributes;
+    protected $attributes = array();
 
     protected $hasShape = true;
 

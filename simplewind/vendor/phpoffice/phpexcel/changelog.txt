@@ -19,8 +19,24 @@
 *
 * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
 * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
-* @version    1.8.1, 2015-04-30
+* @version    ##VERSION##, ##DATE##
 **************************************************************************************
+
+
+2018-11-22 (v1.8.2):
+- Security  (MBaker)                            - Fix and improve XXE security scanning for XML-based Readers
+- Bugfix:   (MBaker)                            - Fix to getCell() method when cell reference includes a worksheet reference
+- Bugfix:   (ncrypthic)       Work Item GH-570  - Ignore inlineStr type if formula element exists
+- Bugfix:   (hernst42)        Work Item GH-709  - Fixed missing renames of writeRelationShip (from _writeRelationShip)
+- General:  (umpirsky)        Work Item GH-548  - Optimize vlookup() sort
+- Bugfix:   (MBaker)          Work Item GH-554  - Whitespace after toRichTextObject()
+- Feature:  (MBaker)                            - Initial implementation of SUMIFS() function
+- Feature:  (MBaker)                            - Additional codepages
+- Feature:  (Tomino2112)      Work Item GH-808  - MemoryDrawing not working in HTML writer
+- General:  (rentalhost)      Work Item GH-575  - Excel 2007 Reader freezes because of conditional formatting
+- Bugfix:   (vitalyrepin)     Pull Request 869  - c:max and c:min elements shall NOT be inside c:orientation elements
+- General:  (sim642)          Pull Request 489  - Implement actual timezone adjustment into PHPExcel_Shared_Date::PHPToExcel
+
 
 2015-04-30 (v1.8.1):
 - Bugfix:   (goncons)         Work Item GH-397  - Fix for Writing an Open Document cell with non-numeric formula
@@ -60,8 +76,7 @@
                                                     (see http://projects.webappsec.org/w/page/13247002/XML%20Entity%20Expansion for an explanation of XEE injection) attacks
                                                   Reference CVE-2015-3542 - Identification of problem courtesy of Dawid Golunski (Pentest Ltd.)
 
-
-                                                  2014-03-02 (v1.8.0):
+2014-03-02 (v1.8.0):
 - Bugfix:   (MBaker)          Work item CP19830 - Undefined variable: fileHandle in CSV Reader
 - Bugfix:   (MBaker)          Work item CP19968 - Out of memory in style/supervisor.php
 - Bugfix:   (MBaker)                            - Style error with merged cells in PDF Writer

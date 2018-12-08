@@ -98,6 +98,10 @@ abstract class Builder
 
         $result = [];
         foreach ($data as $key => $val) {
+            if ('*' != $options['field'] && !in_array($key, $fields, true)) {
+                continue;
+            }
+
             $item = $this->parseKey($key, $options, true);
             if ($val instanceof Expression) {
                 $result[$item] = $val->getValue();
@@ -268,7 +272,7 @@ abstract class Builder
             $str = [];
             foreach ($val as $field => $value) {
                 if ($value instanceof Expression) {
-                    $str[] = ' ' . $key . ' ( ' . $field . ' ' . $value->getValue() . ' )';
+                    $str[] = ' ' . $key . ' ( ' . $value->getValue() . ' )';
                 } elseif ($value instanceof \Closure) {
                     // 使用闭包查询
                     $query = new Query($this->connection);
@@ -628,7 +632,7 @@ abstract class Builder
     protected function parseComment($comment)
     {
         if (false !== strpos($comment, '*/')) {
-            $comment = strstr($coment, '*/', true);
+            $comment = strstr($comment, '*/', true);
         }
         return !empty($comment) ? ' /* ' . $comment . ' */' : '';
     }
@@ -802,7 +806,7 @@ abstract class Builder
         }
 
         foreach ($insertFields as $field) {
-            $fields[] = $this->parseKey($query, $field, true);
+            $fields[] = $this->parseKey($field, $options, true);
         }
 
         return str_replace(

@@ -3,13 +3,13 @@
  * @package php-svg-lib
  * @link    http://github.com/PhenX/php-svg-lib
  * @author  Fabien Ménager <fabien.menager@gmail.com>
- * @license http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @license GNU LGPLv3+ http://www.gnu.org/copyleft/lesser.html
  */
 
 namespace Svg\Tag;
 
 
-use Svg\Gradient\Stop;
+use Svg\Gradient;
 use Svg\Style;
 
 class LinearGradient extends AbstractTag
@@ -19,7 +19,7 @@ class LinearGradient extends AbstractTag
     protected $x2;
     protected $y2;
 
-    /** @var Stop[] */
+    /** @var Gradient\Stop[] */
     protected $stops = array();
 
     public function start($attributes)
@@ -47,7 +47,7 @@ class LinearGradient extends AbstractTag
                     continue;
                 }
 
-                $_stop = new Stop();
+                $_stop = new Gradient\Stop();
                 $_attributes = $_child->attributes;
 
                 // Style
