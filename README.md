@@ -63,8 +63,6 @@ thinkcmf  根目录
 ├─api                     api目录
 ├─app                     应用目录
 │  ├─portal               门户应用目录
-│  │  ├─config.php        应用配置文件
-│  │  ├─common.php        模块函数文件
 │  │  ├─controller        控制器目录
 │  │  ├─model             模型目录
 │  │  └─ ...              更多类库目录
