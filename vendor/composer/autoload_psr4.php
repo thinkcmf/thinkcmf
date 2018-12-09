@@ -13,6 +13,9 @@ return array(
     'mindplay\\annotations\\' => array($vendorDir . '/mindplay/annotations/src/annotations'),
     'cmf\\' => array($vendorDir . '/thinkcmf/cmf/src'),
     'Qiniu\\' => array($vendorDir . '/qiniu/php-sdk/src/Qiniu'),
+    'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),
+    'PhpOffice\\PhpSpreadsheet\\' => array($vendorDir . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet'),
     'FontLib\\' => array($vendorDir . '/phenx/php-font-lib/src/FontLib'),
     'Dompdf\\' => array($vendorDir . '/dompdf/dompdf/src'),
+    'Complex\\' => array($vendorDir . '/markbaker/complex/classes/src'),
 );
