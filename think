@@ -7,12 +7,12 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+namespace think;
 // 调试模式开关
 define("APP_DEBUG", true);
 
 // 定义CMF根目录,可更改此目录
 define('CMF_ROOT', __DIR__ . '/');
-echo CMF_ROOT;
 
 // 定义插件目录
 define('PLUGINS_PATH', __DIR__ . '/public/plugins/');
@@ -20,16 +20,16 @@ define('PLUGINS_PATH', __DIR__ . '/public/plugins/');
 // 定义应用目录
 define('APP_PATH', CMF_ROOT . 'app/');
 
-// 定义CMF核心包目录
-define('CMF_PATH', CMF_ROOT . 'simplewind/cmf/');
+// 定义缓存目录
+define('RUNTIME_PATH', CMF_ROOT . 'data/runtime_cli/');
 
-// 定义扩展目录
-define('EXTEND_PATH', CMF_ROOT . 'simplewind/extend/');
-define('VENDOR_PATH', CMF_ROOT . 'simplewind/vendor/');
+// 加载基础文件
+require __DIR__ . '/vendor/thinkphp/base.php';
 
-// 定义应用的运行时目录
-define('RUNTIME_PATH', CMF_ROOT . 'data/console_runtime/');
+$app = new \cmf\App(APP_PATH);
+Container::set('app', $app);
 
-// 加载框架引导文件
-require CMF_ROOT.'simplewind/thinkphp/console.php';
-// 小夏是除了老猫外最帅的男人！
+// 应用初始化
+$app->initialize();
+// 控制台初始化
+Console::init();
