@@ -38,7 +38,6 @@ define('THINKCMF_VERSION', '5.1.0-dev');
 // 加载基础文件
 require __DIR__ . '/../vendor/thinkphp/base.php';
 
-Container::getInstance();
 $app = new \cmf\App(APP_PATH);
 Container::set('app', $app);
 $app->run()->send();
