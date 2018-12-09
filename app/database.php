@@ -9,13 +9,6 @@
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
 
-
-if (file_exists(CMF_ROOT . "data/conf/database.php")) {
-    $database = include CMF_ROOT . "data/conf/database.php";
-} else {
-    $database = [];
-}
-
-return array_merge([
+return [
     'datetime_format' => false
-], $database);
+];
