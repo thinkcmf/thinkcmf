@@ -31,26 +31,13 @@
         "ezyang/htmlpurifier": "^4.9",
         "topthink/think-queue": "^2.0",
         "electrolinux/phpquery": "^0.9.6",
-        "phpoffice/phpspreadsheet": "^1.5"
+        "phpoffice/phpspreadsheet": "^1.5",
+        "thinkcmf/cmf":"dev-master"
     },
     "extra": {
         "think-path":"vendor/thinkphp"
     },
     "config": {
         "vendor-dir":"vendor"
-    },
-    "autoload": {
-        "psr-4": {
-            "cmf\\": "vendor/thinkcmf/cmf/src"
-        },
-        "files": [
-            "vendor/thinkcmf/cmf/src/common.php"
-        ]
-    },
-    "repositories": {
-        "packagist": {
-            "type": "composer",
-            "url": "https://packagist.phpcomposer.com"
-        }
     }
 }
