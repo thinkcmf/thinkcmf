@@ -3,8 +3,5 @@
 .project
 .settings
 .idea
-composer.lock
-/api
-/public/api
 /public/assets/dist
 /node_modules
