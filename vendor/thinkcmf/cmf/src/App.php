@@ -156,6 +156,12 @@ class App extends \think\App
             if ('' == $module) {
                 // 加载系统助手函数
                 include $this->thinkPath . 'helper.php';
+
+                // 加载主要配置
+                $mainConfigNames = ['app', 'database', 'template'];
+                foreach ($mainConfigNames as $configName) {
+                    $this->config->load($path . $configName . $this->configExt, $configName);
+                }
             }
 
             // 加载中间件
@@ -172,12 +178,6 @@ class App extends \think\App
                 if (is_array($provider)) {
                     $this->bindTo($provider);
                 }
-            }
-
-            // 加载主要配置
-            $mainConfigNames = ['app', 'database', 'template'];
-            foreach ($mainConfigNames as $configName) {
-                $this->config->load($path . $configName . $this->configExt, $configName);
             }
 
             // 自动读取配置文件

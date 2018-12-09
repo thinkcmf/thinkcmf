@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
+use cmf\App;
+use think\Container;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
 use think\Request;
@@ -56,19 +58,15 @@ class RestBaseController
     protected $beforeActionList = [];
 
     /**
-     * 架构函数
-     * @param Request $request Request对象
-     * @access public
+     * RestBaseController constructor.
+     * @param App|null $app
      */
-    public function __construct(Request $request = null)
+    public function __construct(App $app = null)
     {
-        if (is_null($request)) {
-            $request = Request::instance();
-        }
+        $this->app     = $app ?: Container::get('app');
+        $this->request = $this->app['request'];
 
-        Request::instance()->root(cmf_get_root() . '/');
-
-        $this->request = $request;
+        $this->request->root(cmf_get_root() . '/');
 
         $this->apiVersion = $this->request->header('XX-Api-Version');
 
@@ -76,7 +74,7 @@ class RestBaseController
         $this->_initUser();
 
         // 控制器初始化
-        $this->_initialize();
+        $this->initialize();
 
         // 前置操作方法
         if ($this->beforeActionList) {
@@ -89,7 +87,7 @@ class RestBaseController
     }
 
     // 初始化
-    protected function _initialize()
+    protected function initialize()
     {
     }
 

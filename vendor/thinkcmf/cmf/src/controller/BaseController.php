@@ -10,7 +10,6 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
-use think\App;
 use think\Container;
 use think\Controller;
 use think\facade\View;
@@ -20,11 +19,10 @@ class BaseController extends Controller
 {
     /**
      * BaseController constructor.
-     * @param App|null $app
      */
-    public function __construct(App $app = null)
+    public function __construct()
     {
-        $this->app     = $app ?: Container::get('app');
+        $this->app     = Container::get('app');
         $this->request = $this->app['request'];
 
         if (!cmf_is_installed() && $this->request->module() != 'install') {
