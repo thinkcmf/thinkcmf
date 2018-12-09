@@ -54,7 +54,7 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
         'cc56288302d9df745d97c934d6a6e5f0' => __DIR__ . '/..' . '/topthink/think-queue/src/common.php',
         '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
-        '17da1109dc7f2cc925f08d705373410b' => __DIR__ . '/..' . '/thinkcmf/cmf/src/common.php',
+        '22ae91e0a0181f0ca9a02b9dde87e558' => __DIR__ . '/..' . '/thinkcmf/cmf/src/common.php',
     );
 
     public static $prefixLengthsPsr4 = array (
