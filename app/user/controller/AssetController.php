@@ -12,7 +12,7 @@ namespace app\user\controller;
 
 use cmf\controller\AdminBaseController;
 use cmf\lib\Upload;
-use think\View;
+use think\facade\View;
 
 /**
  * 附件上传控制器
