@@ -68,7 +68,7 @@ class ThemeModel extends Model
     public function getActionThemeFiles($action)
     {
         $theme = config('template.cmf_default_theme');
-        print_r($theme);exit;
+
         return Db::name('theme_file')->where([ 'theme' => $theme, 'action' => $action ])->select();
     }
 
