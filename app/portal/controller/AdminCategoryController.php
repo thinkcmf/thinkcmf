@@ -11,7 +11,6 @@
 namespace app\portal\controller;
 
 use app\admin\model\RouteModel;
-use app\portal\validate\PortalCategoryValidate;
 use cmf\controller\AdminBaseController;
 use app\portal\model\PortalCategoryModel;
 use think\Db;
@@ -200,12 +199,11 @@ class AdminCategoryController extends AdminBaseController
     {
         $data = $this->request->param();
 
-        $validate = new PortalCategoryValidate();
+        $validate = $this->validate($data,'PortalCategory');
 
-        if ( !$validate->scene('edit')->check($data)) {
-            $this->error($validate->getError());
+        if(true !== $validate){
+            $this->error($validate);
         }
-
         $portalCategoryModel = new PortalCategoryModel();
 
         $result = $portalCategoryModel->editCategory($data);
@@ -229,6 +227,10 @@ class AdminCategoryController extends AdminBaseController
      *     'remark' => '文章分类选择对话框',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function select()
     {
