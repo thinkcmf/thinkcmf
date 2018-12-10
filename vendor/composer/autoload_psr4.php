@@ -11,7 +11,7 @@ return array(
     'think\\captcha\\' => array($vendorDir . '/topthink/think-captcha/src'),
     'think\\' => array($vendorDir . '/topthink/think-image/src', $vendorDir . '/topthink/think-queue/src'),
     'mindplay\\annotations\\' => array($vendorDir . '/mindplay/annotations/src/annotations'),
-    'cmf\\swoole\\' => array($vendorDir . '/thinkcmf/cmf-swoole/src'),
+    'think\\swoole\\' => array($vendorDir . '/thinkcmf/cmf-swoole/src'),
     'cmf\\' => array($vendorDir . '/thinkcmf/cmf/src'),
     'XCron\\' => array($vendorDir . '/xavier/xcron-expression/src/Cron'),
     'Symfony\\Polyfill\\Util\\' => array($vendorDir . '/symfony/polyfill-util'),

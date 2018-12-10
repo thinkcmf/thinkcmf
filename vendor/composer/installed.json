@@ -1423,10 +1423,10 @@
                 "timer": "src/config/timer.php"
             }
         },
-        "installation-source": "dist",
+        "installation-source": "source",
         "autoload": {
             "psr-4": {
-                "cmf\\swoole\\": "src"
+                "think\\swoole\\": "src"
             },
             "files": [
                 "src/command.php"
