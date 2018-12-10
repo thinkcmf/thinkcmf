@@ -22,7 +22,7 @@
   },
   "autoload": {
     "psr-4": {
-      "cmf\\swoole\\": "src"
+      "think\\swoole\\": "src"
     },
     "files": [
       "src/command.php"
