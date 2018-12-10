@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
-use cmf\App;
+use think\App;
 use think\Container;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;

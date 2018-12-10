@@ -35,11 +35,11 @@ define('PLUGINS_PATH', __DIR__ . '/plugins/');
 
 // 定义CMF 版本号
 define('THINKCMF_VERSION', '5.1.0-dev');
+
 // 加载基础文件
 require __DIR__ . '/../vendor/thinkphp/base.php';
 
-$app = new \cmf\App(APP_PATH);
-Container::set('app', $app);
-$app->run()->send();
+Loader::addClassMap('think\\App', __DIR__ . '/../vendor/thinkcmf/cmf/src/App.php');
+
 // 执行应用并响应
-//Container::get('app',[APP_PATH])->run()->send();
+Container::get('app', [APP_PATH])->run()->send();
