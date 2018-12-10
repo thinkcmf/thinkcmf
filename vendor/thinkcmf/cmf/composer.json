@@ -1,0 +1,19 @@
+{
+    "name": "thinkcmf/cmf",
+    "description": "The ThinkCMF Core Package",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "catman",
+            "email": "catman@thinkcmf.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "cmf\\": "src"
+        },
+        "files": [
+            "src/common.php"
+        ]
+    }
+}
