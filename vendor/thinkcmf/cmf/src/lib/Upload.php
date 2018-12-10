@@ -10,6 +10,7 @@
 // +---------------------------------------------------------------------
 namespace cmf\lib;
 
+use think\facade\Env;
 use think\File;
 use app\user\model\AssetModel;
 
@@ -124,7 +125,7 @@ class Upload
         $adminId   = cmf_get_current_admin_id();
         $userId    = cmf_get_current_user_id();
         $userId    = empty($adminId) ? $userId : $adminId;
-        $targetDir = RUNTIME_PATH . "upload" . DS . $userId . DS; // 断点续传 need
+        $targetDir = Env::get('runtime_path') . "upload" . DIRECTORY_SEPARATOR . $userId . DIRECTORY_SEPARATOR; // 断点续传 need
         if (!file_exists($targetDir)) {
             mkdir($targetDir, 0777, true);
         }

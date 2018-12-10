@@ -32,10 +32,12 @@ class PortalCategoryModel extends Model
      */
     public function adminCategoryTree($selectId = 0, $currentCid = 0)
     {
-        $where = ['delete_time' => 0];
+
+        $where[] = ['delete_time' ,'eq',0];
         if (!empty($currentCid)) {
-            $where['id'] = ['neq', $currentCid];
+            $where[] = ['id','neq', $currentCid];
         }
+
         $categories = $this->order("list_order ASC")->where($where)->select()->toArray();
 
         $tree       = new Tree();
