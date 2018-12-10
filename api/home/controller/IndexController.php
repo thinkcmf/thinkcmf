@@ -8,8 +8,6 @@
 // +----------------------------------------------------------------------
 namespace api\home\controller;
 
-use think\Db;
-use think\Validate;
 use cmf\controller\RestBaseController;
 
 class IndexController extends RestBaseController
