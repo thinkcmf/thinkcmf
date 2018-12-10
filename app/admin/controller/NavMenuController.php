@@ -46,7 +46,7 @@ class NavMenuController extends AdminBaseController
         $arrResult = $objResult ? $objResult->toArray() : [];
 
         $tree       = new Tree();
-        $tree->icon = ['&nbsp;&nbsp;&nbsp;│ ', '&nbsp;&nbsp;&nbsp;├一 ', '&nbsp;&nbsp;&nbsp;└一 '];
+        $tree->icon = ['&nbsp;&nbsp;&nbsp;│ ', '&nbsp;&nbsp;&nbsp;├- ', '&nbsp;&nbsp;&nbsp;└- '];
         $tree->nbsp = '&nbsp;&nbsp;&nbsp;';
 
         $array = [];

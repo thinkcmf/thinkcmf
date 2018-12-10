@@ -43,7 +43,7 @@ class MenuController extends AdminBaseController
         session('admin_menu_index', 'Menu/index');
         $result     = Db::name('AdminMenu')->order(["list_order" => "ASC"])->select();
         $tree       = new Tree();
-        $tree->icon = ['&nbsp;&nbsp;&nbsp;│ ', '&nbsp;&nbsp;&nbsp;├一', '&nbsp;&nbsp;&nbsp;└一 '];
+        $tree->icon = ['&nbsp;&nbsp;&nbsp;│ ', '&nbsp;&nbsp;&nbsp;├-', '&nbsp;&nbsp;&nbsp;└- '];
         $tree->nbsp = '&nbsp;&nbsp;&nbsp;';
 
         $newMenus = [];
@@ -144,10 +144,9 @@ class MenuController extends AdminBaseController
     public function addPost()
     {
         if ($this->request->isPost()) {
-            $validate = new AdminMenuValidate;
-            $result = $validate->scene('add')->check($this->request->param());
-            if (!$result) {
-                $this->error($validate->getError());
+            $result = $this->validate($this->request->param(), 'AdminMenu');
+            if ($result !== true) {
+                $this->error($result);
             } else {
                 $data = $this->request->param();
                 Db::name('AdminMenu')->strict(false)->field(true)->insert($data);
