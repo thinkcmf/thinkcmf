@@ -420,8 +420,7 @@ class AnnotationParser
             }
 
             if (!class_exists($type, $this->autoload)) {
-                continue; //ThinkCMF note ,ignore not support annotation
-                //throw new AnnotationException("Annotation type '{$type}' does not exist");
+                throw new AnnotationException("Annotation type '{$type}' does not exist");
             }
 
             $value = $match[1];
