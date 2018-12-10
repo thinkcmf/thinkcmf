@@ -62,6 +62,7 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
     public static $prefixLengthsPsr4 = array (
         't' => 
         array (
+            'think\\swoole\\' => 13,
             'think\\helper\\' => 13,
             'think\\composer\\' => 15,
             'think\\captcha\\' => 14,
@@ -73,7 +74,6 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         ),
         'c' => 
         array (
-            'cmf\\swoole\\' => 11,
             'cmf\\' => 4,
         ),
         'X' => 
@@ -111,6 +111,10 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
     );
 
     public static $prefixDirsPsr4 = array (
+        'think\\swoole\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/thinkcmf/cmf-swoole/src',
+        ),
         'think\\helper\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-helper/src',
@@ -131,10 +135,6 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         'mindplay\\annotations\\' => 
         array (
             0 => __DIR__ . '/..' . '/mindplay/annotations/src/annotations',
-        ),
-        'cmf\\swoole\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/thinkcmf/cmf-swoole/src',
         ),
         'cmf\\' => 
         array (

@@ -1393,12 +1393,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/thinkcmf/cmf-swoole.git",
-            "reference": "23c44bc5efcd54d58e4e704d5e1f428a47395385"
+            "reference": "39cbff03730f702369c2071ad7e6bf84b921e04a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-swoole/zipball/23c44bc5efcd54d58e4e704d5e1f428a47395385",
-            "reference": "23c44bc5efcd54d58e4e704d5e1f428a47395385",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-swoole/zipball/39cbff03730f702369c2071ad7e6bf84b921e04a",
+            "reference": "39cbff03730f702369c2071ad7e6bf84b921e04a",
             "shasum": "",
             "mirrors": [
                 {
@@ -1414,7 +1414,7 @@
             "topthink/think-queue": "^2.0",
             "xavier/xcron-expression": "^0.11"
         },
-        "time": "2018-12-09 15:34:52",
+        "time": "2018-12-10 02:44:54",
         "type": "cmf-extend",
         "extra": {
             "think-config": {
