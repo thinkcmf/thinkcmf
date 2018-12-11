@@ -12,7 +12,7 @@ namespace cmf\controller;
 
 use think\exception\ValidateException;
 use think\Request;
-use think\Config;
+use think\facade\Config;
 use think\Loader;
 use think\exception\TemplateNotFoundException;
 
@@ -119,7 +119,8 @@ class PluginBaseController extends BaseController
      * @param array $vars 模板输出变量
      * @param array $replace 模板替换
      * @param array $config 模板参数
-     * @return mixed
+     * @return mixed|string
+     * @throws \Exception
      */
     protected function fetch($template = '', $vars = [], $replace = [], $config = [])
     {
@@ -143,7 +144,7 @@ class PluginBaseController extends BaseController
     private function parseTemplate($template)
     {
         // 分析模板文件规则
-        $viewEngineConfig = Config::get('template');
+        $viewEngineConfig = Config::get('template.');
 
         $path = $this->plugin->getThemeRoot();
 
@@ -216,8 +217,7 @@ class PluginBaseController extends BaseController
      * @param array $message 提示信息
      * @param bool $batch 是否批量验证
      * @param mixed $callback 回调方法（闭包）
-     * @return array|string|true
-     * @throws ValidateException
+     * @return array|bool|string|true
      */
     protected function validate($data, $validate, $message = [], $batch = false, $callback = null)
     {
