@@ -15,7 +15,7 @@ use app\admin\model\LinkModel;
 
 class LinkController extends AdminBaseController
 {
-    protected $targets = ["_blank" => "新标签页打开", "_self" => "本窗口打开"];
+    protected $targets = [ "_blank" => "新标签页打开", "_self" => "本窗口打开" ];
 
     /**
      * 友情链接管理
@@ -34,7 +34,7 @@ class LinkController extends AdminBaseController
     {
         $content = hook_one('admin_link_index_view');
 
-        if (!empty($content)) {
+        if ( !empty($content)) {
             return $content;
         }
 
@@ -81,10 +81,11 @@ class LinkController extends AdminBaseController
     {
         $data      = $this->request->param();
         $linkModel = new LinkModel();
-        $result    = $linkModel->validate(true)->allowField(true)->save($data);
-        if ($result === false) {
-            $this->error($linkModel->getError());
+        $result    = $this->validate($data, 'Link');
+        if ($result !== true) {
+            $this->error($result);
         }
+        $linkModel->allowField(true)->save($data);
 
         $this->success("添加成功！", url("link/index"));
     }
@@ -101,13 +102,16 @@ class LinkController extends AdminBaseController
      *     'remark' => '编辑友情链接',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\Exception\DbException
      */
     public function edit()
     {
         $id        = $this->request->param('id', 0, 'intval');
-        $linkModel = LinkModel::get($id);
+        $linkModel = new LinkModel();
+        $link      = $linkModel->get($id);
         $this->assign('targets', $this->targets);
-        $this->assign('link', $linkModel);
+        $this->assign('link', $link);
         return $this->fetch();
     }
 
@@ -128,10 +132,11 @@ class LinkController extends AdminBaseController
     {
         $data      = $this->request->param();
         $linkModel = new LinkModel();
-        $result    = $linkModel->validate(true)->allowField(true)->isUpdate(true)->save($data);
-        if ($result === false) {
-            $this->error($linkModel->getError());
+        $result    = $this->validate($data, 'Link');
+        if ($result !== true) {
+            $this->error($result);
         }
+        $linkModel->allowField(true)->isUpdate(true)->save($data);
 
         $this->success("保存成功！", url("link/index"));
     }
@@ -151,8 +156,9 @@ class LinkController extends AdminBaseController
      */
     public function delete()
     {
-        $id = $this->request->param('id', 0, 'intval');
-        LinkModel::destroy($id);
+        $id        = $this->request->param('id', 0, 'intval');
+        $linkModel = new LinkModel();
+        $linkModel::destroy($id);
 
         $this->success("删除成功！", url("link/index"));
     }
@@ -197,13 +203,13 @@ class LinkController extends AdminBaseController
 
         if (isset($data['ids']) && !empty($data["display"])) {
             $ids = $this->request->param('ids/a');
-            $linkModel->where(['id' => ['in', $ids]])->update(['status' => 1]);
+            $linkModel->where([ 'id' => [ 'in', $ids ] ])->update([ 'status' => 1 ]);
             $this->success("更新成功！");
         }
 
         if (isset($data['ids']) && !empty($data["hide"])) {
             $ids = $this->request->param('ids/a');
-            $linkModel->where(['id' => ['in', $ids]])->update(['status' => 0]);
+            $linkModel->where([ 'id' => [ 'in', $ids ] ])->update([ 'status' => 0 ]);
             $this->success("更新成功！");
         }
 
