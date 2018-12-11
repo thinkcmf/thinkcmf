@@ -12,10 +12,10 @@ namespace cmf\lib;
 
 use think\exception\TemplateNotFoundException;
 use think\facade\Request;
-use think\facade\View;
 use think\Loader;
 
 use think\Db;
+use think\View;
 
 /**
  * 插件类
@@ -50,8 +50,6 @@ abstract class Plugin
      */
     public function __construct()
     {
-
-
 
         $engineConfig = config('template.');
 
@@ -105,9 +103,10 @@ abstract class Plugin
                 '__WEB_ROOT__'    => $cdnStaticRoot
             ];
         }
+        $view = new View();
 
-        $this->view = View::init($engineConfig);
-        $this->view->config('tpl_replace_string',$replaceConfig);
+        $this->view = $view->init($engineConfig);
+        $this->view->config('tpl_replace_string', $replaceConfig);
 
         //加载多语言
         $langSet   = Request::langset();
@@ -152,7 +151,7 @@ abstract class Plugin
     /**
      * 模板变量赋值
      * @access protected
-     * @param mixed $name 要显示的模板变量
+     * @param mixed $name  要显示的模板变量
      * @param mixed $value 变量的值
      * @return void
      */
