@@ -1003,24 +1003,22 @@ function cmf_is_ipad()
  * 添加钩子
  * @param string $hook   钩子名称
  * @param mixed  $params 传入参数
- * @param mixed  $extra  额外参数
  * @return void
  */
-function hook($hook, &$params = null, $extra = null)
+function hook($hook, &$params = null)
 {
-    return Hook::listen($hook, $params, $extra);
+    return Hook::listen($hook, $params);
 }
 
 /**
  * 添加钩子,只执行一个
  * @param string $hook   钩子名称
  * @param mixed  $params 传入参数
- * @param mixed  $extra  额外参数
  * @return mixed
  */
-function hook_one($hook, &$params = null, $extra = null)
+function hook_one($hook, &$params = null)
 {
-    return Hook::listen($hook, $params, $extra, true);
+    return Hook::listen($hook, $params, true);
 }
 
 
