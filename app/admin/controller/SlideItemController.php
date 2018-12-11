@@ -28,6 +28,10 @@ class SlideItemController extends AdminBaseController
      *     'remark' => '幻灯片页面列表',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function index()
     {
@@ -39,7 +43,7 @@ class SlideItemController extends AdminBaseController
 
         $id      = $this->request->param('slide_id');
         $slideId = !empty($id) ? $id : 1;
-        $result  = Db::name('slideItem')->where(['slide_id' => $slideId])->select()->toArray();
+        $result  = Db::name('slideItem')->where(['slide_id' => $slideId])->select();
 
         $this->assign('slide_id', $id);
         $this->assign('result', $result);
