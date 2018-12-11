@@ -17,6 +17,9 @@ define('CMF_ROOT', __DIR__ . '/');
 // 定义插件目录
 define('PLUGINS_PATH', __DIR__ . '/public/plugins/');
 
+// 定义CMF 版本号
+define('THINKCMF_VERSION', '5.1.0-dev');
+
 // 定义应用目录
 define('APP_PATH', CMF_ROOT . 'app/');
 
