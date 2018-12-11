@@ -22,13 +22,18 @@ class LoginController extends HomeBaseController
      */
     public function index()
     {
-        $redirect = $this->request->post("redirect");
+        $redirect = $this->request->param("redirect");
         if (empty($redirect)) {
             $redirect = $this->request->server('HTTP_REFERER');
         } else {
-            $redirect = base64_decode($redirect);
+            if (strpos($redirect, '/') === 0 || strpos($redirect, 'http') === 0) {
+            } else {
+                $redirect = base64_decode($redirect);
+            }
         }
-        session('login_http_referer', $redirect);
+        if(!empty($redirect)){
+            session('login_http_referer', $redirect);
+        }
         if (cmf_is_user_login()) { //已经登录时直接跳到首页
             return redirect($this->request->root() . '/');
         } else {
@@ -156,7 +161,7 @@ class LoginController extends HomeBaseController
             }
             switch ($log) {
                 case 0:
-                    $this->success('密码重置成功', $this->request->root());
+                    $this->success('密码重置成功', cmf_url('user/Profile/center'));
                     break;
                 case 1:
                     $this->error("您的账户尚未注册");

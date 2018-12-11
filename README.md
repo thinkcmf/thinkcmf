@@ -1,4 +1,4 @@
-ThinkCMF 5.0.180901 正式版
+ThinkCMF 5.0.181212 正式版
 ===============
 
 ### 系列讲座
@@ -127,6 +127,18 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
+#### 5.0.181212
+* 升级ThinkPHP到`5.0.23`(包含安全更新)
+* 增加`js-bootstrap-year`前端组件
+* 增加文件大小格式化函数`cmf_file_size_format`
+* 修复网站在二级目录下无法设计模板问题
+* 修复模板设计公共模板设置数组无法编辑问题
+* 修复模板设计公共组件数组无法编辑问题
+* 修复门户模板`page.html`报错
+* 优化图片验证码生成
+* 优化`Rest API`跨域问题处理
+
+
 #### 5.0.180901
 * 增强模板设计，提供可视化模板设计
 * 增加模板设计界面钩子

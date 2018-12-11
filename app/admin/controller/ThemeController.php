@@ -277,18 +277,18 @@ class ThemeController extends AdminBaseController
 
             $hasPublicVar = false;
             $hasWidget    = false;
-            foreach ($files as $key => $file) {
-                $file['config_more'] = json_decode($file['config_more'], true);
-                $file['more']        = json_decode($file['more'], true);
-                if (!empty($file['is_public']) && !empty($file['more']['vars'])) {
+            foreach ($files as $key => $mFile) {
+                $mFile['config_more'] = json_decode($mFile['config_more'], true);
+                $mFile['more']        = json_decode($mFile['more'], true);
+                if (!empty($mFile['is_public']) && !empty($mFile['more']['vars'])) {
                     $hasPublicVar = true;
                 }
 
-                if (!empty($file['more']['widgets'])) {
+                if (!empty($mFile['more']['widgets'])) {
                     $hasWidget = true;
                 }
 
-                $files[$key] = $file;
+                $files[$key] = $mFile;
             }
 
             $this->assign('tab', $tab);
@@ -303,6 +303,7 @@ class ThemeController extends AdminBaseController
             } else if ($tab == 'public_var') {
                 $tpl = 'file_public_var_setting';
             }
+
         }
         $this->assign('has_file', $hasFile);
         return $this->fetch($tpl);
@@ -404,6 +405,8 @@ class ThemeController extends AdminBaseController
 
         $items = [];
         $item  = [];
+
+        $tab = ($tab == 'public_var') ? 'var' : $tab;
 
         if ($tab == 'var' && !empty($oldMore['vars']) && is_array($oldMore['vars'])) {
 

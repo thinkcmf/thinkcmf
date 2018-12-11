@@ -292,8 +292,8 @@ class App
     /**
      * 设置当前请求的调度信息
      * @access public
-     * @param array|string $dispatch 调度信息
-     * @param string $type 调度类型
+     * @param array|string  $dispatch 调度信息
+     * @param string        $type     调度类型
      * @return void
      */
     public static function dispatch($dispatch, $type = 'module')
@@ -305,7 +305,7 @@ class App
      * 执行函数或者闭包方法 支持参数调用
      * @access public
      * @param string|array|\Closure $function 函数或者闭包
-     * @param array $vars 变量
+     * @param array                 $vars     变量
      * @return mixed
      */
     public static function invokeFunction($function, $vars = [])
@@ -323,7 +323,7 @@ class App
      * 调用反射执行类的方法 支持参数绑定
      * @access public
      * @param string|array $method 方法
-     * @param array $vars 变量
+     * @param array        $vars   变量
      * @return mixed
      */
     public static function invokeMethod($method, $vars = [])
@@ -347,7 +347,7 @@ class App
      * 调用反射执行类的实例化 支持依赖注入
      * @access public
      * @param string $class 类名
-     * @param array $vars 变量
+     * @param array  $vars  变量
      * @return mixed
      */
     public static function invokeClass($class, $vars = [])
@@ -363,7 +363,7 @@ class App
      * 绑定参数
      * @access private
      * @param \ReflectionMethod|\ReflectionFunction $reflect 反射类
-     * @param array $vars 变量
+     * @param array                                 $vars    变量
      * @return array
      */
     private static function bindParams($reflect, $vars = [])
@@ -371,8 +371,8 @@ class App
         // 自动获取请求变量
         if (empty($vars)) {
             $vars = Config::get('url_param_type') ?
-                Request::instance()->route() :
-                Request::instance()->param();
+            Request::instance()->route() :
+            Request::instance()->param();
         }
 
         $args = [];
@@ -392,9 +392,9 @@ class App
     /**
      * 获取参数值
      * @access private
-     * @param \ReflectionParameter $param 参数
-     * @param array $vars 变量
-     * @param string $type 类别
+     * @param \ReflectionParameter  $param 参数
+     * @param array                 $vars  变量
+     * @param string                $type  类别
      * @return array
      */
     private static function getParamValue($param, &$vars, $type)
@@ -418,8 +418,8 @@ class App
                 }
 
                 $result = method_exists($className, 'instance') ?
-                    $className::instance() :
-                    new $className;
+                $className::instance() :
+                new $className;
             }
         } elseif (1 == $type && !empty($vars)) {
             $result = array_shift($vars);
@@ -438,7 +438,7 @@ class App
      * 执行调用分发
      * @access protected
      * @param array $dispatch 调用信息
-     * @param array $config 配置信息
+     * @param array $config   配置信息
      * @return Response|mixed
      * @throws \InvalidArgumentException
      */
@@ -485,9 +485,9 @@ class App
     /**
      * 执行模块
      * @access public
-     * @param array $result 模块/控制器/操作
-     * @param array $config 配置参数
-     * @param bool $convert 是否自动转换控制器和操作名
+     * @param array $result  模块/控制器/操作
+     * @param array $config  配置参数
+     * @param bool  $convert 是否自动转换控制器和操作名
      * @return mixed
      * @throws HttpException
      */
@@ -551,6 +551,11 @@ class App
 
         // 获取控制器名
         $controller = strip_tags($result[1] ?: $config['default_controller']);
+
+        if (!preg_match('/^[A-Za-z](\w|\.)*$/', $controller)) {
+            throw new HttpException(404, 'controller not exists:' . $controller);
+        }
+
         $controller = $convert ? strtolower($controller) : $controller;
 
         // 获取操作名
@@ -610,7 +615,7 @@ class App
      * URL路由检测（根据PATH_INFO)
      * @access public
      * @param  \think\Request $request 请求实例
-     * @param  array $config 配置信息
+     * @param  array          $config  配置信息
      * @return array
      * @throws \think\Exception
      */
@@ -661,7 +666,7 @@ class App
      * 设置应用的路由检测机制
      * @access public
      * @param  bool $route 是否需要检测路由
-     * @param  bool $must 是否强制检测路由
+     * @param  bool $must  是否强制检测路由
      * @return void
      */
     public static function route($route, $must = false)

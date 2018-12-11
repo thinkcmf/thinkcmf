@@ -29,7 +29,7 @@
         <foreach name="files" item="file">
             <if condition="$file.id neq $file_id">
                 <notempty name="file['more']['vars']">
-                    {:_parse_vars($file.more.vars,'files['.$file['id'].'][vars]')}
+                    {:_parse_vars($file.more.vars,'files['.$file['id'].'][vars]',1,'',$file['id'])}
                     <else/>
                 </notempty>
             </if>
