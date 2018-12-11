@@ -12,10 +12,9 @@ namespace cmf\lib;
 
 use think\exception\TemplateNotFoundException;
 use think\facade\Request;
+use think\facade\View;
 use think\Loader;
 
-use think\View;
-use think\Config;
 use think\Db;
 
 /**
@@ -54,7 +53,7 @@ abstract class Plugin
 
 
 
-        $engineConfig = Config('template');
+        $engineConfig = config('template.');
 
         $this->name = $this->getName();
 
@@ -107,7 +106,8 @@ abstract class Plugin
             ];
         }
 
-        $this->view = new View($engineConfig, $replaceConfig);
+        $this->view = View::init($engineConfig);
+        $this->view->config('tpl_replace_string',$replaceConfig);
 
         //加载多语言
         $langSet   = Request::langset();
@@ -126,7 +126,7 @@ abstract class Plugin
     final protected function fetch($template)
     {
         if (!is_file($template)) {
-            $engineConfig = Config::get('template');
+            $engineConfig = config('template.');
             $template     = $this->themeRoot . $template . '.' . $engineConfig['view_suffix'];
         }
 
