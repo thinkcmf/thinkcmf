@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: 老猫 <thinkcmf@126.com>
+// | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
 namespace app\portal\controller;
 
@@ -31,6 +31,10 @@ class AdminArticleController extends AdminBaseController
      *     'remark' => '文章列表',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function index()
     {
@@ -76,6 +80,10 @@ class AdminArticleController extends AdminBaseController
      *     'remark' => '添加文章',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function add()
     {
@@ -167,6 +175,10 @@ class AdminArticleController extends AdminBaseController
      *     'remark' => '编辑文章',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function edit()
     {
@@ -205,6 +217,7 @@ class AdminArticleController extends AdminBaseController
      *     'remark' => '编辑文章提交',
      *     'param'  => ''
      * )
+     * @throws \think\Exception
      */
     public function editPost()
     {
@@ -266,6 +279,11 @@ class AdminArticleController extends AdminBaseController
      *     'remark' => '文章删除',
      *     'param'  => ''
      * )
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
      */
     public function delete()
     {
@@ -297,11 +315,11 @@ class AdminArticleController extends AdminBaseController
 
         if (isset($param['ids'])) {
             $ids     = $this->request->param('ids/a');
-            $recycle = $portalPostModel->where(['id' => ['in', $ids]])->select();
-            $result  = $portalPostModel->where(['id' => ['in', $ids]])->update(['delete_time' => time()]);
+            $recycle = $portalPostModel->where('id','in', $ids)->select();
+            $result  = $portalPostModel->where('id','in', $ids)->update(['delete_time' => time()]);
             if ($result) {
-                Db::name('portal_category_post')->where(['post_id' => ['in', $ids]])->update(['status' => 0]);
-                Db::name('portal_tag_post')->where(['post_id' => ['in', $ids]])->update(['status' => 0]);
+                Db::name('portal_category_post')->where('post_id','in', $ids)->update(['status' => 0]);
+                Db::name('portal_tag_post')->where('post_id','in', $ids)->update(['status' => 0]);
                 foreach ($recycle as $value) {
                     $data = [
                         'object_id'   => $value['id'],
@@ -337,17 +355,13 @@ class AdminArticleController extends AdminBaseController
 
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
-
-            $portalPostModel->where(['id' => ['in', $ids]])->update(['post_status' => 1, 'published_time' => time()]);
-
+            $portalPostModel->where('id','in', $ids)->update(['post_status' => 1, 'published_time' => time()]);
             $this->success("发布成功！", '');
         }
 
         if (isset($param['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
-
-            $portalPostModel->where(['id' => ['in', $ids]])->update(['post_status' => 0]);
-
+            $portalPostModel->where('id','in', $ids)->update(['post_status' => 0]);
             $this->success("取消发布成功！", '');
         }
 
@@ -374,7 +388,7 @@ class AdminArticleController extends AdminBaseController
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
 
-            $portalPostModel->where(['id' => ['in', $ids]])->update(['is_top' => 1]);
+            $portalPostModel->where('id','in', $ids)->update(['is_top' => 1]);
 
             $this->success("置顶成功！", '');
 
@@ -383,7 +397,7 @@ class AdminArticleController extends AdminBaseController
         if (isset($_POST['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
 
-            $portalPostModel->where(['id' => ['in', $ids]])->update(['is_top' => 0]);
+            $portalPostModel->where('id','in', $ids)->update(['is_top' => 0]);
 
             $this->success("取消置顶成功！", '');
         }
@@ -410,7 +424,7 @@ class AdminArticleController extends AdminBaseController
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
 
-            $portalPostModel->where(['id' => ['in', $ids]])->update(['recommended' => 1]);
+            $portalPostModel->where('id','in', $ids)->update(['recommended' => 1]);
 
             $this->success("推荐成功！", '');
 
@@ -418,7 +432,7 @@ class AdminArticleController extends AdminBaseController
         if (isset($param['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
 
-            $portalPostModel->where(['id' => ['in', $ids]])->update(['recommended' => 0]);
+            $portalPostModel->where('id' ,'in', $ids)->update(['recommended' => 0]);
 
             $this->success("取消推荐成功！", '');
 
@@ -443,16 +457,4 @@ class AdminArticleController extends AdminBaseController
         parent::listOrders(Db::name('portal_category_post'));
         $this->success("排序更新成功！", '');
     }
-
-    public function move()
-    {
-
-    }
-
-    public function copy()
-    {
-
-    }
-
-
 }
