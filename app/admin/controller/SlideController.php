@@ -79,10 +79,12 @@ class SlideController extends AdminBaseController
     {
         $data           = $this->request->param();
         $slidePostModel = new SlideModel();
-        $result         = $slidePostModel->validate(true)->save($data);
-        if ($result === false) {
-            $this->error($slidePostModel->getError());
+        $result = $this->validate($data, 'Slide');
+        if ($result !== true) {
+            $this->error($result);
         }
+       $slidePostModel->save($data);
+
         $this->success("添加成功！", url("slide/index"));
     }
 
@@ -125,10 +127,11 @@ class SlideController extends AdminBaseController
     {
         $data           = $this->request->param();
         $slidePostModel = new SlideModel();
-        $result         = $slidePostModel->validate(true)->save($data, ['id' => $data['id']]);
-        if ($result === false) {
-            $this->error($slidePostModel->getError());
+        $result = $this->validate($data, 'Slide');
+        if ($result !== true) {
+            $this->error($result);
         }
+        $slidePostModel->save($data, ['id' => $data['id']]);
         $this->success("保存成功！", url("slide/index"));
     }
 
