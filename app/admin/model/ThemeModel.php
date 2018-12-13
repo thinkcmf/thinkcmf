@@ -59,8 +59,11 @@ class ThemeModel extends Model
 
     /**
      * 获取当前前台模板某操作下的模板文件
-     * @param $action 控制器操作
-     * @return false|\PDOStatement|string|\think\Collection
+     * @param $action string 控制器操作
+     * @return array|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function getActionThemeFiles($action)
     {

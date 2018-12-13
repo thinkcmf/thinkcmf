@@ -370,7 +370,7 @@ parse;
         $style    = empty($tag['style']) ? 'cursor: pointer;' : $tag['style'];
         $params   = ltrim("{$paramId}{$height}{$width}{$fontSize}{$length}{$bg}", '&');
         $parse    = <<<parse
-<php>\$__CAPTCHA_SRC=url('/captcha/new').'?{$params}';</php>
+<php>\$__CAPTCHA_SRC=url('/new_captcha').'?{$params}';</php>
 <img src="{\$__CAPTCHA_SRC}" onclick="this.src='{\$__CAPTCHA_SRC}&time='+Math.random();" title="{$title}" class="captcha captcha-img verify_img" style="{$style}"/>{$content}
 <input type="hidden" name="_captcha_id" value="{$id}">
 parse;

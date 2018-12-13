@@ -126,8 +126,8 @@ class IndexController extends Controller
         }
 
         $folders    = [
-            realpath(CMF_ROOT . 'data') . DS,
-            realpath('./upload') . DS,
+            realpath(CMF_ROOT . 'data') . DIRECTORY_SEPARATOR,
+            realpath('./upload') . DIRECTORY_SEPARATOR,
         ];
         $newFolders = [];
         foreach ($folders as $dir) {
@@ -345,9 +345,9 @@ class IndexController extends Controller
             } catch (\Exception $e) {
                 $this->error('数据库账号或密码不正确！');
             }
-            if($supportInnoDb){
+            if ($supportInnoDb) {
                 $this->success('验证成功！');
-            }else{
+            } else {
                 $this->error('数据库账号密码验证通过，但不支持InnoDb!');
             }
         } else {

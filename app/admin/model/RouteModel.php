@@ -17,7 +17,10 @@ class RouteModel extends Model
     /**
      * 获取所有url美化规则
      * @param boolean $refresh 是否强制刷新
-     * @return mixed|void|boolean|NULL|unknown[]|unknown
+     * @return array|mixed|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function getRoutes($refresh = false)
     {
@@ -95,6 +98,9 @@ class RouteModel extends Model
         return $cacheRoutes;
     }
 
+    /**
+     * @return array
+     */
     public function getAppUrls()
     {
         $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
@@ -158,7 +164,7 @@ class RouteModel extends Model
         return $fullUrl;
     }
 
-    public function exists($url, $fullUrl)
+    public function existsRoute($url, $fullUrl)
     {
 
         $findRouteCount = $this->where(['url' => $url, 'full_url' => ['neq', $fullUrl]])->count();
@@ -184,6 +190,12 @@ class RouteModel extends Model
         }
     }
 
+    /**
+     * @param $action
+     * @param $vars
+     * @return bool
+     * @throws \Exception
+     */
     public function deleteRoute($action, $vars)
     {
         $fullUrl = $this->buildFullUrl($action, $vars);

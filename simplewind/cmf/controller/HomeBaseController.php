@@ -140,9 +140,9 @@ hello;
         if ($viewBase) {
             // 基础视图目录
             $module = isset($module) ? $module : $request->module();
-            $path   = $viewBase . ($module ? $module . DS : '');
+            $path   = $viewBase . ($module ? $module . DIRECTORY_SEPARATOR : '');
         } else {
-            $path = isset($module) ? APP_PATH . $module . DS . 'view' . DS : config('template.view_path');
+            $path = isset($module) ? APP_PATH . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR : config('template.view_path');
         }
 
         $depr = config('template.view_depr');
@@ -152,9 +152,9 @@ hello;
             if ($controller) {
                 if ('' == $template) {
                     // 如果模板文件名为空 按照默认规则定位
-                    $template = str_replace('.', DS, $controller) . $depr . cmf_parse_name($request->action(true));
+                    $template = str_replace('.', DIRECTORY_SEPARATOR, $controller) . $depr . cmf_parse_name($request->action(true));
                 } elseif (false === strpos($template, $depr)) {
-                    $template = str_replace('.', DS, $controller) . $depr . $template;
+                    $template = str_replace('.', DIRECTORY_SEPARATOR, $controller) . $depr . $template;
                 }
             }
         } else {

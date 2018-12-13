@@ -21,7 +21,7 @@ use cmf\lib\Storage;
 
 //设置插件入口路由
 Route::any('plugin/[:_plugin]/[:_controller]/[:_action]', "\\cmf\\controller\\PluginController@index");
-Route::get('captcha/new', "\\cmf\\controller\\CaptchaController@index");
+Route::get('new_captcha', "\\cmf\\controller\\CaptchaController@index");
 
 /**
  * 获取当前登录的管理员ID
@@ -85,8 +85,7 @@ function cmf_get_current_user_id()
  */
 function cmf_get_domain()
 {
-    $request = Request::instance();
-    return $request->domain();
+    return request()->domain();
 }
 
 /**
@@ -95,9 +94,8 @@ function cmf_get_domain()
  */
 function cmf_get_root()
 {
-    $request = Request::instance();
-    $root    = $request->root();
-    $root    = str_replace('/index.php', '', $root);
+    $root = request()->root();
+    $root = str_replace('/index.php', '', $root);
     if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
         $root = preg_replace('/\/api$/', '', $root);
         $root = rtrim($root, '/');
@@ -929,7 +927,7 @@ function cmf_is_mobile()
     if (isset($cmf_is_mobile))
         return $cmf_is_mobile;
 
-    $cmf_is_mobile = Request::instance()->isMobile();
+    $cmf_is_mobile = request()->isMobile();
 
     return $cmf_is_mobile;
 }
@@ -1004,24 +1002,22 @@ function cmf_is_ipad()
  * 添加钩子
  * @param string $hook   钩子名称
  * @param mixed  $params 传入参数
- * @param mixed  $extra  额外参数
  * @return void
  */
-function hook($hook, &$params = null, $extra = null)
+function hook($hook, &$params = null)
 {
-    return \think\Hook::listen($hook, $params, $extra);
+    return \think\Hook::listen($hook, $params, null);
 }
 
 /**
  * 添加钩子,只执行一个
  * @param string $hook   钩子名称
  * @param mixed  $params 传入参数
- * @param mixed  $extra  额外参数
  * @return mixed
  */
-function hook_one($hook, &$params = null, $extra = null)
+function hook_one($hook, &$params = null)
 {
-    return \think\Hook::listen($hook, $params, $extra, true);
+    return \think\Hook::listen($hook, $params, null, true);
 }
 
 
@@ -1426,7 +1422,7 @@ function cmf_clear_verification_code($account)
 function file_exists_case($filename)
 {
     if (is_file($filename)) {
-        if (IS_WIN && APP_DEBUG) {
+        if (APP_DEBUG) {
             if (basename(realpath($filename)) != basename($filename))
                 return false;
         }

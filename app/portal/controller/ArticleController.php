@@ -18,6 +18,14 @@ use think\Db;
 
 class ArticleController extends HomeBaseController
 {
+    /**
+     * 文章详情
+     * @return mixed
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function index()
     {
 

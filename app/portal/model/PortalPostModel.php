@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: 老猫 <thinkcmf@126.com>
+// | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
 namespace app\portal\model;
 
@@ -14,6 +14,9 @@ use app\admin\model\RouteModel;
 use think\Model;
 use think\Db;
 
+/**
+ * @property mixed id
+ */
 class PortalPostModel extends Model
 {
 
@@ -26,7 +29,7 @@ class PortalPostModel extends Model
 
     /**
      * 关联 user表
-     * @return $this
+     * @return \think\model\relation\BelongsTo
      */
     public function user()
     {
@@ -35,6 +38,7 @@ class PortalPostModel extends Model
 
     /**
      * 关联分类表
+     * @return \think\model\relation\BelongsToMany
      */
     public function categories()
     {
@@ -43,6 +47,7 @@ class PortalPostModel extends Model
 
     /**
      * 关联标签表
+     * @return \think\model\relation\BelongsToMany
      */
     public function tags()
     {
@@ -84,6 +89,11 @@ class PortalPostModel extends Model
      * @param array $data 文章数据
      * @param array|string $categories 文章分类 id
      * @return $this
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
      */
     public function adminAddArticle($data, $categories)
     {
@@ -125,6 +135,7 @@ class PortalPostModel extends Model
      * @param array $data 文章数据
      * @param array|string $categories 文章分类 id
      * @return $this
+     * @throws \think\Exception
      */
     public function adminEditArticle($data, $categories)
     {
@@ -174,6 +185,16 @@ class PortalPostModel extends Model
 
     }
 
+    /**
+     * 增加标签
+     * @param $keywords
+     * @param $articleId
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
+     */
     public function addTags($keywords, $articleId)
     {
         $portalTagModel = new PortalTagModel();
@@ -230,6 +251,13 @@ class PortalPostModel extends Model
         }
     }
 
+    /**
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function adminDeletePage($data)
     {
 

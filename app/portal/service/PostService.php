@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: 老猫 <thinkcmf@126.com>
+// | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
 namespace app\portal\service;
 
@@ -14,17 +14,35 @@ use app\portal\model\PortalPostModel;
 
 class PostService
 {
-
+    /**
+     * 文章查询
+     * @param $filter
+     * @return \think\Paginator
+     * @throws \think\exception\DbException
+     */
     public function adminArticleList($filter)
     {
         return $this->adminPostList($filter);
     }
 
+    /**
+     * 页面文章列表
+     * @param $filter
+     * @return \think\Paginator
+     * @throws \think\exception\DbException
+     */
     public function adminPageList($filter)
     {
         return $this->adminPostList($filter, true);
     }
 
+    /**
+     * 文章查询
+     * @param $filter
+     * @param bool $isPage
+     * @return \think\Paginator
+     * @throws \think\exception\DbException
+     */
     public function adminPostList($filter, $isPage = false)
     {
 
@@ -83,6 +101,15 @@ class PostService
 
     }
 
+    /**
+     * 已发布文章查询
+     * @param  int $postId 文章id
+     * @param int $categoryId 分类id
+     * @return array|string|\think\Model|null
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function publishedArticle($postId, $categoryId = 0)
     {
         $portalPostModel = new PortalPostModel();
@@ -123,7 +150,15 @@ class PostService
         return $article;
     }
 
-    //上一篇文章
+    /**
+     * 上一篇文章
+     * @param int $postId 文章id
+     * @param int $categoryId 分类id
+     * @return array|string|\think\Model|null
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function publishedPrevArticle($postId, $categoryId = 0)
     {
         $portalPostModel = new PortalPostModel();
@@ -167,7 +202,15 @@ class PostService
         return $article;
     }
 
-    //下一篇文章
+    /**
+     * 下一篇文章
+     * @param int $postId 文章id
+     * @param int $categoryId 分类id
+     * @return array|string|\think\Model|null
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function publishedNextArticle($postId, $categoryId = 0)
     {
         $portalPostModel = new PortalPostModel();
@@ -210,6 +253,14 @@ class PostService
         return $article;
     }
 
+    /**
+     * 页面管理查询
+     * @param int $pageId 文章id
+     * @return array|string|\think\Model|null
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function publishedPage($pageId)
     {
 

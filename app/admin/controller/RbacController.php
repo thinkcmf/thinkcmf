@@ -232,7 +232,7 @@ class RbacController extends AdminBaseController
         }
 
         $tree       = new Tree();
-        $tree->icon = ['│ ', '├─ ', '└─ '];
+        $tree->icon = ['│ ', '├- ', '└- '];
         $tree->nbsp = '&nbsp;&nbsp;&nbsp;';
 
         $result = $adminMenuModel->menuCache();

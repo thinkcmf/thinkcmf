@@ -29,7 +29,7 @@ class LangBehavior
         $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
         foreach ($apps as $app) {
             Lang::load([
-                APP_PATH . $app . DS . 'lang' . DS . $langSet . DS . 'common' . EXT,
+                APP_PATH . $app . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'common' . '.php',
             ]);
         }
 

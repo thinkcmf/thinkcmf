@@ -35,11 +35,6 @@ class PluginController extends AdminBaseController
 
     protected $pluginModel;
 
-    public function _initialize()
-    {
-        parent::_initialize();
-    }
-
     /**
      * 插件列表
      * @adminMenu(

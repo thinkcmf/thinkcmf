@@ -20,6 +20,14 @@ class PluginController extends HomeBaseController
 
         $_controller = Loader::parseName($_controller, 1);
 
+        if (!preg_match('/^[A-Za-z](\w|\.)*$/', $_controller)) {
+            abort(404, 'controller not exists:' . $_controller);
+        }
+
+        if (!preg_match('/^[A-Za-z](\w|\.)*$/', $_plugin)) {
+            abort(404, 'plugin not exists:' . $_plugin);
+        }
+
         $pluginControllerClass = "plugins\\{$_plugin}\\controller\\{$_controller}Controller";;
 
         $vars = [];

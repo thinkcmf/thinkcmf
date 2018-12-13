@@ -38,6 +38,10 @@ class AdminIndexController extends PluginAdminBaseController
      */
     public function index()
     {
+//        $result = $this->validate([], 'Demo');
+//        if ($result !== true) {
+//            $this->error($result);
+//        }
         $users = Db::name("user")->limit(0, 5)->select();
         //$demos = PluginDemoModel::all();
 
