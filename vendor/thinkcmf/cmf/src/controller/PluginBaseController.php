@@ -10,8 +10,8 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
+use think\Container;
 use think\exception\ValidateException;
-use think\Request;
 use think\facade\Config;
 use think\Loader;
 use think\exception\TemplateNotFoundException;
@@ -33,16 +33,12 @@ class PluginBaseController extends BaseController
 
     /**
      * 构造函数
-     * @param Request $request Request对象
      * @access public
      */
-    public function __construct(Request $request = null)
+    public function __construct()
     {
-        if (is_null($request)) {
-            $request = Request::instance();
-        }
-
-        $this->request = $request;
+        $this->app     = Container::get('app');
+        $this->request = $this->app['request'];
 
         $this->getPlugin();
 
@@ -53,16 +49,7 @@ class PluginBaseController extends BaseController
         $this->assign('site_info', $siteInfo);
 
         // 控制器初始化
-        $this->_initialize();
-
-        // 前置操作方法
-        if ($this->beforeActionList) {
-            foreach ($this->beforeActionList as $method => $options) {
-                is_numeric($method) ?
-                    $this->beforeAction($options) :
-                    $this->beforeAction($method, $options);
-            }
-        }
+        $this->initialize();
 
     }
 
@@ -81,35 +68,8 @@ class PluginBaseController extends BaseController
     }
 
     // 初始化
-    protected function _initialize()
+    protected function initialize()
     {
-    }
-
-    /**
-     * 前置操作
-     * @access protected
-     * @param string $method 前置操作方法名
-     * @param array $options 调用参数 ['only'=>[...]] 或者['except'=>[...]]
-     */
-    protected function beforeAction($method, $options = [])
-    {
-        if (isset($options['only'])) {
-            if (is_string($options['only'])) {
-                $options['only'] = explode(',', $options['only']);
-            }
-            if (!in_array($this->request->action(), $options['only'])) {
-                return;
-            }
-        } elseif (isset($options['except'])) {
-            if (is_string($options['except'])) {
-                $options['except'] = explode(',', $options['except']);
-            }
-            if (in_array($this->request->action(), $options['except'])) {
-                return;
-            }
-        }
-
-        call_user_func([$this, $method]);
     }
 
     /**
@@ -200,40 +160,43 @@ class PluginBaseController extends BaseController
     /**
      * 设置验证失败后是否抛出异常
      * @access protected
-     * @param bool $fail 是否抛出异常
+     * @param  bool $fail 是否抛出异常
      * @return $this
      */
     protected function validateFailException($fail = true)
     {
         $this->failException = $fail;
+
         return $this;
     }
 
     /**
      * 验证数据
      * @access protected
-     * @param array $data 数据
-     * @param string|array $validate 验证器名或者验证规则数组
-     * @param array $message 提示信息
-     * @param bool $batch 是否批量验证
-     * @param mixed $callback 回调方法（闭包）
-     * @return array|bool|string|true
+     * @param  array        $data     数据
+     * @param  string|array $validate 验证器名或者验证规则数组
+     * @param  array        $message  提示信息
+     * @param  bool         $batch    是否批量验证
+     * @param  mixed        $callback 回调方法（闭包）
+     * @return array|string|true
+     * @throws ValidateException
      */
     protected function validate($data, $validate, $message = [], $batch = false, $callback = null)
     {
         if (is_array($validate)) {
-            $v = Loader::validate();
+            $v = $this->app->validate();
             $v->rule($validate);
         } else {
             if (strpos($validate, '.')) {
                 // 支持场景
                 list($validate, $scene) = explode('.', $validate);
             }
-            $v = Loader::validate('\\plugins\\' . cmf_parse_name($this->plugin->getName()) . '\\validate\\' . $validate . 'Validate');
+            $v = $this->app->validate('\\plugins\\' . cmf_parse_name($this->plugin->getName()) . '\\validate\\' . $validate . 'Validate');
             if (!empty($scene)) {
                 $v->scene($scene);
             }
         }
+
         // 是否批量验证
         if ($batch || $this->batchValidate) {
             $v->batch(true);
@@ -250,13 +213,11 @@ class PluginBaseController extends BaseController
         if (!$v->check($data)) {
             if ($this->failException) {
                 throw new ValidateException($v->getError());
-            } else {
-                return $v->getError();
             }
-        } else {
-            return true;
+            return $v->getError();
         }
-    }
 
+        return true;
+    }
 
 }
