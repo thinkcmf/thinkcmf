@@ -14,6 +14,10 @@ use cmf\controller\HomeBaseController;
 
 class SearchController extends HomeBaseController
 {
+    /**
+     * 搜索
+     * @return mixed
+     */
     public function index()
     {
         $keyword = $this->request->param('keyword');

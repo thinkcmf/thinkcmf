@@ -15,6 +15,13 @@ use app\portal\model\PortalCategoryModel;
 
 class ListController extends HomeBaseController
 {
+    /***
+     * 文章列表
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function index()
     {
         $id                  = $this->request->param('id', 0, 'intval');
