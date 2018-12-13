@@ -258,7 +258,7 @@ class RouteController extends AdminBaseController
 
         $urlDepr2Params = [];
 
-        if ( !empty($params)) {
+        if (!empty($params)) {
 
             foreach ($params as $param) {
                 if (empty($url['vars'][$param]['require'])) {
@@ -284,7 +284,7 @@ class RouteController extends AdminBaseController
 
     function _url_vars($url)
     {
-        if ( !empty($url['vars'])) {
+        if (!empty($url['vars'])) {
             return implode(',', array_keys($url['vars']));
         }
 
