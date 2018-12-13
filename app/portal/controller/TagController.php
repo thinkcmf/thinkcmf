@@ -15,6 +15,13 @@ use app\portal\model\PortalTagModel;
 
 class TagController extends HomeBaseController
 {
+    /**
+     * 标签
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function index()
     {
         $id             = $this->request->param('id');
