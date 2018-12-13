@@ -11,16 +11,19 @@
 namespace app\admin\model;
 
 use think\Model;
-use think\Cache;
+use think\facade\Cache;
 
 class AdminMenuModel extends Model
 {
-    
+
     /**
      * 按父ID查找菜单子项
      * @param int $parentId 父菜单ID
      * @param boolean $withSelf 是否包括他自己
-     * @return mixed
+     * @return array|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function adminMenu($parentId, $withSelf = false)
     {
@@ -71,7 +74,11 @@ class AdminMenuModel extends Model
     /**
      * 获取菜单 头部菜单导航
      * @param string $parentId 菜单id
-     * @return mixed|string
+     * @param bool $bigMenu
+     * @return array|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function subMenu($parentId = '', $bigMenu = false)
     {
@@ -98,6 +105,9 @@ class AdminMenuModel extends Model
      * @param string $parent
      * @param int $Level
      * @return bool|null
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function getTree($myId, $parent = "", $Level = 1)
     {
@@ -151,13 +161,13 @@ class AdminMenuModel extends Model
 
     /**
      * 更新缓存
-     * @param  $data
-     * @return array
+     * @param null $data
+     * @return array|null
      */
     public function menuCache($data = null)
     {
         if (empty($data)) {
-            $data = $this->order("list_order", "ASC")->column('');
+            $data = $this->order("list_order", "ASC")->column('*');
             Cache::set('Menu', $data, 0);
         } else {
             Cache::set('Menu', $data, 0);
@@ -180,7 +190,10 @@ class AdminMenuModel extends Model
     /**
      * 得到某父级菜单所有子菜单，包括自己
      * @param int $parentId
-     * @return false|\PDOStatement|string|\think\Collection
+     * @return array|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function getMenuTree($parentId = 0)
     {
