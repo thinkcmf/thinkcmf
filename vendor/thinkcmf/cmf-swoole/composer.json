@@ -14,7 +14,6 @@
     }
   ],
   "require": {
-    "ext-swoole": ">=1.9.5",
     "topthink/framework": "~5.1.20",
     "jeremeamia/superclosure": "^2.4",
     "xavier/xcron-expression": "^0.11",
