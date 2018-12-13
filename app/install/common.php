@@ -184,11 +184,11 @@ function sp_create_db_config($config)
         }
 
         try {
-            $confDir = CMF_ROOT . 'data/conf/';
+            $confDir = CMF_ROOT . 'data/config/';
             if (!file_exists($confDir)) {
                 mkdir($confDir, 0777, true);
             }
-            file_put_contents(CMF_ROOT . 'data/conf/database.php', $conf);
+            file_put_contents(CMF_ROOT . 'data/config/database.php', $conf);
         } catch (\Exception $e) {
 
             return false;
