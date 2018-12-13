@@ -31,6 +31,10 @@ class MenuController extends AdminBaseController
      *     'remark' => '后台菜单管理',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function index()
     {
@@ -89,6 +93,10 @@ class MenuController extends AdminBaseController
      *     'remark' => '后台所有菜单列表',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function lists()
     {
@@ -110,6 +118,10 @@ class MenuController extends AdminBaseController
      *     'remark' => '后台菜单添加',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function add()
     {
@@ -193,6 +205,10 @@ class MenuController extends AdminBaseController
      *     'remark' => '后台菜单编辑',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function edit()
     {
@@ -225,6 +241,11 @@ class MenuController extends AdminBaseController
      *     'remark' => '后台菜单编辑提交保存',
      *     'param'  => ''
      * )
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
      */
     public function editPost()
     {
@@ -298,6 +319,8 @@ class MenuController extends AdminBaseController
      *     'remark' => '后台菜单删除',
      *     'param'  => ''
      * )
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
      */
     public function delete()
     {
@@ -345,6 +368,13 @@ class MenuController extends AdminBaseController
      *     'remark' => '导入新后台菜单',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \ReflectionException
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
      */
     public function getActions()
     {
@@ -707,7 +737,10 @@ class MenuController extends AdminBaseController
     }
 
     /**
-     *  导出后台菜单语言包
+     * 导出后台菜单语言包
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     private function _exportAppMenuDefaultLang()
     {
