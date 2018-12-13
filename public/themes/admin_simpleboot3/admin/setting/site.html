@@ -66,7 +66,8 @@
                                 <php>
                                     $site_admin_style=empty($admin_settings['admin_style'])?'':$admin_settings['admin_style'];
                                 </php>
-                                <select class="form-control" name="admin_settings[admin_style]" id="input-site_adminstyle">
+                                <select class="form-control" name="admin_settings[admin_style]"
+                                        id="input-site_adminstyle">
                                     <foreach name="admin_styles" item="vo">
                                         <php>$admin_style_selected = $site_admin_style == $vo ? "selected" : "";</php>
                                         <option value="{$vo}" {$admin_style_selected}>{$vo}</option>

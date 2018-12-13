@@ -11,7 +11,6 @@
 namespace app\admin\controller;
 
 use app\admin\model\AdminMenuModel;
-use app\admin\validate\AdminMenuValidate;
 use cmf\controller\AdminBaseController;
 use think\Db;
 use tree\Tree;

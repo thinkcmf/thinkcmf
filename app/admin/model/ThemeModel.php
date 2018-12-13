@@ -50,7 +50,7 @@ class ThemeModel extends Model
 
             $this->updateThemeFiles($theme);
 
-            $this->save($themeData, [ 'theme' => $theme ]);
+            $this->save($themeData, ['theme' => $theme]);
             return true;
         } else {
             return false;
@@ -105,7 +105,7 @@ class ThemeModel extends Model
             $file       = preg_replace('/^themes\/' . $theme . '\//', '', $tplFile);
             $file       = strtolower($file);
             $config     = json_decode(file_get_contents($configFile), true);
-            $findFile   = Db::name('theme_file')->where([ 'theme' => $theme, 'file' => $file ])->find();
+            $findFile   = Db::name('theme_file')->where(['theme' => $theme, 'file' => $file])->find();
             $isPublic   = empty($config['is_public']) ? 0 : 1;
             $listOrder  = empty($config['order']) ? 0 : floatval($config['order']);
             $configMore = empty($config['more']) ? [] : $config['more'];
@@ -126,7 +126,7 @@ class ThemeModel extends Model
             } else { // 更新文件
                 $moreInDb = json_decode($findFile['more'], true);
                 $more     = $this->updateThemeConfigMore($configMore, $moreInDb);
-                Db::name('theme_file')->where([ 'theme' => $theme, 'file' => $file ])->update([
+                Db::name('theme_file')->where(['theme' => $theme, 'file' => $file])->update([
                     'theme'       => $theme,
                     'action'      => $config['action'],
                     'file'        => $file,
@@ -141,13 +141,13 @@ class ThemeModel extends Model
         }
 
         // 检查安装过的模板文件是否已经删除
-        $files = Db::name('theme_file')->where([ 'theme' => $theme ])->select();
+        $files = Db::name('theme_file')->where(['theme' => $theme])->select();
 
         foreach ($files as $themeFile) {
             $tplFile           = $themeDir . '/' . $themeFile['file'] . '.' . $suffix;
             $tplFileConfigFile = $themeDir . '/' . $themeFile['file'] . '.json';
-            if ( !is_file($tplFile) || !file_exists_case($tplFileConfigFile)) {
-                Db::name('theme_file')->where([ 'theme' => $theme, 'file' => $themeFile['file'] ])->delete();
+            if (!is_file($tplFile) || !file_exists_case($tplFileConfigFile)) {
+                Db::name('theme_file')->where(['theme' => $theme, 'file' => $themeFile['file']])->delete();
             }
         }
     }
@@ -155,7 +155,7 @@ class ThemeModel extends Model
     private function updateThemeConfigMore($configMore, $moreInDb)
     {
 
-        if ( !empty($configMore['vars'])) {
+        if (!empty($configMore['vars'])) {
             foreach ($configMore['vars'] as $mVarName => $mVar) {
                 if (isset($moreInDb['vars'][$mVarName]['value']) && $mVar['type'] == $moreInDb['vars'][$mVarName]['type']) {
                     $configMore['vars'][$mVarName]['value'] = $moreInDb['vars'][$mVarName]['value'];
@@ -167,7 +167,7 @@ class ThemeModel extends Model
             }
         }
 
-        if ( !empty($configMore['widgets'])) {
+        if (!empty($configMore['widgets'])) {
             foreach ($configMore['widgets'] as $widgetName => $widget) {
 
                 if (isset($moreInDb['widgets'][$widgetName]['title'])) {
@@ -178,7 +178,7 @@ class ThemeModel extends Model
                     $configMore['widgets'][$widgetName]['display'] = $moreInDb['widgets'][$widgetName]['display'];
                 }
 
-                if ( !empty($widget['vars'])) {
+                if (!empty($widget['vars'])) {
                     foreach ($widget['vars'] as $widgetVarName => $widgetVar) {
 
                         if (isset($moreInDb['widgets'][$widgetName]['vars'][$widgetVarName]['value']) && $widgetVar['type'] == $moreInDb['widgets'][$widgetName]['vars'][$widgetVarName]['type']) {

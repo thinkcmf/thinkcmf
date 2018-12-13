@@ -15,7 +15,7 @@ use app\admin\model\LinkModel;
 
 class LinkController extends AdminBaseController
 {
-    protected $targets = [ "_blank" => "新标签页打开", "_self" => "本窗口打开" ];
+    protected $targets = ["_blank" => "新标签页打开", "_self" => "本窗口打开"];
 
     /**
      * 友情链接管理
@@ -113,7 +113,7 @@ class LinkController extends AdminBaseController
     {
         $id        = $this->request->param('id', 0, 'intval');
         $linkModel = new LinkModel();
-        $link = $linkModel->get($id);
+        $link      = $linkModel->get($id);
         $this->assign('targets', $this->targets);
         $this->assign('link', $link);
         return $this->fetch();
@@ -160,7 +160,7 @@ class LinkController extends AdminBaseController
      */
     public function delete()
     {
-        $id        = $this->request->param('id', 0, 'intval');
+        $id = $this->request->param('id', 0, 'intval');
         LinkModel::destroy($id);
         $this->success("删除成功！", url("link/index"));
     }
@@ -205,13 +205,13 @@ class LinkController extends AdminBaseController
 
         if (isset($data['ids']) && !empty($data["display"])) {
             $ids = $this->request->param('ids/a');
-            $linkModel->where('id', 'in', $ids)->update([ 'status' => 1 ]);
+            $linkModel->where('id', 'in', $ids)->update(['status' => 1]);
             $this->success("更新成功！");
         }
 
         if (isset($data['ids']) && !empty($data["hide"])) {
             $ids = $this->request->param('ids/a');
-            $linkModel->where('id', 'in', $ids)->update([ 'status' => 0 ]);
+            $linkModel->where('id', 'in', $ids)->update(['status' => 0]);
             $this->success("更新成功！");
         }
 

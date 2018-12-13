@@ -116,16 +116,21 @@ class AdminCategoryController extends AdminBaseController
     public function addPost()
     {
         $portalCategoryModel = new PortalCategoryModel();
-        $data                = $this->request->param();
-        $validate            = $this->validate($data, 'PortalCategory');
 
-        if (true !== $validate) {
-            $this->error($validate);
+        $data = $this->request->param();
+
+        $result = $this->validate($data, 'PortalCategory');
+
+        if ($result !== true) {
+            $this->error($result);
         }
+
         $result = $portalCategoryModel->addCategory($data);
+
         if ($result === false) {
             $this->error('添加失败!');
         }
+
         $this->success('添加成功!', url('AdminCategory/index'));
     }
 
@@ -199,11 +204,12 @@ class AdminCategoryController extends AdminBaseController
     {
         $data = $this->request->param();
 
-        $validate = $this->validate($data, 'PortalCategory');
+        $result = $this->validate($data, 'PortalCategory');
 
-        if (true !== $validate) {
-            $this->error($validate);
+        if ($result !== true) {
+            $this->error($result);
         }
+
         $portalCategoryModel = new PortalCategoryModel();
 
         $result = $portalCategoryModel->editCategory($data);
