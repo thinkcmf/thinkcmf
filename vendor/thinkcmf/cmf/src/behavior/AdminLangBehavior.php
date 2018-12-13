@@ -11,7 +11,6 @@
 namespace cmf\behavior;
 
 use think\facade\Lang;
-use think\facade\Request;
 
 class AdminLangBehavior
 {
@@ -19,7 +18,7 @@ class AdminLangBehavior
     // 行为扩展的执行入口必须是run
     public function run()
     {
-        $langSet = Request::langset();
+        $langSet = request()->langset();
 
         // 加载应用后台菜单语言包
         $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);

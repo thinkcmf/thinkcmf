@@ -15,7 +15,7 @@ use think\Model;
 class RouteModel extends Model
 {
     /**
-     *  获取所有url美化规则
+     * 获取所有url美化规则
      * @param boolean $refresh 是否强制刷新
      * @return array|mixed|string|\think\Collection
      * @throws \think\db\exception\DataNotFoundException

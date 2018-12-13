@@ -11,7 +11,6 @@
 namespace cmf\behavior;
 
 use think\facade\Lang;
-use think\facade\Request;
 
 class HomeLangBehavior
 {
@@ -19,8 +18,7 @@ class HomeLangBehavior
     // 行为扩展的执行入口必须是run
     public function run()
     {
-
-        $langSet = Request::langset();
+        $langSet = request()->langset();
 
         // 加载应用前台通用语言包
         $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);

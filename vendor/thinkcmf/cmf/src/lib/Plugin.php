@@ -124,13 +124,13 @@ abstract class Plugin
      */
     final protected function fetch($template)
     {
-        if ( !is_file($template)) {
+        if (!is_file($template)) {
             $engineConfig = config('template.');
             $template     = $this->themeRoot . $template . '.' . $engineConfig['view_suffix'];
         }
 
         // 模板不存在 抛出异常
-        if ( !is_file($template)) {
+        if (!is_file($template)) {
             throw new TemplateNotFoundException('template not exists:' . $template, $template);
         }
 
@@ -182,9 +182,9 @@ abstract class Plugin
      */
     final public function checkInfo()
     {
-        $infoCheckKeys = [ 'name', 'title', 'description', 'status', 'author', 'version' ];
+        $infoCheckKeys = ['name', 'title', 'description', 'status', 'author', 'version'];
         foreach ($infoCheckKeys as $value) {
-            if ( !array_key_exists($value, $this->info))
+            if (!array_key_exists($value, $this->info))
                 return false;
         }
         return true;
@@ -240,7 +240,7 @@ abstract class Plugin
 
         $config = Db::name('plugin')->where('name', $name)->value('config');
 
-        if ( !empty($config) && $config != "null") {
+        if (!empty($config) && $config != "null") {
             $config = json_decode($config, true);
         } else {
             $config = $this->getDefaultConfig();
@@ -259,7 +259,7 @@ abstract class Plugin
         $config = [];
         if (file_exists($this->configFilePath)) {
             $tempArr = include $this->configFilePath;
-            if ( !empty($tempArr)) {
+            if (!empty($tempArr) && is_array($tempArr)) {
                 foreach ($tempArr as $key => $value) {
                     if ($value['type'] == 'group') {
                         foreach ($value['options'] as $gkey => $gvalue) {

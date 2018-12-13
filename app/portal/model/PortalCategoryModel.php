@@ -32,7 +32,6 @@ class PortalCategoryModel extends Model
      */
     public function adminCategoryTree($selectId = 0, $currentCid = 0)
     {
-
         $where[] = ['delete_time' ,'eq',0];
         if (!empty($currentCid)) {
             $where[] = ['id','neq', $currentCid];

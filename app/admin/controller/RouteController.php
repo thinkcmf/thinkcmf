@@ -80,7 +80,7 @@ class RouteController extends AdminBaseController
         }
         $routeModel->allowField(true)->save($data);
 
-        $this->success("添加成功！", url("Route/index", [ 'id' => $routeModel->id ]));
+        $this->success("添加成功！", url("Route/index", ['id' => $routeModel->id]));
     }
 
     /**
@@ -99,7 +99,7 @@ class RouteController extends AdminBaseController
     public function edit()
     {
         $id    = $this->request->param("id", 0, 'intval');
-        $route = Db::name('route')->where([ 'id' => $id ])->find();
+        $route = Db::name('route')->where(['id' => $id])->find();
         $this->assign($route);
         return $this->fetch();
     }

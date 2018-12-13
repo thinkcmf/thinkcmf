@@ -13,7 +13,6 @@ namespace app\install\controller;
 use app\admin\model\ThemeModel;
 use think\Controller;
 use think\Db;
-use think\facade\Env;
 
 class IndexController extends Controller
 {
@@ -28,7 +27,6 @@ class IndexController extends Controller
     // 安装首页
     public function index()
     {
-//        print_r(Env::get('runtime_path'));exit;
         return $this->fetch(":index");
     }
 
