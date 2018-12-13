@@ -22,18 +22,6 @@ class PluginRestBaseController extends RestBaseController
      */
     private $plugin;
 
-    /**
-     * 构造函数
-     * @param Request $request Request对象
-     * @access public
-     */
-    public function __construct(Request $request = null)
-    {
-        parent::__construct($request);
-
-        $this->getPlugin();
-    }
-
     public function getPlugin()
     {
 
@@ -49,36 +37,38 @@ class PluginRestBaseController extends RestBaseController
     }
 
     // 初始化
-    protected function _initialize()
+    protected function initialize()
     {
+        $this->getPlugin();
     }
 
     /**
      * 验证数据
      * @access protected
-     * @param array $data 数据
-     * @param string|array $validate 验证器名或者验证规则数组
-     * @param array $message 提示信息
-     * @param bool $batch 是否批量验证
-     * @param mixed $callback 回调方法（闭包）
+     * @param  array        $data     数据
+     * @param  string|array $validate 验证器名或者验证规则数组
+     * @param  array        $message  提示信息
+     * @param  bool         $batch    是否批量验证
+     * @param  mixed        $callback 回调方法（闭包）
      * @return array|string|true
      * @throws ValidateException
      */
     protected function validate($data, $validate, $message = [], $batch = false, $callback = null)
     {
         if (is_array($validate)) {
-            $v = Loader::validate();
+            $v = $this->app->validate();
             $v->rule($validate);
         } else {
             if (strpos($validate, '.')) {
                 // 支持场景
                 list($validate, $scene) = explode('.', $validate);
             }
-            $v = Loader::validate('\\plugins\\' . cmf_parse_name($this->plugin->getName()) . '\\validate\\' . $validate . 'Validate');
+            $v = $this->app->validate('\\plugins\\' . cmf_parse_name($this->plugin->getName()) . '\\validate\\' . $validate . 'Validate');
             if (!empty($scene)) {
                 $v->scene($scene);
             }
         }
+
         // 是否批量验证
         if ($batch || $this->batchValidate) {
             $v->batch(true);
@@ -95,12 +85,11 @@ class PluginRestBaseController extends RestBaseController
         if (!$v->check($data)) {
             if ($this->failException) {
                 throw new ValidateException($v->getError());
-            } else {
-                return $v->getError();
             }
-        } else {
-            return true;
+            return $v->getError();
         }
+
+        return true;
     }
 
 

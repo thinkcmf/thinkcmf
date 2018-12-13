@@ -14,7 +14,7 @@ class PluginAdminBaseController extends PluginBaseController
 {
 
     // 初始化
-    protected function _initialize()
+    protected function initialize()
     {
         $adminId = cmf_get_current_admin_id();
         if (!empty($adminId)) {
