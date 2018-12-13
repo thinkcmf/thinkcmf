@@ -17,11 +17,6 @@ use think\Db;
 class RouteController extends AdminBaseController
 {
 
-    public function _initialize()
-    {
-        parent::_initialize();
-    }
-
     /**
      * 路由规则列表
      * @adminMenu(
