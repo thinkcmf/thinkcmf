@@ -170,7 +170,9 @@ class PostService
                 'post.id '         => [ '<', $postId ]
             ];
 
-            $article = $portalPostModel->alias('post')->field('post.*')
+            $article = $portalPostModel
+                ->alias('post')
+                ->field('post.*')
                 ->where($where)
                 ->where('post.published_time', [ '< time', time() ], [ '> time', 0 ], 'and')
                 ->order('id', 'DESC')
@@ -188,7 +190,9 @@ class PostService
             $join    = [
                 [ '__PORTAL_CATEGORY_POST__ relation', 'post.id = relation.post_id' ]
             ];
-            $article = $portalPostModel->alias('post')->field('post.*')
+            $article = $portalPostModel
+                ->alias('post')
+                ->field('post.*')
                 ->join($join)
                 ->where($where)
                 ->where('post.published_time', [ '< time', time() ], [ '> time', 0 ], 'and')
