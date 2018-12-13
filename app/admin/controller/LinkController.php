@@ -29,12 +29,16 @@ class LinkController extends AdminBaseController
      *     'remark' => '友情链接管理',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function index()
     {
         $content = hook_one('admin_link_index_view');
 
-        if ( !empty($content)) {
+        if (!empty($content)) {
             return $content;
         }
 
@@ -109,7 +113,7 @@ class LinkController extends AdminBaseController
     {
         $id        = $this->request->param('id', 0, 'intval');
         $linkModel = new LinkModel();
-        $link      = $linkModel->get($id);
+        $link = $linkModel->get($id);
         $this->assign('targets', $this->targets);
         $this->assign('link', $link);
         return $this->fetch();
@@ -157,9 +161,7 @@ class LinkController extends AdminBaseController
     public function delete()
     {
         $id        = $this->request->param('id', 0, 'intval');
-        $linkModel = new LinkModel();
-        $linkModel::destroy($id);
-
+        LinkModel::destroy($id);
         $this->success("删除成功！", url("link/index"));
     }
 
@@ -203,13 +205,13 @@ class LinkController extends AdminBaseController
 
         if (isset($data['ids']) && !empty($data["display"])) {
             $ids = $this->request->param('ids/a');
-            $linkModel->where([ 'id' => [ 'in', $ids ] ])->update([ 'status' => 1 ]);
+            $linkModel->where('id', 'in', $ids)->update([ 'status' => 1 ]);
             $this->success("更新成功！");
         }
 
         if (isset($data['ids']) && !empty($data["hide"])) {
             $ids = $this->request->param('ids/a');
-            $linkModel->where([ 'id' => [ 'in', $ids ] ])->update([ 'status' => 0 ]);
+            $linkModel->where('id', 'in', $ids)->update([ 'status' => 0 ]);
             $this->success("更新成功！");
         }
 
