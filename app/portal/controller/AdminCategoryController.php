@@ -40,7 +40,7 @@ class AdminCategoryController extends AdminBaseController
     {
         $content = hook_one('portal_admin_category_index_view');
 
-        if ( !empty($content)) {
+        if (!empty($content)) {
             return $content;
         }
 
@@ -82,7 +82,7 @@ class AdminCategoryController extends AdminBaseController
     {
         $content = hook_one('portal_admin_category_add_view');
 
-        if ( !empty($content)) {
+        if (!empty($content)) {
             return $content;
         }
 
@@ -116,10 +116,10 @@ class AdminCategoryController extends AdminBaseController
     public function addPost()
     {
         $portalCategoryModel = new PortalCategoryModel();
-        $data     = $this->request->param();
-        $validate = $this->validate($data,'PortalCategory');
+        $data                = $this->request->param();
+        $validate            = $this->validate($data, 'PortalCategory');
 
-        if(true !== $validate){
+        if (true !== $validate) {
             $this->error($validate);
         }
         $result = $portalCategoryModel->addCategory($data);
@@ -151,7 +151,7 @@ class AdminCategoryController extends AdminBaseController
 
         $content = hook_one('portal_admin_category_edit_view');
 
-        if ( !empty($content)) {
+        if (!empty($content)) {
             return $content;
         }
 
@@ -168,7 +168,7 @@ class AdminCategoryController extends AdminBaseController
             $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
 
             $routeModel = new RouteModel();
-            $alias      = $routeModel->getUrl('portal/List/index', [ 'id' => $id ]);
+            $alias      = $routeModel->getUrl('portal/List/index', ['id' => $id]);
 
             $category['alias'] = $alias;
             $this->assign($category);
@@ -199,9 +199,9 @@ class AdminCategoryController extends AdminBaseController
     {
         $data = $this->request->param();
 
-        $validate = $this->validate($data,'PortalCategory');
+        $validate = $this->validate($data, 'PortalCategory');
 
-        if(true !== $validate){
+        if (true !== $validate) {
             $this->error($validate);
         }
         $portalCategoryModel = new PortalCategoryModel();
@@ -251,7 +251,7 @@ tpl;
 
         $categoryTree = $portalCategoryModel->adminCategoryTableTree($selectedIds, $tpl);
 
-        $where      = [ 'delete_time' => 0 ];
+        $where      = ['delete_time' => 0];
         $categories = $portalCategoryModel->where($where)->select();
 
         $this->assign('categories', $categories);
@@ -299,12 +299,12 @@ tpl;
         $ids                 = $this->request->param('ids/a');
 
         if (isset($data['ids']) && !empty($data["display"])) {
-            $portalCategoryModel->where('id', 'in', $ids )->update([ 'status' => 1 ]);
+            $portalCategoryModel->where('id', 'in', $ids)->update(['status' => 1]);
             $this->success("更新成功！");
         }
 
         if (isset($data['ids']) && !empty($data["hide"])) {
-            $portalCategoryModel->where('id', 'in', $ids)->update([ 'status' => 0 ]);
+            $portalCategoryModel->where('id', 'in', $ids)->update(['status' => 0]);
             $this->success("更新成功！");
         }
 
@@ -334,7 +334,7 @@ tpl;
             $this->error('分类不存在!');
         }
         //判断此分类有无子分类（不算被删除的子分类）
-        $categoryChildrenCount = $portalCategoryModel->where([ 'parent_id' => $id, 'delete_time' => 0 ])->count();
+        $categoryChildrenCount = $portalCategoryModel->where(['parent_id' => $id, 'delete_time' => 0])->count();
 
         if ($categoryChildrenCount > 0) {
             $this->error('此分类有子类无法删除!');
@@ -354,7 +354,7 @@ tpl;
         ];
         $result = $portalCategoryModel
             ->where('id', $id)
-            ->update([ 'delete_time' => time() ]);
+            ->update(['delete_time' => time()]);
         if ($result) {
             Db::name('recycleBin')->insert($data);
             $this->success('删除成功!');
