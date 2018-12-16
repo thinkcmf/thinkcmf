@@ -19,8 +19,7 @@ class LangBehavior
     // 行为扩展的执行入口必须是run
     public function run()
     {
-
-        $langSet = Request::langset();
+        $langSet = request()->langset();
         Lang::load([
             __DIR__ . '/../lang' . DIRECTORY_SEPARATOR . $langSet . '.php',
         ]);

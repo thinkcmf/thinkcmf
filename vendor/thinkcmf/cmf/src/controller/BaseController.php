@@ -26,8 +26,9 @@ class BaseController extends Controller
         $this->request = $this->app['request'];
 
         if (!cmf_is_installed() && $this->request->module() != 'install') {
-            header('Location: ' . cmf_get_root() . '/?s=install');
-            exit;
+//            header('Location: ' . cmf_get_root() . '/?s=install');
+//            exit;
+            return $this->redirect(cmf_get_root() . '/install');
         }
 
         $this->_initializeView();

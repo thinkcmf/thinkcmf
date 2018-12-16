@@ -25,7 +25,7 @@ class Application extends App
     /**
      * 处理Swoole请求
      * @access public
-     * @param  \Swoole\Http\Request $request
+     * @param  \Swoole\Http\Request  $request
      * @param  \Swoole\Http\Response $response
      * @param  void
      */
@@ -49,6 +49,10 @@ class Application extends App
             $_POST   = $request->post ?: [];
             $_FILES  = $request->files ?: [];
             $header  = $request->header ?: [];
+            if (isset($header['x-requested-with'])) {
+                $header['http_x_requested_with'] = $header['x-requested-with'];
+            }
+
             $server  = array_change_key_case($request->server, CASE_UPPER);
             $_SERVER = array_merge($server, array_change_key_case($header, CASE_UPPER));
 
@@ -67,7 +71,9 @@ class Application extends App
 
             // 更新请求对象实例
             $this->route->setRequest($this->request);
+            $this->route->rule('new_captcha', "\\cmf\\controller\\CaptchaController@index");
 
+            $this->loadLangPack();
             // 重新加载全局中间件
             if (is_file($this->appPath . 'middleware.php')) {
                 $middleware = include $this->appPath . 'middleware.php';
@@ -190,5 +196,24 @@ class Application extends App
         $server->push($frame->fd, json_encode($response));
 
         throw $e;
+    }
+
+    protected function loadLangPack()
+    {
+        // 读取默认语言
+        $this->lang->range($this->config('app.default_lang'));
+
+        if ($this->config('app.lang_switch_on')) {
+            // 开启多语言机制 检测当前语言
+            $this->lang->detect();
+        }
+
+        $this->request->setLangset($this->lang->range());
+
+        // 加载系统语言包
+        $this->lang->load([
+            $this->thinkPath . 'lang' . DIRECTORY_SEPARATOR . $this->request->langset() . '.php',
+            $this->appPath . 'lang' . DIRECTORY_SEPARATOR . $this->request->langset() . '.php',
+        ]);
     }
 }

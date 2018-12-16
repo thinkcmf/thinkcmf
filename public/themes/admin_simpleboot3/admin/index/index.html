@@ -54,7 +54,7 @@
     <script>
         //全局变量
         var GV = {
-            HOST: "{$_SERVER['HTTP_HOST']}",
+            HOST: "{$_SERVER['HTTP_HOST']|default=''}",
             ROOT: "__ROOT__/",
             WEB_ROOT: "__WEB_ROOT__/",
             JS_ROOT: "static/js/"

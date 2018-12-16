@@ -17,7 +17,7 @@ use think\Db;
 class IndexController extends Controller
 {
 
-    public function _initialize()
+    protected function initialize()
     {
         if (cmf_is_installed()) {
             $this->error('网站已经安装', cmf_get_root() . '/');
@@ -295,7 +295,7 @@ class IndexController extends Controller
             cmf_set_option('site_info', $siteInfo);
             Db::name('user')->insert($admin);
         } catch (\Exception $e) {
-            $this->error("网站创建失败!");
+            $this->error("网站创建失败!".$e->getMessage());
         }
 
         $this->success("网站创建完成!");
@@ -324,17 +324,60 @@ class IndexController extends Controller
         }
     }
 
+    public function test()
+    {
+        try {
+            $pdo = new \PDO('mysql:host=mysql;port:3307', 'root', 'admin');
+
+
+            ///*你还可以进行一次搜索操作
+            foreach ($pdo->query('SELECT * from mysql.user') as $row) {
+                print_r($row); //你可以用 echo($GLOBAL); 来看到这些值
+            }
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function test3()
+    {
+        file_put_contents("data/swoole.txt", var_export(request()->param(), true), 8);
+        echo "dddd";
+        return "";
+    }
+
+    public function test4()
+    {
+        print_r($this->request->param());
+        return $this->fetch();
+    }
+
+    public function test2()
+    {
+        $dbConfig = [
+            'hostname' => 'mysql',
+            'username' => 'root',
+            'password' => 'admin',
+            'hostport' => '3306',
+            'type'     => 'mysql'
+        ];
+        $engines  = Db::connect($dbConfig)->query("SHOW ENGINES;");
+
+        print_r($engines);
+    }
+
     public function testDbPwd()
     {
-        if ($this->request->isPost()) {
+        if ($this->request->isPost() || true) {
             $dbConfig         = $this->request->param();
             $dbConfig['type'] = "mysql";
 
             $supportInnoDb = false;
 
             try {
-                Db::connect($dbConfig)->query("SELECT VERSION();");
+//                Db::connect($dbConfig)->query("SELECT VERSION();");
                 $engines = Db::connect($dbConfig)->query("SHOW ENGINES;");
+
 
                 foreach ($engines as $engine) {
                     if ($engine['Engine'] == 'InnoDB' && $engine['Support'] != 'NO') {
@@ -343,7 +386,7 @@ class IndexController extends Controller
                     }
                 }
             } catch (\Exception $e) {
-                $this->error('数据库账号或密码不正确！');
+                $this->error('数据库账号或密码不正确！' . $e->getMessage());
             }
             if ($supportInnoDb) {
                 $this->success('验证成功！');
@@ -351,7 +394,7 @@ class IndexController extends Controller
                 $this->error('数据库账号密码验证通过，但不支持InnoDb!');
             }
         } else {
-            $this->error('非法请求方式！');
+            $this->error('非法请求方式1！');
         }
 
     }

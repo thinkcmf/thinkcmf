@@ -228,7 +228,7 @@ class Http extends Server
 
                     if ($this->lastMtime < $file->getMTime()) {
                         $this->lastMtime = $file->getMTime();
-                        echo '[update]' . $file . " reload...\n";
+                        echo $this->lastMtime.'[update ]' . $file . " reload...\n";
                         $server->reload();
                         return;
                     }

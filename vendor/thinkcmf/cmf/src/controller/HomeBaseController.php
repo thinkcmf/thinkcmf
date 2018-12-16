@@ -54,7 +54,7 @@ class HomeBaseController extends BaseController
             ];
         }
 
-        config('template.view_base', "{$themePath}/");
+        config('template.view_base', PLUGINS_PATH."../{$themePath}/");
         config('template.tpl_replace_string', $viewReplaceStr);
 
         $themeErrorTmpl = "{$themePath}/error.html";
