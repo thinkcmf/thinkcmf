@@ -23,12 +23,22 @@
                 <tr>
                     <td>{$vo.id}</td>
                     <td>{$vo.name}</td>
-                    <td>{$is_main[$vo.is_main]}</td>
+                    <td>
+                        <empty name="vo.is_main">
+                            <span class="label label-default">
+                                {$is_main[$vo.is_main]}
+                            </span>
+                            <else/>
+                            <span class="label label-success">
+                                {$is_main[$vo.is_main]}
+                            </span>
+                        </empty>
+                    </td>
                     <td>{$vo.remark}</td>
                     <td>
-                        <a href="javascript:parent.openIframeLayer('{:url('NavMenu/index',array('nav_id'=>$vo['id']))}','{$vo.name}菜单管理',{});">菜单管理</a>
-                        <a href="{:url('nav/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
-                        <a class="js-ajax-delete" href="{:url('nav/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+                        <a class="btn btn-xs btn-primary" href="javascript:parent.openIframeLayer('{:url('NavMenu/index',array('nav_id'=>$vo['id']))}','{$vo.name}菜单管理',{});">菜单管理</a>
+                        <a class="btn btn-xs btn-success"  href="{:url('nav/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                        <a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('nav/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>

@@ -30,31 +30,27 @@
                         </eq>
                     </td>
                     <td>{$vo.name}</td>
-                    <td>{$vo.version}</td>
+                    <td><span class="label label-success">{$vo.version}</span></td>
                     <td>{$vo.lang}</td>
                     <td>{$vo.author}</td>
                     <td>{$vo.description}</td>
                     <td>
-                        <a href="{:url('Theme/design',['theme'=>$vo.theme])}" target="_blank">设计</a>
-                        <a href="{:url('theme/update',array('theme'=>$vo['theme']))}" class="js-ajax-dialog-btn"
+                        <a class="btn btn-xs btn-primary" href="{:url('Theme/design',['theme'=>$vo.theme])}" target="_blank">设计</a>
+                        <a class="btn btn-xs btn-success js-ajax-dialog-btn" href="{:url('theme/update',array('theme'=>$vo['theme']))}"
                            data-msg="确定更新此模板吗？">更新</a>
-
-
-                        <if condition="($vo.name == 'simpleboot3') OR ($vo.theme == $default_theme) ">
-                            <font color="#cccccc">卸载</font>
-                            <else/>
-                            <a href="{:url('theme/uninstall',array('theme'=>$vo['theme']))}" class="js-ajax-dialog-btn"
-                               data-msg="您设置的模板数据将被删除，<br>确定卸载此模板吗？">卸载</a>
-                        </if>
-
-
                         <if condition="$vo.theme == $default_theme">
-                            <font color="#cccccc">启用</font>
+                            <font class="btn btn-xs" color="#cccccc">启用</font>
                             <else/>
-                            <a href="{:url('theme/active',array('theme'=>$vo['theme']))}" class="js-ajax-dialog-btn"
+                            <a class="btn btn-xs btn-warning js-ajax-dialog-btn" href="{:url('theme/active',array('theme'=>$vo['theme']))}"
                                data-msg="确定使用此模板吗？">启用</a>
                         </if>
 
+                        <if condition="($vo.name == 'simpleboot3') OR ($vo.theme == $default_theme) ">
+                            <font class="btn btn-xs" color="#cccccc">卸载</font>
+                            <else/>
+                            <a class="btn btn-xs btn-danger js-ajax-dialog-btn" href="{:url('theme/uninstall',array('theme'=>$vo['theme']))}"
+                               data-msg="您设置的模板数据将被删除，<br>确定卸载此模板吗？">卸载</a>
+                        </if>
 
                     </td>
                 </tr>
