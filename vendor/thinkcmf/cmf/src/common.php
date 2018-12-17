@@ -307,6 +307,11 @@ function cmf_random_string($len = 6)
  */
 function cmf_clear_cache()
 {
+    // 清除 opcache缓存
+    if(function_exists("opcache_reset")){
+        opcache_reset();
+    }
+
     $dirs     = [];
     $rootDirs = cmf_scan_dir(Env::get('runtime_path') . "*");
     //$noNeedClear=array(".","..","Data");
