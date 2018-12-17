@@ -82,7 +82,7 @@
                 <th width="130">更新时间</th>
                 <th width="130">发布时间</th>
                 <th width="70">状态</th>
-                <th width="90">操作</th>
+                <th width="95">操作</th>
             </tr>
             </thead>
             <foreach name="articles" item="vo">
@@ -184,8 +184,8 @@
                         </notempty>
                     </td>
                     <td>
-                        <a href="{:url('AdminArticle/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
-                        <a href="{:url('AdminArticle/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
+                        <a class="btn btn-xs btn-primary" href="{:url('AdminArticle/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                        <a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('AdminArticle/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>
