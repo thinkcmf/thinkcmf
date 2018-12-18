@@ -3,6 +3,5 @@
 .project
 .settings
 .idea
-composer.lock
 /public/assets/dist
 /node_modules
