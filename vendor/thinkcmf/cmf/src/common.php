@@ -96,11 +96,13 @@ function cmf_get_domain()
 function cmf_get_root()
 {
     $root = request()->root();
+    $root = str_replace("//", '/', $root);
     $root = str_replace('/index.php', '', $root);
     if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
         $root = preg_replace('/\/api$/', '', $root);
-        $root = rtrim($root, '/');
     }
+
+    $root = rtrim($root, '/');
 
     return $root;
 }
@@ -308,7 +310,7 @@ function cmf_random_string($len = 6)
 function cmf_clear_cache()
 {
     // 清除 opcache缓存
-    if(function_exists("opcache_reset")){
+    if (function_exists("opcache_reset")) {
         opcache_reset();
     }
 

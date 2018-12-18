@@ -19,6 +19,7 @@
     ],
     "require": {
         "php": ">=5.6.0",
+        "ext-json": "*",
         "topthink/framework": "~5.1.0",
         "topthink/think-helper": "^1.0",
         "topthink/think-captcha": "^2.0",
@@ -33,7 +34,6 @@
         "electrolinux/phpquery": "^0.9.6",
         "phpoffice/phpspreadsheet": "^1.5",
         "thinkcmf/cmf": "dev-master",
-        "ext-json": "*",
         "thinkcmf/cmf-swoole": "dev-master"
     },
     "extra": {
