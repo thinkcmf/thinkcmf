@@ -126,6 +126,13 @@
         </empty>
         <div class="table-actions">
             <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminCategory/toggle',array('display'=>'1'))}" data-subcheck="true">
+                {:lang('DISPLAY')}
+            </button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminCategory/toggle',array('hide'=>1))}" data-subcheck="true">{:lang('HIDE')}
+            </button>
         </div>
     </form>
 </div>

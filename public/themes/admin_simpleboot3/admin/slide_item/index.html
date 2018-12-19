@@ -49,14 +49,14 @@
                     </td>
                     <td>{$status[$vo['status']]}</td>
                     <td>
-                        <a href="{:url('SlideItem/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                        <a class="btn btn-xs btn-primary" href="{:url('SlideItem/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
                         <a href="{:url('SlideItem/delete',array('id'=>$vo['id']))}"
-                           class="js-ajax-delete">{:lang('DELETE')}</a>
+                           class="btn btn-xs btn-danger js-ajax-delete">{:lang('DELETE')}</a>
                         <if condition="empty($vo['status']) eq 1">
-                            <a href="{:url('SlideItem/cancelban',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn"
+                            <a href="{:url('SlideItem/cancelban',array('id'=>$vo['id']))}" class="btn btn-xs btn-warning js-ajax-dialog-btn"
                                data-msg="确定显示此幻灯片吗？">{:lang('DISPLAY')}</a>
                             <else/>
-                            <a href="{:url('SlideItem/ban',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn"
+                            <a href="{:url('SlideItem/ban',array('id'=>$vo['id']))}" class="btn btn-xs btn-warning js-ajax-dialog-btn"
                                data-msg="确定隐藏此幻灯片吗？">{:lang('HIDE')}</a>
                         </if>
                     </td>
