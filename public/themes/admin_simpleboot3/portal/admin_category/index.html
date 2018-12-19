@@ -29,9 +29,11 @@
             <table class="table table-hover table-bordered table-list" id="menus-table">
                 <thead>
                 <tr>
-                    <th width="16" style="padding-left:20px;"><label><input type="checkbox" class="js-check-all"
-                                                                            data-direction="x"
-                                                                            data-checklist="js-check-x"></label></th>
+                    <th width="16" style="padding-left:20px;">
+                        <label>
+                            <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                        </label>
+                    </th>
                     <th width="50">排序</th>
                     <th width="50">ID</th>
                     <th>分类名称</th>
@@ -40,14 +42,14 @@
                     <th width="210">操作</th>
                 </tr>
                 </thead>
-                <tbody>
                 {$category_tree}
-                </tbody>
                 <tfoot>
                 <tr>
-                    <th width="16" style="padding-left:20px;"><label><input type="checkbox" class="js-check-all"
-                                                                            data-direction="x"
-                                                                            data-checklist="js-check-x"></label></th>
+                    <th width="16" style="padding-left:20px;">
+                        <label>
+                            <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                        </label>
+                    </th>
                     <th width="50">排序</th>
                     <th width="50">ID</th>
                     <th>分类名称</th>
@@ -61,9 +63,11 @@
             <table class="table table-hover table-bordered table-list">
                 <thead>
                 <tr>
-                    <th width="16"><label><input type="checkbox" class="js-check-all"
-                                                 data-direction="x"
-                                                 data-checklist="js-check-x"></label></th>
+                    <th width="16">
+                        <label>
+                            <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                        </label>
+                    </th>
                     <th width="50">排序</th>
                     <th width="50">ID</th>
                     <th>分类名称</th>
@@ -75,11 +79,14 @@
                 <tbody>
                 <foreach name="categories" item="vo">
                     <tr>
-                        <td><input
-                                type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x"
-                                name="ids[]" value="{$vo.id}"></td>
-                        <td><input name="list_orders[{$vo.id}]" type="text" size="3" value="{$vo.list_order}"
-                                   class="input-order"></td>
+                        <td>
+                            <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x"
+                                   name="ids[]" value="{$vo.id}">
+                        </td>
+                        <td>
+                            <input name="list_orders[{$vo.id}]" type="text" size="3" value="{$vo.list_order}"
+                                   class="input-order">
+                        </td>
                         <td>{$vo.id}</td>
                         <td><a href="{cmf_url('portal/List/index', ['id' => $vo['id']])}" target="_blank">{$vo.name}</a>
                         </td>
@@ -102,9 +109,11 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <th width="16"><label><input type="checkbox" class="js-check-all"
-                                                 data-direction="x"
-                                                 data-checklist="js-check-x"></label></th>
+                    <th width="16">
+                        <label>
+                            <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                        </label>
+                    </th>
                     <th width="50">排序</th>
                     <th width="50">ID</th>
                     <th>分类名称</th>
