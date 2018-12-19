@@ -30,7 +30,7 @@ class RecycleBinController extends AdminBaseController
      *     'param'  => ''
      * )
      */
-    function index()
+    public function index()
     {
         $content = hook_one('admin_recycle_bin_index_view');
 
@@ -60,7 +60,7 @@ class RecycleBinController extends AdminBaseController
      *     'param'  => ''
      * )
      */
-    function restore()
+    public function restore()
     {
 
         $id     = $this->request->param('id');
@@ -100,7 +100,7 @@ class RecycleBinController extends AdminBaseController
      *     'param'  => ''
      * )
      */
-    function delete()
+    public function delete()
     {
         $id     = $this->request->param('id');
         $result = Db::name('recycleBin')->where(['id' => $id])->find();
