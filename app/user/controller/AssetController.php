@@ -21,7 +21,7 @@ use think\facade\View;
  */
 class AssetController extends AdminBaseController
 {
-    public function _initialize()
+    public function initialize()
     {
         $adminId = cmf_get_current_admin_id();
         $userId  = cmf_get_current_user_id();
@@ -85,8 +85,6 @@ class AssetController extends AdminBaseController
             View::share('multi', $arrData["multi"]);
             View::share('app', $arrData["app"]);
 
-            $content = hook_one('fetch_upload_view');
-
             $tabs = ['local', 'url', 'cloud'];
 
             $tab = !empty($arrData['tab']) && in_array($arrData['tab'], $tabs) ? $arrData['tab'] : 'local';
@@ -95,8 +93,11 @@ class AssetController extends AdminBaseController
                 $this->assign('has_cloud_storage', true);
             }
 
-            if (!empty($content) && $tab == 'cloud') {
-                return $content;
+            if ($tab == 'cloud') {
+                $content = hook_one('fetch_upload_view');
+                if (!empty($content)) {
+                    return $content;
+                }
             }
 
             $tab = $tab == 'cloud' ? 'local' : $tab;
