@@ -12,6 +12,7 @@ namespace app\admin\controller;
 
 use cmf\controller\AdminBaseController;
 use think\Db;
+use think\facade\Cache;
 use tree\Tree;
 use app\admin\model\AdminMenuModel;
 
@@ -316,7 +317,7 @@ class RbacController extends AdminBaseController
                     }
                 }
 
-                cache(null, 'admin_menus');// 删除后台菜单缓存
+                Cache::clear( 'admin_menus');// 删除后台菜单缓存
 
                 $this->success("授权成功！");
             } else {
