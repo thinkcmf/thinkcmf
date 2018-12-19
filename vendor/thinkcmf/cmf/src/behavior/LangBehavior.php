@@ -11,7 +11,6 @@
 namespace cmf\behavior;
 
 use think\facade\Lang;
-use think\facade\Request;
 
 class LangBehavior
 {
