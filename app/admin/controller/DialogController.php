@@ -14,7 +14,7 @@ use cmf\controller\AdminBaseController;
 
 class DialogController extends AdminBaseController
 {
-    public function _initialize()
+    public function initialize()
     {
 
     }
