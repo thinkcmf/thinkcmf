@@ -57,10 +57,10 @@ class MenuController extends AdminBaseController
 
             $result[$key]['parent_id_node'] = ($value['parent_id']) ? ' class="child-of-node-' . $value['parent_id'] . '"' : '';
             $result[$key]['style']          = empty($value['parent_id']) ? '' : 'display:none;';
-            $result[$key]['str_manage']     = '<a href="' . url("Menu/add", ["parent_id" => $value['id'], "menu_id" => $this->request->param("menu_id")])
-                . '">' . lang('ADD_SUB_MENU') . '</a>  <a href="' . url("Menu/edit", ["id" => $value['id'], "menu_id" => $this->request->param("menu_id")])
-                . '">' . lang('EDIT') . '</a>  <a class="js-ajax-delete" href="' . url("Menu/delete", ["id" => $value['id'], "menu_id" => $this->request->param("menu_id")]) . '">' . lang('DELETE') . '</a> ';
-            $result[$key]['status']         = $value['status'] ? lang('DISPLAY') : lang('HIDDEN');
+            $result[$key]['str_manage']     = '<a class="btn btn-xs btn-primary" href="' . url("Menu/add", ["parent_id" => $value['id'], "menu_id" => $this->request->param("menu_id")]). '">' . lang('ADD_SUB_MENU') . '</a> 
+                                               <a class="btn btn-xs btn-primary" href="' . url("Menu/edit", ["id" => $value['id'], "menu_id" => $this->request->param("menu_id")]). '">' . lang('EDIT') . '</a>  
+                                               <a class="btn btn-xs btn-danger js-ajax-delete" href="' . url("Menu/delete", ["id" => $value['id'], "menu_id" => $this->request->param("menu_id")]) . '">' . lang('DELETE') . '</a> ';
+            $result[$key]['status']         = $value['status'] ? '<span class="label label-success">'. lang('DISPLAY') .'</span>': '<span class="label label-warning">'.lang('HIDDEN').'</span>';
             if (APP_DEBUG) {
                 $result[$key]['app'] = $value['app'] . "/" . $value['controller'] . "/" . $value['action'];
             }
