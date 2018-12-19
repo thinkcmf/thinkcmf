@@ -310,7 +310,7 @@ class App extends Container
                 include $this->thinkPath . 'helper.php';
 
                 // 加载主要配置
-                $mainConfigNames = ['app', 'database', 'template'];
+                $mainConfigNames = ['app', 'database', 'template', 'paginate'];
                 foreach ($mainConfigNames as $configName) {
                     $this->config->load($path . $configName . $this->configExt, $configName);
                 }
