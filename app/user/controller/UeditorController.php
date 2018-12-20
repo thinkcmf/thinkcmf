@@ -47,7 +47,7 @@ class UeditorController extends HomeBaseController
     /**
      * 初始化
      */
-    public function _initialize()
+    public function initialize()
     {
         $adminId = cmf_get_current_admin_id();
         $userId  = cmf_get_current_user_id();

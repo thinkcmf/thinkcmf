@@ -15,11 +15,11 @@ use think\Db;
 class AdminBaseController extends BaseController
 {
 
-    public function _initialize()
+    protected function initialize()
     {
         // 监听admin_init
         hook('admin_init');
-        parent::_initialize();
+        parent::initialize();
         $session_admin_id = session('ADMIN_ID');
         if (!empty($session_admin_id)) {
             $user = Db::name('user')->where(['id' => $session_admin_id])->find();

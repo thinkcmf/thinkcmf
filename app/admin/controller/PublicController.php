@@ -15,7 +15,7 @@ use think\Db;
 
 class PublicController extends AdminBaseController
 {
-    public function _initialize()
+    public function initialize()
     {
     }
 

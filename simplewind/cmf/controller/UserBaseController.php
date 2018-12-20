@@ -13,9 +13,9 @@ namespace cmf\controller;
 class UserBaseController extends HomeBaseController
 {
 
-    public function _initialize()
+    public function initialize()
     {
-        parent::_initialize();
+        parent::initialize();
         $this->checkUserLogin();
     }
 

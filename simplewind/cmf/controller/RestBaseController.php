@@ -76,6 +76,8 @@ class RestBaseController
         $this->_initUser();
 
         // 控制器初始化
+        $this->initialize();
+        // 老的控制器初始化 即将取消
         $this->_initialize();
 
         // 前置操作方法
@@ -86,6 +88,11 @@ class RestBaseController
                     $this->beforeAction($method, $options);
             }
         }
+    }
+
+    // 初始化
+    protected function initialize()
+    {
     }
 
     // 初始化

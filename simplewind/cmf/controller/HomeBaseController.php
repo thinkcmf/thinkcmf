@@ -17,11 +17,11 @@ use think\View;
 class HomeBaseController extends BaseController
 {
 
-    protected function _initialize()
+    protected function initialize()
     {
         // 监听home_init
         hook('home_init');
-        parent::_initialize();
+        parent::initialize();
         $siteInfo = cmf_get_site_info();
         View::share('site_info', $siteInfo);
     }

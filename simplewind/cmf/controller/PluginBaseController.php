@@ -53,6 +53,8 @@ class PluginBaseController extends BaseController
         $this->assign('site_info', $siteInfo);
 
         // 控制器初始化
+        $this->initialize();
+        // 老的控制器初始化 即将取消
         $this->_initialize();
 
         // 前置操作方法
