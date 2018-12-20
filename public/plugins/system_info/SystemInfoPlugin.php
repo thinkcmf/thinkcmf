@@ -44,7 +44,7 @@ class SystemInfoPlugin extends Plugin
         $mysql = $mysql[0]['version'];
         $mysql = empty($mysql) ? lang('UNKNOWN') : $mysql;
 
-        $version = THINKCMF_VERSION;
+        $version = cmf_version();
 
         //server infomation
         $info = [
