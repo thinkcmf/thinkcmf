@@ -1,4 +1,7 @@
-<php>function _get_system_widget($name){</php>
+<php>
+    if (!function_exists('_get_system_widget')) {
+        function _get_system_widget($name){
+</php>
 <switch name="name">
     <case value="CmfHub">
         <div class="panel panel-default">
@@ -106,7 +109,10 @@
         </div>
     </case>
 </switch>
-<php>}</php>
+<php>
+        }
+    }
+</php>
 
 <include file="public@header"/>
 <style>

@@ -1,45 +1,49 @@
 <php>
-    function _suggest_url($action, $url)
-    {
-    $actionArr = explode('/', $action);
+    if (!function_exists('_suggest_url')) {
+        function _suggest_url($action, $url)
+        {
+        $actionArr = explode('/', $action);
 
-    $params = array_keys($url['vars']);
+        $params = array_keys($url['vars']);
 
-    $urlDepr1Params = [];
+        $urlDepr1Params = [];
 
-    $urlDepr2Params = [];
+        $urlDepr2Params = [];
 
-    if (!empty($params)) {
+        if (!empty($params)) {
 
-    foreach ($params as $param) {
-    if(empty($url['vars'][$param]['require'])){
-    array_push($urlDepr1Params, "[:$param]");
-    }else{
-    array_push($urlDepr1Params, ":$param");
+        foreach ($params as $param) {
+        if(empty($url['vars'][$param]['require'])){
+        array_push($urlDepr1Params, "[:$param]");
+        }else{
+        array_push($urlDepr1Params, ":$param");
+        }
+
+        array_push($urlDepr2Params, htmlspecialchars('<') . $param . htmlspecialchars('>'));
+        }
+
+        }
+
+        if ($actionArr[2] == 'index') {
+        $actionArr[1] = cmf_parse_name($actionArr[1]);
+        return empty($params) ? $actionArr[1].'$' : ($actionArr[1] . '/' . implode('/', $urlDepr1Params) /*. '或' . $actionArr[1] . '-' . implode('-', $urlDepr2Params)*/);
+        } else {
+        $actionArr[2] = cmf_parse_name($actionArr[2]);
+        return empty($params) ? $actionArr[2].'$' : ($actionArr[2] . '/' . implode('/', $urlDepr1Params) /*. '或' . $actionArr[2] . '-' . implode('-', $urlDepr2Params)*/);
+        }
+
+        }
     }
 
-    array_push($urlDepr2Params, htmlspecialchars('<') . $param . htmlspecialchars('>'));
-    }
+    if (!function_exists('_url_vars')) {
+        function _url_vars($url)
+        {
+        if (!empty($url['vars'])) {
+        return implode(',', array_keys($url['vars']));
+        }
 
-    }
-
-    if ($actionArr[2] == 'index') {
-    $actionArr[1] = cmf_parse_name($actionArr[1]);
-    return empty($params) ? $actionArr[1].'$' : ($actionArr[1] . '/' . implode('/', $urlDepr1Params) /*. '或' . $actionArr[1] . '-' . implode('-', $urlDepr2Params)*/);
-    } else {
-    $actionArr[2] = cmf_parse_name($actionArr[2]);
-    return empty($params) ? $actionArr[2].'$' : ($actionArr[2] . '/' . implode('/', $urlDepr1Params) /*. '或' . $actionArr[2] . '-' . implode('-', $urlDepr2Params)*/);
-    }
-
-    }
-
-    function _url_vars($url)
-    {
-    if (!empty($url['vars'])) {
-    return implode(',', array_keys($url['vars']));
-    }
-
-    return '';
+        return '';
+        }
     }
 </php>
 <include file="public@header"/>
