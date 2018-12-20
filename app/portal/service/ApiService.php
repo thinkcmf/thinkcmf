@@ -268,10 +268,10 @@ class ApiService
     /**
      * 获取指定条件的页面列表
      * @param array $param 查询参数<pre>
-     * array(
-     *  'where'=>'',
-     *  'order'=>'',
-     * )</pre>
+     *                     array(
+     *                     'where'=>'',
+     *                     'order'=>'',
+     *                     )</pre>
      * @return false|\PDOStatement|string|\think\Collection
      */
     public static function pages($param)
@@ -335,27 +335,27 @@ class ApiService
         return $portalCategoryModel->where($where)->find();
     }
 
-	/**
-	 * 返回指定分类下的子分类
-	 * @param int $categoryId 分类id
-	 * @param $field string  指定查询字段
-	 * @throws \think\db\exception\DataNotFoundException
-	 * @throws \think\db\exception\ModelNotFoundException
-	 * @throws \think\exception\DbException
-	 * @return false|\PDOStatement|string|\think\Collection 返回指定分类下的子分类
-	 */
-	public static function subCategories($categoryId,$field='*')
-	{
-		$portalCategoryModel = new PortalCategoryModel();
+    /**
+     * 返回指定分类下的子分类
+     * @param int $categoryId 分类id
+     * @param     $field      string  指定查询字段
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @return false|\PDOStatement|string|\think\Collection 返回指定分类下的子分类
+     */
+    public static function subCategories($categoryId, $field = '*')
+    {
+        $portalCategoryModel = new PortalCategoryModel();
 
-		$where = [
-			'status'      => 1,
-			'delete_time' => 0,
-			'parent_id'   => $categoryId
-		];
+        $where = [
+            'status'      => 1,
+            'delete_time' => 0,
+            'parent_id'   => $categoryId
+        ];
 
-		return $portalCategoryModel->field($field)->where($where)->select();
-	}
+        return $portalCategoryModel->field($field)->where($where)->select();
+    }
 
     /**
      * 返回指定分类下的所有子分类
@@ -392,10 +392,10 @@ class ApiService
     /**
      * 返回符合条件的所有分类
      * @param array $param 查询参数<pre>
-     * array(
-     *  'where'=>'',
-     *  'order'=>'',
-     * )</pre>
+     *                     array(
+     *                     'where'=>'',
+     *                     'order'=>'',
+     *                     )</pre>
      * @return false|\PDOStatement|string|\think\Collection
      */
     public static function categories($param)
@@ -420,7 +420,7 @@ class ApiService
 
     /**
      * 获取面包屑数据
-     * @param int $categoryId 当前文章所在分类,或者当前分类的id
+     * @param int     $categoryId  当前文章所在分类,或者当前分类的id
      * @param boolean $withCurrent 是否获取当前分类
      * @return array 面包屑数据
      */
