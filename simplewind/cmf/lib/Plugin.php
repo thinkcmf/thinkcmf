@@ -67,7 +67,7 @@ abstract class Plugin
 
         $theme = isset($config['theme']) ? $config['theme'] : '';
 
-        $depr = "/";
+        //$depr = "/";
 
         $root = cmf_get_root();
 

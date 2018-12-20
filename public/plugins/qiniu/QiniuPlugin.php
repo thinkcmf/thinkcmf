@@ -54,7 +54,7 @@ class QiniuPlugin extends Plugin
         return true;//卸载成功返回true，失败false
     }
 
-    public function fetchUploadView(&$param)
+    public function fetchUploadView()
     {
         $config     = $this->getConfig();
         $accessKey  = $config['accessKey'];

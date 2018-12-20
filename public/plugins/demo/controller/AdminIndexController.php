@@ -14,9 +14,9 @@ use think\Db;
 class AdminIndexController extends PluginAdminBaseController
 {
 
-    protected function _initialize()
+    protected function initialize()
     {
-        parent::_initialize();
+        parent::initialize();
         $adminId = cmf_get_current_admin_id();//获取后台管理员id，可判断是否登录
         if (!empty($adminId)) {
             $this->assign("admin_id", $adminId);
