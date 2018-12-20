@@ -2056,3 +2056,11 @@ function cmf_version()
 {
     return THINKCMF_VERSION;
 }
+
+/**
+ * 获取ThinkCMF核心包目录
+ */
+function cmf_core_path()
+{
+    return __DIR__ . DIRECTORY_SEPARATOR;
+}
