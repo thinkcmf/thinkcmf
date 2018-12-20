@@ -53,6 +53,10 @@ class Application extends App
                 $header['http_x_requested_with'] = $header['x-requested-with'];
             }
 
+            if (isset($header['referer'])) {
+                $header['http_referer'] = $header['referer'];
+            }
+
             $server  = array_change_key_case($request->server, CASE_UPPER);
             $_SERVER = array_merge($server, array_change_key_case($header, CASE_UPPER));
 
