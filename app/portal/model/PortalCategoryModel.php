@@ -39,8 +39,7 @@ class PortalCategoryModel extends Model
                 if (!empty($currentCid)) {
                     $query->where('id', 'neq', $currentCid);
                 }
-            })
-            ->select()->toArray();
+            })->select()->toArray();
 
         $tree       = new Tree();
         $tree->icon = ['&nbsp;&nbsp;│', '&nbsp;&nbsp;├─', '&nbsp;&nbsp;└─'];
