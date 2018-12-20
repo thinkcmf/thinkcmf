@@ -10,5 +10,7 @@
 // +----------------------------------------------------------------------
 
 return [
-    'datetime_format' => false
+    'datetime_format' => false,
+    // 数据集返回类型
+    'resultset_type'  => 'collection',
 ];
