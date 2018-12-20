@@ -33,17 +33,17 @@ class Qiniu
 
     /**
      * 文件上传
-     * @param string $file 上传文件路径
+     * @param string $file     上传文件路径
      * @param string $filePath 文件路径相对于upload目录
      * @param string $fileType 文件类型,image,video,audio,file
-     * @param array $param 额外参数
+     * @param array  $param    额外参数
      * @return mixed
      */
     public function upload($file, $filePath, $fileType = 'image', $param = null)
     {
         $accessKey = $this->config['accessKey'];
         $secretKey = $this->config['secretKey'];
-        $watermark = $this->config['styles_watermark'];
+        $watermark = empty($this->config['styles_watermark']) ? 'watermark' : $this->config['styles_watermark'];
         $upManager = new UploadManager();
         $auth      = new Auth($accessKey, $secretKey);
         $token     = $auth->uploadToken($this->config['bucket']);
@@ -111,7 +111,7 @@ class Qiniu
     /**
      * 获取文件下载地址
      * @param string $file
-     * @param int $expires
+     * @param int    $expires
      * @return mixed
      */
     public function getFileDownloadUrl($file, $expires = 3600)
