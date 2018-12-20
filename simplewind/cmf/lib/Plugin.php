@@ -52,7 +52,7 @@ abstract class Plugin
     public function __construct()
     {
 
-        $request = Request::instance();
+        $request = request();
 
         $engineConfig = Config::get('template');
 
@@ -81,8 +81,8 @@ abstract class Plugin
 
         $pluginRoot = "plugins/{$nameCStyle}";
 
-        $cmfAdminThemePath    = config('cmf_admin_theme_path');
-        $cmfAdminDefaultTheme = config('cmf_admin_default_theme');
+        $cmfAdminThemePath    = config('template.cmf_admin_theme_path');
+        $cmfAdminDefaultTheme = config('template.cmf_admin_default_theme');
 
         $adminThemePath = "{$cmfAdminThemePath}{$cmfAdminDefaultTheme}";
 

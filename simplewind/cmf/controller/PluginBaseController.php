@@ -237,6 +237,7 @@ class PluginBaseController extends BaseController
                 $v->scene($scene);
             }
         }
+
         // 是否批量验证
         if ($batch || $this->batchValidate) {
             $v->batch(true);

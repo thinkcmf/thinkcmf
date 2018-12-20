@@ -305,7 +305,7 @@ class IndexController extends Controller
     public function installTheme()
     {
         $themeModel = new ThemeModel();
-        $result     = $themeModel->installTheme(config('cmf_default_theme'));
+        $result     = $themeModel->installTheme(config('template.cmf_default_theme'));
         if ($result === false) {
             $this->error('模板不存在!');
         }

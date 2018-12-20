@@ -38,7 +38,7 @@ class ThemeController extends AdminBaseController
         $themes     = $themeModel->select();
         $this->assign("themes", $themes);
 
-        $defaultTheme = config('cmf_default_theme');
+        $defaultTheme = config('template.cmf_default_theme');
         if ($temp = session('cmf_default_theme')) {
             $defaultTheme = $temp;
         }
@@ -100,7 +100,7 @@ class ThemeController extends AdminBaseController
     public function uninstall()
     {
         $theme = $this->request->param('theme');
-        if ($theme == "simpleboot3" || config('cmf_default_theme') == $theme) {
+        if ($theme == "simpleboot3" || config('template.cmf_default_theme') == $theme) {
             $this->error("官方自带模板或当前使用中的模板不可以卸载");
         }
 
@@ -189,7 +189,7 @@ class ThemeController extends AdminBaseController
     {
         $theme = $this->request->param('theme');
 
-        if ($theme == config('cmf_default_theme')) {
+        if ($theme == config('template.cmf_default_theme')) {
             $this->error('模板已启用', url("theme/index"));
         }
 

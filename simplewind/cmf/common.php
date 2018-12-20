@@ -119,9 +119,9 @@ function cmf_get_current_theme()
     }
 
     $t     = 't';
-    $theme = config('cmf_default_theme');
+    $theme = config('template.cmf_default_theme');
 
-    $cmfDetectTheme = config('cmf_detect_theme');
+    $cmfDetectTheme = config('template.cmf_detect_theme');
     if ($cmfDetectTheme) {
         if (isset($_GET[$t])) {
             $theme = $_GET[$t];
@@ -164,7 +164,7 @@ function cmf_get_current_admin_theme()
     }
 
     $t     = '_at';
-    $theme = config('cmf_admin_default_theme');
+    $theme = config('template.cmf_admin_default_theme');
 
     $cmfDetectTheme = true;
     if ($cmfDetectTheme) {
@@ -194,7 +194,7 @@ function cmf_get_current_admin_theme()
  */
 function cmf_get_theme_path($theme = null)
 {
-    $themePath = config('cmf_theme_path');
+    $themePath = config('template.cmf_theme_path');
     if ($theme === null) {
         // 获取当前主题名称
         $theme = cmf_get_current_theme();

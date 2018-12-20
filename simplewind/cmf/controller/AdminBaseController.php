@@ -39,7 +39,7 @@ class AdminBaseController extends BaseController
 
     public function _initializeView()
     {
-        $cmfAdminThemePath    = config('cmf_admin_theme_path');
+        $cmfAdminThemePath    = config('template.cmf_admin_theme_path');
         $cmfAdminDefaultTheme = cmf_get_current_admin_theme();
 
         $themePath = "{$cmfAdminThemePath}{$cmfAdminDefaultTheme}";

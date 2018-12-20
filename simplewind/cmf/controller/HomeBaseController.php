@@ -28,7 +28,7 @@ class HomeBaseController extends BaseController
 
     protected function _initializeView()
     {
-        $cmfThemePath    = config('cmf_theme_path');
+        $cmfThemePath    = config('template.cmf_theme_path');
         $cmfDefaultTheme = cmf_get_current_theme();
 
         $themePath = "{$cmfThemePath}{$cmfDefaultTheme}";
@@ -181,7 +181,7 @@ hello;
             $themeModel->updateTheme($theme);
         }
 
-        $themePath = config('cmf_theme_path');
+        $themePath = config('template.cmf_theme_path');
         $file      = str_replace('\\', '/', $file);
         $file      = str_replace('//', '/', $file);
         $themeFile = str_replace(['.html', '.php', $themePath . $theme . "/",PLUGINS_PATH.'../'], '', $file);
