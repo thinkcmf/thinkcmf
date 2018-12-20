@@ -37,6 +37,10 @@ class CustomAdminLoginPlugin extends Plugin
         return true;//卸载成功返回true，失败false
     }
 
+    /**
+     * @return string
+     * @throws \Exception
+     */
     public function adminLogin()
     {
         return $this->fetch('widget');
