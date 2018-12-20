@@ -86,12 +86,18 @@ class RouteModel extends Model
 
         }
         cache("routes", $cacheRoutes);
-        $route_dir = CMF_ROOT . "data/conf/";
-        if (!file_exists($route_dir)) {
-            mkdir($route_dir);
+        
+        if (strpos(cmf_version(), '5.0.') === false) {
+            $routeDir = CMF_ROOT . "data/route/"; // 5.1
+        } else {
+            $routeDir = CMF_ROOT . "data/conf/"; // 5.0
+        }
+        
+        if (!file_exists($routeDir)) {
+            mkdir($routeDir);
         }
 
-        $route_file = $route_dir . "route.php";
+        $route_file = $routeDir . "route.php";
 
         file_put_contents($route_file, "<?php\treturn " . stripslashes(var_export($allRoutes, true)) . ";");
 

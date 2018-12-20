@@ -8,14 +8,14 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
-use think\Config;
 use think\Db;
-use think\Url;
+use think\facade\Env;
+use think\facade\Url;
 use dir\Dir;
-use think\Route;
+use think\facade\Route;
 use think\Loader;
 use cmf\lib\Storage;
-use think\Hook;
+use think\facade\Hook;
 
 // 应用公共文件
 
@@ -236,7 +236,7 @@ function cmf_get_user_avatar_url($avatar)
 function cmf_password($pw, $authCode = '')
 {
     if (empty($authCode)) {
-        $authCode = Config::get('database.authcode');
+        $authCode = config('database.authcode');
     }
     $result = "###" . md5(md5($authCode . $pw));
     return $result;
@@ -249,7 +249,7 @@ function cmf_password($pw, $authCode = '')
  */
 function cmf_password_old($pw)
 {
-    $decor = md5(Config::get('database.prefix'));
+    $decor = md5(config('database.prefix'));
     $mi    = md5($pw);
     return substr($decor, 0, 12) . $mi . substr($decor, -4, 4);
 }
@@ -314,14 +314,14 @@ function cmf_clear_cache()
     }
 
     $dirs     = [];
-    $rootDirs = cmf_scan_dir(RUNTIME_PATH . "*");
+    $rootDirs = cmf_scan_dir(Env::get('runtime_path') . "*");
     //$noNeedClear=array(".","..","Data");
     $noNeedClear = ['.', '..', 'log'];
     $rootDirs    = array_diff($rootDirs, $noNeedClear);
     foreach ($rootDirs as $dir) {
 
         if ($dir != "." && $dir != "..") {
-            $dir = RUNTIME_PATH . $dir;
+            $dir = Env::get('runtime_path') . $dir;
             if (is_dir($dir)) {
                 //array_push ( $dirs, $dir );
                 $tmpRootDirs = cmf_scan_dir($dir . "/*");
@@ -792,7 +792,7 @@ function cmf_str_decode($string, $key = '', $expiry = 0, $operation = 'DECODE')
 {
     $ckey_length = 4;
 
-    $key  = md5($key ? $key : config("authcode"));
+    $key  = md5($key ? $key : config("database.authcode"));
     $keya = md5(substr($key, 0, 16));
     $keyb = md5(substr($key, 16, 16));
     $keyc = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length) : substr(md5(microtime()), -$ckey_length)) : '';
@@ -2037,4 +2037,22 @@ function cmf_counter_inc($name, $min = 1, $step = 1)
     }
 
     return $value;
+}
+
+/**
+ * 获取ThinkPHP版本
+ * @return string
+ */
+function cmf_thinkphp_version()
+{
+    return THINK_VERSION;
+}
+
+/**
+ * 获取ThinkCMF版本
+ * @return string
+ */
+function cmf_version()
+{
+    return THINKCMF_VERSION;
 }

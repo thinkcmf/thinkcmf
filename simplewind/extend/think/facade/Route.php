@@ -11,9 +11,9 @@
 // ThinkPHP5.0兼容ThinkPHP5.1代码,用法请看ThinkPHP5.1文档
 namespace think\facade;
 
-use think\Lang as ThinkLang;
+use think\Route as ThinkRoute;
 
-class Lang extends ThinkLang
+class Route extends ThinkRoute
 {
 
 }

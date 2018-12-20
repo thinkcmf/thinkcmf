@@ -11,9 +11,21 @@
 // ThinkPHP5.0兼容ThinkPHP5.1代码,用法请看ThinkPHP5.1文档
 namespace think\facade;
 
-use think\Lang as ThinkLang;
+use think\Env as ThinkEnv;
 
-class Lang extends ThinkLang
+class Env
 {
+    public static function get($name, $default = null)
+    {
+        switch ($name) {
+            case "runtime_path":
+                $value = RUNTIME_PATH;
+                break;
+            default:
+                $value = ThinkEnv::get($name, $default);
+        }
+
+        return $value;
+    }
 
 }

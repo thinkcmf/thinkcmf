@@ -152,12 +152,18 @@ function sp_create_db_config($config)
             $conf = str_replace("#{$key}#", $value, $conf);
         }
 
+        if (strpos(cmf_version(), '5.0.') === false) {
+            $confDir = CMF_ROOT . 'data/config/'; // 5.1
+        } else {
+            $confDir = CMF_ROOT . 'data/conf/'; // 5.0
+        }
+
         try {
-            $confDir = CMF_ROOT . 'data/conf/';
+
             if (!file_exists($confDir)) {
                 mkdir($confDir, 0777, true);
             }
-            file_put_contents(CMF_ROOT . 'data/conf/database.php', $conf);
+            file_put_contents($confDir . 'database.php', $conf);
         } catch (\Exception $e) {
 
             return false;

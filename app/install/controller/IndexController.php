@@ -11,13 +11,12 @@
 namespace app\install\controller;
 
 use app\admin\model\ThemeModel;
-use think\Controller;
+use cmf\controller\BaseController;
 use think\Db;
 
-class IndexController extends Controller
+class IndexController extends BaseController
 {
-
-    protected function _initialize()
+    protected function initialize()
     {
         if (cmf_is_installed()) {
             $this->error('网站已经安装', cmf_get_root() . '/');
@@ -295,7 +294,7 @@ class IndexController extends Controller
             cmf_set_option('site_info', $siteInfo);
             Db::name('user')->insert($admin);
         } catch (\Exception $e) {
-            $this->error("网站创建失败!".$e->getMessage());
+            $this->error("网站创建失败!" . $e->getMessage());
         }
 
         $this->success("网站创建完成!");
