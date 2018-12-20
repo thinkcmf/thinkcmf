@@ -3,8 +3,8 @@
     top: 0;
     bottom: 0;
     width: 200px;
-    background-color: #f2f2f2;
-    border-right: 1px solid #ccc
+    background-color: #fff;
+    border-right: 1px solid #ecf0f1
 }
 
 .sidebar:before {
@@ -14,8 +14,8 @@
     z-index: -1;
     display: block;
     width: 200px;
-    background-color: #f2f2f2;
-    border-right: 1px solid #ccc;
+    background-color: #fff;
+    border-right: 1px solid #ecf0f1;
     content: ""
 }
 
@@ -47,8 +47,10 @@
     padding: 0;
     margin: 0;
     border: 0;
-    border-top: 1px solid #fcfcfc;
-    border-bottom: 1px solid #e5e5e5
+    /*border-top: 1px solid #fff;*/
+    /*border-bottom: 1px solid #fff*/
+    border-top: none;
+    border-bottom: none;
 }
 
 .nav-list > li:first-child {
@@ -57,10 +59,10 @@
 
 .nav-list > li > a {
     display: block;
-    height: 38px;
+    /*height: 38px;*/
     padding: 0 16px 0 7px;
     font-size: 13px;
-    line-height: 36px;
+    line-height: 44px;
     color: #585858;
     text-decoration: none;
     text-shadow: none !important;
@@ -82,12 +84,12 @@
 
 .nav-list > li > a:hover {
     color: #1963aa;
-    background-color: #FFF
+    background-color: #f9f9f9
 }
 
 .nav-list > li a > .arrow {
     position: absolute;
-    top: 11px;
+    top: 15px;
     right: 9px;
     display: inline-block;
     width: 14px !important;
@@ -163,7 +165,8 @@
     margin: 0;
     list-style: none;
     background-color: #fff;
-    border-top: 1px solid #e5e5e5
+    /*border-top: 1px solid #e5e5e5*/
+    border-top: none;
 }
 
 .nav-list > li .submenu > li {
@@ -174,12 +177,15 @@
 .nav-list > li .submenu > li > a {
     position: relative;
     display: block;
-    padding: 7px 0 8px 37px;
+    padding: 0 0 0 37px;
     margin: 0;
+    line-height: 44px;
     font-size: 14px;
     color: #616161;
+    /*border-top: 1px solid #fcfcfc;*/
+    /*border-bottom: 1px solid #e5e5e5*/
     border-top: 1px solid #fcfcfc;
-    border-bottom: 1px solid #e5e5e5
+    border-bottom: none;
 }
 
 .nav-list > li .submenu > li > a:focus {
@@ -192,7 +198,7 @@
 
 .nav-list > li .submenu > li a > [class*="fa-"]:first-child {
     position: absolute;
-    top: 11px;
+    top: 15px;
     left: 10px;
     z-index: 1;
     width: 18px;
@@ -593,8 +599,8 @@ ul, ol {
     z-index: 99;
     width: 100%;
     height: 100%;
-    background: #f2f2f2;
-    border-bottom-color: #e5e5e5
+    background: #f8f9fa;
+    border-bottom-color: #fafafa;
 }
 
 .nav-list > li.open a {
@@ -665,12 +671,12 @@ ul, ol {
 }
 
 .nav-list > li > a {
-    background-color: #f4f4f4
+    background-color: #fff
 }
 
 .nav-list > li > a:hover {
     color: #010101;
-    background-color: #FFF
+    background-color: #f8f9fa
 }
 
 .nav-list > li > a:hover:before {
@@ -689,7 +695,7 @@ ul, ol {
 .nav-list > li .submenu > li > a:hover {
     color: #010101;
     text-decoration: none;
-    background: #fff
+    background: #f8f9fa;
 }
 
 #right-tools-wrapper span .right_tool_icon {
