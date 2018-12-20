@@ -16,8 +16,8 @@ class CustomAdminLoginPlugin extends Plugin
 
     public $info = [
         'name'        => 'CustomAdminLogin',
-        'title'       => '自定义后台登录页',
-        'description' => '自定义后台登录页',
+        'title'       => '自定义后台登录页demo',
+        'description' => '自定义后台登录页demo',
         'status'      => 1,
         'author'      => 'ThinkCMF',
         'version'     => '1.0'
