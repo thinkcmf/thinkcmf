@@ -11,6 +11,7 @@
 namespace app\portal\model;
 
 use app\admin\model\RouteModel;
+use think\db\Query;
 use think\Model;
 use tree\Tree;
 
@@ -23,7 +24,7 @@ class PortalCategoryModel extends Model
 
     /**
      * 生成分类 select树形结构
-     * @param int $selectId 需要选中的分类 id
+     * @param int $selectId   需要选中的分类 id
      * @param int $currentCid 需要隐藏的分类 id
      * @return string
      * @throws \think\db\exception\DataNotFoundException
@@ -32,15 +33,17 @@ class PortalCategoryModel extends Model
      */
     public function adminCategoryTree($selectId = 0, $currentCid = 0)
     {
-        $where[] = ['delete_time' ,'eq',0];
-        if (!empty($currentCid)) {
-            $where[] = ['id','neq', $currentCid];
-        }
-
-        $categories = $this->order("list_order ASC")->where($where)->select()->toArray();
+        $categories = $this->order("list_order ASC")
+            ->where('delete_time', 0)
+            ->where(function (Query $query) use ($currentCid) {
+                if (!empty($currentCid)) {
+                    $query->where('id', 'neq', $currentCid);
+                }
+            })
+            ->select()->toArray();
 
         $tree       = new Tree();
-        $tree->icon = ['&nbsp;&nbsp;│', '&nbsp;&nbsp;├-', '&nbsp;&nbsp;└-'];
+        $tree->icon = ['&nbsp;&nbsp;│', '&nbsp;&nbsp;├─', '&nbsp;&nbsp;└─'];
         $tree->nbsp = '&nbsp;&nbsp;';
 
         $newCategories = [];
@@ -59,7 +62,7 @@ class PortalCategoryModel extends Model
 
     /**
      * 分类树形结构
-     * @param int $currentIds
+     * @param int    $currentIds
      * @param string $tpl
      * @return string
      * @throws \think\db\exception\DataNotFoundException
@@ -86,7 +89,7 @@ class PortalCategoryModel extends Model
         foreach ($categories as $item) {
             $item['parent_id_node'] = ($item['parent_id']) ? ' class="child-of-node-' . $item['parent_id'] . '"' : '';
             $item['style']          = empty($item['parent_id']) ? '' : 'display:none;';
-            $item['status_text']    = empty($item['status'])?'<span class="label label-warning">隐藏</span>':'<span class="label label-success">显示</span>';
+            $item['status_text']    = empty($item['status']) ? '<span class="label label-warning">隐藏</span>' : '<span class="label label-success">显示</span>';
             $item['checked']        = in_array($item['id'], $currentIds) ? "checked" : "";
             $item['url']            = cmf_url('portal/List/index', ['id' => $item['id']]);
             $item['str_action']     = '<a class="btn btn-xs btn-primary" href="' . url("AdminCategory/add", ["parent" => $item['id']]) . '">添加子分类</a>  <a class="btn btn-xs btn-primary" href="' . url("AdminCategory/edit", ["id" => $item['id']]) . '">' . lang('EDIT') . '</a>  <a class="btn btn-xs btn-danger js-ajax-delete" href="' . url("AdminCategory/delete", ["id" => $item['id']]) . '">' . lang('DELETE') . '</a> ';
