@@ -21,6 +21,9 @@ class Env
             case "runtime_path":
                 $value = RUNTIME_PATH;
                 break;
+            case "root_path":
+                $value = ROOT_PATH;
+                break;
             default:
                 $value = ThinkEnv::get($name, $default);
         }
