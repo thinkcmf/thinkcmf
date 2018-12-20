@@ -52,10 +52,9 @@ class ApiService
         $portalPostModel = new PortalPostModel();
 
         $where = [
-            'post.published_time' => [['> time', 0], ['<', time()]],
-            'post.post_status'    => 1,
-            'post.post_type'      => 1,
-            'post.delete_time'    => 0
+            'post.post_status' => 1,
+            'post.post_type'   => 1,
+            'post.delete_time' => 0
         ];
 
         $paramWhere = empty($param['where']) ? '' : $param['where'];
@@ -94,6 +93,7 @@ class ApiService
             ->join($join)
             ->where($where)
             ->where($paramWhere)
+            ->where('post.published_time', ['> time', 0], ['<', time()], 'and')
             ->order($order)
             ->group('post.id');
 
@@ -172,10 +172,9 @@ class ApiService
         $portalPostModel = new PortalPostModel();
 
         $where = [
-            'post.published_time' => [['> time', 0], ['<', time()]],
-            'post.post_status'    => 1,
-            'post.post_type'      => 1,
-            'post.delete_time'    => 0
+            'post.post_status' => 1,
+            'post.post_type'   => 1,
+            'post.delete_time' => 0
         ];
 
         $paramWhere = empty($param['where']) ? '' : $param['where'];
@@ -204,6 +203,7 @@ class ApiService
             ->join($join)
             ->where($where)
             ->where($paramWhere)
+            ->where('post.published_time', ['> time', 0], ['<', time()], 'and')
             ->order($order);
 
         $return = [];
@@ -254,23 +254,24 @@ class ApiService
         $portalPostModel = new PortalPostModel();
 
         $where = [
-            'published_time' => [['> time', 0], ['<', time()]],
-            'post_status'    => 1,
-            'post_type'      => 1,
-            'id'             => $id,
-            'delete_time'    => 0
+            'post_status' => 1,
+            'post_type'   => 1,
+            'id'          => $id,
+            'delete_time' => 0
         ];
 
-        return $portalPostModel->where($where)->find();
+        return $portalPostModel->where($where)
+            ->where('published_time', ['> time', 0], ['<', time()], 'and')
+            ->find();
     }
 
     /**
      * 获取指定条件的页面列表
      * @param array $param 查询参数<pre>
-     * array(
-     *  'where'=>'',
-     *  'order'=>'',
-     * )</pre>
+     *                     array(
+     *                     'where'=>'',
+     *                     'order'=>'',
+     *                     )</pre>
      * @return false|\PDOStatement|string|\think\Collection
      */
     public static function pages($param)
@@ -282,15 +283,15 @@ class ApiService
         $portalPostModel = new PortalPostModel();
 
         $where = [
-            'published_time' => [['> time', 0], ['<', time()]],
-            'post_status'    => 1,
-            'post_type'      => 2, //页面
-            'delete_time'    => 0
+            'post_status' => 1,
+            'post_type'   => 2, //页面
+            'delete_time' => 0
         ];
 
         return $portalPostModel
             ->where($where)
             ->where($paramWhere)
+            ->where('published_time', [['> time', 0], ['<', time()]], 'and')
             ->order($order)
             ->select();
     }
@@ -305,14 +306,15 @@ class ApiService
         $portalPostModel = new PortalPostModel();
 
         $where = [
-            'published_time' => [['> time', 0], ['<', time()]],
-            'post_status'    => 1,
-            'post_type'      => 2,
-            'id'             => $id,
-            'delete_time'    => 0
+            'post_status' => 1,
+            'post_type'   => 2,
+            'id'          => $id,
+            'delete_time' => 0
         ];
 
-        return $portalPostModel->where($where)->find();
+        return $portalPostModel->where($where)
+            ->where('published_time', ['> time', 0], ['<', time()], 'and')
+            ->find();
     }
 
     /**
@@ -333,27 +335,27 @@ class ApiService
         return $portalCategoryModel->where($where)->find();
     }
 
-	/**
-	 * 返回指定分类下的子分类
-	 * @param int $categoryId 分类id
-	 * @param $field string  指定查询字段
-	 * @throws \think\db\exception\DataNotFoundException
-	 * @throws \think\db\exception\ModelNotFoundException
-	 * @throws \think\exception\DbException
-	 * @return false|\PDOStatement|string|\think\Collection 返回指定分类下的子分类
-	 */
-	public static function subCategories($categoryId,$field='*')
-	{
-		$portalCategoryModel = new PortalCategoryModel();
+    /**
+     * 返回指定分类下的子分类
+     * @param int $categoryId 分类id
+     * @param     $field      string  指定查询字段
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @return false|\PDOStatement|string|\think\Collection 返回指定分类下的子分类
+     */
+    public static function subCategories($categoryId, $field = '*')
+    {
+        $portalCategoryModel = new PortalCategoryModel();
 
-		$where = [
-			'status'      => 1,
-			'delete_time' => 0,
-			'parent_id'   => $categoryId
-		];
+        $where = [
+            'status'      => 1,
+            'delete_time' => 0,
+            'parent_id'   => $categoryId
+        ];
 
-		return $portalCategoryModel->field($field)->where($where)->select();
-	}
+        return $portalCategoryModel->field($field)->where($where)->select();
+    }
 
     /**
      * 返回指定分类下的所有子分类
@@ -390,10 +392,10 @@ class ApiService
     /**
      * 返回符合条件的所有分类
      * @param array $param 查询参数<pre>
-     * array(
-     *  'where'=>'',
-     *  'order'=>'',
-     * )</pre>
+     *                     array(
+     *                     'where'=>'',
+     *                     'order'=>'',
+     *                     )</pre>
      * @return false|\PDOStatement|string|\think\Collection
      */
     public static function categories($param)
@@ -418,7 +420,7 @@ class ApiService
 
     /**
      * 获取面包屑数据
-     * @param int $categoryId 当前文章所在分类,或者当前分类的id
+     * @param int     $categoryId  当前文章所在分类,或者当前分类的id
      * @param boolean $withCurrent 是否获取当前分类
      * @return array 面包屑数据
      */
