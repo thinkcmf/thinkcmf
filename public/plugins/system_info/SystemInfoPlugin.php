@@ -10,7 +10,6 @@ namespace plugins\system_info;
 
 use cmf\lib\Plugin;
 use think\Db;
-use think\facade\App;
 
 class SystemInfoPlugin extends Plugin
 {
@@ -55,7 +54,7 @@ class SystemInfoPlugin extends Plugin
             lang('PHP_RUN_MODE')          => php_sapi_name(),
             lang('PHP_VERSION')           => phpversion(),
             lang('MYSQL_VERSION')         => $mysql,
-            'ThinkPHP'                    => App::version(),
+            'ThinkPHP'                    => cmf_thinkphp_version(),
             'ThinkCMF'                    => "{$version} <a href=\"http://www.thinkcmf.com\" target=\"_blank\">访问官网</a>",
             lang('UPLOAD_MAX_FILESIZE')   => ini_get('upload_max_filesize'),
             lang('MAX_EXECUTION_TIME')    => ini_get('max_execution_time') . "s",
