@@ -1012,7 +1012,7 @@ function cmf_is_ipad()
  * @param mixed  $params 传入参数
  * @return void
  */
-function hook($hook, &$params = null)
+function hook($hook, $params = null)
 {
     return Hook::listen($hook, $params);
 }
@@ -1023,7 +1023,7 @@ function hook($hook, &$params = null)
  * @param mixed  $params 传入参数
  * @return mixed
  */
-function hook_one($hook, &$params = null)
+function hook_one($hook, $params = null)
 {
     return Hook::listen($hook, $params, true);
 }

@@ -326,7 +326,7 @@ class IndexController extends Controller
 
     public function testDbPwd()
     {
-        if ($this->request->isPost() || true) {
+        if ($this->request->isPost()) {
             $dbConfig         = $this->request->param();
             $dbConfig['type'] = "mysql";
 
@@ -335,7 +335,6 @@ class IndexController extends Controller
             try {
 //                Db::connect($dbConfig)->query("SELECT VERSION();");
                 $engines = Db::connect($dbConfig)->query("SHOW ENGINES;");
-
 
                 foreach ($engines as $engine) {
                     if ($engine['Engine'] == 'InnoDB' && $engine['Support'] != 'NO') {
@@ -352,7 +351,7 @@ class IndexController extends Controller
                 $this->error('数据库账号密码验证通过，但不支持InnoDb!');
             }
         } else {
-            $this->error('非法请求方式1！');
+            $this->error('非法请求方式！');
         }
 
     }

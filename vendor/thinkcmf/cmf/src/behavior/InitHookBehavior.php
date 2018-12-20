@@ -10,6 +10,7 @@
 // +---------------------------------------------------------------------
 namespace cmf\behavior;
 
+use think\db\Query;
 use think\Hook;
 use think\Db;
 

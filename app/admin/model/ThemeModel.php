@@ -26,7 +26,7 @@ class ThemeModel extends Model
 
     public function installTheme($theme)
     {
-        $manifest = PLUGINS_PATH."../themes/$theme/manifest.json";
+        $manifest = PLUGINS_PATH . "../themes/$theme/manifest.json";
         if (file_exists_case($manifest)) {
             $manifest           = file_get_contents($manifest);
             $themeData          = json_decode($manifest, true);
@@ -43,7 +43,7 @@ class ThemeModel extends Model
 
     public function updateTheme($theme)
     {
-        $manifest = PLUGINS_PATH."../themes/$theme/manifest.json";
+        $manifest = PLUGINS_PATH . "../themes/$theme/manifest.json";
         if (file_exists_case($manifest)) {
             $manifest  = file_get_contents($manifest);
             $themeData = json_decode($manifest, true);
@@ -69,7 +69,7 @@ class ThemeModel extends Model
     {
         $theme = config('template.cmf_default_theme');
 
-        return Db::name('theme_file')->where([ 'theme' => $theme, 'action' => $action ])->select();
+        return Db::name('theme_file')->where(['theme' => $theme, 'action' => $action])->select();
     }
 
     private function updateThemeFiles($theme, $suffix = 'html')

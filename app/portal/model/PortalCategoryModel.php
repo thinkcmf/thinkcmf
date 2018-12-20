@@ -75,7 +75,7 @@ class PortalCategoryModel extends Model
         $categories = $this->order("list_order ASC")->where($where)->select()->toArray();
 
         $tree       = new Tree();
-        $tree->icon = ['&nbsp;&nbsp;│', '&nbsp;&nbsp;├-', '&nbsp;&nbsp;└-'];
+        $tree->icon = ['&nbsp;&nbsp;│', '&nbsp;&nbsp;├─', '&nbsp;&nbsp;└─'];
         $tree->nbsp = '&nbsp;&nbsp;';
 
         if (!is_array($currentIds)) {

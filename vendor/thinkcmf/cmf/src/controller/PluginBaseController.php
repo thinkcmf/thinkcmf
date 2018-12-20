@@ -166,7 +166,6 @@ class PluginBaseController extends BaseController
     protected function validateFailException($fail = true)
     {
         $this->failException = $fail;
-
         return $this;
     }
 
