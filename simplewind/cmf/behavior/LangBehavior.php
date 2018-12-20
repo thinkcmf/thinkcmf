@@ -10,8 +10,7 @@
 // +---------------------------------------------------------------------
 namespace cmf\behavior;
 
-use think\Lang;
-use think\Request;
+use think\facade\Lang;
 
 class LangBehavior
 {
@@ -19,10 +18,9 @@ class LangBehavior
     // 行为扩展的执行入口必须是run
     public function run()
     {
-        $request = Request::instance();
-        $langSet = $request->langset();
+        $langSet = request()->langset();
         Lang::load([
-            CMF_PATH . 'lang' . DS . $langSet . EXT,
+            __DIR__ . '/../lang' . DIRECTORY_SEPARATOR . $langSet . '.php',
         ]);
 
         // 加载应用公共语言包

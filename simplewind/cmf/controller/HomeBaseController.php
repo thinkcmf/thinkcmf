@@ -12,13 +12,12 @@ namespace cmf\controller;
 
 use think\Db;
 use app\admin\model\ThemeModel;
-use think\Debug;
 use think\View;
 
 class HomeBaseController extends BaseController
 {
 
-    public function _initialize()
+    protected function _initialize()
     {
         // 监听home_init
         hook('home_init');
@@ -27,7 +26,7 @@ class HomeBaseController extends BaseController
         View::share('site_info', $siteInfo);
     }
 
-    public function _initializeView()
+    protected function _initializeView()
     {
         $cmfThemePath    = config('cmf_theme_path');
         $cmfDefaultTheme = cmf_get_current_theme();
@@ -54,8 +53,7 @@ class HomeBaseController extends BaseController
             ];
         }
 
-        $viewReplaceStr = array_merge(config('view_replace_str'), $viewReplaceStr);
-        config('template.view_base', "{$themePath}/");
+        config('template.view_base', PLUGINS_PATH."../{$themePath}/");
         config('view_replace_str', $viewReplaceStr);
 
         $themeErrorTmpl = "{$themePath}/error.html";
@@ -103,7 +101,9 @@ var _app='{$app}';
 var _controller='{$controller}';
 var _action='{$action}';
 var _themeFile='{$more['file']}';
-parent.simulatorRefresh();
+if(parent){
+  parent.simulatorRefresh();  
+}
 </script>
 hello;
 
@@ -184,7 +184,7 @@ hello;
         $themePath = config('cmf_theme_path');
         $file      = str_replace('\\', '/', $file);
         $file      = str_replace('//', '/', $file);
-        $themeFile = str_replace(['.html', '.php', $themePath . $theme . "/"], '', $file);
+        $themeFile = str_replace(['.html', '.php', $themePath . $theme . "/",PLUGINS_PATH.'../'], '', $file);
 
         $files = Db::name('theme_file')->field('more')->where(['theme' => $theme])->where(function ($query) use ($themeFile) {
             $query->where(['is_public' => 1])->whereOr(['file' => $themeFile]);

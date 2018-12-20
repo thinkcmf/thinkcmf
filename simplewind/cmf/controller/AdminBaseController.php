@@ -32,8 +32,7 @@ class AdminBaseController extends BaseController
             if ($this->request->isPost()) {
                 $this->error("您还没有登录！", url("admin/public/login"));
             } else {
-                header("Location:" . url("admin/public/login"));
-                exit();
+                return $this->redirect(url("admin/Public/login"));
             }
         }
     }
@@ -66,8 +65,7 @@ class AdminBaseController extends BaseController
             ];
         }
 
-        $viewReplaceStr = array_merge(config('view_replace_str'), $viewReplaceStr);
-        config('template.view_base', "$themePath/");
+        config('template.view_base', PLUGINS_PATH."../$themePath/");
         config('view_replace_str', $viewReplaceStr);
     }
 

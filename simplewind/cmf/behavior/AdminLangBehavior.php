@@ -10,7 +10,7 @@
 // +---------------------------------------------------------------------
 namespace cmf\behavior;
 
-use think\Lang;
+use think\facade\Lang;
 
 class AdminLangBehavior
 {

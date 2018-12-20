@@ -12,6 +12,7 @@ namespace app\admin\controller;
 
 use cmf\controller\AdminBaseController;
 use think\Db;
+use think\facade\Cache;
 use tree\Tree;
 use app\admin\model\AdminMenuModel;
 
@@ -30,6 +31,10 @@ class RbacController extends AdminBaseController
      *     'remark' => '角色管理',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function index()
     {
@@ -56,6 +61,7 @@ class RbacController extends AdminBaseController
      *     'remark' => '添加角色',
      *     'param'  => ''
      * )
+     * @return mixed
      */
     public function roleAdd()
     {
@@ -113,6 +119,10 @@ class RbacController extends AdminBaseController
      *     'remark' => '编辑角色',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function roleEdit()
     {
@@ -146,6 +156,8 @@ class RbacController extends AdminBaseController
      *     'remark' => '编辑角色提交',
      *     'param'  => ''
      * )
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
      */
     public function roleEditPost()
     {
@@ -182,6 +194,8 @@ class RbacController extends AdminBaseController
      *     'remark' => '删除角色',
      *     'param'  => ''
      * )
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
      */
     public function roleDelete()
     {
@@ -214,6 +228,7 @@ class RbacController extends AdminBaseController
      *     'remark' => '设置角色权限',
      *     'param'  => ''
      * )
+     * @return mixed
      */
     public function authorize()
     {
@@ -275,6 +290,11 @@ class RbacController extends AdminBaseController
      *     'remark' => '角色授权提交',
      *     'param'  => ''
      * )
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
      */
     public function authorizePost()
     {
@@ -297,7 +317,7 @@ class RbacController extends AdminBaseController
                     }
                 }
 
-                cache(null, 'admin_menus');// 删除后台菜单缓存
+                Cache::clear( 'admin_menus');// 删除后台菜单缓存
 
                 $this->success("授权成功！");
             } else {

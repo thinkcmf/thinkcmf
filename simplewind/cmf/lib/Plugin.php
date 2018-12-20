@@ -32,20 +32,23 @@ abstract class Plugin
 
     /**
      * $info = array(
-     *  'name'=>'Helloworld',
-     *  'title'=>'Helloworld',
-     *  'description'=>'Helloworld',
+     *  'name'=>'HelloWorld',
+     *  'title'=>'HelloWorld',
+     *  'description'=>'HelloWorld',
      *  'status'=>1,
-     *  'author'=>'thinkcmf',
+     *  'author'=>'ThinkCMF',
      *  'version'=>'1.0'
      *  )
      */
-    public $info = [];
-    private $pluginPath = '';
-    private $name = '';
+    public  $info           = [];
+    private $pluginPath     = '';
+    private $name           = '';
     private $configFilePath = '';
-    private $themeRoot = "";
+    private $themeRoot      = "";
 
+    /**
+     * Plugin constructor.
+     */
     public function __construct()
     {
 
@@ -117,7 +120,8 @@ abstract class Plugin
      * 加载模板输出
      * @access protected
      * @param string $template 模板文件名
-     * @return mixed
+     * @return string
+     * @throws \Exception
      */
     final protected function fetch($template)
     {

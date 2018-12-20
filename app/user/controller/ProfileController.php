@@ -20,11 +20,6 @@ use think\Db;
 class ProfileController extends UserBaseController
 {
 
-    function _initialize()
-    {
-        parent::_initialize();
-    }
-
     /**
      * 会员中心首页
      */

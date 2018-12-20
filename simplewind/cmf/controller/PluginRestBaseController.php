@@ -84,12 +84,11 @@ class PluginRestBaseController extends RestBaseController
         if (!$v->check($data)) {
             if ($this->failException) {
                 throw new ValidateException($v->getError());
-            } else {
-                return $v->getError();
             }
-        } else {
-            return true;
+            return $v->getError();
         }
+
+        return true;
     }
 
 

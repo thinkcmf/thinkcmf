@@ -47,19 +47,19 @@ class UeditorController extends HomeBaseController
     /**
      * 初始化
      */
-    function _initialize()
+    public function _initialize()
     {
         $adminId = cmf_get_current_admin_id();
         $userId  = cmf_get_current_user_id();
         if (empty($adminId) && empty($userId)) {
-            exit("非法上传！");
+            $this->error("非法上传！");
         }
     }
 
     /**
      * 处理上传处理
      */
-    function upload()
+    public function upload()
     {
         error_reporting(E_ERROR);
         header("Content-Type: text/html; charset=utf-8");

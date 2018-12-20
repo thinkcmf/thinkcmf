@@ -17,7 +17,7 @@ use think\Db;
 class IndexController extends Controller
 {
 
-    public function _initialize()
+    protected function _initialize()
     {
         if (cmf_is_installed()) {
             $this->error('网站已经安装', cmf_get_root() . '/');
@@ -295,7 +295,7 @@ class IndexController extends Controller
             cmf_set_option('site_info', $siteInfo);
             Db::name('user')->insert($admin);
         } catch (\Exception $e) {
-            $this->error("网站创建失败!");
+            $this->error("网站创建失败!".$e->getMessage());
         }
 
         $this->success("网站创建完成!");
@@ -333,7 +333,7 @@ class IndexController extends Controller
             $supportInnoDb = false;
 
             try {
-                Db::connect($dbConfig)->query("SELECT VERSION();");
+//                Db::connect($dbConfig)->query("SELECT VERSION();");
                 $engines = Db::connect($dbConfig)->query("SHOW ENGINES;");
 
                 foreach ($engines as $engine) {
@@ -343,7 +343,7 @@ class IndexController extends Controller
                     }
                 }
             } catch (\Exception $e) {
-                $this->error('数据库账号或密码不正确！');
+                $this->error('数据库账号或密码不正确！' . $e->getMessage());
             }
             if ($supportInnoDb) {
                 $this->success('验证成功！');

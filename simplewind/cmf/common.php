@@ -14,8 +14,8 @@ use think\Url;
 use dir\Dir;
 use think\Route;
 use think\Loader;
-use think\Request;
 use cmf\lib\Storage;
+use think\Hook;
 
 // 应用公共文件
 
@@ -95,11 +95,13 @@ function cmf_get_domain()
 function cmf_get_root()
 {
     $root = request()->root();
+    $root = str_replace("//", '/', $root);
     $root = str_replace('/index.php', '', $root);
     if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
         $root = preg_replace('/\/api$/', '', $root);
-        $root = rtrim($root, '/');
     }
+
+    $root = rtrim($root, '/');
 
     return $root;
 }
@@ -306,6 +308,11 @@ function cmf_random_string($len = 6)
  */
 function cmf_clear_cache()
 {
+    // 清除 opcache缓存
+    if (function_exists("opcache_reset")) {
+        opcache_reset();
+    }
+
     $dirs     = [];
     $rootDirs = cmf_scan_dir(RUNTIME_PATH . "*");
     //$noNeedClear=array(".","..","Data");
@@ -1006,7 +1013,7 @@ function cmf_is_ipad()
  */
 function hook($hook, &$params = null)
 {
-    return \think\Hook::listen($hook, $params, null);
+    return Hook::listen($hook, $params);
 }
 
 /**
@@ -1017,7 +1024,7 @@ function hook($hook, &$params = null)
  */
 function hook_one($hook, &$params = null)
 {
-    return \think\Hook::listen($hook, $params, null, true);
+    return Hook::listen($hook, $params, null, true);
 }
 
 

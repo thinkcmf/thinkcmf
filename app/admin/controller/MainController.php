@@ -17,11 +17,6 @@ use app\admin\model\Menu;
 class MainController extends AdminBaseController
 {
 
-    public function _initialize()
-    {
-        parent::_initialize();
-    }
-
     /**
      *  后台欢迎页
      */

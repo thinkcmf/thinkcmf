@@ -15,11 +15,6 @@ use cmf\controller\AdminBaseController;
 class StorageController extends AdminBaseController
 {
 
-    public function _initialize()
-    {
-        parent::_initialize();
-    }
-
     /**
      * 文件存储
      * @adminMenu(
