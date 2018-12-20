@@ -1,4 +1,4 @@
-ThinkCMF 5.0.181212 正式版
+ThinkCMF 5.0.181225 Beta
 ===============
 
 ### 系列讲座
@@ -127,6 +127,16 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
+#### 5.0.181225
+* 优化代码兼容ThinkPHP5.1 
+* 优化清除缓存,清除`opcache`缓存
+* 修复七牛获取水印样式报错
+* 修复模板设计后,前台 js 报错
+* 规范控制器_initialize方法为initialize
+* 调整`cmf_theme_path,cmf_default_theme,cmf_admin_theme_path,cmf_admin_default_theme`到 `template` 配置下
+* 增加数据库调试模式开关
+* `hook,hook_one`取消`$extra`参数
+
 #### 5.0.181212
 * 升级ThinkPHP到`5.0.23`(包含安全更新)
 * 增加`js-bootstrap-year`前端组件
