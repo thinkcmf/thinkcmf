@@ -101,7 +101,7 @@ parse;
         $root                    = isset($tag['root']) ? $tag['root'] : 'ul';
         $class                   = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
         $maxLevel                = isset($tag['max-level']) ? intval($tag['max-level']) : 0;
-        $parseNavigationFuncName = '__parse_navigation' . md5(uniqid('_nav' . $navId . __LINE__, true));
+        $parseNavigationFuncName = '__parse_navigation' . md5($navId.$id.$class);
 
         if (strpos($navId, '$') === 0) {
             $this->autoBuildVar($navId);
@@ -111,15 +111,19 @@ parse;
 
         $parse = <<<parse
 <?php
-
-function {$parseNavigationFuncName}(\$menus,\$level=1){
-\$_parse_navigation_func_name = '{$parseNavigationFuncName}';
+/*start*/
+if (!function_exists('{$parseNavigationFuncName}')) {
+    function {$parseNavigationFuncName}(\$menus,\$level=1){
+        \$_parse_navigation_func_name = '{$parseNavigationFuncName}';
 ?>
-    <foreach name="menus" item="menu">
-    {$content}
-    </foreach>
+        <foreach name="menus" item="menu">
+        {$content}
+        </foreach>
+        
 <?php 
+    }
 }
+/*end*/
 ?>
 
 <?php
@@ -207,7 +211,7 @@ parse;
         $root                       = isset($tag['root']) ? $tag['root'] : 'ul';
         $class                      = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
         $maxLevel                   = isset($tag['max-level']) ? intval($tag['max-level']) : 0;
-        $parseSubNavigationFuncName = '__parse_sub_navigation' . md5(uniqid('_nav' . $parent . $id . __LINE__, true));;
+        $parseSubNavigationFuncName = '__parse_sub_navigation' . md5($navId.$id.$class);;
 
         if (strpos($parent, '$') === 0) {
             $this->autoBuildVar($parent);
@@ -217,13 +221,15 @@ parse;
 
         $parse = <<<parse
 <?php
-function {$parseSubNavigationFuncName}(\$menus,\$level=1){
-\$_parse_sub_navigation_func_name = '{$parseSubNavigationFuncName}';
+if (!function_exists('{$parseNavigationFuncName}')) {
+    function {$parseSubNavigationFuncName}(\$menus,\$level=1){
+        \$_parse_sub_navigation_func_name = '{$parseSubNavigationFuncName}';
 ?>
-    <foreach name="menus" item="menu">
-    {$content}
-    </foreach>
+        <foreach name="menus" item="menu">
+        {$content}
+        </foreach>
 <?php 
+    }
 }
 ?>
 
