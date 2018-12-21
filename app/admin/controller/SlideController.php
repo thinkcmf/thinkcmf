@@ -39,7 +39,7 @@ class SlideController extends AdminBaseController
         }
 
         $slidePostModel = new SlideModel();
-        $slides         = $slidePostModel->where(['delete_time' => ['eq', 0]])->select();
+        $slides         = $slidePostModel->where('delete_time' ,'eq', 0)->select();
         $this->assign('slides', $slides);
         return $this->fetch();
     }
