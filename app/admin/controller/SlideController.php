@@ -18,7 +18,7 @@ class SlideController extends AdminBaseController
 {
 
     /**
-     * 幻灯片列表
+     *    * 幻灯片列表
      * @adminMenu(
      *     'name'   => '幻灯片管理',
      *     'parent' => 'admin/Setting/default',
@@ -29,6 +29,10 @@ class SlideController extends AdminBaseController
      *     'remark' => '幻灯片管理',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function index()
     {
@@ -39,7 +43,7 @@ class SlideController extends AdminBaseController
         }
 
         $slidePostModel = new SlideModel();
-        $slides         = $slidePostModel->where(['delete_time' => ['eq', 0]])->select();
+        $slides         = $slidePostModel->where('delete_time','eq', 0)->select();
         $this->assign('slides', $slides);
         return $this->fetch();
     }
