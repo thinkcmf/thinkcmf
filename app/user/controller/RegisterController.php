@@ -11,7 +11,7 @@
 namespace app\user\controller;
 
 use cmf\controller\HomeBaseController;
-use think\Validate;
+use think\facade\Validate;
 use app\user\model\UserModel;
 
 class RegisterController extends HomeBaseController
@@ -56,7 +56,7 @@ class RegisterController extends HomeBaseController
                 unset($rules['code']);
             }
 
-            $validate = new Validate($rules);
+            $validate = new \think\Validate($rules);
             $validate->message([
                 'code.require'     => '验证码不能为空',
                 'password.require' => '密码不能为空',

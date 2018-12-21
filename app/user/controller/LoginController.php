@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\user\controller;
 
-use think\Validate;
+use think\facade\Validate;
 use cmf\controller\HomeBaseController;
 use app\user\model\UserModel;
 
@@ -47,7 +47,7 @@ class LoginController extends HomeBaseController
     public function doLogin()
     {
         if ($this->request->isPost()) {
-            $validate = new Validate([
+            $validate = new \think\Validate([
                 'captcha'  => 'require',
                 'username' => 'require',
                 'password' => 'require|min:6|max:32',
@@ -120,7 +120,7 @@ class LoginController extends HomeBaseController
     {
 
         if ($this->request->isPost()) {
-            $validate = new Validate([
+            $validate = new \think\Validate([
                 'captcha'           => 'require',
                 'verification_code' => 'require',
                 'password'          => 'require|min:6|max:32',
