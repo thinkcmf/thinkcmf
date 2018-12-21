@@ -101,7 +101,7 @@ parse;
         $root                    = isset($tag['root']) ? $tag['root'] : 'ul';
         $class                   = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
         $maxLevel                = isset($tag['max-level']) ? intval($tag['max-level']) : 0;
-        $parseNavigationFuncName = '__parse_navigation' . md5($navId.$id.$class);
+        $parseNavigationFuncName = '__parse_navigation_' . md5($navId.$id.$class);
 
         if (strpos($navId, '$') === 0) {
             $this->autoBuildVar($navId);
@@ -211,7 +211,7 @@ parse;
         $root                       = isset($tag['root']) ? $tag['root'] : 'ul';
         $class                      = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
         $maxLevel                   = isset($tag['max-level']) ? intval($tag['max-level']) : 0;
-        $parseSubNavigationFuncName = '__parse_sub_navigation' . md5($navId.$id.$class);;
+        $parseSubNavigationFuncName = '__parse_sub_navigation_' . md5($navId.$id.$class);;
 
         if (strpos($parent, '$') === 0) {
             $this->autoBuildVar($parent);
@@ -221,7 +221,7 @@ parse;
 
         $parse = <<<parse
 <?php
-if (!function_exists('{$parseNavigationFuncName}')) {
+if (!function_exists('{$parseSubNavigationFuncName}')) {
     function {$parseSubNavigationFuncName}(\$menus,\$level=1){
         \$_parse_sub_navigation_func_name = '{$parseSubNavigationFuncName}';
 ?>
