@@ -1024,7 +1024,7 @@ function hook($hook, &$params = null)
  */
 function hook_one($hook, &$params = null)
 {
-    return Hook::listen($hook, $params, null, true);
+    return Hook::listen($hook, $params, true);
 }
 
 
