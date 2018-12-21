@@ -30,7 +30,8 @@
         "phpoffice/phpexcel": "^1.8",
         "ezyang/htmlpurifier": "^4.9",
         "topthink/think-queue": "^1.1.4",
-        "electrolinux/phpquery": "^0.9.6"
+        "electrolinux/phpquery": "^0.9.6",
+        "ext-json": "*"
     },
     "extra": {
         "think-path":"simplewind/thinkphp"
