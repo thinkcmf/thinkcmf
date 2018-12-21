@@ -1027,7 +1027,6 @@ function hook_one($hook, &$params = null)
     return Hook::listen($hook, $params, true);
 }
 
-
 /**
  * 获取插件类的类名
  * @param string $name 插件名

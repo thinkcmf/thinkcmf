@@ -230,4 +230,4 @@ $configs = [
         'connector' => '\\cmf\\queue\\connector\\Database'
     ],
 ];
-return array_merge($configs, $runtimeConfig);
+return array_merge_recursive($configs, $runtimeConfig);
