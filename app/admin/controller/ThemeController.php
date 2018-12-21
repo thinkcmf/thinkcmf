@@ -200,7 +200,7 @@ class ThemeController extends AdminBaseController
             $this->error('模板未安装!');
         }
 
-        $result = cmf_set_dynamic_config(['cmf_default_theme' => $theme]);
+        $result = cmf_set_dynamic_config(['template' => ['cmf_default_theme' => $theme]]);
 
         if ($result === false) {
             $this->error('配置写入失败!');
