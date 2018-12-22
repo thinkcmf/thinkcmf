@@ -57,6 +57,10 @@ class Application extends App
                 $header['http_referer'] = $header['referer'];
             }
 
+            if (isset($_GET[$this->config->get('var_pathinfo')])) {
+                $request->server['path_info'] = $_GET[$this->config->get('var_pathinfo')];
+            }
+
             $server  = array_change_key_case($request->server, CASE_UPPER);
             $_SERVER = array_merge($server, array_change_key_case($header, CASE_UPPER));
 
