@@ -18,6 +18,9 @@ define('CMF_ROOT', __DIR__ . '/../');
 // 定义应用目录
 define('APP_PATH', CMF_ROOT . 'app/');
 
+// 定义网站入口目录
+define('WEB_ROOT', __DIR__ . '/');
+
 // 定义插件目录
 define('PLUGINS_PATH', __DIR__ . '/plugins/');
 

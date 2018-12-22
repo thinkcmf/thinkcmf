@@ -10,9 +10,11 @@
 // +---------------------------------------------------------------------
 namespace cmf\lib;
 
+use think\exception\HttpResponseException;
 use think\facade\Env;
 use think\File;
 use app\user\model\AssetModel;
+use think\Response;
 
 /**
  * ThinkCMF上传类,分块上传
@@ -76,18 +78,9 @@ class Upload
         //$strPostMaxSize       = ini_get("post_max_size");
         //$strUploadMaxFileSize = ini_get("upload_max_filesize");
 
-        /**
-         * 断点续传 need
-         */
-        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-        header("Cache-Control: no-store, no-cache, must-revalidate");
-        header("Cache-Control: post-check=0, pre-check=0", false);
-        header("Pragma: no-cache");
-        header("Access-Control-Allow-Origin: *"); // Support CORS
 
         if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') { // other CORS headers if any...
-            exit; // finish preflight CORS requests here
+//            exit; // finish preflight CORS requests here
         }
 
         @set_time_limit(24 * 60 * 60);
@@ -190,11 +183,24 @@ class Upload
         }
 
         if (!$done) {
-            die('');//分片没上传完
+            /**
+             * 断点续传 need
+             */
+//            header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+//            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+//            header("Cache-Control: no-store, no-cache, must-revalidate");
+//            header("Cache-Control: post-check=0, pre-check=0", false);
+//            header("Pragma: no-cache");
+//            header("Access-Control-Allow-Origin: *"); // Support CORS
+//            die('');//分片没上传完
+            $response = Response::create();
+            throw new HttpResponseException($response);
         }
 
+        $uploadPath = WEB_ROOT . 'upload/';
+
         $fileSaveName    = (empty($app) ? '' : $app . '/') . $strDate . '/' . md5(uniqid()) . "." . $strFileExtension;
-        $strSaveFilePath = './upload/' . $fileSaveName; //TODO 测试 windows 下
+        $strSaveFilePath = $uploadPath . $fileSaveName; //TODO 测试 windows 下
         $strSaveFileDir  = dirname($strSaveFilePath);
         if (!file_exists($strSaveFileDir)) {
             mkdir($strSaveFileDir, 0777, true);
@@ -290,20 +296,20 @@ class Upload
         }
 
         $needUploadToRemoteStorage = false;//是否要上传到云存储
-        if ($objAsset && $storage['type'] =='Local') {
+        if ($objAsset && $storage['type'] == 'Local') {
             $arrAsset = $objAsset->toArray();
             //$arrInfo["url"] = $this->request->domain() . $arrAsset["file_path"];
             $arrInfo["file_path"] = $arrAsset["file_path"];
-            if (file_exists('./upload/' . $arrInfo["file_path"])) {
+            if (file_exists($uploadPath . $arrInfo["file_path"])) {
                 @unlink($strSaveFilePath); // 删除已经上传的文件
             } else {
-                $oldFileDir = dirname('./upload/' . $arrInfo["file_path"]);
+                $oldFileDir = dirname($uploadPath . $arrInfo["file_path"]);
 
                 if (!file_exists($oldFileDir)) {
                     mkdir($oldFileDir, 0777, true);
                 }
 
-                @rename($strSaveFilePath, './upload/' . $arrInfo["file_path"]);
+                @rename($strSaveFilePath, $uploadPath . $arrInfo["file_path"]);
             }
 
         } else {
@@ -320,11 +326,11 @@ class Upload
 
         if ($storage['type'] != 'Local') { //  增加存储驱动
             $watermark = cmf_get_plugin_config($storage['type']);
-            $storage = new Storage($storage['type'], $storage['storages'][$storage['type']]);
+            $storage   = new Storage($storage['type'], $storage['storages'][$storage['type']]);
 
             if ($needUploadToRemoteStorage) {
                 session_write_close();
-                $result = $storage->upload($arrInfo["file_path"], './upload/' . $arrInfo["file_path"], $fileType);
+                $result = $storage->upload($arrInfo["file_path"], $uploadPath . $arrInfo["file_path"], $fileType);
                 if (!empty($result)) {
                     return array_merge([
                         'filepath'    => $arrInfo["file_path"],
@@ -337,7 +343,7 @@ class Upload
             } else {
                 $previewUrl = $fileType == 'image' ? $storage->getPreviewUrl($arrInfo["file_path"]) : $storage->getFileDownloadUrl($arrInfo["file_path"]);
                 $url        = $fileType == 'image' ? $storage->getImageUrl($arrInfo["file_path"], $watermark['styles_watermark']) : $storage->getFileDownloadUrl($arrInfo["file_path"]);
-                            //测试ing
+                //测试ing
                 return [
                     'filepath'    => $arrInfo["file_path"],
                     "name"        => $arrInfo["filename"],

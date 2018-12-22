@@ -30,6 +30,9 @@ define('CONFIG_PATH', CMF_ROOT . 'data/config/');
 // 定义命名空间
 define('APP_NAMESPACE','api');
 
+// 定义网站入口目录
+define('WEB_ROOT', __DIR__ . '/');
+
 // 定义插件目录
 define('PLUGINS_PATH', __DIR__ . '/plugins/');
 
