@@ -235,10 +235,13 @@ abstract class Plugin
      */
     final public function getConfig()
     {
-        static $_config = [];
         $name = $this->getName();
-        if (isset($_config[$name])) {
-            return $_config[$name];
+
+        if (PHP_SAPI != 'cli') {
+            static $_config = [];
+            if (isset($_config[$name])) {
+                return $_config[$name];
+            }
         }
 
         $config = Db::name('plugin')->where('name', $name)->value('config');

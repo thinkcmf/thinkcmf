@@ -112,10 +112,12 @@ function cmf_get_root()
  */
 function cmf_get_current_theme()
 {
-    static $_currentTheme;
+    if (PHP_SAPI != 'cli') {
+        static $_currentTheme;
 
-    if (!empty($_currentTheme)) {
-        return $_currentTheme;
+        if (!empty($_currentTheme)) {
+            return $_currentTheme;
+        }
     }
 
     $t     = 't';
@@ -157,10 +159,13 @@ function cmf_get_current_theme()
  */
 function cmf_get_current_admin_theme()
 {
-    static $_currentAdminTheme;
+    if (PHP_SAPI != 'cli') {
 
-    if (!empty($_currentAdminTheme)) {
-        return $_currentAdminTheme;
+        static $_currentAdminTheme;
+
+        if (!empty($_currentAdminTheme)) {
+            return $_currentAdminTheme;
+        }
     }
 
     $t     = '_at';
@@ -331,12 +336,12 @@ function cmf_clear_cache()
                         if (is_dir($tDir)) {
                             array_push($dirs, $tDir);
                         } else {
-                            @unlink($tDir);
+//                            @unlink($tDir);
                         }
                     }
                 }
             } else {
-                @unlink($dir);
+//                @unlink($dir);
             }
         }
     }
@@ -472,7 +477,7 @@ function cmf_set_option($key, $data, $replace = false)
 
         $option['option_value'] = json_encode($data);
         Db::name('option')->where('option_name', $key)->update($option);
-        Db::name('option')->getLastSql();
+//        echo Db::name('option')->getLastSql() . "\n";
     } else {
         $option['option_name']  = $key;
         $option['option_value'] = json_encode($data);
@@ -495,13 +500,15 @@ function cmf_get_option($key)
         return [];
     }
 
-    static $cmfGetOption;
+    if (PHP_SAPI != 'cli') {
+        static $cmfGetOption;
 
-    if (empty($cmfGetOption)) {
-        $cmfGetOption = [];
-    } else {
-        if (!empty($cmfGetOption[$key])) {
-            return $cmfGetOption[$key];
+        if (empty($cmfGetOption)) {
+            $cmfGetOption = [];
+        } else {
+            if (!empty($cmfGetOption[$key])) {
+                return $cmfGetOption[$key];
+            }
         }
     }
 
@@ -929,10 +936,12 @@ function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, 
  */
 function cmf_is_mobile()
 {
-    static $cmf_is_mobile;
+    if (PHP_SAPI != 'cli') {
+        static $cmf_is_mobile;
 
-    if (isset($cmf_is_mobile))
-        return $cmf_is_mobile;
+        if (isset($cmf_is_mobile))
+            return $cmf_is_mobile;
+    }
 
     $cmf_is_mobile = request()->isMobile();
 
@@ -1598,11 +1607,11 @@ function cmf_url_encode($url, $params)
  */
 function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
 {
-    static $routes;
+    global $CMF_GV_routes;
 
-    if (empty($routes)) {
+    if (empty($CMF_GV_routes)) {
         $routeModel = new \app\admin\model\RouteModel();
-        $routes     = $routeModel->getRoutes();
+        $CMF_GV_routes     = $routeModel->getRoutes();
     }
 
     if (false === strpos($url, '://') && 0 !== strpos($url, '/')) {
