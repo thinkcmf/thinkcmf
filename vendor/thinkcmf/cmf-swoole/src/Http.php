@@ -136,8 +136,7 @@ class Http extends Server
     public function onWorkerStart($server, $worker_id)
     {
         // 应用实例化
-        $this->app       = new Application($this->appPath);
-        $this->lastMtime = time();
+        $this->app = new Application($this->appPath);
 
         //swoole server worker启动行为
         $hook = Container::get('hook');
@@ -169,6 +168,8 @@ class Http extends Server
 
         // 应用初始化
         $this->app->initialize();
+
+        $this->lastMtime = time();
 
         $this->app->bindTo([
             'cookie'  => Cookie::class,
@@ -213,7 +214,7 @@ class Http extends Server
      */
     protected function monitor($server)
     {
-        $paths = $this->monitor['path'] ?: [$this->app->getAppPath(), $this->app->getConfigPath()];
+        $paths = $this->monitor['path'] ?: [$this->app->getAppPath(), $this->app->getConfigPath(), cmf_core_path().'../'];
         $timer = $this->monitor['interval'] ?: 2;
 
         $server->tick($timer, function () use ($paths, $server) {
@@ -227,10 +228,13 @@ class Http extends Server
                     }
 
                     if ($this->lastMtime < $file->getMTime()) {
+//                        $lastMDateTime = date('Y-m-d H:i:s', $this->lastMtime);
+//                        $fileMDateTime = date('Y-m-d H:i:s', $file->getMTime());
+//                        echo "workerId:{$this->workerId} lastMDateTime:{$lastMDateTime} fileMDateTime:{$fileMDateTime}";
                         $this->lastMtime = $file->getMTime();
-                        echo $this->lastMtime.'[update ]' . $file . " reload...\n";
+                        echo '[update]' . $file . " reload...\n";
                         $server->reload();
-                        return;
+                        break;
                     }
                 }
             }
@@ -286,9 +290,9 @@ class Http extends Server
     /**
      * 任务投递
      * @param HttpServer $serv
-     * @param $task_id
-     * @param $fromWorkerId
-     * @param $data
+     * @param            $task_id
+     * @param            $fromWorkerId
+     * @param            $data
      * @return mixed|null
      */
     public function onTask(HttpServer $serv, $task_id, $fromWorkerId, $data)
@@ -318,8 +322,8 @@ class Http extends Server
     /**
      * 任务结束，如果有自定义任务结束回调方法则不会触发该方法
      * @param HttpServer $serv
-     * @param $task_id
-     * @param $data
+     * @param            $task_id
+     * @param            $data
      */
     public function onFinish(HttpServer $serv, $task_id, $data)
     {
