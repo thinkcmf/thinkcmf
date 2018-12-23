@@ -159,7 +159,7 @@ class ProfileController extends UserBaseController
         $result = $file->validate([
             'ext'  => 'jpg,jpeg,png',
             'size' => 1024 * 1024
-        ])->move('.' . DS . 'upload' . DS . 'avatar' . DS);
+        ])->move(WEB_ROOT . 'upload' . DIRECTORY_SEPARATOR . 'avatar' . DIRECTORY_SEPARATOR);
 
         if ($result) {
             $avatarSaveName = str_replace('//', '/', str_replace('\\', '/', $result->getSaveName()));
@@ -192,7 +192,7 @@ class ProfileController extends UserBaseController
             $x = $this->request->param('x', 0, 'intval');
             $y = $this->request->param('y', 0, 'intval');
 
-            $avatarPath = "./upload/" . $avatar;
+            $avatarPath = WEB_ROOT . "upload/" . $avatar;
 
             $avatarImg = Image::open($avatarPath);
             $avatarImg->crop($w, $h, $x, $y)->save($avatarPath);
