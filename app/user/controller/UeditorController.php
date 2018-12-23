@@ -145,7 +145,7 @@ class UeditorController extends HomeBaseController
         $uploadMaxFileSize = $uploadSetting["image"]['upload_max_filesize'];
         $uploadMaxFileSize = empty($uploadMaxFileSize) ? 2048 : $uploadMaxFileSize;//默认2M
         $allowedExts       = explode(',', $uploadSetting["image"]["extensions"]);
-        $strSavePath       = ROOT_PATH . 'public' . DS . "ueditor" . DS . $date . DS;
+        $strSavePath       = ROOT_PATH . 'public' . DIRECTORY_SEPARATOR . "ueditor" . DIRECTORY_SEPARATOR . $date . DIRECTORY_SEPARATOR;
         //远程抓取图片配置
         $config = [
             "savePath"   => $strSavePath,            //保存路径
@@ -291,7 +291,7 @@ class UeditorController extends HomeBaseController
     private function ueditorConfig()
     {
 
-        $config_text    = preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents("./static/js/ueditor/config.json"));
+        $config_text    = preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents(WEB_ROOT . "static/js/ueditor/config.json"));
         $config         = json_decode($config_text, true);
         $upload_setting = cmf_get_upload_setting();
 
@@ -353,7 +353,7 @@ class UeditorController extends HomeBaseController
 
     /**
      * 遍历获取目录下的指定类型的文件
-     * @param $path
+     * @param       $path
      * @param array $files
      * @return array
      */
