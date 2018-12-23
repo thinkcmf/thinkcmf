@@ -32,7 +32,10 @@ define('RUNTIME_PATH', CMF_ROOT . 'data/runtime_cli/');
 // 加载基础文件
 require __DIR__ . '/vendor/thinkphp/base.php';
 
-Loader::addClassMap('think\\App', __DIR__ . '/vendor/thinkcmf/cmf/src/App.php');
+Loader::addClassMap([
+    'think\\App' => __DIR__ . '/vendor/thinkcmf/cmf/src/App.php',
+    'think\\Log' => __DIR__ . '/vendor/thinkcmf/cmf/src/Log.php'
+]);
 
 // 应用初始化
 Container::get('app', [APP_PATH])->initialize();

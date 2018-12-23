@@ -14,6 +14,7 @@ namespace think\swoole;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use think\App;
+use think\Db;
 use think\Error;
 use think\exception\HttpException;
 
@@ -32,6 +33,12 @@ class Application extends App
     public function swoole(Request $request, Response $response)
     {
         try {
+//            echo "\Swoole\Coroutine::getuid():" . \Swoole\Coroutine::getuid() . "\n";
+            
+//            if(rand(1,4)==1){
+//                echo "start sleep 10;\n";
+//                \Swoole\Coroutine::sleep(10);
+//            }
             // 屏蔽 favicon.ico
             $uri = $request->server['request_uri'];
             if ($uri == '/favicon.ico') {
@@ -45,6 +52,12 @@ class Application extends App
             // 重置应用的开始时间和内存占用
             $this->beginTime = microtime(true);
             $this->beginMem  = memory_get_usage();
+
+            // 重置数据库查询次数
+            Db::$queryTimes = 0;
+
+            // 重置数据库执行次数
+            Db::$executeTimes = 0;
 
             // 销毁当前请求对象实例
             $this->delete('think\Request');
