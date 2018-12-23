@@ -13,6 +13,8 @@ namespace app\user\controller;
 use app\user\model\AssetModel;
 use cmf\controller\HomeBaseController;
 use cmf\lib\Upload;
+use think\exception\HttpResponseException;
+use think\Response;
 
 /**
  * 百度编辑器文件上传处理控制器
@@ -61,8 +63,8 @@ class UeditorController extends HomeBaseController
      */
     public function upload()
     {
-        error_reporting(E_ERROR);
-        header("Content-Type: text/html; charset=utf-8");
+//        error_reporting(E_ERROR);
+//        header("Content-Type: text/html; charset=utf-8");
 
         $action = $this->request->param('action');
 
@@ -118,7 +120,8 @@ class UeditorController extends HomeBaseController
                 ]);
             }
         } else {
-            exit($result);
+            $response = Response::create(json_decode($result,true),'json');
+            throw new HttpResponseException($response);
         }
     }
 
