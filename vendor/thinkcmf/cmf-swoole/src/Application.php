@@ -32,6 +32,14 @@ class Application extends App
     public function swoole(Request $request, Response $response)
     {
         try {
+            // 屏蔽 favicon.ico
+            $uri = $request->server['request_uri'];
+            if ($uri == '/favicon.ico') {
+                $response->status(404);
+                $response->end();
+                return;
+            }
+
             ob_start();
 
             // 重置应用的开始时间和内存占用
