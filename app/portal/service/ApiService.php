@@ -13,6 +13,7 @@ namespace app\portal\service;
 use app\portal\model\PortalPostModel;
 use app\portal\model\PortalCategoryModel;
 use think\Db;
+use think\db\Query;
 
 class ApiService
 {
@@ -69,6 +70,8 @@ class ApiService
             //['__USER__ user', 'post.user_id = user.id'],
         ];
 
+        $whereCategoryId = null;
+
         if (!empty($categoryIds)) {
 
             $field = !empty($param['field']) ? $param['field'] : 'post.*,min(category_post.category_id) as category_id';
@@ -79,9 +82,13 @@ class ApiService
             }
 
             if (count($categoryIds) == 1) {
-                $where['category_post.category_id'] = $categoryIds[0];
+                $whereCategoryId = function (Query $query) use ($categoryIds) {
+                    $query->where('category_post.category_id', $categoryIds[0]);
+                };
             } else {
-                $where['category_post.category_id'] = ['in', $categoryIds];
+                $whereCategoryId = function (Query $query) use ($categoryIds) {
+                    $query->where('category_post.category_id', 'in', $categoryIds);
+                };
             }
         } else {
 
@@ -93,6 +100,7 @@ class ApiService
             ->join($join)
             ->where($where)
             ->where($paramWhere)
+            ->where($whereCategoryId)
             ->where('post.published_time', ['> time', 0], ['<', time()], 'and')
             ->order($order)
             ->group('post.id');
