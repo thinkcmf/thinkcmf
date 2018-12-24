@@ -1372,7 +1372,6 @@ function cmf_verification_code_log($account, $code, $expireTime = 0)
             $count = Db::raw('count+1');
         }
         $result = Db::name('verification_code')
-            ->fetchSql(true)
             ->where('account', $account)
             ->update([
                 'send_time'   => $currentTime,
