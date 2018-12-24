@@ -1345,18 +1345,25 @@ function cmf_get_verification_code($account, $length = 6)
 }
 
 /**
+ *
  * 更新手机或邮箱验证码发送日志
  * @param string $account    手机或邮箱
  * @param string $code       验证码
  * @param int    $expireTime 过期时间
- * @return boolean
+ * @return int|string
+ * @throws \think\Exception
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\ModelNotFoundException
+ * @throws \think\exception\DbException
+ * @throws \think\exception\PDOException
  */
 function cmf_verification_code_log($account, $code, $expireTime = 0)
 {
     $currentTime           = time();
     $expireTime            = $expireTime > $currentTime ? $expireTime : $currentTime + 30 * 60;
-    $verificationCodeQuery = Db::name('verification_code');
-    $findVerificationCode  = $verificationCodeQuery->where('account', $account)->find();
+
+    $findVerificationCode  = Db::name('verification_code')->where('account', $account)->find();
+
     if ($findVerificationCode) {
         $todayStartTime = strtotime(date("Y-m-d"));//当天0点
         if ($findVerificationCode['send_time'] <= $todayStartTime) {
@@ -1364,7 +1371,8 @@ function cmf_verification_code_log($account, $code, $expireTime = 0)
         } else {
             $count = Db::raw('count+1');
         }
-        $result = $verificationCodeQuery
+        $result = Db::name('verification_code')
+            ->fetchSql(true)
             ->where('account', $account)
             ->update([
                 'send_time'   => $currentTime,
@@ -1373,7 +1381,7 @@ function cmf_verification_code_log($account, $code, $expireTime = 0)
                 'count'       => $count
             ]);
     } else {
-        $result = $verificationCodeQuery
+        $result = Db::name('verification_code')
             ->insert([
                 'account'     => $account,
                 'send_time'   => $currentTime,
