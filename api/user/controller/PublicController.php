@@ -9,15 +9,22 @@
 namespace api\user\controller;
 
 use think\Db;
-use think\Validate;
+use think\facade\Validate;
 use cmf\controller\RestBaseController;
 
 class PublicController extends RestBaseController
 {
-    // 用户注册
+    /**
+     *  用户注册
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
+     */
     public function register()
     {
-        $validate = new Validate([
+        $validate = new \think\Validate([
             'username'          => 'require',
             'password'          => 'require',
             'verification_code' => 'require'
@@ -75,10 +82,18 @@ class PublicController extends RestBaseController
 
     }
 
-    // 用户登录 TODO 增加最后登录信息记录,如 ip
+    /**
+     * 用户登录
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
+     */
+    // TODO 增加最后登录信息记录,如 ip
     public function login()
     {
-        $validate = new Validate([
+        $validate = new \think\Validate([
             'username' => 'require',
             'password' => 'require'
         ]);
@@ -160,7 +175,11 @@ class PublicController extends RestBaseController
         $this->success("登录成功!", ['token' => $token, 'user' => $findUser]);
     }
 
-    // 用户退出
+    /**
+     * 用户退出
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
+     */
     public function logout()
     {
         $userId = $this->getUserId();
@@ -173,10 +192,17 @@ class PublicController extends RestBaseController
         $this->success("退出成功!");
     }
 
-    // 用户密码重置
+    /**
+     * 用户密码重置
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
+     */
     public function passwordReset()
     {
-        $validate = new Validate([
+        $validate = new \think\Validate([
             'username'          => 'require',
             'password'          => 'require',
             'verification_code' => 'require'
