@@ -1400,18 +1400,23 @@ function cmf_verification_code_log($account, $code, $expireTime = 0)
  * @param string  $code    验证码
  * @param boolean $clear   是否验证后销毁验证码
  * @return string  错误消息,空字符串代码验证码正确
+ * @return string
+ * @throws \think\Exception
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\ModelNotFoundException
+ * @throws \think\exception\DbException
+ * @throws \think\exception\PDOException
  */
 function cmf_check_verification_code($account, $code, $clear = false)
 {
-    $verificationCodeQuery = Db::name('verification_code');
-    $findVerificationCode  = $verificationCodeQuery->where('account', $account)->find();
 
+    $findVerificationCode  = Db::name('verification_code')->where('account', $account)->find();
     if ($findVerificationCode) {
         if ($findVerificationCode['expire_time'] > time()) {
 
             if ($code == $findVerificationCode['code']) {
                 if ($clear) {
-                    $verificationCodeQuery->where('account', $account)->update(['code' => '']);
+                    Db::name('verification_code')->where('account', $account)->update(['code' => '']);
                 }
             } else {
                 return "验证码不正确!";
