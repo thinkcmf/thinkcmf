@@ -67,7 +67,7 @@ class ArticleController extends HomeBaseController
             $tplName = empty($category["one_tpl"]) ? $tplName : $category["one_tpl"];
         }
 
-        Db::name('portal_post')->where(['id' => $articleId])->setInc('post_hits');
+        Db::name('portal_post')->where('id', $articleId)->setInc('post_hits');
 
 
         hook('portal_before_assign_article', $article);
@@ -91,7 +91,7 @@ class ArticleController extends HomeBaseController
         $canLike = cmf_check_user_action("posts$articleId", 1);
 
         if ($canLike) {
-            Db::name('portal_post')->where(['id' => $articleId])->setInc('post_like');
+            Db::name('portal_post')->where('id', $articleId)->setInc('post_like');
 
             $this->success("赞好啦！");
         } else {

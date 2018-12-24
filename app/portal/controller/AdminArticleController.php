@@ -292,7 +292,7 @@ class AdminArticleController extends AdminBaseController
 
         if (isset($param['id'])) {
             $id           = $this->request->param('id', 0, 'intval');
-            $result       = $portalPostModel->where(['id' => $id])->find();
+            $result       = $portalPostModel->where('id', $id)->find();
             $data         = [
                 'object_id'   => $result['id'],
                 'create_time' => time(),
@@ -301,11 +301,11 @@ class AdminArticleController extends AdminBaseController
                 'user_id'     => cmf_get_current_admin_id()
             ];
             $resultPortal = $portalPostModel
-                ->where(['id' => $id])
+                ->where('id', $id)
                 ->update(['delete_time' => time()]);
             if ($resultPortal) {
-                Db::name('portal_category_post')->where(['post_id' => $id])->update(['status' => 0]);
-                Db::name('portal_tag_post')->where(['post_id' => $id])->update(['status' => 0]);
+                Db::name('portal_category_post')->where('post_id', $id)->update(['status' => 0]);
+                Db::name('portal_tag_post')->where('post_id', $id)->update(['status' => 0]);
 
                 Db::name('recycleBin')->insert($data);
             }
@@ -315,11 +315,11 @@ class AdminArticleController extends AdminBaseController
 
         if (isset($param['ids'])) {
             $ids     = $this->request->param('ids/a');
-            $recycle = $portalPostModel->where('id','in', $ids)->select();
-            $result  = $portalPostModel->where('id','in', $ids)->update(['delete_time' => time()]);
+            $recycle = $portalPostModel->where('id', 'in', $ids)->select();
+            $result  = $portalPostModel->where('id', 'in', $ids)->update(['delete_time' => time()]);
             if ($result) {
-                Db::name('portal_category_post')->where('post_id','in', $ids)->update(['status' => 0]);
-                Db::name('portal_tag_post')->where('post_id','in', $ids)->update(['status' => 0]);
+                Db::name('portal_category_post')->where('post_id', 'in', $ids)->update(['status' => 0]);
+                Db::name('portal_tag_post')->where('post_id', 'in', $ids)->update(['status' => 0]);
                 foreach ($recycle as $value) {
                     $data = [
                         'object_id'   => $value['id'],
@@ -355,13 +355,13 @@ class AdminArticleController extends AdminBaseController
 
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
-            $portalPostModel->where('id','in', $ids)->update(['post_status' => 1, 'published_time' => time()]);
+            $portalPostModel->where('id', 'in', $ids)->update(['post_status' => 1, 'published_time' => time()]);
             $this->success("发布成功！", '');
         }
 
         if (isset($param['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
-            $portalPostModel->where('id','in', $ids)->update(['post_status' => 0]);
+            $portalPostModel->where('id', 'in', $ids)->update(['post_status' => 0]);
             $this->success("取消发布成功！", '');
         }
 
@@ -388,7 +388,7 @@ class AdminArticleController extends AdminBaseController
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
 
-            $portalPostModel->where('id','in', $ids)->update(['is_top' => 1]);
+            $portalPostModel->where('id', 'in', $ids)->update(['is_top' => 1]);
 
             $this->success("置顶成功！", '');
 
@@ -397,7 +397,7 @@ class AdminArticleController extends AdminBaseController
         if (isset($_POST['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
 
-            $portalPostModel->where('id','in', $ids)->update(['is_top' => 0]);
+            $portalPostModel->where('id', 'in', $ids)->update(['is_top' => 0]);
 
             $this->success("取消置顶成功！", '');
         }
@@ -424,7 +424,7 @@ class AdminArticleController extends AdminBaseController
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
 
-            $portalPostModel->where('id','in', $ids)->update(['recommended' => 1]);
+            $portalPostModel->where('id', 'in', $ids)->update(['recommended' => 1]);
 
             $this->success("推荐成功！", '');
 
@@ -432,7 +432,7 @@ class AdminArticleController extends AdminBaseController
         if (isset($param['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
 
-            $portalPostModel->where('id' ,'in', $ids)->update(['recommended' => 0]);
+            $portalPostModel->where('id', 'in', $ids)->update(['recommended' => 0]);
 
             $this->success("取消推荐成功！", '');
 

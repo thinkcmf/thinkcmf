@@ -214,7 +214,7 @@ class MenuController extends AdminBaseController
     {
         $tree   = new Tree();
         $id     = $this->request->param("id", 0, 'intval');
-        $rs     = Db::name('AdminMenu')->where(["id" => $id])->find();
+        $rs     = Db::name('AdminMenu')->where("id", $id)->find();
         $result = Db::name('AdminMenu')->order(["list_order" => "ASC"])->select();
         $array  = [];
         foreach ($result as $r) {
@@ -251,7 +251,7 @@ class MenuController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             $id      = $this->request->param('id', 0, 'intval');
-            $oldMenu = Db::name('AdminMenu')->where(['id' => $id])->find();
+            $oldMenu = Db::name('AdminMenu')->where('id', $id)->find();
 
             $result = $this->validate($this->request->param(), 'AdminMenu.edit');
 
@@ -276,7 +276,7 @@ class MenuController extends AdminBaseController
                     $oldController = $oldMenu['controller'];
                     $oldAction     = $oldMenu['action'];
                     $oldName       = "$oldApp/$oldController/$oldAction";
-                    $findOldRuleId = Db::name('AuthRule')->where(["name" => $oldName])->value('id');
+                    $findOldRuleId = Db::name('AuthRule')->where("name", $oldName)->value('id');
                     if (empty($findOldRuleId)) {
                         Db::name('AuthRule')->insert([
                             "name"  => $authRuleName,
@@ -286,7 +286,7 @@ class MenuController extends AdminBaseController
                             "param" => $param
                         ]);//type 1-admin rule;2-user rule
                     } else {
-                        Db::name('AuthRule')->where(['id' => $findOldRuleId])->update([
+                        Db::name('AuthRule')->where('id', $findOldRuleId)->update([
                             "name"  => $authRuleName,
                             "app"   => $app,
                             "type"  => "admin_url",
@@ -325,7 +325,7 @@ class MenuController extends AdminBaseController
     public function delete()
     {
         $id    = $this->request->param("id", 0, 'intval');
-        $count = Db::name('AdminMenu')->where(["parent_id" => $id])->count();
+        $count = Db::name('AdminMenu')->where("parent_id", $id)->count();
         if ($count > 0) {
             $this->error("该菜单下还有子菜单，无法删除！");
         }

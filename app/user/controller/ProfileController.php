@@ -203,7 +203,7 @@ class ProfileController extends UserBaseController
                 $result  = $storage->upload($avatar, $avatarPath, 'image');
 
                 $userId = cmf_get_current_user_id();
-                Db::name("user")->where(["id" => $userId])->update(["avatar" => $avatar]);
+                Db::name("user")->where("id", $userId)->update(["avatar" => $avatar]);
                 session('user.avatar', $avatar);
                 $this->success("头像更新成功！");
             } else {

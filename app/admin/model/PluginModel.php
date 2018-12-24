@@ -115,7 +115,7 @@ class PluginModel extends Model
 
         Db::startTrans();
         try {
-            $this->where(['name' => $findPlugin['name']])->delete();
+            $this->where('name', $findPlugin['name'])->delete();
             Db::name('hook_plugin')->where('plugin', $findPlugin['name'])->delete();
 
             if (class_exists($class)) {

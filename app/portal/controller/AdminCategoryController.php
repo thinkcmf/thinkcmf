@@ -257,8 +257,7 @@ tpl;
 
         $categoryTree = $portalCategoryModel->adminCategoryTableTree($selectedIds, $tpl);
 
-        $where      = ['delete_time' => 0];
-        $categories = $portalCategoryModel->where($where)->select();
+        $categories = $portalCategoryModel->where('delete_time', 0)->select();
 
         $this->assign('categories', $categories);
         $this->assign('selectedIds', $selectedIds);

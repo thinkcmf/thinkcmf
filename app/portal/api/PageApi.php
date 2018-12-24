@@ -25,17 +25,19 @@ class PageApi
 
         $where = [
             'post_type'      => 2,
-            'published_time' => [['< time', time()], ['> time', 0]],
             'post_status'    => 1,
             'delete_time'    => 0
         ];
 
-        if (!empty($param['keyword'])) {
-            $where['post_title'] = ['like', "%{$param['keyword']}%"];
-        }
-
         //返回的数据必须是数据集或数组,item里必须包括id,name,如果想表示层级关系请加上 parent_id
-        return $portalPostModel->field('id,post_title AS name')->where($where)->select();
+        return $portalPostModel->field('id,post_title AS name')
+            ->where($where)
+            ->where('published_time',['<', time()], ['> time', 0],'and')
+            ->where(function (Query $query) use ($param) {
+                if (!empty($param['keyword'])) {
+                    $query->where('name', 'like', "%{$param['keyword']}%");
+                }
+            })->select();
     }
 
     /**
@@ -48,13 +50,14 @@ class PageApi
 
         $where = [
             'post_type'      => 2,
-            'published_time' => [['< time', time()], ['> time', 0]],
             'post_status'    => 1,
             'delete_time'    => 0
         ];
 
 
-        $pages = $portalPostModel->field('id,post_title AS name')->where($where)->select();
+        $pages = $portalPostModel->field('id,post_title AS name')
+            ->where('published_time',['<', time()], ['> time', 0],'and')
+            ->where($where)->select();
 
         $return = [
             'rule'  => [

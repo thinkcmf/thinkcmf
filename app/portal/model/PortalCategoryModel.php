@@ -71,11 +71,10 @@ class PortalCategoryModel extends Model
      */
     public function adminCategoryTableTree($currentIds = 0, $tpl = '')
     {
-        $where = ['delete_time' => 0];
 //        if (!empty($currentCid)) {
 //            $where['id'] = ['neq', $currentCid];
 //        }
-        $categories = $this->order("list_order ASC")->where($where)->select()->toArray();
+        $categories = $this->order("list_order ASC")->where('delete_time', 0)->select()->toArray();
 
         $tree       = new Tree();
         $tree->icon = ['&nbsp;&nbsp;│', '&nbsp;&nbsp;├─', '&nbsp;&nbsp;└─'];
@@ -136,10 +135,10 @@ class PortalCategoryModel extends Model
             $id = $this->id;
             if (empty($data['parent_id'])) {
 
-                $this->where(['id' => $id])->update(['path' => '0-' . $id]);
+                $this->where('id', $id)->update(['path' => '0-' . $id]);
             } else {
                 $parentPath = $this->where('id', intval($data['parent_id']))->value('path');
-                $this->where(['id' => $id])->update(['path' => "$parentPath-$id"]);
+                $this->where('id', $id)->update(['path' => "$parentPath-$id"]);
 
             }
             self::commit();

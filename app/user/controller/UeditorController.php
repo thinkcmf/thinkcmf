@@ -10,7 +10,6 @@
 // +----------------------------------------------------------------------
 namespace app\user\controller;
 
-use app\user\model\AssetModel;
 use cmf\controller\HomeBaseController;
 use cmf\lib\Upload;
 use think\exception\HttpResponseException;
@@ -293,7 +292,6 @@ class UeditorController extends HomeBaseController
      */
     private function ueditorConfig()
     {
-
         $config_text    = preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents(WEB_ROOT . "static/js/ueditor/config.json"));
         $config         = json_decode($config_text, true);
         $upload_setting = cmf_get_upload_setting();
@@ -321,65 +319,7 @@ class UeditorController extends HomeBaseController
      */
     private function ueditorExtension($str)
     {
-
         return "." . trim($str, '.');
     }
 
-    /**
-     * @function imageManager
-     */
-    public function imageManager()
-    {
-
-        header("Content-Type: text/html; charset=utf-8");
-        //需要遍历的目录列表，最好使用缩略图地址，否则当网速慢时可能会造成严重的延时
-        $paths = [C("TMPL_PARSE_STRING.__UPLOAD__"), 'upload/'];
-
-
-        $files = [];
-        foreach ($paths as $path) {
-            $tmp = $this->getfiles($path);
-            if ($tmp) {
-                $files = array_merge($files, $tmp);
-            }
-        }
-        if (!count($files)) return;
-        rsort($files, SORT_STRING);
-        $str = "";
-        foreach ($files as $file) {
-            $str .= ROOT_PATH . '/' . $file . "ue_separate_ue";
-        }
-        echo $str;
-
-
-    }
-
-    /**
-     * 遍历获取目录下的指定类型的文件
-     * @param       $path
-     * @param array $files
-     * @return array
-     */
-    private function getfiles($path, $allowFiles, &$files = [])
-    {
-        if (!is_dir($path)) return null;
-        if (substr($path, strlen($path) - 1) != '/') $path .= '/';
-        $handle = opendir($path);
-        while (false !== ($file = readdir($handle))) {
-            if ($file != '.' && $file != '..') {
-                $path2 = $path . $file;
-                if (is_dir($path2)) {
-                    $this->getfiles($path2, $allowFiles, $files);
-                } else {
-                    if (preg_match("/\.(" . $allowFiles . ")$/i", $file)) {
-                        $files[] = [
-                            'url'   => substr($path2, strlen($_SERVER['DOCUMENT_ROOT'])),
-                            'mtime' => filemtime($path2)
-                        ];
-                    }
-                }
-            }
-        }
-        return $files;
-    }
 }

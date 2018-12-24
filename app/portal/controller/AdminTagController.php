@@ -146,7 +146,7 @@ class AdminTagController extends AdminBaseController
         }
         $portalTagModel = new PortalTagModel();
 
-        $portalTagModel->where(['id' => $intId])->delete();
+        $portalTagModel->where('id' , $intId)->delete();
         Db::name('portal_tag_post')->where('tag_id', $intId)->delete();
         $this->success(lang("DELETE_SUCCESS"));
     }

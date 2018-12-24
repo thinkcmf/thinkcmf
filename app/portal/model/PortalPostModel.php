@@ -86,7 +86,7 @@ class PortalPostModel extends Model
 
     /**
      * 后台管理添加文章
-     * @param array $data 文章数据
+     * @param array        $data       文章数据
      * @param array|string $categories 文章分类 id
      * @return $this
      * @throws \think\Exception
@@ -132,7 +132,7 @@ class PortalPostModel extends Model
 
     /**
      * 后台管理编辑文章
-     * @param array $data 文章数据
+     * @param array        $data       文章数据
      * @param array|string $categories 文章分类 id
      * @return $this
      * @throws \think\Exception
@@ -238,7 +238,10 @@ class PortalPostModel extends Model
             $shouldDeleteTagIds = array_diff($oldTagIds, $sameTagIds);
 
             if (!empty($shouldDeleteTagIds)) {
-                Db::name('portal_tag_post')->where(['post_id' => $articleId, 'tag_id' => ['in', $shouldDeleteTagIds]])->delete();
+                Db::name('portal_tag_post')
+                    ->where('post_id', $articleId)
+                    ->where('tag_id', 'in', $shouldDeleteTagIds)
+                    ->delete();
             }
 
             if (!empty($data)) {
@@ -264,7 +267,7 @@ class PortalPostModel extends Model
         if (isset($data['id'])) {
             $id = $data['id']; //获取删除id
 
-            $res = $this->where(['id' => $id])->find();
+            $res = $this->where('id', $id)->find();
 
             if ($res) {
                 $res = json_decode(json_encode($res), true); //转换为数组
@@ -280,7 +283,7 @@ class PortalPostModel extends Model
                 Db::startTrans(); //开启事务
                 $transStatus = false;
                 try {
-                    Db::name('portal_post')->where(['id' => $id])->update([
+                    Db::name('portal_post')->where('id', $id)->update([
                         'delete_time' => time()
                     ]);
                     Db::name('recycle_bin')->insert($recycleData);
@@ -302,7 +305,7 @@ class PortalPostModel extends Model
         } elseif (isset($data['ids'])) {
             $ids = $data['ids'];
 
-            $res = $this->where(['id' => ['in', $ids]])
+            $res = $this->where('id', 'in', $ids)
                 ->select();
 
             if ($res) {
@@ -318,7 +321,7 @@ class PortalPostModel extends Model
                 Db::startTrans(); //开启事务
                 $transStatus = false;
                 try {
-                    Db::name('portal_post')->where(['id' => ['in', $ids]])
+                    Db::name('portal_post')->where('id', 'in', $ids)
                         ->update([
                             'delete_time' => time()
                         ]);
