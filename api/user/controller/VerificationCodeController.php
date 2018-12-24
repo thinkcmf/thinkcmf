@@ -11,14 +11,14 @@
 namespace api\user\controller;
 
 use cmf\controller\RestBaseController;
-use think\Validate;
+use think\facade\Validate;
 use think\View;
 
 class VerificationCodeController extends RestBaseController
 {
     public function send()
     {
-        $validate = new Validate([
+        $validate = new \think\Validate([
             'username' => 'require',
         ]);
 
@@ -56,8 +56,9 @@ class VerificationCodeController extends RestBaseController
             $username = empty($user['user_nickname']) ? $user['user_login'] : $user['user_nickname'];
 
             $message = htmlspecialchars_decode($emailTemplate['template']);
-            $view    = new View();
+            $view    =  (new View())->init();
             $message = $view->display($message, ['code' => $code, 'username' => $username]);
+
             $subject = empty($emailTemplate['subject']) ? 'ThinkCMF验证码' : $emailTemplate['subject'];
             $result  = cmf_send_email($data['username'], $subject, $message);
 
