@@ -10,18 +10,25 @@ namespace api\user\controller;
 
 use cmf\controller\RestUserBaseController;
 use think\Db;
+use think\facade\Env;
 
 class UploadController extends RestUserBaseController
 {
-    // 用户密码修改
+    /**
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function one()
     {
         $file = $this->request->file('file');
+//        print_r($file);exit;
         // 移动到框架应用根目录/public/upload/ 目录下
         $info     = $file->validate([
-            /*'size' => 15678,*/
+            /* 'size' => 15678,*/
             'ext' => 'jpg,png,gif'
         ]);
+
         $fileMd5  = $info->md5();
         $fileSha1 = $info->sha1();
 
@@ -30,7 +37,7 @@ class UploadController extends RestUserBaseController
         if (!empty($findFile)) {
             $this->success("上传成功!", ['url' => $findFile['file_path'], 'filename' => $findFile['filename']]);
         }
-        $info = $info->move(ROOT_PATH . 'public' . DS . 'upload');
+        $info = $info->move(Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . 'upload');
         if ($info) {
             $saveName     = $info->getSaveName();
             $originalName = $info->getInfo('name');//name,type,size
