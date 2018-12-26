@@ -144,7 +144,10 @@ class PublicController extends RestBaseController
 //        Db::name("user_token")
 //            ->where('user_id', $findUser['id'])
 //            ->where('device_type', $data['device_type']);
-        $findUserToken  = Db::name("user_token")->find();
+        $findUserToken  = Db::name("user_token")
+            ->where('user_id', $findUser['id'])
+            ->where('device_type', $data['device_type'])
+            ->find();
         $currentTime    = time();
         $expireTime     = $currentTime + 24 * 3600 * 180;
         $token          = md5(uniqid()) . md5(uniqid());
