@@ -44,7 +44,11 @@ class ArticlesController extends RestBaseController
 
     /**
      * 获取指定的文章
-     * @param int $id
+     * @param $id
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function read($id)
     {

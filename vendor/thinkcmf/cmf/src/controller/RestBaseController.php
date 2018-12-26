@@ -14,10 +14,7 @@ use think\App;
 use think\Container;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
-use think\Request;
-use think\Config;
 use think\Response;
-use think\Loader;
 use think\Db;
 
 class RestBaseController
@@ -35,6 +32,8 @@ class RestBaseController
 
     //用户
     protected $user;
+
+    protected $app;
 
     //用户类型
     protected $userType;
@@ -175,20 +174,19 @@ class RestBaseController
      * @param array $message 提示信息
      * @param bool $batch 是否批量验证
      * @param mixed $callback 回调方法（闭包）
-     * @return array|string|true
-     * @throws ValidateException
+     * @return bool
      */
     protected function validate($data, $validate, $message = [], $batch = false, $callback = null)
     {
         if (is_array($validate)) {
-            $v = Loader::validate();
+            $v = $this->app->validate();
             $v->rule($validate);
         } else {
             if (strpos($validate, '.')) {
                 // 支持场景
                 list($validate, $scene) = explode('.', $validate);
             }
-            $v = Loader::validate($validate);
+            $v = $this->app->validate($validate);
             if (!empty($scene)) {
                 $v->scene($scene);
             }
