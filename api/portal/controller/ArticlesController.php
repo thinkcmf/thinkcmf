@@ -17,14 +17,6 @@ use think\Db;
 
 class ArticlesController extends RestBaseController
 {
-    protected $postModel;
-
-    public function __construct(PortalPostModel $postModel)
-    {
-        parent::__construct();
-        $this->postModel = $postModel;
-    }
-
     /**
      * 文章列表
      */
@@ -32,7 +24,9 @@ class ArticlesController extends RestBaseController
     {
         $params                       = $this->request->get();
         $params['where']['post_type'] = 1;
-        $data                         = $this->postModel->getDatas($params);
+
+        $postModel = new PortalPostModel();
+        $data      = $postModel->getDatas($params);
 
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = $data;
@@ -55,14 +49,17 @@ class ArticlesController extends RestBaseController
         if (intval($id) === 0) {
             $this->error('无效的文章id！');
         } else {
+
             $params                       = $this->request->get();
             $params['where']['post_type'] = 1;
             $params['id']                 = $id;
-            $data                         = $this->postModel->getDatas($params);
+
+            $postModel = new PortalPostModel();
+            $data      = $postModel->getDatas($params);
             if (empty($data)) {
                 $this->error('文章不存在！');
             } else {
-                $this->postModel->where('id', $id)->setInc('post_hits');
+                $postModel->where('id', $id)->setInc('post_hits');
                 $url = cmf_url('portal/Article/index', ['id' => $id, 'cid' => $data['categories'][0]['id']], true, true);
 
                 $data        = $data->toArray();
@@ -80,7 +77,9 @@ class ArticlesController extends RestBaseController
     {
         $params = $this->request->get();
         $userId = $this->getUserId();
-        $data   = $this->postModel->getUserArticles($userId, $params);
+
+        $postModel = new PortalPostModel();
+        $data      = $postModel->getUserArticles($userId, $params);
 
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = [$data];
@@ -106,8 +105,8 @@ class ArticlesController extends RestBaseController
         if (empty($data['published_time'])) {
             $data['published_time'] = time();
         }
-
-        $this->postModel->addArticle($data);
+        $postModel = new PortalPostModel();
+        $postModel->addArticle($data);
         $this->success('添加成功！');
     }
 
@@ -125,7 +124,9 @@ class ArticlesController extends RestBaseController
         if (empty($id)) {
             $this->error('无效的文章id');
         }
-        $result = $this->postModel->editArticle($data, $id, $this->getUserId());
+        $postModel = new PortalPostModel();
+        $result    = $postModel->editArticle($data, $id, $this->getUserId());
+
         if ($result === false) {
             $this->error('编辑失败！');
         } else {
@@ -142,7 +143,8 @@ class ArticlesController extends RestBaseController
         if (empty($id)) {
             $this->error('无效的文章id');
         }
-        $result = $this->postModel->deleteArticle($id, $this->getUserId());
+        $postModel = new PortalPostModel();
+        $result    = $postModel->deleteArticle($id, $this->getUserId());
         if ($result == -1) {
             $this->error('文章已删除');
         }
@@ -162,7 +164,8 @@ class ArticlesController extends RestBaseController
         if (empty($ids)) {
             $this->error('文章id不能为空');
         }
-        $result = $this->postModel->deleteArticle($ids, $this->getUserId());
+        $postModel = new PortalPostModel();
+        $result    = $postModel->deleteArticle($ids, $this->getUserId());
         if ($result == -1) {
             $this->error('文章已删除');
         }
@@ -181,7 +184,8 @@ class ArticlesController extends RestBaseController
                 'post_type'                             => 1,
                 'post_title|post_keywords|post_excerpt' => ['like', '%' . $params['keyword'] . '%']
             ];
-            $data            = $this->postModel->getDatas($params);
+            $postModel       = new PortalPostModel();
+            $data            = $postModel->getDatas($params);
 
             if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
                 $response = $data;
@@ -196,6 +200,12 @@ class ArticlesController extends RestBaseController
 
     }
 
+    /**
+     * 文章点赞
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function doLike()
     {
         $userId = $this->getUserId();
@@ -210,14 +220,16 @@ class ArticlesController extends RestBaseController
         ])->where('table_name', 'portal_post')->count();
 
         if (empty($findLikeCount)) {
-            $article = $this->postModel->where(['id' => $articleId])->field('id,post_title,post_excerpt,more')->find();
+            $postModel = new PortalPostModel();
+            $article   = $postModel->where('id', $articleId)->field('id,post_title,post_excerpt,more')->find();
+
             if (empty($article)) {
                 $this->error('文章不存在！');
             }
 
             Db::startTrans();
             try {
-                $this->postModel->where(['id' => $articleId])->setInc('post_like');
+                $postModel->where(['id' => $articleId])->setInc('post_like');
                 $thumbnail = empty($article['more']['thumbnail']) ? '' : $article['more']['thumbnail'];
                 $userLikeModel->insert([
                     'user_id'     => $userId,
@@ -232,11 +244,10 @@ class ArticlesController extends RestBaseController
                 Db::commit();
             } catch (\Exception $e) {
                 Db::rollback();
-
                 $this->error('点赞失败！');
             }
 
-            $likeCount = $this->postModel->where('id', $articleId)->value('post_like');
+            $likeCount = $postModel->where('id', $articleId)->value('post_like');
             $this->success("赞好啦！", ['post_like' => $likeCount]);
         } else {
             $this->error("您已赞过啦！");
@@ -260,10 +271,10 @@ class ArticlesController extends RestBaseController
         ])->where('table_name', 'portal_post')->count();
 
         if (!empty($findLikeCount)) {
-
+            $postModel = new PortalPostModel();
             Db::startTrans();
             try {
-                $this->postModel->where(['id' => $articleId])->setDec('post_like');
+                $postModel->where(['id' => $articleId])->setDec('post_like');
                 $userLikeModel->where([
                     'user_id'   => $userId,
                     'object_id' => $articleId
@@ -274,7 +285,7 @@ class ArticlesController extends RestBaseController
                 $this->error('取消点赞失败！');
             }
 
-            $likeCount = $this->postModel->where('id', $articleId)->value('post_like');
+            $likeCount = $postModel->where('id', $articleId)->value('post_like');
             $this->success("取消点赞成功！", ['post_like' => $likeCount]);
         } else {
             $this->error("您还没赞过！");
@@ -283,7 +294,9 @@ class ArticlesController extends RestBaseController
 
     /**
      * 文章收藏
-     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function doFavorite()
     {
@@ -299,14 +312,15 @@ class ArticlesController extends RestBaseController
         ])->where('table_name', 'portal_post')->count();
 
         if (empty($findFavoriteCount)) {
-            $article = $this->postModel->where(['id' => $articleId])->field('id,post_title,post_excerpt,more')->find();
+            $postModel = new PortalPostModel();
+            $article   = $postModel->where(['id' => $articleId])->field('id,post_title,post_excerpt,more')->find();
             if (empty($article)) {
                 $this->error('文章不存在！');
             }
 
             Db::startTrans();
             try {
-                $this->postModel->where(['id' => $articleId])->setInc('post_favorites');
+                $postModel->where(['id' => $articleId])->setInc('post_favorites');
                 $thumbnail = empty($article['more']['thumbnail']) ? '' : $article['more']['thumbnail'];
                 $userFavoriteModel->insert([
                     'user_id'     => $userId,
@@ -325,7 +339,7 @@ class ArticlesController extends RestBaseController
                 $this->error('收藏失败！');
             }
 
-            $favoriteCount = $this->postModel->where('id', $articleId)->value('post_favorites');
+            $favoriteCount = $postModel->where('id', $articleId)->value('post_favorites');
             $this->success("收藏好啦！", ['post_favorites' => $favoriteCount]);
         } else {
             $this->error("您已收藏过啦！");
@@ -349,10 +363,10 @@ class ArticlesController extends RestBaseController
         ])->where('table_name', 'portal_post')->count();
 
         if (!empty($findFavoriteCount)) {
-
+            $postModel = new PortalPostModel();
             Db::startTrans();
             try {
-                $this->postModel->where(['id' => $articleId])->setDec('post_favorites');
+                $postModel->where(['id' => $articleId])->setDec('post_favorites');
                 $userFavoriteModel->where([
                     'user_id'   => $userId,
                     'object_id' => $articleId
@@ -363,7 +377,7 @@ class ArticlesController extends RestBaseController
                 $this->error('取消失败！');
             }
 
-            $favoriteCount = $this->postModel->where('id', $articleId)->value('post_favorites');
+            $favoriteCount = $postModel->where('id', $articleId)->value('post_favorites');
             $this->success("取消成功！", ['post_favorites' => $favoriteCount]);
         } else {
             $this->error("您还没收藏过！");
@@ -373,14 +387,17 @@ class ArticlesController extends RestBaseController
 
     /**
      * 相关文章列表
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function relatedArticles()
     {
         $articleId  = $this->request->param('id', 0, 'intval');
         $categoryId = Db::name('portal_category_post')->where('post_id', $articleId)->value('category_id');
 
-
-        $articles = $this->postModel->alias('post')->join('__PORTAL_CATEGORY_POST__ category_post', 'post.id=category_post.post_id')
+        $postModel = new PortalPostModel();
+        $articles  = $postModel->alias('post')->join('__PORTAL_CATEGORY_POST__ category_post', 'post.id=category_post.post_id')
             ->where(['post.delete_time' => 0, 'post.post_status' => 1, 'category_post.category_id' => $categoryId])
             ->order(Db::raw('rand()'))
             ->limit(5)

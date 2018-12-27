@@ -8,6 +8,7 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+use app\admin\model\RouteModel;
 use think\Db;
 use think\facade\Env;
 use think\facade\Url;
@@ -1654,7 +1655,7 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
     global $CMF_GV_routes;
 
     if (empty($CMF_GV_routes)) {
-        $routeModel    = new \app\admin\model\RouteModel();
+        $routeModel    = new RouteModel();
         $CMF_GV_routes = $routeModel->getRoutes();
     }
 
