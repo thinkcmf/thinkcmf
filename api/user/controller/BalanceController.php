@@ -32,6 +32,13 @@ class BalanceController extends RestUserBaseController
         $this->success('请求成功', ['list' => $result->items()]);
     }
 
+    /**
+     * 转账
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
+     */
     public function transfer()
     {
         $userId   = $this->getUserId();
