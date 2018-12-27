@@ -76,6 +76,7 @@ class QiniuPlugin extends Plugin
         } else {
             $content = "has_cloud_storage";
         }
+
         return $content;
     }
 
