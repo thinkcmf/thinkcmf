@@ -15,28 +15,24 @@ use think\Validate;
 
 class FavoritesController extends RestBaseController
 {
-    protected $userFavoriteModel;
-
-    public function __construct(UserFavoriteModel $userFavoriteModel)
-    {
-        parent::__construct();
-        $this->userFavoriteModel = $userFavoriteModel;
-    }
 
     /**
      * 显示收藏列表
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function getFavorites()
     {
         $userId = $this->getUserId();
 
-        $param          = $this->request->param();
-        $param['where'] = [
+        $param             = $this->request->param();
+        $param['where']    = [
             'user_id' => $userId
         ];
-        $param['order'] = '-create_time';
-
-        $favoriteData = $this->userFavoriteModel->getDatas($param);
+        $param['order']    = '-create_time';
+        $userFavoriteModel = new UserFavoriteModel();
+        $favoriteData      = $userFavoriteModel->getDatas($param);
 
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = $favoriteData;
@@ -47,10 +43,7 @@ class FavoritesController extends RestBaseController
     }
 
     /**
-     * [setFavorites 添加收藏]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-08-03T09:03:40+0800
-     * @since:    1.0
+     * 添加收藏
      */
     public function setFavorites()
     {
@@ -61,11 +54,16 @@ class FavoritesController extends RestBaseController
         if (!$data) {
             $this->error('收藏失败');
         }
-        if ($this->userFavoriteModel->where(['user_id' => $this->getUserId(), 'object_id' => $input['object_id']])->where('table_name', $input['table_name'])->count() > 0) {
+        $userFavoriteModel = new UserFavoriteModel();
+        $count             = $userFavoriteModel
+            ->where(['user_id' => $this->getUserId(), 'object_id' => $input['object_id']])
+            ->where('table_name', $input['table_name'])
+            ->count();
+        if ($count > 0) {
             $this->error('已收藏', ['code' => 1]);
         }
 
-        $favoriteId = $this->userFavoriteModel->setFavorite($data);
+        $favoriteId = $userFavoriteModel->setFavorite($data);
         if ($favoriteId) {
             $this->success('收藏成功', ['id' => $favoriteId]);
         } else {
@@ -75,16 +73,18 @@ class FavoritesController extends RestBaseController
     }
 
     /**
-     * [_FavoritesObject 收藏数据组装]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-08-03T09:39:06+0800
-     * @since:    1.0
-     * @return    [type]                    [description]
+     * 收藏数据组装
+     * @param $title
+     * @param $url
+     * @param $description
+     * @param $table_name
+     * @param $object_id
+     * @return bool
      */
     protected function _FavoritesObject($title, $url, $description, $table_name, $object_id)
     {
         $data['user_id']     = $this->getUserId();
-        $data['create_time'] = THINK_START_TIME;
+        $data['create_time'] = time();
 
         if (empty($title)) {
             return false;
@@ -104,24 +104,22 @@ class FavoritesController extends RestBaseController
     }
 
     /**
-     * [unsetFavorites 取消收藏]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-08-03T09:04:31+0800
-     * @since:    1.0
-     * @return    [type]                    [description]
+     * 取消收藏
+     * @throws \Exception
      */
     public function unsetFavorites()
     {
         $id     = $this->request->param('id', 0, 'intval');
         $userId = $this->getUserId();
 
-        $count = $this->userFavoriteModel->where(['id' => $id, 'user_id' => $userId])->count();
+        $userFavoriteModel = new UserFavoriteModel();
+        $count             = $userFavoriteModel->where(['id' => $id, 'user_id' => $userId])->count();
 
         if ($count == 0) {
             $this->error('收藏不存在,无法取消');
         }
 
-        $this->userFavoriteModel->where(['id' => $id])->delete();
+        $userFavoriteModel->where(['id' => $id])->delete();
 
         $this->success('取消成功');
 
@@ -152,8 +150,8 @@ class FavoritesController extends RestBaseController
             $this->error('用户登录');
         }
 
-
-        $findFavorite = $this->userFavoriteModel->where([
+        $userFavoriteModel = new UserFavoriteModel();
+        $findFavorite = $userFavoriteModel->where([
             'table_name' => $input['table_name'],
             'user_id'    => $userId,
             'object_id'  => intval($input['object_id'])
