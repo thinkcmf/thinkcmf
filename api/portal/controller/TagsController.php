@@ -14,21 +14,18 @@ use api\portal\model\PortalTagModel;
 
 class TagsController extends RestBaseController
 {
-    protected $tagModel;
-
-    public function __construct(PortalTagModel $tagModel)
-    {
-        parent::__construct();
-        $this->tagModel = $tagModel;
-    }
 
     /**
      * 获取标签列表
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function index()
     {
-        $params = $this->request->get();
-        $data   = $this->tagModel->getDatas($params);
+        $params         = $this->request->get();
+        $portalTagModel = new PortalTagModel();
+        $data           = $portalTagModel->getDatas($params);
 
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = $data;
@@ -40,12 +37,17 @@ class TagsController extends RestBaseController
 
     /**
      * 获取热门标签列表
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function hotTags()
     {
         $params                         = $this->request->get();
         $params['where']['recommended'] = 1;
-        $data                           = $this->tagModel->getDatas($params);
+
+        $portalTagModel = new PortalTagModel();
+        $data                           = $portalTagModel->getDatas($params);
 
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = $data;
@@ -57,7 +59,10 @@ class TagsController extends RestBaseController
 
     /**
      * 获取标签文章列表
-     * @param int $id
+     * @param $id
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function articles($id)
     {
