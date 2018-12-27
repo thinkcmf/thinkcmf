@@ -1,36 +1,31 @@
 <?php
 // +----------------------------------------------------------------------
-// | 文件说明：评论
+// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2017 http://www.thinkcmf.com All rights reserved.
-// +----------------------------------------------------------------------
-// | Author: wuwu <15093565100@163.com>
+// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Date: 2017-7-26
+// | Author: wuwu <15093565100@163.com>
 // +----------------------------------------------------------------------
-namespace api\user\controller;
-
-use api\user\model\CommentModel as Comment;
-use api\user\model\UserModel as User;
+use api\user\model\CommentModel;
+use api\user\model\UserModel;
 use cmf\controller\RestBaseController;
 
 class CommentsController extends RestBaseController
 {
 
     /**
-     * [getUserComments 获取用户评论]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-05-25T20:48:53+0800
-     * @since:    1.0
-     * @return    [array_json] [获取Comment]
+     * 获取用户评论
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function getUserComments()
     {
         $input = $this->request->param();
 
-        $comment                 = new Comment();
+        $comment                 = new CommentModel();
         $map['where']['user_id'] = $this->getUserId();
         $map['order']            = '-create_time';
         $map['relation']         = 'user,to_user';
@@ -51,18 +46,28 @@ class CommentsController extends RestBaseController
     }
 
     /**
-     * [getComments 获取评论]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-05-25T20:48:53+0800
-     * @since:    1.0
-     * @return    [array_json] [获取Comment]
+     * 获取评论
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function getComments()
     {
-        $input           = $this->request->param();
-        $id              = $this->request->has('object_id') ? $input['object_id'] : $this->error('id参数不存在');
-        $table           = $this->request->has('table_name') ? $input['table_name'] : $this->error('table参数不存在');
-        $comment         = new Comment();
+        $input = $this->request->param();
+        $id    = '';
+        $table = '';
+        if (!empty($input('object_id'))) {
+            $id = $input['object_id'];
+        } else {
+            $this->error('id参数不存在');
+        }
+        if (!empty($input('table_name'))) {
+            $table = $input['table_name'];
+        } else {
+            $this->error('table参数不存在');
+        }
+
+        $comment         = new CommentModel();
         $map['where']    = [
             'object_id'  => $id,
             'table_name' => $table
@@ -90,32 +95,38 @@ class CommentsController extends RestBaseController
     }
 
     /**
-     * [delComments 删除评论]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-08-11T22:08:56+0800
-     * @since:    1.0
-     * @return
+     * 删除评论
      */
     public function delComments()
     {
-        $input  = $this->request->param();
-        $id     = $this->request->has('id') ? intval($input['id']) : $this->error('id参数不存在');
-        $userId = $this->getUserId();
-        Comment::destroy(['id' => $id, 'user_id' => $userId]);
+        $input = $this->request->param();
+        $id    = '';
+        if (!empty($input['id'])) {
+            $id = intval($input['id']);
+        } else {
+            $this->error('id参数不存在');
+        }
 
-        $this->success('删除成功');
+        $userId = $this->getUserId();
+        $result = CommentModel::destroy(['id' => $id, 'user_id' => $userId]);
+        if ($result) {
+            $this->success('删除成功！');
+        } else {
+            $this->error('删除失败！');
+        }
     }
 
     /**
-     * [setComments 添加评论]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-08-16T01:07:44+0800
-     * @since:    1.0
+     * 添加评论
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function setComments()
     {
         $data = $this->_setComments();
-        if ($res = Comment::setComment($data)) {
+        $res  = CommentModel::setComment($data);
+        if ($res) {
             $this->success('评论成功', $res);
         } else {
             $this->error('评论失败');
@@ -123,20 +134,39 @@ class CommentsController extends RestBaseController
     }
 
     /**
-     * [_setComments 评论数据组织]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-08-16T01:00:02+0800
-     * @since:    1.0
+     * 评论数据组织
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     protected function _setComments()
     {
-        $input              = $this->request->param();
-        $data['object_id']  = $this->request->has('object_id') ? $input['object_id'] : $this->error('object_id参数不存在');
-        $data['table_name'] = $this->request->has('table_name') ? $input['table_name'] : $this->error('table_name参数不存在');
-        $data['url']        = $this->request->has('url') ? $input['url'] : $this->error('url参数不存在');
-        $data['content']    = $this->request->has('content') ? $input['content'] : $this->error('内容不为空');
-        $data['parent_id']  = $this->request->has('parent_id') ? $input['parent_id'] : 0;
-        $result             = $this->validate($data,
+        $input = $this->request->param();
+        if (!empty($input['object_id'])) {
+            $data['object_id'] = $input['object_id'];
+        } else {
+            $this->error('object_id参数不存在');
+        }
+        if (!empty($input['table_name'])) {
+            $data['table_name'] = $input['table_name'];
+        } else {
+            $this->error('table_name参数不存在');
+        }
+        if (!empty($input['url'])) {
+            $data['url'] = $input['url'];
+        } else {
+            $this->error('url参数不存在');
+        }
+        if (!empty($input['content'])) {
+            $data['content'] = $input['content'];
+        } else {
+            $this->error('内容不为空');
+        }
+
+        $data['parent_id'] = $this->request->has('parent_id') ? $input['parent_id'] : 0;
+
+        $result = $this->validate($data,
             [
                 'object_id' => 'require|number',
                 'content'   => 'require',
@@ -145,10 +175,12 @@ class CommentsController extends RestBaseController
             // 验证失败 输出错误信息
             $this->error($result);
         }
+
         $data['delete_time'] = 0;
         $data['create_time'] = time();
         if ($data['parent_id']) {
-            $res = Comment::field(['parent_id', 'path', 'user_id'])->find($data['parent_id']);
+            $commentModel = new CommentModel();
+            $res          = $commentModel->field(['parent_id', 'path', 'user_id'])->find($data['parent_id']);
             if ($res) {
                 $data['path']       = $res['path'] . $data['parent_id'] . ',';
                 $data['to_user_id'] = $res['user_id'];
@@ -159,7 +191,8 @@ class CommentsController extends RestBaseController
             $data['path'] = '0,';
         }
         $data['user_id'] = $this->getUserId();
-        $userData        = User::field(true)->find($data['user_id']);
+        $userModel       = new UserModel();
+        $userData        = $userModel->find($data['user_id']);
         if (!$userData) {
             $this->error('评论用户不存在');
         }
