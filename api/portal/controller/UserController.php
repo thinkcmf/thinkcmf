@@ -13,34 +13,29 @@ use cmf\controller\RestBaseController;
 
 class UserController extends RestBaseController
 {
-    protected $postModel;
-
-    public function __construct(PortalPostModel $postModel)
-    {
-        parent::__construct();
-        $this->postModel = $postModel;
-    }
-
     /**
      * 会员文章列表
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function articles()
     {
-        $userId   = $this->request->param('user_id', 0, 'intval');
+        $userId = $this->request->param('user_id', 0, 'intval');
 
-        if(empty($userId)){
+        if (empty($userId)) {
             $this->error('用户id不能空！');
         }
 
-        $data     = $this->request->param();
-        $articles = $this->postModel->setCondition($data)->where(['user_id' => $userId])->select();
+        $data            = $this->request->param();
+        $portalPostModel = new PortalPostModel();
+        $articles        = $portalPostModel->setCondition($data)->where(['user_id' => $userId])->select();
 
         if (count($articles) == 0) {
             $this->error('没有数据');
         } else {
             $this->success('ok', ['list' => $articles]);
         }
-
     }
 
 }
