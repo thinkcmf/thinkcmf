@@ -32,7 +32,7 @@ class RouteController extends AdminBaseController
      */
     public function index()
     {
-    	globel $CMF_GV_routes;
+    	global $CMF_GV_routes;
         $routeModel = new RouteModel();
         $routes     = Db::name('route')->order("list_order asc")->select();
         $routeModel->getRoutes(true);
