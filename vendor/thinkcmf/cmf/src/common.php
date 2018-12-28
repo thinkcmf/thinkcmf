@@ -447,8 +447,13 @@ function cmf_get_cmf_setting()
 
 /**
  * 更新CMF系统的设置，此类设置用于全局
- * @param array $data
- * @return boolean
+ * @param $data
+ * @return bool
+ * @throws \think\Exception
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\ModelNotFoundException
+ * @throws \think\exception\DbException
+ * @throws \think\exception\PDOException
  */
 function cmf_set_cmf_setting($data)
 {
@@ -461,10 +466,15 @@ function cmf_set_cmf_setting($data)
 
 /**
  * 设置系统配置，通用
- * @param string $key     配置键值,都小写
- * @param array  $data    配置值，数组
- * @param bool   $replace 是否完全替换
+ * @param string $key 配置键值,都小写
+ * @param array $data 配置值，数组
+ * @param bool $replace 是否完全替换
  * @return bool 是否成功
+ * @throws \think\Exception
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\ModelNotFoundException
+ * @throws \think\exception\DbException
+ * @throws \think\exception\PDOException
  */
 function cmf_set_option($key, $data, $replace = false)
 {
@@ -641,6 +651,7 @@ function cmf_strip_chars($str, $chars = '?<*.>\'\"')
  *                        "error"=>0|1,//0代表出错<br>
  *                        "message"=> "出错信息"<br>
  *                        );
+ * @throws phpmailerException
  */
 function cmf_send_email($address, $subject, $message)
 {
@@ -887,6 +898,11 @@ function cmf_asset_relative_url($assetUrl)
  * @param boolean $ipLimit    ip限制,false为不限制，true为限制
  * @param int     $expire     距离上次访问的最小时间单位s，0表示不限制，大于0表示最后访问$expire秒后才可以访问
  * @return true 可访问，false不可访问
+ * @throws \think\Exception
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\ModelNotFoundException
+ * @throws \think\exception\DbException
+ * @throws \think\exception\PDOException
  */
 function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, $expire = 0)
 {
@@ -1077,9 +1093,8 @@ function cmf_get_plugin_config($name)
 /**
  * 替代scan_dir的方法
  * @param string $pattern 检索模式 搜索模式 *.txt,*.doc; (同glog方法)
- * @param int    $flags
- * @param        $pattern
- * @return array
+ * @param null $flags
+ * @return array|false
  */
 function cmf_scan_dir($pattern, $flags = null)
 {
@@ -1312,6 +1327,9 @@ function cmf_get_file_extension($filename)
  * @param string  $account 手机或邮箱
  * @param integer $length  验证码位数,支持4,6,8
  * @return string 数字验证码
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\ModelNotFoundException
+ * @throws \think\exception\DbException
  */
 function cmf_get_verification_code($account, $length = 6)
 {
@@ -1353,6 +1371,7 @@ function cmf_get_verification_code($account, $length = 6)
 }
 
 /**
+ *
  * 更新手机或邮箱验证码发送日志
  * @param string $account    手机或邮箱
  * @param string $code       验证码
@@ -1366,10 +1385,10 @@ function cmf_get_verification_code($account, $length = 6)
  */
 function cmf_verification_code_log($account, $code, $expireTime = 0)
 {
-    $currentTime = time();
-    $expireTime  = $expireTime > $currentTime ? $expireTime : $currentTime + 30 * 60;
+    $currentTime           = time();
+    $expireTime            = $expireTime > $currentTime ? $expireTime : $currentTime + 30 * 60;
 
-    $findVerificationCode = Db::name('verification_code')->where('account', $account)->find();
+    $findVerificationCode  = Db::name('verification_code')->where('account', $account)->find();
 
     if ($findVerificationCode) {
         $todayStartTime = strtotime(date("Y-m-d"));//当天0点
@@ -1416,7 +1435,7 @@ function cmf_verification_code_log($account, $code, $expireTime = 0)
 function cmf_check_verification_code($account, $code, $clear = false)
 {
 
-    $findVerificationCode = Db::name('verification_code')->where('account', $account)->find();
+    $findVerificationCode  = Db::name('verification_code')->where('account', $account)->find();
     if ($findVerificationCode) {
         if ($findVerificationCode['expire_time'] > time()) {
 
@@ -1442,11 +1461,14 @@ function cmf_check_verification_code($account, $code, $clear = false)
  * 清除某个手机或邮箱的数字验证码,一般在验证码验证正确完成后
  * @param string $account 手机或邮箱
  * @return boolean true：手机验证码正确，false：手机验证码错误
+ * @throws \think\Exception
+ * @throws \think\exception\PDOException
  */
 function cmf_clear_verification_code($account)
 {
     $verificationCodeQuery = Db::name('verification_code');
-    $verificationCodeQuery->where('account', $account)->update(['code' => '']);
+    $result                = $verificationCodeQuery->where('account', $account)->update(['code' => '']);
+    return $result;
 }
 
 /**
@@ -1471,6 +1493,11 @@ function file_exists_case($filename)
  * @param $userId
  * @param $deviceType
  * @return string 用户 token
+ * @throws \think\Exception
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\ModelNotFoundException
+ * @throws \think\exception\DbException
+ * @throws \think\exception\PDOException
  */
 function cmf_generate_user_token($userId, $deviceType)
 {
@@ -1548,7 +1575,10 @@ function cmf_is_ssl()
 /**
  * 获取CMF系统的设置，此类设置用于全局
  * @param string $key 设置key，为空时返回所有配置信息
- * @return mixed
+ * @return array|bool|mixed
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\ModelNotFoundException
+ * @throws \think\exception\DbException
  */
 function cmf_get_cmf_settings($key = "")
 {
@@ -1623,14 +1653,17 @@ function cmf_url_encode($url, $params)
  * @param bool|string  $suffix 生成的URL后缀
  * @param bool|string  $domain 域名
  * @return string
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\ModelNotFoundException
+ * @throws \think\exception\DbException
  */
 function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
 {
     global $CMF_GV_routes;
 
     if (empty($CMF_GV_routes)) {
-        $routeModel    = new \app\admin\model\RouteModel();
-        $CMF_GV_routes = $routeModel->getRoutes();
+        $routeModel = new \app\admin\model\RouteModel();
+        $CMF_GV_routes     = $routeModel->getRoutes();
     }
 
     if (false === strpos($url, '://') && 0 !== strpos($url, '/')) {
@@ -1813,6 +1846,11 @@ function cmf_curl_get($url)
 /**
  * 用户操作记录
  * @param string $action 用户操作
+ * @throws \think\Exception
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\ModelNotFoundException
+ * @throws \think\exception\DbException
+ * @throws \think\exception\PDOException
  */
 function cmf_user_action($action)
 {

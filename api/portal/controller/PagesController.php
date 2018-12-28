@@ -14,22 +14,19 @@ use api\portal\model\PortalPostModel;
 
 class PagesController extends RestBaseController
 {
-    protected $postModel;
-
-    public function __construct(PortalPostModel $postModel)
-    {
-        parent::__construct();
-        $this->postModel = $postModel;
-    }
-
     /**
      * 页面列表
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function index()
     {
         $params                       = $this->request->get();
         $params['where']['post_type'] = 2;
-        $data                         = $this->postModel->getDatas($params);
+
+        $postModel = new PortalPostModel();
+        $data      = $postModel->getDatas($params);
 
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = $data;
@@ -41,14 +38,19 @@ class PagesController extends RestBaseController
 
     /**
      * 获取页面
-     * @param int $id
+     * @param $id
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function read($id)
     {
         $params                       = $this->request->get();
         $params['where']['post_type'] = 2;
         $params['id']                 = $id;
-        $data                         = $this->postModel->getDatas($params);
+
+        $postModel = new PortalPostModel();
+        $data      = $postModel->getDatas($params);
         $this->success('请求成功!', $data);
     }
 }

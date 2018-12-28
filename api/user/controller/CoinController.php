@@ -15,7 +15,10 @@ use cmf\controller\RestUserBaseController;
 
 class CoinController extends RestUserBaseController
 {
-
+    /**
+     * 查询金币日志
+     * @throws \think\exception\DbException
+     */
     public function logs()
     {
         $userId            = $this->getUserId();

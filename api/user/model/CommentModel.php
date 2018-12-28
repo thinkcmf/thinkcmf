@@ -16,6 +16,9 @@ namespace api\user\model;
 use api\common\model\CommonModel;
 use think\Db;
 
+/**
+ * @property mixed id
+ */
 class CommentModel extends CommonModel
 {
 
@@ -101,10 +104,9 @@ class CommentModel extends CommonModel
     }
 
     /**
-     * [setComment 添加评论]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-08-15T23:57:04+0800
-     * @since:    1.0
+     * 添加评论
+     * @param $data
+     * @return bool|mixed
      */
     public static function setComment($data)
     {
