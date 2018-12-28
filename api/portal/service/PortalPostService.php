@@ -8,21 +8,21 @@
 // +----------------------------------------------------------------------
 namespace api\portal\service;
 
-use api\portal\model\PortalPostModel as PortalPost;
-use api\portal\model\PortalCategoryModel as PortalCategory;
+use api\portal\model\PortalPostModel;
+use api\portal\model\PortalCategoryModel;
 
-class PortalPostModel extends PortalPost
+class PortalPostService extends PortalPostModel
 {
     protected $name = "portal_post";
 
     /**
-     * [recommendedList 推荐列表]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-07-17T11:06:47+0800
-     * @since:    1.0
-     * @param     integer $next_id [最后索引值]
-     * @param     integer $num [一页多少条 默认10]
-     * @return    [type]                            [数据]
+     * 推荐列表
+     * @param int $next_id
+     * @param int $num
+     * @return array|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public static function recommendedList($next_id = 0, $num = 10)
     {
@@ -33,21 +33,21 @@ class PortalPostModel extends PortalPost
     }
 
     /**
-     * [categoryPostList 分类文章列表]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-07-17T15:16:26+0800
-     * @since:    1.0
-     * @param     [type]                   $category_id [分类ID]
-     * @param     integer $next_id [limit索引]
-     * @param     integer $num [limit每页数量]
-     * @return    [type]                                [description]
+     * 分类文章列表
+     * @param $category_id
+     * @param int $next_id
+     * @param int $num
+     * @return string
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public static function categoryPostList($category_id, $next_id = 0, $num = 10)
     {
         $limit    = "{$next_id},{$num}";
-        $Postlist = PortalCategory::categoryPostIds($category_id);
+        $postList = PortalCategoryModel::categoryPostIds($category_id);
         $field    = 'id,recommended,user_id,post_like,post_hits,comment_count,create_time,update_time,published_time,post_title,post_excerpt,more';
-        $list     = self::with('user')->field($field)->whereIn('id', $Postlist['PostIds'])->order('published_time DESC')->limit($limit)->select()->toJson();
+        $list     = self::with('user')->field($field)->whereIn('id', $postList['PostIds'])->order('published_time DESC')->limit($limit)->select()->toJson();
         return $list;
     }
 }
