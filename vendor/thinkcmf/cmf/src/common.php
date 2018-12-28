@@ -1345,7 +1345,6 @@ function cmf_get_verification_code($account, $length = 6)
 }
 
 /**
- *
  * 更新手机或邮箱验证码发送日志
  * @param string $account    手机或邮箱
  * @param string $code       验证码
