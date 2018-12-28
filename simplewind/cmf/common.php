@@ -1765,7 +1765,7 @@ function cmf_replace_content_file_url($content, $isForDbSave = false)
 function cmf_get_admin_style()
 {
     $adminSettings = cmf_get_option('admin_settings');
-    return empty($adminSettings['admin_style']) ? 'flatadmin' : $adminSettings['admin_style'];
+    return empty($adminSettings['admin_style']) ? 'simpleadmin' : $adminSettings['admin_style'];
 }
 
 /**
