@@ -1,5 +1,6 @@
 <php>
-    function _parse_vars($vars,$inputName,$level=1,$widget='',$file_id=''){
+    if (!function_exists('_parse_vars')) {
+        function _parse_vars($vars,$inputName,$level=1,$widget='',$file_id=''){
 
 </php>
 <foreach name="vars" item="var" key="varName">
@@ -179,5 +180,6 @@
 </foreach>
 
 <php>
+        }
     }
 </php>

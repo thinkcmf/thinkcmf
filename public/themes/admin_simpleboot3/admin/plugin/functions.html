@@ -1,5 +1,6 @@
 <php>
-    function _parse_plugin_config($pluginConfig){
+    if (!function_exists('_parse_plugin_config')) {
+        function _parse_plugin_config($pluginConfig){
 
 </php>
 
@@ -300,7 +301,7 @@
     </switch>
 </foreach>
 
-
 <php>
+        }
     }
 </php>
