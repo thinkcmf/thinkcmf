@@ -466,9 +466,9 @@ function cmf_set_cmf_setting($data)
 
 /**
  * 设置系统配置，通用
- * @param string $key 配置键值,都小写
- * @param array $data 配置值，数组
- * @param bool $replace 是否完全替换
+ * @param string $key     配置键值,都小写
+ * @param array  $data    配置值，数组
+ * @param bool   $replace 是否完全替换
  * @return bool 是否成功
  * @throws \think\Exception
  * @throws \think\db\exception\DataNotFoundException
@@ -1093,7 +1093,7 @@ function cmf_get_plugin_config($name)
 /**
  * 替代scan_dir的方法
  * @param string $pattern 检索模式 搜索模式 *.txt,*.doc; (同glog方法)
- * @param null $flags
+ * @param null   $flags
  * @return array|false
  */
 function cmf_scan_dir($pattern, $flags = null)
@@ -1385,10 +1385,10 @@ function cmf_get_verification_code($account, $length = 6)
  */
 function cmf_verification_code_log($account, $code, $expireTime = 0)
 {
-    $currentTime           = time();
-    $expireTime            = $expireTime > $currentTime ? $expireTime : $currentTime + 30 * 60;
+    $currentTime = time();
+    $expireTime  = $expireTime > $currentTime ? $expireTime : $currentTime + 30 * 60;
 
-    $findVerificationCode  = Db::name('verification_code')->where('account', $account)->find();
+    $findVerificationCode = Db::name('verification_code')->where('account', $account)->find();
 
     if ($findVerificationCode) {
         $todayStartTime = strtotime(date("Y-m-d"));//当天0点
@@ -1435,7 +1435,7 @@ function cmf_verification_code_log($account, $code, $expireTime = 0)
 function cmf_check_verification_code($account, $code, $clear = false)
 {
 
-    $findVerificationCode  = Db::name('verification_code')->where('account', $account)->find();
+    $findVerificationCode = Db::name('verification_code')->where('account', $account)->find();
     if ($findVerificationCode) {
         if ($findVerificationCode['expire_time'] > time()) {
 
@@ -1662,8 +1662,8 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
     global $CMF_GV_routes;
 
     if (empty($CMF_GV_routes)) {
-        $routeModel = new \app\admin\model\RouteModel();
-        $CMF_GV_routes     = $routeModel->getRoutes();
+        $routeModel    = new \app\admin\model\RouteModel();
+        $CMF_GV_routes = $routeModel->getRoutes();
     }
 
     if (false === strpos($url, '://') && 0 !== strpos($url, '/')) {
