@@ -120,7 +120,14 @@ class Qiniu
         $secretKey = $this->config['secretKey'];
         $auth      = new Auth($accessKey, $secretKey);
         $url       = $this->getUrl($file);
-        return $auth->privateDownloadUrl($url, $expires);
+        $filename  = db('asset')->where('file_path', $file)->value('filename');
+
+        $url = $auth->privateDownloadUrl($url, $expires);
+
+        if (!empty($filename)) {
+            $url .= '&attname=' . urlencode($filename);
+        }
+        return $url;
     }
 
     /**
