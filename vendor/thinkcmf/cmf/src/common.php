@@ -142,7 +142,7 @@ function cmf_get_current_theme()
     $designT = '_design_theme';
     if (isset($_GET[$designT])) {
         $theme = $_GET[$designT];
-        cookie('cmf_design_theme', $theme, 864000);
+        cookie('cmf_design_theme', $theme, 4);
     } elseif (cookie('cmf_design_theme')) {
         $theme = cookie('cmf_design_theme');
     }
@@ -370,23 +370,31 @@ function cmf_save_var($path, $var)
  */
 function cmf_set_dynamic_config($data)
 {
-
     if (!is_array($data)) {
         return false;
     }
 
-    $configFile = CMF_ROOT . "data/conf/config.php";
-    if (file_exists($configFile)) {
-        $configs = include $configFile;
-    } else {
-        $configs = [];
+    foreach ($data as $key => $value) {
+        if (is_array($value)) {
+            $configFile = CMF_ROOT . "data/config/{$key}.php";
+            if (file_exists($configFile)) {
+                $configs = include $configFile;
+            } else {
+                $configs = [];
+            }
+
+            $configs = array_merge($configs, $value);
+
+            try {
+                file_put_contents($configFile, "<?php\treturn " . var_export($configs, true) . ";");
+            } catch (\Exception $e) {
+                return false;
+            }
+        }
     }
 
-    $configs = array_merge($configs, $data);
-    $result  = file_put_contents($configFile, "<?php\treturn " . var_export($configs, true) . ";");
-
     cmf_clear_cache();
-    return $result;
+    return true;
 }
 
 /**
@@ -1358,10 +1366,10 @@ function cmf_get_verification_code($account, $length = 6)
  */
 function cmf_verification_code_log($account, $code, $expireTime = 0)
 {
-    $currentTime           = time();
-    $expireTime            = $expireTime > $currentTime ? $expireTime : $currentTime + 30 * 60;
+    $currentTime = time();
+    $expireTime  = $expireTime > $currentTime ? $expireTime : $currentTime + 30 * 60;
 
-    $findVerificationCode  = Db::name('verification_code')->where('account', $account)->find();
+    $findVerificationCode = Db::name('verification_code')->where('account', $account)->find();
 
     if ($findVerificationCode) {
         $todayStartTime = strtotime(date("Y-m-d"));//当天0点
@@ -1408,7 +1416,7 @@ function cmf_verification_code_log($account, $code, $expireTime = 0)
 function cmf_check_verification_code($account, $code, $clear = false)
 {
 
-    $findVerificationCode  = Db::name('verification_code')->where('account', $account)->find();
+    $findVerificationCode = Db::name('verification_code')->where('account', $account)->find();
     if ($findVerificationCode) {
         if ($findVerificationCode['expire_time'] > time()) {
 
@@ -1621,8 +1629,8 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
     global $CMF_GV_routes;
 
     if (empty($CMF_GV_routes)) {
-        $routeModel = new \app\admin\model\RouteModel();
-        $CMF_GV_routes     = $routeModel->getRoutes();
+        $routeModel    = new \app\admin\model\RouteModel();
+        $CMF_GV_routes = $routeModel->getRoutes();
     }
 
     if (false === strpos($url, '://') && 0 !== strpos($url, '/')) {

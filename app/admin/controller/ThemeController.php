@@ -200,7 +200,7 @@ class ThemeController extends AdminBaseController
             $this->error('模板未安装!');
         }
 
-        $result = cmf_set_dynamic_config(['cmf_default_theme' => $theme]);
+        $result = cmf_set_dynamic_config(['template' => ['cmf_default_theme' => $theme]]);
 
         if ($result === false) {
             $this->error('配置写入失败!');
@@ -939,12 +939,30 @@ class ThemeController extends AdminBaseController
      */
     public function design()
     {
-        session('admin_designing_theme', true);
         $content = hook_one('admin_theme_design_view');
         if (empty($content)) {
             $content = $this->fetch();
         }
         return $content;
+    }
+
+    /**
+     * 设置正在设计模板状态
+     * @adminMenu(
+     *     'name'   => '设置正在设计模板状态',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '设置正在设计模板状态',
+     *     'param'  => ''
+     * )
+     */
+    public function designing()
+    {
+        $theme = $this->request->param('theme');
+        cookie('cmf_design_theme', $theme, 3);
     }
 
 }
