@@ -11,13 +11,13 @@
 namespace app\user\controller;
 
 use cmf\controller\HomeBaseController;
-use think\Validate;
+use think\facade\Validate;
 
 class VerificationCodeController extends HomeBaseController
 {
     public function send()
     {
-        $validate = new Validate([
+        $validate = new \think\Validate([
             'username' => 'require',
             'captcha'  => 'require',
         ]);

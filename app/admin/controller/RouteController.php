@@ -32,9 +32,11 @@ class RouteController extends AdminBaseController
      */
     public function index()
     {
+    	globel $CMF_GV_routes;
         $routeModel = new RouteModel();
         $routes     = Db::name('route')->order("list_order asc")->select();
         $routeModel->getRoutes(true);
+        unset($CMF_GV_routes);
         $this->assign("routes", $routes);
         return $this->fetch();
     }
@@ -99,7 +101,7 @@ class RouteController extends AdminBaseController
     public function edit()
     {
         $id    = $this->request->param("id", 0, 'intval');
-        $route = Db::name('route')->where(['id' => $id])->find();
+        $route = Db::name('route')->where('id', $id)->find();
         $this->assign($route);
         return $this->fetch();
     }

@@ -18,7 +18,7 @@ class AdminMenuModel extends Model
 
     /**
      * 按父ID查找菜单子项
-     * @param int $parentId 父菜单ID
+     * @param int     $parentId 父菜单ID
      * @param boolean $withSelf 是否包括他自己
      * @return array|string|\think\Collection
      * @throws \think\db\exception\DataNotFoundException
@@ -32,7 +32,7 @@ class AdminMenuModel extends Model
         $result   = $this->where(['parent_id' => $parentId, 'status' => 1])->order("list_order", "ASC")->select();
 
         if ($withSelf) {
-            $result2[] = $this->where(['id' => $parentId])->find();
+            $result2[] = $this->where('id', $parentId)->find();
             $result    = array_merge($result2, $result);
         }
 
@@ -74,7 +74,7 @@ class AdminMenuModel extends Model
     /**
      * 获取菜单 头部菜单导航
      * @param string $parentId 菜单id
-     * @param bool $bigMenu
+     * @param bool   $bigMenu
      * @return array|string|\think\Collection
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -101,9 +101,9 @@ class AdminMenuModel extends Model
 
     /**
      * 取得树形结构的菜单
-     * @param $myId
+     * @param        $myId
      * @param string $parent
-     * @param int $Level
+     * @param int    $Level
      * @return bool|null
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -179,9 +179,9 @@ class AdminMenuModel extends Model
     {
         //父节点ID
         $parentId = (int)$parentId;
-        $result   = $this->where(['parent_id' => $parentId])->select();
+        $result   = $this->where('parent_id', $parentId)->select();
         if ($with_self) {
-            $result2[] = $this->where(['id' => $parentId])->find();
+            $result2[] = $this->where('id', $parentId)->find();
             $result    = array_merge($result2, $result);
         }
         return $result;
@@ -197,7 +197,7 @@ class AdminMenuModel extends Model
      */
     public function getMenuTree($parentId = 0)
     {
-        $menus = $this->where(["parent_id" => $parentId])->order(["list_order" => "ASC"])->select();
+        $menus = $this->where("parent_id", $parentId)->order(["list_order" => "ASC"])->select();
 
         if ($menus) {
             foreach ($menus as $key => $menu) {

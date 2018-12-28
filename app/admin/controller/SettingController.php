@@ -166,7 +166,7 @@ class SettingController extends AdminBaseController
 
             $userId = cmf_get_current_admin_id();
 
-            $admin = Db::name('user')->where(["id" => $userId])->find();
+            $admin = Db::name('user')->where("id", $userId)->find();
 
             $oldPassword = $data['old_password'];
             $password    = $data['password'];

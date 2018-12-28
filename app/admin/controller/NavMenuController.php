@@ -35,7 +35,7 @@ class NavMenuController extends AdminBaseController
      */
     public function index()
     {
-        $intNavId     = $this->request->param("nav_id");
+        $intNavId     = $this->request->param("nav_id", 0, 'intval');
         $navMenuModel = new NavMenuModel();
 
         if (empty($intNavId)) {
@@ -91,8 +91,8 @@ class NavMenuController extends AdminBaseController
     public function add()
     {
         $navMenuModel = new NavMenuModel();
-        $intNavId     = $this->request->param("nav_id");
-        $intParentId  = $this->request->param("parent_id");
+        $intNavId     = $this->request->param("nav_id", 0, 'intval');
+        $intParentId  = $this->request->param("parent_id", 0, 'intval');
         $objResult    = $navMenuModel->where("nav_id", $intNavId)->order(["list_order" => "ASC"])->select();
         $arrResult    = $objResult ? $objResult->toArray() : [];
 
@@ -169,10 +169,14 @@ class NavMenuController extends AdminBaseController
     public function edit()
     {
         $navMenuModel = new NavMenuModel();
-        $intNavId     = $this->request->param("nav_id");
-        $intId        = $this->request->param("id");
-        $intParentId  = $this->request->param("parent_id");
-        $objResult    = $navMenuModel->where(["nav_id" => $intNavId, "id" => ["neq", $intId]])->order(["list_order" => "ASC"])->select();
+        $intNavId     = $this->request->param("nav_id", 0, 'intval');
+        $intId        = $this->request->param("id", 0, 'intval');
+        $intParentId  = $this->request->param("parent_id", 0, 'intval');
+        $objResult    = $navMenuModel
+            ->where("nav_id", $intNavId)
+            ->where("id", "neq", $intId)
+            ->order(["list_order" => "ASC"])
+            ->select();
         $arrResult    = $objResult ? $objResult->toArray() : [];
 
         $tree       = new Tree();
@@ -269,12 +273,12 @@ class NavMenuController extends AdminBaseController
             $this->error(lang("NO_ID"));
         }
 
-        $count = $navMenuModel->where(["parent_id" => $intId])->count();
+        $count = $navMenuModel->where("parent_id", $intId)->count();
         if ($count > 0) {
             $this->error("该菜单下还有子菜单，无法删除！");
         }
 
-        $navMenuModel->where(["id" => $intId])->delete();
+        $navMenuModel->where("id", $intId)->delete();
         $this->success(lang("DELETE_SUCCESS"), url("NavMenu/index", ['nav_id' => $intNavId]));
 
     }

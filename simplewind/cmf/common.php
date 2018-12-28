@@ -1339,14 +1339,20 @@ function cmf_get_verification_code($account, $length = 6)
  * @param string $account    手机或邮箱
  * @param string $code       验证码
  * @param int    $expireTime 过期时间
- * @return boolean
+ * @return int|string
+ * @throws \think\Exception
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\ModelNotFoundException
+ * @throws \think\exception\DbException
+ * @throws \think\exception\PDOException
  */
 function cmf_verification_code_log($account, $code, $expireTime = 0)
 {
     $currentTime           = time();
     $expireTime            = $expireTime > $currentTime ? $expireTime : $currentTime + 30 * 60;
-    $verificationCodeQuery = Db::name('verification_code');
-    $findVerificationCode  = $verificationCodeQuery->where('account', $account)->find();
+
+    $findVerificationCode  = Db::name('verification_code')->where('account', $account)->find();
+
     if ($findVerificationCode) {
         $todayStartTime = strtotime(date("Y-m-d"));//当天0点
         if ($findVerificationCode['send_time'] <= $todayStartTime) {
@@ -1354,7 +1360,7 @@ function cmf_verification_code_log($account, $code, $expireTime = 0)
         } else {
             $count = Db::raw('count+1');
         }
-        $result = $verificationCodeQuery
+        $result = Db::name('verification_code')
             ->where('account', $account)
             ->update([
                 'send_time'   => $currentTime,
@@ -1363,7 +1369,7 @@ function cmf_verification_code_log($account, $code, $expireTime = 0)
                 'count'       => $count
             ]);
     } else {
-        $result = $verificationCodeQuery
+        $result = Db::name('verification_code')
             ->insert([
                 'account'     => $account,
                 'send_time'   => $currentTime,
@@ -1382,18 +1388,23 @@ function cmf_verification_code_log($account, $code, $expireTime = 0)
  * @param string  $code    验证码
  * @param boolean $clear   是否验证后销毁验证码
  * @return string  错误消息,空字符串代码验证码正确
+ * @return string
+ * @throws \think\Exception
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\ModelNotFoundException
+ * @throws \think\exception\DbException
+ * @throws \think\exception\PDOException
  */
 function cmf_check_verification_code($account, $code, $clear = false)
 {
-    $verificationCodeQuery = Db::name('verification_code');
-    $findVerificationCode  = $verificationCodeQuery->where('account', $account)->find();
 
+    $findVerificationCode  = Db::name('verification_code')->where('account', $account)->find();
     if ($findVerificationCode) {
         if ($findVerificationCode['expire_time'] > time()) {
 
             if ($code == $findVerificationCode['code']) {
                 if ($clear) {
-                    $verificationCodeQuery->where('account', $account)->update(['code' => '']);
+                    Db::name('verification_code')->where('account', $account)->update(['code' => '']);
                 }
             } else {
                 return "验证码不正确!";
@@ -1597,11 +1608,11 @@ function cmf_url_encode($url, $params)
  */
 function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
 {
-    static $routes;
+    global $CMF_GV_routes;
 
-    if (empty($routes)) {
+    if (empty($CMF_GV_routes)) {
         $routeModel = new \app\admin\model\RouteModel();
-        $routes     = $routeModel->getRoutes();
+        $CMF_GV_routes     = $routeModel->getRoutes();
     }
 
     if (false === strpos($url, '://') && 0 !== strpos($url, '/')) {

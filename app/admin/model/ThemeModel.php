@@ -141,7 +141,7 @@ class ThemeModel extends Model
         }
 
         // 检查安装过的模板文件是否已经删除
-        $files = Db::name('theme_file')->where(['theme' => $theme])->select();
+        $files = Db::name('theme_file')->where('theme', $theme)->select();
 
         foreach ($files as $themeFile) {
             $tplFile           = $themeDir . '/' . $themeFile['file'] . '.' . $suffix;

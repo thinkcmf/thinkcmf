@@ -19,7 +19,7 @@ class UserFavoriteModel extends Model
     {
         $userId        = cmf_get_current_user_id();
         $userQuery     = Db::name("UserFavorite");
-        $favorites     = $userQuery->where(['user_id' => $userId])->order('id desc')->paginate(10);
+        $favorites     = $userQuery->where('user_id', $userId)->order('id desc')->paginate(10);
         $data['page']  = $favorites->render();
         $data['lists'] = $favorites->items();
         return $data;
