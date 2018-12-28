@@ -63,7 +63,7 @@ class RecycleBinController extends AdminBaseController
     public function restore()
     {
 
-        $id     = $this->request->param('id');
+        $id     = $this->request->param('id', 0, 'intval');
         $result = Db::name('recycleBin')->where('id', $id)->find();
 
         $tableName = explode('#', $result['table_name']);
