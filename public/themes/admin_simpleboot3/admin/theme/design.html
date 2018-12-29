@@ -101,7 +101,7 @@
 <script>
     setInterval(function () {
         $.ajax({
-            url: "{:url('Theme/designing')}?theme={:input('param.theme')}",
+            url: "{:url('Theme/design')}?theme={:input('param.theme')}&status=1",
             type: 'post'
         });
     },2000);

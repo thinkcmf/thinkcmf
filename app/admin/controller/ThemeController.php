@@ -939,30 +939,17 @@ class ThemeController extends AdminBaseController
      */
     public function design()
     {
-        $content = hook_one('admin_theme_design_view');
-        if (empty($content)) {
-            $content = $this->fetch();
+        if ($this->request->isAjax()) {
+            $theme = $this->request->param('theme');
+            cookie('cmf_design_theme', $theme, 3);
+            $this->success('success');
+        } else {
+            $content = hook_one('admin_theme_design_view');
+            if (empty($content)) {
+                $content = $this->fetch();
+            }
+            return $content;
         }
-        return $content;
-    }
-
-    /**
-     * 设置正在设计模板状态
-     * @adminMenu(
-     *     'name'   => '设置正在设计模板状态',
-     *     'parent' => 'index',
-     *     'display'=> false,
-     *     'hasView'=> false,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '设置正在设计模板状态',
-     *     'param'  => ''
-     * )
-     */
-    public function designing()
-    {
-        $theme = $this->request->param('theme');
-        cookie('cmf_design_theme', $theme, 3);
     }
 
 }
