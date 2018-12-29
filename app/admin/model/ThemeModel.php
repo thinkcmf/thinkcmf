@@ -26,7 +26,7 @@ class ThemeModel extends Model
 
     public function installTheme($theme)
     {
-        $manifest = PLUGINS_PATH . "../themes/$theme/manifest.json";
+        $manifest = WEB_ROOT . "themes/$theme/manifest.json";
         if (file_exists_case($manifest)) {
             $manifest           = file_get_contents($manifest);
             $themeData          = json_decode($manifest, true);
@@ -43,7 +43,7 @@ class ThemeModel extends Model
 
     public function updateTheme($theme)
     {
-        $manifest = PLUGINS_PATH . "../themes/$theme/manifest.json";
+        $manifest = WEB_ROOT . "themes/$theme/manifest.json";
         if (file_exists_case($manifest)) {
             $manifest  = file_get_contents($manifest);
             $themeData = json_decode($manifest, true);

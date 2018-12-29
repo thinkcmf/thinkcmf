@@ -53,7 +53,7 @@ class HomeBaseController extends BaseController
             ];
         }
 
-        config('template.view_base', PLUGINS_PATH . "../{$themePath}/");
+        config('template.view_base', WEB_ROOT . "{$themePath}/");
         config('template.tpl_replace_string', $viewReplaceStr);
 
         $themeErrorTmpl = "{$themePath}/error.html";
@@ -184,7 +184,7 @@ hello;
         $themePath = config('template.cmf_theme_path');
         $file      = str_replace('\\', '/', $file);
         $file      = str_replace('//', '/', $file);
-        $themeFile = str_replace(['.html', '.php', $themePath . $theme . "/", PLUGINS_PATH . '../'], '', $file);
+        $themeFile = str_replace(['.html', '.php', $themePath . $theme . "/", WEB_ROOT], '', $file);
 
         $files = Db::name('theme_file')->field('more')->where(['theme' => $theme])->where(function ($query) use ($themeFile) {
             $query->where(['is_public' => 1])->whereOr(['file' => $themeFile]);
