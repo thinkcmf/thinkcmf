@@ -121,7 +121,7 @@ class Swoole extends Command
         }
 
         // 设置应用目录
-        $swoole->setAppPath($this->config['app_path']);
+        $swoole->setAppPath(CMF_ROOT.'app/');
 
         // 创建内存表
         if (!empty($this->config['table'])) {
