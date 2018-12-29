@@ -362,8 +362,8 @@ class ApiService
             'parent_id'   => $categoryId
         ];
 
-        return $portalCategoryModel->field($field)->where($where)->select();
-    }
+		return $portalCategoryModel->field($field)->where($where)->order('list_order ASC')->select();
+	}
 
     /**
      * 返回指定分类下的所有子分类
