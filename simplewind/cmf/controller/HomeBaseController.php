@@ -53,7 +53,7 @@ class HomeBaseController extends BaseController
             ];
         }
 
-        config('template.view_base', PLUGINS_PATH."../{$themePath}/");
+        config('template.view_base', WEB_ROOT . "{$themePath}/");
         config('view_replace_str', $viewReplaceStr);
 
         $themeErrorTmpl = "{$themePath}/error.html";
@@ -73,9 +73,9 @@ class HomeBaseController extends BaseController
      * 加载模板输出
      * @access protected
      * @param string $template 模板文件名
-     * @param array $vars 模板输出变量
-     * @param array $replace 模板替换
-     * @param array $config 模板参数
+     * @param array  $vars     模板输出变量
+     * @param array  $replace  模板替换
+     * @param array  $config   模板参数
      * @return mixed
      */
     protected function fetch($template = '', $vars = [], $replace = [], $config = [])
@@ -86,7 +86,7 @@ class HomeBaseController extends BaseController
         $this->assign('theme_widgets', $more['widgets']);
         $content = parent::fetch($template, $vars, $replace, $config);
 
-        $designingTheme = session('admin_designing_theme');
+        $designingTheme = cookie('cmf_design_theme');
 
         if ($designingTheme) {
             $app        = $this->request->module();
@@ -184,7 +184,7 @@ hello;
         $themePath = config('template.cmf_theme_path');
         $file      = str_replace('\\', '/', $file);
         $file      = str_replace('//', '/', $file);
-        $themeFile = str_replace(['.html', '.php', $themePath . $theme . "/",PLUGINS_PATH.'../'], '', $file);
+        $themeFile = str_replace(['.html', '.php', $themePath . $theme . "/", WEB_ROOT], '', $file);
 
         $files = Db::name('theme_file')->field('more')->where(['theme' => $theme])->where(function ($query) use ($themeFile) {
             $query->where(['is_public' => 1])->whereOr(['file' => $themeFile]);

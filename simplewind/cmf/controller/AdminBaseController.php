@@ -65,7 +65,7 @@ class AdminBaseController extends BaseController
             ];
         }
 
-        config('template.view_base', PLUGINS_PATH."../$themePath/");
+        config('template.view_base', WEB_ROOT . "$themePath/");
         config('view_replace_str', $viewReplaceStr);
     }
 
