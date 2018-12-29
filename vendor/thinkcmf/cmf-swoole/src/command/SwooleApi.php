@@ -118,6 +118,12 @@ class SwooleApi extends Command
         // 定义命名空间
         define('APP_NAMESPACE','api');
 
+//        // 定义缓存目录
+//        define('RUNTIME_PATH', CMF_ROOT . 'data/runtime_api/');
+
+        // 定义路由目录
+        define('ROUTE_PATH', CMF_ROOT . 'api/route.php');
+
         $swoole = new HttpServer($host, $port, $mode, $type);
 
         // 开启守护进程模式
