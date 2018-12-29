@@ -35,7 +35,7 @@ class PageApi
             ->where('published_time',['<', time()], ['> time', 0],'and')
             ->where(function (Query $query) use ($param) {
                 if (!empty($param['keyword'])) {
-                    $query->where('name', 'like', "%{$param['keyword']}%");
+                    $query->where('post_title', 'like', "%{$param['keyword']}%");
                 }
             })->select();
     }
