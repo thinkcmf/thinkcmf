@@ -31,6 +31,10 @@ class AdminCategoryController extends AdminBaseController
      *     'remark' => '文章分类列表',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function index()
     {
@@ -69,6 +73,10 @@ class AdminCategoryController extends AdminBaseController
      *     'remark' => '添加文章分类',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function add()
     {
@@ -124,7 +132,6 @@ class AdminCategoryController extends AdminBaseController
         }
 
         $this->success('添加成功!', url('AdminCategory/index'));
-
     }
 
     /**
@@ -139,6 +146,10 @@ class AdminCategoryController extends AdminBaseController
      *     'remark' => '编辑文章分类',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function edit()
     {
@@ -151,10 +162,11 @@ class AdminCategoryController extends AdminBaseController
 
         $id = $this->request->param('id', 0, 'intval');
         if ($id > 0) {
-            $category = PortalCategoryModel::get($id)->toArray();
-
             $portalCategoryModel = new PortalCategoryModel();
-            $categoriesTree      = $portalCategoryModel->adminCategoryTree($category['parent_id'], $id);
+            $category            = $portalCategoryModel->get($id)->toArray();
+
+
+            $categoriesTree = $portalCategoryModel->adminCategoryTree($category['parent_id'], $id);
 
             $themeModel        = new ThemeModel();
             $listThemeFiles    = $themeModel->getActionThemeFiles('portal/List/index');
@@ -221,6 +233,10 @@ class AdminCategoryController extends AdminBaseController
      *     'remark' => '文章分类选择对话框',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function select()
     {
@@ -241,8 +257,7 @@ tpl;
 
         $categoryTree = $portalCategoryModel->adminCategoryTableTree($selectedIds, $tpl);
 
-        $where      = ['delete_time' => 0];
-        $categories = $portalCategoryModel->where($where)->select();
+        $categories = $portalCategoryModel->where('delete_time', 0)->select();
 
         $this->assign('categories', $categories);
         $this->assign('selectedIds', $selectedIds);
@@ -286,16 +301,15 @@ tpl;
     {
         $data                = $this->request->param();
         $portalCategoryModel = new PortalCategoryModel();
+        $ids                 = $this->request->param('ids/a');
 
         if (isset($data['ids']) && !empty($data["display"])) {
-            $ids = $this->request->param('ids/a');
-            $portalCategoryModel->where(['id' => ['in', $ids]])->update(['status' => 1]);
+            $portalCategoryModel->where('id', 'in', $ids)->update(['status' => 1]);
             $this->success("更新成功！");
         }
 
         if (isset($data['ids']) && !empty($data["hide"])) {
-            $ids = $this->request->param('ids/a');
-            $portalCategoryModel->where(['id' => ['in', $ids]])->update(['status' => 0]);
+            $portalCategoryModel->where('id', 'in', $ids)->update(['status' => 0]);
             $this->success("更新成功！");
         }
 
@@ -324,8 +338,8 @@ tpl;
         if (empty($findCategory)) {
             $this->error('分类不存在!');
         }
-//判断此分类有无子分类（不算被删除的子分类）
-        $categoryChildrenCount = $portalCategoryModel->where(['parent_id' => $id,'delete_time' => 0])->count();
+        //判断此分类有无子分类（不算被删除的子分类）
+        $categoryChildrenCount = $portalCategoryModel->where(['parent_id' => $id, 'delete_time' => 0])->count();
 
         if ($categoryChildrenCount > 0) {
             $this->error('此分类有子类无法删除!');

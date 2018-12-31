@@ -54,7 +54,7 @@
     <script>
         //全局变量
         var GV = {
-            HOST: "{$_SERVER['HTTP_HOST']}",
+            HOST: "{$_SERVER['HTTP_HOST']|default=''}",
             ROOT: "__ROOT__/",
             WEB_ROOT: "__WEB_ROOT__/",
             JS_ROOT: "static/js/"
@@ -62,7 +62,11 @@
     </script>
     <php>$submenus=$menus;</php>
 
-    <php>function getsubmenu($submenus){</php>
+    <php>
+        if (!function_exists('getsubmenu')) {
+            function getsubmenu($submenus){
+
+    </php>
     <notempty name="submenus">
         <php>foreach($submenus as $menu){</php>
         <li>
@@ -94,9 +98,15 @@
 
         <php>}</php>
     </notempty>
-    <php>}</php>
+    <php>
+            }
+        }
+    </php>
 
-    <php>function getsubmenu1($submenus){</php>
+    <php>
+        if (!function_exists('getsubmenu1')) {
+            function getsubmenu1($submenus){
+    </php>
     <php>foreach($submenus as $menu){</php>
     <li>
         <php>
@@ -126,9 +136,13 @@
     </li>
 
     <php>}</php>
-    <php>}</php>
+    <php>}
+    }
+    </php>
 
-    <php>function getsubmenu2($submenus){</php>
+    <php>
+        if (!function_exists('getsubmenu2')) {
+            function getsubmenu2($submenus){</php>
     <php>foreach($submenus as $menu){</php>
     <li>
         <php>
@@ -145,7 +159,9 @@
     </li>
 
     <php>}</php>
-    <php>}</php>
+    <php>}
+    }
+    </php>
 
 
     <if condition="APP_DEBUG">

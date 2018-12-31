@@ -15,11 +15,11 @@ use think\Db;
 class AdminBaseController extends BaseController
 {
 
-    public function _initialize()
+    protected function initialize()
     {
         // 监听admin_init
         hook('admin_init');
-        parent::_initialize();
+        parent::initialize();
         $session_admin_id = session('ADMIN_ID');
         if (!empty($session_admin_id)) {
             $user = Db::name('user')->where(['id' => $session_admin_id])->find();
@@ -32,15 +32,14 @@ class AdminBaseController extends BaseController
             if ($this->request->isPost()) {
                 $this->error("您还没有登录！", url("admin/public/login"));
             } else {
-                header("Location:" . url("admin/public/login"));
-                exit();
+                return $this->redirect(url("admin/Public/login"));
             }
         }
     }
 
     public function _initializeView()
     {
-        $cmfAdminThemePath    = config('cmf_admin_theme_path');
+        $cmfAdminThemePath    = config('template.cmf_admin_theme_path');
         $cmfAdminDefaultTheme = cmf_get_current_admin_theme();
 
         $themePath = "{$cmfAdminThemePath}{$cmfAdminDefaultTheme}";
@@ -66,8 +65,7 @@ class AdminBaseController extends BaseController
             ];
         }
 
-        $viewReplaceStr = array_merge(config('view_replace_str'), $viewReplaceStr);
-        config('template.view_base', "$themePath/");
+        config('template.view_base', WEB_ROOT . "$themePath/");
         config('view_replace_str', $viewReplaceStr);
     }
 

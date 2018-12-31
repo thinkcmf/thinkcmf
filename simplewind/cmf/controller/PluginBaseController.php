@@ -53,6 +53,8 @@ class PluginBaseController extends BaseController
         $this->assign('site_info', $siteInfo);
 
         // 控制器初始化
+        $this->initialize();
+        // 老的控制器初始化 即将取消
         $this->_initialize();
 
         // 前置操作方法
@@ -119,7 +121,8 @@ class PluginBaseController extends BaseController
      * @param array $vars 模板输出变量
      * @param array $replace 模板替换
      * @param array $config 模板参数
-     * @return mixed
+     * @return mixed|string
+     * @throws \Exception
      */
     protected function fetch($template = '', $vars = [], $replace = [], $config = [])
     {
@@ -199,7 +202,7 @@ class PluginBaseController extends BaseController
     /**
      * 设置验证失败后是否抛出异常
      * @access protected
-     * @param bool $fail 是否抛出异常
+     * @param  bool $fail 是否抛出异常
      * @return $this
      */
     protected function validateFailException($fail = true)
@@ -211,11 +214,11 @@ class PluginBaseController extends BaseController
     /**
      * 验证数据
      * @access protected
-     * @param array $data 数据
-     * @param string|array $validate 验证器名或者验证规则数组
-     * @param array $message 提示信息
-     * @param bool $batch 是否批量验证
-     * @param mixed $callback 回调方法（闭包）
+     * @param  array        $data     数据
+     * @param  string|array $validate 验证器名或者验证规则数组
+     * @param  array        $message  提示信息
+     * @param  bool         $batch    是否批量验证
+     * @param  mixed        $callback 回调方法（闭包）
      * @return array|string|true
      * @throws ValidateException
      */
@@ -234,6 +237,7 @@ class PluginBaseController extends BaseController
                 $v->scene($scene);
             }
         }
+
         // 是否批量验证
         if ($batch || $this->batchValidate) {
             $v->batch(true);
@@ -250,13 +254,11 @@ class PluginBaseController extends BaseController
         if (!$v->check($data)) {
             if ($this->failException) {
                 throw new ValidateException($v->getError());
-            } else {
-                return $v->getError();
             }
-        } else {
-            return true;
+            return $v->getError();
         }
-    }
 
+        return true;
+    }
 
 }

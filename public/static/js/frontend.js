@@ -194,14 +194,19 @@
                     },
                     submitHandler: function (form) {
                         var $form = $(form);
+                        if(!$btn){
+                            $btn=$form.find('button.js-ajax-submit');
+                        }
                         $form.ajaxSubmit({
-                            url: $btn.data('action') ? $btn.data('action') : $form.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
+                            url: $btn && $btn.data('action') ? $btn.data('action') : $form.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
                             dataType: 'json',
                             beforeSubmit: function (arr, $form, options) {
-                                $btn.data("loading", true);
-                                var text = $btn.text();
-                                //按钮文案、状态修改
-                                $btn.text(text + '...').prop('disabled', true).addClass('disabled');
+                                if($btn){
+                                    $btn.data("loading", true);
+                                    var text = $btn.text();
+                                    //按钮文案、状态修改
+                                    $btn.text(text + '...').prop('disabled', true).addClass('disabled');
+                                }
                             },
                             success: function (data, statusText, xhr, $form) {
 

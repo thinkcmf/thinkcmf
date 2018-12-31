@@ -26,7 +26,7 @@ class ThemeModel extends Model
 
     public function installTheme($theme)
     {
-        $manifest = "themes/$theme/manifest.json";
+        $manifest = WEB_ROOT . "themes/$theme/manifest.json";
         if (file_exists_case($manifest)) {
             $manifest           = file_get_contents($manifest);
             $themeData          = json_decode($manifest, true);
@@ -43,7 +43,7 @@ class ThemeModel extends Model
 
     public function updateTheme($theme)
     {
-        $manifest = "themes/$theme/manifest.json";
+        $manifest = WEB_ROOT . "themes/$theme/manifest.json";
         if (file_exists_case($manifest)) {
             $manifest  = file_get_contents($manifest);
             $themeData = json_decode($manifest, true);
@@ -59,12 +59,16 @@ class ThemeModel extends Model
 
     /**
      * 获取当前前台模板某操作下的模板文件
-     * @param $action 控制器操作
-     * @return false|\PDOStatement|string|\think\Collection
+     * @param $action string 控制器操作
+     * @return array|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function getActionThemeFiles($action)
     {
-        $theme = config('cmf_default_theme');
+        $theme = config('template.cmf_default_theme');
+
         return Db::name('theme_file')->where(['theme' => $theme, 'action' => $action])->select();
     }
 
@@ -137,7 +141,7 @@ class ThemeModel extends Model
         }
 
         // 检查安装过的模板文件是否已经删除
-        $files = Db::name('theme_file')->where(['theme' => $theme])->select();
+        $files = Db::name('theme_file')->where('theme', $theme)->select();
 
         foreach ($files as $themeFile) {
             $tplFile           = $themeDir . '/' . $themeFile['file'] . '.' . $suffix;

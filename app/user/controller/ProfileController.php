@@ -20,11 +20,6 @@ use think\Db;
 class ProfileController extends UserBaseController
 {
 
-    function _initialize()
-    {
-        parent::_initialize();
-    }
-
     /**
      * 会员中心首页
      */
@@ -164,7 +159,7 @@ class ProfileController extends UserBaseController
         $result = $file->validate([
             'ext'  => 'jpg,jpeg,png',
             'size' => 1024 * 1024
-        ])->move('.' . DS . 'upload' . DS . 'avatar' . DS);
+        ])->move(WEB_ROOT . 'upload' . DIRECTORY_SEPARATOR . 'avatar' . DIRECTORY_SEPARATOR);
 
         if ($result) {
             $avatarSaveName = str_replace('//', '/', str_replace('\\', '/', $result->getSaveName()));
@@ -197,7 +192,7 @@ class ProfileController extends UserBaseController
             $x = $this->request->param('x', 0, 'intval');
             $y = $this->request->param('y', 0, 'intval');
 
-            $avatarPath = "./upload/" . $avatar;
+            $avatarPath = WEB_ROOT . "upload/" . $avatar;
 
             $avatarImg = Image::open($avatarPath);
             $avatarImg->crop($w, $h, $x, $y)->save($avatarPath);
@@ -208,7 +203,7 @@ class ProfileController extends UserBaseController
                 $result  = $storage->upload($avatar, $avatarPath, 'image');
 
                 $userId = cmf_get_current_user_id();
-                Db::name("user")->where(["id" => $userId])->update(["avatar" => $avatar]);
+                Db::name("user")->where("id", $userId)->update(["avatar" => $avatar]);
                 session('user.avatar', $avatar);
                 $this->success("头像更新成功！");
             } else {

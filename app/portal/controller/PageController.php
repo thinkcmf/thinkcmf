@@ -15,6 +15,13 @@ use app\portal\service\PostService;
 
 class PageController extends HomeBaseController
 {
+    /**
+     * 页面管理
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function index()
     {
         $postService = new PostService();

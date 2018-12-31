@@ -11,13 +11,13 @@
 namespace app\user\controller;
 
 use cmf\controller\HomeBaseController;
-use think\Validate;
+use think\facade\Validate;
 
 class VerificationCodeController extends HomeBaseController
 {
     public function send()
     {
-        $validate = new Validate([
+        $validate = new \think\Validate([
             'username' => 'require',
             'captcha'  => 'require',
         ]);
@@ -83,7 +83,7 @@ class VerificationCodeController extends HomeBaseController
             $username = empty($user['user_nickname']) ? $user['user_login'] : $user['user_nickname'];
 
             $message = htmlspecialchars_decode($emailTemplate['template']);
-            $message = $this->view->display($message, ['code' => $code, 'username' => $username]);
+            $message = $this->display($message, ['code' => $code, 'username' => $username]);
             $subject = empty($emailTemplate['subject']) ? 'ThinkCMF验证码' : $emailTemplate['subject'];
             $result  = cmf_send_email($data['username'], $subject, $message);
 

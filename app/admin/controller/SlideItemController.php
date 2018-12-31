@@ -28,6 +28,10 @@ class SlideItemController extends AdminBaseController
      *     'remark' => '幻灯片页面列表',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function index()
     {
@@ -37,9 +41,9 @@ class SlideItemController extends AdminBaseController
             return $content;
         }
 
-        $id      = $this->request->param('slide_id');
+        $id      = $this->request->param('slide_id', 0, 'intval');
         $slideId = !empty($id) ? $id : 1;
-        $result  = Db::name('slideItem')->where(['slide_id' => $slideId])->select()->toArray();
+        $result  = Db::name('slideItem')->where('slide_id', $slideId)->select();
 
         $this->assign('slide_id', $id);
         $this->assign('result', $result);
@@ -113,8 +117,8 @@ class SlideItemController extends AdminBaseController
             return $content;
         }
 
-        $id     = $this->request->param('id');
-        $result = Db::name('slideItem')->where(['id' => $id])->find();
+        $id     = $this->request->param('id', 0, 'intval');
+        $result = Db::name('slideItem')->where('id', $id)->find();
 
         $this->assign('result', $result);
         $this->assign('slide_id', $result['slide_id']);
@@ -161,7 +165,7 @@ class SlideItemController extends AdminBaseController
      */
     public function delete()
     {
-        $id     = $this->request->param('id', 0, 'intval');
+        $id = $this->request->param('id', 0, 'intval');
 
         $slideItem = Db::name('slideItem')->find($id);
 
@@ -171,7 +175,7 @@ class SlideItemController extends AdminBaseController
 //            if (file_exists("./upload/".$slideItem['image'])){
 //                @unlink("./upload/".$slideItem['image']);
 //            }
-            $this->success("删除成功！", url("SlideItem/index",["slide_id"=>$slideItem['slide_id']]));
+            $this->success("删除成功！", url("SlideItem/index", ["slide_id" => $slideItem['slide_id']]));
         } else {
             $this->error('删除失败！');
         }
@@ -195,7 +199,7 @@ class SlideItemController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         if ($id) {
-            $rst = Db::name('slideItem')->where(['id' => $id])->update(['status' => 0]);
+            $rst = Db::name('slideItem')->where('id', $id)->update(['status' => 0]);
             if ($rst) {
                 $this->success("幻灯片隐藏成功！");
             } else {
@@ -223,7 +227,7 @@ class SlideItemController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         if ($id) {
-            $result = Db::name('slideItem')->where(['id' => $id])->update(['status' => 1]);
+            $result = Db::name('slideItem')->where('id', $id)->update(['status' => 1]);
             if ($result) {
                 $this->success("幻灯片启用成功！");
             } else {

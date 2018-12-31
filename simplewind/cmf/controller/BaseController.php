@@ -39,8 +39,9 @@ class BaseController extends Controller
         $this->_initializeView();
         $this->view = View::instance(Config::get('template'), Config::get('view_replace_str'));
 
-
         // 控制器初始化
+        $this->initialize();
+        // 老的控制器初始化 即将取消
         $this->_initialize();
 
         // 前置操作方法
@@ -51,6 +52,14 @@ class BaseController extends Controller
                     $this->beforeAction($method, $options);
             }
         }
+    }
+
+    /**
+     * 初始化操作
+     * @access protected
+     */
+    protected function initialize()
+    {
     }
 
 

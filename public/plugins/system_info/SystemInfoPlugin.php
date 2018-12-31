@@ -44,7 +44,7 @@ class SystemInfoPlugin extends Plugin
         $mysql = $mysql[0]['version'];
         $mysql = empty($mysql) ? lang('UNKNOWN') : $mysql;
 
-        $version = THINKCMF_VERSION;
+        $version = cmf_version();
 
         //server infomation
         $info = [
@@ -54,7 +54,7 @@ class SystemInfoPlugin extends Plugin
             lang('PHP_RUN_MODE')          => php_sapi_name(),
             lang('PHP_VERSION')           => phpversion(),
             lang('MYSQL_VERSION')         => $mysql,
-            'ThinkPHP'                    => THINK_VERSION,
+            'ThinkPHP'                    => cmf_thinkphp_version(),
             'ThinkCMF'                    => "{$version} <a href=\"http://www.thinkcmf.com\" target=\"_blank\">访问官网</a>",
             lang('UPLOAD_MAX_FILESIZE')   => ini_get('upload_max_filesize'),
             lang('MAX_EXECUTION_TIME')    => ini_get('max_execution_time') . "s",

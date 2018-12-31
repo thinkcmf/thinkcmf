@@ -18,6 +18,14 @@ use think\Db;
 
 class ArticleController extends HomeBaseController
 {
+    /**
+     * 文章详情
+     * @return mixed
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function index()
     {
 
@@ -59,7 +67,7 @@ class ArticleController extends HomeBaseController
             $tplName = empty($category["one_tpl"]) ? $tplName : $category["one_tpl"];
         }
 
-        Db::name('portal_post')->where(['id' => $articleId])->setInc('post_hits');
+        Db::name('portal_post')->where('id', $articleId)->setInc('post_hits');
 
 
         hook('portal_before_assign_article', $article);
@@ -83,7 +91,7 @@ class ArticleController extends HomeBaseController
         $canLike = cmf_check_user_action("posts$articleId", 1);
 
         if ($canLike) {
-            Db::name('portal_post')->where(['id' => $articleId])->setInc('post_like');
+            Db::name('portal_post')->where('id', $articleId)->setInc('post_like');
 
             $this->success("赞好啦！");
         } else {

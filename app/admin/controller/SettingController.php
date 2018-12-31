@@ -53,7 +53,7 @@ class SettingController extends AdminBaseController
         }
 
         $noNeedDirs     = [".", "..", ".svn", 'fonts'];
-        $adminThemesDir = config('cmf_admin_theme_path') . config('cmf_admin_default_theme') . '/public/assets/themes/';
+        $adminThemesDir = config('template.cmf_admin_theme_path') . config('template.cmf_admin_default_theme') . '/public/assets/themes/';
         $adminStyles    = cmf_scan_dir($adminThemesDir . '*', GLOB_ONLYDIR);
         $adminStyles    = array_diff($adminStyles, $noNeedDirs);
         $cdnSettings    = cmf_get_option('cdn_settings');
@@ -166,7 +166,7 @@ class SettingController extends AdminBaseController
 
             $userId = cmf_get_current_admin_id();
 
-            $admin = Db::name('user')->where(["id" => $userId])->find();
+            $admin = Db::name('user')->where("id", $userId)->find();
 
             $oldPassword = $data['old_password'];
             $password    = $data['password'];

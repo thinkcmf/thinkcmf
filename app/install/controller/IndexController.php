@@ -11,13 +11,12 @@
 namespace app\install\controller;
 
 use app\admin\model\ThemeModel;
-use think\Controller;
+use cmf\controller\BaseController;
 use think\Db;
 
-class IndexController extends Controller
+class IndexController extends BaseController
 {
-
-    public function _initialize()
+    protected function initialize()
     {
         if (cmf_is_installed()) {
             $this->error('网站已经安装', cmf_get_root() . '/');
@@ -126,8 +125,8 @@ class IndexController extends Controller
         }
 
         $folders    = [
-            realpath(CMF_ROOT . 'data') . DS,
-            realpath('./upload') . DS,
+            realpath(CMF_ROOT . 'data') . DIRECTORY_SEPARATOR,
+            realpath('./upload') . DIRECTORY_SEPARATOR,
         ];
         $newFolders = [];
         foreach ($folders as $dir) {
@@ -295,7 +294,7 @@ class IndexController extends Controller
             cmf_set_option('site_info', $siteInfo);
             Db::name('user')->insert($admin);
         } catch (\Exception $e) {
-            $this->error("网站创建失败!");
+            $this->error("网站创建失败!" . $e->getMessage());
         }
 
         $this->success("网站创建完成!");
@@ -305,7 +304,7 @@ class IndexController extends Controller
     public function installTheme()
     {
         $themeModel = new ThemeModel();
-        $result     = $themeModel->installTheme(config('cmf_default_theme'));
+        $result     = $themeModel->installTheme(config('template.cmf_default_theme'));
         if ($result === false) {
             $this->error('模板不存在!');
         }
@@ -333,7 +332,7 @@ class IndexController extends Controller
             $supportInnoDb = false;
 
             try {
-                Db::connect($dbConfig)->query("SELECT VERSION();");
+//                Db::connect($dbConfig)->query("SELECT VERSION();");
                 $engines = Db::connect($dbConfig)->query("SHOW ENGINES;");
 
                 foreach ($engines as $engine) {
@@ -343,11 +342,11 @@ class IndexController extends Controller
                     }
                 }
             } catch (\Exception $e) {
-                $this->error('数据库账号或密码不正确！');
+                $this->error('数据库账号或密码不正确！' . $e->getMessage());
             }
-            if($supportInnoDb){
+            if ($supportInnoDb) {
                 $this->success('验证成功！');
-            }else{
+            } else {
                 $this->error('数据库账号密码验证通过，但不支持InnoDb!');
             }
         } else {

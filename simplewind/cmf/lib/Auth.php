@@ -111,11 +111,7 @@ class Auth
      */
     private function getUserInfo($uid)
     {
-        static $userInfo = [];
-        if (!isset($userInfo[$uid])) {
-            $userInfo[$uid] = Db::name('user')->where(['id' => $uid])->find();
-        }
-        return $userInfo[$uid];
+        return Db::name('user')->where(['id' => $uid])->find();
     }
 
 }

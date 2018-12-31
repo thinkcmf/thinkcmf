@@ -141,37 +141,6 @@ hello;
     sp_show_msg("管理员账号创建成功!");
 }
 
-
-/**
- * 写入配置文件
- * @param  array $config 配置信息
- */
-function sp_create_config($config, $authcode)
-{
-    if (is_array($config)) {
-        //读取配置内容
-        $conf = file_get_contents(MODULE_PATH . 'Data/config.php');
-
-        //替换配置项
-        foreach ($config as $key => $value) {
-            $conf = str_replace("#{$key}#", $value, $conf);
-        }
-
-        $conf = str_replace('#AUTHCODE#', $authcode, $conf);
-        $conf = str_replace('#COOKIE_PREFIX#', sp_random_string(6) . "_", $conf);
-
-        //写入应用配置文件
-        if (file_put_contents('data/conf/db.php', $conf)) {
-            sp_show_msg('配置文件写入成功');
-        } else {
-            sp_show_msg('配置文件写入失败！', 'error');
-        }
-        return '';
-
-    }
-}
-
-
 function sp_create_db_config($config)
 {
     if (is_array($config)) {
@@ -183,12 +152,18 @@ function sp_create_db_config($config)
             $conf = str_replace("#{$key}#", $value, $conf);
         }
 
+        if (strpos(cmf_version(), '5.0.') === false) {
+            $confDir = CMF_ROOT . 'data/config/'; // 5.1
+        } else {
+            $confDir = CMF_ROOT . 'data/conf/'; // 5.0
+        }
+
         try {
-            $confDir = CMF_ROOT . 'data/conf/';
+
             if (!file_exists($confDir)) {
                 mkdir($confDir, 0777, true);
             }
-            file_put_contents(CMF_ROOT . 'data/conf/database.php', $conf);
+            file_put_contents($confDir . 'database.php', $conf);
         } catch (\Exception $e) {
 
             return false;

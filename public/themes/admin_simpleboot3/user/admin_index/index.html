@@ -48,19 +48,32 @@
                     <td>{:date('Y-m-d H:i:s',$vo['create_time'])}</td>
                     <td>{:date('Y-m-d H:i:s',$vo['last_login_time'])}</td>
                     <td>{$vo.last_login_ip}</td>
-                    <td>{$user_statuses[$vo['user_status']]}</td>
+                    <td>
+                        <switch name="vo.user_status">
+                            <case value="0">
+                                <span class="label label-danger">{$user_statuses[$vo['user_status']]}</span>
+                            </case>
+                            <case value="1">
+                                <span class="label label-success">{$user_statuses[$vo['user_status']]}</span>
+                            </case>
+                            <case value="2">
+                                <span class="label label-warning">{$user_statuses[$vo['user_status']]}</span>
+                            </case>
+                        </switch>
+                    </td>
                     <td>
                         <neq name="vo.id" value="1">
                             <empty name="vo.user_status">
-                                <a href="{:url('adminIndex/cancelban',array('id'=>$vo['id']))}"
-                                   class="js-ajax-dialog-btn"
+                                <a class="btn btn-xs btn-success js-ajax-dialog-btn"
+                                   href="{:url('adminIndex/cancelban',array('id'=>$vo['id']))}"
                                    data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}">{:lang('ACTIVATE_USER')}</a>
                                 <else/>
-                                <a href="{:url('adminIndex/ban',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn"
+                                <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
+                                   href="{:url('adminIndex/ban',array('id'=>$vo['id']))}"
                                    data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}">{:lang('BLOCK_USER')}</a>
                             </empty>
                             <else/>
-                            <a style="color: #ccc;">{:lang('BLOCK_USER')}</a>
+                            <a class="btn btn-xs btn-warning disabled">{:lang('BLOCK_USER')}</a>
                         </neq>
                     </td>
                 </tr>

@@ -32,7 +32,8 @@
                     <td>{$vo.last_login_ip}</td>
                     <td>{$vo.login_times}</td>
                     <td>
-                        <a href="{:url('adminOauth/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
+                        <a class="btn btn-xs btn-danger js-ajax-delete"
+                           href="{:url('adminOauth/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>

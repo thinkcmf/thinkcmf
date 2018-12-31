@@ -17,7 +17,10 @@ class RouteModel extends Model
     /**
      * 获取所有url美化规则
      * @param boolean $refresh 是否强制刷新
-     * @return mixed|void|boolean|NULL|unknown[]|unknown
+     * @return array|mixed|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function getRoutes($refresh = false)
     {
@@ -83,18 +86,27 @@ class RouteModel extends Model
 
         }
         cache("routes", $cacheRoutes);
-        $route_dir = CMF_ROOT . "data/conf/";
-        if (!file_exists($route_dir)) {
-            mkdir($route_dir);
+
+        if (strpos(cmf_version(), '5.0.') === false) {
+            $routeDir = CMF_ROOT . "data/route/"; // 5.1
+        } else {
+            $routeDir = CMF_ROOT . "data/conf/"; // 5.0
         }
 
-        $route_file = $route_dir . "route.php";
+        if (!file_exists($routeDir)) {
+            mkdir($routeDir);
+        }
+
+        $route_file = $routeDir . "route.php";
 
         file_put_contents($route_file, "<?php\treturn " . stripslashes(var_export($allRoutes, true)) . ";");
 
         return $cacheRoutes;
     }
 
+    /**
+     * @return array
+     */
     public function getAppUrls()
     {
         $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
@@ -136,7 +148,7 @@ class RouteModel extends Model
         $full_url = $this->where('url', $url)->value('full_url');
 
         return empty($full_url) ? '' : $full_url;
-        
+
     }
 
     public function buildFullUrl($action, $vars)
@@ -158,7 +170,7 @@ class RouteModel extends Model
         return $fullUrl;
     }
 
-    public function exists($url, $fullUrl)
+    public function existsRoute($url, $fullUrl)
     {
 
         $findRouteCount = $this->where(['url' => $url, 'full_url' => ['neq', $fullUrl]])->count();
@@ -169,25 +181,40 @@ class RouteModel extends Model
     public function setRoute($url, $action, $vars, $type = 2, $listOrder = 10000)
     {
         $fullUrl   = $this->buildFullUrl($action, $vars);
-        $findRoute = $this->where(['full_url' => $fullUrl])->find();
+        $findRoute = $this->where('full_url', $fullUrl)->find();
 
         if ($findRoute) {
             if (empty($url)) {
-                $this->where(['id' => $findRoute['id']])->delete();
+                $this->where('id', $findRoute['id'])->delete();
             } else {
-                $this->where(['id' => $findRoute['id']])->update(['url' => $url, 'list_order' => $listOrder, 'type' => $type]);
+                $this->where('id', $findRoute['id'])->update([
+                    'url'        => $url,
+                    'list_order' => $listOrder,
+                    'type'       => $type
+                ]);
             }
         } else {
             if (!empty($url)) {
-                $this->insert(['full_url' => $fullUrl, 'url' => $url, 'list_order' => $listOrder, 'type' => $type]);
+                $this->insert([
+                    'full_url'   => $fullUrl,
+                    'url'        => $url,
+                    'list_order' => $listOrder,
+                    'type'       => $type
+                ]);
             }
         }
     }
 
+    /**
+     * @param $action
+     * @param $vars
+     * @return bool
+     * @throws \Exception
+     */
     public function deleteRoute($action, $vars)
     {
         $fullUrl = $this->buildFullUrl($action, $vars);
-        $this->where(['full_url' => $fullUrl])->delete();
+        $this->where('full_url', $fullUrl)->delete();
         return true;
     }
 

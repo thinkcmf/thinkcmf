@@ -17,11 +17,6 @@ use think\Db;
 class RouteController extends AdminBaseController
 {
 
-    public function _initialize()
-    {
-        parent::_initialize();
-    }
-
     /**
      * 路由规则列表
      * @adminMenu(
@@ -37,9 +32,11 @@ class RouteController extends AdminBaseController
      */
     public function index()
     {
+        global $CMF_GV_routes;
         $routeModel = new RouteModel();
         $routes     = Db::name('route')->order("list_order asc")->select();
         $routeModel->getRoutes(true);
+        unset($CMF_GV_routes);
         $this->assign("routes", $routes);
         return $this->fetch();
     }
@@ -79,10 +76,11 @@ class RouteController extends AdminBaseController
     {
         $data       = $this->request->param();
         $routeModel = new RouteModel();
-        $result     = $routeModel->validate(true)->allowField(true)->save($data);
-        if ($result === false) {
-            $this->error($routeModel->getError());
+        $result     = $this->validate($data, 'Route');
+        if ($result !== true) {
+            $this->error($result);
         }
+        $routeModel->allowField(true)->save($data);
 
         $this->success("添加成功！", url("Route/index", ['id' => $routeModel->id]));
     }
@@ -103,7 +101,7 @@ class RouteController extends AdminBaseController
     public function edit()
     {
         $id    = $this->request->param("id", 0, 'intval');
-        $route = Db::name('route')->where(['id' => $id])->find();
+        $route = Db::name('route')->where('id', $id)->find();
         $this->assign($route);
         return $this->fetch();
     }
@@ -125,10 +123,11 @@ class RouteController extends AdminBaseController
     {
         $data       = $this->request->param();
         $routeModel = new RouteModel();
-        $result     = $routeModel->validate(true)->allowField(true)->isUpdate(true)->save($data);
-        if ($result === false) {
-            $this->error($routeModel->getError());
+        $result     = $this->validate($data, 'Route');
+        if ($result !== true) {
+            $this->error($result);
         }
+        $routeModel->allowField(true)->isUpdate(true)->save($data);
 
         $this->success("保存成功！", url("Route/index"));
     }
@@ -259,9 +258,9 @@ class RouteController extends AdminBaseController
         if (!empty($params)) {
 
             foreach ($params as $param) {
-                if(empty($url['vars'][$param]['require'])){
+                if (empty($url['vars'][$param]['require'])) {
                     array_push($urlDepr1Params, "[:$param]");
-                }else{
+                } else {
                     array_push($urlDepr1Params, ":$param");
                 }
 
@@ -272,10 +271,10 @@ class RouteController extends AdminBaseController
 
         if ($actionArr[2] == 'index') {
             $actionArr[1] = cmf_parse_name($actionArr[1]);
-            return empty($params) ? $actionArr[1].'$' : ($actionArr[1] . '/' . implode('/', $urlDepr1Params) /*. '或' . $actionArr[1] . '-' . implode('-', $urlDepr2Params)*/);
+            return empty($params) ? $actionArr[1] . '$' : ($actionArr[1] . '/' . implode('/', $urlDepr1Params) /*. '或' . $actionArr[1] . '-' . implode('-', $urlDepr2Params)*/);
         } else {
             $actionArr[2] = cmf_parse_name($actionArr[2]);
-            return empty($params) ? $actionArr[2].'$' : ($actionArr[2] . '/' . implode('/', $urlDepr1Params) /*. '或' . $actionArr[2] . '-' . implode('-', $urlDepr2Params)*/);
+            return empty($params) ? $actionArr[2] . '$' : ($actionArr[2] . '/' . implode('/', $urlDepr1Params) /*. '或' . $actionArr[2] . '-' . implode('-', $urlDepr2Params)*/);
         }
 
     }

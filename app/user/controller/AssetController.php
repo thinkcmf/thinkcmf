@@ -12,7 +12,7 @@ namespace app\user\controller;
 
 use cmf\controller\AdminBaseController;
 use cmf\lib\Upload;
-use think\View;
+use think\facade\View;
 
 /**
  * 附件上传控制器
@@ -21,12 +21,12 @@ use think\View;
  */
 class AssetController extends AdminBaseController
 {
-    public function _initialize()
+    public function initialize()
     {
         $adminId = cmf_get_current_admin_id();
         $userId  = cmf_get_current_user_id();
         if (empty($adminId) && empty($userId)) {
-            exit("非法上传！");
+            $this->error("非法上传！");
         }
     }
 

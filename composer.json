@@ -3,8 +3,8 @@
     "description": "ThinkCMF based on ThinkPHP 5.0 , it is a free and open source Content Management Framework(CMF)",
     "type": "project",
     "keywords": [
-    	"cmf",
-    	"thinkcmf",
+        "cmf",
+        "thinkcmf",
         "framework",
         "thinkphp",
         "ORM"
@@ -19,8 +19,9 @@
     ],
     "require": {
         "php": ">=5.4.0",
+        "ext-json": "*",
         "topthink/framework": "~5.0.0",
-        "topthink/think-helper":"^1.0",
+        "topthink/think-helper": "^1.0",
         "topthink/think-captcha": "^1.0",
         "phpmailer/phpmailer": "^5.2",
         "mindplay/annotations": "^1.3",
@@ -30,12 +31,13 @@
         "phpoffice/phpexcel": "^1.8",
         "ezyang/htmlpurifier": "^4.9",
         "topthink/think-queue": "^1.1.4",
-        "electrolinux/phpquery": "^0.9.6"
+        "electrolinux/phpquery": "^0.9.6",
+        "phpoffice/phpspreadsheet": "^1.5"
     },
     "extra": {
-        "think-path":"simplewind/thinkphp"
+        "think-path": "simplewind/thinkphp"
     },
     "config": {
-        "vendor-dir":"simplewind/vendor"
+        "vendor-dir": "simplewind/vendor"
     }
 }

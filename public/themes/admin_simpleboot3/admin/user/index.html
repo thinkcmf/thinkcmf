@@ -6,7 +6,7 @@
 			<li class="active"><a href="{:url('user/index')}">{:lang('ADMIN_USER_INDEX')}</a></li>
 			<li><a href="{:url('user/add')}">{:lang('ADMIN_USER_ADD')}</a></li>
 		</ul>
-        <form class="well form-inline margin-top-20" method="post" action="{:url('User/index')}">
+        <form class="well form-inline margin-top-20" method="get" action="{:url('User/index')}">
             用户名:
             <input type="text" class="form-control" name="user_login" style="width: 120px;" value="{:input('request.user_login/s','')}" placeholder="请输入{:lang('USERNAME')}">
             邮箱:
@@ -23,7 +23,7 @@
 					<th>{:lang('LAST_LOGIN_TIME')}</th>
 					<th>{:lang('EMAIL')}</th>
 					<th>{:lang('STATUS')}</th>
-					<th width="130">{:lang('ACTIONS')}</th>
+					<th width="140">{:lang('ACTIONS')}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -41,22 +41,35 @@
 						</if>
 					</td>
 					<td>{$vo.user_email}</td>
-					<td>{$user_statuses[$vo['user_status']]}</td>
+					<td>
+						<switch name="vo.user_status">
+							<case value="0">
+								<span class="label label-danger">{$user_statuses[$vo['user_status']]}</span>
+							</case>
+							<case value="1">
+								<span class="label label-success">{$user_statuses[$vo['user_status']]}</span>
+							</case>
+							<case value="2">
+								<span class="label label-warning">{$user_statuses[$vo['user_status']]}</span>
+							</case>
+						</switch>
+					</td>
 					<td>
 						<if condition="$vo['id'] eq 1 || $vo['id'] eq cmf_get_current_admin_id()">
-						<font color="#cccccc">{:lang('EDIT')}</font>  <font color="#cccccc">{:lang('DELETE')}</font>
+							<span class="btn btn-xs btn-primary disabled">{:lang('EDIT')}</span>
+							<span class="btn btn-xs btn-danger disabled">{:lang('DELETE')}</span>
 							<if condition="$vo['user_status'] eq 1">
-								<font color="#cccccc">{:lang('BLOCK_USER')}</font>
+								<span class="btn btn-xs btn-danger disabled">{:lang('BLOCK_USER')}</span>
 							<else />
-								<font color="#cccccc">{:lang('ACTIVATE_USER')}</font>
+								<span class="btn btn-xs btn-warning disabled">{:lang('ACTIVATE_USER')}</span>
 							</if>
 						<else />
-							<a href='{:url("user/edit",array("id"=>$vo["id"]))}'>{:lang('EDIT')}</a>
-							<a class="js-ajax-delete" href="{:url('user/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+							<a class="btn btn-xs btn-primary" href='{:url("user/edit",array("id"=>$vo["id"]))}'>{:lang('EDIT')}</a>
+							<a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('user/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
 							<if condition="$vo['user_status'] eq 1">
-								<a href="{:url('user/ban',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn" data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}">{:lang('BLOCK_USER')}</a>
+								<a class="btn btn-xs btn-danger js-ajax-dialog-btn" href="{:url('user/ban',array('id'=>$vo['id']))}" data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}">{:lang('BLOCK_USER')}</a>
 							<else />
-								<a href="{:url('user/cancelban',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn" data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}">{:lang('ACTIVATE_USER')}</a>
+								<a class="btn btn-xs btn-warning js-ajax-dialog-btn" href="{:url('user/cancelban',array('id'=>$vo['id']))}" data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}">{:lang('ACTIVATE_USER')}</a>
 							</if>
 						</if>
 					</td>

@@ -13,6 +13,7 @@ namespace app\admin\controller;
 use app\admin\model\AdminMenuModel;
 use cmf\controller\AdminBaseController;
 use think\Db;
+use think\facade\Cache;
 use tree\Tree;
 use mindplay\annotations\Annotations;
 
@@ -30,6 +31,10 @@ class MenuController extends AdminBaseController
      *     'remark' => '后台菜单管理',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function index()
     {
@@ -42,7 +47,7 @@ class MenuController extends AdminBaseController
         session('admin_menu_index', 'Menu/index');
         $result     = Db::name('AdminMenu')->order(["list_order" => "ASC"])->select()->toArray();
         $tree       = new Tree();
-        $tree->icon = ['&nbsp;&nbsp;&nbsp;│ ', '&nbsp;&nbsp;&nbsp;├─ ', '&nbsp;&nbsp;&nbsp;└─ '];
+        $tree->icon = ['&nbsp;&nbsp;&nbsp;│ ', '&nbsp;&nbsp;&nbsp;├─', '&nbsp;&nbsp;&nbsp;└─ '];
         $tree->nbsp = '&nbsp;&nbsp;&nbsp;';
 
         $newMenus = [];
@@ -53,10 +58,10 @@ class MenuController extends AdminBaseController
 
             $result[$key]['parent_id_node'] = ($value['parent_id']) ? ' class="child-of-node-' . $value['parent_id'] . '"' : '';
             $result[$key]['style']          = empty($value['parent_id']) ? '' : 'display:none;';
-            $result[$key]['str_manage']     = '<a href="' . url("Menu/add", ["parent_id" => $value['id'], "menu_id" => $this->request->param("menu_id")])
-                . '">' . lang('ADD_SUB_MENU') . '</a>  <a href="' . url("Menu/edit", ["id" => $value['id'], "menu_id" => $this->request->param("menu_id")])
-                . '">' . lang('EDIT') . '</a>  <a class="js-ajax-delete" href="' . url("Menu/delete", ["id" => $value['id'], "menu_id" => $this->request->param("menu_id")]) . '">' . lang('DELETE') . '</a> ';
-            $result[$key]['status']         = $value['status'] ? lang('DISPLAY') : lang('HIDDEN');
+            $result[$key]['str_manage']     = '<a class="btn btn-xs btn-primary" href="' . url("Menu/add", ["parent_id" => $value['id'], "menu_id" => $this->request->param("menu_id")]) . '">' . lang('ADD_SUB_MENU') . '</a> 
+                                               <a class="btn btn-xs btn-primary" href="' . url("Menu/edit", ["id" => $value['id'], "menu_id" => $this->request->param("menu_id")]) . '">' . lang('EDIT') . '</a>  
+                                               <a class="btn btn-xs btn-danger js-ajax-delete" href="' . url("Menu/delete", ["id" => $value['id'], "menu_id" => $this->request->param("menu_id")]) . '">' . lang('DELETE') . '</a> ';
+            $result[$key]['status']         = $value['status'] ? '<span class="label label-success">' . lang('DISPLAY') . '</span>' : '<span class="label label-warning">' . lang('HIDDEN') . '</span>';
             if (APP_DEBUG) {
                 $result[$key]['app'] = $value['app'] . "/" . $value['controller'] . "/" . $value['action'];
             }
@@ -88,6 +93,10 @@ class MenuController extends AdminBaseController
      *     'remark' => '后台所有菜单列表',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function lists()
     {
@@ -109,6 +118,10 @@ class MenuController extends AdminBaseController
      *     'remark' => '后台菜单添加',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function add()
     {
@@ -174,7 +187,7 @@ class MenuController extends AdminBaseController
                 $sessionAdminMenuIndex = session('admin_menu_index');
                 $to                    = empty($sessionAdminMenuIndex) ? "Menu/index" : $sessionAdminMenuIndex;
                 $this->_exportAppMenuDefaultLang();
-                cache(null, 'admin_menus');// 删除后台菜单缓存
+                Cache::clear('admin_menus');// 删除后台菜单缓存
                 $this->success("添加成功！", url($to));
             }
         }
@@ -192,12 +205,16 @@ class MenuController extends AdminBaseController
      *     'remark' => '后台菜单编辑',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function edit()
     {
         $tree   = new Tree();
         $id     = $this->request->param("id", 0, 'intval');
-        $rs     = Db::name('AdminMenu')->where(["id" => $id])->find();
+        $rs     = Db::name('AdminMenu')->where("id", $id)->find();
         $result = Db::name('AdminMenu')->order(["list_order" => "ASC"])->select();
         $array  = [];
         foreach ($result as $r) {
@@ -224,12 +241,17 @@ class MenuController extends AdminBaseController
      *     'remark' => '后台菜单编辑提交保存',
      *     'param'  => ''
      * )
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
      */
     public function editPost()
     {
         if ($this->request->isPost()) {
             $id      = $this->request->param('id', 0, 'intval');
-            $oldMenu = Db::name('AdminMenu')->where(['id' => $id])->find();
+            $oldMenu = Db::name('AdminMenu')->where('id', $id)->find();
 
             $result = $this->validate($this->request->param(), 'AdminMenu.edit');
 
@@ -254,7 +276,7 @@ class MenuController extends AdminBaseController
                     $oldController = $oldMenu['controller'];
                     $oldAction     = $oldMenu['action'];
                     $oldName       = "$oldApp/$oldController/$oldAction";
-                    $findOldRuleId = Db::name('AuthRule')->where(["name" => $oldName])->value('id');
+                    $findOldRuleId = Db::name('AuthRule')->where("name", $oldName)->value('id');
                     if (empty($findOldRuleId)) {
                         Db::name('AuthRule')->insert([
                             "name"  => $authRuleName,
@@ -264,7 +286,7 @@ class MenuController extends AdminBaseController
                             "param" => $param
                         ]);//type 1-admin rule;2-user rule
                     } else {
-                        Db::name('AuthRule')->where(['id' => $findOldRuleId])->update([
+                        Db::name('AuthRule')->where('id', $findOldRuleId)->update([
                             "name"  => $authRuleName,
                             "app"   => $app,
                             "type"  => "admin_url",
@@ -279,7 +301,7 @@ class MenuController extends AdminBaseController
                     ])->update(["title" => $menuName, 'param' => $param]);//type 1-admin rule;2-user rule
                 }
                 $this->_exportAppMenuDefaultLang();
-                cache(null, 'admin_menus');// 删除后台菜单缓存
+                Cache::clear('admin_menus');// 删除后台菜单缓存
                 $this->success("保存成功！");
             }
         }
@@ -297,11 +319,13 @@ class MenuController extends AdminBaseController
      *     'remark' => '后台菜单删除',
      *     'param'  => ''
      * )
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
      */
     public function delete()
     {
         $id    = $this->request->param("id", 0, 'intval');
-        $count = Db::name('AdminMenu')->where(["parent_id" => $id])->count();
+        $count = Db::name('AdminMenu')->where("parent_id", $id)->count();
         if ($count > 0) {
             $this->error("该菜单下还有子菜单，无法删除！");
         }
@@ -344,6 +368,13 @@ class MenuController extends AdminBaseController
      *     'remark' => '导入新后台菜单',
      *     'param'  => ''
      * )
+     * @return mixed
+     * @throws \ReflectionException
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
      */
     public function getActions()
     {
@@ -491,7 +522,7 @@ class MenuController extends AdminBaseController
                                     'action'     => $action
                                 ])->update([
                                     //'parent_id' => $parentId,
-                                    'type'      => $type,
+                                    'type' => $type,
                                 ]);
                                 $menuName = $findAdminMenu['name'];
                             }
@@ -647,7 +678,7 @@ class MenuController extends AdminBaseController
                                             'action'     => $action
                                         ])->update([
                                             //'parent_id' => $parentId,
-                                            'type'      => $type,
+                                            'type' => $type,
                                         ]);
                                         $menuName = $findAdminMenu['name'];
                                     }
@@ -699,14 +730,17 @@ class MenuController extends AdminBaseController
         $this->assign("app", $app);
         $this->assign("new_menus", $newMenus);
 
-        cache(null, 'admin_menus');// 删除后台菜单缓存
+        Cache::clear('admin_menus');// 删除后台菜单缓存
 
         return $this->fetch();
 
     }
 
     /**
-     *  导出后台菜单语言包
+     * 导出后台菜单语言包
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     private function _exportAppMenuDefaultLang()
     {

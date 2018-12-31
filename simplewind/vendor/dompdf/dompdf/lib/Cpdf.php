@@ -464,28 +464,28 @@ class Cpdf
                         // Named with limited valid values
                         case 'NonFullScreenPageMode':
                             if (!in_array($v, array('UseNone', 'UseOutlines', 'UseThumbs', 'UseOC'))) {
-                                continue;
+                                break;
                             }
                             $o['info'][$k] = $v;
                             break;
 
                         case 'Direction':
                             if (!in_array($v, array('L2R', 'R2L'))) {
-                                continue;
+                                break;
                             }
                             $o['info'][$k] = $v;
                             break;
 
                         case 'PrintScaling':
                             if (!in_array($v, array('None', 'AppDefault'))) {
-                                continue;
+                                break;
                             }
                             $o['info'][$k] = $v;
                             break;
 
                         case 'Duplex':
                             if (!in_array($v, array('None', 'AppDefault'))) {
-                                continue;
+                                break;
                             }
                             $o['info'][$k] = $v;
                             break;
@@ -4801,12 +4801,12 @@ EOT;
         imagesavealpha($img, false);
 
         // create temp alpha file
-        $tempfile_alpha = tempnam($this->tmp, "cpdf_img_");
+        $tempfile_alpha = @tempnam($this->tmp, "cpdf_img_");
         @unlink($tempfile_alpha);
         $tempfile_alpha = "$tempfile_alpha.png";
 
         // create temp plain file
-        $tempfile_plain = tempnam($this->tmp, "cpdf_img_");
+        $tempfile_plain = @tempnam($this->tmp, "cpdf_img_");
         @unlink($tempfile_plain);
         $tempfile_plain = "$tempfile_plain.png";
 

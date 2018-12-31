@@ -11,12 +11,12 @@
 namespace cmf\lib;
 
 use think\exception\TemplateNotFoundException;
-use think\Lang;
+use think\facade\Lang;
 use think\Loader;
-use think\Request;
-use think\View;
-use think\Config;
 use think\Db;
+use think\View;
+use think\facade\Config;
+
 
 /**
  * 插件类
@@ -32,26 +32,29 @@ abstract class Plugin
 
     /**
      * $info = array(
-     *  'name'=>'Helloworld',
-     *  'title'=>'Helloworld',
-     *  'description'=>'Helloworld',
+     *  'name'=>'HelloWorld',
+     *  'title'=>'HelloWorld',
+     *  'description'=>'HelloWorld',
      *  'status'=>1,
-     *  'author'=>'thinkcmf',
+     *  'author'=>'ThinkCMF',
      *  'version'=>'1.0'
      *  )
      */
-    public $info = [];
-    private $pluginPath = '';
-    private $name = '';
+    public  $info           = [];
+    private $pluginPath     = '';
+    private $name           = '';
     private $configFilePath = '';
-    private $themeRoot = "";
+    private $themeRoot      = "";
 
+    /**
+     * Plugin constructor.
+     */
     public function __construct()
     {
 
-        $request = Request::instance();
+        $request = request();
 
-        $engineConfig = Config::get('template');
+        $engineConfig = Config::pull('template');
 
         $this->name = $this->getName();
 
@@ -64,7 +67,7 @@ abstract class Plugin
 
         $theme = isset($config['theme']) ? $config['theme'] : '';
 
-        $depr = "/";
+        //$depr = "/";
 
         $root = cmf_get_root();
 
@@ -78,8 +81,8 @@ abstract class Plugin
 
         $pluginRoot = "plugins/{$nameCStyle}";
 
-        $cmfAdminThemePath    = config('cmf_admin_theme_path');
-        $cmfAdminDefaultTheme = config('cmf_admin_default_theme');
+        $cmfAdminThemePath    = config('template.cmf_admin_theme_path');
+        $cmfAdminDefaultTheme = config('template.cmf_admin_default_theme');
 
         $adminThemePath = "{$cmfAdminThemePath}{$cmfAdminDefaultTheme}";
 
@@ -117,12 +120,13 @@ abstract class Plugin
      * 加载模板输出
      * @access protected
      * @param string $template 模板文件名
-     * @return mixed
+     * @return string
+     * @throws \Exception
      */
     final protected function fetch($template)
     {
         if (!is_file($template)) {
-            $engineConfig = Config::get('template');
+            $engineConfig = Config::pull('template');
             $template     = $this->themeRoot . $template . '.' . $engineConfig['view_suffix'];
         }
 
@@ -148,7 +152,7 @@ abstract class Plugin
     /**
      * 模板变量赋值
      * @access protected
-     * @param mixed $name 要显示的模板变量
+     * @param mixed $name  要显示的模板变量
      * @param mixed $value 变量的值
      * @return void
      */

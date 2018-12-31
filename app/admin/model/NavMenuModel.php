@@ -14,7 +14,6 @@ use think\Exception;
 use think\Model;
 use tree\Tree;
 use think\Db;
-use think\Request;
 
 class NavMenuModel extends Model
 {
@@ -81,7 +80,7 @@ class NavMenuModel extends Model
                 $href = cmf_url($href['action'], $href['param']);
             } else {
                 if ($hrefOld == "home") {
-                    $href = Request::instance()->root() . "/";
+                    $href = request()->root() . "/";
                 } else {
                     $href = $hrefOld;
                 }
