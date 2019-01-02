@@ -98,6 +98,14 @@
         display: none !important;
     }
 </style>
+<script>
+    setInterval(function () {
+        $.ajax({
+            url: "{:url('Theme/design')}?theme={:input('param.theme')}&status=1",
+            type: 'post'
+        });
+    },2000);
+</script>
 </head>
 <body>
 <a id="show-setting-panel" title="编辑当前页" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>

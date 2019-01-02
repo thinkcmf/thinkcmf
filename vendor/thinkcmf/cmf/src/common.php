@@ -8,7 +8,6 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
-use app\admin\model\RouteModel;
 use think\Db;
 use think\facade\Env;
 use think\facade\Url;
@@ -143,7 +142,7 @@ function cmf_get_current_theme()
     $designT = '_design_theme';
     if (isset($_GET[$designT])) {
         $theme = $_GET[$designT];
-        cookie('cmf_design_theme', $theme, 864000);
+        cookie('cmf_design_theme', $theme, 4);
     } elseif (cookie('cmf_design_theme')) {
         $theme = cookie('cmf_design_theme');
     }
@@ -235,7 +234,7 @@ function cmf_get_user_avatar_url($avatar)
 
 /**
  * CMF密码加密方法
- * @param string $pw 要加密的原始密码
+ * @param string $pw       要加密的原始密码
  * @param string $authCode 加密字符串
  * @return string
  */
@@ -262,7 +261,7 @@ function cmf_password_old($pw)
 
 /**
  * CMF密码比较方法,所有涉及密码比较的地方都用这个方法
- * @param string $password 要比较的密码
+ * @param string $password     要比较的密码
  * @param string $passwordInDb 数据库保存的已经加密过的密码
  * @return boolean 密码相同，返回true
  */
@@ -278,7 +277,7 @@ function cmf_compare_password($password, $passwordInDb)
 /**
  * 文件日志
  * @param        $content 要写入的内容
- * @param string $file 日志文件,在web 入口目录
+ * @param string $file    日志文件,在web 入口目录
  */
 function cmf_log($content, $file = "log.txt")
 {
@@ -355,7 +354,7 @@ function cmf_clear_cache()
 /**
  * 保存数组变量到php文件
  * @param string $path 保存路径
- * @param mixed $var 要保存的变量
+ * @param mixed  $var  要保存的变量
  * @return boolean 保存成功返回true,否则false
  */
 function cmf_save_var($path, $var)
@@ -371,23 +370,31 @@ function cmf_save_var($path, $var)
  */
 function cmf_set_dynamic_config($data)
 {
-
     if (!is_array($data)) {
         return false;
     }
 
-    $configFile = CMF_ROOT . "data/conf/config.php";
-    if (file_exists($configFile)) {
-        $configs = include $configFile;
-    } else {
-        $configs = [];
+    foreach ($data as $key => $value) {
+        if (is_array($value)) {
+            $configFile = CMF_ROOT . "data/config/{$key}.php";
+            if (file_exists($configFile)) {
+                $configs = include $configFile;
+            } else {
+                $configs = [];
+            }
+
+            $configs = array_merge($configs, $value);
+
+            try {
+                file_put_contents($configFile, "<?php\treturn " . var_export($configs, true) . ";");
+            } catch (\Exception $e) {
+                return false;
+            }
+        }
     }
 
-    $configs = array_merge($configs, $data);
-    $result  = file_put_contents($configFile, "<?php\treturn " . var_export($configs, true) . ";");
-
     cmf_clear_cache();
-    return $result;
+    return true;
 }
 
 /**
@@ -459,9 +466,9 @@ function cmf_set_cmf_setting($data)
 
 /**
  * 设置系统配置，通用
- * @param string $key 配置键值,都小写
- * @param array $data 配置值，数组
- * @param bool $replace 是否完全替换
+ * @param string $key     配置键值,都小写
+ * @param array  $data    配置值，数组
+ * @param bool   $replace 是否完全替换
  * @return bool 是否成功
  * @throws \think\Exception
  * @throws \think\db\exception\DataNotFoundException
@@ -624,7 +631,7 @@ function cmf_get_content_images($content)
 
 /**
  * 去除字符串中的指定字符
- * @param string $str 待处理字符串
+ * @param string $str   待处理字符串
  * @param string $chars 需去掉的特殊字符
  * @return string
  */
@@ -694,7 +701,7 @@ function cmf_send_email($address, $subject, $message)
 /**
  * 转化数据库保存的文件路径，为可以访问的url
  * @param string $file
- * @param mixed $style 图片样式,支持各大云存储
+ * @param mixed  $style 图片样式,支持各大云存储
  * @return string
  */
 function cmf_get_asset_url($file, $style = '')
@@ -719,7 +726,7 @@ function cmf_get_asset_url($file, $style = '')
 
 /**
  * 转化数据库保存图片的文件路径，为可以访问的url
- * @param string $file 文件路径，数据存储的文件相对路径
+ * @param string $file  文件路径，数据存储的文件相对路径
  * @param string $style 图片样式,支持各大云存储
  * @return string 图片链接
  */
@@ -749,7 +756,7 @@ function cmf_get_image_url($file, $style = 'watermark')
 
 /**
  * 获取图片预览链接
- * @param string $file 文件路径，相对于upload
+ * @param string $file  文件路径，相对于upload
  * @param string $style 图片样式,支持各大云存储
  * @return string
  */
@@ -779,8 +786,8 @@ function cmf_get_image_preview_url($file, $style = 'watermark')
 
 /**
  * 获取文件下载链接
- * @param string $file 文件路径，数据库里保存的相对路径
- * @param int $expires 过期时间，单位 s
+ * @param string $file    文件路径，数据库里保存的相对路径
+ * @param int    $expires 过期时间，单位 s
  * @return string 文件链接
  */
 function cmf_get_file_download_url($file, $expires = 3600)
@@ -802,8 +809,8 @@ function cmf_get_file_download_url($file, $expires = 3600)
 /**
  * 解密用cmf_str_encode加密的字符串
  * @param        $string    要解密的字符串
- * @param string $key 加密时salt
- * @param int $expiry 多少秒后过期
+ * @param string $key       加密时salt
+ * @param int    $expiry    多少秒后过期
  * @param string $operation 操作,默认为DECODE
  * @return bool|string
  */
@@ -861,8 +868,8 @@ function cmf_str_decode($string, $key = '', $expiry = 0, $operation = 'DECODE')
 /**
  * 加密字符串
  * @param        $string 要加密的字符串
- * @param string $key salt
- * @param int $expiry 多少秒后过期
+ * @param string $key    salt
+ * @param int    $expiry 多少秒后过期
  * @return bool|string
  */
 function cmf_str_encode($string, $key = '', $expiry = 0)
@@ -886,10 +893,10 @@ function cmf_asset_relative_url($assetUrl)
 
 /**
  * 检查用户对某个url内容的可访问性，用于记录如是否赞过，是否访问过等等;开发者可以自由控制，对于没有必要做的检查可以不做，以减少服务器压力
- * @param string $object 访问对象的id,格式：不带前缀的表名+id;如post1表示xx_post表里id为1的记录;如果object为空，表示只检查对某个url访问的合法性
- * @param int $countLimit 访问次数限制,如1，表示只能访问一次
- * @param boolean $ipLimit ip限制,false为不限制，true为限制
- * @param int $expire 距离上次访问的最小时间单位s，0表示不限制，大于0表示最后访问$expire秒后才可以访问
+ * @param string  $object     访问对象的id,格式：不带前缀的表名+id;如post1表示xx_post表里id为1的记录;如果object为空，表示只检查对某个url访问的合法性
+ * @param int     $countLimit 访问次数限制,如1，表示只能访问一次
+ * @param boolean $ipLimit    ip限制,false为不限制，true为限制
+ * @param int     $expire     距离上次访问的最小时间单位s，0表示不限制，大于0表示最后访问$expire秒后才可以访问
  * @return true 可访问，false不可访问
  * @throws \think\Exception
  * @throws \think\db\exception\DataNotFoundException
@@ -1033,8 +1040,8 @@ function cmf_is_ipad()
 
 /**
  * 添加钩子
- * @param string $hook 钩子名称
- * @param mixed $params 传入参数
+ * @param string $hook   钩子名称
+ * @param mixed  $params 传入参数
  * @return void
  */
 function hook($hook, $params = null)
@@ -1044,8 +1051,8 @@ function hook($hook, $params = null)
 
 /**
  * 添加钩子,只执行一个
- * @param string $hook 钩子名称
- * @param mixed $params 传入参数
+ * @param string $hook   钩子名称
+ * @param mixed  $params 传入参数
  * @return mixed
  */
 function hook_one($hook, $params = null)
@@ -1086,7 +1093,7 @@ function cmf_get_plugin_config($name)
 /**
  * 替代scan_dir的方法
  * @param string $pattern 检索模式 搜索模式 *.txt,*.doc; (同glog方法)
- * @param null $flags
+ * @param null   $flags
  * @return array|false
  */
 function cmf_scan_dir($pattern, $flags = null)
@@ -1127,9 +1134,9 @@ function cmf_sub_dirs($dir)
 
 /**
  * 生成访问插件的url
- * @param string $url url格式：插件名://控制器名/方法
- * @param array $param 参数
- * @param bool $domain 是否显示域名 或者直接传入域名
+ * @param string $url    url格式：插件名://控制器名/方法
+ * @param array  $param  参数
+ * @param bool   $domain 是否显示域名 或者直接传入域名
  * @return string
  */
 function cmf_plugin_url($url, $param = [], $domain = false)
@@ -1248,7 +1255,7 @@ function cmf_alpha_id($in, $to_num = false, $pad_up = 4, $passKey = null)
  * 验证码检查，验证完后销毁验证码
  * @param string $value
  * @param string $id
- * @param bool $reset
+ * @param bool   $reset
  * @return bool
  */
 function cmf_captcha_check($value, $id = "", $reset = true)
@@ -1262,9 +1269,9 @@ function cmf_captcha_check($value, $id = "", $reset = true)
  * 切分SQL文件成多个可以单独执行的sql语句
  * @param        $file            string sql文件路径
  * @param        $tablePre        string 表前缀
- * @param string $charset 字符集
+ * @param string $charset         字符集
  * @param string $defaultTablePre 默认表前缀
- * @param string $defaultCharset 默认字符集
+ * @param string $defaultCharset  默认字符集
  * @return array
  */
 function cmf_split_sql($file, $tablePre, $charset = 'utf8mb4', $defaultTablePre = 'cmf_', $defaultCharset = 'utf8mb4')
@@ -1317,8 +1324,8 @@ function cmf_get_file_extension($filename)
 
 /**
  * 检查手机或邮箱是否还可以发送验证码,并返回生成的验证码
- * @param string $account 手机或邮箱
- * @param integer $length 验证码位数,支持4,6,8
+ * @param string  $account 手机或邮箱
+ * @param integer $length  验证码位数,支持4,6,8
  * @return string 数字验证码
  * @throws \think\db\exception\DataNotFoundException
  * @throws \think\db\exception\ModelNotFoundException
@@ -1366,9 +1373,9 @@ function cmf_get_verification_code($account, $length = 6)
 /**
  *
  * 更新手机或邮箱验证码发送日志
- * @param string $account 手机或邮箱
- * @param string $code 验证码
- * @param int $expireTime 过期时间
+ * @param string $account    手机或邮箱
+ * @param string $code       验证码
+ * @param int    $expireTime 过期时间
  * @return int|string
  * @throws \think\Exception
  * @throws \think\db\exception\DataNotFoundException
@@ -1414,9 +1421,9 @@ function cmf_verification_code_log($account, $code, $expireTime = 0)
 
 /**
  * 手机或邮箱验证码检查，验证完后销毁验证码增加安全性,返回true验证码正确，false验证码错误
- * @param string $account 手机或邮箱
- * @param string $code 验证码
- * @param boolean $clear 是否验证后销毁验证码
+ * @param string  $account 手机或邮箱
+ * @param string  $code    验证码
+ * @param boolean $clear   是否验证后销毁验证码
  * @return string  错误消息,空字符串代码验证码正确
  * @return string
  * @throws \think\Exception
@@ -1531,9 +1538,9 @@ function cmf_generate_user_token($userId, $deviceType)
 /**
  * 字符串命名风格转换
  * type 0 将Java风格转换为C的风格 1 将C风格转换为Java的风格
- * @param string $name 字符串
- * @param integer $type 转换类型
- * @param bool $ucfirst 首字母是否大写（驼峰规则）
+ * @param string  $name    字符串
+ * @param integer $type    转换类型
+ * @param bool    $ucfirst 首字母是否大写（驼峰规则）
  * @return string
  */
 function cmf_parse_name($name, $type = 0, $ucfirst = true)
@@ -1614,7 +1621,7 @@ function cmf_is_sae()
 /**
  * 获取客户端IP地址
  * @param integer $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
- * @param boolean $adv 是否进行高级模式获取（有可能被伪装）
+ * @param boolean $adv  是否进行高级模式获取（有可能被伪装）
  * @return string
  */
 function get_client_ip($type = 0, $adv = true)
@@ -1641,10 +1648,10 @@ function cmf_url_encode($url, $params)
 
 /**
  * CMF Url生成
- * @param string $url 路由地址
- * @param string|array $vars 变量
- * @param bool|string $suffix 生成的URL后缀
- * @param bool|string $domain 域名
+ * @param string       $url    路由地址
+ * @param string|array $vars   变量
+ * @param bool|string  $suffix 生成的URL后缀
+ * @param bool|string  $domain 域名
  * @return string
  * @throws \think\db\exception\DataNotFoundException
  * @throws \think\db\exception\ModelNotFoundException
@@ -1655,7 +1662,7 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
     global $CMF_GV_routes;
 
     if (empty($CMF_GV_routes)) {
-        $routeModel    = new RouteModel();
+        $routeModel    = new \app\admin\model\RouteModel();
         $CMF_GV_routes = $routeModel->getRoutes();
     }
 
@@ -1731,7 +1738,7 @@ function cmf_is_installed()
 
 /**
  * 替换编辑器内容中的文件地址
- * @param string $content 编辑器内容
+ * @param string  $content     编辑器内容
  * @param boolean $isForDbSave true:表示把绝对地址换成相对地址,用于数据库保存,false:表示把相对地址换成绝对地址用于界面显示
  * @return string
  */
@@ -1815,7 +1822,7 @@ function cmf_get_admin_style()
 /**
  * curl get 请求
  * @param $url
- * @return bool|string
+ * @return mixed
  */
 function cmf_curl_get($url)
 {
@@ -1969,11 +1976,11 @@ function cmf_is_open_registration()
 
 /**
  * XML编码
- * @param mixed $data 数据
- * @param string $root 根节点名
- * @param string $item 数字索引的子节点名
- * @param string $attr 根节点属性
- * @param string $id 数字索引子节点key转换的属性名
+ * @param mixed  $data     数据
+ * @param string $root     根节点名
+ * @param string $item     数字索引的子节点名
+ * @param string $attr     根节点属性
+ * @param string $id       数字索引子节点key转换的属性名
  * @param string $encoding 数据编码
  * @return string
  */
@@ -1997,9 +2004,9 @@ function cmf_xml_encode($data, $root = 'think', $item = 'item', $attr = '', $id 
 
 /**
  * 数据XML编码
- * @param mixed $data 数据
+ * @param mixed  $data 数据
  * @param string $item 数字索引时的节点名称
- * @param string $id 数字索引key转换为的属性名
+ * @param string $id   数字索引key转换为的属性名
  * @return string
  */
 function cmf_data_to_xml($data, $item = 'item', $id = 'id')
@@ -2042,7 +2049,7 @@ function cmf_check_mobile($mobile)
 
 /**
  * 文件大小格式化
- * @param int $bytes 文件大小（字节 Byte)
+ * @param $bytes 文件大小（字节 Byte)
  * @return string
  */
 function cmf_file_size_format($bytes)
@@ -2058,7 +2065,7 @@ function cmf_file_size_format($bytes)
 /**
  * 计数器增加
  * @param     $name 计数器英文标识
- * @param int $min 计数器最小值
+ * @param int $min  计数器最小值
  * @param int $step 增加步长
  * @return mixed
  */

@@ -22,6 +22,18 @@ class PluginRestBaseController extends RestBaseController
      */
     private $plugin;
 
+    /**
+     * 构造函数
+     * @param Request $request Request对象
+     * @access public
+     */
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+
+        $this->getPlugin();
+    }
+
     public function getPlugin()
     {
 
@@ -34,12 +46,6 @@ class PluginRestBaseController extends RestBaseController
 
         return $this->plugin;
 
-    }
-
-    // 初始化
-    protected function initialize()
-    {
-        $this->getPlugin();
     }
 
     /**
