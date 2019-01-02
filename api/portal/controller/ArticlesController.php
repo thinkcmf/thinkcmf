@@ -9,6 +9,7 @@
 
 namespace api\portal\controller;
 
+use api\portal\service\PortalPostService;
 use api\user\model\UserFavoriteModel;
 use api\user\model\UserLikeModel;
 use cmf\controller\RestBaseController;
@@ -22,16 +23,22 @@ class ArticlesController extends RestBaseController
      */
     public function index()
     {
-        $params                       = $this->request->get();
-        $params['where']['post_type'] = 1;
+//        print_r(123123);exit;
+        $params = $this->request->get();
 
-        $postModel = new PortalPostModel();
-        $data      = $postModel->getDatas($params);
+        $postService = new PortalPostService();
+        $data        = $postService->postPage($params);
 
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = $data;
         } else {
-            $response = ['list' => $data,];
+            $response = [
+//                'total'        => $data['total'],
+//                'per_page'     => $data['per_page'],
+//                'current_page' => $data['current_page'],
+//                'last_page'    => $data['last_page'],
+                'list'         => $data
+            ];
         }
         $this->success('请求成功!', $response);
     }

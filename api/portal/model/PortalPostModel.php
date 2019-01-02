@@ -9,19 +9,14 @@
 namespace api\portal\model;
 
 use think\Db;
-use api\common\model\CommonModel;
+use think\Model;
 
-class PortalPostModel extends CommonModel
+
+/**
+ * @method getFieldById($id, $string)
+ */
+class PortalPostModel extends Model
 {
-    //可查询字段
-    protected $visible = [
-        'id', 'articles.id', 'user_id', 'post_id', 'post_type', 'comment_status',
-        'is_top', 'recommended', 'post_hits', 'post_like', 'post_favorites', 'comment_count',
-        'create_time', 'update_time', 'published_time', 'post_title', 'post_keywords',
-        'post_excerpt', 'post_source', 'post_content', 'more', 'user_nickname',
-        'user', 'category_id'
-    ];
-
     //设置只读字段
     protected $readonly = ['user_id'];
     // 开启自动写入时间戳字段
@@ -39,12 +34,12 @@ class PortalPostModel extends CommonModel
      */
     protected function base($query)
     {
-        $query->where('delete_time', 0)->where('post_status', 1)->whereTime('published_time', 'between', [1, time()]);
+        $query->where('delete_time', 0)->where('post_status', 1);
     }
 
     /**
-     * 关联 user表
-     * @return $this
+     *  关联 user表
+     * @return \think\model\relation\BelongsTo
      */
     public function user()
     {
@@ -53,7 +48,7 @@ class PortalPostModel extends CommonModel
 
     /**
      * 关联 user表
-     * @return $this
+     * @return \think\model\relation\BelongsTo
      */
     public function articleUser()
     {
@@ -62,7 +57,7 @@ class PortalPostModel extends CommonModel
 
     /**
      * 关联分类表
-     * @return $this
+     * @return \think\model\relation\BelongsToMany
      */
     public function categories()
     {
@@ -71,7 +66,7 @@ class PortalPostModel extends CommonModel
 
     /**
      * 关联标签表
-     * @return $this
+     * @return \think\model\relation\BelongsToMany
      */
     public function tags()
     {
@@ -363,8 +358,11 @@ class PortalPostModel extends CommonModel
     /**
      * 删除文章
      * @param $ids  int|array   文章id
-     * @param int $userId 文章所属用户id  [可选]
+     * @param string $userId 文章所属用户id  [可选]
      * @return bool|int 删除结果  true 成功 false 失败  -1 文章不存在
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function deleteArticle($ids, $userId = '')
     {
@@ -434,14 +432,13 @@ class PortalPostModel extends CommonModel
 
     /**
      * 判断文章所属用户是否为当前用户，超级管理员除外
-     * @params  int $id     文章id
+     * @param int $id     文章id
      * @param   int $userId 当前用户id
      * @return  boolean     是 true , 否 false
      */
     public function isUserPost($id, $userId)
     {
-        $postUserId = $this->useGlobalScope(false)
-            ->getFieldById($id, 'user_id');
+        $postUserId = $this->getFieldById($id, 'user_id');
         if ($postUserId == $userId || $userId == 1) {
             return true;
         } else {

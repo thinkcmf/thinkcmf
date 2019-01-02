@@ -20,7 +20,7 @@ class CommonModel extends Model
      * 内容查询
      * @access public
      * @param array $params 过滤参数
-     * @return array|false|\PDOStatement|string|\think\Collection|Model  查询结果
+     * @return array|false||string|\think\Collection|Model  查询结果
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -254,13 +254,13 @@ class CommonModel extends Model
     }
 
     /**
-     * 懒人函数
-     * @access public
-     * @param string $value 字符串
+     * 字符串转数组
+     * @param string $string 字符串
      * @return array
      */
     public function strToArr($string)
     {
-        return is_string($string) ? explode(',', $string) : $string;
+        $result  = is_string($string) ? explode(',', $string) : $string;
+        return $result;
     }
 }

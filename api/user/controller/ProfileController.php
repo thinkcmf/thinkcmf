@@ -14,7 +14,11 @@ use think\Validate;
 
 class ProfileController extends RestUserBaseController
 {
-    // 用户密码修改
+    /**
+     * 用户密码修改
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
+     */
     public function changePassword()
     {
         $validate = new Validate([
@@ -48,7 +52,14 @@ class ProfileController extends RestUserBaseController
 
     }
 
-    // 用户绑定邮箱
+    /**
+     * 用户绑定邮箱
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
+     */
     public function bindingEmail()
     {
         $validate = new Validate([
@@ -85,7 +96,14 @@ class ProfileController extends RestUserBaseController
         $this->success("绑定成功!");
     }
 
-    // 用户绑定手机号
+    /**
+     * 用户绑定手机号
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
+     */
     public function bindingMobile()
     {
         $validate = new Validate([
@@ -128,10 +146,12 @@ class ProfileController extends RestUserBaseController
 
     /**
      * 用户基本信息获取及修改
-     * @param 请求为GET 获取信息
-     * @param [string] $[field] [要获取的一个或多个字段名] 可选
-     * @return 带参数,返回某个或多个字段信息。不带参数，返回所有信息
-     * @param 请求为POST 修改信息
+     * @param string $field 需要获取的字段名
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
      */
     public function userInfo($field = '')
     {
