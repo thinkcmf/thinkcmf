@@ -14,6 +14,8 @@ use think\db\Query;
 
 class PortalPostService
 {
+    //模型关联方法
+    protected $relationFilter = ['user'];
     /**
      * 文章列表
      * @param      $filter
@@ -21,7 +23,7 @@ class PortalPostService
      * @return mixed
      * @throws \think\exception\DbException
      */
-    public function postPage($filter, $isPage = false)
+    public function postArticles($filter, $isPage = false)
     {
         $join = [];
 
@@ -52,6 +54,8 @@ class PortalPostService
         }
 
         $portalPostModel = new PortalPostModel();
+
+
         if (!empty($page)) {
             $portalPostModel = $portalPostModel->page($page);
         } elseif (!empty($limit)) {
@@ -62,7 +66,6 @@ class PortalPostService
 
         $articles = $portalPostModel
             ->alias('a')
-            ->fetchSql(true)
             ->field($field)
             ->join($join)
             ->where('a.create_time', '>=', 0)
@@ -141,5 +144,20 @@ class PortalPostService
             ->limit($limit)->select()
             ->toJson();
         return $list;
+    }
+    /**
+     * 模型检查
+     * @param $relations
+     * @return array|bool
+     */
+    public function allowedRelations($relations)
+    {
+        if (is_string($relations)) {
+            $relations = explode(',', $relations);
+        }
+        if (!is_array($relations)) {
+            return false;
+        }
+        return array_intersect($this->relationFilter, $relations);
     }
 }

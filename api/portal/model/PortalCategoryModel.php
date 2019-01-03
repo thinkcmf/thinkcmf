@@ -9,9 +9,9 @@
 
 namespace api\portal\model;
 
-use api\common\model\CommonModel;
+use think\Model;
 
-class PortalCategoryModel extends CommonModel
+class PortalCategoryModel extends Model
 {
     //类型转换
     protected $type = [
@@ -30,11 +30,11 @@ class PortalCategoryModel extends CommonModel
 
     /**
      * 基础查询
+     * @param $query
      */
     protected function base($query)
     {
-        $query->alias('portal_category')->where('delete_time', 0)
-            ->where('portal_category.status', 1);
+        $query->alias('portal_category')->where('delete_time', 0)->where('portal_category.status', 1);
     }
 
     /**
@@ -59,7 +59,7 @@ class PortalCategoryModel extends CommonModel
 
     /**
      * 关联文章表
-     * @return $this
+     * @return \think\model\relation\BelongsToMany
      */
     public function articles()
     {
@@ -67,10 +67,8 @@ class PortalCategoryModel extends CommonModel
     }
 
     /**
-     * [PostIds 关联]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-07-17T15:20:31+0800
-     * @since:    1.0
+     * 关联文章分类和文章表
+     * @return \think\model\relation\HasMany
      */
     public function PostIds()
     {
@@ -78,12 +76,12 @@ class PortalCategoryModel extends CommonModel
     }
 
     /**
-     * [categoryPostIds 此类文章id数组]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-07-17T15:21:08+0800
-     * @since:    1.0
-     * @param     [type]                   $category_id [分类ID]
-     * @return    [type]                                [文章id数组]
+     * 此类文章id数组
+     * @param string $category_id 分类di
+     * @return array|string|Model|null
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public static function categoryPostIds($category_id)
     {

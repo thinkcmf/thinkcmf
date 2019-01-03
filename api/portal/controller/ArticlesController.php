@@ -20,25 +20,27 @@ class ArticlesController extends RestBaseController
 {
     /**
      * 文章列表
+     * @throws \think\exception\DbException
      */
     public function index()
     {
-//        print_r(123123);exit;
         $params = $this->request->get();
-
         $postService = new PortalPostService();
-        $data        = $postService->postPage($params);
-
+        $data        = $postService->postArticles($params);
+        //是否需要关联模型
+        if (!$data->isEmpty()) {
+            if (!empty($params['relation'])) {
+                $allowedRelations = $postService->allowedRelations($params['relation']);
+                if (!empty($allowedRelations)) {
+                    $data->load($allowedRelations);
+                    $data->append($allowedRelations);
+                }
+            }
+        }
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = $data;
         } else {
-            $response = [
-//                'total'        => $data['total'],
-//                'per_page'     => $data['per_page'],
-//                'current_page' => $data['current_page'],
-//                'last_page'    => $data['last_page'],
-                'list'         => $data
-            ];
+            $response = ['list' => $data];
         }
         $this->success('请求成功!', $response);
     }
@@ -56,20 +58,14 @@ class ArticlesController extends RestBaseController
         if (intval($id) === 0) {
             $this->error('无效的文章id！');
         } else {
-
-            $params                       = $this->request->get();
-            $params['where']['post_type'] = 1;
-            $params['id']                 = $id;
-
             $postModel = new PortalPostModel();
-            $data      = $postModel->getDatas($params);
+            $data      = $postModel->where('id', $id)->find();
+
             if (empty($data)) {
                 $this->error('文章不存在！');
             } else {
                 $postModel->where('id', $id)->setInc('post_hits');
-                $url = cmf_url('portal/Article/index', ['id' => $id, 'cid' => $data['categories'][0]['id']], true, true);
-
-                $data        = $data->toArray();
+                $url         = cmf_url('portal/Article/index', ['id' => $id, 'cid' => $data['categories'][0]['id']], true, true);
                 $data['url'] = $url;
                 $this->success('请求成功!', $data);
             }
@@ -82,11 +78,14 @@ class ArticlesController extends RestBaseController
      */
     public function my()
     {
-        $params = $this->request->get();
-        $userId = $this->getUserId();
+        $params            = $this->request->get();
+        $params['user_id'] = $this->getUserId();
 
-        $postModel = new PortalPostModel();
-        $data      = $postModel->getUserArticles($userId, $params);
+        $postService = new PortalPostService();
+        $data        = $postService->postArticles($params);
+
+//        $postModel = new PortalPostModel();
+//        $data      = $postModel->getUserArticles($userId, $params);
 
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = [$data];

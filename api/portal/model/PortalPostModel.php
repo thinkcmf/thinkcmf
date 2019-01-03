@@ -196,7 +196,7 @@ class PortalPostModel extends Model
 
         $params['where'] = $where;
 
-        return $this->getDatas($params);;
+        return $this->getDatas($params);
     }
 
     /**
@@ -470,4 +470,6 @@ class PortalPostModel extends Model
             ->column('id');
         return array_intersect($ids, $postIds);
     }
+
+
 }

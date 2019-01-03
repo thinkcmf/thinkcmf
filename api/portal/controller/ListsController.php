@@ -16,10 +16,7 @@ class ListsController extends RestBaseController
 {
 
     /**
-     * [推荐文章列表]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-07-17T11:36:51+0800
-     * @since:    1.0
+     * 推荐文章列表
      */
     public function recommended()
     {
@@ -34,10 +31,10 @@ class ListsController extends RestBaseController
     }
 
     /**
-     * [getCategoryPostLists 分类文章列表]
-     * @Author:    wuwu<15093565100@163.com>
-     * @DateTime: 2017-07-17T15:22:41+0800
-     * @since:    1.0
+     * 分类文章列表
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function getCategoryPostLists()
     {
