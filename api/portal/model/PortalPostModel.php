@@ -141,6 +141,16 @@ class PortalPostModel extends Model
     }
 
     /**
+     * Thumbnail 自动转化
+     * @param $value
+     * @return array
+     */
+    public function getThumbnailAttr($value)
+    {
+        return cmf_get_image_url($value);
+    }
+
+    /**
      * more 自动转化
      * @param $value
      * @return array
@@ -216,9 +226,9 @@ class PortalPostModel extends Model
 
     /**
      * 会员文章编辑
-     * @param array $data 文章数据
-     * @param int $id 文章id
-     * @param int $userId 文章所属用户id [可选]
+     * @param array $data   文章数据
+     * @param int   $id     文章id
+     * @param int   $userId 文章所属用户id [可选]
      * @return boolean   成功 true 失败 false
      */
     public function editArticle($data, $id, $userId = '')
@@ -271,8 +281,8 @@ class PortalPostModel extends Model
 
     /**
      * 根据文章关键字，增加标签
-     * @param array $keywords 文章关键字数组
-     * @param int $articleId 文章id
+     * @param array $keywords  文章关键字数组
+     * @param int   $articleId 文章id
      * @return void
      */
     public function addTags($keywords, $articleId)
@@ -357,7 +367,7 @@ class PortalPostModel extends Model
 
     /**
      * 删除文章
-     * @param $ids  int|array   文章id
+     * @param        $ids    int|array   文章id
      * @param string $userId 文章所属用户id  [可选]
      * @return bool|int 删除结果  true 成功 false 失败  -1 文章不存在
      * @throws \think\db\exception\DataNotFoundException
@@ -432,7 +442,7 @@ class PortalPostModel extends Model
 
     /**
      * 判断文章所属用户是否为当前用户，超级管理员除外
-     * @param int $id     文章id
+     * @param int   $id     文章id
      * @param   int $userId 当前用户id
      * @return  boolean     是 true , 否 false
      */
