@@ -72,7 +72,7 @@ class PortalCategoryModel extends Model
      */
     public function PostIds()
     {
-        return self::hasMany('PortalCategoryPostModel', 'category_id', 'id');
+        return $this->hasMany('PortalCategoryPostModel', 'category_id', 'id');
     }
 
     /**

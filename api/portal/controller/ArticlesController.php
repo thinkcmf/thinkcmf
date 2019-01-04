@@ -24,7 +24,7 @@ class ArticlesController extends RestBaseController
      */
     public function index()
     {
-        $params = $this->request->get();
+        $params      = $this->request->get();
         $postService = new PortalPostService();
         $data        = $postService->postArticles($params);
         //是否需要关联模型

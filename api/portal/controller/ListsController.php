@@ -10,6 +10,8 @@ namespace api\portal\controller;
 
 use api\portal\model\PortalCategoryModel;
 use api\portal\model\PortalPostModel;
+use api\portal\service\PortalCategoryService;
+use api\portal\service\PortalPostService;
 use cmf\controller\RestBaseController;
 
 class ListsController extends RestBaseController
@@ -40,10 +42,8 @@ class ListsController extends RestBaseController
     {
         $categoryId = $this->request->param('category_id', 0, 'intval');
 
-
         $portalCategoryModel = new  PortalCategoryModel();
-
-        $findCategory = $portalCategoryModel->where('id', $categoryId)->find();
+        $findCategory        = $portalCategoryModel->where('id', $categoryId)->find();
 
         //分类是否存在
         if (empty($findCategory)) {
@@ -52,19 +52,18 @@ class ListsController extends RestBaseController
 
         $param = $this->request->param();
 
-        if(empty($param['order'])){
-            $param['order']='-post.published_time';
-        }
-
-        $articles = $portalCategoryModel->paramsFilter($param, $findCategory->articles()->alias('post'))->select();
-
-        if (!empty($param['relation'])) {
-            if (count($articles) > 0) {
-                $articles->load('user');
-                $articles->append(['user']);
+        $portalPostService = new PortalPostService();
+        $articles          = $portalPostService->postArticles($param);
+        //是否需要关联模型
+        if (!$articles->isEmpty()) {
+            if (!empty($param['relation'])) {
+                $allowedRelations = $portalPostService->allowedRelations($param['relation']);
+                if (!empty($allowedRelations)) {
+                    $articles->load($allowedRelations);
+                    $articles->append($allowedRelations);
+                }
             }
         }
-
         $this->success('ok', ['list' => $articles]);
     }
 

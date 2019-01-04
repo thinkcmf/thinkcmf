@@ -31,7 +31,7 @@ class PortalPostService
         $page     = empty($filter['page']) ? '' : $filter['page'];
         $limit    = empty($filter['limit']) ? '' : $filter['limit'];
         $order    = empty($filter['order']) ? ['-update_time'] : explode(',', $filter['order']);
-        $category = empty($filter['category']) ? 0 : intval($filter['category']);
+        $category = empty($filter['category_id']) ? 0 : intval($filter['category_id']);
         if (!empty($category)) {
             array_push($join, [
                 '__PORTAL_CATEGORY_POST__ b', 'a.id = b.post_id'
@@ -74,7 +74,7 @@ class PortalPostService
                 if (!empty($filter['user_id'])) {
                     $query->where('a.user_id', $filter['user_id']);
                 }
-                $category = empty($filter['category']) ? 0 : intval($filter['category']);
+                $category = empty($filter['category_id']) ? 0 : intval($filter['category_id']);
                 if (!empty($category)) {
                     $query->where('b.category_id', $category);
                 }
