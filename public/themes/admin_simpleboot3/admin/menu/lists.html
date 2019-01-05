@@ -21,7 +21,7 @@
 						<th width="50">ID</th>
 						<th>菜单英文名称</th>
 						<th width="50">状态</th>
-						<th width="90">管理操作</th>
+						<th width="100">管理操作</th>
 					</tr>
 				</thead>
 				<foreach name="menus" item="vo">
@@ -29,15 +29,19 @@
 					<td>{$vo.id}</td>
 					<td>{$vo.name}:{$vo.app}/{$vo.controller}/{$vo.action}</td>
 					<td>
-					<if condition="$vo['status'] eq 1">
-					显示
-					<else />
-					隐藏
-					</if>
+						<empty name="vo.status">
+                            <span class="label label-warning">
+                                隐藏
+                            </span>
+							<else/>
+							<span class="label label-success">
+                                显示
+                            </span>
+						</empty>
 					</td>
 					<td>
-						<a href="{:url('menu/edit',array('id'=>$vo['id']))}">编辑</a>
-						<a class="js-ajax-delete" href="{:url('menu/delete',array('id'=>$vo['id']))}">删除</a>
+						<a class="btn btn-xs btn-primary" href="{:url('menu/edit',array('id'=>$vo['id']))}">编辑</a>
+						<a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('menu/delete',array('id'=>$vo['id']))}">删除</a>
 					</td>
 				</tr>
 				</foreach>
@@ -45,8 +49,8 @@
 					<tr>
 						<th width="50">ID</th>
 						<th>菜单英文名称</th>
-						<th width="40">状态</th>
-						<th width="80">管理操作</th>
+						<th width="50">状态</th>
+						<th width="100">管理操作</th>
 					</tr>
 				</tfoot>
 			</table>
