@@ -9,6 +9,7 @@
 namespace api\portal\controller;
 
 use api\portal\model\PortalPostModel;
+use api\portal\service\PortalPostService;
 use cmf\controller\RestBaseController;
 
 class UserController extends RestBaseController
@@ -27,11 +28,11 @@ class UserController extends RestBaseController
             $this->error('用户id不能空！');
         }
 
-        $data            = $this->request->param();
-        $portalPostModel = new PortalPostModel();
-        $articles        = $portalPostModel->setCondition($data)->where(['user_id' => $userId])->select();
-
-        if (count($articles) == 0) {
+        $param             = $this->request->param();
+        $param['user_id']  = $userId;
+        $portalPostService = new PortalPostService();
+        $articles          = $portalPostService->postArticles($param);
+        if ($articles->isEmpty()) {
             $this->error('没有数据');
         } else {
             $this->success('ok', ['list' => $articles]);
