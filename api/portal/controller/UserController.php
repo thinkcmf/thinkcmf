@@ -8,7 +8,6 @@
 // +----------------------------------------------------------------------
 namespace api\portal\controller;
 
-use api\portal\model\PortalPostModel;
 use api\portal\service\PortalPostService;
 use cmf\controller\RestBaseController;
 
