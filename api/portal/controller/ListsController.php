@@ -10,7 +10,6 @@ namespace api\portal\controller;
 
 use api\portal\model\PortalCategoryModel;
 use api\portal\model\PortalPostModel;
-use api\portal\service\PortalCategoryService;
 use api\portal\service\PortalPostService;
 use cmf\controller\RestBaseController;
 
@@ -19,16 +18,27 @@ class ListsController extends RestBaseController
 
     /**
      * 推荐文章列表
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function recommended()
     {
-        $param           = $this->request->param();
-        $portalPostModel = new PortalPostModel();
+        $param                = $this->request->param();
+        $param['recommended'] = true;
 
-        $param['where'] = ['recommended' => 1];
-
-        $articles = $portalPostModel->getDatas($param);
-
+        $portalPostService = new PortalPostService();
+        $articles          = $portalPostService->postArticles($param);
+        //是否需要关联模型
+        if (!$articles->isEmpty()) {
+            if (!empty($param['relation'])) {
+                $allowedRelations = $portalPostService->allowedRelations($param['relation']);
+                if (!empty($allowedRelations)) {
+                    $articles->load($allowedRelations);
+                    $articles->append($allowedRelations);
+                }
+            }
+        }
         $this->success('ok', ['list' => $articles]);
     }
 

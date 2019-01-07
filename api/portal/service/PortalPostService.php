@@ -9,33 +9,40 @@
 namespace api\portal\service;
 
 use api\portal\model\PortalPostModel;
-use api\portal\model\PortalCategoryModel;
 use think\db\Query;
 
 class PortalPostService
 {
     //模型关联方法
     protected $relationFilter = ['user'];
+
     /**
      * 文章列表
      * @param      $filter
      * @param bool $isPage
-     * @return mixed
+     * @return array|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
     public function postArticles($filter, $isPage = false)
     {
         $join = [];
 
-        $field    = empty($filter['field']) ? 'a.*' : $filter['field'];
+        $field = empty($filter['field']) ? 'a.*' : explode(',', $filter['field']);
+        //转为查询条件
+        if (is_array($field)) {
+            foreach ($field as $key => $value) {
+                $field[$key] = 'a.' . $value;
+            }
+            $field = implode(',', $field);
+        }
         $page     = empty($filter['page']) ? '' : $filter['page'];
         $limit    = empty($filter['limit']) ? '' : $filter['limit'];
         $order    = empty($filter['order']) ? ['-update_time'] : explode(',', $filter['order']);
         $category = empty($filter['category_id']) ? 0 : intval($filter['category_id']);
         if (!empty($category)) {
-            array_push($join, [
-                '__PORTAL_CATEGORY_POST__ b', 'a.id = b.post_id'
-            ]);
+            array_push($join, ['__PORTAL_CATEGORY_POST__ b', 'a.id = b.post_id']);
             $field = 'a.*,b.id AS post_category_id,b.list_order,b.category_id';
         }
 
@@ -95,55 +102,14 @@ class PortalPostService
                 } else {
                     $query->where('a.post_type', 1);
                 }
+                if (!empty($filter['recommended'])) {
+                    $query->where('a.recommended', 1);
+                }
             })
             ->order($orderArr)
             ->select();
 
         return $articles;
-    }
-
-    /**
-     * 推荐列表
-     * @param int $next_id
-     * @param int $num
-     * @return array|string|\think\Collection
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
-     */
-    public static function recommendedList($next_id = 0, $num = 10)
-    {
-        $limit = "{$next_id},{$num}";
-        $field = 'id,recommended,user_id,post_like,post_hits,comment_count,create_time,update_time,published_time,post_title,post_excerpt,more';
-
-        $portalPostModel = new PortalPostModel();
-        $list            = $portalPostModel->with('user')->field($field)->where('recommended', 1)->order('published_time DESC')->limit($limit)->select();
-        return $list;
-    }
-
-    /**
-     * 分类文章列表
-     * @param     $category_id
-     * @param int $next_id
-     * @param int $num
-     * @return string
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
-     */
-    public static function categoryPostList($category_id, $next_id = 0, $num = 10)
-    {
-        $portalPostModel = new PortalPostModel();
-        $limit           = "{$next_id},{$num}";
-        $postList        = PortalCategoryModel::categoryPostIds($category_id);
-        $field           = 'id,recommended,user_id,post_like,post_hits,comment_count,create_time,update_time,published_time,post_title,post_excerpt,more';
-        $list            = $portalPostModel
-            ->with('user')
-            ->field($field)->whereIn('id', $postList['PostIds'])
-            ->order('published_time DESC')
-            ->limit($limit)->select()
-            ->toJson();
-        return $list;
     }
     /**
      * 模型检查
