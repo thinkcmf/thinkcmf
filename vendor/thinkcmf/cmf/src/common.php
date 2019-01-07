@@ -1698,9 +1698,9 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
         $vars = array_merge($params, $vars);
     }
 
-    if (!empty($vars) && !empty($routes[$url])) {
+    if (!empty($vars) && !empty($CMF_GV_routes[$url])) {
 
-        foreach ($routes[$url] as $actionRoute) {
+        foreach ($CMF_GV_routes[$url] as $actionRoute) {
             $sameVars = array_intersect_assoc($vars, $actionRoute['vars']);
 
             if (count($sameVars) == count($actionRoute['vars'])) {

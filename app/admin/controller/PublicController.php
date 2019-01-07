@@ -34,18 +34,12 @@ class PublicController extends AdminBaseController
         if (!empty($admin_id)) {//已经登录
             return redirect(url("admin/Index/index"));
         } else {
-            $site_admin_url_password = config("cmf_SITE_ADMIN_URL_PASSWORD");
-            $upw                     = session("__CMF_UPW__");
-            if (!empty($site_admin_url_password) && $upw != $site_admin_url_password) {
-                return redirect(cmf_get_root() . "/");
-            } else {
-                session("__SP_ADMIN_LOGIN_PAGE_SHOWED_SUCCESS__", true);
-                $result = hook_one('admin_login');
-                if (!empty($result)) {
-                    return $result;
-                }
-                return $this->fetch(":login");
+            session("__SP_ADMIN_LOGIN_PAGE_SHOWED_SUCCESS__", true);
+            $result = hook_one('admin_login');
+            if (!empty($result)) {
+                return $result;
             }
+            return $this->fetch(":login");
         }
     }
 
