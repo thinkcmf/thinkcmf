@@ -98,6 +98,7 @@ class ArticlesController extends RestBaseController
 
     /**
      * 添加文章
+     * @throws \think\Exception
      */
     public function save()
     {
@@ -118,7 +119,8 @@ class ArticlesController extends RestBaseController
 
     /**
      * 更新文章
-     * @param  int $id
+     * @param $id
+     * @throws \think\Exception
      */
     public function update($id)
     {
