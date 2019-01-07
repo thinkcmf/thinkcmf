@@ -14,6 +14,7 @@ use think\Model;
 
 /**
  * @method getFieldById($id, $string)
+ * @property mixed id
  */
 class PortalPostModel extends Model
 {
@@ -75,6 +76,7 @@ class PortalPostModel extends Model
 
     /**
      * 关联 回收站 表
+     * @return \think\model\relation\HasOne
      */
     public function recycleBin()
     {
@@ -185,24 +187,10 @@ class PortalPostModel extends Model
     }
 
     /**
-     * 获取用户文章
-     */
-    public function getUserArticles($userId, $params)
-    {
-        $where = [
-            'post_type' => 1,
-            'user_id'   => $userId
-        ];
-
-        $params['where'] = $where;
-
-        return $this->getDatas($params);
-    }
-
-    /**
      * 会员添加文章
      * @param array $data 文章数据
      * @return $this
+     * @throws \think\Exception
      */
     public function addArticle($data)
     {
@@ -226,10 +214,11 @@ class PortalPostModel extends Model
 
     /**
      * 会员文章编辑
-     * @param array $data   文章数据
-     * @param int   $id     文章id
-     * @param int   $userId 文章所属用户id [可选]
-     * @return boolean   成功 true 失败 false
+     * @param array  $data   文章数据
+     * @param int    $id     文章id
+     * @param string $userId 文章所属用户id [可选]
+     * @return PortalPostModel|bool
+     * @throws \think\Exception
      */
     public function editArticle($data, $id, $userId = '')
     {
@@ -283,7 +272,11 @@ class PortalPostModel extends Model
      * 根据文章关键字，增加标签
      * @param array $keywords  文章关键字数组
      * @param int   $articleId 文章id
-     * @return void
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
      */
     public function addTags($keywords, $articleId)
     {
@@ -303,7 +296,8 @@ class PortalPostModel extends Model
                         ->column('pivot.id', 'tag_id');
                     $tagIds     = array_keys($tagIdNames);
                     $tagPostIds = array_values($tagIdNames);
-                    $tagPosts   = DB::name('portal_tag_post')->where('tag_id', 'in', $tagIds)
+                    $tagPosts   = DB::name('portal_tag_post')
+                        ->where('tag_id', 'in', $tagIds)
                         ->field('id,tag_id,post_id')
                         ->select();
                     $keepTagIds = [];
@@ -341,7 +335,7 @@ class PortalPostModel extends Model
     /**
      * 获取图片附件url相对地址
      * 默认上传名字 *_names  地址 *_urls
-     * @param $annex 上传附件
+     * @param array $annex 上传附件
      * @return array
      */
     public function setMoreUrl($annex)
@@ -367,8 +361,8 @@ class PortalPostModel extends Model
 
     /**
      * 删除文章
-     * @param        $ids    int|array   文章id
-     * @param string $userId 文章所属用户id  [可选]
+     * @param  int|array $ids 文章id
+     * @param  string $userId 文章所属用户id  [可选]
      * @return bool|int 删除结果  true 成功 false 失败  -1 文章不存在
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -442,7 +436,7 @@ class PortalPostModel extends Model
 
     /**
      * 判断文章所属用户是否为当前用户，超级管理员除外
-     * @param int   $id     文章id
+     * @param   int $id     文章id
      * @param   int $userId 当前用户id
      * @return  boolean     是 true , 否 false
      */
@@ -458,18 +452,29 @@ class PortalPostModel extends Model
 
     /**
      * 过滤属于当前用户的文章，超级管理员除外
-     * @params  array $ids     文章id的数组
-     * @param   int $userId 当前用户id
+     * @param   array $ids    文章id的数组
+     * @param   int   $userId 当前用户id
      * @return  array     属于当前用户的文章id
      */
     public function isUserPosts($ids, $userId)
     {
-        $postIds = $this->useGlobalScope(false)
+        $postIds = $this
+            ->useGlobalScope(false)
             ->where('user_id', $userId)
             ->where('id', 'in', $ids)
             ->column('id');
         return array_intersect($ids, $postIds);
     }
 
+    /**
+     * 字符串转数组
+     * @param string $string 字符串
+     * @return array
+     */
+    public function strToArr($string)
+    {
+        $result = is_string($string) ? explode(',', $string) : $string;
+        return $result;
+    }
 
 }
