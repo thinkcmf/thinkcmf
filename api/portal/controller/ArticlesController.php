@@ -75,6 +75,9 @@ class ArticlesController extends RestBaseController
 
     /**
      * 我的文章列表
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function my()
     {
@@ -83,9 +86,6 @@ class ArticlesController extends RestBaseController
 
         $postService = new PortalPostService();
         $data        = $postService->postArticles($params);
-
-//        $postModel = new PortalPostModel();
-//        $data      = $postModel->getUserArticles($userId, $params);
 
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = [$data];
@@ -142,7 +142,10 @@ class ArticlesController extends RestBaseController
 
     /**
      * 删除文章
-     * @param  int $id
+     * @param $id
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function delete($id)
     {
@@ -163,6 +166,9 @@ class ArticlesController extends RestBaseController
 
     /**
      * 批量删除文章
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function deletes()
     {
@@ -182,23 +188,25 @@ class ArticlesController extends RestBaseController
         }
     }
 
+    /**
+     * 搜索查询
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function search()
     {
         $params = $this->request->get();
+
         if (!empty($params['keyword'])) {
-            $params['where'] = [
-                'post_type'                             => 1,
-                'post_title|post_keywords|post_excerpt' => ['like', '%' . $params['keyword'] . '%']
-            ];
-            $postModel       = new PortalPostModel();
-            $data            = $postModel->getDatas($params);
+            $postService = new PortalPostService();
+            $data        = $postService->postArticles($params);
 
             if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
                 $response = $data;
             } else {
                 $response = ['list' => $data,];
             }
-
             $this->success('请求成功!', $response);
         } else {
             $this->error('搜索关键词不能为空！');
