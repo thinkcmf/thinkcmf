@@ -9,6 +9,7 @@
 
 namespace api\portal\controller;
 
+use api\portal\service\PortalCategoryService;
 use cmf\controller\RestBaseController;
 use api\portal\model\PortalCategoryModel;
 
@@ -23,9 +24,8 @@ class CategoriesController extends RestBaseController
     public function index()
     {
         $params        = $this->request->get();
-        $categoryModel = new PortalCategoryModel();
-        $data          = $categoryModel->getDatas($params);
-
+        $categoryService= new PortalCategoryService();
+        $data          = $categoryService->categories($params);
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = $data;
         } else {

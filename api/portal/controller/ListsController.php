@@ -9,7 +9,6 @@
 namespace api\portal\controller;
 
 use api\portal\model\PortalCategoryModel;
-use api\portal\model\PortalPostModel;
 use api\portal\service\PortalPostService;
 use cmf\controller\RestBaseController;
 
@@ -32,7 +31,7 @@ class ListsController extends RestBaseController
         //是否需要关联模型
         if (!$articles->isEmpty()) {
             if (!empty($param['relation'])) {
-                $allowedRelations = $portalPostService->allowedRelations($param['relation']);
+                $allowedRelations = allowed_relations(['user', 'categories'], $param['relation']);
                 if (!empty($allowedRelations)) {
                     $articles->load($allowedRelations);
                     $articles->append($allowedRelations);
@@ -67,7 +66,7 @@ class ListsController extends RestBaseController
         //是否需要关联模型
         if (!$articles->isEmpty()) {
             if (!empty($param['relation'])) {
-                $allowedRelations = $portalPostService->allowedRelations($param['relation']);
+                $allowedRelations = allowed_relations(['user', 'categories'], $param['relation']);
                 if (!empty($allowedRelations)) {
                     $articles->load($allowedRelations);
                     $articles->append($allowedRelations);

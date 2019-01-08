@@ -26,8 +26,6 @@ class PortalPostModel extends Model
     protected $type = [
         'more' => 'array',
     ];
-    //模型关联方法
-    protected $relationFilter = ['user', 'categories'];
 
     /**
      * 基础查询

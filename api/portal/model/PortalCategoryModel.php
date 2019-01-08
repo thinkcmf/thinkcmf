@@ -19,11 +19,11 @@ class PortalCategoryModel extends Model
     ];
 
     //可查询字段
-    protected $visible = [
-        'id', 'name', 'description', 'post_count',
-        'seo_title', 'seo_keywords', 'seo_description',
-	'list_order','more', 'PostIds', 'articles'
-    ];
+//    protected $visible = [
+//        'id', 'name', 'description', 'post_count',
+//        'seo_title', 'seo_keywords', 'seo_description',
+//	'list_order','more', 'PostIds', 'articles'
+//    ];
 
     //模型关联方法
     protected $relationFilter = ['articles'];
@@ -34,7 +34,7 @@ class PortalCategoryModel extends Model
      */
     protected function base($query)
     {
-        $query->alias('portal_category')->where('delete_time', 0)->where('portal_category.status', 1);
+        $query->where('delete_time', 0)->where('status', 1);
     }
 
     /**

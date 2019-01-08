@@ -46,19 +46,7 @@ class PortalPostService
             $field = 'a.*,b.id AS post_category_id,b.list_order,b.category_id';
         }
 
-        $orderArr = [];
-        foreach ($order as $key => $value) {
-            $upDwn      = substr($value, 0, 1);
-            $orderType  = $upDwn == '-' ? 'desc' : 'asc';
-            $orderField = substr($value, 1);
-            if (!empty($whiteParams)) {
-                if (in_array($orderField, $whiteParams)) {
-                    $orderArr[$orderField] = $orderType;
-                }
-            } else {
-                $orderArr[$orderField] = $orderType;
-            }
-        }
+        $orderArr = strOrderArr($order);
 
         $portalPostModel = new PortalPostModel();
 
@@ -111,19 +99,5 @@ class PortalPostService
 
         return $articles;
     }
-    /**
-     * 模型检查
-     * @param $relations
-     * @return array|bool
-     */
-    public function allowedRelations($relations)
-    {
-        if (is_string($relations)) {
-            $relations = explode(',', $relations);
-        }
-        if (!is_array($relations)) {
-            return false;
-        }
-        return array_intersect($this->relationFilter, $relations);
-    }
+
 }
