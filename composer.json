@@ -35,7 +35,8 @@
         "phpoffice/phpspreadsheet": "^1.5",
         "thinkcmf/cmf": "dev-master",
         "thinkcmf/cmf-swoole": "dev-master",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "ext-pdo": "*"
     },
     "extra": {
         "think-path": "vendor/thinkphp"
