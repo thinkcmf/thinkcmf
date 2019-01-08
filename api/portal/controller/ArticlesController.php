@@ -224,8 +224,7 @@ class ArticlesController extends RestBaseController
      */
     public function doLike()
     {
-        $userId = $this->getUserId();
-
+        $userId    = $this->getUserId();
         $articleId = $this->request->param('id', 0, 'intval');
 
         $userLikeModel = new UserLikeModel();
