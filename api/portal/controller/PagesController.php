@@ -9,6 +9,7 @@
 
 namespace api\portal\controller;
 
+use api\portal\service\PortalPostService;
 use cmf\controller\RestBaseController;
 use api\portal\model\PortalPostModel;
 
@@ -22,11 +23,9 @@ class PagesController extends RestBaseController
      */
     public function index()
     {
-        $params                       = $this->request->get();
-        $params['where']['post_type'] = 2;
-
-        $postModel = new PortalPostModel();
-        $data      = $postModel->getDatas($params);
+        $params      = $this->request->get();
+        $postService = new PortalPostService();
+        $data        = $postService->postArticles($params, true);
 
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = $data;

@@ -93,6 +93,10 @@ class PortalPostService
                 if (!empty($filter['recommended'])) {
                     $query->where('a.recommended', 1);
                 }
+                if (!empty($filter['ids'])){
+                    $ids = str_to_arr($filter['ids']);
+                    $query->where('a.id', 'in',$ids);
+                }
             })
             ->order($orderArr)
             ->select();
