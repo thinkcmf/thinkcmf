@@ -9,6 +9,7 @@
 namespace api\portal\model;
 
 use think\Db;
+use think\db\Query;
 use think\Model;
 use think\model\Pivot;
 
@@ -178,6 +179,32 @@ class PortalPostModel extends Model
     }
 
     /**
+     * 文章查询
+     * @param array $filter 数据
+     * @return array|\PDOStatement|string|Model|null
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function articleFind($filter)
+    {
+        $result = $this
+            ->where(function (Query $query) use ($filter) {
+                if (!empty($filter['id'])) {
+                    $query->where('id', $filter['id']);
+                }
+                if (!empty($filter['user_id'])) {
+                    $query->where('user_id', $filter['user_id']);
+                }
+            })
+            ->where('delete_time', 0)
+            ->where('post_status', 1)
+            ->where('post_type', 1)
+            ->find();
+        return $result;
+    }
+
+    /**
      * 会员添加文章
      * @param array $data 文章数据
      * @return $this
@@ -242,11 +269,11 @@ class PortalPostModel extends Model
         $needDeleteCategoryIds = array_diff($oldCategoryIds, $sameCategoryIds);
         $newCategoryIds        = array_diff($categories, $sameCategoryIds);
         if (!empty($needDeleteCategoryIds)) {
-             $this->categories()->detach($needDeleteCategoryIds);
+            $this->categories()->detach($needDeleteCategoryIds);
         }
 
         if (!empty($newCategoryIds)) {
-             $this->categories()->attach(array_values($newCategoryIds));
+            $this->categories()->attach(array_values($newCategoryIds));
         }
 
         $keywords = [];
