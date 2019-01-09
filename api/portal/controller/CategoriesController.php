@@ -66,7 +66,7 @@ class CategoriesController extends RestBaseController
      */
     public function subCategories()
     {
-        $id            = $this->request->get('category_id', 0, 'intval');
+        $id = $this->request->get('category_id', 0, 'intval');
 
         $categoryModel = new PortalCategoryModel();
         $categories    = $categoryModel->where(['parent_id' => $id])->select();
