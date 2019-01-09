@@ -28,10 +28,11 @@ class PortalCategoryService
     public function categories($filter)
     {
         $categoryModel = new PortalCategoryModel();
-        $field         = empty($filter['field']) ? '*' : $filter['field'];
-        $order    = empty($filter['order']) ? ['-id'] : explode(',', $filter['order']);
-        $page          = empty($filter['page']) ? '' : $filter['page'];
-        $limit         = empty($filter['limit']) ? '' : $filter['limit'];
+        //条件分解
+        $field = empty($filter['field']) ? '*' : $filter['field'];
+        $order = empty($filter['order']) ? ['-id'] : explode(',', $filter['order']);
+        $page  = empty($filter['page']) ? '' : $filter['page'];
+        $limit = empty($filter['limit']) ? '' : $filter['limit'];
         if (!empty($page)) {
             $categoryModel = $categoryModel->page($page);
         } elseif (!empty($limit)) {
@@ -44,6 +45,8 @@ class PortalCategoryService
 
         $result = $categoryModel
             ->field($field)
+            ->where('delete_time', 0)
+            ->where('status', 1)
             ->where(function (Query $query) use ($filter) {
                 if (!empty($filter['ids'])) {
                     $query->where('id', 'in', $filter['ids']);
