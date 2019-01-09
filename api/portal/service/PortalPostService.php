@@ -65,6 +65,7 @@ class PortalPostService
             ->join($join)
             ->where('a.create_time', '>=', 0)
             ->where('a.delete_time', 0)
+            ->where('a.post_status', 1)
             ->where(function (Query $query) use ($filter, $isPage) {
                 if (!empty($filter['user_id'])) {
                     $query->where('a.user_id', $filter['user_id']);
@@ -93,9 +94,9 @@ class PortalPostService
                 if (!empty($filter['recommended'])) {
                     $query->where('a.recommended', 1);
                 }
-                if (!empty($filter['ids'])){
+                if (!empty($filter['ids'])) {
                     $ids = str_to_arr($filter['ids']);
-                    $query->where('a.id', 'in',$ids);
+                    $query->where('a.id', 'in', $ids);
                 }
             })
             ->order($orderArr)
