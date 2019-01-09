@@ -44,12 +44,22 @@ class PagesController extends RestBaseController
      */
     public function read($id)
     {
-        $params                       = $this->request->get();
-        $params['where']['post_type'] = 2;
-        $params['id']                 = $id;
 
+        $params    = $this->request->get();
+        $field     = empty($params['field']) ? '*' : $params['field'];
         $postModel = new PortalPostModel();
-        $data      = $postModel->getDatas($params);
-        $this->success('请求成功!', $data);
+        $data      = $postModel
+            ->field($field)
+            ->where('id', $id)
+            ->where('delete_time', 0)
+            ->where('post_status', 1)
+            ->where('post_type', 2)
+            ->find();
+        if ($data){
+            $this->success('请求成功!', $data);
+        }else{
+            $this->error('文章不存在！');
+        }
+
     }
 }
