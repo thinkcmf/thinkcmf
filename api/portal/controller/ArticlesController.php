@@ -129,10 +129,13 @@ class ArticlesController extends RestBaseController
         if ($result !== true) {
             $this->error($result);
         }
-        if (empty($id)) {
+        $postModel = new PortalPostModel();
+
+        if (empty($postModel->get($id))) {
             $this->error('无效的文章id');
         }
-        $postModel = new PortalPostModel();
+
+
         $result    = $postModel->editArticle($data, $id, $this->getUserId());
 
         if ($result === false) {

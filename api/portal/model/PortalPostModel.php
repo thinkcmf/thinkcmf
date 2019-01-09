@@ -10,6 +10,7 @@ namespace api\portal\model;
 
 use think\Db;
 use think\Model;
+use think\model\Pivot;
 
 
 /**
@@ -22,19 +23,11 @@ class PortalPostModel extends Model
     protected $readonly = ['user_id'];
     // 开启自动写入时间戳字段
     protected $autoWriteTimestamp = true;
+
     //类型转换
     protected $type = [
         'more' => 'array',
     ];
-
-    /**
-     * 基础查询
-     * @param $query
-     */
-    protected function base($query)
-    {
-        $query->where('delete_time', 0)->where('post_status', 1);
-    }
 
     /**
      *  关联 user表
@@ -199,7 +192,8 @@ class PortalPostModel extends Model
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['thumbnail']);
         }
         $this->allowField(true)->data($data, true)->isUpdate(false)->save();
-        $categories = $this->strToArr($data['categories']);
+        $categories = str_to_arr($data['categories']);
+        //TODO 无法录入多个分类
         $this->categories()->attach($categories);
         if (!empty($data['post_keywords']) && is_string($data['post_keywords'])) {
             //加入标签
@@ -220,35 +214,39 @@ class PortalPostModel extends Model
      */
     public function editArticle($data, $id, $userId = '')
     {
+
         if (!empty($userId)) {
+            //判断是否属于当前用户的文章
             $isBelong = $this->isuserPost($id, $userId);
             if ($isBelong === false) {
                 return $isBelong;
             }
         }
+
         if (!empty($data['more'])) {
             $data['more'] = $this->setMoreUrl($data['more']);
         }
         if (!empty($data['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['thumbnail']);
         }
-        $data['id']          = $id;
-        $data['post_status'] = empty($data['post_status']) ? 0 : 1;
-        $data['is_top']      = empty($data['is_top']) ? 0 : 1;
-        $data['recommended'] = empty($data['recommended']) ? 0 : 1;
+        $data['id'] = $id;
+//        $data['post_status'] = empty($data['post_status']) ? 0 : 1;
+//        $data['is_top']      = empty($data['is_top']) ? 0 : 1;
+//        $data['recommended'] = empty($data['recommended']) ? 0 : 1;
         $this->allowField(true)->data($data, true)->isUpdate(true)->save();
 
-        $categories            = $this->strToArr($data['categories']);
-        $oldCategoryIds        = $this->categories()->column('category_id');
+        $categories     = str_to_arr($data['categories']);
+        $oldCategoryIds = $this->categories()->column('category_id');
+
         $sameCategoryIds       = array_intersect($categories, $oldCategoryIds);
         $needDeleteCategoryIds = array_diff($oldCategoryIds, $sameCategoryIds);
         $newCategoryIds        = array_diff($categories, $sameCategoryIds);
         if (!empty($needDeleteCategoryIds)) {
-            $this->categories()->detach($needDeleteCategoryIds);
+             $this->categories()->detach($needDeleteCategoryIds);
         }
 
         if (!empty($newCategoryIds)) {
-            $this->categories()->attach(array_values($newCategoryIds));
+             $this->categories()->attach(array_values($newCategoryIds));
         }
 
         $keywords = [];
@@ -306,8 +304,8 @@ class PortalPostModel extends Model
                     }
                     $keepTagIds         = array_unique($keepTagIds);
                     $shouldDeleteTagIds = array_diff($tagIds, $keepTagIds);
-                    DB::name('PortalTag')->delete($shouldDeleteTagIds);
-                    DB::name('PortalTagPost')->delete($tagPostIds);
+                    Db::name('PortalTag')->delete($shouldDeleteTagIds);
+                    Db::name('PortalTagPost')->delete($tagPostIds);
                 }
             } else {
                 $tagIdNames = DB::name('portal_tag')->where('name', 'in', $keywords)->column('name', 'id');
@@ -359,8 +357,8 @@ class PortalPostModel extends Model
 
     /**
      * 删除文章
-     * @param  int|array $ids 文章id
-     * @param  string $userId 文章所属用户id  [可选]
+     * @param  int|array $ids    文章id
+     * @param  string    $userId 文章所属用户id  [可选]
      * @return bool|int 删除结果  true 成功 false 失败  -1 文章不存在
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -381,7 +379,7 @@ class PortalPostModel extends Model
                     }
                 }
             } else {
-                $ids      = $this->strToArr($ids);
+                $ids      = str_to_arr($ids);
                 $articles = $this->where('id', 'in', $ids)->select();
                 if (!empty($articles)) {
                     $deleteIds = $this->isUserPosts($ids, $userId);
@@ -397,7 +395,7 @@ class PortalPostModel extends Model
                     $where['id'] = $ids;
                 }
             } else {
-                $ids      = $this->strToArr($ids);
+                $ids      = str_to_arr($ids);
                 $articles = $this->where('id', 'in', $ids)->select();
                 if (!empty($articles)) {
                     $where['id'] = ['in', $ids];
@@ -464,15 +462,5 @@ class PortalPostModel extends Model
         return array_intersect($ids, $postIds);
     }
 
-    /**
-     * 字符串转数组
-     * @param string $string 字符串
-     * @return array
-     */
-    public function strToArr($string)
-    {
-        $result = is_string($string) ? explode(',', $string) : $string;
-        return $result;
-    }
 
 }

@@ -18,24 +18,10 @@ class PortalCategoryModel extends Model
         'more' => 'array',
     ];
 
-    //可查询字段
-//    protected $visible = [
-//        'id', 'name', 'description', 'post_count',
-//        'seo_title', 'seo_keywords', 'seo_description',
-//	'list_order','more', 'PostIds', 'articles'
-//    ];
 
     //模型关联方法
     protected $relationFilter = ['articles'];
 
-    /**
-     * 基础查询
-     * @param $query
-     */
-    protected function base($query)
-    {
-        $query->where('delete_time', 0)->where('status', 1);
-    }
 
     /**
      * more 自动转化

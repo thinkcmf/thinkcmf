@@ -46,7 +46,7 @@ class PortalPostService
             $field = 'a.*,b.id AS post_category_id,b.list_order,b.category_id';
         }
 
-        $orderArr = strOrderArr($order);
+        $orderArr = order_shift($order);
 
         $portalPostModel = new PortalPostModel();
 
