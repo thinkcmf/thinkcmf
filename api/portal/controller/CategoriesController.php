@@ -23,9 +23,9 @@ class CategoriesController extends RestBaseController
      */
     public function index()
     {
-        $params        = $this->request->get();
-        $categoryService= new PortalCategoryService();
-        $data          = $categoryService->categories($params);
+        $params          = $this->request->get();
+        $categoryService = new PortalCategoryService();
+        $data            = $categoryService->categories($params);
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = $data;
         } else {
@@ -44,11 +44,18 @@ class CategoriesController extends RestBaseController
      */
     public function read($id)
     {
-        $params        = $this->request->get();
-        $params['id']  = $id;
         $categoryModel = new PortalCategoryModel();
-        $data          = $categoryModel->getDatas($params);
-        $this->success('请求成功!', $data);
+        $data          = $categoryModel
+            ->where('delete_time', 0)
+            ->where('status', 1)
+            ->where('id', $id)
+            ->find();
+        if ($data) {
+            $this->success('请求成功！', $data);
+        } else {
+            $this->error('该分类不存在！');
+        }
+
     }
 
     /**
@@ -60,10 +67,15 @@ class CategoriesController extends RestBaseController
     public function subCategories()
     {
         $id            = $this->request->get('category_id', 0, 'intval');
+
         $categoryModel = new PortalCategoryModel();
         $categories    = $categoryModel->where(['parent_id' => $id])->select();
+        if (!$categories->isEmpty()) {
+            $this->success('请求成功', ['categories' => $categories]);
+        } else {
+            $this->error('该分类下没有子分类！');
+        }
 
-        $this->success('请求成功', ['categories' => $categories]);
 
     }
 }
