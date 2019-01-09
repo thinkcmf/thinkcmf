@@ -39,8 +39,8 @@ class PortalCategoryService
         } else {
             $categoryModel = $categoryModel->limit(10);
         }
-        //转化-+
-        $orderArr = strOrderArr($order);
+        //转化-+为desc、asc
+        $orderArr = order_shift($order);
 
         $result = $categoryModel
             ->field($field)
