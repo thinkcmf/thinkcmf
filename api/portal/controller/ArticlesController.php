@@ -30,7 +30,7 @@ class ArticlesController extends RestBaseController
         //是否需要关联模型
         if (!$data->isEmpty()) {
             if (!empty($params['relation'])) {
-                $allowedRelations = allowed_relations(['user', 'categories'],$params['relation']);
+                $allowedRelations = allowed_relations(['user', 'categories'], $params['relation']);
                 if (!empty($allowedRelations)) {
                     $data->load($allowedRelations);
                     $data->append($allowedRelations);
@@ -130,13 +130,12 @@ class ArticlesController extends RestBaseController
             $this->error($result);
         }
         $postModel = new PortalPostModel();
-
-        if (empty($postModel->get($id))) {
-            $this->error('无效的文章id');
+        $res       = $postModel->articleFind(['id' => $id, 'user_id' => $this->getUserId()]);
+        if (empty($res)) {
+            $this->error('文章不存在或者已经删除！');
         }
 
-
-        $result    = $postModel->editArticle($data, $id, $this->getUserId());
+        $result = $postModel->editArticle($data, $id, $this->getUserId());
 
         if ($result === false) {
             $this->error('编辑失败！');
@@ -415,12 +414,16 @@ class ArticlesController extends RestBaseController
         $categoryId = Db::name('portal_category_post')->where('post_id', $articleId)->value('category_id');
 
         $postModel = new PortalPostModel();
-        $articles  = $postModel->alias('post')->join('__PORTAL_CATEGORY_POST__ category_post', 'post.id=category_post.post_id')
+        $articles  = $postModel
+            ->alias('post')
+            ->join('__PORTAL_CATEGORY_POST__ category_post', 'post.id=category_post.post_id')
             ->where(['post.delete_time' => 0, 'post.post_status' => 1, 'category_post.category_id' => $categoryId])
-            ->order(Db::raw('rand()'))
+            ->orderRaw('rand()')
             ->limit(5)
             ->select();
-
+        if ($articles->isEmpty()){
+            $this->error('没有相关文章！');
+        }
         $this->success('success', ['list' => $articles]);
     }
 }
