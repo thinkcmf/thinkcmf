@@ -4,12 +4,15 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: pl125 <xskjs888@163.com>
+// | Author: 小夏 < 449134904@qq.com>
+// | Date: 2019/01/11
+// | Time:下午 03:24
 // +----------------------------------------------------------------------
 
 namespace api\user\controller;
 
 use api\user\model\UserFavoriteModel;
+use api\user\service\UserFavoriteService;
 use cmf\controller\RestBaseController;
 use think\Validate;
 
@@ -17,7 +20,7 @@ class FavoritesController extends RestBaseController
 {
 
     /**
-     * 显示收藏列表
+     * 我的显示收藏列表
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -26,18 +29,19 @@ class FavoritesController extends RestBaseController
     {
         $userId = $this->getUserId();
 
-        $param             = $this->request->param();
-        $param['where']    = [
-            'user_id' => $userId
-        ];
-        $param['order']    = '-create_time';
-        $userFavoriteModel = new UserFavoriteModel();
-        $favoriteData      = $userFavoriteModel->getDatas($param);
+        $param            = $this->request->param();
+        $param['user_id'] = $userId;
+
+        $userFavoriteModel = new UserFavoriteService();
+        $favoriteData      = $userFavoriteModel->favorites($param);
 
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = $favoriteData;
         } else {
             $response = ['list' => $favoriteData,];
+        }
+        if ($favoriteData->isEmpty()){
+            $this->error('您没有收藏的数据！');
         }
         $this->success('请求成功', $response);
     }
@@ -47,60 +51,29 @@ class FavoritesController extends RestBaseController
      */
     public function setFavorites()
     {
-        $input = $this->request->param();
-
-        //组装数据
-        $data = $this->_FavoritesObject($input['title'], $input['url'], $input['description'], $input['table_name'], $input['object_id']);
-        if (!$data) {
-            $this->error('收藏失败');
+        $data = $this->request->param();
+        $result = $this->validate($data, 'UserFavorite');
+        if (true !== $result) {
+            // 验证失败 输出错误信息
+            $this->error($result);
         }
+
         $userFavoriteModel = new UserFavoriteModel();
         $count             = $userFavoriteModel
-            ->where(['user_id' => $this->getUserId(), 'object_id' => $input['object_id']])
-            ->where('table_name', $input['table_name'])
+            ->where(['user_id' => $this->getUserId(), 'object_id' => $data['object_id']])
+            ->where('table_name', $data['table_name'])
             ->count();
         if ($count > 0) {
             $this->error('已收藏', ['code' => 1]);
         }
-
-        $favoriteId = $userFavoriteModel->setFavorite($data);
+        $data['user_id'] = $this->getUserId();
+        $favoriteId = $userFavoriteModel->addFavorite($data);
         if ($favoriteId) {
-            $this->success('收藏成功', ['id' => $favoriteId]);
+            $this->success('收藏成功', ['id' => $userFavoriteModel->id]);
         } else {
             $this->error('收藏失败');
         }
 
-    }
-
-    /**
-     * 收藏数据组装
-     * @param $title
-     * @param $url
-     * @param $description
-     * @param $table_name
-     * @param $object_id
-     * @return bool
-     */
-    protected function _FavoritesObject($title, $url, $description, $table_name, $object_id)
-    {
-        $data['user_id']     = $this->getUserId();
-        $data['create_time'] = time();
-
-        if (empty($title)) {
-            return false;
-        } else if (empty($url)) {
-            return false;
-        } elseif (empty($table_name)) {
-            return false;
-        } elseif (empty($object_id)) {
-            return false;
-        }
-        $data['title']       = $title;
-        $data['url']         = htmlspecialchars_decode($url);
-        $data['description'] = $description;
-        $data['table_name']  = $table_name;
-        $data['object_id']   = $object_id;
-        return $data;
     }
 
     /**
@@ -151,7 +124,7 @@ class FavoritesController extends RestBaseController
         }
 
         $userFavoriteModel = new UserFavoriteModel();
-        $findFavorite = $userFavoriteModel->where([
+        $findFavorite      = $userFavoriteModel->where([
             'table_name' => $input['table_name'],
             'user_id'    => $userId,
             'object_id'  => intval($input['object_id'])

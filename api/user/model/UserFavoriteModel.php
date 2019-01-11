@@ -4,15 +4,20 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: pl125 <xskjs888@163.com>
+// | Author: 小夏 <449134904@qq.com>
 // +----------------------------------------------------------------------
 
 namespace api\user\model;
 
-use api\common\model\CommonModel;
+use think\Model;
 
-class UserFavoriteModel extends CommonModel
+/**
+ * @property mixed id
+ */
+class UserFavoriteModel extends Model
 {
+    // 开启自动写入时间戳字段
+    protected $autoWriteTimestamp = true;
 
     /**
      * 关联表
@@ -76,16 +81,15 @@ class UserFavoriteModel extends CommonModel
     }
 
     /**
-     * [setFavorite 设置收藏]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-08-03T09:16:37+0800
-     * @since:    1.0
+     * 添加收藏
+     * @param $data
+     * @return bool
      */
-    public function setFavorite($data)
+    public function addFavorite($data)
     {
         //获取收藏内容信息
-        $Favorite = self::create($data);
-        return $Favorite->id;
+        $Favorite =$this->allowField(true)->isUpdate(false)->data($data,true)->save();
+        return $Favorite;
     }
 
     /**
