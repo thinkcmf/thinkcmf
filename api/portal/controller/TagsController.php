@@ -8,9 +8,10 @@
 // +----------------------------------------------------------------------
 namespace api\portal\controller;
 
-use api\portal\model\PortalPostModel;
-use cmf\controller\RestBaseController;
 use api\portal\model\PortalTagModel;
+use api\portal\service\PortalTagService;
+use cmf\controller\RestBaseController;
+use think\db\Query;
 
 class TagsController extends RestBaseController
 {
@@ -23,14 +24,17 @@ class TagsController extends RestBaseController
      */
     public function index()
     {
-        $params         = $this->request->get();
-        $portalTagModel = new PortalTagModel();
-        $data           = $portalTagModel->getDatas($params);
+        $params     = $this->request->get();
+        $tagService = new PortalTagService();
+        $data       = $tagService->tagList($params);
 
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = $data;
         } else {
             $response = ['list' => $data,];
+        }
+        if ($data->isEmpty()) {
+            $this->error('没有标签！');
         }
         $this->success('请求成功!', $response);
     }
@@ -46,8 +50,8 @@ class TagsController extends RestBaseController
         $params                         = $this->request->get();
         $params['where']['recommended'] = 1;
 
-        $portalTagModel = new PortalTagModel();
-        $data                           = $portalTagModel->getDatas($params);
+        $tagService = new PortalTagService();
+        $data       = $tagService->tagList($params);
 
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = $data;
@@ -69,27 +73,14 @@ class TagsController extends RestBaseController
         if (intval($id) === 0) {
             $this->error('无效的标签id！');
         } else {
-            $params    = $this->request->param();
-            $postModel = new PortalPostModel();
-
-            unset($params['id']);
-
-            $articles = $postModel->paramsFilter($params)->alias('post')
-                ->join('__PORTAL_TAG_POST__ tag_post', 'post.id = tag_post.post_id')
-                ->where(['tag_post.tag_id' => $id])->select();
-
-            if (!empty($params['relation'])) {
-                $allowedRelations = $postModel->allowedRelations($params['relation']);
-                if (!empty($allowedRelations)) {
-                    if (count($articles) > 0) {
-                        $articles->load($allowedRelations);
-                        $articles->append($allowedRelations);
-                    }
-                }
+            $filter       = $this->request->param();
+            $filter['id'] = $id;
+            $tagService   = new PortalTagService();
+            $tag          = $tagService->portalTagArticles($filter);
+            if ($tag) {
+                $this->error('没有相关文章');
             }
-
-
-            $this->success('请求成功!', ['articles' => $articles]);
+            $this->success('请求成功!', $tag);
         }
     }
 }
