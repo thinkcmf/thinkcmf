@@ -12,16 +12,16 @@
 // +----------------------------------------------------------------------
 namespace api\home\controller;
 
-use api\home\model\SlideModel;
+use api\home\service\SlideService;
 use cmf\controller\RestBaseController;
 
 class SlidesController extends RestBaseController
 {
     /**
-     * [获取幻灯片]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-05-25T20:48:53+0800
-     * @since:    1.0
+     * 获取幻灯片
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function read()
     {
@@ -31,11 +31,9 @@ class SlidesController extends RestBaseController
             $this->error('缺少ID参数');
         }
 
-        $map['id'] = $id;
-        $obj       = new SlideModel();
-        $data      = $obj->SlideList($map);
-
-
+        $map['id']    = $id;
+        $slideService = new SlideService();
+        $data         = $slideService->SlideList($map);
         //剔除分类状态隐藏 剔除分类下显示数据为空
         if (empty($data) || $data['items']->isEmpty()) {
             $this->error('该组幻灯片显示数据为空');
