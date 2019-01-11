@@ -911,6 +911,8 @@ class Xlsx extends BaseReader
                                             $coordinates = Coordinate::coordinateFromString($r);
 
                                             if (!$this->getReadFilter()->readCell($coordinates[0], (int) $coordinates[1], $docSheet->getTitle())) {
+                                                $rowIndex += 1;
+
                                                 continue;
                                             }
                                         }
@@ -2564,13 +2566,15 @@ class Xlsx extends BaseReader
             }
         }
 
+        $readFilter = (\get_class($this->getReadFilter()) !== DefaultReadFilter::class ? $this->getReadFilter() : null);
+
         // set columns/rows attributes
         $columnsAttributesSet = [];
         $rowsAttributesSet = [];
         foreach ($columnsAttributes as $coordColumn => $columnAttributes) {
-            foreach ($rowsAttributes as $coordRow => $rowAttributes) {
-                if ($this->getReadFilter() !== null) {
-                    if (!$this->getReadFilter()->readCell($coordColumn, $coordRow, $docSheet->getTitle())) {
+            if ($readFilter !== null) {
+                foreach ($rowsAttributes as $coordRow => $rowAttributes) {
+                    if (!$readFilter->readCell($coordColumn, $coordRow, $docSheet->getTitle())) {
                         continue 2;
                     }
                 }
@@ -2583,9 +2587,9 @@ class Xlsx extends BaseReader
         }
 
         foreach ($rowsAttributes as $coordRow => $rowAttributes) {
-            foreach ($columnsAttributes as $coordColumn => $columnAttributes) {
-                if ($this->getReadFilter() !== null) {
-                    if (!$this->getReadFilter()->readCell($coordColumn, $coordRow, $docSheet->getTitle())) {
+            if ($readFilter !== null) {
+                foreach ($columnsAttributes as $coordColumn => $columnAttributes) {
+                    if (!$readFilter->readCell($coordColumn, $coordRow, $docSheet->getTitle())) {
                         continue 2;
                     }
                 }
