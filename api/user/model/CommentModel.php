@@ -13,26 +13,18 @@
 
 namespace api\user\model;
 
-use api\common\model\CommonModel;
 use think\Db;
+use think\Model;
 
 /**
  * @property mixed id
  */
-class CommentModel extends CommonModel
+class CommentModel extends Model
 {
 
     //模型关联方法
     protected $relationFilter = ['user', 'to_user'];
 
-    /**
-     * 基础查询
-     */
-    protected function base($query)
-    {
-        $query->where('delete_time', 0)
-            ->where('status', 1);
-    }
 
     /**
      * post_content 自动转化
@@ -76,33 +68,22 @@ class CommentModel extends CommonModel
 
     /**
      * 关联 user表
-     * @return $this
+     * @return \think\model\relation\BelongsTo
      */
     public function user()
     {
-        return $this->belongsTo('UserModel', 'user_id');
-    }
-
-    public function toUser()
-    {
-        return $this->belongsTo('UserModel', 'to_user_id');
+        return $this->belongsTo('UserModel', 'user_id')->field('id,user_nickname');
     }
 
     /**
-     * [CommentList 评论列表获取]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-05-25T20:52:27+0800
-     * @since:    1.0
+     *
+     * @return \think\model\relation\BelongsTo
      */
-    public function CommentList($map, $limit, $order)
+    public function toUser()
     {
-        if (empty($map)) {
-            return [];
-        }
-        $data = $this->with('to_user')->field(true)->where($map)->order($order)->limit($limit)->select();
-        return $data;
+        return $this->belongsTo('UserModel', 'to_user_id')->field('id,user_nickname');
     }
-
+    
     /**
      * 添加评论
      * @param $data
