@@ -67,7 +67,8 @@ class CacheTable
         if (0 == $data['time']) {
             return $data['data'];
         }
-        if (0 <= $data['time'] && $data['time'] >= time()) {
+        if (0 <= $data['time'] && $data['time'] < time()) {
+            $this->del($key);
             return false;
         }
         return $data['data'];

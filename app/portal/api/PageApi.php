@@ -11,6 +11,7 @@
 namespace app\portal\api;
 
 use app\portal\model\PortalPostModel;
+use think\db\Query;
 
 class PageApi
 {

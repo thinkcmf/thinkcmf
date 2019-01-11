@@ -14,6 +14,7 @@ use Swoole\Http\Server as HttpServer;
 use Swoole\Table;
 use think\Facade;
 use think\facade\Config;
+use think\facade\Env;
 use think\Loader;
 use think\swoole\facade\Timer as TimerF;
 use think\Container;
@@ -73,7 +74,7 @@ class Http extends Server
     public function setMonitor($interval = 2, $path = [])
     {
         $this->monitor['interval'] = $interval;
-        $this->monitor['path']     = (array) $path;
+        $this->monitor['path']     = (array)$path;
     }
 
     public function table(array $option)
@@ -136,7 +137,8 @@ class Http extends Server
     public function onWorkerStart($server, $worker_id)
     {
         // 应用实例化
-        $this->app = new Application($this->appPath);
+        $this->app       = new Application($this->appPath);
+        $this->lastMtime = time();
 
         //swoole server worker启动行为
         $hook = Container::get('hook');
@@ -168,8 +170,6 @@ class Http extends Server
 
         // 应用初始化
         $this->app->initialize();
-
-        $this->lastMtime = time();
 
         $this->app->bindTo([
             'cookie'  => Cookie::class,
@@ -214,7 +214,7 @@ class Http extends Server
      */
     protected function monitor($server)
     {
-        $paths = $this->monitor['path'] ?: [$this->app->getAppPath(), $this->app->getConfigPath(), cmf_core_path().'../'];
+        $paths = $this->monitor['path'] ?: [$this->app->getAppPath(), $this->app->getConfigPath(), cmf_core_path() . '../'];
         $timer = $this->monitor['interval'] ?: 2;
 
         $server->tick($timer, function () use ($paths, $server) {
@@ -228,9 +228,6 @@ class Http extends Server
                     }
 
                     if ($this->lastMtime < $file->getMTime()) {
-//                        $lastMDateTime = date('Y-m-d H:i:s', $this->lastMtime);
-//                        $fileMDateTime = date('Y-m-d H:i:s', $file->getMTime());
-//                        echo "workerId:{$this->workerId} lastMDateTime:{$lastMDateTime} fileMDateTime:{$fileMDateTime}";
                         $this->lastMtime = $file->getMTime();
                         echo '[update]' . $file . " reload...\n";
                         $server->reload();
@@ -285,6 +282,16 @@ class Http extends Server
     {
         // 执行应用并响应
         $this->app->swooleWebSocket($server, $frame);
+    }
+
+    /**
+     * Close
+     */
+    public function WebsocketonClose($server, $fd, $reactorId)
+    {
+        $data = [$server, $fd, $reactorId];
+        $hook = Container::get('hook');
+        $hook->listen('swoole_websocket_on_close', $data);
     }
 
     /**

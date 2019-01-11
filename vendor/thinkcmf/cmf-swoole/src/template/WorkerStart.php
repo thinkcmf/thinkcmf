@@ -21,7 +21,7 @@ abstract class WorkerStart
         $this->_initialize($server, $worker_id);
     }
 
-    abstract protected function _initialize($server, $worker_id);
+    abstract public function _initialize($server, $worker_id);
 
-    abstract protected function run();
+    abstract public function run();
 }

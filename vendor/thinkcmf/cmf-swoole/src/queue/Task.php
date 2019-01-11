@@ -2,7 +2,7 @@
 
 namespace think\swoole\queue;
 
-use xavier\swoole\Task as SwooleTask;
+use think\facade\Task as SwooleTask;
 use think\queue\Worker;
 
 /**

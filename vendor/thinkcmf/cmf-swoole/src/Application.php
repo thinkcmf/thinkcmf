@@ -17,12 +17,16 @@ use think\App;
 use think\Db;
 use think\Error;
 use think\exception\HttpException;
+use think\facade\Env;
 
 /**
  * Swoole应用对象
  */
 class Application extends App
 {
+    // 请求控制 chan
+    private $chan = null;
+
     /**
      * 处理Swoole请求
      * @access public
@@ -32,15 +36,20 @@ class Application extends App
      */
     public function swoole(Request $request, Response $response)
     {
+        if (empty($this->chan)) {
+            $this->chan = new \chan(1);
+        }
+        $this->chan->push(1);
         try {
-//            echo "\Swoole\Coroutine::getuid():" . \Swoole\Coroutine::getuid() . "\n";
-            
-//            if(rand(1,4)==1){
-//                echo "start sleep 10;\n";
-//                \Swoole\Coroutine::sleep(10);
-//            }
-            // 屏蔽 favicon.ico
-            $uri = $request->server['request_uri'];
+
+            // 测试用代码
+//            $date = date('Y-m-d H:i:s');
+//            $this->chan->push($date);
+//            echo $date . "\Swoole\Coroutine::getuid():" . \Swoole\Coroutine::getuid() . "\n";
+//            \Swoole\Coroutine::sleep(10);
+//            echo $date . "this->chan->pop;\n";
+//            $date = $this->chan->pop();
+            $uri      = $request->server['request_uri'];
             if ($uri == '/favicon.ico') {
                 $response->status(404);
                 $response->end();
@@ -70,20 +79,21 @@ class Application extends App
             $_POST   = $request->post ?: [];
             $_FILES  = $request->files ?: [];
             $header  = $request->header ?: [];
+            $server  = $request->server ?: [];
+
             if (isset($header['x-requested-with'])) {
-                $header['http_x_requested_with'] = $header['x-requested-with'];
+                $server['HTTP_X_REQUESTED_WITH'] = $header['x-requested-with'];
             }
 
             if (isset($header['referer'])) {
-                $header['http_referer'] = $header['referer'];
+                $server['http_referer'] = $header['referer'];
             }
 
             if (isset($_GET[$this->config->get('var_pathinfo')])) {
-                $request->server['path_info'] = $_GET[$this->config->get('var_pathinfo')];
+                $server['path_info'] = $_GET[$this->config->get('var_pathinfo')];
             }
 
-            $server  = array_change_key_case($request->server, CASE_UPPER);
-            $_SERVER = array_merge($server, array_change_key_case($header, CASE_UPPER));
+            $_SERVER = array_change_key_case($server, CASE_UPPER);
 
             // 重新实例化请求对象 处理swoole请求数据
             $this->request->withHeader($header)
@@ -133,7 +143,10 @@ class Application extends App
                 $response->header($key, $val);
             }
 
-            $response->end($content);
+            $response->write($content);
+            $response->end();
+
+
         } catch (HttpException $e) {
             $this->exception($response, $e);
         } catch (\Exception $e) {
@@ -141,6 +154,8 @@ class Application extends App
         } catch (\Throwable $e) {
             $this->exception($response, $e);
         }
+
+        $this->chan->pop();
     }
 
     public function swooleWebSocket($server, $frame)
@@ -155,14 +170,17 @@ class Application extends App
             WebSocketFrame::destroy();
             $request = $frame->data;
             $request = json_decode($request, true);
+
             // 重置应用的开始时间和内存占用
             $this->beginTime = microtime(true);
             $this->beginMem  = memory_get_usage();
             WebSocketFrame::getInstance($server, $frame);
-            $_COOKIE                    = isset($request['arguments']['cookie']) ? $request['arguments']['cookie'] : [];
-            $_GET                       = isset($request['arguments']['get']) ? $request['arguments']['get'] : [];
-            $_POST                      = isset($request['arguments']['post']) ? $request['arguments']['post'] : [];
-            $_FILES                     = isset($request['arguments']['files']) ? $request['arguments']['files'] : [];
+
+            $_COOKIE = isset($request['arguments']['cookie']) ? $request['arguments']['cookie'] : [];
+            $_GET    = isset($request['arguments']['get']) ? $request['arguments']['get'] : [];
+            $_POST   = isset($request['arguments']['post']) ? $request['arguments']['post'] : [];
+            $_FILES  = isset($request['arguments']['files']) ? $request['arguments']['files'] : [];
+
             $_SERVER["PATH_INFO"]       = $request['url'] ?: '/';
             $_SERVER["REQUEST_URI"]     = $request['url'] ?: '/';
             $_SERVER["SERVER_PROTOCOL"] = 'http';
@@ -176,10 +194,10 @@ class Application extends App
                 ->withCookie($_COOKIE)
                 ->withInput($request->rawContent())
                 ->withFiles($_FILES)
-                ->setBaseUrl($request->server['request_uri'])
-                ->setUrl($request->server['request_uri'] . (!empty($request->server['query_string']) ? '&' . $request->server['query_string'] : ''))
+                ->setBaseUrl($request['url'])
+                ->setUrl($request['url'])
                 ->setHost($request->header['host'])
-                ->setPathinfo(ltrim($request->server['path_info'], '/'));
+                ->setPathinfo(ltrim($request['url'], '/'));
 
             // 更新请求对象实例
             $this->route->setRequest($this->request);
@@ -219,7 +237,7 @@ class Application extends App
     protected function webSocketException($server, $frame, $e)
     {
         $response = [
-            'code'    => $e->code,
+            'code'    => $e->getCode(),
             'content' => $e->getMessage(),
         ];
         $server->push($frame->fd, json_encode($response));
