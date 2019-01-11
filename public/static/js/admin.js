@@ -220,7 +220,15 @@
                                         callback: {
                                             afterClose: function () {
                                                 if ($btn.data('refresh') == undefined || $btn.data('refresh')) {
-                                                    _refresh();
+
+                                                    if ($btn.data('success_refresh')) {
+                                                        var successRefreshCallback = $btn.data('success_refresh');
+                                                        window[successRefreshCallback](data, statusText, xhr, $form);
+                                                        return;
+                                                    } else {
+                                                        _refresh();
+                                                    }
+
                                                 }
                                             }
                                         }
