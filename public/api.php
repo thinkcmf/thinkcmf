@@ -37,7 +37,7 @@ define('WEB_ROOT', __DIR__ . '/');
 define('PLUGINS_PATH', __DIR__ . '/plugins/');
 
 // 定义CMF 版本号
-define('THINKCMF_VERSION', '5.1.0-dev');
+define('THINKCMF_VERSION', '5.1.0-beta');
 
 // 加载基础文件
 require __DIR__ . '/../vendor/thinkphp/base.php';
