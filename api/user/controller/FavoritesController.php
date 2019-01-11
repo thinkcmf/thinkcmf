@@ -40,7 +40,7 @@ class FavoritesController extends RestBaseController
         } else {
             $response = ['list' => $favoriteData,];
         }
-        if ($favoriteData->isEmpty()){
+        if ($favoriteData->isEmpty()) {
             $this->error('您没有收藏的数据！');
         }
         $this->success('请求成功', $response);
@@ -51,7 +51,7 @@ class FavoritesController extends RestBaseController
      */
     public function setFavorites()
     {
-        $data = $this->request->param();
+        $data   = $this->request->param();
         $result = $this->validate($data, 'UserFavorite');
         if (true !== $result) {
             // 验证失败 输出错误信息
@@ -67,7 +67,7 @@ class FavoritesController extends RestBaseController
             $this->error('已收藏', ['code' => 1]);
         }
         $data['user_id'] = $this->getUserId();
-        $favoriteId = $userFavoriteModel->addFavorite($data);
+        $favoriteId      = $userFavoriteModel->addFavorite($data);
         if ($favoriteId) {
             $this->success('收藏成功', ['id' => $userFavoriteModel->id]);
         } else {
@@ -109,8 +109,11 @@ class FavoritesController extends RestBaseController
         $input = $this->request->param();
 
         $validate = new Validate([
-            'table_name' => 'require',
             'object_id'  => 'require',
+            'table_name' => 'require'
+        ], [
+            'object_id.require'  => '请输出内容ID',
+            'table_name.require' => '请输出内容ID所在表名不带前缀'
         ]);
 
         if (!$validate->check($input)) {
