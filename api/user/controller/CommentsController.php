@@ -8,8 +8,11 @@
 // +----------------------------------------------------------------------
 // | Author: wuwu <15093565100@163.com>
 // +----------------------------------------------------------------------
+namespace api\user\controller;
+
 use api\user\model\CommentModel;
 use api\user\model\UserModel;
+use api\user\service\CommentService;
 use cmf\controller\RestBaseController;
 
 class CommentsController extends RestBaseController
@@ -23,24 +26,19 @@ class CommentsController extends RestBaseController
      */
     public function getUserComments()
     {
-        $input = $this->request->param();
-
-        $comment                 = new CommentModel();
-        $map['where']['user_id'] = $this->getUserId();
-        $map['order']            = '-create_time';
-        $map['relation']         = 'user,to_user';
-        if (!empty($input['page'])) {
-            $map['page'] = $input['page'];
-        }
-        //处理不同的情况
-        $data = $comment->getDatas($map);
+        $param            = $this->request->param();
+        $param['user_id'] = $this->getUserId();
+        $commentService   = new CommentService();
+        $data             = $commentService->userComments($param);
 
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = [$data];
         } else {
             $response = ['list' => $data];
         }
-
+        if ($data->isEmpty()) {
+            $this->error('暂无评论！');
+        }
         $this->success('请求成功', $response);
 
     }
@@ -53,39 +51,24 @@ class CommentsController extends RestBaseController
      */
     public function getComments()
     {
-        $input = $this->request->param();
-        $id    = '';
-        $table = '';
-        if (!empty($input('object_id'))) {
-            $id = $input['object_id'];
-        } else {
-            $this->error('id参数不存在');
+        $param = $this->request->param();
+        if (empty($param['object_id'])) {
+            $this->error('object_id参数不存在');
         }
-        if (!empty($input('table_name'))) {
-            $table = $input['table_name'];
-        } else {
-            $this->error('table参数不存在');
+        if (empty($param['table_name'])) {
+            $this->error('table_name参数不存在');
         }
 
-        $comment         = new CommentModel();
-        $map['where']    = [
-            'object_id'  => $id,
-            'table_name' => $table
-        ];
-        $map['relation'] = 'user,to_user';
-
-        if (!empty($input['page'])) {
-            $map['page'] = $input['page'];
+        $commentService = new CommentService();
+        $data           = $commentService->userComments($param);
+        if (!$data->isEmpty()) {
+            $data->load('user,toUser');
         }
-
-        $data = $comment->getDatas($map);
-
         if (empty($this->apiVersion) || $this->apiVersion == '1.0.0') {
             $response = [$data];
         } else {
             $response = ['list' => $data];
         }
-
         //数据是否存在
         if ($data->isEmpty()) {
             $this->error('评论数据为空');
@@ -106,7 +89,6 @@ class CommentsController extends RestBaseController
         } else {
             $this->error('id参数不存在');
         }
-
         $userId = $this->getUserId();
         $result = CommentModel::destroy(['id' => $id, 'user_id' => $userId]);
         if ($result) {
