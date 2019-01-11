@@ -1,6 +1,5 @@
-ThinkCMF 5.0.181231 正式版
+ThinkCMF 5.0.190111 正式版
 ===============
-> 祝大家新年快乐！ThinkCMF 5.1.0我们来年见！
 
 ### 系列讲座
 https://www.thinkcmf.com/college.html
@@ -128,6 +127,12 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
+#### 5.0.190111
+* 升级ThinkPHP到`5.0.24`(包含安全更新)
+* 增加后台模板按文件列表设计
+* 修复url无法美化
+* 修复页面数据源报错
+
 #### 5.0.181231
 * 规范所有`5.0`代码方便升级到`5.1`
 * 规范控制器`_initialize`方法为`initialize`
