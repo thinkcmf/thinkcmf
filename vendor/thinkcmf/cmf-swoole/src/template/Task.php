@@ -16,8 +16,8 @@ abstract class Task
         $this->initialize($args);
     }
 
-    abstract protected function initialize($args);
+    abstract public function initialize($args);
 
-    abstract protected function run($serv, $taskId, $fromWorkerId);
+    abstract public function run($serv, $taskId, $fromWorkerId);
 
 }

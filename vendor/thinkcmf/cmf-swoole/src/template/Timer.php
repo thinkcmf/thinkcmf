@@ -17,7 +17,7 @@ abstract class Timer
         $this->initialize($args);
     }
 
-    abstract protected function initialize($args);
+    abstract public function initialize($args);
 
-    abstract protected function run();
+    abstract public function run();
 }
