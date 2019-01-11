@@ -32,7 +32,7 @@ class Http extends Server
     protected $table;
     protected $cachetable;
     protected $monitor;
-    protected $server_type;
+    protected $serverType;
     protected $lastMtime;
     protected $fieldType = [
         'int'    => Table::TYPE_INT,
@@ -50,10 +50,15 @@ class Http extends Server
      * 架构函数
      * @access public
      */
-    public function __construct($host, $port, $mode = SWOOLE_PROCESS, $sockType = SWOOLE_SOCK_TCP)
+    public function __construct($host, $port, $mode = SWOOLE_PROCESS, $sockType = SWOOLE_SOCK_TCP, $option = [])
     {
-        $this->server_type = Config::get('swoole.server_type');
-        switch ($this->server_type) {
+        $this->serverType = Config::get('swoole.server_type');
+
+        if (!empty($option['server_type'])) {
+            $this->serverType = $option['server_type'];
+        }
+
+        switch ($this->serverType) {
             case 'websocket':
                 $this->swoole = new WebSocketServer($host, $port, $mode, SWOOLE_SOCK_TCP);
                 break;
@@ -119,7 +124,7 @@ class Http extends Server
                 $this->swoole->on($event, [$this, 'on' . $event]);
             }
         }
-        if ("websocket" == $this->server_type) {
+        if ("websocket" == $this->serverType) {
             foreach ($this->event as $event) {
                 if (method_exists($this, 'Websocketon' . $event)) {
                     $this->swoole->on($event, [$this, 'Websocketon' . $event]);
@@ -138,7 +143,6 @@ class Http extends Server
     {
         // 应用实例化
         $this->app       = new Application($this->appPath);
-        $this->lastMtime = time();
 
         //swoole server worker启动行为
         $hook = Container::get('hook');
@@ -170,6 +174,8 @@ class Http extends Server
 
         // 应用初始化
         $this->app->initialize();
+
+        $this->lastMtime = time();
 
         $this->app->bindTo([
             'cookie'  => Cookie::class,

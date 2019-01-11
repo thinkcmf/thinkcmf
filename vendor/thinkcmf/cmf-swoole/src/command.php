@@ -14,4 +14,5 @@
     'swoole'        => '\\think\\swoole\\command\\Swoole',
     'swoole:server' => '\\think\\swoole\\command\\Server',
     'swoole:api'    => '\\think\\swoole\\command\\SwooleApi',
+    'swoole:ws'    => '\\think\\swoole\\command\\SwooleWs',
 ]);

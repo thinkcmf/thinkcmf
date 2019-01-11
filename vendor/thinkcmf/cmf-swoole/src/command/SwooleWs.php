@@ -1,14 +1,12 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | ThinkCMF [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2018 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2018 http://ThinkCMF.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
-// +----------------------------------------------------------------------
-// | Author: 老猫 <catman@thinkcmf.com>
 // +----------------------------------------------------------------------
 
 namespace think\swoole\command;
@@ -26,20 +24,20 @@ use think\Container;
 
 /**
  * Swoole HTTP 命令行，支持操作：start|stop|restart|reload
- * 支持应用配置目录下的swoole_api.php文件进行参数配置
+ * 支持应用配置目录下的swoole.php文件进行参数配置
  */
-class SwooleApi extends Command
+class SwooleWs extends Command
 {
     protected $config = [];
 
     public function configure()
     {
-        $this->setName('swoole:api')
+        $this->setName('swoole:ws')
             ->addArgument('action', Argument::OPTIONAL, "start|stop|restart|reload", 'start')
             ->addOption('host', 'H', Option::VALUE_OPTIONAL, 'the host of swoole server.', null)
             ->addOption('port', 'p', Option::VALUE_OPTIONAL, 'the port of swoole server.', null)
             ->addOption('daemon', 'd', Option::VALUE_NONE, 'Run the swoole server in daemon mode.')
-            ->setDescription('Swoole HTTP API Server for ThinkCMF');
+            ->setDescription('Swoole Websocket Server for ThinkCMF');
     }
 
     public function execute(Input $input, Output $output)
@@ -57,34 +55,34 @@ class SwooleApi extends Command
 
     protected function init()
     {
-        $this->config = Config::pull('swoole_api');
+        $this->config = Config::pull('swoole_ws');
 
         if (empty($this->config)) {
             $this->config = [
                 'host'                  => '0.0.0.0', // 监听地址
-                'port'                  => 9502, // 监听端口
+                'port'                  => 9503, // 监听端口
                 'mode'                  => '', // 运行模式 默认为SWOOLE_PROCESS
                 'sock_type'             => '', // sock type 默认为SWOOLE_SOCK_TCP
-                'server_type'           => 'http', // 服务类型 支持 http websocket
+                'server_type'           => 'websocket', // 服务类型 支持 http websocket
                 'app_path'              => '', // 应用地址 如果开启了 'daemonize'=>true 必须设置（使用绝对路径）
                 'file_monitor'          => false, // 是否开启PHP文件更改监控（调试模式下自动开启）
                 'file_monitor_interval' => 2, // 文件变化监控检测时间间隔（秒）
                 'file_monitor_path'     => [], // 文件监控目录 默认监控application和config目录
 
                 // 可以支持swoole的所有配置参数
-                'pid_file'              => Env::get('runtime_path') . 'swoole_api.pid',
-                'log_file'              => Env::get('runtime_path') . 'swoole_api.log',
+                'pid_file'              => Env::get('runtime_path') . 'swoole_websocket.pid',
+                'log_file'              => Env::get('runtime_path') . 'swoole_websocket.log',
                 'document_root'         => Env::get('root_path') . 'public',
                 'enable_static_handler' => true,
                 'timer'                 => true,//是否开启系统定时器
                 'interval'              => 500,//系统定时器 时间间隔
-                'task_worker_num'       => 2,//swoole 任务工作进程数量
+                'task_worker_num'       => 2,//swoole 任务工作进程数量,
             ];
         }
 
 
         if (empty($this->config['pid_file'])) {
-            $this->config['pid_file'] = Env::get('runtime_path') . 'swoole_api.pid';
+            $this->config['pid_file'] = Env::get('runtime_path') . 'swoole_websocket.pid';
         }
 
         // 避免pid混乱
@@ -107,7 +105,7 @@ class SwooleApi extends Command
         if ($this->input->hasOption('port')) {
             $port = $this->input->getOption('port');
         } else {
-            $port = !empty($this->config['port']) ? $this->config['port'] : 9502;
+            $port = !empty($this->config['port']) ? $this->config['port'] : 9503;
         }
 
         return $port;
@@ -123,32 +121,25 @@ class SwooleApi extends Command
         $pid = $this->getMasterPid();
 
         if ($this->isRunning($pid)) {
-            $this->output->writeln('<error>swoole http api server process is already running.</error>');
+            $this->output->writeln('<error>swoole websocket server process is already running.</error>');
             return false;
         }
 
-        $this->output->writeln('Starting swoole http api server...');
+        $this->output->writeln('Starting swoole websocket server...');
 
         $host = $this->getHost();
         $port = $this->getPort();
         $mode = !empty($this->config['mode']) ? $this->config['mode'] : SWOOLE_PROCESS;
         $type = !empty($this->config['sock_type']) ? $this->config['sock_type'] : SWOOLE_SOCK_TCP;
 
+        $serverType = !empty($this->config['server_type']) ? $this->config['server_type'] : 'websocket';
+
         $ssl = !empty($this->config['ssl']) || !empty($this->config['open_http2_protocol']);
         if ($ssl) {
             $type = SWOOLE_SOCK_TCP | SWOOLE_SSL;
         }
 
-        // 定义命名空间
-        define('APP_NAMESPACE', 'api');
-
-//        // 定义缓存目录
-//        define('RUNTIME_PATH', CMF_ROOT . 'data/runtime_api/');
-
-        // 定义路由目录
-        define('ROUTE_PATH', CMF_ROOT . 'api/route.php');
-
-        $swoole = new HttpServer($host, $port, $mode, $type);
+        $swoole = new HttpServer($host, $port, $mode, $type, ['server_type' => $serverType]);
 
         // 开启守护进程模式
         if ($this->input->hasOption('daemon')) {
@@ -156,7 +147,7 @@ class SwooleApi extends Command
         }
 
         // 设置应用目录
-        $swoole->setAppPath(CMF_ROOT . 'api/');
+        $swoole->setAppPath(CMF_ROOT . 'app/');
 
         // 创建内存表
         if (!empty($this->config['table'])) {
@@ -199,11 +190,11 @@ class SwooleApi extends Command
         $pid = $this->getMasterPid();
 
         if (!$this->isRunning($pid)) {
-            $this->output->writeln('<error>no swoole http api server process running.</error>');
+            $this->output->writeln('<error>no swoole http server process running.</error>');
             return false;
         }
 
-        $this->output->writeln('Reloading swoole http api server...');
+        $this->output->writeln('Reloading swoole http server...');
         Process::kill($pid, SIGUSR1);
         $this->output->writeln('> success');
     }
@@ -218,11 +209,11 @@ class SwooleApi extends Command
         $pid = $this->getMasterPid();
 
         if (!$this->isRunning($pid)) {
-            $this->output->writeln('<error>no swoole http api server process running.</error>');
+            $this->output->writeln('<error>no swoole http server process running.</error>');
             return false;
         }
 
-        $this->output->writeln('Stopping swoole http api server...');
+        $this->output->writeln('Stopping swoole http server...');
 
         Process::kill($pid, SIGTERM);
         $this->removePid();

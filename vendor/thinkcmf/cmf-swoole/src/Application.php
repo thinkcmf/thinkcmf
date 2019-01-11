@@ -17,6 +17,7 @@ use think\App;
 use think\Db;
 use think\Error;
 use think\exception\HttpException;
+use think\facade\Config;
 use think\facade\Env;
 
 /**
@@ -39,6 +40,7 @@ class Application extends App
         if (empty($this->chan)) {
             $this->chan = new \chan(1);
         }
+        echo "test\n";
         $this->chan->push(1);
         try {
 
@@ -160,6 +162,7 @@ class Application extends App
 
     public function swooleWebSocket($server, $frame)
     {
+        echo "request\n";
         try {
             // 重置应用的开始时间和内存占用
             $this->beginTime = microtime(true);
@@ -192,11 +195,10 @@ class Application extends App
                 ->withGet($_GET)
                 ->withPost($_POST)
                 ->withCookie($_COOKIE)
-                ->withInput($request->rawContent())
                 ->withFiles($_FILES)
                 ->setBaseUrl($request['url'])
                 ->setUrl($request['url'])
-                ->setHost($request->header['host'])
+                ->setHost(Config::get("app_host"))
                 ->setPathinfo(ltrim($request['url'], '/'));
 
             // 更新请求对象实例
