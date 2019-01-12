@@ -137,6 +137,8 @@ class Http extends Server
      */
     public function onWorkerStart($server, $worker_id)
     {
+        // 启用协程
+        \Swoole\Runtime::enableCoroutine();
         // 应用实例化
         $this->app       = new Application($this->appPath);
 
