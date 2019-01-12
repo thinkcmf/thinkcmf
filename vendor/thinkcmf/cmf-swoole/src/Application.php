@@ -28,6 +28,9 @@ class Application extends App
     // 请求控制 chan
     private $chan = null;
 
+    // Websocket请求控制 chan
+    private $wsChan = null;
+
     /**
      * 处理Swoole请求
      * @access public
@@ -40,7 +43,6 @@ class Application extends App
         if (empty($this->chan)) {
             $this->chan = new \chan(1);
         }
-        echo "test\n";
         $this->chan->push(1);
         try {
 
@@ -51,7 +53,7 @@ class Application extends App
 //            \Swoole\Coroutine::sleep(10);
 //            echo $date . "this->chan->pop;\n";
 //            $date = $this->chan->pop();
-            $uri      = $request->server['request_uri'];
+            $uri = $request->server['request_uri'];
             if ($uri == '/favicon.ico') {
                 $response->status(404);
                 $response->end();
@@ -162,7 +164,10 @@ class Application extends App
 
     public function swooleWebSocket($server, $frame)
     {
-        echo "request\n";
+        if (empty($this->wsChan)) {
+            $this->wsChan = new \chan(1);
+        }
+        $this->wsChan->push(1);
         try {
             // 重置应用的开始时间和内存占用
             $this->beginTime = microtime(true);
@@ -214,6 +219,7 @@ class Application extends App
         } catch (\Throwable $e) {
             $this->webSocketException($server, $frame, $e);
         }
+        $this->wsChan->pop();
     }
 
     protected function exception($response, $e)

@@ -50,13 +50,9 @@ class Http extends Server
      * 架构函数
      * @access public
      */
-    public function __construct($host, $port, $mode = SWOOLE_PROCESS, $sockType = SWOOLE_SOCK_TCP, $option = [])
+    public function __construct($host, $port, $mode = SWOOLE_PROCESS, $sockType = SWOOLE_SOCK_TCP)
     {
         $this->serverType = Config::get('swoole.server_type');
-
-        if (!empty($option['server_type'])) {
-            $this->serverType = $option['server_type'];
-        }
 
         switch ($this->serverType) {
             case 'websocket':

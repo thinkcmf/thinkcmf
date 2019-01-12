@@ -63,7 +63,7 @@ class Swoole extends Command
                 'port'                  => 9501, // 监听端口
                 'mode'                  => '', // 运行模式 默认为SWOOLE_PROCESS
                 'sock_type'             => '', // sock type 默认为SWOOLE_SOCK_TCP
-                'server_type'           => 'http', // 服务类型 支持 http websocket
+                'server_type'           => 'websocket', // 服务类型 支持 http websocket
                 'app_path'              => '', // 应用地址 如果开启了 'daemonize'=>true 必须设置（使用绝对路径）
                 'file_monitor'          => false, // 是否开启PHP文件更改监控（调试模式下自动开启）
                 'file_monitor_interval' => 2, // 文件变化监控检测时间间隔（秒）
