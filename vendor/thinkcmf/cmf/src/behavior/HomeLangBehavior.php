@@ -10,6 +10,7 @@
 // +---------------------------------------------------------------------
 namespace cmf\behavior;
 
+use think\facade\Env;
 use think\facade\Lang;
 
 class HomeLangBehavior
@@ -19,6 +20,14 @@ class HomeLangBehavior
     public function run()
     {
         $langSet = request()->langset();
+
+        // 加载核心应用前台通用语言包
+        $coreApps = ['admin', 'user', 'install'];
+        foreach ($coreApps as $app) {
+            Lang::load([
+                Env::get('root_path') . "vendor/thinkcmf/cmf-app/src/{$app}/lang/{$langSet}/home.php"
+            ]);
+        }
 
         // 加载应用前台通用语言包
         $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);

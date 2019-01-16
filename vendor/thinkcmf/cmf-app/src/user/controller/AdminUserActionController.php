@@ -127,8 +127,11 @@ class AdminUserActionController extends AdminBaseController
 
         $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
 
+        array_push($apps, 'admin', 'user');
+
         foreach ($apps as $app) {
-            $userActionConfigFile = APP_PATH . $app . '/user_action.php';
+            $userActionConfigFile = cmf_get_app_config_file($app, 'user_action');
+
             if (file_exists($userActionConfigFile)) {
                 $userActionsInFile = include $userActionConfigFile;
 

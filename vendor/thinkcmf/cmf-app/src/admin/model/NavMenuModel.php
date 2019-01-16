@@ -19,7 +19,7 @@ class NavMenuModel extends Model
 {
     /**
      * 获取某导航下所有菜单树形结构数组
-     * @param int $navId 导航id
+     * @param int $navId    导航id
      * @param int $maxLevel 最大获取层级,默认不限制
      * @return array
      */
@@ -121,12 +121,15 @@ class NavMenuModel extends Model
     private function getNavDatas()
     {
         $apps = cmf_scan_dir(APP_PATH . "*");
+
+        array_push($apps, 'admin', 'user');
+
         $navs = [];
         foreach ($apps as $app) {
 
             if (is_dir(APP_PATH . $app)) {
                 if (!(strpos($app, ".") === 0)) {
-                    $navConfigFile = APP_PATH . $app . "/nav.php";
+                    $navConfigFile = cmf_get_app_config_file($app, 'nav');
                     if (file_exists($navConfigFile)) {
                         $navApis = include $navConfigFile;
 

@@ -10,6 +10,7 @@
 // +---------------------------------------------------------------------
 namespace cmf\behavior;
 
+use think\facade\Env;
 use think\facade\Lang;
 
 class LangBehavior
@@ -23,6 +24,14 @@ class LangBehavior
             __DIR__ . '/../lang' . DIRECTORY_SEPARATOR . $langSet . '.php',
         ]);
 
+        // 加载核心应用公共语言包
+        $coreApps = ['admin', 'user', 'install'];
+        foreach ($coreApps as $app) {
+            Lang::load([
+                Env::get('root_path') . "vendor/thinkcmf/cmf-app/src/{$app}/lang/{$langSet}/common.php"
+            ]);
+        }
+
         // 加载应用公共语言包
         $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
         foreach ($apps as $app) {
@@ -30,6 +39,5 @@ class LangBehavior
                 APP_PATH . $app . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'common' . '.php',
             ]);
         }
-
     }
 }

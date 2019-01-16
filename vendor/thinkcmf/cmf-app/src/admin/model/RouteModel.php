@@ -111,10 +111,13 @@ class RouteModel extends Model
     {
         $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
 
+        array_push($apps, 'admin', 'user');
+
         $appUrls = [];
 
         foreach ($apps as $app) {
-            $urlConfigFile = APP_PATH . $app . '/url.php';
+            $urlConfigFile = cmf_get_app_config_file($app, 'url');
+
             if (file_exists($urlConfigFile)) {
                 $urls = include $urlConfigFile;
                 foreach ($urls as $action => $url) {
