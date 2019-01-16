@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7e30f8181a6acce3c1254cd1e40da5a6",
-    "content-hash": "155af42061086aba9c8efc207aa1f355",
+    "hash": "e4dcdf70f75cf8fa73790425cff2d915",
+    "content-hash": "3676b8c19b4f9d404c906f6e6b0f8cf5",
     "packages": [
         {
             "name": "dompdf/dompdf",
@@ -1046,6 +1046,46 @@
             "time": "2018-12-09 15:04:47"
         },
         {
+            "name": "thinkcmf/cmf-app",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thinkcmf/cmf-app.git",
+                "reference": "8d312c5f94efe026662ffd0a7a04079530ace684"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/8d312c5f94efe026662ffd0a7a04079530ace684",
+                "reference": "8d312c5f94efe026662ffd0a7a04079530ace684",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "app\\": "src"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "catman",
+                    "email": "catman@thinkcmf.com"
+                }
+            ],
+            "description": "The ThinkCMF App Package",
+            "time": "2019-01-16 08:01:21"
+        },
+        {
             "name": "thinkcmf/cmf-swoole",
             "version": "dev-master",
             "source": {
@@ -1160,7 +1200,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2018-12-09 12:41:21"
+            "time": "2018-12-11 05:17:32"
         },
         {
             "name": "topthink/think-captcha",
@@ -1213,7 +1253,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/top-think/think-helper/zipball/0c99dc625b0d2d4124e1b6ca15a3ad6f0125963f",
                 "reference": "0c99dc625b0d2d4124e1b6ca15a3ad6f0125963f",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "type": "library",
             "autoload": {
@@ -1420,13 +1466,16 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "thinkcmf/cmf": 20,
+        "thinkcmf/cmf-app": 20,
         "thinkcmf/cmf-swoole": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.6.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-curl": "*",
+        "ext-pdo": "*"
     },
     "platform-dev": []
 }

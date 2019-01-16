@@ -41,7 +41,7 @@ abstract class Annotations
             self::$manager = new AnnotationManager;
         }
 
-        if (is_array(self::$config)) {
+        if (\is_array(self::$config)) {
             foreach (self::$config as $key => $value) {
                 self::$manager->$key = $value;
             }

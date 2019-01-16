@@ -54,7 +54,7 @@ class AnnotationCache
      */
     public function exists($key)
     {
-        return file_exists($this->_getPath($key));
+        return \file_exists($this->_getPath($key));
     }
 
     /**
@@ -70,11 +70,11 @@ class AnnotationCache
 
         $content = self::PHP_TAG . $code . "\n";
 
-        if (@file_put_contents($path, $content, LOCK_EX) === false) {
+        if (@\file_put_contents($path, $content, LOCK_EX) === false) {
             throw new AnnotationException("Unable to write cache file: {$path}");
         }
 
-        if (@chmod($path, $this->_fileMode) === false) {
+        if (@\chmod($path, $this->_fileMode) === false) {
             throw new AnnotationException("Unable to set permissions of cache file: {$path}");
         }
     }
@@ -98,7 +98,7 @@ class AnnotationCache
      */
     public function getTimestamp($key)
     {
-        return filemtime($this->_getPath($key));
+        return \filemtime($this->_getPath($key));
     }
 
     /**

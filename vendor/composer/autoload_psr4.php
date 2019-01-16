@@ -13,6 +13,7 @@ return array(
     'think\\' => array($vendorDir . '/topthink/think-image/src', $vendorDir . '/topthink/think-queue/src'),
     'mindplay\\annotations\\' => array($vendorDir . '/mindplay/annotations/src/annotations'),
     'cmf\\' => array($vendorDir . '/thinkcmf/cmf/src'),
+    'app\\' => array($vendorDir . '/thinkcmf/cmf-app/src'),
     'XCron\\' => array($vendorDir . '/xavier/xcron-expression/src/Cron'),
     'Symfony\\Polyfill\\Util\\' => array($vendorDir . '/symfony/polyfill-util'),
     'Symfony\\Polyfill\\Php56\\' => array($vendorDir . '/symfony/polyfill-php56'),

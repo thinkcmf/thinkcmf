@@ -1,7 +1,21 @@
-Version 4.1.2-dev
+Version 4.2.1-dev
 -----------------
 
 Nothing yet.
+
+Version 4.2.0 (2019-01-12)
+--------------------------
+
+### Added
+
+* [PHP 7.4] Add support for typed properties through a new `type` subnode of `Stmt\Property`.
+  Additionally `Builder\Property` now has a `setType()` method. (#567)
+* Add `kind` attribute to `Cast\Double_`, which allows to distinguish between `(float)`,
+  `(double)` and `(real)`. The form of the cast will be preserved by the pretty printer. (#565)
+
+### Fixed
+
+* Remove assertion when pretty printing anonymous class with a name (#554).
 
 Version 4.1.1 (2018-12-26)
 --------------------------
@@ -9,7 +23,6 @@ Version 4.1.1 (2018-12-26)
 ### Fixed
 
 * Fix "undefined offset" notice when parsing specific malformed code (#551).
-* Remove assertion when pretty printing anonymous class with a name (#554).
 
 ### Added
 

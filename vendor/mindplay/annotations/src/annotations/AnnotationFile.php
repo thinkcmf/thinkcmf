@@ -77,7 +77,7 @@ class AnnotationFile
 
         if (isset($data['#traitMethodOverrides'])) {
             foreach ($data['#traitMethodOverrides'] as $class => $methods) {
-                $this->traitMethodOverrides[$class] = array_map(array($this, 'resolveMethod'), $methods);
+                $this->traitMethodOverrides[$class] = \array_map(array($this, 'resolveMethod'), $methods);
             }
         }
     }
@@ -91,8 +91,8 @@ class AnnotationFile
      */
     public function resolveMethod($raw_method)
     {
-        list($class, $method) = explode('::', $raw_method, 2);
-        return array(ltrim($this->resolveType($class), '\\'), $method);
+        list($class, $method) = \explode('::', $raw_method, 2);
+        return array(\ltrim($this->resolveType($class), '\\'), $method);
     }
 
     /**
@@ -105,18 +105,18 @@ class AnnotationFile
      */
     public function resolveType($raw_type)
     {
-        $type_parts = explode('[]', $raw_type, 2);
+        $type_parts = \explode('[]', $raw_type, 2);
         $type = $type_parts[0];
 
         if (!$this->isSimple($type)) {
             if (isset($this->uses[$type])) {
                 $type_parts[0] = $this->uses[$type];
-            } elseif ($this->namespace && substr($type, 0, 1) != '\\') {
+            } elseif ($this->namespace && \substr($type, 0, 1) != '\\') {
                 $type_parts[0] = $this->namespace . '\\' . $type;
             }
         }
 
-        return implode('[]', $type_parts);
+        return \implode('[]', $type_parts);
     }
 
     /**
@@ -128,6 +128,6 @@ class AnnotationFile
      */
     protected function isSimple($type)
     {
-        return in_array(strtolower($type), self::$simpleTypes);
+        return \in_array(\strtolower($type), self::$simpleTypes);
     }
 }

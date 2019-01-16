@@ -66,9 +66,9 @@ class VarAnnotation extends Annotation implements IAnnotationParser, IAnnotation
      */
     public static function parseAnnotation($value)
     {
-        $parts = explode(' ', trim($value), 2);
+        $parts = \explode(' ', \trim($value), 2);
 
-        return array('type' => array_shift($parts));
+        return array('type' => \array_shift($parts));
     }
 
     /**

@@ -152,7 +152,7 @@ class AnnotationManager
         $this->_usageAnnotation = new UsageAnnotation();
         $this->_usageAnnotation->class = true;
         $this->_usageAnnotation->inherited = true;
-        $this->_traitsSupported = version_compare(PHP_VERSION, '5.4.0', '>=');
+        $this->_traitsSupported = \version_compare(PHP_VERSION, '5.4.0', '>=');
     }
 
     /**
@@ -195,10 +195,10 @@ class AnnotationManager
                 $code = $this->getParser()->parseFile($path);
                 $data = eval($code);
             } else {
-                $checksum = crc32($path . ':' . $this->_cacheSeed . ':' . self::CACHE_FORMAT_VERSION);
-                $key = basename($path) . '-' . sprintf('%x', $checksum);
+                $checksum = \crc32($path . ':' . $this->_cacheSeed . ':' . self::CACHE_FORMAT_VERSION);
+                $key = \basename($path) . '-' . \sprintf('%x', $checksum);
 
-                if (($this->cache->exists($key) === false) || (filemtime($path) > $this->cache->getTimestamp($key))) {
+                if (($this->cache->exists($key) === false) || (\filemtime($path) > $this->cache->getTimestamp($key))) {
                     $code = $this->getParser()->parseFile($path);
                     $this->cache->store($key, $code);
                 }
@@ -224,19 +224,19 @@ class AnnotationManager
      */
     public function resolveName($name)
     {
-        if (strpos($name, '\\') !== false) {
+        if (\strpos($name, '\\') !== false) {
             return $name . $this->suffix; // annotation class-name is fully qualified
         }
 
-        $type = lcfirst($name);
+        $type = \lcfirst($name);
 
         if (isset($this->registry[$type])) {
             return $this->registry[$type]; // type-name is registered
         }
 
-        $type = ucfirst(strtr($name, '-', '_')) . $this->suffix;
+        $type = \ucfirst(\strtr($name, '-', '_')) . $this->suffix;
 
-        return strlen($this->namespace)
+        return \strlen($this->namespace)
             ? $this->namespace . '\\' . $type
             : $type;
     }
@@ -279,7 +279,7 @@ class AnnotationManager
 
                         unset($spec['#name'], $spec['#type']);
 
-                        if (!class_exists($type, $this->autoload)) {
+                        if (!\class_exists($type, $this->autoload)) {
                             throw new AnnotationException("Annotation type '{$type}' does not exist");
                         }
 
@@ -316,7 +316,7 @@ class AnnotationManager
                         }
                     }
 
-                    $annotations = array_merge($traitAnnotations, $annotations);
+                    $annotations = \array_merge($traitAnnotations, $annotations);
                 }
             }
 
@@ -331,13 +331,13 @@ class AnnotationManager
 
                 if ($parent !== __NAMESPACE__ . '\Annotation') {
                     foreach ($this->getAnnotations($parent, $member_type, $member_name) as $annotation) {
-                        if ($this->getUsage(get_class($annotation))->inherited) {
+                        if ($this->getUsage(\get_class($annotation))->inherited) {
                             $parent_annotations[] = $annotation;
                         }
                     }
                 }
 
-                $annotations = array_merge($parent_annotations, $annotations);
+                $annotations = \array_merge($parent_annotations, $annotations);
             }
 
             $this->annotations[$key] = $this->applyConstraints($annotations, $member_type);
@@ -360,9 +360,9 @@ class AnnotationManager
     protected function classHasMember($className, $memberType, $memberName)
     {
         if ($memberType === self::MEMBER_METHOD) {
-            return method_exists($className, $memberName);
+            return \method_exists($className, $memberName);
         } else if ($memberType === self::MEMBER_PROPERTY) {
-            return property_exists($className, ltrim($memberName, '$'));
+            return \property_exists($className, \ltrim($memberName, '$'));
         }
         return false;
     }
@@ -381,10 +381,10 @@ class AnnotationManager
     protected function applyConstraints(array $annotations, $member)
     {
         $result = array();
-        $annotationCount = count($annotations);
+        $annotationCount = \count($annotations);
 
         foreach ($annotations as $outerIndex => $annotation) {
-            $type = get_class($annotation);
+            $type = \get_class($annotation);
             $usage = $this->getUsage($type);
 
             // Checks, that annotation can be applied to given class/method/property according to it's @usage annotation.
@@ -424,8 +424,8 @@ class AnnotationManager
      */
     protected function filterAnnotations(array $annotations, $type)
     {
-        if (substr($type, 0, 1) === '@') {
-            $type = $this->resolveName(substr($type, 1));
+        if (\substr($type, 0, 1) === '@') {
+            $type = $this->resolveName(\substr($type, 1));
         }
 
         if ($type === false) {
@@ -457,16 +457,16 @@ class AnnotationManager
         }
 
         if (!isset($this->usage[$class])) {
-            if (!class_exists($class, $this->autoload)) {
+            if (!\class_exists($class, $this->autoload)) {
                 throw new AnnotationException("Annotation type '{$class}' does not exist");
             }
 
             $usage = $this->getAnnotations($class);
 
-            if (count($usage) === 0) {
+            if (\count($usage) === 0) {
                 throw new AnnotationException("The class '{$class}' must have exactly one UsageAnnotation");
             } else {
-                if (count($usage) !== 1 || !($usage[0] instanceof UsageAnnotation)) {
+                if (\count($usage) !== 1 || !($usage[0] instanceof UsageAnnotation)) {
                     throw new AnnotationException("The class '{$class}' must have exactly one UsageAnnotation (no other Annotations are allowed)");
                 } else {
                     $usage = $usage[0];
@@ -493,16 +493,16 @@ class AnnotationManager
     {
         if ($class instanceof \ReflectionClass) {
             $class = $class->getName();
-        } elseif (is_object($class)) {
-            $class = get_class($class);
+        } elseif (\is_object($class)) {
+            $class = \get_class($class);
         } else {
-            $class = ltrim($class, '\\');
+            $class = \ltrim($class, '\\');
         }
 
-        if (!class_exists($class, $this->autoload) &&
-            !(function_exists('trait_exists') && trait_exists($class, $this->autoload))
+        if (!\class_exists($class, $this->autoload) &&
+            !(\function_exists('trait_exists') && \trait_exists($class, $this->autoload))
         ) {
-            if (interface_exists($class, $this->autoload)) {
+            if (\interface_exists($class, $this->autoload)) {
                 throw new AnnotationException("Reading annotations from interface '{$class}' is not supported");
             }
 
@@ -534,17 +534,17 @@ class AnnotationManager
         } elseif ($class instanceof \ReflectionMethod) {
             $method = $class->name;
             $class = $class->class;
-        } elseif (is_object($class)) {
-            $class = get_class($class);
+        } elseif (\is_object($class)) {
+            $class = \get_class($class);
         } else {
-            $class = ltrim($class, '\\');
+            $class = \ltrim($class, '\\');
         }
 
-        if (!class_exists($class, $this->autoload)) {
+        if (!\class_exists($class, $this->autoload)) {
             throw new AnnotationException("Unable to read annotations from an undefined class '{$class}'");
         }
 
-        if (!method_exists($class, $method)) {
+        if (!\method_exists($class, $method)) {
             throw new AnnotationException("Unable to read annotations from an undefined method {$class}::{$method}()");
         }
 
@@ -574,17 +574,17 @@ class AnnotationManager
         } elseif ($class instanceof \ReflectionProperty) {
             $property = $class->name;
             $class = $class->class;
-        } elseif (is_object($class)) {
-            $class = get_class($class);
+        } elseif (\is_object($class)) {
+            $class = \get_class($class);
         } else {
-            $class = ltrim($class, '\\');
+            $class = \ltrim($class, '\\');
         }
 
-        if (!class_exists($class, $this->autoload)) {
+        if (!\class_exists($class, $this->autoload)) {
             throw new AnnotationException("Unable to read annotations from an undefined class '{$class}'");
         }
 
-        if (!property_exists($class, $property)) {
+        if (!\property_exists($class, $property)) {
             throw new AnnotationException("Unable to read annotations from an undefined property {$class}::\${$property}");
         }
 

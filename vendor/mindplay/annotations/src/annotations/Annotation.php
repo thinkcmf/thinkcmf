@@ -26,7 +26,7 @@ abstract class Annotation implements IAnnotation
      */
     public function __get($name)
     {
-        throw new AnnotationException(get_class($this) . "::\${$name} is not a valid property name");
+        throw new AnnotationException(\get_class($this) . "::\${$name} is not a valid property name");
     }
 
     /**
@@ -34,7 +34,7 @@ abstract class Annotation implements IAnnotation
      */
     public function __set($name, $value)
     {
-        throw new AnnotationException(get_class($this) . "::\${$name} is not a valid property name");
+        throw new AnnotationException(\get_class($this) . "::\${$name} is not a valid property name");
     }
 
     /**

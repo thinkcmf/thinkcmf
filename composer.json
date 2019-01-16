@@ -34,6 +34,7 @@
         "electrolinux/phpquery": "^0.9.6",
         "phpoffice/phpspreadsheet": "^1.5",
         "thinkcmf/cmf": "dev-master",
+        "thinkcmf/cmf-app": "dev-master",
         "thinkcmf/cmf-swoole": "dev-master",
         "ext-curl": "*",
         "ext-pdo": "*"
