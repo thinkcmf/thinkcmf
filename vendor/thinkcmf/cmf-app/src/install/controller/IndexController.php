@@ -14,6 +14,8 @@ use app\admin\model\ThemeModel;
 use cmf\controller\BaseController;
 use think\Db;
 
+require_once __DIR__ . '/../common.php';
+
 class IndexController extends BaseController
 {
     protected function initialize()
@@ -21,6 +23,12 @@ class IndexController extends BaseController
         if (cmf_is_installed()) {
             $this->error('网站已经安装', cmf_get_root() . '/');
         }
+
+    }
+
+    protected function _initializeView()
+    {
+        config('template.view_path', dirname(__DIR__) . '/view/');
     }
 
     // 安装首页

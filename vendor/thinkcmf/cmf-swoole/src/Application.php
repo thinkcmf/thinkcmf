@@ -46,6 +46,21 @@ class Application extends App
         $this->chan->push(1);
         try {
 
+            $users=Db::name('user')->select();
+            echo "go start\n";
+            $chan = new \chan(1);
+            \go(function ()use($chan) {
+                echo "co before select user \n";
+                Db::name('user')->select();
+                echo "co after select user \n";
+//                $chan->push(1);
+            });
+
+            echo "go end\n";
+
+//            $chan->pop();
+
+
             // 测试用代码
 //            $date = date('Y-m-d H:i:s');
 //            $this->chan->push($date);

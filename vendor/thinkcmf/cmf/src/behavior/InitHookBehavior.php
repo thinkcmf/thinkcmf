@@ -11,8 +11,10 @@
 namespace cmf\behavior;
 
 use think\db\Query;
+use think\exception\HttpResponseException;
 use think\facade\Hook;
 use think\Db;
+use think\facade\Response;
 
 class InitHookBehavior
 {
@@ -22,6 +24,19 @@ class InitHookBehavior
     {
         if (!cmf_is_installed()) {
             return;
+        }
+
+        $request = request();
+        
+        // 处理全站跨域
+        if ($request->method(true) == 'OPTIONS') {
+            $header = [
+                'Access-Control-Allow-Origin'  => '*',
+                'Access-Control-Allow-Methods' => 'GET, POST, PATCH, PUT, DELETE',
+                'Access-Control-Allow-Headers' => 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-Requested-With, XX-Device-Type, XX-Token',
+            ];
+
+            throw new HttpResponseException(Response::create()->code(204)->header($header));
         }
 
         $systemHookPlugins = cache('init_hook_plugins_system_hook_plugins');
