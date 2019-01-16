@@ -30,7 +30,5 @@ define('THINKCMF_VERSION', '5.1.0-beta');
 // 加载基础文件
 require __DIR__ . '/../vendor/thinkphp/base.php';
 
-Loader::addClassMap('think\\App', __DIR__ . '/../vendor/thinkcmf/cmf/src/App.php');
-
 // 执行应用并响应
 Container::get('app', [APP_PATH])->run()->send();

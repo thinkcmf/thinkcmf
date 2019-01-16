@@ -44,5 +44,11 @@
     },
     "config": {
         "vendor-dir": "vendor"
+    },
+    "autoload": {
+        "classmap": [
+            "vendor/thinkcmf/cmf/src/App.php",
+            "vendor/thinkcmf/cmf/src/Log.php"
+        ]
     }
 }

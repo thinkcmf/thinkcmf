@@ -39,4 +39,6 @@ return array(
     'phpQueryPlugin_example' => $vendorDir . '/electrolinux/phpquery/phpQuery/phpQuery/plugins/example.php',
     'phpQueryPlugins' => $vendorDir . '/electrolinux/phpquery/phpQuery/phpQuery.php',
     'phpmailerException' => $vendorDir . '/phpmailer/phpmailer/class.phpmailer.php',
+    'think\\App' => $vendorDir . '/thinkcmf/cmf/src/App.php',
+    'think\\Log' => $vendorDir . '/thinkcmf/cmf/src/Log.php',
 );
