@@ -196,7 +196,7 @@ class IndexController extends BaseController
 
             session('install.db_config', $dbConfig);
 
-            $sql = cmf_split_sql(APP_PATH . 'install/data/thinkcmf.sql', $dbConfig['prefix'], $dbConfig['charset']);
+            $sql = cmf_split_sql(dirname(__DIR__) . '/data/thinkcmf.sql', $dbConfig['prefix'], $dbConfig['charset']);
             session('install.sql', $sql);
 
             $this->assign('sql_count', count($sql));

@@ -25,7 +25,6 @@ class AdminLangBehavior
         $coreApps = ['admin', 'user', 'install'];
         foreach ($coreApps as $app) {
             Lang::load([
-                Env::get('root_path') . "vendor/thinkcmf/cmf-app/src/{$app}/lang/{$langSet}.php",
                 Env::get('root_path') . "vendor/thinkcmf/cmf-app/src/{$app}/lang/{$langSet}/admin_menu.php",
                 Env::get('root_path') . "vendor/thinkcmf/cmf-app/src/{$app}/lang/{$langSet}/admin.php"
             ]);

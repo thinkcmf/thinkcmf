@@ -14,6 +14,7 @@ use app\admin\model\AdminMenuModel;
 use cmf\controller\AdminBaseController;
 use think\Db;
 use think\facade\Cache;
+use think\facade\Env;
 use tree\Tree;
 use mindplay\annotations\Annotations;
 
@@ -386,6 +387,10 @@ class MenuController extends AdminBaseController
 
         $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
 
+        array_push($apps, 'admin', 'user');
+
+        $apps = array_values(array_unique($apps));
+
         $app = $this->request->param('app', '');
         if (empty($app)) {
             $app = $apps[0];
@@ -396,12 +401,26 @@ class MenuController extends AdminBaseController
         }
 
         if ($app == 'admin') {
-            $filePatten = APP_PATH . $app . '/controller/*Controller.php';
-        } else {
-            $filePatten = APP_PATH . $app . '/controller/Admin*Controller.php';
-        }
+            $filePatten         = Env::get('root_path') . "vendor/thinkcmf/cmf-app/src/{$app}/controller/*Controller.php";
+            $coreAppControllers = cmf_scan_dir($filePatten);
 
-        $controllers = cmf_scan_dir($filePatten);
+            $filePatten  = APP_PATH . $app . '/controller/*Controller.php';
+            $controllers = cmf_scan_dir($filePatten);
+
+            $controllers = array_merge($coreAppControllers, $controllers);
+        } else if ($app == 'user') {
+            $filePatten         = Env::get('root_path') . "vendor/thinkcmf/cmf-app/src/{$app}/controller/Admin*Controller.php";
+            $coreAppControllers = cmf_scan_dir($filePatten);
+
+            $filePatten  = APP_PATH . $app . '/controller/Admin*Controller.php';
+            $controllers = cmf_scan_dir($filePatten);
+
+            $controllers = array_merge($coreAppControllers, $controllers);
+
+        } else {
+            $filePatten  = APP_PATH . $app . '/controller/Admin*Controller.php';
+            $controllers = cmf_scan_dir($filePatten);
+        }
 
         if (!empty($controllers)) {
             foreach ($controllers as $controller) {
