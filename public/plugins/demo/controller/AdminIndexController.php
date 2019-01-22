@@ -11,6 +11,19 @@ namespace plugins\demo\controller; //Demo插件英文名，改成你的插件英
 use cmf\controller\PluginAdminBaseController;
 use think\Db;
 
+/**
+ * Class AdminIndexController
+ * @package plugins\demo\controller
+ * @adminMenuRoot(
+ *     'name'   =>'演示插件',
+ *     'action' =>'default',
+ *     'parent' =>'',
+ *     'display'=> true,
+ *     'order'  => 0,
+ *     'icon'   =>'car',
+ *     'remark' =>'演示插件'
+ * )
+ */
 class AdminIndexController extends PluginAdminBaseController
 {
 
@@ -27,7 +40,7 @@ class AdminIndexController extends PluginAdminBaseController
      * 演示插件
      * @adminMenu(
      *     'name'   => '演示插件',
-     *     'parent' => 'admin/Plugin/default',
+     *     'parent' => 'AdminIndex/default',
      *     'display'=> true,
      *     'hasView'=> true,
      *     'order'  => 10000,
@@ -59,7 +72,7 @@ class AdminIndexController extends PluginAdminBaseController
      * 演示插件设置
      * @adminMenu(
      *     'name'   => '演示插件设置',
-     *     'parent' => 'index',
+     *     'parent' => 'AdminIndex/default',
      *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
