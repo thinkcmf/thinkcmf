@@ -3,6 +3,7 @@
 .project
 .settings
 .idea
+/build
 /public/assets/dist
 /node_modules
 Vagrantfile
