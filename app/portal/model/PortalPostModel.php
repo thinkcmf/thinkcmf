@@ -13,12 +13,11 @@ namespace app\portal\model;
 use app\admin\model\RouteModel;
 use think\Model;
 use think\Db;
-use think\model\Pivot;
 
 /**
  * @property mixed id
  */
-class PortalPostModel extends Pivot
+class PortalPostModel extends Model
 {
 
     protected $type = [
