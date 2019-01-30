@@ -445,6 +445,7 @@ class PluginController extends AdminBaseController
         Annotations::$config['cache']             = false;
         $annotationManager                        = Annotations::getManager();
         $annotationManager->registry['adminMenu'] = 'app\admin\annotation\AdminMenuAnnotation';
+        $annotationManager->registry['adminMenuRoot'] = 'app\admin\annotation\AdminMenuRootAnnotation';
         $newMenus                                 = [];
 
         $pluginDir = cmf_parse_name($pluginName);
@@ -453,11 +454,163 @@ class PluginController extends AdminBaseController
 
         $controllers = cmf_scan_dir($filePatten);
 
+        $app = 'plugin/' . $pluginName;
+
         if (!empty($controllers)) {
             foreach ($controllers as $controller) {
                 $controller      = preg_replace('/\.php$/', '', $controller);
                 $controllerName  = preg_replace('/\Controller$/', '', $controller);
                 $controllerClass = "plugins\\$pluginDir\\controller\\$controller";
+
+                $menuAnnotations = Annotations::ofClass($controllerClass, '@adminMenuRoot');
+
+                if (!empty($menuAnnotations)) {
+                    foreach ($menuAnnotations as $menuAnnotation) {
+
+                        $name      = $menuAnnotation->name;
+                        $icon      = $menuAnnotation->icon;
+                        $type      = 0;//1:有界面可访问菜单,2:无界面可访问菜单,0:只作为菜单
+                        $action    = $menuAnnotation->action;
+                        $status    = empty($menuAnnotation->display) ? 0 : 1;
+                        $listOrder = floatval($menuAnnotation->order);
+                        $param     = $menuAnnotation->param;
+                        $remark    = $menuAnnotation->remark;
+
+                        if (empty($menuAnnotation->parent)) {
+                            $parentId = 0;
+                        } else {
+
+                            $parent      = explode('/', $menuAnnotation->parent);
+                            $countParent = count($parent);
+                            if ($countParent > 3) {
+                                throw new \Exception($controllerClass . ':' . $action . '  @adminMenuRoot parent格式不正确!');
+                            }
+
+                            $parentApp        = $app;
+                            $parentController = $controllerName;
+                            $parentAction     = '';
+
+                            switch ($countParent) {
+                                case 1:
+                                    $parentAction = $parent[0];
+                                    break;
+                                case 2:
+                                    $parentController = $parent[0];
+                                    $parentAction     = $parent[1];
+                                    break;
+                                case 3:
+                                    $parentApp        = $parent[0];
+                                    $parentController = $parent[1];
+                                    $parentAction     = $parent[2];
+                                    break;
+                            }
+
+                            $findParentAdminMenu = Db::name('admin_menu')->where([
+                                'app'        => $parentApp,
+                                'controller' => $parentController,
+                                'action'     => $parentAction
+                            ])->find();
+
+                            if (empty($findParentAdminMenu)) {
+                                $parentId = Db::name('admin_menu')->insertGetId([
+                                    'app'        => $parentApp,
+                                    'controller' => $parentController,
+                                    'action'     => $parentAction,
+                                    'name'       => '--new--'
+                                ]);
+                            } else {
+                                $parentId = $findParentAdminMenu['id'];
+                            }
+                        }
+
+                        $findAdminMenu = Db::name('admin_menu')->where([
+                            'app'        => $app,
+                            'controller' => $controllerName,
+                            'action'     => $action
+                        ])->find();
+
+                        if (empty($findAdminMenu)) {
+
+                            Db::name('admin_menu')->insert([
+                                'parent_id'  => $parentId,
+                                'type'       => $type,
+                                'status'     => $status,
+                                'list_order' => $listOrder,
+                                'app'        => $app,
+                                'controller' => $controllerName,
+                                'action'     => $action,
+                                'param'      => $param,
+                                'name'       => $name,
+                                'icon'       => $icon,
+                                'remark'     => $remark
+                            ]);
+
+                            $menuName = $name;
+
+//                            array_push($newMenus, $app . "/$controllerName/$action 已导入");
+
+                        } else {
+
+                            if ($findAdminMenu['name'] == '--new--') {
+                                Db::name('admin_menu')->where([
+                                    'app'        => $app,
+                                    'controller' => $controllerName,
+                                    'action'     => $action
+                                ])->update([
+                                    'parent_id'  => $parentId,
+                                    'type'       => $type,
+                                    'status'     => $status,
+                                    'list_order' => $listOrder,
+                                    'param'      => $param,
+                                    'name'       => $name,
+                                    'icon'       => $icon,
+                                    'remark'     => $remark
+                                ]);
+                                $menuName = $name;
+                            } else {
+                                // 只关注菜单层级关系,是否有视图
+                                Db::name('admin_menu')->where([
+                                    'app'        => $app,
+                                    'controller' => $controllerName,
+                                    'action'     => $action
+                                ])->update([
+                                    //'parent_id' => $parentId,
+                                    'type' => $type,
+                                ]);
+                                $menuName = $findAdminMenu['name'];
+                            }
+
+//                            array_push($newMenus, $app."/$controllerName/$action 层级关系已更新");
+                        }
+
+                        $authRuleName      = "plugin/{$pluginName}/{$controllerName}/{$action}";
+                        $findAuthRuleCount = Db::name('auth_rule')->where([
+                            'app'  => $app,
+                            'name' => $authRuleName,
+                            'type' => 'admin_url'
+                        ])->count();
+
+                        if ($findAuthRuleCount == 0) {
+                            Db::name('auth_rule')->insert([
+                                'app'   => $app,
+                                'name'  => $authRuleName,
+                                'type'  => 'admin_url',
+                                'param' => $param,
+                                'title' => $menuName
+                            ]);
+                        } else {
+                            Db::name('auth_rule')->where([
+                                'app'  => $app,
+                                'name' => $authRuleName,
+                                'type' => 'admin_url',
+                            ])->update([
+                                'param' => $param,
+                                'title' => $menuName
+                            ]);
+                        }
+
+                    }
+                }
 
                 $reflect = new \ReflectionClass($controllerClass);
                 $methods = $reflect->getMethods(\ReflectionMethod::IS_PUBLIC);
@@ -490,7 +643,7 @@ class PluginController extends AdminBaseController
                                         throw new \Exception($controllerClass . ':' . $action . '  @menuRoot parent格式不正确!');
                                     }
 
-                                    $parentApp        = 'plugin/' . $pluginName;
+                                    $parentApp        = $app;
                                     $parentController = $controllerName;
                                     $parentAction     = '';
 
@@ -528,7 +681,7 @@ class PluginController extends AdminBaseController
                                 }
 
                                 $findAdminMenu = Db::name('admin_menu')->where([
-                                    'app'        => 'plugin/' . $pluginName,
+                                    'app'        => $app,
                                     'controller' => $controllerName,
                                     'action'     => $action
                                 ])->find();
@@ -540,7 +693,7 @@ class PluginController extends AdminBaseController
                                         'type'       => $type,
                                         'status'     => $status,
                                         'list_order' => $listOrder,
-                                        'app'        => 'plugin/' . $pluginName,
+                                        'app'        => $app,
                                         'controller' => $controllerName,
                                         'action'     => $action,
                                         'param'      => $param,
@@ -556,7 +709,7 @@ class PluginController extends AdminBaseController
                                 } else {
                                     if ($findAdminMenu['name'] == '--new--') {
                                         Db::name('admin_menu')->where([
-                                            'app'        => 'plugin/' . $pluginName,
+                                            'app'        => $app,
                                             'controller' => $controllerName,
                                             'action'     => $action
                                         ])->update([
@@ -573,7 +726,7 @@ class PluginController extends AdminBaseController
                                     } else {
                                         // 只关注是否有视图
                                         Db::name('admin_menu')->where([
-                                            'app'        => 'plugin/' . $pluginName,
+                                            'app'        => $app,
                                             'controller' => $controllerName,
                                             'action'     => $action
                                         ])->update([
@@ -589,14 +742,14 @@ class PluginController extends AdminBaseController
 
                                 $authRuleName      = "plugin/{$pluginName}/{$controllerName}/{$action}";
                                 $findAuthRuleCount = Db::name('auth_rule')->where([
-                                    'app'  => 'plugin/' . $pluginName,
+                                    'app'  => $app,
                                     'name' => $authRuleName,
                                     'type' => 'plugin_url'
                                 ])->count();
 
                                 if ($findAuthRuleCount == 0) {
                                     Db::name('auth_rule')->insert([
-                                        'app'   => 'plugin/' . $pluginName,
+                                        'app'   => $app,
                                         'name'  => $authRuleName,
                                         'type'  => 'plugin_url',
                                         'param' => $param,
@@ -604,7 +757,7 @@ class PluginController extends AdminBaseController
                                     ]);
                                 } else {
                                     Db::name('auth_rule')->where([
-                                        'app'  => 'plugin/' . $pluginName,
+                                        'app'  => $app,
                                         'name' => $authRuleName,
                                         'type' => 'plugin_url',
                                     ])->update([
