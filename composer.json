@@ -20,6 +20,8 @@
     "require": {
         "php": ">=5.6.0",
         "ext-json": "*",
+        "ext-curl": "*",
+        "ext-pdo": "*",
         "topthink/framework": "~5.1.0",
         "topthink/think-helper": "^1.0",
         "topthink/think-captcha": "^2.0",
@@ -33,11 +35,9 @@
         "topthink/think-queue": "^2.0",
         "electrolinux/phpquery": "^0.9.6",
         "phpoffice/phpspreadsheet": "^1.5",
-        "thinkcmf/cmf": "dev-master",
-        "thinkcmf/cmf-app": "dev-master",
-        "thinkcmf/cmf-swoole": "dev-master",
-        "ext-curl": "*",
-        "ext-pdo": "*"
+        "thinkcmf/cmf": "5.1.*-dev",
+        "thinkcmf/cmf-app": "5.1.*-dev",
+        "thinkcmf/cmf-swoole": "5.1.*-dev"
     },
     "extra": {
         "think-path": "vendor/thinkphp"
