@@ -209,13 +209,12 @@ class UserModel extends Model
      */
     public function mobilePasswordReset($mobile, $password)
     {
-        $userQuery = Db::name("user");
-        $result    = $userQuery->where('mobile', $mobile)->find();
+        $result = Db::name("user")->where('mobile', $mobile)->find();
         if (!empty($result)) {
             $data = [
                 'user_pass' => cmf_password($password),
             ];
-            $userQuery->where('mobile', $mobile)->update($data);
+            Db::name("user")->where('mobile', $mobile)->update($data);
             return 0;
         }
         return 1;
@@ -256,7 +255,7 @@ class UserModel extends Model
             return 2;
         }
         $data['user_pass'] = cmf_password($user['password']);
-        $userQuery->where('id', $userId)->update($data);
+        Db::name("user")->where('id', $userId)->update($data);
         return 0;
     }
 
