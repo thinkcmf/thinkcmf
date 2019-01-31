@@ -12,6 +12,7 @@ namespace cmf\controller;
 
 use think\Container;
 use think\Controller;
+use think\Db;
 use think\facade\View;
 use think\facade\Config;
 
@@ -36,7 +37,7 @@ class BaseController extends Controller
         $this->initialize();
 
         // 前置操作方法 即将废弃
-        foreach ((array) $this->beforeActionList as $method => $options) {
+        foreach ((array)$this->beforeActionList as $method => $options) {
             is_numeric($method) ?
                 $this->beforeAction($options) :
                 $this->beforeAction($method, $options);
@@ -55,19 +56,21 @@ class BaseController extends Controller
      */
     protected function listOrders($model)
     {
-        if (!is_object($model)) {
-            return false;
+        $modelName = '';
+        if (is_object($model)) {
+            $modelName = $model->getName();
+        } else {
+            $modelName = $model;
         }
 
-        $pk  = $model->getPk(); //获取主键名称
+        $pk  = Db::name($modelName)->getPk(); //获取主键名称
         $ids = $this->request->post("list_orders/a");
 
         if (!empty($ids)) {
             foreach ($ids as $key => $r) {
                 $data['list_order'] = $r;
-                $model->where([$pk => $key])->update($data);
+                Db::name($modelName)->where([$pk => $key])->update($data);
             }
-
         }
 
         return true;
