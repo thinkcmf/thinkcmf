@@ -22,6 +22,9 @@ class NavMenuModel extends Model
      * @param int $navId    导航id
      * @param int $maxLevel 最大获取层级,默认不限制
      * @return array
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function navMenusTreeArray($navId = 0, $maxLevel = 0)
     {
@@ -45,6 +48,9 @@ class NavMenuModel extends Model
      * 获取某导航菜单下的所有子菜单树形结构数组
      * @param $menuId 导航菜单 id
      * @return array
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function subNavMenusTreeArray($menuId)
     {
@@ -101,7 +107,7 @@ class NavMenuModel extends Model
         $tree->icon = ['&nbsp;│ ', '&nbsp;├─ ', '&nbsp;└─ '];
         $tree->nbsp = '&nbsp;';
 
-        $navs = $this->getNavDatas();
+        $navs = $this->getNavData();
 
         foreach ($navs as $key => $navData) {
             $tree->init($navData['items']);
@@ -118,7 +124,7 @@ class NavMenuModel extends Model
      * 获取共享nav数据
      * @return array
      */
-    private function getNavDatas()
+    private function getNavData()
     {
         $apps = cmf_scan_dir(APP_PATH . "*");
 

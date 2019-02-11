@@ -1060,7 +1060,6 @@ function hook_one($hook, $params = null)
     return Hook::listen($hook, $params, true);
 }
 
-
 /**
  * 获取插件类的类名
  * @param string $name 插件名
@@ -1093,8 +1092,9 @@ function cmf_get_plugin_config($name)
 /**
  * 替代scan_dir的方法
  * @param string $pattern 检索模式 搜索模式 *.txt,*.doc; (同glog方法)
- * @param null   $flags
- * @return array|false
+ * @param int    $flags
+ * @param        $pattern
+ * @return array
  */
 function cmf_scan_dir($pattern, $flags = null)
 {
@@ -1371,7 +1371,6 @@ function cmf_get_verification_code($account, $length = 6)
 }
 
 /**
- *
  * 更新手机或邮箱验证码发送日志
  * @param string $account    手机或邮箱
  * @param string $code       验证码

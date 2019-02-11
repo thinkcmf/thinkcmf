@@ -99,7 +99,7 @@ class RouteModel extends Model
 
         $route_file = $routeDir . "route.php";
 
-        file_put_contents($route_file, "<?php\treturn " . stripslashes(var_export($allRoutes, true)) . ";");
+        file_put_contents($route_file, "<?php\treturn " . var_export($allRoutes, true) . ";");
 
         return $cacheRoutes;
     }
@@ -184,6 +184,10 @@ class RouteModel extends Model
     {
         $fullUrl   = $this->buildFullUrl($action, $vars);
         $findRoute = $this->where('full_url', $fullUrl)->find();
+
+        if (preg_match("/[()'\";]/", $url)) {
+            return false;
+        }
 
         if ($findRoute) {
             if (empty($url)) {
