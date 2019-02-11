@@ -127,6 +127,11 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
+
+#### 5.0.190222
+
+* 优化url美化可能引起的安全漏洞(漏洞编号CVE-2019-6713  感谢topsec(zhan_ran)的及时反馈)
+
 #### 5.0.190111
 * 升级ThinkPHP到`5.0.24`(包含安全更新)
 * 增加后台模板按文件列表设计
