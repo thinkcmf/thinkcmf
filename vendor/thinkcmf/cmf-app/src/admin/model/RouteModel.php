@@ -175,8 +175,7 @@ class RouteModel extends Model
 
     public function existsRoute($url, $fullUrl)
     {
-
-        $findRouteCount = $this->where(['url' => $url, 'full_url' => ['neq', $fullUrl]])->count();
+        $findRouteCount = $this->where('url', $url)->where('full_url', 'neq', $fullUrl)->count();
 
         return $findRouteCount > 0 ? true : false;
     }
