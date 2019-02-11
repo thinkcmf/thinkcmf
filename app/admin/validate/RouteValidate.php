@@ -27,6 +27,7 @@ class RouteValidate extends Validate
     // 自定义验证规则
     protected function checkUrl($value, $rule, $data)
     {
+        $value = htmlspecialchars_decode($value);
         if (preg_match("/[()'\";]/", $value)) {
             return "显示网址格式不正确!";
         }
@@ -37,6 +38,7 @@ class RouteValidate extends Validate
     // 自定义验证规则
     protected function checkFullUrl($value, $rule, $data)
     {
+        $value = htmlspecialchars_decode($value);
         if (preg_match("/[()'\";]/", $value)) {
             return "原始网址格式不正确!";
         }
