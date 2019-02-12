@@ -47,7 +47,7 @@ class Module extends Dispatch
                     $module = $bindModule;
                 }
                 $available = true;
-            } elseif (!in_array($module, $this->rule->getConfig('deny_module_list'))) {// NOTE 取消app目录限制，可以使用 composer扩展加载APP
+            } elseif (!in_array($module, $this->rule->getConfig('deny_module_list')) && is_dir($this->app->getAppPath() . $module)) {
                 $available = true;
             } elseif ($this->rule->getConfig('empty_module')) {
                 $module    = $this->rule->getConfig('empty_module');
