@@ -24,8 +24,7 @@
       "think\\swoole\\": "src"
     },
     "files": [
-      "src/command.php",
-      "src/helper.php"
+      "src/command.php"
     ]
   },
   "extra": {
