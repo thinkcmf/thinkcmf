@@ -48,7 +48,8 @@
     "autoload": {
         "classmap": [
             "vendor/thinkcmf/cmf/src/App.php",
-            "vendor/thinkcmf/cmf/src/Log.php"
+            "vendor/thinkcmf/cmf/src/Log.php",
+            "vendor/thinkcmf/cmf/src/route/dispatch/Module.php"
         ]
     }
 }

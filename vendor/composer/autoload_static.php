@@ -282,6 +282,7 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         'phpmailerException' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
         'think\\App' => __DIR__ . '/..' . '/thinkcmf/cmf/src/App.php',
         'think\\Log' => __DIR__ . '/..' . '/thinkcmf/cmf/src/Log.php',
+        'think\\route\\dispatch\\Module' => __DIR__ . '/..' . '/thinkcmf/cmf/src/route/dispatch/Module.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
