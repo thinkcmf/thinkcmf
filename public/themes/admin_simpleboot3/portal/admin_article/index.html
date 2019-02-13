@@ -109,12 +109,10 @@
                     </td>
                     <td>
                         <foreach name="vo.categories" item="voo">
-                            <span class="label label-default">
-                                <a href="{:cmf_url('portal/List/index',array('id'=>$voo['id']))}"
-                                   style="color: #fff;"
+                                <a class="label label-default"
+                                   href="{:cmf_url('portal/List/index',array('id'=>$voo['id']))}"
                                    target="_blank"
                                 >{$voo.name}</a>
-                            </span>&nbsp;
                         </foreach>
                     </td>
                     <td>{$vo.user_nickname}</td>
@@ -185,7 +183,8 @@
                     </td>
                     <td>
                         <a class="btn btn-xs btn-primary" href="{:url('AdminArticle/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
-                        <a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('AdminArticle/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+                        <a class="btn btn-xs btn-danger js-ajax-delete"
+                           href="{:url('AdminArticle/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>
