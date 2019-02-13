@@ -56,17 +56,22 @@
                     </td>
                     <td>
                         <eq name="vo.type" value="2">
-                            <span class="btn btn-xs">编辑</span>  <span class="btn btn-xs">禁用</span>  <span class="btn btn-xs">删除</span>
+                            <span class="btn btn-xs btn-primary disabled">编辑</span>
+                            <span class="btn btn-xs btn-warning disabled">禁用</span>
+                            <span class="btn btn-xs btn-danger disabled">删除</span>
                             <else/>
                             <a class="btn btn-xs btn-primary" href="{:url('route/edit',array('id'=>$vo['id']))}">编辑</a>
                             <eq name="vo.status" value="1">
-                                <a class="btn btn-xs btn-warning js-ajax-dialog-btn" href="{:url('route/ban',array('id'=>$vo['id']))}"
+                                <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
+                                   href="{:url('route/ban',array('id'=>$vo['id']))}"
                                    data-msg="确定禁用吗？">禁用</a>
                                 <else/>
-                                <a class="btn btn-xs btn-warning js-ajax-dialog-btn" href="{:url('route/open',array('id'=>$vo['id']))}"
+                                <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
+                                   href="{:url('route/open',array('id'=>$vo['id']))}"
                                    data-msg="确定启用吗？">启用</a>
                             </eq>
-                            <a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('route/delete',array('id'=>$vo['id']))}">删除</a>
+                            <a class="btn btn-xs btn-danger js-ajax-delete"
+                               href="{:url('route/delete',array('id'=>$vo['id']))}">删除</a>
                         </eq>
                     </td>
                 </tr>
