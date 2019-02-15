@@ -43,7 +43,7 @@ class PortalPostService
         $category = empty($filter['category_id']) ? 0 : intval($filter['category_id']);
         if (!empty($category)) {
             array_push($join, ['__PORTAL_CATEGORY_POST__ b', 'a.id = b.post_id']);
-            $field = 'a.*,b.id AS post_category_id,b.list_order,b.category_id';
+            $field = $field.',b.id AS post_category_id,b.list_order,b.category_id';
         }
 
         $orderArr = order_shift($order);
