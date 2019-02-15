@@ -14,6 +14,7 @@ return array(
     'mindplay\\annotations\\' => array($vendorDir . '/mindplay/annotations/src/annotations'),
     'cmf\\' => array($vendorDir . '/thinkcmf/cmf/src'),
     'app\\' => array($vendorDir . '/thinkcmf/cmf-app/src'),
+    'api\\' => array($vendorDir . '/thinkcmf/cmf-api/src'),
     'XCron\\' => array($vendorDir . '/xavier/xcron-expression/src/Cron'),
     'Symfony\\Polyfill\\Util\\' => array($vendorDir . '/symfony/polyfill-util'),
     'Symfony\\Polyfill\\Php56\\' => array($vendorDir . '/symfony/polyfill-php56'),

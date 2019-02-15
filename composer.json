@@ -37,7 +37,8 @@
         "phpoffice/phpspreadsheet": "^1.5",
         "thinkcmf/cmf": "5.1.*-dev",
         "thinkcmf/cmf-app": "5.1.*-dev",
-        "thinkcmf/cmf-swoole": "5.1.*-dev"
+        "thinkcmf/cmf-swoole": "5.1.*-dev",
+        "thinkcmf/cmf-api": "5.1.*-dev"
     },
     "extra": {
         "think-path": "vendor/thinkphp"

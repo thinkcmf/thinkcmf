@@ -95,6 +95,7 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         'a' => 
         array (
             'app\\' => 4,
+            'api\\' => 4,
         ),
         'X' => 
         array (
@@ -167,6 +168,10 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         'app\\' => 
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf-app/src',
+        ),
+        'api\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/thinkcmf/cmf-api/src',
         ),
         'XCron\\' => 
         array (

@@ -1549,5 +1549,41 @@
             "orm",
             "thinkphp"
         ]
+    },
+    {
+        "name": "thinkcmf/cmf-api",
+        "version": "5.1.x-dev",
+        "version_normalized": "5.1.9999999.9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thinkcmf/cmf-api.git",
+            "reference": "9f7ccf041473c679eec228cb9a09c10adca08914"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/9f7ccf041473c679eec228cb9a09c10adca08914",
+            "reference": "9f7ccf041473c679eec228cb9a09c10adca08914",
+            "shasum": ""
+        },
+        "time": "2019-02-15 06:30:46",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "api\\": "src"
+            },
+            "files": []
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "catman",
+                "email": "catman@thinkcmf.com"
+            }
+        ],
+        "description": "The ThinkCMF 5.1 Core Api Package"
     }
 ]

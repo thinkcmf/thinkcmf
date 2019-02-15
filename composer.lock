@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0d74e2f40d4c7f4a7b9b48250da2d901",
-    "content-hash": "366dfbd0a5e203617f2441931b749b8b",
+    "hash": "7cf9870ff7f2affde25bd31fb8601412",
+    "content-hash": "446bd0e5dce9158fcbdf244041298cc4",
     "packages": [
         {
             "name": "dompdf/dompdf",
@@ -1107,6 +1107,40 @@
             "time": "2019-01-29 15:25:41"
         },
         {
+            "name": "thinkcmf/cmf-api",
+            "version": "5.1.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thinkcmf/cmf-api.git",
+                "reference": "9f7ccf041473c679eec228cb9a09c10adca08914"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/9f7ccf041473c679eec228cb9a09c10adca08914",
+                "reference": "9f7ccf041473c679eec228cb9a09c10adca08914",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "api\\": "src"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "catman",
+                    "email": "catman@thinkcmf.com"
+                }
+            ],
+            "description": "The ThinkCMF 5.1 Core Api Package",
+            "time": "2019-02-15 06:30:46"
+        },
+        {
             "name": "thinkcmf/cmf-app",
             "version": "5.1.x-dev",
             "source": {
@@ -1509,7 +1543,8 @@
     "stability-flags": {
         "thinkcmf/cmf": 20,
         "thinkcmf/cmf-app": 20,
-        "thinkcmf/cmf-swoole": 20
+        "thinkcmf/cmf-swoole": 20,
+        "thinkcmf/cmf-api": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
