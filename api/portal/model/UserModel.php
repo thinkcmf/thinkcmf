@@ -19,11 +19,10 @@ class UserModel extends Model
     protected $relationFilter = ['user'];
 
 
-
     /**
      * more 自动转化
      * @param $value
-     * @return array
+     * @return string
      */
     public function getAvatarAttr($value)
     {
@@ -33,7 +32,7 @@ class UserModel extends Model
 
     /**
      * 关联 user表
-     * @return \think\model\relation\BelongsTo
+     * @return string 关联数据
      */
     public function user()
     {
