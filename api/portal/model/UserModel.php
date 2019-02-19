@@ -8,29 +8,21 @@
 // +----------------------------------------------------------------------
 
 namespace api\portal\model;
-use api\common\model\CommonModel;
 
-class UserModel extends CommonModel
+
+use think\Model;
+
+class UserModel extends Model
 {
-    //可查询字段
-    protected $visible = [
-        'user_nickname', 'avatar', 'signature','user_url','user_login','birthday','sex'
-    ];
+
     //模型关联方法
     protected $relationFilter = ['user'];
 
-    /**
-     * 基础查询
-     */
-    protected function base($query)
-    {
-        $query->alias('user')->where('user.user_status', 1);
-    }
 
     /**
      * more 自动转化
      * @param $value
-     * @return array
+     * @return string
      */
     public function getAvatarAttr($value)
     {
@@ -40,7 +32,7 @@ class UserModel extends CommonModel
 
     /**
      * 关联 user表
-     * @return $this
+     * @return string 关联数据
      */
     public function user()
     {

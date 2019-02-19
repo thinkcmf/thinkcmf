@@ -11,8 +11,6 @@ namespace api\portal\model;
 use think\Db;
 use think\db\Query;
 use think\Model;
-use think\model\Pivot;
-
 
 /**
  * @method getFieldById($id, $string)

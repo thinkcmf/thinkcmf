@@ -30,9 +30,11 @@ class ArticlesController extends RestBaseController
         //是否需要关联模型
         if (!$data->isEmpty()) {
             if (!empty($params['relation'])) {
+
                 $allowedRelations = allowed_relations(['user', 'categories'], $params['relation']);
+
                 if (!empty($allowedRelations)) {
-                    $data->load($allowedRelations);
+                    $data->load('user');
                     $data->append($allowedRelations);
                 }
             }
