@@ -101,7 +101,7 @@ var _app='{$app}';
 var _controller='{$controller}';
 var _action='{$action}';
 var _themeFile='{$more['file']}';
-if(parent){
+if(parent && parent.simulatorRefresh){
   parent.simulatorRefresh();  
 }
 </script>
