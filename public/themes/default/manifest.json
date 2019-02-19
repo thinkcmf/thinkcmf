@@ -1,0 +1,10 @@
+{
+  "name": "default",
+  "version": "1.0.0",
+  "demo_url": "http://demo.thinkcmf.com",
+  "author": "ThinkCMF",
+  "lang": "zh-cn",
+  "author_url": "http://www.thinkcmf.com",
+  "keywords": "ThinkCMF默认模板",
+  "description": "ThinkCMF默认模板"
+}
