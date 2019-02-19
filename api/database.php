@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2019 https://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-present https://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Released under the MIT License.
 // +----------------------------------------------------------------------
