@@ -11,16 +11,19 @@
 namespace app\demo\controller;
 
 use cmf\controller\HomeBaseController;
+use think\swoole\WebSocketFrame;
 
-class IndexController extends HomeBaseController
+class WsController extends HomeBaseController
 {
     public function index()
     {
-        return $this->fetch(':index');
-    }
+        $client = WebSocketFrame::getInstance();
 
-    public function ws()
-    {
-        return $this->fetch(':ws');
+        $message=$this->request->post('message');
+
+        //发送数据给当前请求的客户端
+        $client->pushToClient(['message' => $message." from server"]);//参数为数组，字符串，数字
+
+        return "";
     }
 }

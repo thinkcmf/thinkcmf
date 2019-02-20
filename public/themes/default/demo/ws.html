@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <script src="__TMPL__/demo/public/assets/js/websocketClient.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <ol>
+        <li v-for="message in messages">
+            {{message }}
+        </li>
+    </ol>
+    <input v-model="message">
+    <button v-on:click="sentMessage">发送</button>
+</div>
+<php>
+    $_request=request();
+</php>
+<script>
+    var client = null;
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello ThinkCMF!',
+            messages:[]
+        },
+        methods: {
+            sentMessage: function () {
+                client.emit('portal/ws/index', {
+                    "event": 'portal/ws/index',
+                    "url": 'portal/ws/index',
+                    "arguments": { //客户端投递数据
+                        "post": {'message': this.message},//post数据
+                        "get": {'test_get': 'test'},//get数据
+                        "cookie": [],//cookie数据
+                    }
+                });
+
+                this.message = '';
+            }
+        }
+    });
+
+
+    client = WsClient({host: "{$_request->host(true)}", port: 9501});
+    client.connect();
+
+    client.on('portal/ws/index', function (data) {
+        console.log(data);
+
+        app.messages.push(data.message);
+    });
+
+    // client.emit('portal/ws/index', "data");
+
+</script>
+</body>
+</html>
