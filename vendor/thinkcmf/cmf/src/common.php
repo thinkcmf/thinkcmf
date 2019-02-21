@@ -23,6 +23,20 @@ use think\facade\Hook;
 Route::any('plugin/[:_plugin]/[:_controller]/[:_action]', "\\cmf\\controller\\PluginController@index");
 Route::get('new_captcha', "\\cmf\\controller\\CaptchaController@index");
 
+if (PHP_SAPI == 'cli') {
+    $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
+
+    foreach ($apps as $app) {
+        $commandFile = APP_PATH . $app . '/command.php';
+
+        if (file_exists($commandFile)) {
+            $commands = include $commandFile;
+            // 注册命令行指令
+            \think\Console::addDefaultCommands($commands);
+        }
+    }
+}
+
 /**
  * 获取当前登录的管理员ID
  * @return int

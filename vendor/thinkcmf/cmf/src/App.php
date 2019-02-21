@@ -311,6 +311,22 @@ class App extends Container
 
                 // 加载主要配置
                 $mainConfigNames = ['app', 'database', 'template', 'paginate'];
+
+                if ($this->namespace == 'app' || $this->namespace == 'api') {
+                    foreach ($mainConfigNames as $configName) {
+                        $this->config->load(CMF_ROOT . "vendor/thinkcmf/cmf-{$this->namespace}/src/" . $configName . $this->configExt, $configName);
+                    }
+
+                    $tagsFile = CMF_ROOT . "vendor/thinkcmf/cmf-{$this->namespace}/src/" . 'tags.php';
+                    if (is_file($tagsFile)) {
+                        $tags = include $tagsFile;
+                        if (is_array($tags)) {
+                            $this->hook->import($tags);
+                        }
+                    }
+                }
+
+                $mainConfigNames = ['app', 'database', 'template', 'paginate'];
                 foreach ($mainConfigNames as $configName) {
                     $this->config->load($path . $configName . $this->configExt, $configName);
                 }
@@ -583,6 +599,13 @@ class App extends Container
             }
         } elseif (is_file($this->routePath)) {
             $rules = include $this->routePath;
+            if (is_array($rules)) {
+                $this->route->import($rules);
+            }
+        }
+
+        if ($this->namespace == 'api') {
+            $rules = include CMF_ROOT . 'vendor/thinkcmf/cmf-api/src/route.php';
             if (is_array($rules)) {
                 $this->route->import($rules);
             }
