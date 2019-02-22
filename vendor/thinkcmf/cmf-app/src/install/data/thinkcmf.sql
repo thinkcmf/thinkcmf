@@ -146,48 +146,18 @@ INSERT INTO `cmf_admin_menu` (`id`, `parent_id`, `type`, `status`, `list_order`,
 (118, 111, 2, 0, 10000, 'admin', 'User', 'delete', '', '管理员删除', '', '管理员删除'),
 (119, 111, 2, 0, 10000, 'admin', 'User', 'ban', '', '停用管理员', '', '停用管理员'),
 (120, 111, 2, 0, 10000, 'admin', 'User', 'cancelBan', '', '启用管理员', '', '启用管理员'),
-(121, 0, 0, 1, 30, 'portal', 'AdminIndex', 'default', '', '门户管理', 'th', '门户管理'),
-(122, 121, 1, 1, 10000, 'portal', 'AdminArticle', 'index', '', '文章管理', '', '文章列表'),
-(123, 122, 1, 0, 10000, 'portal', 'AdminArticle', 'add', '', '添加文章', '', '添加文章'),
-(124, 122, 2, 0, 10000, 'portal', 'AdminArticle', 'addPost', '', '添加文章提交', '', '添加文章提交'),
-(125, 122, 1, 0, 10000, 'portal', 'AdminArticle', 'edit', '', '编辑文章', '', '编辑文章'),
-(126, 122, 2, 0, 10000, 'portal', 'AdminArticle', 'editPost', '', '编辑文章提交', '', '编辑文章提交'),
-(127, 122, 2, 0, 10000, 'portal', 'AdminArticle', 'delete', '', '文章删除', '', '文章删除'),
-(128, 122, 2, 0, 10000, 'portal', 'AdminArticle', 'publish', '', '文章发布', '', '文章发布'),
-(129, 122, 2, 0, 10000, 'portal', 'AdminArticle', 'top', '', '文章置顶', '', '文章置顶'),
-(130, 122, 2, 0, 10000, 'portal', 'AdminArticle', 'recommend', '', '文章推荐', '', '文章推荐'),
-(131, 122, 2, 0, 10000, 'portal', 'AdminArticle', 'listOrder', '', '文章排序', '', '文章排序'),
-(132, 121, 1, 1, 10000, 'portal', 'AdminCategory', 'index', '', '分类管理', '', '文章分类列表'),
-(133, 132, 1, 0, 10000, 'portal', 'AdminCategory', 'add', '', '添加文章分类', '', '添加文章分类'),
-(134, 132, 2, 0, 10000, 'portal', 'AdminCategory', 'addPost', '', '添加文章分类提交', '', '添加文章分类提交'),
-(135, 132, 1, 0, 10000, 'portal', 'AdminCategory', 'edit', '', '编辑文章分类', '', '编辑文章分类'),
-(136, 132, 2, 0, 10000, 'portal', 'AdminCategory', 'editPost', '', '编辑文章分类提交', '', '编辑文章分类提交'),
-(137, 132, 1, 0, 10000, 'portal', 'AdminCategory', 'select', '', '文章分类选择对话框', '', '文章分类选择对话框'),
-(138, 132, 2, 0, 10000, 'portal', 'AdminCategory', 'listOrder', '', '文章分类排序', '', '文章分类排序'),
-(139, 132, 2, 0, 10000, 'portal', 'AdminCategory', 'delete', '', '删除文章分类', '', '删除文章分类'),
-(140, 121, 1, 1, 10000, 'portal', 'AdminPage', 'index', '', '页面管理', '', '页面管理'),
-(141, 140, 1, 0, 10000, 'portal', 'AdminPage', 'add', '', '添加页面', '', '添加页面'),
-(142, 140, 2, 0, 10000, 'portal', 'AdminPage', 'addPost', '', '添加页面提交', '', '添加页面提交'),
-(143, 140, 1, 0, 10000, 'portal', 'AdminPage', 'edit', '', '编辑页面', '', '编辑页面'),
-(144, 140, 2, 0, 10000, 'portal', 'AdminPage', 'editPost', '', '编辑页面提交', '', '编辑页面提交'),
-(145, 140, 2, 0, 10000, 'portal', 'AdminPage', 'delete', '', '删除页面', '', '删除页面'),
-(146, 121, 1, 1, 10000, 'portal', 'AdminTag', 'index', '', '文章标签', '', '文章标签'),
-(147, 146, 1, 0, 10000, 'portal', 'AdminTag', 'add', '', '添加文章标签', '', '添加文章标签'),
-(148, 146, 2, 0, 10000, 'portal', 'AdminTag', 'addPost', '', '添加文章标签提交', '', '添加文章标签提交'),
-(149, 146, 2, 0, 10000, 'portal', 'AdminTag', 'upStatus', '', '更新标签状态', '', '更新标签状态'),
-(150, 146, 2, 0, 10000, 'portal', 'AdminTag', 'delete', '', '删除文章标签', '', '删除文章标签'),
-(151, 0, 1, 0, 10000, 'user', 'AdminAsset', 'index', '', '资源管理', 'file', '资源管理列表'),
-(152, 151, 2, 0, 10000, 'user', 'AdminAsset', 'delete', '', '删除文件', '', '删除文件'),
-(153, 110, 0, 1, 10000, 'user', 'AdminIndex', 'default1', '', '用户组', '', '用户组'),
-(154, 153, 1, 1, 10000, 'user', 'AdminIndex', 'index', '', '本站用户', '', '本站用户'),
-(155, 154, 2, 0, 10000, 'user', 'AdminIndex', 'ban', '', '本站用户拉黑', '', '本站用户拉黑'),
-(156, 154, 2, 0, 10000, 'user', 'AdminIndex', 'cancelBan', '', '本站用户启用', '', '本站用户启用'),
-(157, 153, 1, 1, 10000, 'user', 'AdminOauth', 'index', '', '第三方用户', '', '第三方用户'),
-(158, 157, 2, 0, 10000, 'user', 'AdminOauth', 'delete', '', '删除第三方用户绑定', '', '删除第三方用户绑定'),
-(159, 6, 1, 1, 10000, 'user', 'AdminUserAction', 'index', '', '用户操作管理', '', '用户操作管理'),
-(160, 159, 1, 0, 10000, 'user', 'AdminUserAction', 'edit', '', '编辑用户操作', '', '编辑用户操作'),
-(161, 159, 2, 0, 10000, 'user', 'AdminUserAction', 'editPost', '', '编辑用户操作提交', '', '编辑用户操作提交'),
-(162, 159, 1, 0, 10000, 'user', 'AdminUserAction', 'sync', '', '同步用户操作', '', '同步用户操作');
+(121, 0, 1, 0, 10000, 'user', 'AdminAsset', 'index', '', '资源管理', 'file', '资源管理列表'),
+(122, 121, 2, 0, 10000, 'user', 'AdminAsset', 'delete', '', '删除文件', '', '删除文件'),
+(123, 110, 0, 1, 10000, 'user', 'AdminIndex', 'default1', '', '用户组', '', '用户组'),
+(124, 123, 1, 1, 10000, 'user', 'AdminIndex', 'index', '', '本站用户', '', '本站用户'),
+(125, 124, 2, 0, 10000, 'user', 'AdminIndex', 'ban', '', '本站用户拉黑', '', '本站用户拉黑'),
+(126, 124, 2, 0, 10000, 'user', 'AdminIndex', 'cancelBan', '', '本站用户启用', '', '本站用户启用'),
+(127, 123, 1, 1, 10000, 'user', 'AdminOauth', 'index', '', '第三方用户', '', '第三方用户'),
+(128, 127, 2, 0, 10000, 'user', 'AdminOauth', 'delete', '', '删除第三方用户绑定', '', '删除第三方用户绑定'),
+(129, 6, 1, 1, 10000, 'user', 'AdminUserAction', 'index', '', '用户操作管理', '', '用户操作管理'),
+(130, 129, 1, 0, 10000, 'user', 'AdminUserAction', 'edit', '', '编辑用户操作', '', '编辑用户操作'),
+(131, 129, 2, 0, 10000, 'user', 'AdminUserAction', 'editPost', '', '编辑用户操作提交', '', '编辑用户操作提交'),
+(132, 129, 1, 0, 10000, 'user', 'AdminUserAction', 'sync', '', '同步用户操作', '', '同步用户操作');
 
 -- --------------------------------------------------------
 
@@ -372,49 +342,19 @@ INSERT INTO `cmf_auth_rule` (`id`, `status`, `app`, `type`, `name`, `param`, `ti
 (117, 1, 'admin', 'admin_url', 'admin/User/delete', '', '管理员删除', ''),
 (118, 1, 'admin', 'admin_url', 'admin/User/ban', '', '停用管理员', ''),
 (119, 1, 'admin', 'admin_url', 'admin/User/cancelBan', '', '启用管理员', ''),
-(120, 1, 'portal', 'admin_url', 'portal/AdminArticle/index', '', '文章管理', ''),
-(121, 1, 'portal', 'admin_url', 'portal/AdminArticle/add', '', '添加文章', ''),
-(122, 1, 'portal', 'admin_url', 'portal/AdminArticle/addPost', '', '添加文章提交', ''),
-(123, 1, 'portal', 'admin_url', 'portal/AdminArticle/edit', '', '编辑文章', ''),
-(124, 1, 'portal', 'admin_url', 'portal/AdminArticle/editPost', '', '编辑文章提交', ''),
-(125, 1, 'portal', 'admin_url', 'portal/AdminArticle/delete', '', '文章删除', ''),
-(126, 1, 'portal', 'admin_url', 'portal/AdminArticle/publish', '', '文章发布', ''),
-(127, 1, 'portal', 'admin_url', 'portal/AdminArticle/top', '', '文章置顶', ''),
-(128, 1, 'portal', 'admin_url', 'portal/AdminArticle/recommend', '', '文章推荐', ''),
-(129, 1, 'portal', 'admin_url', 'portal/AdminArticle/listOrder', '', '文章排序', ''),
-(130, 1, 'portal', 'admin_url', 'portal/AdminCategory/index', '', '分类管理', ''),
-(131, 1, 'portal', 'admin_url', 'portal/AdminCategory/add', '', '添加文章分类', ''),
-(132, 1, 'portal', 'admin_url', 'portal/AdminCategory/addPost', '', '添加文章分类提交', ''),
-(133, 1, 'portal', 'admin_url', 'portal/AdminCategory/edit', '', '编辑文章分类', ''),
-(134, 1, 'portal', 'admin_url', 'portal/AdminCategory/editPost', '', '编辑文章分类提交', ''),
-(135, 1, 'portal', 'admin_url', 'portal/AdminCategory/select', '', '文章分类选择对话框', ''),
-(136, 1, 'portal', 'admin_url', 'portal/AdminCategory/listOrder', '', '文章分类排序', ''),
-(137, 1, 'portal', 'admin_url', 'portal/AdminCategory/delete', '', '删除文章分类', ''),
-(138, 1, 'portal', 'admin_url', 'portal/AdminIndex/default', '', '门户管理', ''),
-(139, 1, 'portal', 'admin_url', 'portal/AdminPage/index', '', '页面管理', ''),
-(140, 1, 'portal', 'admin_url', 'portal/AdminPage/add', '', '添加页面', ''),
-(141, 1, 'portal', 'admin_url', 'portal/AdminPage/addPost', '', '添加页面提交', ''),
-(142, 1, 'portal', 'admin_url', 'portal/AdminPage/edit', '', '编辑页面', ''),
-(143, 1, 'portal', 'admin_url', 'portal/AdminPage/editPost', '', '编辑页面提交', ''),
-(144, 1, 'portal', 'admin_url', 'portal/AdminPage/delete', '', '删除页面', ''),
-(145, 1, 'portal', 'admin_url', 'portal/AdminTag/index', '', '文章标签', ''),
-(146, 1, 'portal', 'admin_url', 'portal/AdminTag/add', '', '添加文章标签', ''),
-(147, 1, 'portal', 'admin_url', 'portal/AdminTag/addPost', '', '添加文章标签提交', ''),
-(148, 1, 'portal', 'admin_url', 'portal/AdminTag/upStatus', '', '更新标签状态', ''),
-(149, 1, 'portal', 'admin_url', 'portal/AdminTag/delete', '', '删除文章标签', ''),
-(150, 1, 'user', 'admin_url', 'user/AdminAsset/index', '', '资源管理', ''),
-(151, 1, 'user', 'admin_url', 'user/AdminAsset/delete', '', '删除文件', ''),
-(152, 1, 'user', 'admin_url', 'user/AdminIndex/default', '', '用户管理', ''),
-(153, 1, 'user', 'admin_url', 'user/AdminIndex/default1', '', '用户组', ''),
-(154, 1, 'user', 'admin_url', 'user/AdminIndex/index', '', '本站用户', ''),
-(155, 1, 'user', 'admin_url', 'user/AdminIndex/ban', '', '本站用户拉黑', ''),
-(156, 1, 'user', 'admin_url', 'user/AdminIndex/cancelBan', '', '本站用户启用', ''),
-(157, 1, 'user', 'admin_url', 'user/AdminOauth/index', '', '第三方用户', ''),
-(158, 1, 'user', 'admin_url', 'user/AdminOauth/delete', '', '删除第三方用户绑定', ''),
-(159, 1, 'user', 'admin_url', 'user/AdminUserAction/index', '', '用户操作管理', ''),
-(160, 1, 'user', 'admin_url', 'user/AdminUserAction/edit', '', '编辑用户操作', ''),
-(161, 1, 'user', 'admin_url', 'user/AdminUserAction/editPost', '', '编辑用户操作提交', ''),
-(162, 1, 'user', 'admin_url', 'user/AdminUserAction/sync', '', '同步用户操作', '');
+(120, 1, 'user', 'admin_url', 'user/AdminAsset/index', '', '资源管理', ''),
+(121, 1, 'user', 'admin_url', 'user/AdminAsset/delete', '', '删除文件', ''),
+(122, 1, 'user', 'admin_url', 'user/AdminIndex/default', '', '用户管理', ''),
+(123, 1, 'user', 'admin_url', 'user/AdminIndex/default1', '', '用户组', ''),
+(124, 1, 'user', 'admin_url', 'user/AdminIndex/index', '', '本站用户', ''),
+(125, 1, 'user', 'admin_url', 'user/AdminIndex/ban', '', '本站用户拉黑', ''),
+(126, 1, 'user', 'admin_url', 'user/AdminIndex/cancelBan', '', '本站用户启用', ''),
+(127, 1, 'user', 'admin_url', 'user/AdminOauth/index', '', '第三方用户', ''),
+(128, 1, 'user', 'admin_url', 'user/AdminOauth/delete', '', '删除第三方用户绑定', ''),
+(129, 1, 'user', 'admin_url', 'user/AdminUserAction/index', '', '用户操作管理', ''),
+(130, 1, 'user', 'admin_url', 'user/AdminUserAction/edit', '', '编辑用户操作', ''),
+(131, 1, 'user', 'admin_url', 'user/AdminUserAction/editPost', '', '编辑用户操作提交', ''),
+(132, 1, 'user', 'admin_url', 'user/AdminUserAction/sync', '', '同步用户操作', '');
 
 -- --------------------------------------------------------
 
@@ -465,14 +405,13 @@ CREATE TABLE IF NOT EXISTS `cmf_hook` (
   `app` varchar(15) NOT NULL DEFAULT '' COMMENT '应用名(只有应用钩子才用)',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子表';
 
 --
 -- 转存表中的数据 `cmf_hook`
 --
 
 INSERT INTO `cmf_hook` (`id`, `type`, `once`, `name`, `hook`, `app`, `description`) VALUES
-(1, 1, 0, '应用初始化', 'app_init', 'cmf', '应用初始化'),
 (2, 1, 0, '应用开始', 'app_begin', 'cmf', '应用开始'),
 (3, 1, 0, '模块初始化', 'module_init', 'cmf', '模块初始化'),
 (4, 1, 0, '控制器开始', 'action_begin', 'cmf', '控制器开始'),
@@ -501,8 +440,6 @@ INSERT INTO `cmf_hook` (`id`, `type`, `once`, `name`, `hook`, `app`, `descriptio
 (27, 2, 0, '后台登录页面', 'admin_login', 'admin', '后台登录页面'),
 (28, 1, 1, '前台模板切换', 'switch_theme', 'cmf', '前台模板切换'),
 (29, 3, 0, '主要内容之后', 'after_content', '', '主要内容之后'),
-(30, 2, 0, '文章显示之前', 'portal_before_assign_article', 'portal', '文章显示之前'),
-(31, 2, 0, '后台文章保存之后', 'portal_admin_after_save_article', 'portal', '后台文章保存之后'),
 (32, 2, 1, '获取上传界面', 'fetch_upload_view', 'user', '获取上传界面'),
 (33, 3, 0, '主要内容之前', 'before_content', 'cmf', '主要内容之前'),
 (34, 1, 0, '日志写入完成', 'log_write_done', 'cmf', '日志写入完成'),
@@ -516,10 +453,6 @@ INSERT INTO `cmf_hook` (`id`, `type`, `once`, `name`, `hook`, `app`, `descriptio
 (42, 2, 1, '后台幻灯片管理界面', 'admin_slide_index_view', 'admin', '后台幻灯片管理界面'),
 (43, 2, 1, '后台管理员列表界面', 'admin_user_index_view', 'admin', '后台管理员列表界面'),
 (44, 2, 1, '后台角色管理界面', 'admin_rbac_index_view', 'admin', '后台角色管理界面'),
-(45, 2, 1, '门户后台文章管理列表界面', 'portal_admin_article_index_view', 'portal', '门户后台文章管理列表界面'),
-(46, 2, 1, '门户后台文章分类管理列表界面', 'portal_admin_category_index_view', 'portal', '门户后台文章分类管理列表界面'),
-(47, 2, 1, '门户后台页面管理列表界面', 'portal_admin_page_index_view', 'portal', '门户后台页面管理列表界面'),
-(48, 2, 1, '门户后台文章标签管理列表界面', 'portal_admin_tag_index_view', 'portal', '门户后台文章标签管理列表界面'),
 (49, 2, 1, '用户管理本站用户列表界面', 'user_admin_index_view', 'user', '用户管理本站用户列表界面'),
 (50, 2, 1, '资源管理列表界面', 'user_admin_asset_index_view', 'user', '资源管理列表界面'),
 (51, 2, 1, '用户管理第三方用户列表界面', 'user_admin_oauth_index_view', 'user', '用户管理第三方用户列表界面'),
@@ -527,14 +460,6 @@ INSERT INTO `cmf_hook` (`id`, `type`, `once`, `name`, `hook`, `app`, `descriptio
 (53, 2, 1, '后台回收站界面', 'admin_recycle_bin_index_view', 'admin', '后台回收站界面'),
 (54, 2, 1, '后台菜单管理界面', 'admin_menu_index_view', 'admin', '后台菜单管理界面'),
 (55, 2, 1, '后台自定义登录是否开启钩子', 'admin_custom_login_open', 'admin', '后台自定义登录是否开启钩子'),
-(56, 4, 0, '门户后台文章添加编辑界面右侧栏', 'portal_admin_article_edit_view_right_sidebar', 'portal', '门户后台文章添加编辑界面右侧栏'),
-(57, 4, 0, '门户后台文章添加编辑界面主要内容', 'portal_admin_article_edit_view_main', 'portal', '门户后台文章添加编辑界面主要内容'),
-(58, 2, 1, '门户后台文章添加界面', 'portal_admin_article_add_view', 'portal', '门户后台文章添加界面'),
-(59, 2, 1, '门户后台文章编辑界面', 'portal_admin_article_edit_view', 'portal', '门户后台文章编辑界面'),
-(60, 2, 1, '门户后台文章分类添加界面', 'portal_admin_category_add_view', 'portal', '门户后台文章分类添加界面'),
-(61, 2, 1, '门户后台文章分类编辑界面', 'portal_admin_category_edit_view', 'portal', '门户后台文章分类编辑界面'),
-(62, 2, 1, '门户后台页面添加界面', 'portal_admin_page_add_view', 'portal', '门户后台页面添加界面'),
-(63, 2, 1, '门户后台页面编辑界面', 'portal_admin_page_edit_view', 'portal', '门户后台页面编辑界面'),
 (64, 2, 1, '后台幻灯片页面列表界面', 'admin_slide_item_index_view', 'admin', '后台幻灯片页面列表界面'),
 (65, 2, 1, '后台幻灯片页面添加界面', 'admin_slide_item_add_view', 'admin', '后台幻灯片页面添加界面'),
 (66, 2, 1, '后台幻灯片页面编辑界面', 'admin_slide_item_edit_view', 'admin', '后台幻灯片页面编辑界面'),
@@ -674,114 +599,6 @@ CREATE TABLE IF NOT EXISTS `cmf_plugin` (
   `config` text COMMENT '插件配置',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='插件表';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `cmf_portal_category`
---
-
-CREATE TABLE IF NOT EXISTS `cmf_portal_category` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '分类id',
-  `parent_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '分类父id',
-  `post_count` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '分类文章数',
-  `status` tinyint(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '状态,1:发布,0:不发布',
-  `delete_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
-  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '分类名称',
-  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '分类描述',
-  `path` varchar(255) NOT NULL DEFAULT '' COMMENT '分类层级关系路径',
-  `seo_title` varchar(100) NOT NULL DEFAULT '',
-  `seo_keywords` varchar(255) NOT NULL DEFAULT '',
-  `seo_description` varchar(255) NOT NULL DEFAULT '',
-  `list_tpl` varchar(50) NOT NULL DEFAULT '' COMMENT '分类列表模板',
-  `one_tpl` varchar(50) NOT NULL DEFAULT '' COMMENT '分类文章页模板',
-  `more` text COMMENT '扩展属性',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='portal应用 文章分类表';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `cmf_portal_category_post`
---
-
-CREATE TABLE IF NOT EXISTS `cmf_portal_category_post` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `post_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '文章id',
-  `category_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '分类id',
-  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
-  `status` tinyint(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '状态,1:发布;0:不发布',
-  PRIMARY KEY (`id`),
-  KEY `term_taxonomy_id` (`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='portal应用 分类文章对应表';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `cmf_portal_post`
---
-
-CREATE TABLE IF NOT EXISTS `cmf_portal_post` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `parent_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '父级id',
-  `post_type` tinyint(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '类型,1:文章;2:页面',
-  `post_format` tinyint(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '内容格式;1:html;2:md',
-  `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '发表者用户id',
-  `post_status` tinyint(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '状态;1:已发布;0:未发布;',
-  `comment_status` tinyint(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '评论状态;1:允许;0:不允许',
-  `is_top` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否置顶;1:置顶;0:不置顶',
-  `recommended` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否推荐;1:推荐;0:不推荐',
-  `post_hits` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '查看数',
-  `post_like` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '点赞数',
-  `comment_count` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '评论数',
-  `create_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `update_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `published_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '发布时间',
-  `delete_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `post_title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'post标题',
-  `post_keywords` varchar(150) NOT NULL DEFAULT '' COMMENT 'seo keywords',
-  `post_excerpt` varchar(500) NOT NULL DEFAULT '' COMMENT 'post摘要',
-  `post_source` varchar(150) NOT NULL DEFAULT '' COMMENT '转载文章的来源',
-  `post_content` text COMMENT '文章内容',
-  `post_content_filtered` text COMMENT '处理过的文章内容',
-  `more` text COMMENT '扩展属性,如缩略图;格式为json',
-  PRIMARY KEY (`id`),
-  KEY `type_status_date` (`post_type`,`post_status`,`create_time`,`id`),
-  KEY `parent_id` (`parent_id`),
-  KEY `user_id` (`user_id`),
-  KEY `create_time` (`create_time`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='portal应用 文章表' ROW_FORMAT=COMPACT;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `cmf_portal_tag`
---
-
-CREATE TABLE IF NOT EXISTS `cmf_portal_tag` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '分类id',
-  `status` tinyint(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '状态,1:发布,0:不发布',
-  `recommended` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否推荐;1:推荐;0:不推荐',
-  `post_count` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '标签文章数',
-  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '标签名称',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='portal应用 文章标签表';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `cmf_portal_tag_post`
---
-
-CREATE TABLE IF NOT EXISTS `cmf_portal_tag_post` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `tag_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '标签 id',
-  `post_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '文章 id',
-  `status` tinyint(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '状态,1:发布;0:不发布',
-  PRIMARY KEY (`id`),
-  KEY `post_id` (`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='portal应用 标签文章对应表';
 
 -- --------------------------------------------------------
 
@@ -1145,12 +962,7 @@ CREATE TABLE IF NOT EXISTS `cmf_verification_code` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='手机邮箱数字验证码表';
 
 
--- 增缩略图字段
-ALTER TABLE `cmf_portal_post` ADD `thumbnail` VARCHAR(100) NOT NULL DEFAULT '' COMMENT '缩略图' AFTER `post_source`;
-
 ALTER TABLE `cmf_auth_rule` CHANGE `app` `app` VARCHAR(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '规则所属app';
-
-ALTER TABLE `cmf_portal_post` ADD `post_favorites` INT UNSIGNED NOT NULL DEFAULT '0' COMMENT '收藏数' AFTER `post_hits`;
 
 ALTER TABLE `cmf_user_favorite` ADD `thumbnail` VARCHAR(100) NOT NULL DEFAULT '' COMMENT '缩略图' AFTER `title`;
 
