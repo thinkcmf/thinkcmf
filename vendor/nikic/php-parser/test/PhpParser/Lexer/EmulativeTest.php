@@ -6,8 +6,6 @@ use PhpParser\ErrorHandler;
 use PhpParser\LexerTest;
 use PhpParser\Parser\Tokens;
 
-require_once __DIR__ . '/../LexerTest.php';
-
 class EmulativeTest extends LexerTest
 {
     protected function getLexer(array $options = []) {
@@ -110,6 +108,10 @@ class EmulativeTest extends LexerTest
 
     public function provideTestLexNewFeatures() {
         return [
+            // PHP 7.4
+            ['??=', [
+                [Tokens::T_COALESCE_EQUAL, '??='],
+            ]],
             ['yield from', [
                 [Tokens::T_YIELD_FROM, 'yield from'],
             ]],

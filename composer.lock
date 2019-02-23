@@ -1,10 +1,9 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "hash": "7cf9870ff7f2affde25bd31fb8601412",
     "content-hash": "446bd0e5dce9158fcbdf244041298cc4",
     "packages": [
         {
@@ -19,13 +18,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/dompdf/dompdf/zipball/75f13c700009be21a1965dc2c5b68a8708c22ba2",
                 "reference": "75f13c700009be21a1965dc2c5b68a8708c22ba2",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
@@ -77,7 +70,7 @@
             ],
             "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
             "homepage": "https://github.com/dompdf/dompdf",
-            "time": "2018-12-14 02:40:31"
+            "time": "2018-12-14T02:40:31+00:00"
         },
         {
             "name": "electrolinux/phpquery",
@@ -117,7 +110,7 @@
             ],
             "description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library",
             "homepage": "http://code.google.com/p/phpquery/",
-            "time": "2013-03-21 12:39:33"
+            "time": "2013-03-21T12:39:33+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -164,7 +157,7 @@
             "keywords": [
                 "html"
             ],
-            "time": "2018-02-23 01:58:20"
+            "time": "2018-02-23T01:58:20+00:00"
         },
         {
             "name": "jeremeamia/SuperClosure",
@@ -222,7 +215,7 @@
                 "serialize",
                 "tokenizer"
             ],
-            "time": "2018-03-21 22:21:57"
+            "time": "2018-03-21T22:21:57+00:00"
         },
         {
             "name": "markbaker/complex",
@@ -317,7 +310,7 @@
                 "complex",
                 "mathematics"
             ],
-            "time": "2018-10-13 23:28:42"
+            "time": "2018-10-13T23:28:42+00:00"
         },
         {
             "name": "markbaker/matrix",
@@ -331,13 +324,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/MarkBaker/PHPMatrix/zipball/6ea97472b5baf12119b4f31f802835b820dd6d64",
                 "reference": "6ea97472b5baf12119b4f31f802835b820dd6d64",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "php": "^5.6.0|^7.0.0"
@@ -393,7 +380,7 @@
                 "matrix",
                 "vector"
             ],
-            "time": "2018-11-04 22:12:12"
+            "time": "2018-11-04T22:12:12+00:00"
         },
         {
             "name": "mindplay/annotations",
@@ -407,13 +394,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/php-annotations/php-annotations/zipball/77ef66f79fb65a7b7e7e005be0bd6b643de43867",
                 "reference": "77ef66f79fb65a7b7e7e005be0bd6b643de43867",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
@@ -449,20 +430,20 @@
                 "annotations",
                 "framework"
             ],
-            "time": "2019-01-15 17:03:08"
+            "time": "2019-01-15T17:03:08+00:00"
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.2.0",
+            "version": "v4.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "594bcae1fc0bccd3993d2f0d61a018e26ac2865a"
+                "reference": "5221f49a608808c1e4d436df32884cbc1b821ac0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/594bcae1fc0bccd3993d2f0d61a018e26ac2865a",
-                "reference": "594bcae1fc0bccd3993d2f0d61a018e26ac2865a",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/5221f49a608808c1e4d436df32884cbc1b821ac0",
+                "reference": "5221f49a608808c1e4d436df32884cbc1b821ac0",
                 "shasum": ""
             },
             "require": {
@@ -500,7 +481,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2019-01-12 16:31:37"
+            "time": "2019-02-16T20:54:15+00:00"
         },
         {
             "name": "phenx/php-font-lib",
@@ -537,7 +518,7 @@
             ],
             "description": "A library to read, parse, export and make subsets of different types of font files.",
             "homepage": "https://github.com/PhenX/php-font-lib",
-            "time": "2017-09-13 16:14:37"
+            "time": "2017-09-13T16:14:37+00:00"
         },
         {
             "name": "phenx/php-svg-lib",
@@ -577,7 +558,7 @@
             ],
             "description": "A library to read, parse and export to PDF SVG files.",
             "homepage": "https://github.com/PhenX/php-svg-lib",
-            "time": "2018-06-03 10:10:03"
+            "time": "2018-06-03T10:10:03+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -654,7 +635,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2018-11-15 22:32:31"
+            "time": "2018-11-15T22:32:31+00:00"
         },
         {
             "name": "phpoffice/phpexcel",
@@ -717,7 +698,7 @@
                 "xlsx"
             ],
             "abandoned": "phpoffice/phpspreadsheet",
-            "time": "2018-11-22 23:07:24"
+            "time": "2018-11-22T23:07:24+00:00"
         },
         {
             "name": "phpoffice/phpspreadsheet",
@@ -731,13 +712,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/bf00f0cc5f55c354018f9a9ef15e6e3e1a229051",
                 "reference": "bf00f0cc5f55c354018f9a9ef15e6e3e1a229051",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "ext-ctype": "*",
@@ -817,7 +792,7 @@
                 "xls",
                 "xlsx"
             ],
-            "time": "2019-01-02 04:42:54"
+            "time": "2019-01-02T04:42:54+00:00"
         },
         {
             "name": "psr/simple-cache",
@@ -865,7 +840,7 @@
                 "psr-16",
                 "simple-cache"
             ],
-            "time": "2017-10-23 01:57:42"
+            "time": "2017-10-23T01:57:42+00:00"
         },
         {
             "name": "qiniu/php-sdk",
@@ -916,7 +891,7 @@
                 "sdk",
                 "storage"
             ],
-            "time": "2018-11-06 13:34:32"
+            "time": "2018-11-06T13:34:32+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",
@@ -960,7 +935,7 @@
                 "parser",
                 "stylesheet"
             ],
-            "time": "2016-07-19 19:14:21"
+            "time": "2016-07-19T19:14:21+00:00"
         },
         {
             "name": "symfony/polyfill-php56",
@@ -1016,7 +991,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-09-21 06:26:08"
+            "time": "2018-09-21T06:26:08+00:00"
         },
         {
             "name": "symfony/polyfill-util",
@@ -1068,7 +1043,7 @@
                 "polyfill",
                 "shim"
             ],
-            "time": "2018-09-30 16:36:12"
+            "time": "2018-09-30T16:36:12+00:00"
         },
         {
             "name": "thinkcmf/cmf",
@@ -1104,7 +1079,7 @@
                 }
             ],
             "description": "The ThinkCMF Core Package",
-            "time": "2019-01-29 15:25:41"
+            "time": "2019-01-29T15:25:41+00:00"
         },
         {
             "name": "thinkcmf/cmf-api",
@@ -1138,7 +1113,7 @@
                 }
             ],
             "description": "The ThinkCMF 5.1 Core Api Package",
-            "time": "2019-02-15 06:30:46"
+            "time": "2019-02-15T06:30:46+00:00"
         },
         {
             "name": "thinkcmf/cmf-app",
@@ -1152,13 +1127,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/b66c7467cae460c0f4b0de5e985954dbf136f742",
                 "reference": "b66c7467cae460c0f4b0de5e985954dbf136f742",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "type": "library",
             "autoload": {
@@ -1178,7 +1147,7 @@
                 }
             ],
             "description": "The ThinkCMF App Package",
-            "time": "2019-01-29 15:26:29"
+            "time": "2019-01-29T15:26:29+00:00"
         },
         {
             "name": "thinkcmf/cmf-swoole",
@@ -1231,7 +1200,7 @@
                 }
             ],
             "description": "Swoole extend for ThinkCMF5.1",
-            "time": "2019-01-29 15:27:01"
+            "time": "2019-01-29T15:27:01+00:00"
         },
         {
             "name": "topthink/framework",
@@ -1282,7 +1251,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2019-01-30 06:38:38"
+            "time": "2019-01-30T06:38:38+00:00"
         },
         {
             "name": "topthink/think-captcha",
@@ -1321,7 +1290,7 @@
                 }
             ],
             "description": "captcha package for thinkphp5",
-            "time": "2017-12-31 16:37:49"
+            "time": "2017-12-31T16:37:49+00:00"
         },
         {
             "name": "topthink/think-helper",
@@ -1335,13 +1304,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/top-think/think-helper/zipball/5f92178606c8ce131d36b37a57c58eb71e55f019",
                 "reference": "5f92178606c8ce131d36b37a57c58eb71e55f019",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "type": "library",
             "autoload": {
@@ -1363,7 +1326,7 @@
                 }
             ],
             "description": "The ThinkPHP5 Helper Package",
-            "time": "2018-10-05 00:43:21"
+            "time": "2018-10-05T00:43:21+00:00"
         },
         {
             "name": "topthink/think-image",
@@ -1403,7 +1366,7 @@
                 }
             ],
             "description": "The ThinkPHP5 Image Package",
-            "time": "2016-09-29 06:05:43"
+            "time": "2016-09-29T06:05:43+00:00"
         },
         {
             "name": "topthink/think-installer",
@@ -1444,7 +1407,7 @@
                     "email": "448901948@qq.com"
                 }
             ],
-            "time": "2018-05-11 06:45:42"
+            "time": "2018-05-11T06:45:42+00:00"
         },
         {
             "name": "topthink/think-queue",
@@ -1490,7 +1453,7 @@
                 }
             ],
             "description": "The ThinkPHP5 Queue Package",
-            "time": "2018-05-11 06:55:55"
+            "time": "2018-05-11T06:55:55+00:00"
         },
         {
             "name": "xavier/xcron-expression",
@@ -1534,7 +1497,7 @@
                 "cron",
                 "schedule"
             ],
-            "time": "2018-08-18 09:01:23"
+            "time": "2018-08-18T09:01:23+00:00"
         }
     ],
     "packages-dev": [],

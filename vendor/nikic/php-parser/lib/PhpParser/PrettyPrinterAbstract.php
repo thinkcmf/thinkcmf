@@ -9,7 +9,6 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\AssignOp;
 use PhpParser\Node\Expr\BinaryOp;
 use PhpParser\Node\Expr\Cast;
-use PhpParser\Node\Name;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 
@@ -83,6 +82,7 @@ abstract class PrettyPrinterAbstract
         AssignOp\ShiftLeft::class      => [160,  1],
         AssignOp\ShiftRight::class     => [160,  1],
         AssignOp\Pow::class            => [160,  1],
+        AssignOp\Coalesce::class       => [160,  1],
         Expr\YieldFrom::class          => [165,  1],
         Expr\Print_::class             => [168,  1],
         BinaryOp\LogicalAnd::class     => [170, -1],
@@ -1157,7 +1157,7 @@ abstract class PrettyPrinterAbstract
             Expr\Assign::class, Expr\AssignRef::class, AssignOp\Plus::class, AssignOp\Minus::class,
             AssignOp\Mul::class, AssignOp\Div::class, AssignOp\Concat::class, AssignOp\Mod::class,
             AssignOp\BitwiseAnd::class, AssignOp\BitwiseOr::class, AssignOp\BitwiseXor::class,
-            AssignOp\ShiftLeft::class, AssignOp\ShiftRight::class, AssignOp\Pow::class,
+            AssignOp\ShiftLeft::class, AssignOp\ShiftRight::class, AssignOp\Pow::class, AssignOp\Coalesce::class
         ];
         foreach ($assignOps as $assignOp) {
             $this->fixupMap[$assignOp] = [
