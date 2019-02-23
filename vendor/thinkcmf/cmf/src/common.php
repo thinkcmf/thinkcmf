@@ -670,7 +670,7 @@ function cmf_strip_chars($str, $chars = '?<*.>\'\"')
 function cmf_send_email($address, $subject, $message)
 {
     $smtpSetting = cmf_get_option('smtp_setting');
-    $mail        = new \PHPMailer();
+    $mail        = new \PHPMailer\PHPMailer\PHPMailer();
     // 设置PHPMailer使用SMTP服务器发送Email
     $mail->IsSMTP();
     $mail->IsHTML(true);
