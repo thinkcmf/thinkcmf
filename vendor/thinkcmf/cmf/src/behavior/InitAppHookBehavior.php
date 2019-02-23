@@ -31,7 +31,6 @@ class InitAppHookBehavior
 
         if (empty(self::$appVendorLoaded[$app])) {
             $appAutoLoadFile = APP_PATH . $app . '/vendor/autoload.php';
-            echo $appAutoLoadFile;
             if (file_exists($appAutoLoadFile)) {
                 require_once $appAutoLoadFile;
             }
