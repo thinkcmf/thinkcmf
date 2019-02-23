@@ -30,6 +30,8 @@ abstract class Plugin
      */
     private $view = null;
 
+    public static $vendorLoaded = [];
+
     /**
      * $info = array(
      *  'name'=>'HelloWorld',
@@ -62,6 +64,15 @@ abstract class Plugin
 
         $this->pluginPath     = PLUGINS_PATH . $nameCStyle . '/';
         $this->configFilePath = $this->pluginPath . 'config.php';
+
+        if (empty(self::$vendorLoaded[$this->name])) {
+            $pluginVendorAutoLoadFile = $this->pluginPath . 'vendor/autoload.php';
+            if (file_exists($pluginVendorAutoLoadFile)) {
+                require_once $pluginVendorAutoLoadFile;
+            }
+
+            self::$vendorLoaded[$this->name] = true;
+        }
 
         $config = $this->getConfig();
 
