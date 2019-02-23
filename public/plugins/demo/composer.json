@@ -1,0 +1,14 @@
+{
+    "name": "thinkcmf/plugins-demo",
+    "description": "ThinkCMF demo plugin",
+    "type": "cmf-plugin",
+    "license": "apache2.0",
+    "authors": [
+        {
+            "name": "catman",
+            "email": "catman@thinkcmf.com"
+        }
+    ],
+    "require": {
+    }
+}

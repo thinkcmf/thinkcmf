@@ -1,32 +1,100 @@
 [
     {
-        "name": "sabberworm/php-css-parser",
-        "version": "8.1.0",
-        "version_normalized": "8.1.0.0",
+        "name": "dompdf/dompdf",
+        "version": "v0.8.3",
+        "version_normalized": "0.8.3.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/sabberworm/PHP-CSS-Parser.git",
-            "reference": "850cbbcbe7fbb155387a151ea562897a67e242ef"
+            "url": "https://github.com/dompdf/dompdf.git",
+            "reference": "75f13c700009be21a1965dc2c5b68a8708c22ba2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/850cbbcbe7fbb155387a151ea562897a67e242ef",
-            "reference": "850cbbcbe7fbb155387a151ea562897a67e242ef",
-            "shasum": ""
+            "url": "https://api.github.com/repos/dompdf/dompdf/zipball/75f13c700009be21a1965dc2c5b68a8708c22ba2",
+            "reference": "75f13c700009be21a1965dc2c5b68a8708c22ba2",
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
         },
         "require": {
-            "php": ">=5.3.2"
+            "ext-dom": "*",
+            "ext-mbstring": "*",
+            "phenx/php-font-lib": "0.5.*",
+            "phenx/php-svg-lib": "0.3.*",
+            "php": ">=5.4.0"
         },
         "require-dev": {
-            "phpunit/phpunit": "*"
+            "phpunit/phpunit": "^4.8|^5.5|^6.5",
+            "squizlabs/php_codesniffer": "2.*"
         },
-        "time": "2016-07-19 19:14:21",
+        "suggest": {
+            "ext-gd": "Needed to process images",
+            "ext-gmagick": "Improves image processing performance",
+            "ext-imagick": "Improves image processing performance"
+        },
+        "time": "2018-12-14T02:40:31+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-develop": "0.7-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Dompdf\\": "src/"
+            },
+            "classmap": [
+                "lib/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Ménager",
+                "email": "fabien.menager@gmail.com"
+            },
+            {
+                "name": "Brian Sweeney",
+                "email": "eclecticgeek@gmail.com"
+            },
+            {
+                "name": "Gabriel Bull",
+                "email": "me@gabrielbull.com"
+            }
+        ],
+        "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
+        "homepage": "https://github.com/dompdf/dompdf"
+    },
+    {
+        "name": "electrolinux/phpquery",
+        "version": "0.9.6",
+        "version_normalized": "0.9.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/electrolinux/phpquery.git",
+            "reference": "6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/electrolinux/phpquery/zipball/6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a",
+            "reference": "6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a",
+            "shasum": ""
+        },
+        "time": "2013-03-21T12:39:33+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
-            "psr-0": {
-                "Sabberworm\\CSS": "lib/"
-            }
+            "classmap": [
+                "phpQuery/"
+            ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -34,55 +102,18 @@
         ],
         "authors": [
             {
-                "name": "Raphael Schweikert"
-            }
-        ],
-        "description": "Parser for CSS Files written in PHP",
-        "homepage": "http://www.sabberworm.com/blog/2010/6/10/php-css-parser",
-        "keywords": [
-            "css",
-            "parser",
-            "stylesheet"
-        ]
-    },
-    {
-        "name": "phenx/php-font-lib",
-        "version": "0.5.1",
-        "version_normalized": "0.5.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/PhenX/php-font-lib.git",
-            "reference": "760148820110a1ae0936e5cc35851e25a938bc97"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/PhenX/php-font-lib/zipball/760148820110a1ae0936e5cc35851e25a938bc97",
-            "reference": "760148820110a1ae0936e5cc35851e25a938bc97",
-            "shasum": ""
-        },
-        "require-dev": {
-            "phpunit/phpunit": "^4.8"
-        },
-        "time": "2017-09-13 16:14:37",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "FontLib\\": "src/FontLib"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "LGPL-3.0"
-        ],
-        "authors": [
+                "name": "Tobiasz Cudnik",
+                "email": "tobiasz.cudnik@gmail.com",
+                "homepage": "https://github.com/TobiaszCudnik",
+                "role": "Developer"
+            },
             {
-                "name": "Fabien Ménager",
-                "email": "fabien.menager@gmail.com"
+                "name": "didier Belot",
+                "role": "Packager"
             }
         ],
-        "description": "A library to read, parse, export and make subsets of different types of font files.",
-        "homepage": "https://github.com/PhenX/php-font-lib"
+        "description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library",
+        "homepage": "http://code.google.com/p/phpquery/"
     },
     {
         "name": "ezyang/htmlpurifier",
@@ -105,7 +136,7 @@
         "require-dev": {
             "simpletest/simpletest": "^1.1"
         },
-        "time": "2018-02-23 01:58:20",
+        "time": "2018-02-23T01:58:20+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -134,27 +165,40 @@
         ]
     },
     {
-        "name": "electrolinux/phpquery",
-        "version": "0.9.6",
-        "version_normalized": "0.9.6.0",
+        "name": "jeremeamia/SuperClosure",
+        "version": "2.4.0",
+        "version_normalized": "2.4.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/electrolinux/phpquery.git",
-            "reference": "6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a"
+            "url": "https://github.com/jeremeamia/super_closure.git",
+            "reference": "5707d5821b30b9a07acfb4d76949784aaa0e9ce9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/electrolinux/phpquery/zipball/6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a",
-            "reference": "6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a",
+            "url": "https://api.github.com/repos/jeremeamia/super_closure/zipball/5707d5821b30b9a07acfb4d76949784aaa0e9ce9",
+            "reference": "5707d5821b30b9a07acfb4d76949784aaa0e9ce9",
             "shasum": ""
         },
-        "time": "2013-03-21 12:39:33",
+        "require": {
+            "nikic/php-parser": "^1.2|^2.0|^3.0|^4.0",
+            "php": ">=5.4",
+            "symfony/polyfill-php56": "^1.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.0|^5.0"
+        },
+        "time": "2018-03-21T22:21:57+00:00",
         "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.4-dev"
+            }
+        },
         "installation-source": "dist",
         "autoload": {
-            "classmap": [
-                "phpQuery/"
-            ]
+            "psr-4": {
+                "SuperClosure\\": "src/"
+            }
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -162,431 +206,23 @@
         ],
         "authors": [
             {
-                "name": "Tobiasz Cudnik",
-                "email": "tobiasz.cudnik@gmail.com",
-                "homepage": "https://github.com/TobiaszCudnik",
+                "name": "Jeremy Lindblom",
+                "email": "jeremeamia@gmail.com",
+                "homepage": "https://github.com/jeremeamia",
                 "role": "Developer"
-            },
-            {
-                "name": "didier Belot",
-                "role": "Packager"
             }
         ],
-        "description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library",
-        "homepage": "http://code.google.com/p/phpquery/"
-    },
-    {
-        "name": "topthink/think-captcha",
-        "version": "v2.0.2",
-        "version_normalized": "2.0.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/think-captcha.git",
-            "reference": "54c8a51552f99ff9ea89ea9c272383a8f738ceee"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/top-think/think-captcha/zipball/54c8a51552f99ff9ea89ea9c272383a8f738ceee",
-            "reference": "54c8a51552f99ff9ea89ea9c272383a8f738ceee",
-            "shasum": ""
-        },
-        "require": {
-            "topthink/framework": "5.1.*"
-        },
-        "time": "2017-12-31 16:37:49",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "think\\captcha\\": "src/"
-            },
-            "files": [
-                "src/helper.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "yunwuxin",
-                "email": "448901948@qq.com"
-            }
-        ],
-        "description": "captcha package for thinkphp5"
-    },
-    {
-        "name": "topthink/think-image",
-        "version": "v1.0.7",
-        "version_normalized": "1.0.7.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/think-image.git",
-            "reference": "8586cf47f117481c6d415b20f7dedf62e79d5512"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/top-think/think-image/zipball/8586cf47f117481c6d415b20f7dedf62e79d5512",
-            "reference": "8586cf47f117481c6d415b20f7dedf62e79d5512",
-            "shasum": ""
-        },
-        "require": {
-            "ext-gd": "*"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "4.8.*",
-            "topthink/framework": "^5.0"
-        },
-        "time": "2016-09-29 06:05:43",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "think\\": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "yunwuxin",
-                "email": "448901948@qq.com"
-            }
-        ],
-        "description": "The ThinkPHP5 Image Package"
-    },
-    {
-        "name": "topthink/think-installer",
-        "version": "v2.0.0",
-        "version_normalized": "2.0.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/think-installer.git",
-            "reference": "f5400a12c60e513911aef41fe443fa6920952675"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/top-think/think-installer/zipball/f5400a12c60e513911aef41fe443fa6920952675",
-            "reference": "f5400a12c60e513911aef41fe443fa6920952675",
-            "shasum": ""
-        },
-        "require": {
-            "composer-plugin-api": "^1.0"
-        },
-        "require-dev": {
-            "composer/composer": "1.0.*@dev"
-        },
-        "time": "2018-05-11 06:45:42",
-        "type": "composer-plugin",
-        "extra": {
-            "class": "think\\composer\\Plugin"
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "think\\composer\\": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "yunwuxin",
-                "email": "448901948@qq.com"
-            }
-        ]
-    },
-    {
-        "name": "topthink/think-queue",
-        "version": "v2.0.4",
-        "version_normalized": "2.0.4.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/think-queue.git",
-            "reference": "d9b8f38c7af8ad770257b0d7db711ce8b12a6969"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/top-think/think-queue/zipball/d9b8f38c7af8ad770257b0d7db711ce8b12a6969",
-            "reference": "d9b8f38c7af8ad770257b0d7db711ce8b12a6969",
-            "shasum": ""
-        },
-        "require": {
-            "topthink/framework": "5.1.*",
-            "topthink/think-helper": ">=1.0.4",
-            "topthink/think-installer": "^2.0"
-        },
-        "time": "2018-05-11 06:55:55",
-        "type": "think-extend",
-        "extra": {
-            "think-config": {
-                "queue": "src/config.php"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "think\\": "src"
-            },
-            "files": [
-                "src/common.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "yunwuxin",
-                "email": "448901948@qq.com"
-            }
-        ],
-        "description": "The ThinkPHP5 Queue Package"
-    },
-    {
-        "name": "phenx/php-svg-lib",
-        "version": "v0.3.2",
-        "version_normalized": "0.3.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/PhenX/php-svg-lib.git",
-            "reference": "ccc46ef6340d4b8a4a68047e68d8501ea961442c"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/PhenX/php-svg-lib/zipball/ccc46ef6340d4b8a4a68047e68d8501ea961442c",
-            "reference": "ccc46ef6340d4b8a4a68047e68d8501ea961442c",
-            "shasum": ""
-        },
-        "require": {
-            "sabberworm/php-css-parser": "8.1.*"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~5.0"
-        },
-        "time": "2018-06-03 10:10:03",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Svg\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "LGPL-3.0"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Ménager",
-                "email": "fabien.menager@gmail.com"
-            }
-        ],
-        "description": "A library to read, parse and export to PDF SVG files.",
-        "homepage": "https://github.com/PhenX/php-svg-lib"
-    },
-    {
-        "name": "phpmailer/phpmailer",
-        "version": "v5.2.27",
-        "version_normalized": "5.2.27.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/PHPMailer/PHPMailer.git",
-            "reference": "dde1db116511aa4956389d75546c5be4c2beb2a6"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/dde1db116511aa4956389d75546c5be4c2beb2a6",
-            "reference": "dde1db116511aa4956389d75546c5be4c2beb2a6",
-            "shasum": ""
-        },
-        "require": {
-            "ext-ctype": "*",
-            "php": ">=5.0.0"
-        },
-        "require-dev": {
-            "doctrine/annotations": "1.2.*",
-            "jms/serializer": "0.16.*",
-            "phpdocumentor/phpdocumentor": "2.*",
-            "phpunit/phpunit": "4.8.*",
-            "symfony/debug": "2.8.*",
-            "symfony/filesystem": "2.8.*",
-            "symfony/translation": "2.8.*",
-            "symfony/yaml": "2.8.*",
-            "zendframework/zend-cache": "2.5.1",
-            "zendframework/zend-config": "2.5.1",
-            "zendframework/zend-eventmanager": "2.5.1",
-            "zendframework/zend-filter": "2.5.1",
-            "zendframework/zend-i18n": "2.5.1",
-            "zendframework/zend-json": "2.5.1",
-            "zendframework/zend-math": "2.5.1",
-            "zendframework/zend-serializer": "2.5.*",
-            "zendframework/zend-servicemanager": "2.5.*",
-            "zendframework/zend-stdlib": "2.5.1"
-        },
-        "suggest": {
-            "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
-        },
-        "time": "2018-11-15 22:32:31",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "class.phpmailer.php",
-                "class.phpmaileroauth.php",
-                "class.phpmaileroauthgoogle.php",
-                "class.smtp.php",
-                "class.pop3.php",
-                "extras/EasyPeasyICS.php",
-                "extras/ntlm_sasl_client.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "LGPL-2.1"
-        ],
-        "authors": [
-            {
-                "name": "Jim Jagielski",
-                "email": "jimjag@gmail.com"
-            },
-            {
-                "name": "Marcus Bointon",
-                "email": "phpmailer@synchromedia.co.uk"
-            },
-            {
-                "name": "Andy Prevost",
-                "email": "codeworxtech@users.sourceforge.net"
-            },
-            {
-                "name": "Brent R. Matzelle"
-            }
-        ],
-        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
-    },
-    {
-        "name": "qiniu/php-sdk",
-        "version": "v7.2.7",
-        "version_normalized": "7.2.7.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/qiniu/php-sdk.git",
-            "reference": "88d11a5857ebc6871204e9be6ceec54bf5f381e6"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/qiniu/php-sdk/zipball/88d11a5857ebc6871204e9be6ceec54bf5f381e6",
-            "reference": "88d11a5857ebc6871204e9be6ceec54bf5f381e6",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~4.0",
-            "squizlabs/php_codesniffer": "~2.3"
-        },
-        "time": "2018-11-06 13:34:32",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Qiniu\\": "src/Qiniu"
-            },
-            "files": [
-                "src/Qiniu/functions.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Qiniu",
-                "email": "sdk@qiniu.com",
-                "homepage": "http://www.qiniu.com"
-            }
-        ],
-        "description": "Qiniu Resource (Cloud) Storage SDK for PHP",
-        "homepage": "http://developer.qiniu.com/",
+        "description": "Serialize Closure objects, including their context and binding",
+        "homepage": "https://github.com/jeremeamia/super_closure",
         "keywords": [
-            "cloud",
-            "qiniu",
-            "sdk",
-            "storage"
+            "closure",
+            "function",
+            "lambda",
+            "parser",
+            "serializable",
+            "serialize",
+            "tokenizer"
         ]
-    },
-    {
-        "name": "phpoffice/phpexcel",
-        "version": "1.8.2",
-        "version_normalized": "1.8.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/PHPOffice/PHPExcel.git",
-            "reference": "1441011fb7ecdd8cc689878f54f8b58a6805f870"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/1441011fb7ecdd8cc689878f54f8b58a6805f870",
-            "reference": "1441011fb7ecdd8cc689878f54f8b58a6805f870",
-            "shasum": ""
-        },
-        "require": {
-            "ext-mbstring": "*",
-            "ext-xml": "*",
-            "ext-xmlwriter": "*",
-            "php": "^5.2|^7.0"
-        },
-        "require-dev": {
-            "squizlabs/php_codesniffer": "2.*"
-        },
-        "time": "2018-11-22 23:07:24",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "PHPExcel": "Classes/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "LGPL-2.1"
-        ],
-        "authors": [
-            {
-                "name": "Maarten Balliauw",
-                "homepage": "http://blog.maartenballiauw.be"
-            },
-            {
-                "name": "Erik Tilt"
-            },
-            {
-                "name": "Franck Lefevre",
-                "homepage": "http://rootslabs.net"
-            },
-            {
-                "name": "Mark Baker",
-                "homepage": "http://markbakeruk.net"
-            }
-        ],
-        "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
-        "homepage": "https://github.com/PHPOffice/PHPExcel",
-        "keywords": [
-            "OpenXML",
-            "excel",
-            "php",
-            "spreadsheet",
-            "xls",
-            "xlsx"
-        ],
-        "abandoned": "phpoffice/phpspreadsheet"
     },
     {
         "name": "markbaker/complex",
@@ -616,7 +252,7 @@
             "sebastian/phpcpd": "2.*",
             "squizlabs/php_codesniffer": "^3.3.0"
         },
-        "time": "2018-10-13 23:28:42",
+        "time": "2018-10-13T23:28:42+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -686,232 +322,6 @@
         ]
     },
     {
-        "name": "psr/simple-cache",
-        "version": "1.0.1",
-        "version_normalized": "1.0.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/php-fig/simple-cache.git",
-            "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
-            "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "time": "2017-10-23 01:57:42",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Psr\\SimpleCache\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "PHP-FIG",
-                "homepage": "http://www.php-fig.org/"
-            }
-        ],
-        "description": "Common interfaces for simple caching",
-        "keywords": [
-            "cache",
-            "caching",
-            "psr",
-            "psr-16",
-            "simple-cache"
-        ]
-    },
-    {
-        "name": "dompdf/dompdf",
-        "version": "v0.8.3",
-        "version_normalized": "0.8.3.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/dompdf/dompdf.git",
-            "reference": "75f13c700009be21a1965dc2c5b68a8708c22ba2"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/dompdf/dompdf/zipball/75f13c700009be21a1965dc2c5b68a8708c22ba2",
-            "reference": "75f13c700009be21a1965dc2c5b68a8708c22ba2",
-            "shasum": "",
-            "mirrors": [
-                {
-                    "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
-                    "preferred": true
-                }
-            ]
-        },
-        "require": {
-            "ext-dom": "*",
-            "ext-mbstring": "*",
-            "phenx/php-font-lib": "0.5.*",
-            "phenx/php-svg-lib": "0.3.*",
-            "php": ">=5.4.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "^4.8|^5.5|^6.5",
-            "squizlabs/php_codesniffer": "2.*"
-        },
-        "suggest": {
-            "ext-gd": "Needed to process images",
-            "ext-gmagick": "Improves image processing performance",
-            "ext-imagick": "Improves image processing performance"
-        },
-        "time": "2018-12-14 02:40:31",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-develop": "0.7-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Dompdf\\": "src/"
-            },
-            "classmap": [
-                "lib/"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "LGPL-2.1"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Ménager",
-                "email": "fabien.menager@gmail.com"
-            },
-            {
-                "name": "Brian Sweeney",
-                "email": "eclecticgeek@gmail.com"
-            },
-            {
-                "name": "Gabriel Bull",
-                "email": "me@gabrielbull.com"
-            }
-        ],
-        "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
-        "homepage": "https://github.com/dompdf/dompdf"
-    },
-    {
-        "name": "topthink/think-helper",
-        "version": "v1.0.7",
-        "version_normalized": "1.0.7.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/think-helper.git",
-            "reference": "5f92178606c8ce131d36b37a57c58eb71e55f019"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/top-think/think-helper/zipball/5f92178606c8ce131d36b37a57c58eb71e55f019",
-            "reference": "5f92178606c8ce131d36b37a57c58eb71e55f019",
-            "shasum": "",
-            "mirrors": [
-                {
-                    "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
-                    "preferred": true
-                }
-            ]
-        },
-        "time": "2018-10-05 00:43:21",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "think\\helper\\": "src"
-            },
-            "files": [
-                "src/helper.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "yunwuxin",
-                "email": "448901948@qq.com"
-            }
-        ],
-        "description": "The ThinkPHP5 Helper Package"
-    },
-    {
-        "name": "mindplay/annotations",
-        "version": "1.3.1",
-        "version_normalized": "1.3.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/php-annotations/php-annotations.git",
-            "reference": "77ef66f79fb65a7b7e7e005be0bd6b643de43867"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/php-annotations/php-annotations/zipball/77ef66f79fb65a7b7e7e005be0bd6b643de43867",
-            "reference": "77ef66f79fb65a7b7e7e005be0bd6b643de43867",
-            "shasum": "",
-            "mirrors": [
-                {
-                    "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
-                    "preferred": true
-                }
-            ]
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "require-dev": {
-            "phpunit/php-code-coverage": "~1.2.1",
-            "phpunit/php-file-iterator": ">=1.3.0@stable"
-        },
-        "time": "2019-01-15 17:03:08",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.3.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "mindplay\\annotations\\": "src\\annotations"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "LGPL-3.0+"
-        ],
-        "authors": [
-            {
-                "name": "Rasmus Schultz",
-                "email": "rasmus@mindplay.dk"
-            }
-        ],
-        "description": "Industrial-strength annotations for PHP",
-        "homepage": "http://blog.mindplay.dk/",
-        "keywords": [
-            "annotations",
-            "framework"
-        ]
-    },
-    {
         "name": "markbaker/matrix",
         "version": "1.1.4",
         "version_normalized": "1.1.4.0",
@@ -945,7 +355,7 @@
             "sebastian/phpcpd": "2.*",
             "squizlabs/php_codesniffer": "^3.3.0"
         },
-        "time": "2018-11-04 22:12:12",
+        "time": "2018-11-04T22:12:12+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -988,6 +398,342 @@
             "matrix",
             "vector"
         ]
+    },
+    {
+        "name": "mindplay/annotations",
+        "version": "1.3.1",
+        "version_normalized": "1.3.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-annotations/php-annotations.git",
+            "reference": "77ef66f79fb65a7b7e7e005be0bd6b643de43867"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-annotations/php-annotations/zipball/77ef66f79fb65a7b7e7e005be0bd6b643de43867",
+            "reference": "77ef66f79fb65a7b7e7e005be0bd6b643de43867",
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "require-dev": {
+            "phpunit/php-code-coverage": "~1.2.1",
+            "phpunit/php-file-iterator": ">=1.3.0@stable"
+        },
+        "time": "2019-01-15T17:03:08+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.3.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "mindplay\\annotations\\": "src\\annotations"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-3.0+"
+        ],
+        "authors": [
+            {
+                "name": "Rasmus Schultz",
+                "email": "rasmus@mindplay.dk"
+            }
+        ],
+        "description": "Industrial-strength annotations for PHP",
+        "homepage": "http://blog.mindplay.dk/",
+        "keywords": [
+            "annotations",
+            "framework"
+        ]
+    },
+    {
+        "name": "nikic/php-parser",
+        "version": "v4.2.0",
+        "version_normalized": "4.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/nikic/PHP-Parser.git",
+            "reference": "594bcae1fc0bccd3993d2f0d61a018e26ac2865a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/594bcae1fc0bccd3993d2f0d61a018e26ac2865a",
+            "reference": "594bcae1fc0bccd3993d2f0d61a018e26ac2865a",
+            "shasum": ""
+        },
+        "require": {
+            "ext-tokenizer": "*",
+            "php": ">=7.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^6.5 || ^7.0"
+        },
+        "time": "2019-01-12T16:31:37+00:00",
+        "bin": [
+            "bin/php-parse"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "4.2-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "PhpParser\\": "lib/PhpParser"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Nikita Popov"
+            }
+        ],
+        "description": "A PHP parser written in PHP",
+        "keywords": [
+            "parser",
+            "php"
+        ]
+    },
+    {
+        "name": "phenx/php-font-lib",
+        "version": "0.5.1",
+        "version_normalized": "0.5.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PhenX/php-font-lib.git",
+            "reference": "760148820110a1ae0936e5cc35851e25a938bc97"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PhenX/php-font-lib/zipball/760148820110a1ae0936e5cc35851e25a938bc97",
+            "reference": "760148820110a1ae0936e5cc35851e25a938bc97",
+            "shasum": ""
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.8"
+        },
+        "time": "2017-09-13T16:14:37+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "FontLib\\": "src/FontLib"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Ménager",
+                "email": "fabien.menager@gmail.com"
+            }
+        ],
+        "description": "A library to read, parse, export and make subsets of different types of font files.",
+        "homepage": "https://github.com/PhenX/php-font-lib"
+    },
+    {
+        "name": "phenx/php-svg-lib",
+        "version": "v0.3.2",
+        "version_normalized": "0.3.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PhenX/php-svg-lib.git",
+            "reference": "ccc46ef6340d4b8a4a68047e68d8501ea961442c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PhenX/php-svg-lib/zipball/ccc46ef6340d4b8a4a68047e68d8501ea961442c",
+            "reference": "ccc46ef6340d4b8a4a68047e68d8501ea961442c",
+            "shasum": ""
+        },
+        "require": {
+            "sabberworm/php-css-parser": "8.1.*"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~5.0"
+        },
+        "time": "2018-06-03T10:10:03+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Svg\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Ménager",
+                "email": "fabien.menager@gmail.com"
+            }
+        ],
+        "description": "A library to read, parse and export to PDF SVG files.",
+        "homepage": "https://github.com/PhenX/php-svg-lib"
+    },
+    {
+        "name": "phpmailer/phpmailer",
+        "version": "v5.2.27",
+        "version_normalized": "5.2.27.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPMailer/PHPMailer.git",
+            "reference": "dde1db116511aa4956389d75546c5be4c2beb2a6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/dde1db116511aa4956389d75546c5be4c2beb2a6",
+            "reference": "dde1db116511aa4956389d75546c5be4c2beb2a6",
+            "shasum": ""
+        },
+        "require": {
+            "ext-ctype": "*",
+            "php": ">=5.0.0"
+        },
+        "require-dev": {
+            "doctrine/annotations": "1.2.*",
+            "jms/serializer": "0.16.*",
+            "phpdocumentor/phpdocumentor": "2.*",
+            "phpunit/phpunit": "4.8.*",
+            "symfony/debug": "2.8.*",
+            "symfony/filesystem": "2.8.*",
+            "symfony/translation": "2.8.*",
+            "symfony/yaml": "2.8.*",
+            "zendframework/zend-cache": "2.5.1",
+            "zendframework/zend-config": "2.5.1",
+            "zendframework/zend-eventmanager": "2.5.1",
+            "zendframework/zend-filter": "2.5.1",
+            "zendframework/zend-i18n": "2.5.1",
+            "zendframework/zend-json": "2.5.1",
+            "zendframework/zend-math": "2.5.1",
+            "zendframework/zend-serializer": "2.5.*",
+            "zendframework/zend-servicemanager": "2.5.*",
+            "zendframework/zend-stdlib": "2.5.1"
+        },
+        "suggest": {
+            "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
+        },
+        "time": "2018-11-15T22:32:31+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "class.phpmailer.php",
+                "class.phpmaileroauth.php",
+                "class.phpmaileroauthgoogle.php",
+                "class.smtp.php",
+                "class.pop3.php",
+                "extras/EasyPeasyICS.php",
+                "extras/ntlm_sasl_client.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1"
+        ],
+        "authors": [
+            {
+                "name": "Jim Jagielski",
+                "email": "jimjag@gmail.com"
+            },
+            {
+                "name": "Marcus Bointon",
+                "email": "phpmailer@synchromedia.co.uk"
+            },
+            {
+                "name": "Andy Prevost",
+                "email": "codeworxtech@users.sourceforge.net"
+            },
+            {
+                "name": "Brent R. Matzelle"
+            }
+        ],
+        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+    },
+    {
+        "name": "phpoffice/phpexcel",
+        "version": "1.8.2",
+        "version_normalized": "1.8.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPOffice/PHPExcel.git",
+            "reference": "1441011fb7ecdd8cc689878f54f8b58a6805f870"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/1441011fb7ecdd8cc689878f54f8b58a6805f870",
+            "reference": "1441011fb7ecdd8cc689878f54f8b58a6805f870",
+            "shasum": ""
+        },
+        "require": {
+            "ext-mbstring": "*",
+            "ext-xml": "*",
+            "ext-xmlwriter": "*",
+            "php": "^5.2|^7.0"
+        },
+        "require-dev": {
+            "squizlabs/php_codesniffer": "2.*"
+        },
+        "time": "2018-11-22T23:07:24+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "PHPExcel": "Classes/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1"
+        ],
+        "authors": [
+            {
+                "name": "Maarten Balliauw",
+                "homepage": "http://blog.maartenballiauw.be"
+            },
+            {
+                "name": "Erik Tilt"
+            },
+            {
+                "name": "Franck Lefevre",
+                "homepage": "http://rootslabs.net"
+            },
+            {
+                "name": "Mark Baker",
+                "homepage": "http://markbakeruk.net"
+            }
+        ],
+        "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+        "homepage": "https://github.com/PHPOffice/PHPExcel",
+        "keywords": [
+            "OpenXML",
+            "excel",
+            "php",
+            "spreadsheet",
+            "xls",
+            "xlsx"
+        ],
+        "abandoned": "phpoffice/phpspreadsheet"
     },
     {
         "name": "phpoffice/phpspreadsheet",
@@ -1046,7 +792,7 @@
             "mpdf/mpdf": "Option for rendering PDF with PDF Writer",
             "tecnickcom/tcpdf": "Option for rendering PDF with PDF Writer"
         },
-        "time": "2019-01-02 04:42:54",
+        "time": "2019-01-02T04:42:54+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1092,112 +838,34 @@
         ]
     },
     {
-        "name": "thinkcmf/cmf-app",
-        "version": "5.1.x-dev",
-        "version_normalized": "5.1.9999999.9999999-dev",
+        "name": "psr/simple-cache",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/thinkcmf/cmf-app.git",
-            "reference": "b66c7467cae460c0f4b0de5e985954dbf136f742"
+            "url": "https://github.com/php-fig/simple-cache.git",
+            "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/b66c7467cae460c0f4b0de5e985954dbf136f742",
-            "reference": "b66c7467cae460c0f4b0de5e985954dbf136f742",
-            "shasum": "",
-            "mirrors": [
-                {
-                    "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
-                    "preferred": true
-                }
-            ]
-        },
-        "time": "2019-01-29 15:26:29",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "psr-4": {
-                "app\\": "src"
-            },
-            "files": []
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "catman",
-                "email": "catman@thinkcmf.com"
-            }
-        ],
-        "description": "The ThinkCMF App Package"
-    },
-    {
-        "name": "thinkcmf/cmf",
-        "version": "5.1.x-dev",
-        "version_normalized": "5.1.9999999.9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/thinkcmf/cmf-core.git",
-            "reference": "90681cc41ba2d2c3721b0749010b085566572214"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/90681cc41ba2d2c3721b0749010b085566572214",
-            "reference": "90681cc41ba2d2c3721b0749010b085566572214",
-            "shasum": ""
-        },
-        "time": "2019-01-29 15:25:41",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "psr-4": {
-                "cmf\\": "src"
-            },
-            "files": [
-                "src/common.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "catman",
-                "email": "catman@thinkcmf.com"
-            }
-        ],
-        "description": "The ThinkCMF Core Package"
-    },
-    {
-        "name": "xavier/xcron-expression",
-        "version": "0.11",
-        "version_normalized": "0.11.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/xavieryang007/xcron-expression.git",
-            "reference": "a7fa8108ee8ad636625425a9795aae8ba4fee1b3"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/xavieryang007/xcron-expression/zipball/a7fa8108ee8ad636625425a9795aae8ba4fee1b3",
-            "reference": "a7fa8108ee8ad636625425a9795aae8ba4fee1b3",
+            "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+            "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
             "shasum": ""
         },
         "require": {
-            "php": ">=7.0.0"
+            "php": ">=5.3.0"
         },
-        "require-dev": {
-            "phpunit/phpunit": "~5.7"
-        },
-        "time": "2018-08-18 09:01:23",
+        "time": "2017-10-23T01:57:42+00:00",
         "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "XCron\\": "src/Cron/"
+                "Psr\\SimpleCache\\": "src/"
             }
         },
         "notification-url": "https://packagist.org/downloads/",
@@ -1206,46 +874,99 @@
         ],
         "authors": [
             {
-                "name": "Michael Dowling",
-                "email": "mtdowling@gmail.com",
-                "homepage": "https://github.com/mtdowling"
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
             }
         ],
-        "description": "base on Michael Dowling`s cron-expression",
+        "description": "Common interfaces for simple caching",
         "keywords": [
-            "cron",
-            "schedule"
+            "cache",
+            "caching",
+            "psr",
+            "psr-16",
+            "simple-cache"
         ]
     },
     {
-        "name": "symfony/polyfill-util",
-        "version": "v1.10.0",
-        "version_normalized": "1.10.0.0",
+        "name": "qiniu/php-sdk",
+        "version": "v7.2.7",
+        "version_normalized": "7.2.7.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/symfony/polyfill-util.git",
-            "reference": "3b58903eae668d348a7126f999b0da0f2f93611c"
+            "url": "https://github.com/qiniu/php-sdk.git",
+            "reference": "88d11a5857ebc6871204e9be6ceec54bf5f381e6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-util/zipball/3b58903eae668d348a7126f999b0da0f2f93611c",
-            "reference": "3b58903eae668d348a7126f999b0da0f2f93611c",
+            "url": "https://api.github.com/repos/qiniu/php-sdk/zipball/88d11a5857ebc6871204e9be6ceec54bf5f381e6",
+            "reference": "88d11a5857ebc6871204e9be6ceec54bf5f381e6",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2018-09-30 16:36:12",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.9-dev"
-            }
+        "require-dev": {
+            "phpunit/phpunit": "~4.0",
+            "squizlabs/php_codesniffer": "~2.3"
         },
+        "time": "2018-11-06T13:34:32+00:00",
+        "type": "library",
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "Symfony\\Polyfill\\Util\\": ""
+                "Qiniu\\": "src/Qiniu"
+            },
+            "files": [
+                "src/Qiniu/functions.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Qiniu",
+                "email": "sdk@qiniu.com",
+                "homepage": "http://www.qiniu.com"
+            }
+        ],
+        "description": "Qiniu Resource (Cloud) Storage SDK for PHP",
+        "homepage": "http://developer.qiniu.com/",
+        "keywords": [
+            "cloud",
+            "qiniu",
+            "sdk",
+            "storage"
+        ]
+    },
+    {
+        "name": "sabberworm/php-css-parser",
+        "version": "8.1.0",
+        "version_normalized": "8.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sabberworm/PHP-CSS-Parser.git",
+            "reference": "850cbbcbe7fbb155387a151ea562897a67e242ef"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/850cbbcbe7fbb155387a151ea562897a67e242ef",
+            "reference": "850cbbcbe7fbb155387a151ea562897a67e242ef",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "*"
+        },
+        "time": "2016-07-19T19:14:21+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Sabberworm\\CSS": "lib/"
             }
         },
         "notification-url": "https://packagist.org/downloads/",
@@ -1254,21 +975,15 @@
         ],
         "authors": [
             {
-                "name": "Nicolas Grekas",
-                "email": "p@tchwork.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
+                "name": "Raphael Schweikert"
             }
         ],
-        "description": "Symfony utilities for portability of PHP codes",
-        "homepage": "https://symfony.com",
+        "description": "Parser for CSS Files written in PHP",
+        "homepage": "http://www.sabberworm.com/blog/2010/6/10/php-css-parser",
         "keywords": [
-            "compat",
-            "compatibility",
-            "polyfill",
-            "shim"
+            "css",
+            "parser",
+            "stylesheet"
         ]
     },
     {
@@ -1290,7 +1005,7 @@
             "php": ">=5.3.3",
             "symfony/polyfill-util": "~1.0"
         },
-        "time": "2018-09-21 06:26:08",
+        "time": "2018-09-21T06:26:08+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1330,92 +1045,34 @@
         ]
     },
     {
-        "name": "nikic/php-parser",
-        "version": "v4.2.0",
-        "version_normalized": "4.2.0.0",
+        "name": "symfony/polyfill-util",
+        "version": "v1.10.0",
+        "version_normalized": "1.10.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/nikic/PHP-Parser.git",
-            "reference": "594bcae1fc0bccd3993d2f0d61a018e26ac2865a"
+            "url": "https://github.com/symfony/polyfill-util.git",
+            "reference": "3b58903eae668d348a7126f999b0da0f2f93611c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/594bcae1fc0bccd3993d2f0d61a018e26ac2865a",
-            "reference": "594bcae1fc0bccd3993d2f0d61a018e26ac2865a",
+            "url": "https://api.github.com/repos/symfony/polyfill-util/zipball/3b58903eae668d348a7126f999b0da0f2f93611c",
+            "reference": "3b58903eae668d348a7126f999b0da0f2f93611c",
             "shasum": ""
         },
         "require": {
-            "ext-tokenizer": "*",
-            "php": ">=7.0"
+            "php": ">=5.3.3"
         },
-        "require-dev": {
-            "phpunit/phpunit": "^6.5 || ^7.0"
-        },
-        "time": "2019-01-12 16:31:37",
-        "bin": [
-            "bin/php-parse"
-        ],
+        "time": "2018-09-30T16:36:12+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "4.2-dev"
+                "dev-master": "1.9-dev"
             }
         },
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "PhpParser\\": "lib/PhpParser"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "BSD-3-Clause"
-        ],
-        "authors": [
-            {
-                "name": "Nikita Popov"
-            }
-        ],
-        "description": "A PHP parser written in PHP",
-        "keywords": [
-            "parser",
-            "php"
-        ]
-    },
-    {
-        "name": "jeremeamia/SuperClosure",
-        "version": "2.4.0",
-        "version_normalized": "2.4.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/jeremeamia/super_closure.git",
-            "reference": "5707d5821b30b9a07acfb4d76949784aaa0e9ce9"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/jeremeamia/super_closure/zipball/5707d5821b30b9a07acfb4d76949784aaa0e9ce9",
-            "reference": "5707d5821b30b9a07acfb4d76949784aaa0e9ce9",
-            "shasum": ""
-        },
-        "require": {
-            "nikic/php-parser": "^1.2|^2.0|^3.0|^4.0",
-            "php": ">=5.4",
-            "symfony/polyfill-php56": "^1.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "^4.0|^5.0"
-        },
-        "time": "2018-03-21 22:21:57",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.4-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "SuperClosure\\": "src/"
+                "Symfony\\Polyfill\\Util\\": ""
             }
         },
         "notification-url": "https://packagist.org/downloads/",
@@ -1424,23 +1081,138 @@
         ],
         "authors": [
             {
-                "name": "Jeremy Lindblom",
-                "email": "jeremeamia@gmail.com",
-                "homepage": "https://github.com/jeremeamia",
-                "role": "Developer"
+                "name": "Nicolas Grekas",
+                "email": "p@tchwork.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
             }
         ],
-        "description": "Serialize Closure objects, including their context and binding",
-        "homepage": "https://github.com/jeremeamia/super_closure",
+        "description": "Symfony utilities for portability of PHP codes",
+        "homepage": "https://symfony.com",
         "keywords": [
-            "closure",
-            "function",
-            "lambda",
-            "parser",
-            "serializable",
-            "serialize",
-            "tokenizer"
+            "compat",
+            "compatibility",
+            "polyfill",
+            "shim"
         ]
+    },
+    {
+        "name": "thinkcmf/cmf",
+        "version": "5.1.x-dev",
+        "version_normalized": "5.1.9999999.9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thinkcmf/cmf-core.git",
+            "reference": "90681cc41ba2d2c3721b0749010b085566572214"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/90681cc41ba2d2c3721b0749010b085566572214",
+            "reference": "90681cc41ba2d2c3721b0749010b085566572214",
+            "shasum": ""
+        },
+        "time": "2019-01-29T15:25:41+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "cmf\\": "src"
+            },
+            "files": [
+                "src/common.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "catman",
+                "email": "catman@thinkcmf.com"
+            }
+        ],
+        "description": "The ThinkCMF Core Package"
+    },
+    {
+        "name": "thinkcmf/cmf-api",
+        "version": "5.1.x-dev",
+        "version_normalized": "5.1.9999999.9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thinkcmf/cmf-api.git",
+            "reference": "9f7ccf041473c679eec228cb9a09c10adca08914"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/9f7ccf041473c679eec228cb9a09c10adca08914",
+            "reference": "9f7ccf041473c679eec228cb9a09c10adca08914",
+            "shasum": ""
+        },
+        "time": "2019-02-15T06:30:46+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "api\\": "src"
+            },
+            "files": []
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "catman",
+                "email": "catman@thinkcmf.com"
+            }
+        ],
+        "description": "The ThinkCMF 5.1 Core Api Package"
+    },
+    {
+        "name": "thinkcmf/cmf-app",
+        "version": "5.1.x-dev",
+        "version_normalized": "5.1.9999999.9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thinkcmf/cmf-app.git",
+            "reference": "b66c7467cae460c0f4b0de5e985954dbf136f742"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/b66c7467cae460c0f4b0de5e985954dbf136f742",
+            "reference": "b66c7467cae460c0f4b0de5e985954dbf136f742",
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
+        },
+        "time": "2019-01-29T15:26:29+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "app\\": "src"
+            },
+            "files": []
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "catman",
+                "email": "catman@thinkcmf.com"
+            }
+        ],
+        "description": "The ThinkCMF App Package"
     },
     {
         "name": "thinkcmf/cmf-swoole",
@@ -1463,7 +1235,7 @@
             "topthink/think-queue": "^2.0",
             "xavier/xcron-expression": "^0.11"
         },
-        "time": "2019-01-29 15:27:01",
+        "time": "2019-01-29T15:27:01+00:00",
         "type": "cmf-extend",
         "extra": {
             "think-config": {
@@ -1525,7 +1297,7 @@
             "sebastian/phpcpd": "2.*",
             "squizlabs/php_codesniffer": "2.*"
         },
-        "time": "2019-01-30 06:38:38",
+        "time": "2019-01-30T06:38:38+00:00",
         "type": "think-framework",
         "installation-source": "dist",
         "notification-url": "https://packagist.org/downloads/",
@@ -1551,28 +1323,33 @@
         ]
     },
     {
-        "name": "thinkcmf/cmf-api",
-        "version": "5.1.x-dev",
-        "version_normalized": "5.1.9999999.9999999-dev",
+        "name": "topthink/think-captcha",
+        "version": "v2.0.2",
+        "version_normalized": "2.0.2.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/thinkcmf/cmf-api.git",
-            "reference": "9f7ccf041473c679eec228cb9a09c10adca08914"
+            "url": "https://github.com/top-think/think-captcha.git",
+            "reference": "54c8a51552f99ff9ea89ea9c272383a8f738ceee"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/9f7ccf041473c679eec228cb9a09c10adca08914",
-            "reference": "9f7ccf041473c679eec228cb9a09c10adca08914",
+            "url": "https://api.github.com/repos/top-think/think-captcha/zipball/54c8a51552f99ff9ea89ea9c272383a8f738ceee",
+            "reference": "54c8a51552f99ff9ea89ea9c272383a8f738ceee",
             "shasum": ""
         },
-        "time": "2019-02-15 06:30:46",
+        "require": {
+            "topthink/framework": "5.1.*"
+        },
+        "time": "2017-12-31T16:37:49+00:00",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "api\\": "src"
+                "think\\captcha\\": "src/"
             },
-            "files": []
+            "files": [
+                "src/helper.php"
+            ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -1580,10 +1357,233 @@
         ],
         "authors": [
             {
-                "name": "catman",
-                "email": "catman@thinkcmf.com"
+                "name": "yunwuxin",
+                "email": "448901948@qq.com"
             }
         ],
-        "description": "The ThinkCMF 5.1 Core Api Package"
+        "description": "captcha package for thinkphp5"
+    },
+    {
+        "name": "topthink/think-helper",
+        "version": "v1.0.7",
+        "version_normalized": "1.0.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/top-think/think-helper.git",
+            "reference": "5f92178606c8ce131d36b37a57c58eb71e55f019"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/top-think/think-helper/zipball/5f92178606c8ce131d36b37a57c58eb71e55f019",
+            "reference": "5f92178606c8ce131d36b37a57c58eb71e55f019",
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
+        },
+        "time": "2018-10-05T00:43:21+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "think\\helper\\": "src"
+            },
+            "files": [
+                "src/helper.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "yunwuxin",
+                "email": "448901948@qq.com"
+            }
+        ],
+        "description": "The ThinkPHP5 Helper Package"
+    },
+    {
+        "name": "topthink/think-image",
+        "version": "v1.0.7",
+        "version_normalized": "1.0.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/top-think/think-image.git",
+            "reference": "8586cf47f117481c6d415b20f7dedf62e79d5512"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/top-think/think-image/zipball/8586cf47f117481c6d415b20f7dedf62e79d5512",
+            "reference": "8586cf47f117481c6d415b20f7dedf62e79d5512",
+            "shasum": ""
+        },
+        "require": {
+            "ext-gd": "*"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "4.8.*",
+            "topthink/framework": "^5.0"
+        },
+        "time": "2016-09-29T06:05:43+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "think\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "yunwuxin",
+                "email": "448901948@qq.com"
+            }
+        ],
+        "description": "The ThinkPHP5 Image Package"
+    },
+    {
+        "name": "topthink/think-installer",
+        "version": "v2.0.0",
+        "version_normalized": "2.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/top-think/think-installer.git",
+            "reference": "f5400a12c60e513911aef41fe443fa6920952675"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/top-think/think-installer/zipball/f5400a12c60e513911aef41fe443fa6920952675",
+            "reference": "f5400a12c60e513911aef41fe443fa6920952675",
+            "shasum": ""
+        },
+        "require": {
+            "composer-plugin-api": "^1.0"
+        },
+        "require-dev": {
+            "composer/composer": "1.0.*@dev"
+        },
+        "time": "2018-05-11T06:45:42+00:00",
+        "type": "composer-plugin",
+        "extra": {
+            "class": "think\\composer\\Plugin"
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "think\\composer\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "yunwuxin",
+                "email": "448901948@qq.com"
+            }
+        ]
+    },
+    {
+        "name": "topthink/think-queue",
+        "version": "v2.0.4",
+        "version_normalized": "2.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/top-think/think-queue.git",
+            "reference": "d9b8f38c7af8ad770257b0d7db711ce8b12a6969"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/top-think/think-queue/zipball/d9b8f38c7af8ad770257b0d7db711ce8b12a6969",
+            "reference": "d9b8f38c7af8ad770257b0d7db711ce8b12a6969",
+            "shasum": ""
+        },
+        "require": {
+            "topthink/framework": "5.1.*",
+            "topthink/think-helper": ">=1.0.4",
+            "topthink/think-installer": "^2.0"
+        },
+        "time": "2018-05-11T06:55:55+00:00",
+        "type": "think-extend",
+        "extra": {
+            "think-config": {
+                "queue": "src/config.php"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "think\\": "src"
+            },
+            "files": [
+                "src/common.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "yunwuxin",
+                "email": "448901948@qq.com"
+            }
+        ],
+        "description": "The ThinkPHP5 Queue Package"
+    },
+    {
+        "name": "xavier/xcron-expression",
+        "version": "0.11",
+        "version_normalized": "0.11.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/xavieryang007/xcron-expression.git",
+            "reference": "a7fa8108ee8ad636625425a9795aae8ba4fee1b3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/xavieryang007/xcron-expression/zipball/a7fa8108ee8ad636625425a9795aae8ba4fee1b3",
+            "reference": "a7fa8108ee8ad636625425a9795aae8ba4fee1b3",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.0.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~5.7"
+        },
+        "time": "2018-08-18T09:01:23+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "XCron\\": "src/Cron/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Michael Dowling",
+                "email": "mtdowling@gmail.com",
+                "homepage": "https://github.com/mtdowling"
+            }
+        ],
+        "description": "base on Michael Dowling`s cron-expression",
+        "keywords": [
+            "cron",
+            "schedule"
+        ]
     }
 ]

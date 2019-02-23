@@ -1,0 +1,13 @@
+{
+    "name": "thinkcmf/apps-demo",
+    "description": "ThinkCMF demo app",
+    "type": "cmf-app",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "catman",
+            "email": "catman@thinkcmf.com"
+        }
+    ],
+    "require": {}
+}

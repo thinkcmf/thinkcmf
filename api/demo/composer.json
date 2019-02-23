@@ -1,0 +1,13 @@
+{
+    "name": "thinkcmf/apis-demo",
+    "description": "ThinkCMF demo api",
+    "type": "cmf-api",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "catman",
+            "email": "catman@thinkcmf.com"
+        }
+    ],
+    "require": {}
+}
