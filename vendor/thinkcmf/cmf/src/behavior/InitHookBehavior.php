@@ -15,6 +15,7 @@ use think\exception\HttpResponseException;
 use think\facade\Hook;
 use think\Db;
 use think\facade\Response;
+use think\facade\Route;
 
 class InitHookBehavior
 {
@@ -25,6 +26,9 @@ class InitHookBehavior
         if (!cmf_is_installed()) {
             return;
         }
+
+        Route::any('plugin/[:_plugin]/[:_controller]/[:_action]', "\\cmf\\controller\\PluginController@index");
+        Route::get('new_captcha', "\\cmf\\controller\\CaptchaController@index");
 
         $request = request();
         

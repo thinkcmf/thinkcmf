@@ -19,10 +19,6 @@ use think\facade\Hook;
 
 // 应用公共文件
 
-//设置插件入口路由
-Route::any('plugin/[:_plugin]/[:_controller]/[:_action]', "\\cmf\\controller\\PluginController@index");
-Route::get('new_captcha', "\\cmf\\controller\\CaptchaController@index");
-
 if (PHP_SAPI == 'cli') {
     $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
 
