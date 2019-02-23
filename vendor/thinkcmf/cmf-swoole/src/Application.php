@@ -129,7 +129,6 @@ class Application extends App
 
             // 更新请求对象实例
             $this->route->setRequest($this->request);
-            $this->route->rule('new_captcha', "\\cmf\\controller\\CaptchaController@index");
 
             $this->loadLangPack();
             // 重新加载全局中间件
