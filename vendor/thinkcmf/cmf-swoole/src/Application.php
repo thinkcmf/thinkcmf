@@ -162,7 +162,9 @@ class Application extends App
                 $response->header($key, $val);
             }
 
-            $response->write($content);
+            if (!empty($content)) {
+                $response->write($content);
+            }
             $response->end();
 
 
