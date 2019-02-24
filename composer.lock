@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8367f8bfdb87ceb04561702cc7c67b69",
+    "content-hash": "65cdd47174706a5ef285d168cadd05a8",
     "packages": [
         {
             "name": "dompdf/dompdf",
@@ -973,16 +973,16 @@
         },
         {
             "name": "thinkcmf/cmf",
-            "version": "5.1.x-dev",
+            "version": "v5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-core.git",
-                "reference": "90681cc41ba2d2c3721b0749010b085566572214"
+                "reference": "d4aea1449ed0868150311ce123563bcd21074c6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/90681cc41ba2d2c3721b0749010b085566572214",
-                "reference": "90681cc41ba2d2c3721b0749010b085566572214",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/d4aea1449ed0868150311ce123563bcd21074c6e",
+                "reference": "d4aea1449ed0868150311ce123563bcd21074c6e",
                 "shasum": ""
             },
             "type": "library",
@@ -1005,20 +1005,20 @@
                 }
             ],
             "description": "The ThinkCMF Core Package",
-            "time": "2019-01-29T15:25:41+00:00"
+            "time": "2019-02-24T13:08:34+00:00"
         },
         {
             "name": "thinkcmf/cmf-api",
-            "version": "5.1.x-dev",
+            "version": "v5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-api.git",
-                "reference": "9f7ccf041473c679eec228cb9a09c10adca08914"
+                "reference": "0c4752ed29b0a5273d0135c957a535f851004a5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/9f7ccf041473c679eec228cb9a09c10adca08914",
-                "reference": "9f7ccf041473c679eec228cb9a09c10adca08914",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/0c4752ed29b0a5273d0135c957a535f851004a5f",
+                "reference": "0c4752ed29b0a5273d0135c957a535f851004a5f",
                 "shasum": ""
             },
             "type": "library",
@@ -1039,20 +1039,20 @@
                 }
             ],
             "description": "The ThinkCMF 5.1 Core Api Package",
-            "time": "2019-02-15T06:30:46+00:00"
+            "time": "2019-02-24T13:12:05+00:00"
         },
         {
             "name": "thinkcmf/cmf-app",
-            "version": "5.1.x-dev",
+            "version": "v5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-app.git",
-                "reference": "b66c7467cae460c0f4b0de5e985954dbf136f742"
+                "reference": "b4e46be97779e26beae9198f39034364b3e65ca5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/b66c7467cae460c0f4b0de5e985954dbf136f742",
-                "reference": "b66c7467cae460c0f4b0de5e985954dbf136f742",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/b4e46be97779e26beae9198f39034364b3e65ca5",
+                "reference": "b4e46be97779e26beae9198f39034364b3e65ca5",
                 "shasum": ""
             },
             "type": "library",
@@ -1073,20 +1073,20 @@
                 }
             ],
             "description": "The ThinkCMF App Package",
-            "time": "2019-01-29T15:26:29+00:00"
+            "time": "2019-02-24T13:08:01+00:00"
         },
         {
             "name": "thinkcmf/cmf-swoole",
-            "version": "5.1.x-dev",
+            "version": "v5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-swoole.git",
-                "reference": "908aef44d4ee99c2603300bdcf92b7adec1c7766"
+                "reference": "99a16d017a03c9ba4d51005a90763f7627544c37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-swoole/zipball/908aef44d4ee99c2603300bdcf92b7adec1c7766",
-                "reference": "908aef44d4ee99c2603300bdcf92b7adec1c7766",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-swoole/zipball/99a16d017a03c9ba4d51005a90763f7627544c37",
+                "reference": "99a16d017a03c9ba4d51005a90763f7627544c37",
                 "shasum": ""
             },
             "require": {
@@ -1126,7 +1126,7 @@
                 }
             ],
             "description": "Swoole extend for ThinkCMF5.1",
-            "time": "2019-01-29T15:27:01+00:00"
+            "time": "2019-02-24T13:09:07+00:00"
         },
         {
             "name": "topthink/framework",
@@ -1429,12 +1429,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "thinkcmf/cmf": 20,
-        "thinkcmf/cmf-app": 20,
-        "thinkcmf/cmf-swoole": 20,
-        "thinkcmf/cmf-api": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
