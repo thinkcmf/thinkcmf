@@ -53,7 +53,7 @@ class SettingController extends AdminBaseController
         }
 
         $noNeedDirs     = [".", "..", ".svn", 'fonts'];
-        $adminThemesDir = config('template.cmf_admin_theme_path') . config('template.cmf_admin_default_theme') . '/public/assets/themes/';
+        $adminThemesDir = WEB_ROOT . config('template.cmf_admin_theme_path') . config('template.cmf_admin_default_theme') . '/public/assets/themes/';
         $adminStyles    = cmf_scan_dir($adminThemesDir . '*', GLOB_ONLYDIR);
         $adminStyles    = array_diff($adminStyles, $noNeedDirs);
         $cdnSettings    = cmf_get_option('cdn_settings');
