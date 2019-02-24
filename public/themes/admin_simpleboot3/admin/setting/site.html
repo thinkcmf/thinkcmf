@@ -75,6 +75,24 @@
                                 </select>
                             </div>
                         </div>
+                        <if condition="APP_DEBUG && false">
+                            <div class="form-group">
+                                <label for="input-default_app" class="col-sm-2 control-label">默认应用</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <php>
+                                        $site_default_app=empty($cmf_settings['default_app'])?'demo':$cmf_settings['default_app'];
+                                    </php>
+                                    <select class="form-control" name="cmf_settings[default_app]"
+                                            id="input-default_app">
+                                        <foreach name="apps" item="vo">
+                                            <php>$default_app_selected = $site_default_app == $vo ? "selected" : "";
+                                            </php>
+                                            <option value="{$vo}" {$default_app_selected}>{$vo}</option>
+                                        </foreach>
+                                    </select>
+                                </div>
+                            </div>
+                        </if>
                         <!--
                         <div class="form-group">
                             <label for="input-html_cache_on" class="col-sm-2 control-label">{:lang('HTML_CACHE')}</label>
@@ -104,7 +122,8 @@
                             <label for="input-site_admin_email" class="col-sm-2 control-label">{:lang('WEBMASTER_EMAIL')}</label>
                             <div class="col-md-6 col-sm-10">
                                 <input type="text" class="form-control" id="input-site_admin_email"
-                                       name="options[site_admin_email]" value="{$site_info.site_admin_email|default=''}">
+                                       name="options[site_admin_email]"
+                                       value="{$site_info.site_admin_email|default=''}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -139,7 +158,8 @@
                             <label for="input-site_seo_keywords" class="col-sm-2 control-label">{:lang('WEBSITE_SEO_KEYWORDS')}</label>
                             <div class="col-md-6 col-sm-10">
                                 <input type="text" class="form-control" id="input-site_seo_keywords"
-                                       name="options[site_seo_keywords]" value="{$site_info.site_seo_keywords|default=''}">
+                                       name="options[site_seo_keywords]"
+                                       value="{$site_info.site_seo_keywords|default=''}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -164,7 +184,8 @@
                                 <select class="form-control" name="cmf_settings[open_registration]">
                                     <option value="0">是</option>
                                     <php>
-                                        $open_registration_selected = empty($cmf_settings['open_registration'])?'':'selected';
+                                        $open_registration_selected =
+                                        empty($cmf_settings['open_registration'])?'':'selected';
                                     </php>
                                     <option value="1" {$open_registration_selected}>否</option>
                                 </select>
