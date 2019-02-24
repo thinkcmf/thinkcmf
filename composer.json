@@ -30,7 +30,6 @@
         "topthink/think-image": "^1.0",
         "qiniu/php-sdk": "^7.1",
         "dompdf/dompdf": "^0.8.0",
-        "phpoffice/phpexcel": "^1.8",
         "ezyang/htmlpurifier": "^4.9",
         "topthink/think-queue": "^2.0",
         "electrolinux/phpquery": "^0.9.6",
