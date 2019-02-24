@@ -60,12 +60,19 @@ class SettingController extends AdminBaseController
         $cmfSettings    = cmf_get_option('cmf_settings');
         $adminSettings  = cmf_get_option('admin_settings');
 
+        if (APP_DEBUG && false) { // TODO 没确定要不要可以设置默认应用
+            $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
+            $apps = array_diff($apps, $noNeedDirs);
+            $this->assign('apps', $apps);
+        }
+
         $this->assign('site_info', cmf_get_option('site_info'));
         $this->assign("admin_styles", $adminStyles);
         $this->assign("templates", []);
         $this->assign("cdn_settings", $cdnSettings);
         $this->assign("admin_settings", $adminSettings);
         $this->assign("cmf_settings", $cmfSettings);
+
 
         return $this->fetch();
     }
