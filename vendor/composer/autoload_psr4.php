@@ -13,6 +13,7 @@ return array(
     'think\\' => array($vendorDir . '/topthink/think-image/src', $vendorDir . '/topthink/think-queue/src'),
     'mindplay\\annotations\\' => array($vendorDir . '/mindplay/annotations/src/annotations'),
     'cmf\\' => array($vendorDir . '/thinkcmf/cmf/src'),
+    'app\\install\\' => array($vendorDir . '/thinkcmf/cmf-install/src'),
     'app\\' => array($vendorDir . '/thinkcmf/cmf-app/src'),
     'api\\' => array($vendorDir . '/thinkcmf/cmf-api/src'),
     'XCron\\' => array($vendorDir . '/xavier/xcron-expression/src/Cron'),

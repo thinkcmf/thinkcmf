@@ -94,6 +94,7 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         ),
         'a' => 
         array (
+            'app\\install\\' => 12,
             'app\\' => 4,
             'api\\' => 4,
         ),
@@ -165,6 +166,10 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         'cmf\\' => 
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf/src',
+        ),
+        'app\\install\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/thinkcmf/cmf-install/src',
         ),
         'app\\' => 
         array (

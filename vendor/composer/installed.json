@@ -1109,6 +1109,42 @@
         "description": "The ThinkCMF App Package"
     },
     {
+        "name": "thinkcmf/cmf-install",
+        "version": "5.1.x-dev",
+        "version_normalized": "5.1.9999999.9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thinkcmf/cmf-install.git",
+            "reference": "9547fa11cf5e57a60c88425b401408ffd0322b6e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/9547fa11cf5e57a60c88425b401408ffd0322b6e",
+            "reference": "9547fa11cf5e57a60c88425b401408ffd0322b6e",
+            "shasum": ""
+        },
+        "time": "2019-02-25T02:05:57+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "app\\install\\": "src"
+            },
+            "files": []
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "catman",
+                "email": "catman@thinkcmf.com"
+            }
+        ],
+        "description": "The ThinkCMF Install Package"
+    },
+    {
         "name": "thinkcmf/cmf-swoole",
         "version": "v5.1.0",
         "version_normalized": "5.1.0.0",
