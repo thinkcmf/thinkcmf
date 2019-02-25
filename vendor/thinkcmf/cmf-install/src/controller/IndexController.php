@@ -13,6 +13,7 @@ namespace app\install\controller;
 use app\admin\model\ThemeModel;
 use cmf\controller\BaseController;
 use think\Db;
+use think\facade\Lang;
 
 require_once __DIR__ . '/../common.php';
 
@@ -23,6 +24,11 @@ class IndexController extends BaseController
         if (cmf_is_installed()) {
             $this->error('网站已经安装', cmf_get_root() . '/');
         }
+
+        $langSet = request()->langset();
+        Lang::load([
+            dirname(__DIR__) . '/lang/' . $langSet . ".php"
+        ]);
 
     }
 
