@@ -32,9 +32,9 @@
         },
         methods: {
             sentMessage: function () {
-                client.emit('portal/ws/index', {
-                    "event": 'portal/ws/index',
-                    "url": 'portal/ws/index',
+                client.emit('demo/ws/index', {
+                    "event": 'demo/ws/index',
+                    "url": 'demo/ws/index',
                     "arguments": { //客户端投递数据
                         "post": {'message': this.message},//post数据
                         "get": {'test_get': 'test'},//get数据
@@ -51,7 +51,7 @@
     client = WsClient({host: "{$_request->host(true)}", port: 9501});
     client.connect();
 
-    client.on('portal/ws/index', function (data) {
+    client.on('demo/ws/index', function (data) {
         console.log(data);
 
         app.messages.push(data.message);
