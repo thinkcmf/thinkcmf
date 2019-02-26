@@ -5,6 +5,7 @@ ThinkCMF 5.1.0
 https://www.thinkcmf.com/college.html
 
 ### ThinkCMF5.1主要特性
+* 更改框架协议为`MIT`,让你自由地飞
 * 基于ThinkPHP 5.1重构，但核心代码兼容5.0版本，保证老用户最小升级成本
 * 增加对`swoole`支持，同时支持swoole协程和全同步模式
 * 重新规范目录结构，更贴心
