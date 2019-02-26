@@ -76,9 +76,9 @@ class PluginBaseController extends BaseController
      * 加载模板输出(支持:/index/index,index/index,index,空,:index,/index)
      * @access protected
      * @param string $template 模板文件名
-     * @param array $vars 模板输出变量
-     * @param array $replace 模板替换
-     * @param array $config 模板参数
+     * @param array  $vars     模板输出变量
+     * @param array  $replace  模板替换
+     * @param array  $config   模板参数
      * @return mixed|string
      * @throws \Exception
      */
@@ -120,9 +120,9 @@ class PluginBaseController extends BaseController
             if ($controller) {
                 if ('' == $template) {
                     // 如果模板文件名为空 按照默认规则定位
-                    $template = str_replace('.', DS, $controller) . $depr . $action;
+                    $template = str_replace('.', DIRECTORY_SEPARATOR, $controller) . $depr . $action;
                 } elseif (false === strpos($template, $depr)) {
-                    $template = str_replace('.', DS, $controller) . $depr . $template;
+                    $template = str_replace('.', DIRECTORY_SEPARATOR, $controller) . $depr . $template;
                 }
             }
         } else {
@@ -135,9 +135,9 @@ class PluginBaseController extends BaseController
      * 渲染内容输出
      * @access protected
      * @param string $content 模板内容
-     * @param array $vars 模板输出变量
-     * @param array $replace 替换内容
-     * @param array $config 模板参数
+     * @param array  $vars    模板输出变量
+     * @param array  $replace 替换内容
+     * @param array  $config  模板参数
      * @return mixed
      */
     protected function display($content = '', $vars = [], $replace = [], $config = [])
@@ -148,7 +148,7 @@ class PluginBaseController extends BaseController
     /**
      * 模板变量赋值
      * @access protected
-     * @param mixed $name 要显示的模板变量
+     * @param mixed $name  要显示的模板变量
      * @param mixed $value 变量的值
      * @return void
      */
