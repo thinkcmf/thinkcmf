@@ -136,6 +136,7 @@ https://github.com/thinkcmf/thinkcmf/issues
 * 增加`demo`应用，方便开发者学习
 * 增加插件`@adminMenuRoot`注解支持
 * 增加`app,api和插件`composer第三方库支持
+* 增加后台模板动态设置功能
 * 使用`composer classmap`做相关类的映射
 * 更改所有`thinkcmf`包版本号依赖
 * 优化清除缓存,清除opcache缓存
@@ -150,6 +151,9 @@ https://github.com/thinkcmf/thinkcmf/issues
 
 [swoole]
 * 增加`websocket`演示
+* 优化`swoole`配置初始化
+* 优化`swoole`下内容输出
+* 更改默认缓存大小为128M
 * 修复`swoole`如果控制器返回内容为空报错问题
 * 修复`swoole`下核心包路由注册位置
 * 修复`swoole`下后台风格无法设置
