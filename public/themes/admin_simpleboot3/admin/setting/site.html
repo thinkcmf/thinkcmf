@@ -61,6 +61,21 @@
                         </div>
                         -->
                         <div class="form-group">
+                            <label for="input-site_admin_theme" class="col-sm-2 control-label">后台模板</label>
+                            <div class="col-md-6 col-sm-10">
+                                <php>
+                                    $site_admin_theme=empty($admin_settings['admin_theme'])?'':$admin_settings['admin_theme'];
+                                </php>
+                                <select class="form-control" name="admin_settings[admin_theme]"
+                                        id="input-site_admin_theme">
+                                    <foreach name="admin_themes" item="vo">
+                                        <php>$admin_theme_selected = $site_admin_theme == $vo ? "selected" : "";</php>
+                                        <option value="{$vo}" {$admin_theme_selected}>{$vo}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="input-site_adminstyle" class="col-sm-2 control-label">{:lang('WEBSITE_ADMIN_THEME')}</label>
                             <div class="col-md-6 col-sm-10">
                                 <php>

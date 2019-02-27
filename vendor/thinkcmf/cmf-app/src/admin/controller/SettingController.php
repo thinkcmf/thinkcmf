@@ -60,6 +60,15 @@ class SettingController extends AdminBaseController
         $cmfSettings    = cmf_get_option('cmf_settings');
         $adminSettings  = cmf_get_option('admin_settings');
 
+        $adminThemes = [];
+        $themes      = cmf_scan_dir(WEB_ROOT . config('template.cmf_admin_theme_path') . '/*', GLOB_ONLYDIR);
+
+        foreach ($themes as $theme) {
+            if (strpos($theme, 'admin_') === 0) {
+                array_push($adminThemes, $theme);
+            }
+        }
+
         if (APP_DEBUG && false) { // TODO 没确定要不要可以设置默认应用
             $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
             $apps = array_diff($apps, $noNeedDirs);
@@ -69,6 +78,7 @@ class SettingController extends AdminBaseController
         $this->assign('site_info', cmf_get_option('site_info'));
         $this->assign("admin_styles", $adminStyles);
         $this->assign("templates", []);
+        $this->assign("admin_themes", $adminThemes);
         $this->assign("cdn_settings", $cdnSettings);
         $this->assign("admin_settings", $adminSettings);
         $this->assign("cmf_settings", $cmfSettings);
@@ -120,6 +130,18 @@ class SettingController extends AdminBaseController
             }
 
             $routeModel->getRoutes(true);
+
+            if (!empty($adminSettings['admin_theme'])) {
+                $result = cmf_set_dynamic_config([
+                    'template' => [
+                        'cmf_admin_default_theme' => $adminSettings['admin_theme']
+                    ]
+                ]);
+
+                if ($result === false) {
+                    $this->error('配置写入失败!');
+                }
+            }
 
             cmf_set_option('admin_settings', $adminSettings);
 
