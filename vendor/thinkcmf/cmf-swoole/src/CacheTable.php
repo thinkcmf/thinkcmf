@@ -25,7 +25,7 @@ class CacheTable
         $cache_size      = Config::get('swoole.cache_size');
         $cache_data_size = Config::get('swoole.cache_data_size');
         $cache_data_size = $cache_data_size ? $cache_data_size : 1024;
-        $cache_size      = $cache_size ? $cache_size : 1024 * 1024;
+        $cache_size      = $cache_size ? $cache_size : 128 * 1024;
 
         $this->table = new \swoole_table($cache_size);
         $this->table->column('time', \swoole_table::TYPE_INT, 15);
