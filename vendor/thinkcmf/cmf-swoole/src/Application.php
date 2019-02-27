@@ -161,10 +161,7 @@ class Application extends App
                 $response->header($key, $val);
             }
 
-            if (!empty($content)) {
-                $response->write($content);
-            }
-            $response->end();
+            $response->end($content);
 
 
         } catch (HttpException $e) {
