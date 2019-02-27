@@ -2129,7 +2129,12 @@ function cmf_thinkphp_version()
  */
 function cmf_version()
 {
-    return THINKCMF_VERSION;
+    try {
+        $version = trim(file_get_contents(CMF_ROOT . 'version'));
+    } catch (\Exception $e) {
+        $version = '0.0.0';
+    }
+    return $version;
 }
 
 /**
@@ -2188,10 +2193,10 @@ function order_shift($order)
 /**
  * 模型检查
  * @param $relationFilter array 检查的字段
- * @param $relations string 被检查的字段
+ * @param $relations      string 被检查的字段
  * @return array|bool
  */
-function allowed_relations($relationFilter,$relations)
+function allowed_relations($relationFilter, $relations)
 {
     if (is_string($relations)) {
         $relations = explode(',', $relations);
@@ -2201,6 +2206,7 @@ function allowed_relations($relationFilter,$relations)
     }
     return array_intersect($relationFilter, $relations);
 }
+
 /**
  * 字符串转数组
  * @param string $string 字符串
