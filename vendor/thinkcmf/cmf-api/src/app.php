@@ -26,7 +26,7 @@ return [
     // 入口自动绑定模块
     'auto_bind_module'       => false,
     // 注册的根命名空间
-    'root_namespace'         => [ 'plugins' => PLUGINS_PATH, 'themes' => PLUGINS_PATH . '../themes', 'app' => CMF_ROOT . 'app/'],
+    'root_namespace'         => ['plugins' => WEB_ROOT . 'plugins/', 'themes' => WEB_ROOT . 'themes/', 'app' => CMF_ROOT . 'app/'],
     // 默认输出类型
     'default_return_type'    => 'html',
     // 默认AJAX 数据返回格式,可选json xml ...

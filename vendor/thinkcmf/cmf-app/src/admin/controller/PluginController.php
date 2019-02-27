@@ -442,15 +442,15 @@ class PluginController extends AdminBaseController
 
     private function _getActions($pluginName)
     {
-        Annotations::$config['cache']             = false;
-        $annotationManager                        = Annotations::getManager();
-        $annotationManager->registry['adminMenu'] = 'app\admin\annotation\AdminMenuAnnotation';
+        Annotations::$config['cache']                 = false;
+        $annotationManager                            = Annotations::getManager();
+        $annotationManager->registry['adminMenu']     = 'app\admin\annotation\AdminMenuAnnotation';
         $annotationManager->registry['adminMenuRoot'] = 'app\admin\annotation\AdminMenuRootAnnotation';
-        $newMenus                                 = [];
+        $newMenus                                     = [];
 
         $pluginDir = cmf_parse_name($pluginName);
 
-        $filePatten = PLUGINS_PATH . $pluginDir . '/controller/Admin*Controller.php';
+        $filePatten = WEB_ROOT . 'plugins/' . $pluginDir . '/controller/Admin*Controller.php';
 
         $controllers = cmf_scan_dir($filePatten);
 

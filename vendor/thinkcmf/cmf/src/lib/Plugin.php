@@ -42,11 +42,11 @@ abstract class Plugin
      *  'version'=>'1.0'
      *  )
      */
-    public  $info           = [];
-    private $pluginPath     = '';
-    private $name           = '';
+    public $info = [];
+    private $pluginPath = '';
+    private $name = '';
     private $configFilePath = '';
-    private $themeRoot      = "";
+    private $themeRoot = "";
 
     /**
      * Plugin constructor.
@@ -62,7 +62,7 @@ abstract class Plugin
 
         $nameCStyle = Loader::parseName($this->name);
 
-        $this->pluginPath     = PLUGINS_PATH . $nameCStyle . '/';
+        $this->pluginPath     = WEB_ROOT . 'plugins/' . $nameCStyle . '/';
         $this->configFilePath = $this->pluginPath . 'config.php';
 
         if (empty(self::$vendorLoaded[$this->name])) {

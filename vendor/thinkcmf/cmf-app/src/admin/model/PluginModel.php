@@ -21,7 +21,7 @@ class PluginModel extends Model
      */
     public function getList()
     {
-        $dirs = array_map('basename', glob(PLUGINS_PATH . '*', GLOB_ONLYDIR));
+        $dirs = array_map('basename', glob(WEB_ROOT . 'plugins/*', GLOB_ONLYDIR));
         if ($dirs === false) {
             $this->error = '插件目录不可读';
             return false;
