@@ -148,6 +148,8 @@ https://github.com/thinkcmf/thinkcmf/issues
 * 修复数据库对象实例化不当导致的问题
 * 修复`BaseController`排序批量更新
 * 修复新建管理员登录时报错
+* 取消`THINKCMF_VERSION`常量，请使用`cmf_version()`
+* 取消`PLUGINS_PATH`常量，请使用`WEB_ROOT.'plugins/`
 
 [swoole]
 * 增加`websocket`演示
