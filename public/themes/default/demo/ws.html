@@ -28,7 +28,7 @@
         el: '#app',
         data: {
             message: 'Hello ThinkCMF!',
-            messages:[]
+            messages: []
         },
         methods: {
             sentMessage: function () {
@@ -48,7 +48,7 @@
     });
 
 
-    client = WsClient({host: "{$_request->host(true)}", port: 9501});
+    client = WsClient({host: "{$_request->host(true)}", port: 9501, endpoint: ''});
     client.connect();
 
     client.on('demo/ws/index', function (data) {
