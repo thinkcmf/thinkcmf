@@ -18,9 +18,6 @@ define('CMF_ROOT', dirname(__DIR__) . '/');
 //// 定义应用目录
 define('APP_PATH', CMF_ROOT . 'api/');
 
-// 定义缓存目录
-//define('RUNTIME_PATH', CMF_ROOT . 'data/runtime/');
-
 // 定义路由目录
 define('ROUTE_PATH', APP_PATH . 'route.php');
 
