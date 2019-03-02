@@ -124,12 +124,12 @@ class HookController extends AdminBaseController
                         $hook['type'] = 2;
                     }
 
-                    $findHook = Db::name('hook')->where(['hook' => $hookName])->count();
+                    $findHook = Db::name('hook')->where('hook', $hookName)->count();
 
                     $hook['app'] = $app;
 
                     if ($findHook > 0) {
-                        Db::name('hook')->where(['hook' => $hookName])->strict(false)->field(true)->update($hook);
+                        Db::name('hook')->where('hook', $hookName)->strict(false)->field(true)->update($hook);
                     } else {
                         $hook['hook'] = $hookName;
                         Db::name('hook')->insert($hook);

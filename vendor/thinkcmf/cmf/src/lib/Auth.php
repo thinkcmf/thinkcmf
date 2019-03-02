@@ -112,7 +112,7 @@ class Auth
      */
     private function getUserInfo($uid)
     {
-        return Db::name('user')->where(['id' => $uid])->find();
+        return Db::name('user')->where('id', $uid)->find();
     }
 
 }

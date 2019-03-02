@@ -134,9 +134,7 @@ class PluginModel extends Model
             ])->delete();
 
             // 删除权限规则
-            Db::name('auth_rule')->where([
-                'app' => "plugin/{$findPlugin['name']}",
-            ])->delete();
+            Db::name('auth_rule')->where('app', "plugin/{$findPlugin['name']}",)->delete();
 
             Db::commit();
         } catch (\Exception $e) {
