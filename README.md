@@ -27,6 +27,9 @@ https://www.thinkcmf.com/college.html
 * 更人性化的导航标签，可以随意定制 html 结构
 * 后台首页插件化，用户可以定制的网站后台首页
 
+### 开发手册
+http://www.kancloud.cn/thinkcmf/doc5_1
+
 ### 环境推荐
 > php7.1
 
@@ -103,9 +106,6 @@ thinkcmf  根目录
 ├─README.md               README 文件
 ├─think                   命令行入口文件
 ```
-
-### 开发手册
-http://www.kancloud.cn/thinkcmf/doc
 
 ### QQ群:
 `ThinkCMF 官方交流群`:316669417  
