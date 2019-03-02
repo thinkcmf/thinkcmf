@@ -28,7 +28,12 @@ https://www.thinkcmf.com/college.html
 * 后台首页插件化，用户可以定制的网站后台首页
 
 ### 开发手册
-http://www.kancloud.cn/thinkcmf/doc5_1
+http://www.kancloud.cn/thinkcmf/doc5_1仓库
+
+### Git仓库
+
+1. GitHub:https://github.com/thinkcmf/thinkcmf 主要仓库
+2. 码云:https://github.com/thinkcmf/thinkcmf 中国镜像
 
 ### 演示仓库
 此仓库会放官方的一些演示应用，插件，模板，API等
