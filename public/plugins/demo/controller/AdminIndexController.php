@@ -21,7 +21,7 @@ use think\Db;
  *     'display'=> true,
  *     'order'  => 0,
  *     'icon'   =>'dashboard',
- *     'remark' =>'系统设置入口'
+ *     'remark' =>'演示插件入口'
  * )
  */
 class AdminIndexController extends PluginAdminBaseController
