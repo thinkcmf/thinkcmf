@@ -28,7 +28,7 @@ https://www.thinkcmf.com/college.html
 * 后台首页插件化，用户可以定制的网站后台首页
 
 ### 开发手册
-http://www.kancloud.cn/thinkcmf/doc5_1仓库
+http://www.kancloud.cn/thinkcmf/doc5_1
 
 ### Git仓库
 
