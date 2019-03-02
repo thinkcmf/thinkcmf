@@ -2169,6 +2169,7 @@ function cmf_get_app_config_file($app, $file)
 
 /**
  * 转换+-为desc和asc
+ * @deprecated
  * @param $order array 转换对象
  * @return array
  */
@@ -2192,6 +2193,7 @@ function order_shift($order)
 
 /**
  * 模型检查
+ * @deprecated
  * @param $relationFilter array 检查的字段
  * @param $relations      string 被检查的字段
  * @return array|bool
@@ -2209,6 +2211,7 @@ function allowed_relations($relationFilter, $relations)
 
 /**
  * 字符串转数组
+ * @deprecated
  * @param string $string 字符串
  * @return array
  */
