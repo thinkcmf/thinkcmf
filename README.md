@@ -30,6 +30,10 @@ https://www.thinkcmf.com/college.html
 ### 开发手册
 http://www.kancloud.cn/thinkcmf/doc5_1
 
+### 演示仓库
+此仓库会放官方的一些演示应用，插件，模板，API等
+https://github.com/thinkcmf/demos
+
 ### 环境推荐
 > php7.1
 
