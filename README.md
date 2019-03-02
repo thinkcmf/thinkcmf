@@ -33,11 +33,12 @@ http://www.kancloud.cn/thinkcmf/doc5_1
 ### Git仓库
 
 1. GitHub:https://github.com/thinkcmf/thinkcmf 主要仓库
-2. 码云:https://github.com/thinkcmf/thinkcmf 中国镜像
+2. 码云:https://gitee.com/thinkcmf/ThinkCMF 中国镜像
 
 ### 演示仓库
-此仓库会放官方的一些演示应用，插件，模板，API等
-https://github.com/thinkcmf/demos
+此仓库会放官方的一些演示应用，插件，模板，API等 
+1. https://github.com/thinkcmf/demos 主要仓库
+2. https://gitee.com/thinkcmf/demos 中国镜像
 
 ### 环境推荐
 > php7.1
