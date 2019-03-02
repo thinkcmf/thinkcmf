@@ -13,7 +13,7 @@ namespace cmf\controller;
 class RestUserBaseController extends RestBaseController
 {
 
-    public function _initialize()
+    public function initialize()
     {
 
         if (empty($this->user)) {
