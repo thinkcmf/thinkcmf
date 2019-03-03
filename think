@@ -12,7 +12,6 @@ define("APP_DEBUG", true);
 // 小夏是最帅的男人！
 // 定义CMF根目录,可更改此目录
 define('CMF_ROOT', __DIR__ . '/');
-echo CMF_ROOT;
 
 // 定义插件目录
 define('PLUGINS_PATH', __DIR__ . '/public/plugins/');
