@@ -83,7 +83,6 @@ class SettingController extends AdminBaseController
         $this->assign("admin_settings", $adminSettings);
         $this->assign("cmf_settings", $cmfSettings);
 
-
         return $this->fetch();
     }
 
