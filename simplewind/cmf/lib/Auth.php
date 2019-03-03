@@ -27,8 +27,8 @@ class Auth
 
     /**
      * 检查权限
-     * @param $name string|array  需要验证的规则列表,支持逗号分隔的权限规则或索引数组
-     * @param $uid  int           认证用户的id
+     * @param $name     string|array  需要验证的规则列表,支持逗号分隔的权限规则或索引数组
+     * @param $uid      int           认证用户的id
      * @param $relation string    如果为 'or' 表示满足任一条规则即通过验证;如果为 'and'则表示需满足所有规则才能通过验证
      * @return boolean           通过验证返回true;失败返回false
      */
@@ -77,7 +77,8 @@ class Auth
         $rules = Db::name('AuthAccess')
             ->alias("a")
             ->join('__AUTH_RULE__ b ', ' a.rule_name = b.name')
-            ->where(["a.role_id" => ["in", $groups], "b.name" => ["in", $name]])
+            ->where('a.role_id', 'in', $groups)
+            ->where('b.name', 'in', $name)
             ->select();
         foreach ($rules as $rule) {
             if (!empty($rule['condition'])) { //根据condition进行验证
@@ -111,7 +112,7 @@ class Auth
      */
     private function getUserInfo($uid)
     {
-        return Db::name('user')->where(['id' => $uid])->find();
+        return Db::name('user')->where('id', $uid)->find();
     }
 
 }

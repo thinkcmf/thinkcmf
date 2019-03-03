@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -221,7 +221,7 @@ class UserController extends AdminBaseController
                     $result = DB::name('user')->update($_POST);
                     if ($result !== false) {
                         $uid = $this->request->param('id', 0, 'intval');
-                        DB::name("RoleUser")->where(["user_id" => $uid])->delete();
+                        DB::name("RoleUser")->where("user_id", $uid)->delete();
                         foreach ($role_ids as $role_id) {
                             if (cmf_get_current_admin_id() != 1 && $role_id == 1) {
                                 $this->error("为了网站的安全，非网站创建者不可创建超级管理员！");

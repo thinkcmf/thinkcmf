@@ -2,7 +2,7 @@
 // +---------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +---------------------------------------------------------------------
-// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
 // +---------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +---------------------------------------------------------------------
@@ -11,8 +11,11 @@
 namespace cmf\behavior;
 
 use think\db\Query;
+use think\exception\HttpResponseException;
 use think\facade\Hook;
 use think\Db;
+use think\Response;
+use think\facade\Route;
 
 class InitHookBehavior
 {
@@ -22,6 +25,22 @@ class InitHookBehavior
     {
         if (!cmf_is_installed()) {
             return;
+        }
+
+        Route::any('plugin/[:_plugin]/[:_controller]/[:_action]', "\\cmf\\controller\\PluginController@index");
+        Route::get('new_captcha', "\\cmf\\controller\\CaptchaController@index");
+
+        $request = request();
+        
+        // 处理全站跨域
+        if ($request->method(true) == 'OPTIONS') {
+            $header = [
+                'Access-Control-Allow-Origin'  => '*',
+                'Access-Control-Allow-Methods' => 'GET, POST, PATCH, PUT, DELETE',
+                'Access-Control-Allow-Headers' => 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-Requested-With, XX-Device-Type, XX-Token',
+            ];
+
+            throw new HttpResponseException(Response::create()->code(204)->header($header));
         }
 
         $systemHookPlugins = cache('init_hook_plugins_system_hook_plugins');

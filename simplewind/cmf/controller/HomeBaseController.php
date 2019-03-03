@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +---------------------------------------------------------------------
@@ -37,11 +37,12 @@ class HomeBaseController extends BaseController
         //使cdn设置生效
         $cdnSettings = cmf_get_option('cdn_settings');
         if (empty($cdnSettings['cdn_static_root'])) {
+            $domain=cmf_get_domain();
             $viewReplaceStr = [
-                '__ROOT__'     => $root,
-                '__TMPL__'     => "{$root}/{$themePath}",
-                '__STATIC__'   => "{$root}/static",
-                '__WEB_ROOT__' => $root
+                '__ROOT__'     => $domain.$root,
+                '__TMPL__'     => $domain."{$root}/{$themePath}",
+                '__STATIC__'   => $domain."{$root}/static",
+                '__WEB_ROOT__' => $domain.$root
             ];
         } else {
             $cdnStaticRoot  = rtrim($cdnSettings['cdn_static_root'], '/');
@@ -53,6 +54,7 @@ class HomeBaseController extends BaseController
             ];
         }
 
+        $viewReplaceStr = array_merge(config('view_replace_str'), $viewReplaceStr);
         config('template.view_base', WEB_ROOT . "{$themePath}/");
         config('view_replace_str', $viewReplaceStr);
 
@@ -101,7 +103,7 @@ var _app='{$app}';
 var _controller='{$controller}';
 var _action='{$action}';
 var _themeFile='{$more['file']}';
-if(parent){
+if(parent && parent.simulatorRefresh){
   parent.simulatorRefresh();  
 }
 </script>
@@ -187,9 +189,10 @@ hello;
         $webRoot   = str_replace('\\', '/', WEB_ROOT);
         $themeFile = str_replace(['.html', '.php', $themePath . $theme . "/", $webRoot], '', $file);
 
-        $files = Db::name('theme_file')->field('more')->where(['theme' => $theme])->where(function ($query) use ($themeFile) {
-            $query->where(['is_public' => 1])->whereOr(['file' => $themeFile]);
-        })->select();
+        $files = Db::name('theme_file')->field('more')->where('theme', $theme)
+            ->where(function ($query) use ($themeFile) {
+                $query->where('is_public', 1)->whereOr('file', $themeFile);
+            })->select();
 
         $vars    = [];
         $widgets = [];

@@ -20,8 +20,8 @@ use think\Db;
  *     'parent' =>'',
  *     'display'=> true,
  *     'order'  => 0,
- *     'icon'   =>'car',
- *     'remark' =>'演示插件'
+ *     'icon'   =>'dashboard',
+ *     'remark' =>'演示插件入口'
  * )
  */
 class AdminIndexController extends PluginAdminBaseController
@@ -37,15 +37,15 @@ class AdminIndexController extends PluginAdminBaseController
     }
 
     /**
-     * 演示插件
+     * 演示插件用户列表
      * @adminMenu(
-     *     'name'   => '演示插件',
-     *     'parent' => 'AdminIndex/default',
+     *     'name'   => '演示插件用户列表',
+     *     'parent' => 'default',
      *     'display'=> true,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '演示插件',
+     *     'remark' => '演示插件用户列表',
      *     'param'  => ''
      * )
      */
@@ -72,7 +72,7 @@ class AdminIndexController extends PluginAdminBaseController
      * 演示插件设置
      * @adminMenu(
      *     'name'   => '演示插件设置',
-     *     'parent' => 'AdminIndex/default',
+     *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,

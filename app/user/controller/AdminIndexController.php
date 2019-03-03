@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -13,6 +13,7 @@ namespace app\user\controller;
 
 use cmf\controller\AdminBaseController;
 use think\Db;
+use think\db\Query;
 
 /**
  * Class AdminIndexController
@@ -62,20 +63,21 @@ class AdminIndexController extends AdminBaseController
             return $content;
         }
 
-        $where   = [];
-        $request = input('request.');
+        $list = Db::name('user')
+            ->where(function (Query $query) {
+                $data = $this->request->param();
+                if (!empty($data['uid'])) {
+                    $query->where('id', intval($data['uid']));
+                }
 
-        if (!empty($request['uid'])) {
-            $where['id'] = intval($request['uid']);
-        }
-        $keywordComplex = [];
-        if (!empty($request['keyword'])) {
-            $keyword = $request['keyword'];
+                if (!empty($data['keyword'])) {
+                    $keyword = $data['keyword'];
+                    $query->where('user_login|user_nickname|user_email|mobile', 'like', "%$keyword%");
+                }
 
-            $keywordComplex['user_login|user_nickname|user_email|mobile']    = ['like', "%$keyword%"];
-        }
-
-        $list = Db::name('user')->whereOr($keywordComplex)->where($where)->order("create_time DESC")->paginate(10);
+            })
+            ->order("create_time DESC")
+            ->paginate(10);
         // 获取分页显示
         $page = $list->render();
         $this->assign('list', $list);

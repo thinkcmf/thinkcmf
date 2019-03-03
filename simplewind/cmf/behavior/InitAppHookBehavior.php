@@ -2,7 +2,7 @@
 // +---------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +---------------------------------------------------------------------
-// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
 // +---------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +---------------------------------------------------------------------
@@ -16,6 +16,8 @@ use think\facade\Hook;
 class InitAppHookBehavior
 {
 
+    public static $appVendorLoaded = [];
+
     // 行为扩展的执行入口必须是run
     public function run($param)
     {
@@ -23,8 +25,20 @@ class InitAppHookBehavior
             return;
         }
 
-        $app        = request()->module();
+        $app = request()->module();
 
+        // 加载应用第三方库
+
+        if (empty(self::$appVendorLoaded[$app])) {
+            $appAutoLoadFile = APP_PATH . $app . '/vendor/autoload.php';
+            if (file_exists($appAutoLoadFile)) {
+                require_once $appAutoLoadFile;
+            }
+
+            self::$appVendorLoaded[$app] = true;
+        }
+
+        // 加载应用钩子
         $appHookPluginsCacheKey = "init_hook_plugins_app_{$app}_hook_plugins";
         $appHookPlugins         = cache($appHookPluginsCacheKey);
 

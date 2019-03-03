@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -21,7 +21,7 @@ class PluginModel extends Model
      */
     public function getList()
     {
-        $dirs = array_map('basename', glob(PLUGINS_PATH . '*', GLOB_ONLYDIR));
+        $dirs = array_map('basename', glob(WEB_ROOT . 'plugins/*', GLOB_ONLYDIR));
         if ($dirs === false) {
             $this->error = '插件目录不可读';
             return false;
@@ -134,9 +134,7 @@ class PluginModel extends Model
             ])->delete();
 
             // 删除权限规则
-            Db::name('auth_rule')->where([
-                'app' => "plugin/{$findPlugin['name']}",
-            ])->delete();
+            Db::name('auth_rule')->where('app', "plugin/{$findPlugin['name']}")->delete();
 
             Db::commit();
         } catch (\Exception $e) {
