@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>System Error</title>
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <style>
+        /* Base */
+        body {
+            color: #333;
+            font: 14px Verdana, "Helvetica Neue", helvetica, Arial, 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 0 20px 20px;
+            word-break: break-word;
+        }
+        h1{
+            margin: 10px 0 0;
+            font-size: 28px;
+            font-weight: 500;
+            line-height: 32px;
+        }
+        h2{
+            color: #4288ce;
+            font-weight: 400;
+            padding: 6px 0;
+            margin: 6px 0 0;
+            font-size: 18px;
+            border-bottom: 1px solid #eee;
+        }
+        h3.subheading {
+            color: #4288ce;
+            margin: 6px 0 0;
+            font-weight: 400;
+        }
+        h3{
+            margin: 12px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        abbr{
+            cursor: help;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+        }
+        a{
+            color: #868686;
+            cursor: pointer;
+        }
+        a:hover{
+            text-decoration: underline;
+        }
+        .line-error{
+            background: #f8cbcb;
+        }
+
+        .echo table {
+            width: 100%;
+        }
+
+        .echo pre {
+            padding: 16px;
+            overflow: auto;
+            font-size: 85%;
+            line-height: 1.45;
+            background-color: #f7f7f7;
+            border: 0;
+            border-radius: 3px;
+            font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        }
+
+        .echo pre > pre {
+            padding: 0;
+            margin: 0;
+        }
+        /* Layout */
+        .col-md-3 {
+            width: 25%;
+        }
+        .col-md-9 {
+            width: 75%;
+        }
+        [class^="col-md-"] {
+            float: left;
+        }
+        .clearfix {
+            clear:both;
+        }
+        @media only screen
+        and (min-device-width : 375px)
+        and (max-device-width : 667px) {
+            .col-md-3,
+            .col-md-9 {
+                width: 100%;
+            }
+        }
+        /* Exception Info */
+        .exception {
+            margin-top: 20px;
+        }
+        .exception .message{
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-bottom: 0 none;
+            line-height: 18px;
+            font-size:16px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            font-family: Consolas,"Liberation Mono",Courier,Verdana,"微软雅黑";
+        }
+
+        .exception .code{
+            float: left;
+            text-align: center;
+            color: #fff;
+            margin-right: 12px;
+            padding: 16px;
+            border-radius: 4px;
+            background: #999;
+        }
+        .exception .source-code{
+            padding: 6px;
+            border: 1px solid #ddd;
+
+            background: #f9f9f9;
+            overflow-x: auto;
+
+        }
+        .exception .source-code pre{
+            margin: 0;
+        }
+        .exception .source-code pre ol{
+            margin: 0;
+            color: #4288ce;
+            display: inline-block;
+            min-width: 100%;
+            box-sizing: border-box;
+            font-size:14px;
+            font-family: "Century Gothic",Consolas,"Liberation Mono",Courier,Verdana;
+            padding-left: 48px;
+        }
+        .exception .source-code pre li{
+            border-left: 1px solid #ddd;
+            height: 18px;
+            line-height: 18px;
+        }
+        .exception .source-code pre code{
+            color: #333;
+            height: 100%;
+            display: inline-block;
+            border-left: 1px solid #fff;
+            font-size:14px;
+            font-family: Consolas,"Liberation Mono",Courier,Verdana,"微软雅黑";
+        }
+        .exception .trace{
+            padding: 6px;
+            border: 1px solid #ddd;
+            border-top: 0 none;
+            line-height: 16px;
+            font-size:14px;
+            font-family: Consolas,"Liberation Mono",Courier,Verdana,"微软雅黑";
+        }
+        .exception .trace ol{
+            margin: 12px;
+        }
+        .exception .trace ol li{
+            padding: 2px 4px;
+        }
+        .exception div:last-child{
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        /* Exception Variables */
+        .exception-var table{
+            width: 100%;
+            margin: 12px 0;
+            box-sizing: border-box;
+            table-layout:fixed;
+            word-wrap:break-word;
+        }
+        .exception-var table caption{
+            text-align: left;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 6px 0;
+        }
+        .exception-var table caption small{
+            font-weight: 300;
+            display: inline-block;
+            margin-left: 10px;
+            color: #ccc;
+        }
+        .exception-var table tbody{
+            font-size: 13px;
+            font-family: Consolas,"Liberation Mono",Courier,"微软雅黑";
+        }
+        .exception-var table td{
+            padding: 0 6px;
+            vertical-align: top;
+            word-break: break-all;
+        }
+        .exception-var table td:first-child{
+            width: 28%;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        .exception-var table td pre{
+            margin: 0;
+        }
+
+        /* Copyright Info */
+        .copyright{
+            margin-top: 24px;
+            padding: 12px 0;
+            border-top: 1px solid #eee;
+        }
+
+        /* SPAN elements with the classes below are added by prettyprint. */
+        pre.prettyprint .pln { color: #000 }  /* plain text */
+        pre.prettyprint .str { color: #080 }  /* string content */
+        pre.prettyprint .kwd { color: #008 }  /* a keyword */
+        pre.prettyprint .com { color: #800 }  /* a comment */
+        pre.prettyprint .typ { color: #606 }  /* a type name */
+        pre.prettyprint .lit { color: #066 }  /* a literal value */
+        /* punctuation, lisp open bracket, lisp close bracket */
+        pre.prettyprint .pun, pre.prettyprint .opn, pre.prettyprint .clo { color: #660 }
+        pre.prettyprint .tag { color: #008 }  /* a markup tag name */
+        pre.prettyprint .atn { color: #606 }  /* a markup attribute name */
+        pre.prettyprint .atv { color: #080 }  /* a markup attribute value */
+        pre.prettyprint .dec, pre.prettyprint .var { color: #606 }  /* a declaration; a variable name */
+        pre.prettyprint .fun { color: red }  /* a function name */
+    </style>
+</head>
+<body>
+<div class="echo">
+</div>
+<div class="exception">
+    <div class="message">
+
+        <div class="info">
+            <div>
+                <h2>[8]&nbsp;<abbr title="think\exception\ErrorException">ErrorException</abbr> in <a class="toggle" title="/Users/Dean/git/thinkcmf5/public/plugins/qiniu/vendor/qiniu/php-sdk/src/Qiniu/Config.php line 45">Config.php line 45</a></h2>
+            </div>
+            <div><h1>Trying to get property of non-object</h1></div>
+        </div>
+
+    </div>
+    <div class="source-code">
+            <pre class="prettyprint lang-php"><ol start="36"><li class="line-36"><code>    public function getUpHost($accessKey, $bucket)
+</code></li><li class="line-37"><code>    {
+</code></li><li class="line-38"><code>        $zone = $this-&gt;getZone($accessKey, $bucket);
+</code></li><li class="line-39"><code>        if ($this-&gt;useHTTPS === true) {
+</code></li><li class="line-40"><code>            $scheme = &quot;https://&quot;;
+</code></li><li class="line-41"><code>        } else {
+</code></li><li class="line-42"><code>            $scheme = &quot;http://&quot;;
+</code></li><li class="line-43"><code>        }
+</code></li><li class="line-44"><code>
+</code></li><li class="line-45"><code>        $host = $zone-&gt;srcUpHosts[0];
+</code></li><li class="line-46"><code>        if ($this-&gt;useCdnDomains === true) {
+</code></li><li class="line-47"><code>            $host = $zone-&gt;cdnUpHosts[0];
+</code></li><li class="line-48"><code>        }
+</code></li><li class="line-49"><code>
+</code></li><li class="line-50"><code>        return $scheme . $host;
+</code></li><li class="line-51"><code>    }
+</code></li><li class="line-52"><code>
+</code></li><li class="line-53"><code>    public function getUpBackupHost($accessKey, $bucket)
+</code></li><li class="line-54"><code>    {
+</code></li></ol></pre>
+    </div>
+    <div class="trace">
+        <h2>Call Stack</h2>
+        <ol>
+            <li>in <a class="toggle" title="/Users/Dean/git/thinkcmf5/public/plugins/qiniu/vendor/qiniu/php-sdk/src/Qiniu/Config.php line 45">Config.php line 45</a></li>
+            <li>
+                at <abbr title="think\Error">Error</abbr>::appError(8, '<a class="toggle" title="Trying to get property of non-object">Trying to get proper...</a>', '<a class="toggle" title="/Users/Dean/git/thinkcmf5/public/plugins/qiniu/vendor/qiniu/php-sdk/src/Qiniu/Config.php">/Users/Dean/git/thin...</a>', 45, ['accessKey' => '<a class="toggle" title="XdiS6FfUnX2ev_FbtjEiJX2R0gS_JzfiabXpCOLW">XdiS6FfUnX2ev_FbtjEi...</a>', 'bucket' => 'thinkcmf-portal', 'zone' => [<em>null</em>, <em>object</em>(<abbr title="Qiniu\Http\Error">Error</abbr>)], ...]) in <a class="toggle" title="/Users/Dean/git/thinkcmf5/public/plugins/qiniu/vendor/qiniu/php-sdk/src/Qiniu/Config.php line 45">Config.php line 45</a>                </li>
+            <li>
+                at <abbr title="Qiniu\Config">Config</abbr>->getUpHost('<a class="toggle" title="XdiS6FfUnX2ev_FbtjEiJX2R0gS_JzfiabXpCOLW">XdiS6FfUnX2ev_FbtjEi...</a>', 'thinkcmf-portal') in <a class="toggle" title="/Users/Dean/git/thinkcmf5/public/plugins/qiniu/vendor/qiniu/php-sdk/src/Qiniu/Storage/FormUploader.php line 58">FormUploader.php line 58</a>                </li>
+            <li>
+                at <abbr title="Qiniu\Storage\FormUploader">FormUploader</abbr>::put('<a class="toggle" title="XdiS6FfUnX2ev_FbtjEiJX2R0gS_JzfiabXpCOLW:nJAfDr3ACxxT1W_GHdblcddZPBs=:eyJzY29wZSI6InRoaW5rY21mLXBvcnRhbCIsImRlYWRsaW5lIjoxNTUxNjExMjM4fQ==">XdiS6FfUnX2ev_FbtjEi...</a>', '<a class="toggle" title="portal/20190303/59adc8a781b1be671defa87092249151.jpg">portal/20190303/59ad...</a>', '<a class="toggle" title="">...</a>', <em>object</em>(<abbr title="Qiniu\Config">Config</abbr>), <em>null</em>, '<a class="toggle" title="application/octet-stream">application/octet-st...</a>', '<a class="toggle" title="59adc8a781b1be671defa87092249151.jpg">59adc8a781b1be671def...</a>') in <a class="toggle" title="/Users/Dean/git/thinkcmf5/public/plugins/qiniu/vendor/qiniu/php-sdk/src/Qiniu/Storage/UploadManager.php line 108">UploadManager.php line 108</a>                </li>
+            <li>
+                at <abbr title="Qiniu\Storage\UploadManager">UploadManager</abbr>->putFile('<a class="toggle" title="XdiS6FfUnX2ev_FbtjEiJX2R0gS_JzfiabXpCOLW:nJAfDr3ACxxT1W_GHdblcddZPBs=:eyJzY29wZSI6InRoaW5rY21mLXBvcnRhbCIsImRlYWRsaW5lIjoxNTUxNjExMjM4fQ==">XdiS6FfUnX2ev_FbtjEi...</a>', '<a class="toggle" title="portal/20190303/59adc8a781b1be671defa87092249151.jpg">portal/20190303/59ad...</a>', '<a class="toggle" title="./upload/portal/20190303/59adc8a781b1be671defa87092249151.jpg">./upload/portal/2019...</a>') in <a class="toggle" title="/Users/Dean/git/thinkcmf5/public/plugins/qiniu/lib/Qiniu.php line 51">Qiniu.php line 51</a>                </li>
+            <li>
+                at <abbr title="plugins\qiniu\lib\Qiniu">Qiniu</abbr>->upload('<a class="toggle" title="portal/20190303/59adc8a781b1be671defa87092249151.jpg">portal/20190303/59ad...</a>', '<a class="toggle" title="./upload/portal/20190303/59adc8a781b1be671defa87092249151.jpg">./upload/portal/2019...</a>', 'image', <em>null</em>) in <a class="toggle" title="/Users/Dean/git/thinkcmf5/simplewind/cmf/lib/Storage.php line 70">Storage.php line 70</a>                </li>
+            <li>
+                at <abbr title="cmf\lib\Storage">Storage</abbr>->upload('<a class="toggle" title="portal/20190303/59adc8a781b1be671defa87092249151.jpg">portal/20190303/59ad...</a>', '<a class="toggle" title="./upload/portal/20190303/59adc8a781b1be671defa87092249151.jpg">./upload/portal/2019...</a>', 'image') in <a class="toggle" title="/Users/Dean/git/thinkcmf5/simplewind/cmf/lib/Upload.php line 327">Upload.php line 327</a>                </li>
+            <li>
+                at <abbr title="cmf\lib\Upload">Upload</abbr>->upload() in <a class="toggle" title="/Users/Dean/git/thinkcmf5/app/user/controller/AssetController.php line 42">AssetController.php line 42</a>                </li>
+            <li>
+                at <abbr title="app\user\controller\AssetController">AssetController</abbr>->webuploader()                </li>
+            <li>
+                at <abbr title="ReflectionMethod">ReflectionMethod</abbr>->invokeArgs(<em>object</em>(<abbr title="app\user\controller\AssetController">AssetController</abbr>), []) in <a class="toggle" title="/Users/Dean/git/thinkcmf5/simplewind/thinkphp/library/think/App.php line 343">App.php line 343</a>                </li>
+            <li>
+                at <abbr title="think\App">App</abbr>::invokeMethod([<em>object</em>(<abbr title="app\user\controller\AssetController">AssetController</abbr>), 'webuploader'], []) in <a class="toggle" title="/Users/Dean/git/thinkcmf5/simplewind/thinkphp/library/think/App.php line 611">App.php line 611</a>                </li>
+            <li>
+                at <abbr title="think\App">App</abbr>::module(['user', 'asset', 'webuploader'], ['app_host' => '', 'app_debug' => <em>true</em>, 'app_trace' => <em>true</em>, ...], <em>true</em>) in <a class="toggle" title="/Users/Dean/git/thinkcmf5/simplewind/thinkphp/library/think/App.php line 456">App.php line 456</a>                </li>
+            <li>
+                at <abbr title="think\App">App</abbr>::exec(['type' => 'module', 'module' => ['user', 'asset', 'webuploader']], ['app_host' => '', 'app_debug' => <em>true</em>, 'app_trace' => <em>true</em>, ...]) in <a class="toggle" title="/Users/Dean/git/thinkcmf5/simplewind/thinkphp/library/think/App.php line 139">App.php line 139</a>                </li>
+            <li>
+                at <abbr title="think\App">App</abbr>::run() in <a class="toggle" title="/Users/Dean/git/thinkcmf5/public/index.php line 44">index.php line 44</a>                </li>
+        </ol>
+    </div>
+</div>
+
+
+<div class="exception-var">
+    <h2>Environment Variables</h2>
+    <div>
+        <h3 class="subheading">GET Data</h3>
+        <div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>_ajax</strong></div>
+                <div class="col-md-9"><small>
+                    1                    </small></div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h3 class="subheading">POST Data</h3>
+        <div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>app</strong></div>
+                <div class="col-md-9"><small>
+                    portal                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>filetype</strong></div>
+                <div class="col-md-9"><small>
+                    image                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>id</strong></div>
+                <div class="col-md-9"><small>
+                    WU_FILE_0                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>name</strong></div>
+                <div class="col-md-9"><small>
+                    封面.001.jpg                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>type</strong></div>
+                <div class="col-md-9"><small>
+                    image/jpeg                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>lastModifiedDate</strong></div>
+                <div class="col-md-9"><small>
+                    Sat Mar 24 2018 23:11:37 GMT+0800 (China Standard Time)                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>size</strong></div>
+                <div class="col-md-9"><small>
+                    956061                    </small></div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h3 class="subheading">Files</h3>
+        <div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>file</strong></div>
+                <div class="col-md-9"><small>
+                    {
+                    &quot;name&quot;: &quot;\u5c01\u9762.001.jpg&quot;,
+                    &quot;type&quot;: &quot;image\/jpeg&quot;,
+                    &quot;tmp_name&quot;: &quot;\/private\/var\/tmp\/phpTaT6hj&quot;,
+                    &quot;error&quot;: 0,
+                    &quot;size&quot;: 956061
+                    }                    </small></div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h3 class="subheading">Cookies</h3>
+        <div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>OUTFOX_SEARCH_USER_ID_NCOO</strong></div>
+                <div class="col-md-9"><small>
+                    1411363915.8599343                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>admin_username</strong></div>
+                <div class="col-md-9"><small>
+                    admin                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>PHPSESSID</strong></div>
+                <div class="col-md-9"><small>
+                    urr95c6rt20552hako7jsrfaiu                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>thinkphp_show_page_trace</strong></div>
+                <div class="col-md-9"><small>
+                    0|1                    </small></div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h3 class="subheading">Session</h3>
+        <div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>think</strong></div>
+                <div class="col-md-9"><small>
+                    {
+                    &quot;__SP_ADMIN_LOGIN_PAGE_SHOWED_SUCCESS__&quot;: true,
+                    &quot;ADMIN_ID&quot;: 1,
+                    &quot;name&quot;: &quot;admin&quot;,
+                    &quot;token&quot;: &quot;2eb4d69a7c70f034a080f195d1e8625a25c216178d353d36d569bd14c0078001&quot;,
+                    &quot;cmf_default_theme&quot;: &quot;simpleboot3&quot;
+                    }                    </small></div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h3 class="subheading">Server/Request Data</h3>
+        <div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>REDIRECT_STATUS</strong></div>
+                <div class="col-md-9"><small>
+                    200                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>HTTP_HOST</strong></div>
+                <div class="col-md-9"><small>
+                    cmf5.im                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>HTTP_CONNECTION</strong></div>
+                <div class="col-md-9"><small>
+                    keep-alive                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>CONTENT_LENGTH</strong></div>
+                <div class="col-md-9"><small>
+                    957004                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>HTTP_PRAGMA</strong></div>
+                <div class="col-md-9"><small>
+                    no-cache                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>HTTP_CACHE_CONTROL</strong></div>
+                <div class="col-md-9"><small>
+                    no-cache                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>HTTP_ORIGIN</strong></div>
+                <div class="col-md-9"><small>
+                    http://cmf5.im                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>HTTP_USER_AGENT</strong></div>
+                <div class="col-md-9"><small>
+                    Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>CONTENT_TYPE</strong></div>
+                <div class="col-md-9"><small>
+                    multipart/form-data; boundary=----WebKitFormBoundaryYZzPGMjLHBfHZtKA                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>HTTP_ACCEPT</strong></div>
+                <div class="col-md-9"><small>
+                    */*                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>HTTP_REFERER</strong></div>
+                <div class="col-md-9"><small>
+                    http://cmf5.im/user/Asset/webuploader?&amp;multi=0&amp;filetype=image&amp;app=portal                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>HTTP_ACCEPT_ENCODING</strong></div>
+                <div class="col-md-9"><small>
+                    gzip, deflate                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>HTTP_ACCEPT_LANGUAGE</strong></div>
+                <div class="col-md-9"><small>
+                    en,zh-CN;q=0.9,zh;q=0.8,la;q=0.7                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>HTTP_COOKIE</strong></div>
+                <div class="col-md-9"><small>
+                    OUTFOX_SEARCH_USER_ID_NCOO=1411363915.8599343; admin_username=admin; PHPSESSID=urr95c6rt20552hako7jsrfaiu; thinkphp_show_page_trace=0|1                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>PATH</strong></div>
+                <div class="col-md-9"><small>
+                    /usr/bin:/bin:/usr/sbin:/sbin                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>SERVER_SIGNATURE</strong></div>
+                <div class="col-md-9"><small>
+                </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>SERVER_SOFTWARE</strong></div>
+                <div class="col-md-9"><small>
+                    Apache/2.4.35 (Unix) PHP/7.1.1                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>SERVER_NAME</strong></div>
+                <div class="col-md-9"><small>
+                    cmf5.im                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>SERVER_ADDR</strong></div>
+                <div class="col-md-9"><small>
+                    127.0.0.1                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>SERVER_PORT</strong></div>
+                <div class="col-md-9"><small>
+                    80                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>REMOTE_ADDR</strong></div>
+                <div class="col-md-9"><small>
+                    127.0.0.1                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>DOCUMENT_ROOT</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/public                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>REQUEST_SCHEME</strong></div>
+                <div class="col-md-9"><small>
+                    http                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>CONTEXT_PREFIX</strong></div>
+                <div class="col-md-9"><small>
+                </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>CONTEXT_DOCUMENT_ROOT</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/public                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>SERVER_ADMIN</strong></div>
+                <div class="col-md-9"><small>
+                    webmaster@dummy-host2.example.com                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>SCRIPT_FILENAME</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/public/index.php                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>REMOTE_PORT</strong></div>
+                <div class="col-md-9"><small>
+                    58049                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>REDIRECT_URL</strong></div>
+                <div class="col-md-9"><small>
+                    /user/asset/webuploader.html                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>REDIRECT_QUERY_STRING</strong></div>
+                <div class="col-md-9"><small>
+                    s=user/asset/webuploader.html&amp;_ajax=1                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>GATEWAY_INTERFACE</strong></div>
+                <div class="col-md-9"><small>
+                    CGI/1.1                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>SERVER_PROTOCOL</strong></div>
+                <div class="col-md-9"><small>
+                    HTTP/1.1                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>REQUEST_METHOD</strong></div>
+                <div class="col-md-9"><small>
+                    POST                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>QUERY_STRING</strong></div>
+                <div class="col-md-9"><small>
+                    s=user/asset/webuploader.html&amp;_ajax=1                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>REQUEST_URI</strong></div>
+                <div class="col-md-9"><small>
+                    /user/asset/webuploader.html?_ajax=1                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>SCRIPT_NAME</strong></div>
+                <div class="col-md-9"><small>
+                    /index.php                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>PHP_SELF</strong></div>
+                <div class="col-md-9"><small>
+                    /index.php                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>REQUEST_TIME_FLOAT</strong></div>
+                <div class="col-md-9"><small>
+                    1551607638.106                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>REQUEST_TIME</strong></div>
+                <div class="col-md-9"><small>
+                    1551607638                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>PATH_INFO</strong></div>
+                <div class="col-md-9"><small>
+                    user/asset/webuploader.html                    </small></div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="clearfix">
+            <div class="col-md-3"><strong>Environment Variables</strong></div>
+            <div class="col-md-9"><small>empty</small></div>
+        </div>
+    </div>
+    <div>
+        <h3 class="subheading">ThinkPHP Constants</h3>
+        <div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>APP_DEBUG</strong></div>
+                <div class="col-md-9"><small>
+                    true                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>CMF_ROOT</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/public/../                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>APP_PATH</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/public/../app/                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>CMF_PATH</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/public/../simplewind/cmf/                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>WEB_ROOT</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/public/                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>PLUGINS_PATH</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/public/plugins/                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>EXTEND_PATH</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/public/../simplewind/extend/                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>VENDOR_PATH</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/public/../simplewind/vendor/                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>RUNTIME_PATH</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/public/../data/runtime/                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>THINKCMF_VERSION</strong></div>
+                <div class="col-md-9"><small>
+                    5.0.190111                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>THINK_VERSION</strong></div>
+                <div class="col-md-9"><small>
+                    5.0.24                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>THINK_START_TIME</strong></div>
+                <div class="col-md-9"><small>
+                    1551607638.1396                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>THINK_START_MEM</strong></div>
+                <div class="col-md-9"><small>
+                    395672                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>EXT</strong></div>
+                <div class="col-md-9"><small>
+                    .php                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>DS</strong></div>
+                <div class="col-md-9"><small>
+                    /                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>THINK_PATH</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/simplewind/thinkphp/                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>LIB_PATH</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/simplewind/thinkphp/library/                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>CORE_PATH</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/simplewind/thinkphp/library/think/                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>TRAIT_PATH</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/simplewind/thinkphp/library/traits/                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>ROOT_PATH</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>LOG_PATH</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/public/../data/runtime/log/                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>CACHE_PATH</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/public/../data/runtime/cache/                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>TEMP_PATH</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/public/../data/runtime/temp/                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>CONF_PATH</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/public/../app/                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>CONF_EXT</strong></div>
+                <div class="col-md-9"><small>
+                    .php                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>ENV_PREFIX</strong></div>
+                <div class="col-md-9"><small>
+                    PHP_                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>IS_CLI</strong></div>
+                <div class="col-md-9"><small>
+                    false                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>IS_WIN</strong></div>
+                <div class="col-md-9"><small>
+                    false                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>HTMLPURIFIER_PREFIX</strong></div>
+                <div class="col-md-9"><small>
+                    /Users/Dean/git/thinkcmf5/simplewind/vendor/ezyang/htmlpurifier/library                    </small></div>
+            </div>
+            <div class="clearfix">
+                <div class="col-md-3"><strong>QINIU_FUNCTIONS_VERSION</strong></div>
+                <div class="col-md-9"><small>
+                    7.2.7                    </small></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="copyright">
+    <a title="官方网站" href="http://www.thinkphp.cn">ThinkPHP</a>
+    <span>V5.0.24</span>
+    <span>{ 十年磨一剑-为API开发设计的高性能框架 }</span>
+</div>
+<script>
+    var LINE = 45;
+
+    function $(selector, node){
+        var elements;
+
+        node = node || document;
+        if(document.querySelectorAll){
+            elements = node.querySelectorAll(selector);
+        } else {
+            switch(selector.substr(0, 1)){
+                case '#':
+                    elements = [node.getElementById(selector.substr(1))];
+                    break;
+                case '.':
+                    if(document.getElementsByClassName){
+                        elements = node.getElementsByClassName(selector.substr(1));
+                    } else {
+                        elements = get_elements_by_class(selector.substr(1), node);
+                    }
+                    break;
+                default:
+                    elements = node.getElementsByTagName();
+            }
+        }
+        return elements;
+
+        function get_elements_by_class(search_class, node, tag) {
+            var elements = [], eles,
+                pattern  = new RegExp('(^|\\s)' + search_class + '(\\s|$)');
+
+            node = node || document;
+            tag  = tag  || '*';
+
+            eles = node.getElementsByTagName(tag);
+            for(var i = 0; i < eles.length; i++) {
+                if(pattern.test(eles[i].className)) {
+                    elements.push(eles[i])
+                }
+            }
+
+            return elements;
+        }
+    }
+
+    $.getScript = function(src, func){
+        var script = document.createElement('script');
+
+        script.async  = 'async';
+        script.src    = src;
+        script.onload = func || function(){};
+
+        $('head')[0].appendChild(script);
+    }
+
+    ;(function(){
+        var files = $('.toggle');
+        var ol    = $('ol', $('.prettyprint')[0]);
+        var li    = $('li', ol[0]);
+
+        // 短路径和长路径变换
+        for(var i = 0; i < files.length; i++){
+            files[i].ondblclick = function(){
+                var title = this.title;
+
+                this.title = this.innerHTML;
+                this.innerHTML = title;
+            }
+        }
+
+        // 设置出错行
+        var err_line = $('.line-' + LINE, ol[0])[0];
+        err_line.className = err_line.className + ' line-error';
+
+        $.getScript('//cdn.bootcss.com/prettify/r298/prettify.min.js', function(){
+            prettyPrint();
+
+            // 解决Firefox浏览器一个很诡异的问题
+            // 当代码高亮后，ol的行号莫名其妙的错位
+            // 但是只要刷新li里面的html重新渲染就没有问题了
+            if(window.navigator.userAgent.indexOf('Firefox') >= 0){
+                ol[0].innerHTML = ol[0].innerHTML;
+            }
+        });
+
+    })();
+</script>
+</body>
+</html>

@@ -20,13 +20,6 @@ return array(
     'Symfony\\Polyfill\\Util\\' => array($vendorDir . '/symfony/polyfill-util'),
     'Symfony\\Polyfill\\Php56\\' => array($vendorDir . '/symfony/polyfill-php56'),
     'SuperClosure\\' => array($vendorDir . '/jeremeamia/SuperClosure/src'),
-    'Qiniu\\' => array($vendorDir . '/qiniu/php-sdk/src/Qiniu'),
-    'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
-    'PhpOffice\\PhpSpreadsheet\\' => array($vendorDir . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet'),
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
-    'Matrix\\' => array($vendorDir . '/markbaker/matrix/classes/src'),
-    'FontLib\\' => array($vendorDir . '/phenx/php-font-lib/src/FontLib'),
-    'Dompdf\\' => array($vendorDir . '/dompdf/dompdf/src'),
-    'Complex\\' => array($vendorDir . '/markbaker/complex/classes/src'),
 );
