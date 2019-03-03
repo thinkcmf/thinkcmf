@@ -215,7 +215,7 @@ function cmf_get_theme_path($theme = null)
         $theme = cmf_get_current_theme();
     }
 
-    return './' . $themePath . $theme;
+    return WEB_ROOT . $themePath . $theme;
 }
 
 /**
@@ -375,7 +375,7 @@ function cmf_save_var($path, $var)
 
 /**
  * 设置动态配置
- * @param array $data <br>如：["cmf_default_theme"=>'simpleboot3'];
+ * @param array $data <br>如：['template' => ['cmf_default_theme' => 'default']];
  * @return boolean
  */
 function cmf_set_dynamic_config($data)
@@ -1071,7 +1071,7 @@ function hook_one($hook, $params = null)
 }
 
 /**
- * 获取插件类的类名
+ * 获取插件类名
  * @param string $name 插件名
  * @return string
  */
@@ -1084,8 +1084,8 @@ function cmf_get_plugin_class($name)
 }
 
 /**
- * 获取插件类的配置
- * @param string $name 插件名
+ * 获取插件配置
+ * @param string $name 插件名，大驼峰格式
  * @return array
  */
 function cmf_get_plugin_config($name)
@@ -1263,9 +1263,9 @@ function cmf_alpha_id($in, $to_num = false, $pad_up = 4, $passKey = null)
 
 /**
  * 验证码检查，验证完后销毁验证码
- * @param string $value
- * @param string $id
- * @param bool   $reset
+ * @param string $value 要验证的字符串
+ * @param string $id    验证码的ID
+ * @param bool   $reset 验证成功后是否重置
  * @return bool
  */
 function cmf_captcha_check($value, $id = "", $reset = true)
@@ -1615,6 +1615,7 @@ function cmf_get_cmf_settings($key = "")
 }
 
 /**
+ * @deprecated
  * 判读是否sae环境
  * @return bool
  */
