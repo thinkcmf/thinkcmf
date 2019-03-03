@@ -128,9 +128,17 @@ https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
 
-#### 5.0.190222
-
+#### 5.0.190306
+* 增加`app,api和插件`composer第三方库支持
+* 增加插件`@adminMenuRoot`注解
+* 增加后台模板动态设置
 * 优化url美化可能引起的安全漏洞(漏洞编号CVE-2019-6713  感谢topsec(zhan_ran)的及时反馈)
+* 修复api跨域问题
+* 修复子导航标签报错
+* 计划删除`PLUGINS_PATH`常量,请不要再使用
+* 删除`phpoffice/phpspreadsheet`,`phpoffice/phpexcel`,`dompdf/dompdf`第三方库,请自行安装
+* 移动`qiniu/php-sdk`库到七牛插件
+
 
 #### 5.0.190111
 * 升级ThinkPHP到`5.0.24`(包含安全更新)
