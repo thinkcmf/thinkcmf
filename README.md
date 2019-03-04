@@ -72,7 +72,7 @@ enjoy your cmf~!
 如果您是已经安装过ThinkCMF的用户,请查看 update 目录下的 sql 升级文件,根据自己的下载的程序版本进行更新
 
 ### 完整版目录结构
-```
+~~~
 thinkcmf  根目录
 ├─api                     api目录
 │  ├─demo                 演示应用api目录
@@ -91,23 +91,23 @@ thinkcmf  根目录
 │  ├─database.php         数据库配置文件[可选]
 │  ├─tags.php             应用行为扩展定义文件[可选]
 ├─data                    数据目录（可写）
-│  ├─config               动态配置目录
-│  ├─route                动态路由目录
+│  ├─config               动态配置目录（可写）
+│  ├─route                动态路由目录（可写）
 │  ├─runtime              应用的运行时目录（可写）
 │  └─ ...                 更多
 ├─public                  WEB 部署目录（对外访问目录）
 │  ├─plugins              插件目录
-│  ├─static               静态资源存放目录(css,js,image)
+│  ├─static               官方静态资源存放目录(css,js,image)，勿放自己项目文件
 │  ├─themes               前后台主题目录
 │  │  ├─admin_simpleboot3 后台默认主题
-│  │  └─default       前台默认主题
+│  │  └─default           前台默认主题
 │  ├─upload               文件上传目录
-│  ├─api.php              api入口目录
+│  ├─api.php              API入口
 │  ├─index.php            入口文件
 │  ├─robots.txt           爬虫协议文件
 │  ├─router.php           快速测试文件
 │  └─.htaccess            apache重写文件
-├─extend                  扩展类库目录
+├─extend                  扩展类库目录[可选]
 ├─vendor                  第三方类库目录（Composer）
 │  ├─thinkphp             ThinkPHP目录
 │  └─...             
@@ -115,7 +115,7 @@ thinkcmf  根目录
 ├─LICENSE                 授权说明文件
 ├─README.md               README 文件
 ├─think                   命令行入口文件
-```
+~~~
 
 ### QQ群:
 `ThinkCMF 官方交流群`:316669417  
@@ -142,7 +142,9 @@ https://github.com/thinkcmf/thinkcmf/issues
 * 独立安装应用为`composer`包
 * 移除portal应用，请到`https://github.com/thinkcmf/demos`下载
 * 移除`simpleboot3`模板，请到`https://github.com/thinkcmf/demos`下载
-* 移除`phpoffice/phpexcel`包，请使用`phpoffice/phpspreadsheet`
+* 移除`phpoffice/phpspreadsheet`,`phpoffice/phpexcel`,`dompdf/dompdf`第三方库,请自行安装
+* 移动`qiniu/php-sdk`库到七牛插件
+* `extend`目录改为可选，开发者自行添加，核心不再包含此目录
 * 增加`demo`应用，方便开发者学习
 * 增加插件`@adminMenuRoot`注解支持
 * 增加`app,api和插件`composer第三方库支持
