@@ -12,6 +12,7 @@
 namespace cmf\controller;
 
 use think\captcha\Captcha;
+use think\facade\Config;
 use think\Request;
 
 class CaptchaController
@@ -26,10 +27,6 @@ class CaptchaController
         $config = [
             // 验证码字体大小(px)
             'fontSize' => 25,
-            // 验证码字体大小(px)
-            'useCurve' => true,
-            // 是否画混淆曲线
-            'useNoise' => true,
             // 验证码图片高度
             'imageH'   => 38,
             // 验证码图片宽度
@@ -52,7 +49,7 @@ class CaptchaController
         }
 
         $imageW = $request->param('width', '');
-        if ($imageW != '' && $imageW < 200 ) {
+        if ($imageW != '' && $imageW < 200) {
             $config['imageW'] = intval($imageW);
         }
 
@@ -79,9 +76,9 @@ class CaptchaController
 
         $response = hook_one('captcha_image', $config);
         if (empty($response)) {
-            $defaultCaptchaConfig = config('captcha');
+            $defaultCaptchaConfig = (array)Config::pull('captcha');
             if ($defaultCaptchaConfig && is_array($defaultCaptchaConfig)) {
-                $config = array_merge($config, $defaultCaptchaConfig);
+                $config = array_merge($defaultCaptchaConfig, $config);
             }
             $captcha  = new Captcha($config);
             $response = $captcha->entry($id);
