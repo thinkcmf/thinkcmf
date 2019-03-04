@@ -229,7 +229,6 @@ class IndexController extends BaseController
             return $this->fetch(":step4");
 
         } else {
-            exit;
         }
     }
 
