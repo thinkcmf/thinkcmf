@@ -18,7 +18,7 @@ use think\Request;
 class CaptchaController
 {
     /**
-     * captcha/new?height=50&width=200&font_size=25&length=4&bg=243,251,254&id=1
+     * new_captcha?height=50&width=200&font_size=25&length=4&bg=243,251,254&id=1
      * @param Request $request
      * @return \think\Response
      */
