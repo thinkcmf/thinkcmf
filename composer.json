@@ -35,8 +35,7 @@
         "thinkcmf/cmf-api": "~5.1.0",
         "thinkcmf/cmf-app": "~5.1.0",
         "thinkcmf/cmf-extend": "~5.1.0",
-        "thinkcmf/cmf-install": "~5.1.0",
-        "thinkcmf/cmf-swoole": "~5.1.0"
+        "thinkcmf/cmf-install": "~5.1.0"
     },
     "extra": {
         "think-path": "vendor/thinkphp"

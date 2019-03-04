@@ -7,13 +7,11 @@ namespace Composer\Autoload;
 class ComposerStaticInit929fb365b9981d29459d58f676689cf7
 {
     public static $files = array (
-        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
-        'cc56288302d9df745d97c934d6a6e5f0' => __DIR__ . '/..' . '/topthink/think-queue/src/common.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         '22ae91e0a0181f0ca9a02b9dde87e558' => __DIR__ . '/..' . '/thinkcmf/cmf/src/common.php',
-        '33251428122360246af9ab24347e2e40' => __DIR__ . '/..' . '/thinkcmf/cmf-swoole/src/command.php',
         '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
+        'cc56288302d9df745d97c934d6a6e5f0' => __DIR__ . '/..' . '/topthink/think-queue/src/common.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -24,7 +22,6 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         't' => 
         array (
             'tree\\' => 5,
-            'think\\swoole\\' => 13,
             'think\\helper\\' => 13,
             'think\\composer\\' => 15,
             'think\\captcha\\' => 14,
@@ -48,19 +45,8 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
             'app\\' => 4,
             'api\\' => 4,
         ),
-        'X' => 
-        array (
-            'XCron\\' => 6,
-        ),
-        'S' => 
-        array (
-            'Symfony\\Polyfill\\Util\\' => 22,
-            'Symfony\\Polyfill\\Php56\\' => 23,
-            'SuperClosure\\' => 13,
-        ),
         'P' => 
         array (
-            'PhpParser\\' => 10,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
     );
@@ -73,10 +59,6 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         'tree\\' => 
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf-extend/src/tree',
-        ),
-        'think\\swoole\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/thinkcmf/cmf-swoole/src',
         ),
         'think\\helper\\' => 
         array (
@@ -118,26 +100,6 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         'api\\' => 
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf-api/src',
-        ),
-        'XCron\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/xavier/xcron-expression/src/Cron',
-        ),
-        'Symfony\\Polyfill\\Util\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-util',
-        ),
-        'Symfony\\Polyfill\\Php56\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php56',
-        ),
-        'SuperClosure\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/jeremeamia/SuperClosure/src',
-        ),
-        'PhpParser\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
         'PHPMailer\\PHPMailer\\' => 
         array (
