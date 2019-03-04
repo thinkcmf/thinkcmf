@@ -17,8 +17,13 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
     );
 
     public static $prefixLengthsPsr4 = array (
+        'w' => 
+        array (
+            'wxapp\\' => 6,
+        ),
         't' => 
         array (
+            'tree\\' => 5,
             'think\\swoole\\' => 13,
             'think\\helper\\' => 13,
             'think\\composer\\' => 15,
@@ -28,6 +33,10 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         'm' => 
         array (
             'mindplay\\annotations\\' => 21,
+        ),
+        'd' => 
+        array (
+            'dir\\' => 4,
         ),
         'c' => 
         array (
@@ -57,6 +66,14 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
     );
 
     public static $prefixDirsPsr4 = array (
+        'wxapp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/thinkcmf/cmf-extend/src/wxapp',
+        ),
+        'tree\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/thinkcmf/cmf-extend/src/tree',
+        ),
         'think\\swoole\\' => 
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf-swoole/src',
@@ -81,6 +98,10 @@ class ComposerStaticInit929fb365b9981d29459d58f676689cf7
         'mindplay\\annotations\\' => 
         array (
             0 => __DIR__ . '/..' . '/mindplay/annotations/src/annotations',
+        ),
+        'dir\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/thinkcmf/cmf-extend/src/dir',
         ),
         'cmf\\' => 
         array (
