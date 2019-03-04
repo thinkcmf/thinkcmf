@@ -6,12 +6,12 @@ https://www.thinkcmf.com/college.html
 
 ### ThinkCMF5.1主要特性
 * 更改框架协议为`MIT`,让你更自由地飞
-* 基于ThinkPHP 5.1重构，但核心代码兼容5.0版本，保证老用户最小升级成本
-* 增加对`swoole`支持，同时支持swoole协程和全同步模式
+* 基于`ThinkPHP 5.1`重构，但核心代码兼容5.0版本，保证老用户最小升级成本
+* 增加对`swoole`支持，同时支持`swoole`协程和全同步模式
 * 重新规范目录结构，更贴心
 * CMF核心库及应用使用`composer`加载
 * 合并API到框架核心
-* 更规范的代码,遵循PSR-2命名规范和PSR-4自动加载规范
+* 更规范的代码,遵循`PSR-2`命名规范和`PSR-4`自动加载规范
 * 支持 `composer` 管理第三方库
 * 核心化：独立核心代码包
 * 应用化：开发者以应用的形式增加项目模模块
@@ -138,7 +138,7 @@ https://github.com/thinkcmf/thinkcmf/issues
 #### 5.1.0
 [核心]
 * 更改框架协议为`MIT`,让你更自由地飞
-* 升级`TP`到`5.1.34`
+* 升级`TP`到`5.1.35`
 * 独立安装应用为`composer`包
 * 移除portal应用，请到`https://github.com/thinkcmf/demos`下载
 * 移除`simpleboot3`模板，请到`https://github.com/thinkcmf/demos`下载
