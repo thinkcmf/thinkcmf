@@ -29,7 +29,6 @@
         "mindplay/annotations": "^1.3",
         "topthink/think-image": "^1.0",
         "ezyang/htmlpurifier": "^4.9",
-        "topthink/think-queue": "^2.0",
         "electrolinux/phpquery": "^0.9.6",
         "thinkcmf/cmf": "~5.1.0",
         "thinkcmf/cmf-api": "~5.1.0",
