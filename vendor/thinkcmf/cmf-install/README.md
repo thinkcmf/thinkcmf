@@ -1,2 +1,7 @@
-# cmf-install
-ThinkCMF在线安装应用
+# ThinkCMF在线安装应用
+
+##  更新日志
+
+### 5.1.1
+* 优化安装后提示
+* 更改默认数据库名为`thinkcmf`
