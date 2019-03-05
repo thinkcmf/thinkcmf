@@ -101,6 +101,7 @@ abstract class Plugin
         $cdnSettings = cmf_get_option('cdn_settings');
         if (empty($cdnSettings['cdn_static_root'])) {
             $replaceConfig = [
+                '__ROOT__'        => $root,
                 '__PLUGIN_TMPL__' => $root . '/' . $pluginRoot . '/' . $themePath,
                 '__PLUGIN_ROOT__' => $root . '/' . $pluginRoot,
                 '__ADMIN_TMPL__'  => "{$root}/{$adminThemePath}",
@@ -110,6 +111,7 @@ abstract class Plugin
         } else {
             $cdnStaticRoot = rtrim($cdnSettings['cdn_static_root'], '/');
             $replaceConfig = [
+                '__ROOT__'        => $root,
                 '__PLUGIN_TMPL__' => $cdnStaticRoot . '/' . $pluginRoot . '/' . $themePath,
                 '__PLUGIN_ROOT__' => $cdnStaticRoot . '/' . $pluginRoot,
                 '__ADMIN_TMPL__'  => "{$cdnStaticRoot}/{$adminThemePath}",

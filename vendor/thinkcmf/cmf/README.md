@@ -1,2 +1,7 @@
-# cmf-core
-the core of thinkcmf5.1.*
+# ThinkCMF核心包
+
+## 更新日志
+
+### v5.1.3
+* 修复插件模板常量__ROOT__不替换
+
