@@ -13,11 +13,14 @@
                 <a style="font-size: 18px;">恭喜您，安装完成！</a>
                 <br>
                 <br>
-                <div class="alert alert-danger" style="width: 360px;display: inline-block;">
-                    为了您的站点安全，安装完成后即可将网站app目录下的“install”文件夹删除!
-                    另请对data/conf/database.php文件做好备份，以防丢失！
+                <div class="alert alert-danger" style="width: 360px;display: inline-block;text-align: left;">
+                    为了您的站点安全，安装完成后您有两种方式删除安装程序<br>
+                    &nbsp;1.将"vendor/thinkcmf/cmf-install"文件夹删除;<br>
+                    &nbsp;2.最好执行"composer remove thinkcmf/cmf-install"删除!<br>
+                    另请对data/config/database.php文件做好备份，以防丢失！
                 </div>
             </div>
+            <!--
             <div class="accordion">
                 <div class="accordion-group">
                     <div class="accordion-heading">
@@ -83,6 +86,7 @@
                     </div>
                 </div>
             </div>
+            -->
             <div class="text-center">
                 <a class="btn btn-success" href="{:cmf_get_root()}/">进入前台</a>
                 <a class="btn btn-success" href="{:cmf_get_root()}/admin">进入后台</a>
