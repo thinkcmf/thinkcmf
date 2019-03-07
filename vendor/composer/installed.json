@@ -380,20 +380,20 @@
     },
     {
         "name": "thinkcmf/cmf-install",
-        "version": "v5.1.0",
-        "version_normalized": "5.1.0.0",
+        "version": "v5.1.1",
+        "version_normalized": "5.1.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thinkcmf/cmf-install.git",
-            "reference": "4cca70a42fdb8aa8578c93f09d3d373f8cd36e9b"
+            "reference": "53f3a15095054174bb4c3d11233a21f9c22d9489"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/4cca70a42fdb8aa8578c93f09d3d373f8cd36e9b",
-            "reference": "4cca70a42fdb8aa8578c93f09d3d373f8cd36e9b",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/53f3a15095054174bb4c3d11233a21f9c22d9489",
+            "reference": "53f3a15095054174bb4c3d11233a21f9c22d9489",
             "shasum": ""
         },
-        "time": "2019-02-25T14:08:02+00:00",
+        "time": "2019-03-06T14:21:51+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
