@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -15,42 +16,44 @@ use PDO;
 use think\db\Connection;
 
 /**
- * Sqlite数据库驱动
+ * Sqlite数据库驱动.
  */
 class Sqlite extends Connection
 {
-
     protected $builder = '\\think\\db\\builder\\Sqlite';
 
     /**
-     * 解析pdo连接的dsn信息
-     * @access protected
+     * 解析pdo连接的dsn信息.
+     *
      * @param array $config 连接信息
+     *
      * @return string
      */
     protected function parseDsn($config)
     {
-        $dsn = 'sqlite:' . $config['database'];
+        $dsn = 'sqlite:'.$config['database'];
+
         return $dsn;
     }
 
     /**
-     * 取得数据表的字段信息
-     * @access public
+     * 取得数据表的字段信息.
+     *
      * @param string $tableName
+     *
      * @return array
      */
     public function getFields($tableName)
     {
         list($tableName) = explode(' ', $tableName);
-        $sql             = 'PRAGMA table_info( ' . $tableName . ' )';
+        $sql = 'PRAGMA table_info( '.$tableName.' )';
 
-        $pdo    = $this->query($sql, [], false, true);
+        $pdo = $this->query($sql, [], false, true);
         $result = $pdo->fetchAll(PDO::FETCH_ASSOC);
-        $info   = [];
+        $info = [];
         if ($result) {
             foreach ($result as $key => $val) {
-                $val                = array_change_key_case($val);
+                $val = array_change_key_case($val);
                 $info[$val['name']] = [
                     'name'    => $val['name'],
                     'type'    => $val['type'],
@@ -61,35 +64,38 @@ class Sqlite extends Connection
                 ];
             }
         }
+
         return $this->fieldCase($info);
     }
 
     /**
-     * 取得数据库的表信息
-     * @access public
+     * 取得数据库的表信息.
+     *
      * @param string $dbName
+     *
      * @return array
      */
     public function getTables($dbName = '')
     {
-
         $sql = "SELECT name FROM sqlite_master WHERE type='table' "
-            . "UNION ALL SELECT name FROM sqlite_temp_master "
-            . "WHERE type='table' ORDER BY name";
+            .'UNION ALL SELECT name FROM sqlite_temp_master '
+            ."WHERE type='table' ORDER BY name";
 
-        $pdo    = $this->query($sql, [], false, true);
+        $pdo = $this->query($sql, [], false, true);
         $result = $pdo->fetchAll(PDO::FETCH_ASSOC);
-        $info   = [];
+        $info = [];
         foreach ($result as $key => $val) {
             $info[$key] = current($val);
         }
+
         return $info;
     }
 
     /**
-     * SQL性能分析
-     * @access protected
+     * SQL性能分析.
+     *
      * @param string $sql
+     *
      * @return array
      */
     protected function getExplain($sql)

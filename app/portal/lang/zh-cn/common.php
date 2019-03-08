@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -11,6 +12,6 @@
 return [
     'TABLE_PORTAL_CATEGORY'  => '文章分类',
     'TABLE_PORTAL_POST'      => '文章',
-    'TABLE_SLIDE'      => '幻灯片',
-    'TABLE_PORTAL_POST#PAGE' => '页面'
+    'TABLE_SLIDE'            => '幻灯片',
+    'TABLE_PORTAL_POST#PAGE' => '页面',
 ];

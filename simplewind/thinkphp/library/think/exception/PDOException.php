@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -13,12 +14,13 @@ namespace think\exception;
 
 /**
  * PDO异常处理类
- * 重新封装了系统的\PDOException类
+ * 重新封装了系统的\PDOException类.
  */
 class PDOException extends DbException
 {
     /**
      * PDOException constructor.
+     *
      * @param \PDOException $exception
      * @param array         $config
      * @param string        $sql

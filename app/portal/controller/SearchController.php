@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
+
 namespace app\portal\controller;
 
 use cmf\controller\HomeBaseController;
@@ -15,7 +17,8 @@ use cmf\controller\HomeBaseController;
 class SearchController extends HomeBaseController
 {
     /**
-     * 搜索
+     * 搜索.
+     *
      * @return mixed
      */
     public function index()
@@ -23,10 +26,11 @@ class SearchController extends HomeBaseController
         $keyword = $this->request->param('keyword');
 
         if (empty($keyword)) {
-            $this -> error("关键词不能为空！请重新输入！");
+            $this->error('关键词不能为空！请重新输入！');
         }
 
-        $this -> assign("keyword", $keyword);
+        $this->assign('keyword', $keyword);
+
         return $this->fetch('/search');
     }
 }

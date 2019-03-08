@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -15,16 +16,15 @@ use think\Process;
 
 class Timeout extends \RuntimeException
 {
-
     const TYPE_GENERAL = 1;
-    const TYPE_IDLE    = 2;
+    const TYPE_IDLE = 2;
 
     private $process;
     private $timeoutType;
 
     public function __construct(Process $process, $timeoutType)
     {
-        $this->process     = $process;
+        $this->process = $process;
         $this->timeoutType = $timeoutType;
 
         parent::__construct(sprintf('The process "%s" exceeded the timeout of %s seconds.', $process->getCommandLine(), $this->getExceededTimeout()));

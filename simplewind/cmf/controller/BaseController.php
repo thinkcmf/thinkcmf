@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,25 +9,25 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+
 namespace cmf\controller;
 
+use think\Config;
 use think\Controller;
 use think\Request;
-use think\Response;
 use think\View;
-use think\Config;
 
 class BaseController extends Controller
 {
     /**
-     * 构造函数
+     * 构造函数.
+     *
      * @param Request $request Request对象
-     * @access public
      */
     public function __construct(Request $request = null)
     {
         if (!cmf_is_installed() && $request->module() != 'install') {
-            header('Location: ' . cmf_get_root() . '/?s=install');
+            header('Location: '.cmf_get_root().'/?s=install');
             exit;
         }
 
@@ -55,13 +56,11 @@ class BaseController extends Controller
     }
 
     /**
-     * 初始化操作
-     * @access protected
+     * 初始化操作.
      */
     protected function initialize()
     {
     }
-
 
     // 初始化视图配置
     protected function _initializeView()
@@ -69,7 +68,7 @@ class BaseController extends Controller
     }
 
     /**
-     *  排序 排序字段为list_orders数组 POST 排序字段为：list_order
+     *  排序 排序字段为list_orders数组 POST 排序字段为：list_order.
      */
     protected function listOrders($model)
     {
@@ -77,18 +76,16 @@ class BaseController extends Controller
             return false;
         }
 
-        $pk  = $model->getPk(); //获取主键名称
-        $ids = $this->request->post("list_orders/a");
+        $pk = $model->getPk(); //获取主键名称
+        $ids = $this->request->post('list_orders/a');
 
         if (!empty($ids)) {
             foreach ($ids as $key => $r) {
                 $data['list_order'] = $r;
                 $model->where([$pk => $key])->update($data);
             }
-
         }
 
         return true;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,18 +9,19 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
+
 namespace app\portal\service;
 
-use app\portal\model\PortalPostModel;
 use app\portal\model\PortalCategoryModel;
-use think\Db;
+use app\portal\model\PortalPostModel;
 use think\db\Query;
 
 class ApiService
 {
     /**
      * 功能:查询文章列表,支持分页;<br>
-     * 注:此方法查询时关联两个表portal_category_post(category_post),portal_post(post);在指定排序(order),指定查询条件(where)最好指定一下表别名
+     * 注:此方法查询时关联两个表portal_category_post(category_post),portal_post(post);在指定排序(order),指定查询条件(where)最好指定一下表别名.
+     *
      * @param array $param 查询参数<pre>
      *                     array(
      *                     'category_ids'=>'',
@@ -39,14 +41,15 @@ class ApiService
      *                     order:排序方式,如按posts表里的published_time字段倒序排列：post.published_time desc
      *                     where:查询条件,字符串形式,和sql语句一样,请在事先做好安全过滤,最好使用第二个参数$where的数组形式进行过滤,此方法查询时关联多个表,所以最好指定一下表名,以防字段冲突,查询条件(只支持数组),格式和thinkPHP的where方法一样,此方法查询时关联多个表,所以最好指定一下表名,以防字段冲突;
      *                     </pre>
+     *
      * @return array 包括分页的文章列表<pre>
-     *                     格式:
-     *                     array(
-     *                     "articles"=>array(),//文章列表,array
-     *                     "page"=>"",//生成的分页html,不分页则没有此项
-     *                     "total"=>100, //符合条件的文章总数,不分页则没有此项
-     *                     "total_pages"=>5 // 总页数,不分页则没有此项
-     *                     )</pre>
+     *               格式:
+     *               array(
+     *               "articles"=>array(),//文章列表,array
+     *               "page"=>"",//生成的分页html,不分页则没有此项
+     *               "total"=>100, //符合条件的文章总数,不分页则没有此项
+     *               "total_pages"=>5 // 总页数,不分页则没有此项
+     *               )</pre>
      */
     public static function articles($param)
     {
@@ -55,15 +58,15 @@ class ApiService
         $where = [
             'post.post_status' => 1,
             'post.post_type'   => 1,
-            'post.delete_time' => 0
+            'post.delete_time' => 0,
         ];
 
         $paramWhere = empty($param['where']) ? '' : $param['where'];
 
-        $limit       = empty($param['limit']) ? 10 : $param['limit'];
-        $order       = empty($param['order']) ? '' : $param['order'];
-        $page        = isset($param['page']) ? $param['page'] : false;
-        $relation    = empty($param['relation']) ? '' : $param['relation'];
+        $limit = empty($param['limit']) ? 10 : $param['limit'];
+        $order = empty($param['order']) ? '' : $param['order'];
+        $page = isset($param['page']) ? $param['page'] : false;
+        $relation = empty($param['relation']) ? '' : $param['relation'];
         $categoryIds = empty($param['category_ids']) ? '' : $param['category_ids'];
 
         $join = [
@@ -73,7 +76,6 @@ class ApiService
         $whereCategoryId = null;
 
         if (!empty($categoryIds)) {
-
             $field = !empty($param['field']) ? $param['field'] : 'post.*,min(category_post.category_id) as category_id';
             array_push($join, ['__PORTAL_CATEGORY_POST__ category_post', 'post.id = category_post.post_id']);
 
@@ -91,7 +93,6 @@ class ApiService
                 };
             }
         } else {
-
             $field = !empty($param['field']) ? $param['field'] : 'post.*,min(category_post.category_id) as category_id';
             array_push($join, ['__PORTAL_CATEGORY_POST__ category_post', 'post.id = category_post.post_id']);
         }
@@ -116,7 +117,6 @@ class ApiService
 
             $return['articles'] = $articles;
         } else {
-
             if (is_array($page)) {
                 if (empty($page['list_rows'])) {
                     $page['list_rows'] = 10;
@@ -134,20 +134,19 @@ class ApiService
             $articles->appends(request()->get());
             $articles->appends(request()->post());
 
-            $return['articles']    = $articles->items();
-            $return['page']        = $articles->render();
-            $return['total']       = $articles->total();
+            $return['articles'] = $articles->items();
+            $return['page'] = $articles->render();
+            $return['total'] = $articles->total();
             $return['total_pages'] = $articles->lastPage();
         }
 
-
         return $return;
-
     }
 
     /**
      * 功能:查询标签文章列表,支持分页;<br>
-     * 注:此方法查询时关联两个表portal_tag_post(tag_post),portal_post(post);在指定排序(order),指定查询条件(where)最好指定一下表别名
+     * 注:此方法查询时关联两个表portal_tag_post(tag_post),portal_post(post);在指定排序(order),指定查询条件(where)最好指定一下表别名.
+     *
      * @param array $param 查询参数<pre>
      *                     array(
      *                     'tag_id'=>'',
@@ -166,14 +165,15 @@ class ApiService
      *                     order:排序方式,如按posts表里的published_time字段倒序排列：post.published_time desc
      *                     where:查询条件,字符串形式,和sql语句一样,请在事先做好安全过滤,最好使用第二个参数$where的数组形式进行过滤,此方法查询时关联多个表,所以最好指定一下表名,以防字段冲突,查询条件(只支持数组),格式和thinkPHP的where方法一样,此方法查询时关联多个表,所以最好指定一下表名,以防字段冲突;
      *                     </pre>
+     *
      * @return array 包括分页的文章列表<pre>
-     *                     格式:
-     *                     array(
-     *                     "articles"=>array(),//文章列表,array
-     *                     "page"=>"",//生成的分页html,不分页则没有此项
-     *                     "total"=>100, //符合条件的文章总数,不分页则没有此项
-     *                     "total_pages"=>5 // 总页数,不分页则没有此项
-     *                     )</pre>
+     *               格式:
+     *               array(
+     *               "articles"=>array(),//文章列表,array
+     *               "page"=>"",//生成的分页html,不分页则没有此项
+     *               "total"=>100, //符合条件的文章总数,不分页则没有此项
+     *               "total_pages"=>5 // 总页数,不分页则没有此项
+     *               )</pre>
      */
     public static function tagArticles($param)
     {
@@ -182,24 +182,23 @@ class ApiService
         $where = [
             'post.post_status' => 1,
             'post.post_type'   => 1,
-            'post.delete_time' => 0
+            'post.delete_time' => 0,
         ];
 
         $paramWhere = empty($param['where']) ? '' : $param['where'];
 
-        $limit    = empty($param['limit']) ? 10 : $param['limit'];
-        $order    = empty($param['order']) ? '' : $param['order'];
-        $page     = isset($param['page']) ? $param['page'] : false;
+        $limit = empty($param['limit']) ? 10 : $param['limit'];
+        $order = empty($param['order']) ? '' : $param['order'];
+        $page = isset($param['page']) ? $param['page'] : false;
         $relation = empty($param['relation']) ? '' : $param['relation'];
-        $tagId    = empty($param['tag_id']) ? '' : $param['tag_id'];
+        $tagId = empty($param['tag_id']) ? '' : $param['tag_id'];
 
         $join = [
             //['__USER__ user', 'post.user_id = user.id'],
         ];
 
         if (empty($tagId)) {
-            return null;
-
+            return;
         } else {
             $field = !empty($param['field']) ? $param['field'] : 'post.*';
             array_push($join, ['__PORTAL_TAG_POST__ tag_post', 'post.id = tag_post.post_id']);
@@ -225,7 +224,6 @@ class ApiService
 
             $return['articles'] = $articles;
         } else {
-
             if (is_array($page)) {
                 if (empty($page['list_rows'])) {
                     $page['list_rows'] = 10;
@@ -243,9 +241,9 @@ class ApiService
             $articles->appends(request()->get());
             $articles->appends(request()->post());
 
-            $return['articles']    = $articles->items();
-            $return['page']        = $articles->render();
-            $return['total']       = $articles->total();
+            $return['articles'] = $articles->items();
+            $return['page'] = $articles->render();
+            $return['total'] = $articles->total();
             $return['total_pages'] = $articles->lastPage();
         }
 
@@ -253,8 +251,10 @@ class ApiService
     }
 
     /**
-     * 获取指定id的文章
+     * 获取指定id的文章.
+     *
      * @param int $id
+     *
      * @return array|false|\PDOStatement|string|\think\Model
      */
     public static function article($id)
@@ -265,7 +265,7 @@ class ApiService
             'post_status' => 1,
             'post_type'   => 1,
             'id'          => $id,
-            'delete_time' => 0
+            'delete_time' => 0,
         ];
 
         return $portalPostModel->where($where)
@@ -274,12 +274,14 @@ class ApiService
     }
 
     /**
-     * 获取指定条件的页面列表
+     * 获取指定条件的页面列表.
+     *
      * @param array $param 查询参数<pre>
      *                     array(
      *                     'where'=>'',
      *                     'order'=>'',
      *                     )</pre>
+     *
      * @return false|\PDOStatement|string|\think\Collection
      */
     public static function pages($param)
@@ -293,7 +295,7 @@ class ApiService
         $where = [
             'post_status' => 1,
             'post_type'   => 2, //页面
-            'delete_time' => 0
+            'delete_time' => 0,
         ];
 
         return $portalPostModel
@@ -305,8 +307,10 @@ class ApiService
     }
 
     /**
-     * 获取指定id的页面
+     * 获取指定id的页面.
+     *
      * @param int $id 页面的id
+     *
      * @return array|false|\PDOStatement|string|\think\Model 返回符合条件的页面
      */
     public static function page($id)
@@ -317,7 +321,7 @@ class ApiService
             'post_status' => 1,
             'post_type'   => 2,
             'id'          => $id,
-            'delete_time' => 0
+            'delete_time' => 0,
         ];
 
         return $portalPostModel->where($where)
@@ -326,8 +330,10 @@ class ApiService
     }
 
     /**
-     * 返回指定分类
+     * 返回指定分类.
+     *
      * @param int $id 分类id
+     *
      * @return array 返回符合条件的分类
      */
     public static function category($id)
@@ -337,19 +343,22 @@ class ApiService
         $where = [
             'status'      => 1,
             'delete_time' => 0,
-            'id'          => $id
+            'id'          => $id,
         ];
 
         return $portalCategoryModel->where($where)->find();
     }
 
     /**
-     * 返回指定分类下的子分类
+     * 返回指定分类下的子分类.
+     *
      * @param int $categoryId 分类id
      * @param     $field      string  指定查询字段
+     *
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
+     *
      * @return false|\PDOStatement|string|\think\Collection 返回指定分类下的子分类
      */
     public static function subCategories($categoryId, $field = '*')
@@ -359,15 +368,17 @@ class ApiService
         $where = [
             'status'      => 1,
             'delete_time' => 0,
-            'parent_id'   => $categoryId
+            'parent_id'   => $categoryId,
         ];
 
-		return $portalCategoryModel->field($field)->where($where)->order('list_order ASC')->select();
-	}
+        return $portalCategoryModel->field($field)->where($where)->order('list_order ASC')->select();
+    }
 
     /**
-     * 返回指定分类下的所有子分类
+     * 返回指定分类下的所有子分类.
+     *
      * @param int $categoryId 分类id
+     *
      * @return array 返回指定分类下的所有子分类
      */
     public static function allSubCategories($categoryId)
@@ -391,19 +402,21 @@ class ApiService
         $where = [
             'status'      => 1,
             'delete_time' => 0,
-            'path'        => ['like', "$categoryPath-%"]
+            'path'        => ['like', "$categoryPath-%"],
         ];
 
         return $portalCategoryModel->where($where)->select();
     }
 
     /**
-     * 返回符合条件的所有分类
+     * 返回符合条件的所有分类.
+     *
      * @param array $param 查询参数<pre>
      *                     array(
      *                     'where'=>'',
      *                     'order'=>'',
      *                     )</pre>
+     *
      * @return false|\PDOStatement|string|\think\Collection
      */
     public static function categories($param)
@@ -427,14 +440,16 @@ class ApiService
     }
 
     /**
-     * 获取面包屑数据
-     * @param int     $categoryId  当前文章所在分类,或者当前分类的id
-     * @param boolean $withCurrent 是否获取当前分类
+     * 获取面包屑数据.
+     *
+     * @param int  $categoryId  当前文章所在分类,或者当前分类的id
+     * @param bool $withCurrent 是否获取当前分类
+     *
      * @return array 面包屑数据
      */
     public static function breadcrumb($categoryId, $withCurrent = false)
     {
-        $data                = [];
+        $data = [];
         $portalCategoryModel = new PortalCategoryModel();
 
         $path = $portalCategoryModel->where(['id' => $categoryId])->value('path');
@@ -452,5 +467,4 @@ class ApiService
 
         return $data;
     }
-
 }

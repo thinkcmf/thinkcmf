@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -13,7 +14,6 @@ namespace think\process\pipes;
 
 abstract class Pipes
 {
-
     /** @var array */
     public $pipes = [];
 
@@ -28,34 +28,36 @@ abstract class Pipes
     const CHUNK_SIZE = 16384;
 
     /**
-     * 返回用于 proc_open 描述符的数组
+     * 返回用于 proc_open 描述符的数组.
+     *
      * @return array
      */
     abstract public function getDescriptors();
 
     /**
      * 返回一个数组的索引由其相关的流，以防这些管道使用的临时文件的文件名。
+     *
      * @return string[]
      */
     abstract public function getFiles();
 
     /**
      * 文件句柄和管道中读取数据。
+     *
      * @param bool $blocking 是否使用阻塞调用
      * @param bool $close    是否要关闭管道，如果他们已经到达 EOF。
+     *
      * @return string[]
      */
     abstract public function readAndWrite($blocking, $close = false);
 
     /**
      * 返回当前状态如果有打开的文件句柄或管道。
+     *
      * @return bool
      */
     abstract public function areOpen();
 
-    /**
-     * {@inheritdoc}
-     */
     public function close()
     {
         foreach ($this->pipes as $pipe) {
@@ -65,7 +67,8 @@ abstract class Pipes
     }
 
     /**
-     * 检查系统调用已被中断
+     * 检查系统调用已被中断.
+     *
      * @return bool
      */
     protected function hasSystemCallBeenInterrupted()

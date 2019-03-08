@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,10 +9,11 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+
 namespace app\admin\controller;
 
-use cmf\controller\AdminBaseController;
 use app\admin\model\ThemeModel;
+use cmf\controller\AdminBaseController;
 use think\Db;
 use think\Validate;
 use tree\Tree;
@@ -19,7 +21,8 @@ use tree\Tree;
 class ThemeController extends AdminBaseController
 {
     /**
-     * 模板管理
+     * 模板管理.
+     *
      * @adminMenu(
      *     'name'   => '模板管理',
      *     'parent' => 'admin/Setting/default',
@@ -33,21 +36,22 @@ class ThemeController extends AdminBaseController
      */
     public function index()
     {
-
         $themeModel = new ThemeModel();
-        $themes     = $themeModel->select();
-        $this->assign("themes", $themes);
+        $themes = $themeModel->select();
+        $this->assign('themes', $themes);
 
         $defaultTheme = config('template.cmf_default_theme');
         if ($temp = session('cmf_default_theme')) {
             $defaultTheme = $temp;
         }
         $this->assign('default_theme', $defaultTheme);
+
         return $this->fetch();
     }
 
     /**
      * 安装模板
+     *
      * @adminMenu(
      *     'name'   => '安装模板',
      *     'parent' => 'index',
@@ -61,7 +65,7 @@ class ThemeController extends AdminBaseController
      */
     public function install()
     {
-        $themesDirs = cmf_scan_dir("themes/*", GLOB_ONLYDIR);
+        $themesDirs = cmf_scan_dir('themes/*', GLOB_ONLYDIR);
 
         $themeModel = new ThemeModel();
 
@@ -73,8 +77,8 @@ class ThemeController extends AdminBaseController
         foreach ($themesDirs as $dir) {
             $manifest = "themes/$dir/manifest.json";
             if (file_exists_case($manifest)) {
-                $manifest       = file_get_contents($manifest);
-                $theme          = json_decode($manifest, true);
+                $manifest = file_get_contents($manifest);
+                $theme = json_decode($manifest, true);
                 $theme['theme'] = $dir;
                 array_push($themes, $theme);
             }
@@ -86,6 +90,7 @@ class ThemeController extends AdminBaseController
 
     /**
      * 卸载模板
+     *
      * @adminMenu(
      *     'name'   => '卸载模板',
      *     'parent' => 'index',
@@ -100,8 +105,8 @@ class ThemeController extends AdminBaseController
     public function uninstall()
     {
         $theme = $this->request->param('theme');
-        if ($theme == "simpleboot3" || config('template.cmf_default_theme') == $theme) {
-            $this->error("官方自带模板或当前使用中的模板不可以卸载");
+        if ($theme == 'simpleboot3' || config('template.cmf_default_theme') == $theme) {
+            $this->error('官方自带模板或当前使用中的模板不可以卸载');
         }
 
         $themeModel = new ThemeModel();
@@ -110,12 +115,12 @@ class ThemeController extends AdminBaseController
             Db::name('theme_file')->where('theme', $theme)->delete();
         });
 
-        $this->success("卸载成功", url("theme/index"));
-
+        $this->success('卸载成功', url('theme/index'));
     }
 
     /**
-     * 模板安装
+     * 模板安装.
+     *
      * @adminMenu(
      *     'name'   => '模板安装',
      *     'parent' => 'index',
@@ -129,7 +134,7 @@ class ThemeController extends AdminBaseController
      */
     public function installTheme()
     {
-        $theme      = $this->request->param('theme');
+        $theme = $this->request->param('theme');
         $themeModel = new ThemeModel();
         $themeCount = $themeModel->where('theme', $theme)->count();
 
@@ -140,11 +145,12 @@ class ThemeController extends AdminBaseController
         if ($result === false) {
             $this->error('模板不存在!');
         }
-        $this->success("安装成功", url("theme/index"));
+        $this->success('安装成功', url('theme/index'));
     }
 
     /**
-     * 模板更新
+     * 模板更新.
+     *
      * @adminMenu(
      *     'name'   => '模板更新',
      *     'parent' => 'index',
@@ -158,7 +164,7 @@ class ThemeController extends AdminBaseController
      */
     public function update()
     {
-        $theme      = $this->request->param('theme');
+        $theme = $this->request->param('theme');
         $themeModel = new ThemeModel();
         $themeCount = $themeModel->where('theme', $theme)->count();
 
@@ -169,11 +175,12 @@ class ThemeController extends AdminBaseController
         if ($result === false) {
             $this->error('模板不存在!');
         }
-        $this->success("更新成功");
+        $this->success('更新成功');
     }
 
     /**
      * 启用模板
+     *
      * @adminMenu(
      *     'name'   => '启用模板',
      *     'parent' => 'index',
@@ -190,7 +197,7 @@ class ThemeController extends AdminBaseController
         $theme = $this->request->param('theme');
 
         if ($theme == config('template.cmf_default_theme')) {
-            $this->error('模板已启用', url("theme/index"));
+            $this->error('模板已启用', url('theme/index'));
         }
 
         $themeModel = new ThemeModel();
@@ -207,12 +214,12 @@ class ThemeController extends AdminBaseController
         }
         session('cmf_default_theme', $theme);
 
-        $this->success("模板启用成功", url("theme/index"));
-
+        $this->success('模板启用成功', url('theme/index'));
     }
 
     /**
-     * 模板文件列表
+     * 模板文件列表.
+     *
      * @adminMenu(
      *     'name'   => '模板文件列表',
      *     'parent' => 'index',
@@ -229,11 +236,13 @@ class ThemeController extends AdminBaseController
         $theme = $this->request->param('theme');
         $files = Db::name('theme_file')->where('theme', $theme)->order('list_order ASC')->select()->toArray();
         $this->assign('files', $files);
+
         return $this->fetch();
     }
 
     /**
-     * 模板文件设置
+     * 模板文件设置.
+     *
      * @adminMenu(
      *     'name'   => '模板文件设置',
      *     'parent' => 'index',
@@ -247,39 +256,38 @@ class ThemeController extends AdminBaseController
      */
     public function fileSetting()
     {
-        $tab    = $this->request->param('tab', 'widget');
+        $tab = $this->request->param('tab', 'widget');
         $fileId = $this->request->param('file_id', 0, 'intval');
         if (empty($fileId)) {
-            $file  = $this->request->param('file');
+            $file = $this->request->param('file');
             $theme = $this->request->param('theme');
             $files = Db::name('theme_file')->where('theme', $theme)
                 ->where(function ($query) use ($file) {
                     $query->where('is_public', 1)->whereOr('file', $file);
                 })->order('list_order ASC')->select();
-            $file  = Db::name('theme_file')->where(['file' => $file, 'theme' => $theme])->find();
-
+            $file = Db::name('theme_file')->where(['file' => $file, 'theme' => $theme])->find();
         } else {
-            $file  = Db::name('theme_file')->where('id', $fileId)->find();
+            $file = Db::name('theme_file')->where('id', $fileId)->find();
             $files = Db::name('theme_file')->where('theme', $file['theme'])
                 ->where(function ($query) use ($fileId) {
                     $query->where('id', $fileId)->whereOr('is_public', 1);
                 })->order('list_order ASC')->select();
         }
 
-        $tpl     = 'file_widget_setting';
+        $tpl = 'file_widget_setting';
         $hasFile = false;
         if (!empty($file)) {
             $hasFile = true;
-            $fileId  = $file['id'];
+            $fileId = $file['id'];
 
             $file['config_more'] = json_decode($file['config_more'], true);
-            $file['more']        = json_decode($file['more'], true);
+            $file['more'] = json_decode($file['more'], true);
 
             $hasPublicVar = false;
-            $hasWidget    = false;
+            $hasWidget = false;
             foreach ($files as $key => $mFile) {
                 $mFile['config_more'] = json_decode($mFile['config_more'], true);
-                $mFile['more']        = json_decode($mFile['more'], true);
+                $mFile['more'] = json_decode($mFile['more'], true);
                 if (!empty($mFile['is_public']) && !empty($mFile['more']['vars'])) {
                     $hasPublicVar = true;
                 }
@@ -300,17 +308,18 @@ class ThemeController extends AdminBaseController
 
             if ($tab == 'var') {
                 $tpl = 'file_var_setting';
-            } else if ($tab == 'public_var') {
+            } elseif ($tab == 'public_var') {
                 $tpl = 'file_public_var_setting';
             }
-
         }
         $this->assign('has_file', $hasFile);
+
         return $this->fetch($tpl);
     }
 
     /**
-     * 模板文件数组数据列表
+     * 模板文件数组数据列表.
+     *
      * @adminMenu(
      *     'name'   => '模板文件数组数据列表',
      *     'parent' => 'index',
@@ -324,21 +333,19 @@ class ThemeController extends AdminBaseController
      */
     public function fileArrayData()
     {
-        $tab                 = $this->request->param('tab', 'widget');
-        $varName             = $this->request->param('var');
-        $widgetName          = $this->request->param('widget', '');
-        $fileId              = $this->request->param('file_id', 0, 'intval');
-        $file                = Db::name('theme_file')->where('id', $fileId)->find();
+        $tab = $this->request->param('tab', 'widget');
+        $varName = $this->request->param('var');
+        $widgetName = $this->request->param('widget', '');
+        $fileId = $this->request->param('file_id', 0, 'intval');
+        $file = Db::name('theme_file')->where('id', $fileId)->find();
         $file['config_more'] = json_decode($file['config_more'], true);
-        $file['more']        = json_decode($file['more'], true);
-        $oldMore             = $file['more'];
-
+        $file['more'] = json_decode($file['more'], true);
+        $oldMore = $file['more'];
 
         $items = [];
-        $item  = [];
+        $item = [];
 
         if ($tab == 'var' && !empty($oldMore['vars']) && is_array($oldMore['vars'])) {
-
             if (isset($oldMore['vars'][$varName]) && is_array($oldMore['vars'][$varName])) {
                 $items = $oldMore['vars'][$varName]['value'];
             }
@@ -346,7 +353,6 @@ class ThemeController extends AdminBaseController
             if (isset($oldMore['vars'][$varName]['item'])) {
                 $item = $oldMore['vars'][$varName]['item'];
             }
-
         }
 
         if ($tab == 'widget' && !empty($oldMore['widgets'][$widgetName]) && is_array($oldMore['widgets'][$widgetName])) {
@@ -377,7 +383,8 @@ class ThemeController extends AdminBaseController
     }
 
     /**
-     * 模板文件数组数据添加编辑
+     * 模板文件数组数据添加编辑.
+     *
      * @adminMenu(
      *     'name'   => '模板文件数组数据添加编辑',
      *     'parent' => 'index',
@@ -391,25 +398,24 @@ class ThemeController extends AdminBaseController
      */
     public function fileArrayDataEdit()
     {
-        $tab        = $this->request->param('tab', 'widget');
-        $varName    = $this->request->param('var');
+        $tab = $this->request->param('tab', 'widget');
+        $varName = $this->request->param('var');
         $widgetName = $this->request->param('widget', '');
-        $fileId     = $this->request->param('file_id', 0, 'intval');
-        $itemIndex  = $this->request->param('item_index', '');
+        $fileId = $this->request->param('file_id', 0, 'intval');
+        $itemIndex = $this->request->param('item_index', '');
 
         $file = Db::name('theme_file')->where('id', $fileId)->find();
 
         $file['config_more'] = json_decode($file['config_more'], true);
-        $file['more']        = json_decode($file['more'], true);
-        $oldMore             = $file['more'];
+        $file['more'] = json_decode($file['more'], true);
+        $oldMore = $file['more'];
 
         $items = [];
-        $item  = [];
+        $item = [];
 
         $tab = ($tab == 'public_var') ? 'var' : $tab;
 
         if ($tab == 'var' && !empty($oldMore['vars']) && is_array($oldMore['vars'])) {
-
             if (isset($oldMore['vars'][$varName]) && is_array($oldMore['vars'][$varName])) {
                 $items = $oldMore['vars'][$varName]['value'];
             }
@@ -417,11 +423,9 @@ class ThemeController extends AdminBaseController
             if (isset($oldMore['vars'][$varName]['item'])) {
                 $item = $oldMore['vars'][$varName]['item'];
             }
-
         }
 
         if ($tab == 'widget') {
-
             if (empty($widgetName)) {
                 $this->error('未指定控件!');
             }
@@ -432,7 +436,6 @@ class ThemeController extends AdminBaseController
                         if (!empty($widget['vars']) && is_array($widget['vars'])) {
                             foreach ($widget['vars'] as $widgetVarName => $widgetVar) {
                                 if ($widgetVarName == $varName && $widgetVar['type'] == 'array') {
-
                                     if (is_array($widgetVar['value'])) {
                                         $items = $widgetVar['value'];
                                     }
@@ -447,7 +450,6 @@ class ThemeController extends AdminBaseController
                         }
                         break;
                     }
-
                 }
             }
         }
@@ -477,7 +479,8 @@ class ThemeController extends AdminBaseController
     }
 
     /**
-     * 模板文件数组数据添加编辑提交保存
+     * 模板文件数组数据添加编辑提交保存.
+     *
      * @adminMenu(
      *     'name'   => '模板文件数组数据添加编辑提交保存',
      *     'parent' => 'index',
@@ -491,16 +494,15 @@ class ThemeController extends AdminBaseController
      */
     public function fileArrayDataEditPost()
     {
-        $tab        = $this->request->param('tab', 'widget');
-        $varName    = $this->request->param('var');
+        $tab = $this->request->param('tab', 'widget');
+        $varName = $this->request->param('var');
         $widgetName = $this->request->param('widget', '');
-        $fileId     = $this->request->param('file_id', 0, 'intval');
-        $itemIndex  = $this->request->param('item_index', '');
+        $fileId = $this->request->param('file_id', 0, 'intval');
+        $itemIndex = $this->request->param('item_index', '');
 
         $file = Db::name('theme_file')->where('id', $fileId)->find();
 
         if ($this->request->isPost()) {
-
             $post = $this->request->param();
 
             $more = json_decode($file['more'], true);
@@ -509,9 +511,8 @@ class ThemeController extends AdminBaseController
                 if (isset($more['vars'][$varName])) {
                     $mVar = $more['vars'][$varName];
                     if ($mVar['type'] == 'array') {
-
                         $messages = [];
-                        $rules    = [];
+                        $rules = [];
 
                         foreach ($mVar['item'] as $varItemKey => $varItem) {
                             if (!empty($varItem['rule'])) {
@@ -520,13 +521,13 @@ class ThemeController extends AdminBaseController
 
                             if (!empty($varItem['message'])) {
                                 foreach ($varItem['message'] as $rule => $msg) {
-                                    $messages[$varItemKey . '.' . $rule] = $msg;
+                                    $messages[$varItemKey.'.'.$rule] = $msg;
                                 }
                             }
                         }
 
                         $validate = new Validate($rules, $messages);
-                        $result   = $validate->check($post['item']);
+                        $result = $validate->check($post['item']);
                         if (!$result) {
                             $this->error($validate->getError());
                         }
@@ -554,7 +555,7 @@ class ThemeController extends AdminBaseController
                             $widgetVar = $widget['vars'][$varName];
                             if ($widgetVar['type'] == 'array') {
                                 $messages = [];
-                                $rules    = [];
+                                $rules = [];
 
                                 foreach ($widgetVar['item'] as $widgetArrayVarItemKey => $widgetArrayVarItem) {
                                     if (!empty($widgetArrayVarItem['rule'])) {
@@ -563,13 +564,13 @@ class ThemeController extends AdminBaseController
 
                                     if (!empty($widgetArrayVarItem['message'])) {
                                         foreach ($widgetArrayVarItem['message'] as $rule => $msg) {
-                                            $messages[$widgetArrayVarItemKey . '.' . $rule] = $msg;
+                                            $messages[$widgetArrayVarItemKey.'.'.$rule] = $msg;
                                         }
                                     }
                                 }
 
                                 $validate = new Validate($rules, $messages);
-                                $result   = $validate->check($post['item']);
+                                $result = $validate->check($post['item']);
                                 if (!$result) {
                                     $this->error($validate->getError());
                                 }
@@ -586,7 +587,6 @@ class ThemeController extends AdminBaseController
                                     }
                                 }
                             }
-
                         }
                     }
                 }
@@ -595,14 +595,13 @@ class ThemeController extends AdminBaseController
             $more = json_encode($more);
             Db::name('theme_file')->where('id', $fileId)->update(['more' => $more]);
 
-            $this->success("保存成功！", url('theme/fileArrayData', ['tab' => $tab, 'var' => $varName, 'file_id' => $fileId, 'widget' => $widgetName]));
-
+            $this->success('保存成功！', url('theme/fileArrayData', ['tab' => $tab, 'var' => $varName, 'file_id' => $fileId, 'widget' => $widgetName]));
         }
-
     }
 
     /**
-     * 模板文件数组数据删除
+     * 模板文件数组数据删除.
+     *
      * @adminMenu(
      *     'name'   => '模板文件数组数据删除',
      *     'parent' => 'index',
@@ -616,11 +615,11 @@ class ThemeController extends AdminBaseController
      */
     public function fileArrayDataDelete()
     {
-        $tab        = $this->request->param('tab', 'widget');
-        $varName    = $this->request->param('var');
+        $tab = $this->request->param('tab', 'widget');
+        $varName = $this->request->param('var');
         $widgetName = $this->request->param('widget', '');
-        $fileId     = $this->request->param('file_id', 0, 'intval');
-        $itemIndex  = $this->request->param('item_index', '');
+        $fileId = $this->request->param('file_id', 0, 'intval');
+        $itemIndex = $this->request->param('item_index', '');
 
         if ($itemIndex === '') {
             $this->error('未指定删除元素!');
@@ -631,7 +630,6 @@ class ThemeController extends AdminBaseController
         $more = json_decode($file['more'], true);
         if ($tab == 'var') {
             foreach ($more['vars'] as $mVarName => $mVar) {
-
                 if ($mVarName == $varName && $mVar['type'] == 'array') {
                     if (!empty($mVar['value']) && is_array($mVar['value']) && isset($mVar['value'][$itemIndex])) {
                         array_splice($more['vars'][$mVarName]['value'], $itemIndex, 1);
@@ -666,11 +664,12 @@ class ThemeController extends AdminBaseController
         $more = json_encode($more);
         Db::name('theme_file')->where('id', $fileId)->update(['more' => $more]);
 
-        $this->success("删除成功！", url('theme/fileArrayData', ['tab' => $tab, 'var' => $varName, 'file_id' => $fileId, 'widget' => $widgetName]));
+        $this->success('删除成功！', url('theme/fileArrayData', ['tab' => $tab, 'var' => $varName, 'file_id' => $fileId, 'widget' => $widgetName]));
     }
 
     /**
-     * 模板文件编辑提交保存
+     * 模板文件编辑提交保存.
+     *
      * @adminMenu(
      *     'name'   => '模板文件编辑提交保存',
      *     'parent' => 'index',
@@ -691,17 +690,16 @@ class ThemeController extends AdminBaseController
                 $more = json_decode($file['more'], true);
                 if (isset($post['vars'])) {
                     $messages = [];
-                    $rules    = [];
+                    $rules = [];
 
                     foreach ($more['vars'] as $mVarName => $mVar) {
-
                         if (!empty($mVar['rule'])) {
                             $rules[$mVarName] = $this->_parseRules($mVar['rule']);
                         }
 
                         if (!empty($mVar['message'])) {
                             foreach ($mVar['message'] as $rule => $msg) {
-                                $messages[$mVarName . '.' . $rule] = $msg;
+                                $messages[$mVarName.'.'.$rule] = $msg;
                             }
                         }
 
@@ -709,13 +707,13 @@ class ThemeController extends AdminBaseController
                             $more['vars'][$mVarName]['value'] = $post['vars'][$mVarName];
                         }
 
-                        if (isset($post['vars'][$mVarName . '_text_'])) {
-                            $more['vars'][$mVarName]['valueText'] = $post['vars'][$mVarName . '_text_'];
+                        if (isset($post['vars'][$mVarName.'_text_'])) {
+                            $more['vars'][$mVarName]['valueText'] = $post['vars'][$mVarName.'_text_'];
                         }
                     }
 
                     $validate = new Validate($rules, $messages);
-                    $result   = $validate->check($post['vars']);
+                    $result = $validate->check($post['vars']);
                     if (!$result) {
                         $this->error($validate->getError());
                     }
@@ -723,7 +721,6 @@ class ThemeController extends AdminBaseController
 
                 if (isset($post['widget_vars'])) {
                     foreach ($more['widgets'] as $mWidgetName => $widget) {
-
                         if (empty($post['widget'][$mWidgetName]['display'])) {
                             $widget['display'] = 0;
                         } else {
@@ -735,17 +732,16 @@ class ThemeController extends AdminBaseController
                         }
 
                         $messages = [];
-                        $rules    = [];
+                        $rules = [];
 
                         foreach ($widget['vars'] as $mVarName => $mVar) {
-
                             if (!empty($mVar['rule'])) {
                                 $rules[$mVarName] = $this->_parseRules($mVar['rule']);
                             }
 
                             if (!empty($mVar['message'])) {
                                 foreach ($mVar['message'] as $rule => $msg) {
-                                    $messages[$mVarName . '.' . $rule] = $msg;
+                                    $messages[$mVarName.'.'.$rule] = $msg;
                                 }
                             }
 
@@ -753,17 +749,17 @@ class ThemeController extends AdminBaseController
                                 $widget['vars'][$mVarName]['value'] = $post['widget_vars'][$mWidgetName][$mVarName];
                             }
 
-                            if (isset($post['widget_vars'][$mWidgetName][$mVarName . '_text_'])) {
-                                $widget['vars'][$mVarName]['valueText'] = $post['widget_vars'][$mWidgetName][$mVarName . '_text_'];
+                            if (isset($post['widget_vars'][$mWidgetName][$mVarName.'_text_'])) {
+                                $widget['vars'][$mVarName]['valueText'] = $post['widget_vars'][$mWidgetName][$mVarName.'_text_'];
                             }
                         }
 
                         if ($widget['display']) {
-                            $validate   = new Validate($rules, $messages);
+                            $validate = new Validate($rules, $messages);
                             $widgetVars = empty($post['widget_vars'][$mWidgetName]) ? [] : $post['widget_vars'][$mWidgetName];
-                            $result     = $validate->check($widgetVars);
+                            $result = $validate->check($widgetVars);
                             if (!$result) {
-                                $this->error($widget['title'] . ':' . $validate->getError());
+                                $this->error($widget['title'].':'.$validate->getError());
                             }
                         }
 
@@ -774,13 +770,15 @@ class ThemeController extends AdminBaseController
                 $more = json_encode($more);
                 Db::name('theme_file')->where('id', $id)->update(['more' => $more]);
             }
-            $this->success("保存成功！", '');
+            $this->success('保存成功！', '');
         }
     }
 
     /**
-     * 解析模板变量验证规则
+     * 解析模板变量验证规则.
+     *
      * @param $rules
+     *
      * @return array
      */
     private function _parseRules($rules)
@@ -792,7 +790,7 @@ class ThemeController extends AdminBaseController
             'integer', 'float', 'boolean', 'email',
             'array', 'accepted', 'date', 'alpha',
             'alphaNum', 'alphaDash', 'activeUrl',
-            'url', 'ip'];
+            'url', 'ip', ];
         foreach ($rules as $key => $rule) {
             if (in_array($key, $simpleRules) && $rule) {
                 array_push($newRules, $key);
@@ -803,7 +801,8 @@ class ThemeController extends AdminBaseController
     }
 
     /**
-     * 模板文件设置数据源
+     * 模板文件设置数据源.
+     *
      * @adminMenu(
      *     'name'   => '模板文件设置数据源',
      *     'parent' => 'index',
@@ -820,7 +819,7 @@ class ThemeController extends AdminBaseController
         $dataSource = $this->request->param('data_source');
         $this->assign('data_source', $dataSource);
 
-        $ids         = $this->request->param('ids');
+        $ids = $this->request->param('ids');
         $selectedIds = [];
 
         if (!empty($ids)) {
@@ -844,13 +843,13 @@ class ThemeController extends AdminBaseController
             foreach ($filters as $key => $filter) {
                 if ($filter['type'] == 'select' && !empty($filter['api'])) {
                     $filterData = [];
+
                     try {
                         $filterData = action($filter['api'], [], 'api');
                         if (!is_array($filterData)) {
                             $filterData = $filterData->toArray();
                         }
                     } catch (\Exception $e) {
-
                     }
 
                     if (empty($filterData)) {
@@ -869,7 +868,7 @@ class ThemeController extends AdminBaseController
         $vars = [];
 
         if ($this->request->isPost()) {
-            $form    = $this->request->param();
+            $form = $this->request->param();
             $vars[0] = $form;
             $this->assign('form', $form);
         }
@@ -887,7 +886,7 @@ class ThemeController extends AdminBaseController
                 $item['parent_id'] = 0;
             }
             $item['checked'] = in_array($item['id'], $selectedIds) ? 'checked' : '';
-            $items[$key]     = $item;
+            $items[$key] = $item;
         }
 
         $tree = new Tree();
@@ -920,12 +919,13 @@ class ThemeController extends AdminBaseController
         $this->assign('items_tree', $itemsTree);
         $this->assign('selected_ids', $selectedIds);
         $this->assign('filters', $filters);
-        return $this->fetch();
 
+        return $this->fetch();
     }
 
     /**
      * 模板设计
+     *
      * @adminMenu(
      *     'name'   => '模板设计',
      *     'parent' => 'index',
@@ -948,8 +948,8 @@ class ThemeController extends AdminBaseController
             if (empty($content)) {
                 $content = $this->fetch();
             }
+
             return $content;
         }
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -36,10 +37,11 @@ class Cache
     public static $handler;
 
     /**
-     * 连接缓存驱动
-     * @access public
-     * @param  array       $options 配置数组
-     * @param  bool|string $name    缓存连接标识 true 强制重新连接
+     * 连接缓存驱动.
+     *
+     * @param array       $options 配置数组
+     * @param bool|string $name    缓存连接标识 true 强制重新连接
+     *
      * @return Driver
      */
     public static function connect(array $options = [], $name = false)
@@ -52,11 +54,11 @@ class Cache
 
         if (true === $name || !isset(self::$instance[$name])) {
             $class = false === strpos($type, '\\') ?
-            '\\think\\cache\\driver\\' . ucwords($type) :
+            '\\think\\cache\\driver\\'.ucwords($type) :
             $type;
 
             // 记录初始化信息
-            App::$debug && Log::record('[ CACHE ] INIT ' . $type, 'info');
+            App::$debug && Log::record('[ CACHE ] INIT '.$type, 'info');
 
             if (true === $name) {
                 return new $class($options);
@@ -69,9 +71,10 @@ class Cache
     }
 
     /**
-     * 自动初始化缓存
-     * @access public
-     * @param  array $options 配置数组
+     * 自动初始化缓存.
+     *
+     * @param array $options 配置数组
+     *
      * @return Driver
      */
     public static function init(array $options = [])
@@ -80,7 +83,7 @@ class Cache
             if (empty($options) && 'complex' == Config::get('cache.type')) {
                 $default = Config::get('cache.default');
                 // 获取默认缓存配置，并连接
-                $options = Config::get('cache.' . $default['type']) ?: $default;
+                $options = Config::get('cache.'.$default['type']) ?: $default;
             } elseif (empty($options)) {
                 $options = Config::get('cache');
             }
@@ -92,24 +95,26 @@ class Cache
     }
 
     /**
-     * 切换缓存类型 需要配置 cache.type 为 complex
-     * @access public
-     * @param  string $name 缓存标识
+     * 切换缓存类型 需要配置 cache.type 为 complex.
+     *
+     * @param string $name 缓存标识
+     *
      * @return Driver
      */
     public static function store($name = '')
     {
         if ('' !== $name && 'complex' == Config::get('cache.type')) {
-            return self::connect(Config::get('cache.' . $name), strtolower($name));
+            return self::connect(Config::get('cache.'.$name), strtolower($name));
         }
 
         return self::init();
     }
 
     /**
-     * 判断缓存是否存在
-     * @access public
-     * @param  string $name 缓存变量名
+     * 判断缓存是否存在.
+     *
+     * @param string $name 缓存变量名
+     *
      * @return bool
      */
     public static function has($name)
@@ -120,10 +125,11 @@ class Cache
     }
 
     /**
-     * 读取缓存
-     * @access public
-     * @param  string $name    缓存标识
-     * @param  mixed  $default 默认值
+     * 读取缓存.
+     *
+     * @param string $name    缓存标识
+     * @param mixed  $default 默认值
+     *
      * @return mixed
      */
     public static function get($name, $default = false)
@@ -134,12 +140,13 @@ class Cache
     }
 
     /**
-     * 写入缓存
-     * @access public
-     * @param  string   $name   缓存标识
-     * @param  mixed    $value  存储数据
-     * @param  int|null $expire 有效时间 0为永久
-     * @return boolean
+     * 写入缓存.
+     *
+     * @param string   $name   缓存标识
+     * @param mixed    $value  存储数据
+     * @param int|null $expire 有效时间 0为永久
+     *
+     * @return bool
      */
     public static function set($name, $value, $expire = null)
     {
@@ -149,10 +156,11 @@ class Cache
     }
 
     /**
-     * 自增缓存（针对数值缓存）
-     * @access public
-     * @param  string $name 缓存变量名
-     * @param  int    $step 步长
+     * 自增缓存（针对数值缓存）.
+     *
+     * @param string $name 缓存变量名
+     * @param int    $step 步长
+     *
      * @return false|int
      */
     public static function inc($name, $step = 1)
@@ -163,10 +171,11 @@ class Cache
     }
 
     /**
-     * 自减缓存（针对数值缓存）
-     * @access public
-     * @param  string $name 缓存变量名
-     * @param  int    $step 步长
+     * 自减缓存（针对数值缓存）.
+     *
+     * @param string $name 缓存变量名
+     * @param int    $step 步长
+     *
      * @return false|int
      */
     public static function dec($name, $step = 1)
@@ -177,10 +186,11 @@ class Cache
     }
 
     /**
-     * 删除缓存
-     * @access public
-     * @param  string $name 缓存标识
-     * @return boolean
+     * 删除缓存.
+     *
+     * @param string $name 缓存标识
+     *
+     * @return bool
      */
     public static function rm($name)
     {
@@ -190,10 +200,11 @@ class Cache
     }
 
     /**
-     * 清除缓存
-     * @access public
-     * @param  string $tag 标签名
-     * @return boolean
+     * 清除缓存.
+     *
+     * @param string $tag 标签名
+     *
+     * @return bool
      */
     public static function clear($tag = null)
     {
@@ -203,9 +214,10 @@ class Cache
     }
 
     /**
-     * 读取缓存并删除
-     * @access public
-     * @param  string $name 缓存变量名
+     * 读取缓存并删除.
+     *
+     * @param string $name 缓存变量名
+     *
      * @return mixed
      */
     public static function pull($name)
@@ -217,11 +229,12 @@ class Cache
     }
 
     /**
-     * 如果不存在则写入缓存
-     * @access public
-     * @param  string $name   缓存变量名
-     * @param  mixed  $value  存储数据
-     * @param  int    $expire 有效时间 0为永久
+     * 如果不存在则写入缓存.
+     *
+     * @param string $name   缓存变量名
+     * @param mixed  $value  存储数据
+     * @param int    $expire 有效时间 0为永久
+     *
      * @return mixed
      */
     public static function remember($name, $value, $expire = null)
@@ -232,16 +245,16 @@ class Cache
     }
 
     /**
-     * 缓存标签
-     * @access public
-     * @param  string       $name    标签名
-     * @param  string|array $keys    缓存标识
-     * @param  bool         $overlay 是否覆盖
+     * 缓存标签.
+     *
+     * @param string       $name    标签名
+     * @param string|array $keys    缓存标识
+     * @param bool         $overlay 是否覆盖
+     *
      * @return Driver
      */
     public static function tag($name, $keys = null, $overlay = false)
     {
         return self::init()->tag($name, $keys, $overlay);
     }
-
 }

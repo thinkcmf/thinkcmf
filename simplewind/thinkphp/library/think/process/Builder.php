@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -19,14 +20,15 @@ class Builder
     private $cwd;
     private $env = null;
     private $input;
-    private $timeout        = 60;
-    private $options        = [];
-    private $inheritEnv     = true;
-    private $prefix         = [];
+    private $timeout = 60;
+    private $options = [];
+    private $inheritEnv = true;
+    private $prefix = [];
     private $outputDisabled = false;
 
     /**
-     * 构造方法
+     * 构造方法.
+     *
      * @param string[] $arguments 参数
      */
     public function __construct(array $arguments = [])
@@ -35,8 +37,10 @@ class Builder
     }
 
     /**
-     * 创建一个实例
+     * 创建一个实例.
+     *
      * @param string[] $arguments 参数
+     *
      * @return self
      */
     public static function create(array $arguments = [])
@@ -45,8 +49,10 @@ class Builder
     }
 
     /**
-     * 添加一个参数
+     * 添加一个参数.
+     *
      * @param string $argument 参数
+     *
      * @return self
      */
     public function add($argument)
@@ -58,7 +64,9 @@ class Builder
 
     /**
      * 添加一个前缀
+     *
      * @param string|array $prefix
+     *
      * @return self
      */
     public function setPrefix($prefix)
@@ -69,9 +77,11 @@ class Builder
     }
 
     /**
-     * 设置参数
+     * 设置参数.
+     *
      * @param string[] $arguments
-     * @return  self
+     *
+     * @return self
      */
     public function setArguments(array $arguments)
     {
@@ -81,9 +91,11 @@ class Builder
     }
 
     /**
-     * 设置工作目录
+     * 设置工作目录.
+     *
      * @param null|string $cwd
-     * @return  self
+     *
+     * @return self
      */
     public function setWorkingDirectory($cwd)
     {
@@ -93,8 +105,10 @@ class Builder
     }
 
     /**
-     * 是否初始化环境变量
+     * 是否初始化环境变量.
+     *
      * @param bool $inheritEnv
+     *
      * @return self
      */
     public function inheritEnvironmentVariables($inheritEnv = true)
@@ -105,9 +119,11 @@ class Builder
     }
 
     /**
-     * 设置环境变量
+     * 设置环境变量.
+     *
      * @param string      $name
      * @param null|string $value
+     *
      * @return self
      */
     public function setEnv($name, $value)
@@ -118,8 +134,10 @@ class Builder
     }
 
     /**
-     *  添加环境变量
+     *  添加环境变量.
+     *
      * @param array $variables
+     *
      * @return self
      */
     public function addEnvironmentVariables(array $variables)
@@ -130,8 +148,10 @@ class Builder
     }
 
     /**
-     * 设置输入
+     * 设置输入.
+     *
      * @param mixed $input
+     *
      * @return self
      */
     public function setInput($input)
@@ -142,8 +162,10 @@ class Builder
     }
 
     /**
-     * 设置超时时间
+     * 设置超时时间.
+     *
      * @param float|null $timeout
+     *
      * @return self
      */
     public function setTimeout($timeout)
@@ -166,9 +188,11 @@ class Builder
     }
 
     /**
-     * 设置proc_open选项
+     * 设置proc_open选项.
+     *
      * @param string $name
      * @param string $value
+     *
      * @return self
      */
     public function setOption($name, $value)
@@ -179,7 +203,8 @@ class Builder
     }
 
     /**
-     * 禁止输出
+     * 禁止输出.
+     *
      * @return self
      */
     public function disableOutput()
@@ -190,7 +215,8 @@ class Builder
     }
 
     /**
-     * 开启输出
+     * 开启输出.
+     *
      * @return self
      */
     public function enableOutput()
@@ -201,7 +227,8 @@ class Builder
     }
 
     /**
-     * 创建一个Process实例
+     * 创建一个Process实例.
+     *
      * @return Process
      */
     public function getProcess()
@@ -213,7 +240,7 @@ class Builder
         $options = $this->options;
 
         $arguments = array_merge($this->prefix, $this->arguments);
-        $script    = implode(' ', array_map([__NAMESPACE__ . '\\Utils', 'escapeArgument'], $arguments));
+        $script = implode(' ', array_map([__NAMESPACE__.'\\Utils', 'escapeArgument'], $arguments));
 
         if ($this->inheritEnv) {
             // include $_ENV for BC purposes

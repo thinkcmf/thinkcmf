@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -15,8 +16,8 @@ use think\db\Connection;
 use think\db\Query;
 
 /**
- * Class Db
- * @package think
+ * Class Db.
+ *
  * @method Query table(string $table) static 指定数据表（含前缀）
  * @method Query name(string $name) static 指定数据表（不含前缀）
  * @method Query where(mixed $field, string $op = null, mixed $condition = null) static 查询条件
@@ -30,20 +31,20 @@ use think\db\Query;
  * @method Query view(mixed $join, mixed $field = null, mixed $on = null, string $type = 'INNER') static 视图查询
  * @method mixed find(mixed $data = null) static 查询单个记录
  * @method mixed select(mixed $data = null) static 查询多个记录
- * @method integer insert(array $data, boolean $replace = false, boolean $getLastInsID = false, string $sequence = null) static 插入一条记录
- * @method integer insertGetId(array $data, boolean $replace = false, string $sequence = null) static 插入一条记录并返回自增ID
- * @method integer insertAll(array $dataSet) static 插入多条记录
- * @method integer update(array $data) static 更新记录
- * @method integer delete(mixed $data = null) static 删除记录
- * @method boolean chunk(integer $count, callable $callback, string $column = null) static 分块获取数据
+ * @method int insert(array $data, boolean $replace = false, boolean $getLastInsID = false, string $sequence = null) static 插入一条记录
+ * @method int insertGetId(array $data, boolean $replace = false, string $sequence = null) static 插入一条记录并返回自增ID
+ * @method int insertAll(array $dataSet) static 插入多条记录
+ * @method int update(array $data) static 更新记录
+ * @method int delete(mixed $data = null) static 删除记录
+ * @method bool chunk(integer $count, callable $callback, string $column = null) static 分块获取数据
  * @method mixed query(string $sql, array $bind = [], boolean $master = false, bool $pdo = false) static SQL查询
- * @method integer execute(string $sql, array $bind = [], boolean $fetch = false, boolean $getLastInsID = false, string $sequence = null) static SQL执行
+ * @method int execute(string $sql, array $bind = [], boolean $fetch = false, boolean $getLastInsID = false, string $sequence = null) static SQL执行
  * @method Paginator paginate(integer $listRows = 15, mixed $simple = null, array $config = []) static 分页查询
  * @method mixed transaction(callable $callback) static 执行数据库事务
  * @method void startTrans() static 启动事务
  * @method void commit() static 用于非自动提交状态下面的查询提交
  * @method void rollback() static 事务回滚
- * @method boolean batchQuery(array $sqlArray) static 批处理执行SQL语句
+ * @method bool batchQuery(array $sqlArray) static 批处理执行SQL语句
  * @method string quote(string $str) static SQL指令安全过滤
  * @method string getLastInsID($sequence = null) static 获取最近插入的ID
  */
@@ -65,12 +66,14 @@ class Db
     public static $executeTimes = 0;
 
     /**
-     * 数据库初始化，并取得数据库类实例
-     * @access public
-     * @param  mixed       $config 连接配置
-     * @param  bool|string $name   连接标识 true 强制重新连接
-     * @return Connection
+     * 数据库初始化，并取得数据库类实例.
+     *
+     * @param mixed       $config 连接配置
+     * @param bool|string $name   连接标识 true 强制重新连接
+     *
      * @throws Exception
+     *
+     * @return Connection
      */
     public static function connect($config = [], $name = false)
     {
@@ -88,11 +91,11 @@ class Db
 
             $class = false !== strpos($options['type'], '\\') ?
             $options['type'] :
-            '\\think\\db\\connector\\' . ucwords($options['type']);
+            '\\think\\db\\connector\\'.ucwords($options['type']);
 
             // 记录初始化信息
             if (App::$debug) {
-                Log::record('[ DB ] INIT ' . $options['type'], 'info');
+                Log::record('[ DB ] INIT '.$options['type'], 'info');
             }
 
             if (true === $name) {
@@ -106,8 +109,8 @@ class Db
     }
 
     /**
-     * 清除连接实例
-     * @access public
+     * 清除连接实例.
+     *
      * @return void
      */
     public static function clear()
@@ -116,9 +119,10 @@ class Db
     }
 
     /**
-     * 数据库连接参数解析
-     * @access private
-     * @param  mixed $config 连接参数
+     * 数据库连接参数解析.
+     *
+     * @param mixed $config 连接参数
+     *
      * @return array
      */
     private static function parseConfig($config)
@@ -134,9 +138,10 @@ class Db
 
     /**
      * DSN 解析
-     * 格式： mysql://username:passwd@localhost:3306/DbName?param1=val1&param2=val2#utf8
-     * @access private
-     * @param  string $dsnStr 数据库 DSN 字符串解析
+     * 格式： mysql://username:passwd@localhost:3306/DbName?param1=val1&param2=val2#utf8.
+     *
+     * @param string $dsnStr 数据库 DSN 字符串解析
+     *
      * @return array
      */
     private static function parseDsn($dsnStr)
@@ -167,10 +172,11 @@ class Db
     }
 
     /**
-     * 调用驱动类的方法
-     * @access public
-     * @param  string $method 方法名
-     * @param  array  $params 参数
+     * 调用驱动类的方法.
+     *
+     * @param string $method 方法名
+     * @param array  $params 参数
+     *
      * @return mixed
      */
     public static function __callStatic($method, $params)

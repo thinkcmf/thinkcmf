@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,20 +9,20 @@
 // +----------------------------------------------------------------------
 // | Author: Powerless < wzxaini9@gmail.com>
 // +----------------------------------------------------------------------
+
 namespace app\user\controller;
 
-use cmf\lib\Storage;
-use think\Validate;
-use think\Image;
-use cmf\controller\UserBaseController;
 use app\user\model\UserModel;
+use cmf\controller\UserBaseController;
+use cmf\lib\Storage;
 use think\Db;
+use think\Image;
+use think\Validate;
 
 class ProfileController extends UserBaseController
 {
-
     /**
-     * 会员中心首页
+     * 会员中心首页.
      */
     public function center()
     {
@@ -31,23 +32,25 @@ class ProfileController extends UserBaseController
         $userId = cmf_get_current_user_id();
 
         $userModel = new UserModel();
-        $user      = $userModel->where('id', $userId)->find();
+        $user = $userModel->where('id', $userId)->find();
         $this->assign('user', $user);
+
         return $this->fetch();
     }
 
     /**
-     * 编辑用户资料
+     * 编辑用户资料.
      */
     public function edit()
     {
         $user = cmf_get_current_user();
         $this->assign($user);
+
         return $this->fetch('edit');
     }
 
     /**
-     * 编辑用户资料提交
+     * 编辑用户资料提交.
      */
     public function editPost()
     {
@@ -76,7 +79,7 @@ class ProfileController extends UserBaseController
             }
             $editData = new UserModel();
             if ($editData->editData($data)) {
-                $this->success(lang('EDIT_SUCCESS'), "user/profile/center");
+                $this->success(lang('EDIT_SUCCESS'), 'user/profile/center');
             } else {
                 $this->error(lang('NO_NEW_INFORMATION'));
             }
@@ -92,11 +95,12 @@ class ProfileController extends UserBaseController
     {
         $user = cmf_get_current_user();
         $this->assign($user);
+
         return $this->fetch();
     }
 
     /**
-     * 个人中心修改密码提交
+     * 个人中心修改密码提交.
      */
     public function passwordPost()
     {
@@ -124,7 +128,7 @@ class ProfileController extends UserBaseController
             }
 
             $login = new UserModel();
-            $log   = $login->editPassword($data);
+            $log = $login->editPassword($data);
             switch ($log) {
                 case 0:
                     $this->success(lang('change_success'));
@@ -135,13 +139,12 @@ class ProfileController extends UserBaseController
                 case 2:
                     $this->error(lang('old_password_is_wrong'));
                     break;
-                default :
+                default:
                     $this->error(lang('ERROR'));
             }
         } else {
             $this->error(lang('ERROR'));
         }
-
     }
 
     // 用户头像编辑
@@ -149,35 +152,36 @@ class ProfileController extends UserBaseController
     {
         $user = cmf_get_current_user();
         $this->assign($user);
+
         return $this->fetch();
     }
 
     // 用户头像上传
     public function avatarUpload()
     {
-        $file   = $this->request->file('file');
+        $file = $this->request->file('file');
         $result = $file->validate([
             'ext'  => 'jpg,jpeg,png',
-            'size' => 1024 * 1024
-        ])->move(WEB_ROOT . 'upload' . DIRECTORY_SEPARATOR . 'avatar' . DIRECTORY_SEPARATOR);
+            'size' => 1024 * 1024,
+        ])->move(WEB_ROOT.'upload'.DIRECTORY_SEPARATOR.'avatar'.DIRECTORY_SEPARATOR);
 
         if ($result) {
             $avatarSaveName = str_replace('//', '/', str_replace('\\', '/', $result->getSaveName()));
-            $avatar         = 'avatar/' . $avatarSaveName;
+            $avatar = 'avatar/'.$avatarSaveName;
             session('avatar', $avatar);
 
             return json_encode([
                 'code' => 1,
-                "msg"  => "上传成功",
-                "data" => ['file' => $avatar],
-                "url"  => ''
+                'msg'  => '上传成功',
+                'data' => ['file' => $avatar],
+                'url'  => '',
             ]);
         } else {
             return json_encode([
                 'code' => 0,
-                "msg"  => $file->getError(),
-                "data" => "",
-                "url"  => ''
+                'msg'  => $file->getError(),
+                'data' => '',
+                'url'  => '',
             ]);
         }
     }
@@ -192,7 +196,7 @@ class ProfileController extends UserBaseController
             $x = $this->request->param('x', 0, 'intval');
             $y = $this->request->param('y', 0, 'intval');
 
-            $avatarPath = WEB_ROOT . "upload/" . $avatar;
+            $avatarPath = WEB_ROOT.'upload/'.$avatar;
 
             $avatarImg = Image::open($avatarPath);
             $avatarImg->crop($w, $h, $x, $y)->save($avatarPath);
@@ -200,31 +204,31 @@ class ProfileController extends UserBaseController
             $result = true;
             if ($result === true) {
                 $storage = new Storage();
-                $result  = $storage->upload($avatar, $avatarPath, 'image');
+                $result = $storage->upload($avatar, $avatarPath, 'image');
 
                 $userId = cmf_get_current_user_id();
-                Db::name("user")->where("id", $userId)->update(["avatar" => $avatar]);
+                Db::name('user')->where('id', $userId)->update(['avatar' => $avatar]);
                 session('user.avatar', $avatar);
-                $this->success("头像更新成功！");
+                $this->success('头像更新成功！');
             } else {
-                $this->error("头像保存失败！");
+                $this->error('头像保存失败！');
             }
-
         }
     }
 
     /**
-     * 绑定手机号或邮箱
+     * 绑定手机号或邮箱.
      */
     public function binding()
     {
         $user = cmf_get_current_user();
         $this->assign($user);
+
         return $this->fetch();
     }
 
     /**
-     * 绑定手机号
+     * 绑定手机号.
      */
     public function bindingMobile()
     {
@@ -249,21 +253,21 @@ class ProfileController extends UserBaseController
                 $this->error($errMsg);
             }
             $userModel = new UserModel();
-            $log       = $userModel->bindingMobile($data);
+            $log = $userModel->bindingMobile($data);
             switch ($log) {
                 case 0:
                     $this->success('手机号绑定成功');
                     break;
-                default :
+                default:
                     $this->error('未受理的请求');
             }
         } else {
-            $this->error("请求错误");
+            $this->error('请求错误');
         }
     }
 
     /**
-     * 绑定邮箱
+     * 绑定邮箱.
      */
     public function bindingEmail()
     {
@@ -288,17 +292,16 @@ class ProfileController extends UserBaseController
                 $this->error($errMsg);
             }
             $userModel = new UserModel();
-            $log       = $userModel->bindingEmail($data);
+            $log = $userModel->bindingEmail($data);
             switch ($log) {
                 case 0:
                     $this->success('邮箱绑定成功');
                     break;
-                default :
+                default:
                     $this->error('未受理的请求');
             }
         } else {
-            $this->error("请求错误");
+            $this->error('请求错误');
         }
     }
-
 }

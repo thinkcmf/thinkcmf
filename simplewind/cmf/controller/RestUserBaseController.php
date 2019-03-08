@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,18 +9,15 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+
 namespace cmf\controller;
 
 class RestUserBaseController extends RestBaseController
 {
-
     public function _initialize()
     {
-
         if (empty($this->user)) {
             $this->error(['code' => 10001, 'msg' => '登录已失效!']);
         }
-
     }
-
 }

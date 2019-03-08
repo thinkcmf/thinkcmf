@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -14,17 +15,18 @@ namespace think\db\builder;
 use think\db\Builder;
 
 /**
- * Pgsql数据库驱动
+ * Pgsql数据库驱动.
  */
 class Pgsql extends Builder
 {
-    protected $insertSql    = 'INSERT INTO %TABLE% (%FIELD%) VALUES (%DATA%) %COMMENT%';
+    protected $insertSql = 'INSERT INTO %TABLE% (%FIELD%) VALUES (%DATA%) %COMMENT%';
     protected $insertAllSql = 'INSERT INTO %TABLE% (%FIELD%) %DATA% %COMMENT%';
 
     /**
-     * limit分析
-     * @access protected
+     * limit分析.
+     *
      * @param mixed $limit
+     *
      * @return string
      */
     public function parseLimit($limit)
@@ -33,19 +35,21 @@ class Pgsql extends Builder
         if (!empty($limit)) {
             $limit = explode(',', $limit);
             if (count($limit) > 1) {
-                $limitStr .= ' LIMIT ' . $limit[1] . ' OFFSET ' . $limit[0] . ' ';
+                $limitStr .= ' LIMIT '.$limit[1].' OFFSET '.$limit[0].' ';
             } else {
-                $limitStr .= ' LIMIT ' . $limit[0] . ' ';
+                $limitStr .= ' LIMIT '.$limit[0].' ';
             }
         }
+
         return $limitStr;
     }
 
     /**
-     * 字段和表名处理
-     * @access protected
-     * @param mixed  $key
-     * @param array  $options
+     * 字段和表名处理.
+     *
+     * @param mixed $key
+     * @param array $options
+     *
      * @return string
      */
     protected function parseKey($key, $options = [], $strict = false)
@@ -60,7 +64,7 @@ class Pgsql extends Builder
         if (strpos($key, '$.') && false === strpos($key, '(')) {
             // JSON字段支持
             list($field, $name) = explode('$.', $key);
-            $key                = $field . '->>\'' . $name . '\'';
+            $key = $field.'->>\''.$name.'\'';
         } elseif (strpos($key, '.')) {
             list($table, $key) = explode('.', $key, 2);
             if ('__TABLE__' == $table) {
@@ -71,19 +75,19 @@ class Pgsql extends Builder
             }
         }
         if (isset($table)) {
-            $key = $table . '.' . $key;
+            $key = $table.'.'.$key;
         }
+
         return $key;
     }
 
     /**
-     * 随机排序
-     * @access protected
+     * 随机排序.
+     *
      * @return string
      */
     protected function parseRand()
     {
         return 'RANDOM()';
     }
-
 }

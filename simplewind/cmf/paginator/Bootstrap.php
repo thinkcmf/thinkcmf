@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+
 namespace cmf\paginator;
 
 use think\Paginator;
@@ -15,16 +17,17 @@ use think\Paginator;
 class Bootstrap extends Paginator
 {
     /**
-     * 上一页按钮
+     * 上一页按钮.
+     *
      * @param string $text
+     *
      * @return string
      */
-    protected function getPreviousButton($text = "")
+    protected function getPreviousButton($text = '')
     {
-
         if (empty($text)) {
             if (empty($this->options['prev'])) {
-                $text = "&laquo;";
+                $text = '&laquo;';
             } else {
                 $text = $this->options['prev'];
             }
@@ -42,15 +45,17 @@ class Bootstrap extends Paginator
     }
 
     /**
-     * 下一页按钮
+     * 下一页按钮.
+     *
      * @param string $text
+     *
      * @return string
      */
     protected function getNextButton($text = '')
     {
         if (empty($text)) {
             if (empty($this->options['next'])) {
-                $text = "&raquo;";
+                $text = '&raquo;';
             } else {
                 $text = $this->options['next'];
             }
@@ -66,16 +71,17 @@ class Bootstrap extends Paginator
     }
 
     /**
-     * 上一页按钮
+     * 上一页按钮.
+     *
      * @param string $text
+     *
      * @return string
      */
-    protected function getSimplePreviousButton($text = "")
+    protected function getSimplePreviousButton($text = '')
     {
-
         if (empty($text)) {
             if (empty($this->options['prev'])) {
-                $text = "&larr;";
+                $text = '&larr;';
             } else {
                 $text = $this->options['prev'];
             }
@@ -86,26 +92,28 @@ class Bootstrap extends Paginator
         }
 
         if ($this->currentPage() <= 1) {
-            return '<li class="disabled previous page-item"><span class="page-link">' . $text . '</span></li>';
+            return '<li class="disabled previous page-item"><span class="page-link">'.$text.'</span></li>';
         }
 
         $url = $this->url(
             $this->currentPage() - 1
         );
 
-        return '<li class="previous page-item"><a class="page-link" href="' . htmlentities($url) . '">' . $text . '</a></li>';
+        return '<li class="previous page-item"><a class="page-link" href="'.htmlentities($url).'">'.$text.'</a></li>';
     }
 
     /**
-     * 下一页按钮
+     * 下一页按钮.
+     *
      * @param string $text
+     *
      * @return string
      */
     protected function getSimpleNextButton($text = '')
     {
         if (empty($text)) {
             if (empty($this->options['next'])) {
-                $text = "&rarr;";
+                $text = '&rarr;';
             } else {
                 $text = $this->options['next'];
             }
@@ -113,48 +121,49 @@ class Bootstrap extends Paginator
             if (!empty($this->options['simple_next'])) {
                 $text = $this->options['simple_next'];
             }
-
         }
 
         if (!$this->hasMore) {
-            return '<li class="disabled next page-item"><span class="page-link">' . $text . '</span></li>';
+            return '<li class="disabled next page-item"><span class="page-link">'.$text.'</span></li>';
         }
 
         $url = $this->url($this->currentPage() + 1);
 
-        return '<li class="next page-item"><a class="page-link" href="' . htmlentities($url) . '">' . $text . '</a></li>';
+        return '<li class="next page-item"><a class="page-link" href="'.htmlentities($url).'">'.$text.'</a></li>';
     }
 
     /**
-     * 页码按钮
+     * 页码按钮.
+     *
      * @return string
      */
     protected function getLinks()
     {
-        if ($this->simple)
+        if ($this->simple) {
             return '';
+        }
 
         $block = [
             'first'  => null,
             'slider' => null,
-            'last'   => null
+            'last'   => null,
         ];
 
-        $side   = 2;
+        $side = 2;
         $window = $side * 2;
 
         if ($this->lastPage < $window + 6) {
             $block['first'] = $this->getUrlRange(1, $this->lastPage);
         } elseif ($this->currentPage <= $window) {
             $block['first'] = $this->getUrlRange(1, $window + 2);
-            $block['last']  = $this->getUrlRange($this->lastPage - 1, $this->lastPage);
+            $block['last'] = $this->getUrlRange($this->lastPage - 1, $this->lastPage);
         } elseif ($this->currentPage > ($this->lastPage - $window)) {
             $block['first'] = $this->getUrlRange(1, 2);
-            $block['last']  = $this->getUrlRange($this->lastPage - ($window + 0), $this->lastPage);
+            $block['last'] = $this->getUrlRange($this->lastPage - ($window + 0), $this->lastPage);
         } else {
-            $block['first']  = $this->getUrlRange(1, 2);
+            $block['first'] = $this->getUrlRange(1, 2);
             $block['slider'] = $this->getUrlRange($this->currentPage - $side, $this->currentPage + $side);
-            $block['last']   = $this->getUrlRange($this->lastPage - 1, $this->lastPage);
+            $block['last'] = $this->getUrlRange($this->lastPage - 1, $this->lastPage);
         }
 
         $html = '';
@@ -177,7 +186,8 @@ class Bootstrap extends Paginator
     }
 
     /**
-     * 渲染分页html
+     * 渲染分页html.
+     *
      * @return mixed
      */
     public function render()
@@ -203,41 +213,44 @@ class Bootstrap extends Paginator
     }
 
     /**
-     * 生成一个可点击的按钮
+     * 生成一个可点击的按钮.
      *
-     * @param  string $url
-     * @param  int $page
+     * @param string $url
+     * @param int    $page
+     *
      * @return string
      */
     protected function getAvailablePageWrapper($url, $page)
     {
-        return '<li class="page-item"><a class="page-link" href="' . htmlentities($url) . '">' . $page . '</a></li>';
+        return '<li class="page-item"><a class="page-link" href="'.htmlentities($url).'">'.$page.'</a></li>';
     }
 
     /**
-     * 生成一个禁用的按钮
+     * 生成一个禁用的按钮.
      *
-     * @param  string $text
+     * @param string $text
+     *
      * @return string
      */
     protected function getDisabledTextWrapper($text)
     {
-        return '<li class="page-item disabled"><span class="page-link">' . $text . '</span></li>';
+        return '<li class="page-item disabled"><span class="page-link">'.$text.'</span></li>';
     }
 
     /**
-     * 生成一个激活的按钮
+     * 生成一个激活的按钮.
      *
-     * @param  string $text
+     * @param string $text
+     *
      * @return string
      */
     protected function getActivePageWrapper($text)
     {
-        return '<li class="active page-item disabled" ><span class="page-link">' . $text . '</span></li>';
+        return '<li class="active page-item disabled" ><span class="page-link">'.$text.'</span></li>';
     }
 
     /**
-     * 生成省略号按钮
+     * 生成省略号按钮.
      *
      * @return string
      */
@@ -249,7 +262,8 @@ class Bootstrap extends Paginator
     /**
      * 批量生成页码按钮.
      *
-     * @param  array $urls
+     * @param array $urls
+     *
      * @return string
      */
     protected function getUrlLinks(array $urls)
@@ -264,10 +278,11 @@ class Bootstrap extends Paginator
     }
 
     /**
-     * 生成普通页码按钮
+     * 生成普通页码按钮.
      *
-     * @param  string $url
-     * @param  int $page
+     * @param string $url
+     * @param int    $page
+     *
      * @return string
      */
     protected function getPageLinkWrapper($url, $page)
@@ -278,6 +293,4 @@ class Bootstrap extends Paginator
 
         return $this->getAvailablePageWrapper($url, $page);
     }
-
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -16,8 +17,7 @@ use think\Exception;
 use think\Model;
 
 /**
- * Class Relation
- * @package think\model
+ * Class Relation.
  *
  * @mixin Query
  */
@@ -25,7 +25,7 @@ abstract class Relation
 {
     // 父模型对象
     protected $parent;
-    /** @var  Model 当前关联的模型类 */
+    /** @var Model 当前关联的模型类 */
     protected $model;
     /** @var Query 关联模型查询对象 */
     protected $query;
@@ -39,8 +39,8 @@ abstract class Relation
     protected $selfRelation;
 
     /**
-     * 获取关联的所属模型
-     * @access public
+     * 获取关联的所属模型.
+     *
      * @return Model
      */
     public function getParent()
@@ -49,8 +49,8 @@ abstract class Relation
     }
 
     /**
-     * 获取当前的关联模型对象实例
-     * @access public
+     * 获取当前的关联模型对象实例.
+     *
      * @return Model
      */
     public function getModel()
@@ -60,7 +60,7 @@ abstract class Relation
 
     /**
      * 获取关联的查询对象
-     * @access public
+     *
      * @return Query
      */
     public function getQuery()
@@ -69,20 +69,22 @@ abstract class Relation
     }
 
     /**
-     * 设置当前关联为自关联
-     * @access public
-     * @param  bool $self 是否自关联
+     * 设置当前关联为自关联.
+     *
+     * @param bool $self 是否自关联
+     *
      * @return $this
      */
     public function selfRelation($self = true)
     {
         $this->selfRelation = $self;
+
         return $this;
     }
 
     /**
-     * 当前关联是否为自关联
-     * @access public
+     * 当前关联是否为自关联.
+     *
      * @return bool
      */
     public function isSelfRelation()
@@ -91,49 +93,51 @@ abstract class Relation
     }
 
     /**
-     * 封装关联数据集
-     * @access public
+     * 封装关联数据集.
+     *
      * @param array $resultSet 数据集
+     *
      * @return mixed
      */
     protected function resultSetBuild($resultSet)
     {
-        return (new $this->model)->toCollection($resultSet);
+        return (new $this->model())->toCollection($resultSet);
     }
 
     protected function getQueryFields($model)
     {
         $fields = $this->query->getOptions('field');
+
         return $this->getRelationQueryFields($fields, $model);
     }
 
     protected function getRelationQueryFields($fields, $model)
     {
         if ($fields) {
-
             if (is_string($fields)) {
                 $fields = explode(',', $fields);
             }
 
             foreach ($fields as &$field) {
                 if (false === strpos($field, '.')) {
-                    $field = $model . '.' . $field;
+                    $field = $model.'.'.$field;
                 }
             }
         } else {
-            $fields = $model . '.*';
+            $fields = $model.'.*';
         }
 
         return $fields;
     }
 
     /**
-     * 执行基础查询（仅执行一次）
-     * @access protected
+     * 执行基础查询（仅执行一次）.
+     *
      * @return void
      */
     protected function baseQuery()
-    {}
+    {
+    }
 
     public function __call($method, $args)
     {
@@ -146,10 +150,11 @@ abstract class Relation
                 return $this;
             } else {
                 $this->baseQuery = false;
+
                 return $result;
             }
         } else {
-            throw new Exception('method not exists:' . __CLASS__ . '->' . $method);
+            throw new Exception('method not exists:'.__CLASS__.'->'.$method);
         }
     }
 }

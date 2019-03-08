@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,11 +9,11 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+
 namespace cmf\lib;
 
 class Storage
 {
-
     private $driver;
 
     /**
@@ -21,9 +22,11 @@ class Storage
     protected static $instance;
 
     /**
-     * 构造方法，用于构造存储实例
-     * @param string $driver 要使用的存储驱动 Qiniu-七牛存储驱动
-     * @param array $driverConfig
+     * 构造方法，用于构造存储实例.
+     *
+     * @param string $driver       要使用的存储驱动 Qiniu-七牛存储驱动
+     * @param array  $driverConfig
+     *
      * @throws \Exception
      */
     public function __construct($driver = null, $driverConfig = null)
@@ -32,7 +35,7 @@ class Storage
             $storageSetting = cmf_get_option('storage');
 
             if (empty($storageSetting)) {
-                $driver       = 'Local';
+                $driver = 'Local';
                 $driverConfig = [];
             } else {
                 $driver = isset($storageSetting['type']) ? $storageSetting['type'] : 'Local';
@@ -41,9 +44,7 @@ class Storage
                 } else {
                     $driverConfig = $storageSetting['storages'][$driver];
                 }
-
             }
-
         }
 
         if (empty($driverConfig['driver'])) {
@@ -58,11 +59,13 @@ class Storage
     }
 
     /**
-     * 文件上传
-     * @param string $file 上传文件路径
+     * 文件上传.
+     *
+     * @param string $file     上传文件路径
      * @param string $filePath 文件路径相对于upload目录
      * @param string $fileType 文件类型,image,video,audio,file
-     * @param array $param 额外参数
+     * @param array  $param    额外参数
+     *
      * @return mixed
      */
     public function upload($file, $filePath, $fileType = 'image', $param = null)
@@ -71,9 +74,11 @@ class Storage
     }
 
     /**
-     * 初始化
+     * 初始化.
+     *
      * @param $type
      * @param $config
+     *
      * @return \cmf\lib\Storage
      */
     public static function instance($type = null, $config = null)
@@ -81,13 +86,16 @@ class Storage
         if (is_null(self::$instance)) {
             self::$instance = new static($type, $config);
         }
+
         return self::$instance;
     }
 
     /**
      * 获取图片预览地址
+     *
      * @param string $file
      * @param string $style
+     *
      * @return mixed
      */
     public function getPreviewUrl($file, $style = '')
@@ -97,8 +105,10 @@ class Storage
 
     /**
      * 获取图片地址
+     *
      * @param string $file
      * @param string $style
+     *
      * @return mixed
      */
     public function getImageUrl($file, $style = '')
@@ -108,8 +118,10 @@ class Storage
 
     /**
      * 获取文件地址
+     *
      * @param string $file
      * @param string $style
+     *
      * @return mixed
      */
     public function getUrl($file, $style = '')
@@ -119,8 +131,10 @@ class Storage
 
     /**
      * 获取文件下载地址
+     *
      * @param string $file
-     * @param int $expires
+     * @param int    $expires
+     *
      * @return mixed
      */
     public function getFileDownloadUrl($file, $expires = 3600)
@@ -129,7 +143,8 @@ class Storage
     }
 
     /**
-     * 获取云存储域名
+     * 获取云存储域名.
+     *
      * @return mixed
      */
     public function getDomain()
@@ -138,14 +153,14 @@ class Storage
     }
 
     /**
-     * 获取文件相对上传目录路径
+     * 获取文件相对上传目录路径.
+     *
      * @param string $url
+     *
      * @return mixed
      */
     public function getFilePath($url)
     {
         return $this->driver->getFilePath($url);
     }
-
-
 }

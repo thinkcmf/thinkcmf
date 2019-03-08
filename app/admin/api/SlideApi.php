@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
+
 namespace app\admin\api;
 
 use app\admin\model\SlideModel;
@@ -17,11 +19,14 @@ class SlideApi
 {
     /**
      * 幻灯片模板数据源 用于模板设计
+     *
      * @param array $param
-     * @return false|\PDOStatement|string|\think\Collection
+     *
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
+     *
+     * @return false|\PDOStatement|string|\think\Collection
      */
     public function index($param = [])
     {
@@ -35,5 +40,4 @@ class SlideApi
                 }
             })->select();
     }
-
 }

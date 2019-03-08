@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -15,8 +16,7 @@ use cmf\controller\AdminBaseController;
 use think\Db;
 
 /**
- * Class AdminIndexController
- * @package app\user\controller
+ * Class AdminIndexController.
  *
  * @adminMenuRoot(
  *     'name'   =>'用户管理',
@@ -40,9 +40,9 @@ use think\Db;
  */
 class AdminIndexController extends AdminBaseController
 {
-
     /**
-     * 后台本站用户列表
+     * 后台本站用户列表.
+     *
      * @adminMenu(
      *     'name'   => '本站用户',
      *     'parent' => 'default1',
@@ -62,7 +62,7 @@ class AdminIndexController extends AdminBaseController
             return $content;
         }
 
-        $where   = [];
+        $where = [];
         $request = input('request.');
 
         if (!empty($request['uid'])) {
@@ -72,11 +72,11 @@ class AdminIndexController extends AdminBaseController
         if (!empty($request['keyword'])) {
             $keyword = $request['keyword'];
 
-            $keywordComplex['user_login|user_nickname|user_email|mobile']    = ['like', "%$keyword%"];
+            $keywordComplex['user_login|user_nickname|user_email|mobile'] = ['like', "%$keyword%"];
         }
         $usersQuery = Db::name('user');
 
-        $list = $usersQuery->whereOr($keywordComplex)->where($where)->order("create_time DESC")->paginate(10);
+        $list = $usersQuery->whereOr($keywordComplex)->where($where)->order('create_time DESC')->paginate(10);
         // 获取分页显示
         $page = $list->render();
         $this->assign('list', $list);
@@ -86,7 +86,8 @@ class AdminIndexController extends AdminBaseController
     }
 
     /**
-     * 本站用户拉黑
+     * 本站用户拉黑.
+     *
      * @adminMenu(
      *     'name'   => '本站用户拉黑',
      *     'parent' => 'index',
@@ -102,9 +103,9 @@ class AdminIndexController extends AdminBaseController
     {
         $id = input('param.id', 0, 'intval');
         if ($id) {
-            $result = Db::name("user")->where(["id" => $id, "user_type" => 2])->setField('user_status', 0);
+            $result = Db::name('user')->where(['id' => $id, 'user_type' => 2])->setField('user_status', 0);
             if ($result) {
-                $this->success("会员拉黑成功！", "adminIndex/index");
+                $this->success('会员拉黑成功！', 'adminIndex/index');
             } else {
                 $this->error('会员拉黑失败,会员不存在,或者是管理员！');
             }
@@ -114,7 +115,8 @@ class AdminIndexController extends AdminBaseController
     }
 
     /**
-     * 本站用户启用
+     * 本站用户启用.
+     *
      * @adminMenu(
      *     'name'   => '本站用户启用',
      *     'parent' => 'index',
@@ -130,8 +132,8 @@ class AdminIndexController extends AdminBaseController
     {
         $id = input('param.id', 0, 'intval');
         if ($id) {
-            Db::name("user")->where(["id" => $id, "user_type" => 2])->setField('user_status', 1);
-            $this->success("会员启用成功！", '');
+            Db::name('user')->where(['id' => $id, 'user_type' => 2])->setField('user_status', 1);
+            $this->success('会员启用成功！', '');
         } else {
             $this->error('数据传入失败！');
         }

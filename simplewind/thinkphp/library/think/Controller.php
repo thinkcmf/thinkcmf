@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -46,13 +47,13 @@ class Controller
     protected $beforeActionList = [];
 
     /**
-     * 构造方法
-     * @access public
+     * 构造方法.
+     *
      * @param Request $request Request 对象
      */
     public function __construct(Request $request = null)
     {
-        $this->view    = View::instance(Config::get('template'), Config::get('view_replace_str'));
+        $this->view = View::instance(Config::get('template'), Config::get('view_replace_str'));
         $this->request = is_null($request) ? Request::instance() : $request;
 
         // 控制器初始化
@@ -69,18 +70,18 @@ class Controller
     }
 
     /**
-     * 初始化操作
-     * @access protected
+     * 初始化操作.
      */
     protected function _initialize()
     {
     }
 
     /**
-     * 前置操作
-     * @access protected
-     * @param  string $method  前置操作方法名
-     * @param  array  $options 调用参数 ['only'=>[...]] 或者 ['except'=>[...]]
+     * 前置操作.
+     *
+     * @param string $method  前置操作方法名
+     * @param array  $options 调用参数 ['only'=>[...]] 或者 ['except'=>[...]]
+     *
      * @return void
      */
     protected function beforeAction($method, $options = [])
@@ -107,12 +108,13 @@ class Controller
     }
 
     /**
-     * 加载模板输出
-     * @access protected
-     * @param  string $template 模板文件名
-     * @param  array  $vars     模板输出变量
-     * @param  array  $replace  模板替换
-     * @param  array  $config   模板参数
+     * 加载模板输出.
+     *
+     * @param string $template 模板文件名
+     * @param array  $vars     模板输出变量
+     * @param array  $replace  模板替换
+     * @param array  $config   模板参数
+     *
      * @return mixed
      */
     protected function fetch($template = '', $vars = [], $replace = [], $config = [])
@@ -121,12 +123,13 @@ class Controller
     }
 
     /**
-     * 渲染内容输出
-     * @access protected
-     * @param  string $content 模板内容
-     * @param  array  $vars    模板输出变量
-     * @param  array  $replace 替换内容
-     * @param  array  $config  模板参数
+     * 渲染内容输出.
+     *
+     * @param string $content 模板内容
+     * @param array  $vars    模板输出变量
+     * @param array  $replace 替换内容
+     * @param array  $config  模板参数
+     *
      * @return mixed
      */
     protected function display($content = '', $vars = [], $replace = [], $config = [])
@@ -136,9 +139,10 @@ class Controller
 
     /**
      * 模板变量赋值
-     * @access protected
-     * @param  mixed $name  要显示的模板变量
-     * @param  mixed $value 变量的值
+     *
+     * @param mixed $name  要显示的模板变量
+     * @param mixed $value 变量的值
+     *
      * @return $this
      */
     protected function assign($name, $value = '')
@@ -149,9 +153,10 @@ class Controller
     }
 
     /**
-     * 初始化模板引擎
-     * @access protected
+     * 初始化模板引擎.
+     *
      * @param array|string $engine 引擎参数
+     *
      * @return $this
      */
     protected function engine($engine)
@@ -162,9 +167,10 @@ class Controller
     }
 
     /**
-     * 设置验证失败后是否抛出异常
-     * @access protected
+     * 设置验证失败后是否抛出异常.
+     *
      * @param bool $fail 是否抛出异常
+     *
      * @return $this
      */
     protected function validateFailException($fail = true)
@@ -175,15 +181,17 @@ class Controller
     }
 
     /**
-     * 验证数据
-     * @access protected
-     * @param  array        $data     数据
-     * @param  string|array $validate 验证器名或者验证规则数组
-     * @param  array        $message  提示信息
-     * @param  bool         $batch    是否批量验证
-     * @param  mixed        $callback 回调方法（闭包）
-     * @return array|string|true
+     * 验证数据.
+     *
+     * @param array        $data     数据
+     * @param string|array $validate 验证器名或者验证规则数组
+     * @param array        $message  提示信息
+     * @param bool         $batch    是否批量验证
+     * @param mixed        $callback 回调方法（闭包）
+     *
      * @throws ValidateException
+     *
+     * @return array|string|true
      */
     protected function validate($data, $validate, $message = [], $batch = false, $callback = null)
     {

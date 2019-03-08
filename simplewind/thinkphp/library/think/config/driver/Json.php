@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -19,6 +20,7 @@ class Json
             $config = file_get_contents($config);
         }
         $result = json_decode($config, true);
+
         return $result;
     }
 }

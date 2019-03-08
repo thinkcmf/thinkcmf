@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,22 +9,22 @@
 // +----------------------------------------------------------------------
 // | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
+
 namespace app\admin\controller;
 
+use app\admin\model\AdminMenuModel;
 use cmf\controller\AdminBaseController;
 use think\Db;
-use app\admin\model\AdminMenuModel;
 
 class IndexController extends AdminBaseController
 {
-
     public function initialize()
     {
         $adminSettings = cmf_get_option('admin_settings');
         if (empty($adminSettings['admin_password']) || $this->request->path() == $adminSettings['admin_password']) {
             $adminId = cmf_get_current_admin_id();
             if (empty($adminId)) {
-                session("__LOGIN_BY_CMF_ADMIN_PW__", 1);//设置后台登录加密码
+                session('__LOGIN_BY_CMF_ADMIN_PW__', 1); //设置后台登录加密码
             }
         }
 
@@ -31,7 +32,7 @@ class IndexController extends AdminBaseController
     }
 
     /**
-     * 后台首页
+     * 后台首页.
      */
     public function index()
     {
@@ -42,26 +43,25 @@ class IndexController extends AdminBaseController
         }
 
         $adminMenuModel = new AdminMenuModel();
-        $menus          = cache('admin_menus_' . cmf_get_current_admin_id(), '', null, 'admin_menus');
+        $menus = cache('admin_menus_'.cmf_get_current_admin_id(), '', null, 'admin_menus');
 
         if (empty($menus)) {
             $menus = $adminMenuModel->menuTree();
-            cache('admin_menus_' . cmf_get_current_admin_id(), $menus, null, 'admin_menus');
+            cache('admin_menus_'.cmf_get_current_admin_id(), $menus, null, 'admin_menus');
         }
 
-        $this->assign("menus", $menus);
+        $this->assign('menus', $menus);
 
-
-        $result = Db::name('AdminMenu')->order(["app" => "ASC", "controller" => "ASC", "action" => "ASC"])->select();
-        $menusTmp = array();
-        foreach ($result as $item){
+        $result = Db::name('AdminMenu')->order(['app' => 'ASC', 'controller' => 'ASC', 'action' => 'ASC'])->select();
+        $menusTmp = [];
+        foreach ($result as $item) {
             //去掉/ _ 全部小写。作为索引。
             $indexTmp = $item['app'].$item['controller'].$item['action'];
-            $indexTmp = preg_replace("/[\\/|_]/","",$indexTmp);
+            $indexTmp = preg_replace('/[\\/|_]/', '', $indexTmp);
             $indexTmp = strtolower($indexTmp);
             $menusTmp[$indexTmp] = $item;
         }
-        $this->assign("menus_js_var",json_encode($menusTmp));
+        $this->assign('menus_js_var', json_encode($menusTmp));
 
         //$admin = Db::name("user")->where('id', cmf_get_current_admin_id())->find();
         //$this->assign('admin', $admin);

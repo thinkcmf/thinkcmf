@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: Powerless < wzxaini9@gmail.com>
 // +----------------------------------------------------------------------
+
 namespace app\user\validate;
 
 use think\Validate;
@@ -25,7 +27,7 @@ class FavoriteValidate extends Validate
         'title.require' => '收藏内容标题不能为空!',
         'table.require' => '收藏内容所在表不能为空!',
         'url.require'   => '收藏内容链接不能为空!',
-        'url.checkUrl'  => '收藏内容链接格式不正确!'
+        'url.checkUrl'  => '收藏内容链接格式不正确!',
     ];
 
     protected $scene = [
@@ -39,15 +41,17 @@ class FavoriteValidate extends Validate
         if (!empty($url['action'])) {
             return true;
         }
+
         return '收藏内容链接格式不正确!';
     }
 
     // 验证url 格式
     protected function checkTitle($value, $rule, $data)
     {
-        if (base64_decode($value)!==false) {
+        if (base64_decode($value) !== false) {
             return true;
         }
+
         return '收藏内容标题格式不正确!';
     }
 }

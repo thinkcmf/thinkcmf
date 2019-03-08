@@ -7,7 +7,6 @@ use Qiniu\Storage\UploadManager;
 
 class Qiniu
 {
-
     private $config;
 
     private $storageRoot;
@@ -19,6 +18,7 @@ class Qiniu
 
     /**
      * Qiniu constructor.
+     *
      * @param $config
      */
     public function __construct($config)
@@ -28,15 +28,17 @@ class Qiniu
         $this->plugin = new $pluginClass();
         $this->config = $this->plugin->getConfig();
 
-        $this->storageRoot = $this->config['protocol'] . '://' . $this->config['domain'] . '/';
+        $this->storageRoot = $this->config['protocol'].'://'.$this->config['domain'].'/';
     }
 
     /**
-     * 文件上传
+     * 文件上传.
+     *
      * @param string $file     上传文件路径
      * @param string $filePath 文件路径相对于upload目录
      * @param string $fileType 文件类型,image,video,audio,file
      * @param array  $param    额外参数
+     *
      * @return mixed
      */
     public function upload($file, $filePath, $fileType = 'image', $param = null)
@@ -45,13 +47,13 @@ class Qiniu
         $secretKey = $this->config['secretKey'];
         $watermark = empty($this->config['styles_watermark']) ? 'watermark' : $this->config['styles_watermark'];
         $upManager = new UploadManager();
-        $auth      = new Auth($accessKey, $secretKey);
-        $token     = $auth->uploadToken($this->config['bucket']);
+        $auth = new Auth($accessKey, $secretKey);
+        $token = $auth->uploadToken($this->config['bucket']);
 
         $result = $upManager->putFile($token, $file, $filePath);
 
         $previewUrl = $fileType == 'image' ? $this->getPreviewUrl($file, $watermark) : $this->getFileDownloadUrl($file);
-        $url        = $fileType == 'image' ? $this->getImageUrl($file, $watermark) : $this->getFileDownloadUrl($file);
+        $url = $fileType == 'image' ? $this->getImageUrl($file, $watermark) : $this->getFileDownloadUrl($file);
 
         return [
             'preview_url' => $previewUrl,
@@ -61,8 +63,10 @@ class Qiniu
 
     /**
      * 获取图片预览地址
+     *
      * @param string $file
      * @param string $style
+     *
      * @return mixed
      */
     public function getPreviewUrl($file, $style = 'watermark')
@@ -74,17 +78,19 @@ class Qiniu
 
     /**
      * 获取图片地址
+     *
      * @param string $file
      * @param string $style
+     *
      * @return mixed
      */
     public function getImageUrl($file, $style = 'watermark')
     {
         $config = $this->config;
-        $url    = $this->storageRoot . $file;
+        $url = $this->storageRoot.$file;
 
         if (!empty($style)) {
-            $url = $url . $config['style_separator'] . $style;
+            $url = $url.$config['style_separator'].$style;
         }
 
         return $url;
@@ -92,17 +98,19 @@ class Qiniu
 
     /**
      * 获取文件地址
+     *
      * @param string $file
      * @param string $style
+     *
      * @return mixed
      */
     public function getUrl($file, $style = '')
     {
         $config = $this->config;
-        $url    = $this->storageRoot . $file;
+        $url = $this->storageRoot.$file;
 
         if (!empty($style)) {
-            $url = $url . $config['style_separator'] . $style;
+            $url = $url.$config['style_separator'].$style;
         }
 
         return $url;
@@ -110,28 +118,32 @@ class Qiniu
 
     /**
      * 获取文件下载地址
+     *
      * @param string $file
      * @param int    $expires
+     *
      * @return mixed
      */
     public function getFileDownloadUrl($file, $expires = 3600)
     {
         $accessKey = $this->config['accessKey'];
         $secretKey = $this->config['secretKey'];
-        $auth      = new Auth($accessKey, $secretKey);
-        $url       = $this->getUrl($file);
-        $filename  = db('asset')->where('file_path', $file)->value('filename');
+        $auth = new Auth($accessKey, $secretKey);
+        $url = $this->getUrl($file);
+        $filename = db('asset')->where('file_path', $file)->value('filename');
 
         $url = $auth->privateDownloadUrl($url, $expires);
 
         if (!empty($filename)) {
-            $url .= '&attname=' . urlencode($filename);
+            $url .= '&attname='.urlencode($filename);
         }
+
         return $url;
     }
 
     /**
-     * 获取云存储域名
+     * 获取云存储域名.
+     *
      * @return mixed
      */
     public function getDomain()
@@ -140,8 +152,10 @@ class Qiniu
     }
 
     /**
-     * 获取文件相对上传目录路径
+     * 获取文件相对上传目录路径.
+     *
      * @param string $url
+     *
      * @return mixed
      */
     public function getFilePath($url)
@@ -149,8 +163,8 @@ class Qiniu
         $parsedUrl = parse_url($url);
 
         if (!empty($parsedUrl['path'])) {
-            $url            = ltrim($parsedUrl['path'], '/\\');
-            $config         = $this->config;
+            $url = ltrim($parsedUrl['path'], '/\\');
+            $config = $this->config;
             $styleSeparator = $config['style_separator'];
 
             $styleSeparatorPosition = strpos($url, $styleSeparator);

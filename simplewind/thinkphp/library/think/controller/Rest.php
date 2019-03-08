@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -17,33 +18,31 @@ use think\Response;
 
 abstract class Rest
 {
-
     protected $method; // 当前请求类型
     protected $type; // 当前资源类型
     // 输出类型
-    protected $restMethodList    = 'get|post|put|delete';
+    protected $restMethodList = 'get|post|put|delete';
     protected $restDefaultMethod = 'get';
-    protected $restTypeList      = 'html|xml|json|rss';
-    protected $restDefaultType   = 'html';
-    protected $restOutputType    = [ // REST允许输出的资源类型列表
+    protected $restTypeList = 'html|xml|json|rss';
+    protected $restDefaultType = 'html';
+    protected $restOutputType = [ // REST允许输出的资源类型列表
         'xml'  => 'application/xml',
         'json' => 'application/json',
         'html' => 'text/html',
     ];
 
     /**
-     * 构造函数 取得模板对象实例
-     * @access public
+     * 构造函数 取得模板对象实例.
      */
     public function __construct()
     {
         // 资源类型检测
         $request = Request::instance();
-        $ext     = $request->ext();
+        $ext = $request->ext();
         if ('' == $ext) {
             // 自动检测资源类型
             $this->type = $request->type();
-        } elseif (!preg_match('/(' . $this->restTypeList . ')$/i', $ext)) {
+        } elseif (!preg_match('/('.$this->restTypeList.')$/i', $ext)) {
             // 资源类型非法 则用默认资源类型访问
             $this->type = $this->restDefaultType;
         } else {
@@ -51,7 +50,7 @@ abstract class Rest
         }
         // 请求方式检测
         $method = strtolower($request->method());
-        if (!preg_match('/(' . $this->restMethodList . ')$/i', $method)) {
+        if (!preg_match('/('.$this->restMethodList.')$/i', $method)) {
             // 请求方式非法 则用默认请求方法
             $method = $this->restDefaultMethod;
         }
@@ -59,41 +58,43 @@ abstract class Rest
     }
 
     /**
-     * REST 调用
-     * @access public
+     * REST 调用.
+     *
      * @param string $method 方法名
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function _empty($method)
     {
-        if (method_exists($this, $method . '_' . $this->method . '_' . $this->type)) {
+        if (method_exists($this, $method.'_'.$this->method.'_'.$this->type)) {
             // RESTFul方法支持
-            $fun = $method . '_' . $this->method . '_' . $this->type;
-        } elseif ($this->method == $this->restDefaultMethod && method_exists($this, $method . '_' . $this->type)) {
-            $fun = $method . '_' . $this->type;
-        } elseif ($this->type == $this->restDefaultType && method_exists($this, $method . '_' . $this->method)) {
-            $fun = $method . '_' . $this->method;
+            $fun = $method.'_'.$this->method.'_'.$this->type;
+        } elseif ($this->method == $this->restDefaultMethod && method_exists($this, $method.'_'.$this->type)) {
+            $fun = $method.'_'.$this->type;
+        } elseif ($this->type == $this->restDefaultType && method_exists($this, $method.'_'.$this->method)) {
+            $fun = $method.'_'.$this->method;
         }
         if (isset($fun)) {
             return App::invokeMethod([$this, $fun]);
         } else {
             // 抛出异常
-            throw new \Exception('error action :' . $method);
+            throw new \Exception('error action :'.$method);
         }
     }
 
     /**
-     * 输出返回数据
-     * @access protected
-     * @param mixed     $data 要返回的数据
-     * @param String    $type 返回类型 JSON XML
-     * @param integer   $code HTTP状态码
+     * 输出返回数据.
+     *
+     * @param mixed  $data 要返回的数据
+     * @param string $type 返回类型 JSON XML
+     * @param int    $code HTTP状态码
+     *
      * @return Response
      */
     protected function response($data, $type = 'json', $code = 200)
     {
         return Response::create($data, $type)->code($code);
     }
-
 }

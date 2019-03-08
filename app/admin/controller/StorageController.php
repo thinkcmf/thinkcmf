@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,15 +9,16 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+
 namespace app\admin\controller;
 
 use cmf\controller\AdminBaseController;
 
 class StorageController extends AdminBaseController
 {
-
     /**
-     * 文件存储
+     * 文件存储.
+     *
      * @adminMenu(
      *     'name'   => '文件存储',
      *     'parent' => 'admin/Setting/default',
@@ -33,7 +35,7 @@ class StorageController extends AdminBaseController
         $storage = cmf_get_option('storage');
 
         if (empty($storage)) {
-            $storage['type']     = 'Local';
+            $storage['type'] = 'Local';
             $storage['storages'] = ['Local' => ['name' => '本地']];
         } else {
             if (empty($storage['type'])) {
@@ -46,11 +48,13 @@ class StorageController extends AdminBaseController
         }
 
         $this->assign($storage);
+
         return $this->fetch();
     }
 
     /**
-     * 文件存储
+     * 文件存储.
+     *
      * @adminMenu(
      *     'name'   => '文件存储设置提交',
      *     'parent' => 'index',
@@ -70,9 +74,6 @@ class StorageController extends AdminBaseController
 
         $storage['type'] = $post['type'];
         cmf_set_option('storage', $storage);
-        $this->success("设置成功！", '');
-
+        $this->success('设置成功！', '');
     }
-
-
 }

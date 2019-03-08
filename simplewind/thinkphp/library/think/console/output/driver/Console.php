@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
@@ -16,24 +17,23 @@ use think\console\output\Formatter;
 
 class Console
 {
-
-    /** @var  Resource */
+    /** @var resource */
     private $stdout;
 
-    /** @var  Formatter */
+    /** @var Formatter */
     private $formatter;
 
     private $terminalDimensions;
 
-    /** @var  Output */
+    /** @var Output */
     private $output;
 
     public function __construct(Output $output)
     {
-        $this->output    = $output;
+        $this->output = $output;
         $this->formatter = new Formatter();
-        $this->stdout    = $this->openOutputStream();
-        $decorated       = $this->hasColorSupport($this->stdout);
+        $this->stdout = $this->openOutputStream();
+        $decorated = $this->hasColorSupport($this->stdout);
         $this->formatter->setDecorated($decorated);
     }
 
@@ -75,7 +75,7 @@ class Console
 
     public function renderException(\Exception $e)
     {
-        $stderr    = $this->openErrorStream();
+        $stderr = $this->openErrorStream();
         $decorated = $this->hasColorSupport($stderr);
         $this->formatter->setDecorated($decorated);
 
@@ -92,15 +92,14 @@ class Console
             $lines = [];
             foreach (preg_split('/\r?\n/', $e->getMessage()) as $line) {
                 foreach ($this->splitStringByWidth($line, $width - 4) as $line) {
-
                     $lineLength = $this->stringWidth(preg_replace('/\[[^m]*m/', '', $line)) + 4;
-                    $lines[]    = [$line, $lineLength];
+                    $lines[] = [$line, $lineLength];
 
                     $len = max($lineLength, $len);
                 }
             }
 
-            $messages   = ['', ''];
+            $messages = ['', ''];
             $messages[] = $emptyLine = sprintf('<error>%s</error>', str_repeat(' ', $len));
             $messages[] = sprintf('<error>%s%s</error>', $title, str_repeat(' ', max(0, $len - $this->stringWidth($title))));
             foreach ($lines as $line) {
@@ -124,12 +123,12 @@ class Console
                     'args'     => [],
                 ]);
 
-                for ($i = 0, $count = count($trace); $i < $count; ++$i) {
-                    $class    = isset($trace[$i]['class']) ? $trace[$i]['class'] : '';
-                    $type     = isset($trace[$i]['type']) ? $trace[$i]['type'] : '';
+                for ($i = 0, $count = count($trace); $i < $count; $i++) {
+                    $class = isset($trace[$i]['class']) ? $trace[$i]['class'] : '';
+                    $type = isset($trace[$i]['type']) ? $trace[$i]['type'] : '';
                     $function = $trace[$i]['function'];
-                    $file     = isset($trace[$i]['file']) ? $trace[$i]['file'] : 'n/a';
-                    $line     = isset($trace[$i]['line']) ? $trace[$i]['line'] : 'n/a';
+                    $file = isset($trace[$i]['file']) ? $trace[$i]['file'] : 'n/a';
+                    $line = isset($trace[$i]['line']) ? $trace[$i]['line'] : 'n/a';
 
                     $this->write(sprintf(' %s%s%s() at <info>%s:%s</info>', $class, $type, $function, $file, $line), true, Output::OUTPUT_NORMAL, $stderr);
                 }
@@ -138,11 +137,11 @@ class Console
                 $this->write('', true, Output::OUTPUT_NORMAL, $stderr);
             }
         } while ($e = $e->getPrevious());
-
     }
 
     /**
-     * 获取终端宽度
+     * 获取终端宽度.
+     *
      * @return int|null
      */
     protected function getTerminalWidth()
@@ -153,7 +152,8 @@ class Console
     }
 
     /**
-     * 获取终端高度
+     * 获取终端高度.
+     *
      * @return int|null
      */
     protected function getTerminalHeight()
@@ -164,7 +164,8 @@ class Console
     }
 
     /**
-     * 获取当前终端的尺寸
+     * 获取当前终端的尺寸.
+     *
      * @return array
      */
     public function getTerminalDimensions()
@@ -195,7 +196,8 @@ class Console
     }
 
     /**
-     * 获取stty列数
+     * 获取stty列数.
+     *
      * @return string
      */
     private function getSttyColumns()
@@ -205,7 +207,7 @@ class Console
         }
 
         $descriptorspec = [1 => ['pipe', 'w'], 2 => ['pipe', 'w']];
-        $process        = proc_open('stty -a | grep columns', $descriptorspec, $pipes, null, null, ['suppress_errors' => true]);
+        $process = proc_open('stty -a | grep columns', $descriptorspec, $pipes, null, null, ['suppress_errors' => true]);
         if (is_resource($process)) {
             $info = stream_get_contents($pipes[1]);
             fclose($pipes[1]);
@@ -214,11 +216,11 @@ class Console
 
             return $info;
         }
-        return;
     }
 
     /**
-     * 获取终端模式
+     * 获取终端模式.
+     *
      * @return string <width>x<height> 或 null
      */
     private function getMode()
@@ -228,7 +230,7 @@ class Console
         }
 
         $descriptorspec = [1 => ['pipe', 'w'], 2 => ['pipe', 'w']];
-        $process        = proc_open('mode CON', $descriptorspec, $pipes, null, null, ['suppress_errors' => true]);
+        $process = proc_open('mode CON', $descriptorspec, $pipes, null, null, ['suppress_errors' => true]);
         if (is_resource($process)) {
             $info = stream_get_contents($pipes[1]);
             fclose($pipes[1]);
@@ -236,10 +238,9 @@ class Console
             proc_close($process);
 
             if (preg_match('/--------+\r?\n.+?(\d+)\r?\n.+?(\d+)\r?\n/', $info, $matches)) {
-                return $matches[2] . 'x' . $matches[1];
+                return $matches[2].'x'.$matches[1];
             }
         }
-        return;
     }
 
     private function stringWidth($string)
@@ -266,15 +267,15 @@ class Console
         }
 
         $utf8String = mb_convert_encoding($string, 'utf8', $encoding);
-        $lines      = [];
-        $line       = '';
+        $lines = [];
+        $line = '';
         foreach (preg_split('//u', $utf8String) as $char) {
-            if (mb_strwidth($line . $char, 'utf8') <= $width) {
+            if (mb_strwidth($line.$char, 'utf8') <= $width) {
                 $line .= $char;
                 continue;
             }
             $lines[] = str_pad($line, $width);
-            $line    = $char;
+            $line = $char;
         }
         if (strlen($line)) {
             $lines[] = count($lines) ? str_pad($line, $width) : $line;
@@ -292,6 +293,7 @@ class Console
             getenv('OSTYPE'),
             PHP_OS,
         ];
+
         return false !== stripos(implode(';', $checks), 'OS400');
     }
 
@@ -323,6 +325,7 @@ class Console
         if (!$this->hasStdoutSupport()) {
             return fopen('php://output', 'w');
         }
+
         return @fopen('php://stdout', 'w') ?: fopen('php://output', 'w');
     }
 
@@ -336,6 +339,7 @@ class Console
 
     /**
      * 将消息写入到输出。
+     *
      * @param string $message 消息
      * @param bool   $newline 是否另起一行
      * @param null   $stream
@@ -345,7 +349,7 @@ class Console
         if (null === $stream) {
             $stream = $this->stdout;
         }
-        if (false === @fwrite($stream, $message . ($newline ? PHP_EOL : ''))) {
+        if (false === @fwrite($stream, $message.($newline ? PHP_EOL : ''))) {
             throw new \RuntimeException('Unable to write output.');
         }
 
@@ -353,15 +357,17 @@ class Console
     }
 
     /**
-     * 是否支持着色
+     * 是否支持着色.
+     *
      * @param $stream
+     *
      * @return bool
      */
     protected function hasColorSupport($stream)
     {
         if (DIRECTORY_SEPARATOR === '\\') {
             return
-            '10.0.10586' === PHP_WINDOWS_VERSION_MAJOR . '.' . PHP_WINDOWS_VERSION_MINOR . '.' . PHP_WINDOWS_VERSION_BUILD
+            '10.0.10586' === PHP_WINDOWS_VERSION_MAJOR.'.'.PHP_WINDOWS_VERSION_MINOR.'.'.PHP_WINDOWS_VERSION_BUILD
             || false !== getenv('ANSICON')
             || 'ON' === getenv('ConEmuANSI')
             || 'xterm' === getenv('TERM');
@@ -369,5 +375,4 @@ class Console
 
         return function_exists('posix_isatty') && @posix_isatty($stream);
     }
-
 }

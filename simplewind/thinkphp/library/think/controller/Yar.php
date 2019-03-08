@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
@@ -12,14 +13,12 @@
 namespace think\controller;
 
 /**
- * ThinkPHP Yar控制器类
+ * ThinkPHP Yar控制器类.
  */
 abstract class Yar
 {
-
     /**
-     * 构造函数
-     * @access public
+     * 构造函数.
      */
     public function __construct()
     {
@@ -40,12 +39,14 @@ abstract class Yar
     }
 
     /**
-     * 魔术方法 有不存在的操作的时候执行
-     * @access public
+     * 魔术方法 有不存在的操作的时候执行.
+     *
      * @param string $method 方法名
-     * @param array $args 参数
+     * @param array  $args   参数
+     *
      * @return mixed
      */
     public function __call($method, $args)
-    {}
+    {
+    }
 }

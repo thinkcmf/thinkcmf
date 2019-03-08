@@ -1,4 +1,5 @@
 <?php
+
 // +---------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +---------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +---------------------------------------------------------------------
+
 namespace cmf\behavior;
 
 use think\Db;
@@ -15,7 +17,6 @@ use think\facade\Hook;
 
 class InitAppHookBehavior
 {
-
     // 行为扩展的执行入口必须是run
     public function run($param)
     {
@@ -23,10 +24,10 @@ class InitAppHookBehavior
             return;
         }
 
-        $app        = request()->module();
+        $app = request()->module();
 
         $appHookPluginsCacheKey = "init_hook_plugins_app_{$app}_hook_plugins";
-        $appHookPlugins         = cache($appHookPluginsCacheKey);
+        $appHookPlugins = cache($appHookPluginsCacheKey);
 
         if (empty($appHookPlugins)) {
             $appHooks = Db::name('hook')->where('app', $app)->column('hook');

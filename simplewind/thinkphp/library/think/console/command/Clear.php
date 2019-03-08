@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+
 namespace think\console\command;
 
 use think\Cache;
@@ -43,19 +45,19 @@ class Clear extends Command
             }
         }
 
-        $output->writeln("<info>Clear Successed</info>");
+        $output->writeln('<info>Clear Successed</info>');
     }
 
     protected function clearPath($path)
     {
-        $path  = realpath($path) . DS;
+        $path = realpath($path).DS;
         $files = scandir($path);
         if ($files) {
             foreach ($files as $file) {
-                if ('.' != $file && '..' != $file && is_dir($path . $file)) {
-                    $this->clearPath($path . $file);
-                } elseif ('.gitignore' != $file && is_file($path . $file)) {
-                    unlink($path . $file);
+                if ('.' != $file && '..' != $file && is_dir($path.$file)) {
+                    $this->clearPath($path.$file);
+                } elseif ('.gitignore' != $file && is_file($path.$file)) {
+                    unlink($path.$file);
                 }
             }
         }

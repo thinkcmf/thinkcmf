@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,19 +9,20 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+
 namespace app\admin\controller;
 
-use cmf\controller\AdminBaseController;
-use app\admin\model\PluginModel;
 use app\admin\model\HookPluginModel;
+use app\admin\model\PluginModel;
+use cmf\controller\AdminBaseController;
 use mindplay\annotations\Annotations;
 use think\Db;
 use think\facade\Cache;
 use think\Validate;
 
 /**
- * Class PluginController
- * @package app\admin\controller
+ * Class PluginController.
+ *
  * @adminMenuRoot(
  *     'name'   =>'插件中心',
  *     'action' =>'default',
@@ -33,11 +35,11 @@ use think\Validate;
  */
 class PluginController extends AdminBaseController
 {
-
     protected $pluginModel;
 
     /**
-     * 插件列表
+     * 插件列表.
+     *
      * @adminMenu(
      *     'name'   => '插件列表',
      *     'parent' => 'admin/Plugin/default',
@@ -52,13 +54,15 @@ class PluginController extends AdminBaseController
     public function index()
     {
         $pluginModel = new PluginModel();
-        $plugins     = $pluginModel->getList();
-        $this->assign("plugins", $plugins);
+        $plugins = $pluginModel->getList();
+        $this->assign('plugins', $plugins);
+
         return $this->fetch();
     }
 
     /**
-     * 插件启用/禁用
+     * 插件启用/禁用.
+     *
      * @adminMenu(
      *     'name'   => '插件启用禁用',
      *     'parent' => 'index',
@@ -80,12 +84,12 @@ class PluginController extends AdminBaseController
             $this->error('插件不存在！');
         }
 
-        $status         = 1;
-        $successMessage = "启用成功！";
+        $status = 1;
+        $successMessage = '启用成功！';
 
         if ($this->request->param('disable')) {
-            $status         = 0;
-            $successMessage = "禁用成功！";
+            $status = 0;
+            $successMessage = '禁用成功！';
         }
 
         $pluginModel->startTrans();
@@ -98,13 +102,10 @@ class PluginController extends AdminBaseController
             $hookPluginModel->save(['status' => $status], ['plugin' => $pluginModel->name]);
 
             $pluginModel->commit();
-
         } catch (\Exception $e) {
-
             $pluginModel->rollback();
 
             $this->error('操作失败！');
-
         }
 
         Cache::clear('init_hook_plugins');
@@ -113,7 +114,8 @@ class PluginController extends AdminBaseController
     }
 
     /**
-     * 插件设置
+     * 插件设置.
+     *
      * @adminMenu(
      *     'name'   => '插件设置',
      *     'parent' => 'index',
@@ -130,7 +132,7 @@ class PluginController extends AdminBaseController
         $id = $this->request->param('id', 0, 'intval');
 
         $pluginModel = new PluginModel();
-        $plugin      = $pluginModel->find($id);
+        $plugin = $pluginModel->find($id);
 
         if (empty($plugin)) {
             $this->error('插件未安装!');
@@ -143,7 +145,7 @@ class PluginController extends AdminBaseController
             $this->error('插件不存在!');
         }
 
-        $pluginObj = new $pluginClass;
+        $pluginObj = new $pluginClass();
         //$plugin['plugin_path']   = $pluginObj->plugin_path;
         //$plugin['custom_config'] = $pluginObj->custom_config;
         $pluginConfigInDb = $plugin['config'];
@@ -174,12 +176,13 @@ class PluginController extends AdminBaseController
 //        }
 
         $this->assign('id', $id);
-        return $this->fetch();
 
+        return $this->fetch();
     }
 
     /**
-     * 插件设置提交
+     * 插件设置提交.
+     *
      * @adminMenu(
      *     'name'   => '插件设置提交',
      *     'parent' => 'index',
@@ -197,7 +200,7 @@ class PluginController extends AdminBaseController
             $id = $this->request->param('id', 0, 'intval');
 
             $pluginModel = new PluginModel();
-            $plugin      = $pluginModel->find($id)->toArray();
+            $plugin = $pluginModel->find($id)->toArray();
 
             if (!$plugin) {
                 $this->error('插件未安装!');
@@ -208,13 +211,13 @@ class PluginController extends AdminBaseController
                 $this->error('插件不存在!');
             }
 
-            $pluginObj = new $pluginClass;
+            $pluginObj = new $pluginClass();
             //$plugin['plugin_path']   = $pluginObj->plugin_path;
             //$plugin['custom_config'] = $pluginObj->custom_config;
             $pluginConfigInDb = $plugin['config'];
             $plugin['config'] = include $pluginObj->getConfigFilePath();
 
-            $rules    = [];
+            $rules = [];
             $messages = [];
 
             foreach ($plugin['config'] as $key => $value) {
@@ -225,10 +228,9 @@ class PluginController extends AdminBaseController
 
                     if (isset($value['message'])) {
                         foreach ($value['message'] as $rule => $msg) {
-                            $messages[$key . '.' . $rule] = $msg;
+                            $messages[$key.'.'.$rule] = $msg;
                         }
                     }
-
                 } else {
                     foreach ($value['options'] as $group => $options) {
                         foreach ($options['options'] as $gkey => $value) {
@@ -238,7 +240,7 @@ class PluginController extends AdminBaseController
 
                             if (isset($value['message'])) {
                                 foreach ($value['message'] as $rule => $msg) {
-                                    $messages[$gkey . '.' . $rule] = $msg;
+                                    $messages[$gkey.'.'.$rule] = $msg;
                                 }
                             }
                         }
@@ -249,7 +251,7 @@ class PluginController extends AdminBaseController
             $config = $this->request->param('config/a');
 
             $validate = new Validate($rules, $messages);
-            $result   = $validate->check($config);
+            $result = $validate->check($config);
             if ($result !== true) {
                 $this->error($validate->getError());
             }
@@ -261,8 +263,10 @@ class PluginController extends AdminBaseController
     }
 
     /**
-     * 解析插件配置验证规则
+     * 解析插件配置验证规则.
+     *
      * @param $rules
+     *
      * @return array
      */
     private function _parseRules($rules)
@@ -274,7 +278,7 @@ class PluginController extends AdminBaseController
             'integer', 'float', 'boolean', 'email',
             'array', 'accepted', 'date', 'alpha',
             'alphaNum', 'alphaDash', 'activeUrl',
-            'url', 'ip'];
+            'url', 'ip', ];
         foreach ($rules as $key => $rule) {
             if (in_array($key, $simpleRules) && $rule) {
                 array_push($newRules, $key);
@@ -285,7 +289,8 @@ class PluginController extends AdminBaseController
     }
 
     /**
-     * 插件安装
+     * 插件安装.
+     *
      * @adminMenu(
      *     'name'   => '插件安装',
      *     'parent' => 'index',
@@ -300,7 +305,7 @@ class PluginController extends AdminBaseController
     public function install()
     {
         $pluginName = $this->request->param('name', '', 'trim');
-        $class      = cmf_get_plugin_class($pluginName);
+        $class = cmf_get_plugin_class($pluginName);
         if (!class_exists($class)) {
             $this->error('插件不存在!');
         }
@@ -312,8 +317,8 @@ class PluginController extends AdminBaseController
             $this->error('插件已安装!');
         }
 
-        $plugin = new $class;
-        $info   = $plugin->info;
+        $plugin = new $class();
+        $info = $plugin->info;
         if (!$info || !$plugin->checkInfo()) {//检测信息的正确性
             $this->error('插件信息缺失!');
         }
@@ -353,13 +358,14 @@ class PluginController extends AdminBaseController
         $this->_getActions($pluginName);
 
         Cache::clear('init_hook_plugins');
-        Cache::clear('admin_menus');// 删除后台菜单缓存
+        Cache::clear('admin_menus'); // 删除后台菜单缓存
 
         $this->success('安装成功!');
     }
 
     /**
-     * 插件更新
+     * 插件更新.
+     *
      * @adminMenu(
      *     'name'   => '插件更新',
      *     'parent' => 'index',
@@ -374,13 +380,13 @@ class PluginController extends AdminBaseController
     public function update()
     {
         $pluginName = $this->request->param('name', '', 'trim');
-        $class      = cmf_get_plugin_class($pluginName);
+        $class = cmf_get_plugin_class($pluginName);
         if (!class_exists($class)) {
             $this->error('插件不存在!');
         }
 
-        $plugin = new $class;
-        $info   = $plugin->info;
+        $plugin = new $class();
+        $info = $plugin->info;
         if (!$info || !$plugin->checkInfo()) {//检测信息的正确性
             $this->error('插件信息缺失!');
         }
@@ -435,28 +441,28 @@ class PluginController extends AdminBaseController
         $this->_getActions($pluginName);
 
         Cache::clear('init_hook_plugins');
-        Cache::clear('admin_menus');// 删除后台菜单缓存
+        Cache::clear('admin_menus'); // 删除后台菜单缓存
 
         $this->success('更新成功!');
     }
 
     private function _getActions($pluginName)
     {
-        Annotations::$config['cache']             = false;
-        $annotationManager                        = Annotations::getManager();
+        Annotations::$config['cache'] = false;
+        $annotationManager = Annotations::getManager();
         $annotationManager->registry['adminMenu'] = 'app\admin\annotation\AdminMenuAnnotation';
-        $newMenus                                 = [];
+        $newMenus = [];
 
         $pluginDir = cmf_parse_name($pluginName);
 
-        $filePatten = PLUGINS_PATH . $pluginDir . '/controller/Admin*Controller.php';
+        $filePatten = PLUGINS_PATH.$pluginDir.'/controller/Admin*Controller.php';
 
         $controllers = cmf_scan_dir($filePatten);
 
         if (!empty($controllers)) {
             foreach ($controllers as $controller) {
-                $controller      = preg_replace('/\.php$/', '', $controller);
-                $controllerName  = preg_replace('/\Controller$/', '', $controller);
+                $controller = preg_replace('/\.php$/', '', $controller);
+                $controllerName = preg_replace('/\Controller$/', '', $controller);
                 $controllerClass = "plugins\\$pluginDir\\controller\\$controller";
 
                 $reflect = new \ReflectionClass($controllerClass);
@@ -464,35 +470,33 @@ class PluginController extends AdminBaseController
 
                 if (!empty($methods)) {
                     foreach ($methods as $method) {
-
                         if ($method->class == $controllerClass && strpos($method->name, '_') !== 0) {
                             $menuAnnotations = Annotations::ofMethod($controllerClass, $method->name, '@adminMenu');
 
                             if (!empty($menuAnnotations)) {
-
                                 $menuAnnotation = $menuAnnotations[0];
 
-                                $name      = $menuAnnotation->name;
-                                $icon      = $menuAnnotation->icon;
-                                $type      = $menuAnnotation->hasView ? 1 : 2;//1:有界面可访问菜单,2:无界面可访问菜单,0:只作为菜单
-                                $action    = $method->name;
-                                $status    = empty($menuAnnotation->display) ? 0 : 1;
+                                $name = $menuAnnotation->name;
+                                $icon = $menuAnnotation->icon;
+                                $type = $menuAnnotation->hasView ? 1 : 2; //1:有界面可访问菜单,2:无界面可访问菜单,0:只作为菜单
+                                $action = $method->name;
+                                $status = empty($menuAnnotation->display) ? 0 : 1;
                                 $listOrder = floatval($menuAnnotation->order);
-                                $param     = $menuAnnotation->param;
-                                $remark    = $menuAnnotation->remark;
+                                $param = $menuAnnotation->param;
+                                $remark = $menuAnnotation->remark;
 
                                 if (empty($menuAnnotation->parent)) {
                                     $parentId = 0;
                                 } else {
-                                    $parent      = explode('/', $menuAnnotation->parent);
+                                    $parent = explode('/', $menuAnnotation->parent);
                                     $countParent = count($parent);
                                     if ($countParent > 3) {
-                                        throw new \Exception($controllerClass . ':' . $action . '  @menuRoot parent格式不正确!');
+                                        throw new \Exception($controllerClass.':'.$action.'  @menuRoot parent格式不正确!');
                                     }
 
-                                    $parentApp        = 'plugin/' . $pluginName;
+                                    $parentApp = 'plugin/'.$pluginName;
                                     $parentController = $controllerName;
-                                    $parentAction     = '';
+                                    $parentAction = '';
 
                                     switch ($countParent) {
                                         case 1:
@@ -500,19 +504,19 @@ class PluginController extends AdminBaseController
                                             break;
                                         case 2:
                                             $parentController = $parent[0];
-                                            $parentAction     = $parent[1];
+                                            $parentAction = $parent[1];
                                             break;
                                         case 3:
-                                            $parentApp        = $parent[0];
+                                            $parentApp = $parent[0];
                                             $parentController = $parent[1];
-                                            $parentAction     = $parent[2];
+                                            $parentAction = $parent[2];
                                             break;
                                     }
 
                                     $findParentAdminMenu = Db::name('admin_menu')->where([
                                         'app'        => $parentApp,
                                         'controller' => $parentController,
-                                        'action'     => $parentAction
+                                        'action'     => $parentAction,
                                     ])->find();
 
                                     if (empty($findParentAdminMenu)) {
@@ -520,7 +524,7 @@ class PluginController extends AdminBaseController
                                             'app'        => $parentApp,
                                             'controller' => $parentController,
                                             'action'     => $parentAction,
-                                            'name'       => '--new--'
+                                            'name'       => '--new--',
                                         ]);
                                     } else {
                                         $parentId = $findParentAdminMenu['id'];
@@ -528,37 +532,35 @@ class PluginController extends AdminBaseController
                                 }
 
                                 $findAdminMenu = Db::name('admin_menu')->where([
-                                    'app'        => 'plugin/' . $pluginName,
+                                    'app'        => 'plugin/'.$pluginName,
                                     'controller' => $controllerName,
-                                    'action'     => $action
+                                    'action'     => $action,
                                 ])->find();
 
                                 if (empty($findAdminMenu)) {
-
                                     Db::name('admin_menu')->insert([
                                         'parent_id'  => $parentId,
                                         'type'       => $type,
                                         'status'     => $status,
                                         'list_order' => $listOrder,
-                                        'app'        => 'plugin/' . $pluginName,
+                                        'app'        => 'plugin/'.$pluginName,
                                         'controller' => $controllerName,
                                         'action'     => $action,
                                         'param'      => $param,
                                         'name'       => $name,
                                         'icon'       => $icon,
-                                        'remark'     => $remark
+                                        'remark'     => $remark,
                                     ]);
 
                                     $menuName = $name;
 
-                                    //array_push($newMenus, "$app/$controllerName/$action 已导入");
-
+                                //array_push($newMenus, "$app/$controllerName/$action 已导入");
                                 } else {
                                     if ($findAdminMenu['name'] == '--new--') {
                                         Db::name('admin_menu')->where([
-                                            'app'        => 'plugin/' . $pluginName,
+                                            'app'        => 'plugin/'.$pluginName,
                                             'controller' => $controllerName,
-                                            'action'     => $action
+                                            'action'     => $action,
                                         ])->update([
                                             'parent_id'  => $parentId,
                                             'type'       => $type,
@@ -567,15 +569,15 @@ class PluginController extends AdminBaseController
                                             'param'      => $param,
                                             'name'       => $name,
                                             'icon'       => $icon,
-                                            'remark'     => $remark
+                                            'remark'     => $remark,
                                         ]);
                                         $menuName = $name;
                                     } else {
                                         // 只关注是否有视图
                                         Db::name('admin_menu')->where([
-                                            'app'        => 'plugin/' . $pluginName,
+                                            'app'        => 'plugin/'.$pluginName,
                                             'controller' => $controllerName,
-                                            'action'     => $action
+                                            'action'     => $action,
                                         ])->update([
                                             //'parent_id' => $parentId,
                                             'type' => $type,
@@ -583,48 +585,45 @@ class PluginController extends AdminBaseController
                                         $menuName = $findAdminMenu['name'];
                                     }
 
-
 //                                    array_push($newMenus, "$app/$controllerName/$action 已更新");
                                 }
 
-                                $authRuleName      = "plugin/{$pluginName}/{$controllerName}/{$action}";
+                                $authRuleName = "plugin/{$pluginName}/{$controllerName}/{$action}";
                                 $findAuthRuleCount = Db::name('auth_rule')->where([
-                                    'app'  => 'plugin/' . $pluginName,
+                                    'app'  => 'plugin/'.$pluginName,
                                     'name' => $authRuleName,
-                                    'type' => 'plugin_url'
+                                    'type' => 'plugin_url',
                                 ])->count();
 
                                 if ($findAuthRuleCount == 0) {
                                     Db::name('auth_rule')->insert([
-                                        'app'   => 'plugin/' . $pluginName,
+                                        'app'   => 'plugin/'.$pluginName,
                                         'name'  => $authRuleName,
                                         'type'  => 'plugin_url',
                                         'param' => $param,
-                                        'title' => $menuName
+                                        'title' => $menuName,
                                     ]);
                                 } else {
                                     Db::name('auth_rule')->where([
-                                        'app'  => 'plugin/' . $pluginName,
+                                        'app'  => 'plugin/'.$pluginName,
                                         'name' => $authRuleName,
                                         'type' => 'plugin_url',
                                     ])->update([
                                         'param' => $param,
-                                        'title' => $menuName
+                                        'title' => $menuName,
                                     ]);
                                 }
                             }
-
                         }
                     }
                 }
-
             }
         }
-
     }
 
     /**
-     * 卸载插件
+     * 卸载插件.
+     *
      * @adminMenu(
      *     'name'   => '卸载插件',
      *     'parent' => 'index',
@@ -639,7 +638,7 @@ class PluginController extends AdminBaseController
     public function uninstall()
     {
         $pluginModel = new PluginModel();
-        $id          = $this->request->param('id', 0, 'intval');
+        $id = $this->request->param('id', 0, 'intval');
 
         $result = $pluginModel->uninstall($id);
 
@@ -648,10 +647,8 @@ class PluginController extends AdminBaseController
         }
 
         Cache::clear('init_hook_plugins');
-        Cache::clear('admin_menus');// 删除后台菜单缓存
+        Cache::clear('admin_menus'); // 删除后台菜单缓存
 
         $this->success('卸载成功!');
     }
-
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
+
 namespace app\portal\taglib;
 
 use think\template\TagLib;
@@ -15,27 +17,27 @@ use think\template\TagLib;
 class Portal extends TagLib
 {
     /**
-     * 定义标签列表
+     * 定义标签列表.
      */
     protected $tags = [
         // 标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次
-        'articles'         => ['attr' => 'field,where,limit,order,page,relation,returnVarName,pageVarName,categoryIds', 'close' => 1],//非必须属性item
-        'tagarticles'      => ['attr' => 'field,where,limit,order,page,relation,returnVarName,pageVarName,tagId', 'close' => 1],//非必须属性item
-        'breadcrumb'       => ['attr' => 'cid', 'close' => 1],//非必须属性self
-        'categories'       => ['attr' => 'where,order', 'close' => 1],//非必须属性item
-        'subcategories'    => ['attr' => 'categoryId', 'close' => 1],//非必须属性item
-        'allsubcategories' => ['attr' => 'categoryId', 'close' => 1],//非必须属性item
+        'articles'         => ['attr' => 'field,where,limit,order,page,relation,returnVarName,pageVarName,categoryIds', 'close' => 1], //非必须属性item
+        'tagarticles'      => ['attr' => 'field,where,limit,order,page,relation,returnVarName,pageVarName,tagId', 'close' => 1], //非必须属性item
+        'breadcrumb'       => ['attr' => 'cid', 'close' => 1], //非必须属性self
+        'categories'       => ['attr' => 'where,order', 'close' => 1], //非必须属性item
+        'subcategories'    => ['attr' => 'categoryId', 'close' => 1], //非必须属性item
+        'allsubcategories' => ['attr' => 'categoryId', 'close' => 1], //非必须属性item
     ];
 
     /**
-     * 文章列表标签
+     * 文章列表标签.
      */
     public function tagArticles($tag, $content)
     {
-        $item          = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
-        $order         = empty($tag['order']) ? 'post.published_time DESC' : $tag['order'];
-        $relation      = empty($tag['relation']) ? '' : $tag['relation'];
-        $pageVarName   = empty($tag['pageVarName']) ? '__PAGE_VAR_NAME__' : $tag['pageVarName'];
+        $item = empty($tag['item']) ? 'vo' : $tag['item']; //循环变量名
+        $order = empty($tag['order']) ? 'post.published_time DESC' : $tag['order'];
+        $relation = empty($tag['relation']) ? '' : $tag['relation'];
+        $pageVarName = empty($tag['pageVarName']) ? '__PAGE_VAR_NAME__' : $tag['pageVarName'];
         $returnVarName = empty($tag['returnVarName']) ? 'articles_data' : $tag['returnVarName'];
 
         $field = "''";
@@ -109,18 +111,19 @@ class Portal extends TagLib
 {$content}
 </volist>
 parse;
+
         return $parse;
     }
 
     /**
-     * 标签文章列表标签
+     * 标签文章列表标签.
      */
     public function tagTagArticles($tag, $content)
     {
-        $item          = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
-        $order         = empty($tag['order']) ? 'post.published_time DESC' : $tag['order'];
-        $relation      = empty($tag['relation']) ? '' : $tag['relation'];
-        $pageVarName   = empty($tag['pageVarName']) ? '__PAGE_VAR_NAME__' : $tag['pageVarName'];
+        $item = empty($tag['item']) ? 'vo' : $tag['item']; //循环变量名
+        $order = empty($tag['order']) ? 'post.published_time DESC' : $tag['order'];
+        $relation = empty($tag['relation']) ? '' : $tag['relation'];
+        $pageVarName = empty($tag['pageVarName']) ? '__PAGE_VAR_NAME__' : $tag['pageVarName'];
         $returnVarName = empty($tag['returnVarName']) ? 'tag_articles_data' : $tag['returnVarName'];
 
         $field = "''";
@@ -194,11 +197,12 @@ parse;
 {$content}
 </volist>
 parse;
+
         return $parse;
     }
 
     /**
-     * 面包屑标签
+     * 面包屑标签.
      */
     public function tagBreadcrumb($tag, $content)
     {
@@ -226,18 +230,17 @@ if(!empty({$cid})){
 parse;
 
         return $parse;
-
     }
 
     /**
-     * 文章分类标签
+     * 文章分类标签.
      */
     public function tagCategories($tag, $content)
     {
-        $item          = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
-        $order         = empty($tag['order']) ? '' : $tag['order'];
+        $item = empty($tag['item']) ? 'vo' : $tag['item']; //循环变量名
+        $order = empty($tag['order']) ? '' : $tag['order'];
         $returnVarName = 'portal_categories_data';
-        $where         = '""';
+        $where = '""';
         if (!empty($tag['where']) && strpos($tag['where'], '$') === 0) {
             $where = $tag['where'];
         }
@@ -254,18 +257,19 @@ parse;
 {$content}
 </volist>
 parse;
+
         return $parse;
     }
 
     /**
-     * 文章子分类标签
+     * 文章子分类标签.
      */
     public function tagSubCategories($tag, $content)
     {
-        $item          = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
+        $item = empty($tag['item']) ? 'vo' : $tag['item']; //循环变量名
         $returnVarName = 'portal_sub_categories_data';
 
-        $categoryId = "0";
+        $categoryId = '0';
         if (!empty($tag['categoryId'])) {
             if (strpos($tag['categoryId'], '$') === 0) {
                 $categoryId = $tag['categoryId'];
@@ -285,18 +289,19 @@ parse;
 {$content}
 </volist>
 parse;
+
         return $parse;
     }
 
     /**
-     * 文章分类所有子分类标签
+     * 文章分类所有子分类标签.
      */
     public function tagAllSubCategories($tag, $content)
     {
-        $item          = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
+        $item = empty($tag['item']) ? 'vo' : $tag['item']; //循环变量名
         $returnVarName = 'portal_all_sub_categories_data';
 
-        $categoryId = "0";
+        $categoryId = '0';
         if (!empty($tag['categoryId'])) {
             if (strpos($tag['categoryId'], '$') === 0) {
                 $categoryId = $tag['categoryId'];
@@ -315,7 +320,7 @@ parse;
 {$content}
 </volist>
 parse;
+
         return $parse;
     }
-
 }

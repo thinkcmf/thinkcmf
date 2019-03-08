@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -6,15 +7,18 @@
 // +----------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
-namespace plugins\wxapp\controller; //Demo插件英文名，改成你的插件英文就行了
+
+namespace plugins\wxapp\controller;
+
+//Demo插件英文名，改成你的插件英文就行了
 
 use cmf\controller\PluginAdminBaseController;
 
 class AdminWxappController extends PluginAdminBaseController
 {
-
     /**
-     * 添加小程序
+     * 添加小程序.
+     *
      * @adminMenu(
      *     'name'   => '添加小程序',
      *     'parent' => 'AdminIndex/index',
@@ -28,12 +32,12 @@ class AdminWxappController extends PluginAdminBaseController
      */
     public function add()
     {
-
         return $this->fetch();
     }
 
     /**
-     * 添加小程序提交保存
+     * 添加小程序提交保存.
+     *
      * @adminMenu(
      *     'name'   => '添加小程序提交保存',
      *     'parent' => 'AdminIndex/index',
@@ -49,7 +53,7 @@ class AdminWxappController extends PluginAdminBaseController
     {
         $data = $this->request->param();
 
-        $result = $this->validate($data, "AdminWxapp");
+        $result = $this->validate($data, 'AdminWxapp');
 
         if ($result !== true) {
             $this->error($result);
@@ -68,12 +72,11 @@ class AdminWxappController extends PluginAdminBaseController
         cmf_set_option('wxapp_settings', $wxappSettings);
 
         $this->success('添加成功！', cmf_plugin_url('Wxapp://AdminWxapp/edit', ['id' => $data['app_id']]));
-
-
     }
 
     /**
-     * 编辑小程序
+     * 编辑小程序.
+     *
      * @adminMenu(
      *     'name'   => '编辑小程序',
      *     'parent' => 'AdminIndex/index',
@@ -103,7 +106,8 @@ class AdminWxappController extends PluginAdminBaseController
     }
 
     /**
-     * 编辑小程序提交保存
+     * 编辑小程序提交保存.
+     *
      * @adminMenu(
      *     'name'   => '编辑小程序提交保存',
      *     'parent' => 'AdminIndex/index',
@@ -119,7 +123,7 @@ class AdminWxappController extends PluginAdminBaseController
     {
         $data = $this->request->param();
 
-        $result = $this->validate($data, "AdminWxapp");
+        $result = $this->validate($data, 'AdminWxapp');
 
         if ($result !== true) {
             $this->error($result);
@@ -141,7 +145,8 @@ class AdminWxappController extends PluginAdminBaseController
     }
 
     /**
-     * 删除小程序
+     * 删除小程序.
+     *
      * @adminMenu(
      *     'name'   => '删除小程序',
      *     'parent' => 'AdminIndex/index',
@@ -171,5 +176,4 @@ class AdminWxappController extends PluginAdminBaseController
 
         $this->success('删除成功！');
     }
-
 }

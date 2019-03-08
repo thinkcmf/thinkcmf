@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
@@ -14,7 +15,8 @@ namespace think\log\driver;
 use think\App;
 
 /**
- * github: https://github.com/luofei614/SocketLog
+ * github: https://github.com/luofei614/SocketLog.
+ *
  * @author luofei614<weibo.com/luofei614>
  */
 class Socket
@@ -43,9 +45,9 @@ class Socket
     protected $allowForceClientIds = []; //配置强制推送且被授权的client_id
 
     /**
-     * 构造函数
+     * 构造函数.
+     *
      * @param array $config 缓存参数
-     * @access public
      */
     public function __construct(array $config = [])
     {
@@ -55,9 +57,10 @@ class Socket
     }
 
     /**
-     * 调试输出接口
-     * @access public
-     * @param array     $log 日志信息
+     * 调试输出接口.
+     *
+     * @param array $log 日志信息
+     *
      * @return bool
      */
     public function save(array $log = [], $append = false)
@@ -67,22 +70,22 @@ class Socket
         }
         $trace = [];
         if (App::$debug) {
-            $runtime    = round(microtime(true) - THINK_START_TIME, 10);
-            $reqs       = $runtime > 0 ? number_format(1 / $runtime, 2) : '∞';
-            $time_str   = ' [运行时间：' . number_format($runtime, 6) . 's][吞吐率：' . $reqs . 'req/s]';
+            $runtime = round(microtime(true) - THINK_START_TIME, 10);
+            $reqs = $runtime > 0 ? number_format(1 / $runtime, 2) : '∞';
+            $time_str = ' [运行时间：'.number_format($runtime, 6).'s][吞吐率：'.$reqs.'req/s]';
             $memory_use = number_format((memory_get_usage() - THINK_START_MEM) / 1024, 2);
-            $memory_str = ' [内存消耗：' . $memory_use . 'kb]';
-            $file_load  = ' [文件加载：' . count(get_included_files()) . ']';
+            $memory_str = ' [内存消耗：'.$memory_use.'kb]';
+            $file_load = ' [文件加载：'.count(get_included_files()).']';
 
             if (isset($_SERVER['HTTP_HOST'])) {
-                $current_uri = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+                $current_uri = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
             } else {
-                $current_uri = 'cmd:' . implode(' ', $_SERVER['argv']);
+                $current_uri = 'cmd:'.implode(' ', $_SERVER['argv']);
             }
             // 基本信息
             $trace[] = [
                 'type' => 'group',
-                'msg'  => $current_uri . $time_str . $memory_str . $file_load,
+                'msg'  => $current_uri.$time_str.$memory_str.$file_load,
                 'css'  => $this->css['page'],
             ];
         }
@@ -90,7 +93,7 @@ class Socket
         foreach ($log as $type => $val) {
             $trace[] = [
                 'type' => 'groupCollapsed',
-                'msg'  => '[ ' . $type . ' ]',
+                'msg'  => '[ '.$type.' ]',
                 'css'  => isset($this->css[$type]) ? $this->css[$type] : '',
             ];
             foreach ($val as $msg) {
@@ -148,12 +151,15 @@ class Socket
         } else {
             $this->sendToClient($tabid, $client_id, $trace, '');
         }
+
         return true;
     }
 
     /**
-     * 发送给指定客户端
+     * 发送给指定客户端.
+     *
      * @author Zjmainstay
+     *
      * @param $tabid
      * @param $client_id
      * @param $logs
@@ -167,8 +173,8 @@ class Socket
             'logs'            => $logs,
             'force_client_id' => $force_client_id,
         ];
-        $msg     = @json_encode($logs);
-        $address = '/' . $client_id; //将client_id作为地址， server端通过地址判断将日志发布给谁
+        $msg = @json_encode($logs);
+        $address = '/'.$client_id; //将client_id作为地址， server端通过地址判断将日志发布给谁
         $this->send($this->config['host'], $msg, $address);
     }
 
@@ -195,6 +201,7 @@ class Socket
         } else {
             $this->allowForceClientIds = $this->config['force_client_ids'];
         }
+
         return true;
     }
 
@@ -214,6 +221,7 @@ class Socket
         if (empty($args)) {
             if (!preg_match('/SocketLog\((.*?)\)/', $_SERVER[$key], $match)) {
                 $args = ['tabid' => null];
+
                 return;
             }
             parse_str($match[1], $args);
@@ -221,19 +229,19 @@ class Socket
         if (isset($args[$name])) {
             return $args[$name];
         }
-        return;
     }
 
     /**
-     * @param string $host - $host of socket server
+     * @param string $host    - $host of socket server
      * @param string $message - 发送的消息
      * @param string $address - 地址
+     *
      * @return bool
      */
     protected function send($host, $message = '', $address = '/')
     {
-        $url = 'http://' . $host . ':' . $this->port . $address;
-        $ch  = curl_init();
+        $url = 'http://'.$host.':'.$this->port.$address;
+        $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $message);
@@ -241,10 +249,9 @@ class Socket
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         $headers = [
-            "Content-Type: application/json;charset=UTF-8",
+            'Content-Type: application/json;charset=UTF-8',
         ];
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); //设置header
         return curl_exec($ch);
     }
-
 }

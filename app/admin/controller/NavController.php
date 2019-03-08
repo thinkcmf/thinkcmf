@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,20 +9,20 @@
 // +----------------------------------------------------------------------
 // | Author: kane <chengjin005@163.com> 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
+
 namespace app\admin\controller;
 
-use cmf\controller\AdminBaseController;
 use app\admin\model\NavModel;
-use think\Db;
+use cmf\controller\AdminBaseController;
 
 /**
- * Class NavController 导航类别管理控制器
- * @package app\admin\controller
+ * Class NavController 导航类别管理控制器.
  */
 class NavController extends AdminBaseController
 {
     /**
-     * 导航管理
+     * 导航管理.
+     *
      * @adminMenu(
      *     'name'   => '导航管理',
      *     'parent' => 'admin/Setting/default',
@@ -47,11 +48,11 @@ class NavController extends AdminBaseController
         $this->assign('navs', $navs);
 
         return $this->fetch();
-
     }
 
     /**
-     * 添加导航
+     * 添加导航.
+     *
      * @adminMenu(
      *     'name'   => '添加导航',
      *     'parent' => 'index',
@@ -69,7 +70,8 @@ class NavController extends AdminBaseController
     }
 
     /**
-     * 添加导航提交保存
+     * 添加导航提交保存.
+     *
      * @adminMenu(
      *     'name'   => '添加导航提交保存',
      *     'parent' => 'index',
@@ -83,23 +85,22 @@ class NavController extends AdminBaseController
      */
     public function addPost()
     {
-
         $navModel = new NavModel();
-        $arrData  = $this->request->post();
+        $arrData = $this->request->post();
 
-        if (empty($arrData["is_main"])) {
-            $arrData["is_main"] = 0;
+        if (empty($arrData['is_main'])) {
+            $arrData['is_main'] = 0;
         } else {
-            $navModel->where("is_main", 1)->update(["is_main" => 0]);
+            $navModel->where('is_main', 1)->update(['is_main' => 0]);
         }
 
         $navModel->allowField(true)->insert($arrData);
-        $this->success(lang("EDIT_SUCCESS"), url("nav/index"));
-
+        $this->success(lang('EDIT_SUCCESS'), url('nav/index'));
     }
 
     /**
-     * 编辑导航
+     * 编辑导航.
+     *
      * @adminMenu(
      *     'name'   => '编辑导航',
      *     'parent' => 'index',
@@ -114,18 +115,19 @@ class NavController extends AdminBaseController
     public function edit()
     {
         $navModel = new NavModel();
-        $intId    = $this->request->param("id", 0, 'intval');
+        $intId = $this->request->param('id', 0, 'intval');
 
-        $objNavCat = $navModel->where("id", $intId)->find();
+        $objNavCat = $navModel->where('id', $intId)->find();
         $arrNavCat = $objNavCat ? $objNavCat->toArray() : [];
 
         $this->assign($arrNavCat);
+
         return $this->fetch();
     }
 
-
     /**
-     * 编辑导航提交保存
+     * 编辑导航提交保存.
+     *
      * @adminMenu(
      *     'name'   => '编辑导航提交保存',
      *     'parent' => 'index',
@@ -139,23 +141,22 @@ class NavController extends AdminBaseController
      */
     public function editPost()
     {
-
         $navModel = new NavModel();
-        $arrData  = $this->request->post();
+        $arrData = $this->request->post();
 
-        if (empty($arrData["is_main"])) {
-            $arrData["is_main"] = 0;
+        if (empty($arrData['is_main'])) {
+            $arrData['is_main'] = 0;
         } else {
-            $navModel->where("is_main", 1)->update(["is_main" => 0]);
+            $navModel->where('is_main', 1)->update(['is_main' => 0]);
         }
 
-        $navModel->allowField(true)->where("id", intval($arrData["id"]))->update($arrData);
-        $this->success(lang("EDIT_SUCCESS"), url("nav/index"));
-
+        $navModel->allowField(true)->where('id', intval($arrData['id']))->update($arrData);
+        $this->success(lang('EDIT_SUCCESS'), url('nav/index'));
     }
 
     /**
-     * 删除导航
+     * 删除导航.
+     *
      * @adminMenu(
      *     'name'   => '删除导航',
      *     'parent' => 'index',
@@ -170,16 +171,13 @@ class NavController extends AdminBaseController
     public function delete()
     {
         $navModel = new NavModel();
-        $intId    = $this->request->param("id", 0, "intval");
+        $intId = $this->request->param('id', 0, 'intval');
 
         if (empty($intId)) {
-            $this->error(lang("NO_ID"));
+            $this->error(lang('NO_ID'));
         }
 
-        $navModel->where("id", $intId)->delete();
-        $this->success(lang("DELETE_SUCCESS"), url("nav/index"));
-
+        $navModel->where('id', $intId)->delete();
+        $this->success(lang('DELETE_SUCCESS'), url('nav/index'));
     }
-
-
 }

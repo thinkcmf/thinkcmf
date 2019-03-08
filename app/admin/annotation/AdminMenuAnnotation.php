@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+
 namespace app\admin\annotation;
 
 use mindplay\annotations\Annotation;
@@ -37,6 +39,7 @@ class AdminMenuAnnotation extends Annotation
 
     /**
      * Initialize the annotation.
+     *
      * @param array $properties
      */
     public function initAnnotation(array $properties)

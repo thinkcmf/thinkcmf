@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -14,7 +15,8 @@ namespace think\cache\driver;
 use think\cache\Driver;
 
 /**
- * Xcache缓存驱动
+ * Xcache缓存驱动.
+ *
  * @author    liu21st <liu21st@gmail.com>
  */
 class Xcache extends Driver
@@ -25,9 +27,10 @@ class Xcache extends Driver
     ];
 
     /**
-     * 构造函数
+     * 构造函数.
+     *
      * @param array $options 缓存参数
-     * @access public
+     *
      * @throws \BadFunctionCallException
      */
     public function __construct($options = [])
@@ -41,37 +44,42 @@ class Xcache extends Driver
     }
 
     /**
-     * 判断缓存
-     * @access public
+     * 判断缓存.
+     *
      * @param string $name 缓存变量名
+     *
      * @return bool
      */
     public function has($name)
     {
         $key = $this->getCacheKey($name);
+
         return xcache_isset($key);
     }
 
     /**
-     * 读取缓存
-     * @access public
-     * @param string $name 缓存变量名
+     * 读取缓存.
+     *
+     * @param string $name    缓存变量名
      * @param mixed  $default 默认值
+     *
      * @return mixed
      */
     public function get($name, $default = false)
     {
         $key = $this->getCacheKey($name);
+
         return xcache_isset($key) ? xcache_get($key) : $default;
     }
 
     /**
-     * 写入缓存
-     * @access public
-     * @param string            $name 缓存变量名
-     * @param mixed             $value  存储数据
-     * @param integer|\DateTime $expire  有效时间（秒）
-     * @return boolean
+     * 写入缓存.
+     *
+     * @param string        $name   缓存变量名
+     * @param mixed         $value  存储数据
+     * @param int|\DateTime $expire 有效时间（秒）
+     *
+     * @return bool
      */
     public function set($name, $value, $expire = null)
     {
@@ -87,42 +95,49 @@ class Xcache extends Driver
         $key = $this->getCacheKey($name);
         if (xcache_set($key, $value, $expire)) {
             isset($first) && $this->setTagItem($key);
+
             return true;
         }
+
         return false;
     }
 
     /**
-     * 自增缓存（针对数值缓存）
-     * @access public
-     * @param string    $name 缓存变量名
-     * @param int       $step 步长
+     * 自增缓存（针对数值缓存）.
+     *
+     * @param string $name 缓存变量名
+     * @param int    $step 步长
+     *
      * @return false|int
      */
     public function inc($name, $step = 1)
     {
         $key = $this->getCacheKey($name);
+
         return xcache_inc($key, $step);
     }
 
     /**
-     * 自减缓存（针对数值缓存）
-     * @access public
-     * @param string    $name 缓存变量名
-     * @param int       $step 步长
+     * 自减缓存（针对数值缓存）.
+     *
+     * @param string $name 缓存变量名
+     * @param int    $step 步长
+     *
      * @return false|int
      */
     public function dec($name, $step = 1)
     {
         $key = $this->getCacheKey($name);
+
         return xcache_dec($key, $step);
     }
 
     /**
-     * 删除缓存
-     * @access public
+     * 删除缓存.
+     *
      * @param string $name 缓存变量名
-     * @return boolean
+     *
+     * @return bool
      */
     public function rm($name)
     {
@@ -130,10 +145,11 @@ class Xcache extends Driver
     }
 
     /**
-     * 清除缓存
-     * @access public
+     * 清除缓存.
+     *
      * @param string $tag 标签名
-     * @return boolean
+     *
+     * @return bool
      */
     public function clear($tag = null)
     {
@@ -143,7 +159,8 @@ class Xcache extends Driver
             foreach ($keys as $key) {
                 xcache_unset($key);
             }
-            $this->rm('tag_' . md5($tag));
+            $this->rm('tag_'.md5($tag));
+
             return true;
         }
         if (function_exists('xcache_unset_by_prefix')) {

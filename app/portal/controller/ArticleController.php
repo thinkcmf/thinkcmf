@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,38 +9,38 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
+
 namespace app\portal\controller;
 
-use cmf\controller\HomeBaseController;
 use app\portal\model\PortalCategoryModel;
 use app\portal\service\PostService;
-use app\portal\model\PortalPostModel;
+use cmf\controller\HomeBaseController;
 use think\Db;
 
 class ArticleController extends HomeBaseController
 {
     /**
-     * 文章详情
-     * @return mixed
+     * 文章详情.
+     *
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
+     *
+     * @return mixed
      */
     public function index()
     {
-
         $portalCategoryModel = new PortalCategoryModel();
-        $postService         = new PostService();
+        $postService = new PostService();
 
-        $articleId  = $this->request->param('id', 0, 'intval');
+        $articleId = $this->request->param('id', 0, 'intval');
         $categoryId = $this->request->param('cid', 0, 'intval');
-        $article    = $postService->publishedArticle($articleId, $categoryId);
+        $article = $postService->publishedArticle($articleId, $categoryId);
 
         if (empty($article)) {
             abort(404, '文章不存在!');
         }
-
 
         $prevArticle = $postService->publishedPrevArticle($articleId, $categoryId);
         $nextArticle = $postService->publishedNextArticle($articleId, $categoryId);
@@ -54,7 +55,6 @@ class ArticleController extends HomeBaseController
             } else {
                 abort(404, '文章未指定分类!');
             }
-
         } else {
             $category = $portalCategoryModel->where('id', $categoryId)->where('status', 1)->find();
 
@@ -64,11 +64,10 @@ class ArticleController extends HomeBaseController
 
             $this->assign('category', $category);
 
-            $tplName = empty($category["one_tpl"]) ? $tplName : $category["one_tpl"];
+            $tplName = empty($category['one_tpl']) ? $tplName : $category['one_tpl'];
         }
 
         Db::name('portal_post')->where('id', $articleId)->setInc('post_hits');
-
 
         hook('portal_before_assign_article', $article);
 
@@ -87,16 +86,14 @@ class ArticleController extends HomeBaseController
         $this->checkUserLogin();
         $articleId = $this->request->param('id', 0, 'intval');
 
-
         $canLike = cmf_check_user_action("posts$articleId", 1);
 
         if ($canLike) {
             Db::name('portal_post')->where('id', $articleId)->setInc('post_like');
 
-            $this->success("赞好啦！");
+            $this->success('赞好啦！');
         } else {
-            $this->error("您已赞过啦！");
+            $this->error('您已赞过啦！');
         }
     }
-
 }

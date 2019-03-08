@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author:kane < chengjin005@163.com>
 // +----------------------------------------------------------------------
+
 namespace app\portal\controller;
 
 use app\portal\model\PortalTagModel;
@@ -15,13 +17,13 @@ use cmf\controller\AdminBaseController;
 use think\Db;
 
 /**
- * Class AdminTagController 标签管理控制器
- * @package app\portal\controller
+ * Class AdminTagController 标签管理控制器.
  */
 class AdminTagController extends AdminBaseController
 {
     /**
-     * 文章标签管理
+     * 文章标签管理.
+     *
      * @adminMenu(
      *     'name'   => '文章标签',
      *     'parent' => 'portal/AdminIndex/default',
@@ -42,16 +44,18 @@ class AdminTagController extends AdminBaseController
         }
 
         $portalTagModel = new PortalTagModel();
-        $tags           = $portalTagModel->paginate();
+        $tags = $portalTagModel->paginate();
 
-        $this->assign("arrStatus", $portalTagModel::$STATUS);
-        $this->assign("tags", $tags);
+        $this->assign('arrStatus', $portalTagModel::$STATUS);
+        $this->assign('tags', $tags);
         $this->assign('page', $tags->render());
+
         return $this->fetch();
     }
 
     /**
-     * 添加文章标签
+     * 添加文章标签.
+     *
      * @adminMenu(
      *     'name'   => '添加文章标签',
      *     'parent' => 'index',
@@ -66,12 +70,14 @@ class AdminTagController extends AdminBaseController
     public function add()
     {
         $portalTagModel = new PortalTagModel();
-        $this->assign("arrStatus", $portalTagModel::$STATUS);
+        $this->assign('arrStatus', $portalTagModel::$STATUS);
+
         return $this->fetch();
     }
 
     /**
-     * 添加文章标签提交
+     * 添加文章标签提交.
+     *
      * @adminMenu(
      *     'name'   => '添加文章标签提交',
      *     'parent' => 'index',
@@ -85,18 +91,17 @@ class AdminTagController extends AdminBaseController
      */
     public function addPost()
     {
-
         $arrData = $this->request->param();
 
         $portalTagModel = new PortalTagModel();
         $portalTagModel->isUpdate(false)->allowField(true)->save($arrData);
 
-        $this->success(lang("SAVE_SUCCESS"));
-
+        $this->success(lang('SAVE_SUCCESS'));
     }
 
     /**
      * 更新文章标签状态
+     *
      * @adminMenu(
      *     'name'   => '更新标签状态',
      *     'parent' => 'index',
@@ -110,22 +115,22 @@ class AdminTagController extends AdminBaseController
      */
     public function upStatus()
     {
-        $intId     = $this->request->param("id");
-        $intStatus = $this->request->param("status");
+        $intId = $this->request->param('id');
+        $intStatus = $this->request->param('status');
         $intStatus = $intStatus ? 1 : 0;
         if (empty($intId)) {
-            $this->error(lang("NO_ID"));
+            $this->error(lang('NO_ID'));
         }
 
         $portalTagModel = new PortalTagModel();
-        $portalTagModel->isUpdate(true)->save(["status" => $intStatus], ["id" => $intId]);
+        $portalTagModel->isUpdate(true)->save(['status' => $intStatus], ['id' => $intId]);
 
-        $this->success(lang("SAVE_SUCCESS"));
-
+        $this->success(lang('SAVE_SUCCESS'));
     }
 
     /**
-     * 删除文章标签
+     * 删除文章标签.
+     *
      * @adminMenu(
      *     'name'   => '删除文章标签',
      *     'parent' => 'index',
@@ -139,15 +144,15 @@ class AdminTagController extends AdminBaseController
      */
     public function delete()
     {
-        $intId = $this->request->param("id", 0, 'intval');
+        $intId = $this->request->param('id', 0, 'intval');
 
         if (empty($intId)) {
-            $this->error(lang("NO_ID"));
+            $this->error(lang('NO_ID'));
         }
         $portalTagModel = new PortalTagModel();
 
-        $portalTagModel->where('id' , $intId)->delete();
+        $portalTagModel->where('id', $intId)->delete();
         Db::name('portal_tag_post')->where('tag_id', $intId)->delete();
-        $this->success(lang("DELETE_SUCCESS"));
+        $this->success(lang('DELETE_SUCCESS'));
     }
 }

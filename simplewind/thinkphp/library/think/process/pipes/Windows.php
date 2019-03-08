@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -15,7 +16,6 @@ use think\Process;
 
 class Windows extends Pipes
 {
-
     /** @var array */
     private $files = [];
     /** @var array */
@@ -33,7 +33,6 @@ class Windows extends Pipes
         $this->disableOutput = (bool) $disableOutput;
 
         if (!$this->disableOutput) {
-
             $this->files = [
                 Process::STDOUT => tempnam(sys_get_temp_dir(), 'sf_proc_stdout'),
                 Process::STDERR => tempnam(sys_get_temp_dir(), 'sf_proc_stderr'),
@@ -97,12 +96,12 @@ class Windows extends Pipes
         $this->write($blocking, $close);
 
         $read = [];
-        $fh   = $this->fileHandles;
+        $fh = $this->fileHandles;
         foreach ($fh as $type => $fileHandle) {
             if (0 !== fseek($fileHandle, $this->readBytes[$type])) {
                 continue;
             }
-            $data     = '';
+            $data = '';
             $dataread = null;
             while (!feof($fileHandle)) {
                 if (false !== $dataread = fread($fileHandle, self::CHUNK_SIZE)) {
@@ -145,8 +144,10 @@ class Windows extends Pipes
 
     /**
      * 创建一个新的 WindowsPipes 实例。
+     *
      * @param Process $process
      * @param         $input
+     *
      * @return self
      */
     public static function create(Process $process, $input)
@@ -155,7 +156,7 @@ class Windows extends Pipes
     }
 
     /**
-     * 删除临时文件
+     * 删除临时文件.
      */
     private function removeFiles()
     {
@@ -168,7 +169,8 @@ class Windows extends Pipes
     }
 
     /**
-     * 写入到 stdin 输入
+     * 写入到 stdin 输入.
+     *
      * @param bool $blocking
      * @param bool $close
      */

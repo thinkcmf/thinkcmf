@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,22 +9,20 @@
 // +----------------------------------------------------------------------
 // | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
+
 namespace app\admin\controller;
 
 use cmf\controller\AdminBaseController;
-use think\Db;
-use app\admin\model\Menu;
 
 class MainController extends AdminBaseController
 {
-
     /**
-     *  后台欢迎页
+     *  后台欢迎页.
      */
     public function index()
     {
         $dashboardWidgets = [];
-        $widgets          = cmf_get_option('admin_dashboard_widgets');
+        $widgets = cmf_get_option('admin_dashboard_widgets');
 
         $defaultDashboardWidgets = [
             '_SystemCmfHub'           => ['name' => 'CmfHub', 'is_system' => 1],
@@ -42,7 +41,7 @@ class MainController extends AdminBaseController
         } else {
             foreach ($widgets as $widget) {
                 if ($widget['is_system']) {
-                    $dashboardWidgets['_System' . $widget['name']] = ['name' => $widget['name'], 'is_system' => 1];
+                    $dashboardWidgets['_System'.$widget['name']] = ['name' => $widget['name'], 'is_system' => 1];
                 } else {
                     $dashboardWidgets[$widget['name']] = ['name' => $widget['name'], 'is_system' => 0];
                 }
@@ -51,8 +50,6 @@ class MainController extends AdminBaseController
             foreach ($defaultDashboardWidgets as $widgetName => $widget) {
                 $dashboardWidgets[$widgetName] = $widget;
             }
-
-
         }
 
         $dashboardWidgetPlugins = [];
@@ -82,7 +79,7 @@ class MainController extends AdminBaseController
     public function dashboardWidget()
     {
         $dashboardWidgets = [];
-        $widgets          = $this->request->param('widgets/a');
+        $widgets = $this->request->param('widgets/a');
         if (!empty($widgets)) {
             foreach ($widgets as $widget) {
                 if ($widget['is_system']) {
@@ -96,7 +93,5 @@ class MainController extends AdminBaseController
         cmf_set_option('admin_dashboard_widgets', $dashboardWidgets, true);
 
         $this->success('更新成功!');
-
     }
-
 }

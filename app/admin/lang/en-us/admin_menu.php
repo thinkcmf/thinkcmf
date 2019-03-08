@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -131,7 +132,7 @@ return [
     'ADMIN_SLIDE_ADD'                    => '添加幻灯片',
     'ADMIN_SLIDE_DELETE'                 => '删除幻灯片',
     'ADMIN_SLIDE_EDIT'                   => '编辑幻灯片',
-    "CATEGORY_KEY_HELP_TEXT"             => '英文字母,数字或下划线(“_”)',
+    'CATEGORY_KEY_HELP_TEXT'             => '英文字母,数字或下划线(“_”)',
     'ADMIN_SLIDECAT_ADD'                 => '添加分类',
     'ADMIN_SLIDECAT_DELETE'              => '删除分类',
     'ADMIN_SLIDECAT_EDIT'                => '编辑分类',
@@ -139,4 +140,3 @@ return [
     'ADMIN_USER_DELETE'                  => '删除管理员',
     'ADMIN_USER_EDIT'                    => '管理员编辑',
 ];
-

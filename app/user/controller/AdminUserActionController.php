@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -15,14 +16,13 @@ use cmf\controller\AdminBaseController;
 use think\Db;
 
 /**
- * Class AdminUserActionController
- * @package app\user\controller
+ * Class AdminUserActionController.
  */
 class AdminUserActionController extends AdminBaseController
 {
-
     /**
-     * 用户操作管理
+     * 用户操作管理.
+     *
      * @adminMenu(
      *     'name'   => '用户操作管理',
      *     'parent' => 'admin/Setting/default',
@@ -36,7 +36,7 @@ class AdminUserActionController extends AdminBaseController
      */
     public function index()
     {
-        $where   = [];
+        $where = [];
         $request = input('request.');
 
         if (!empty($request['uid'])) {
@@ -46,9 +46,9 @@ class AdminUserActionController extends AdminBaseController
         if (!empty($request['keyword'])) {
             $keyword = $request['keyword'];
 
-            $keywordComplex['user_login']    = ['like', "%$keyword%"];
+            $keywordComplex['user_login'] = ['like', "%$keyword%"];
             $keywordComplex['user_nickname'] = ['like', "%$keyword%"];
-            $keywordComplex['user_email']    = ['like', "%$keyword%"];
+            $keywordComplex['user_email'] = ['like', "%$keyword%"];
         }
 
         $actions = Db::name('user_action')->paginate(20);
@@ -61,7 +61,8 @@ class AdminUserActionController extends AdminBaseController
     }
 
     /**
-     * 编辑用户操作
+     * 编辑用户操作.
+     *
      * @adminMenu(
      *     'name'   => '编辑用户操作',
      *     'parent' => 'index',
@@ -75,7 +76,7 @@ class AdminUserActionController extends AdminBaseController
      */
     public function edit()
     {
-        $id     = $this->request->param('id', 0, 'intval');
+        $id = $this->request->param('id', 0, 'intval');
         $action = Db::name('user_action')->where('id', $id)->find();
         $this->assign($action);
 
@@ -83,7 +84,8 @@ class AdminUserActionController extends AdminBaseController
     }
 
     /**
-     * 编辑用户操作提交
+     * 编辑用户操作提交.
+     *
      * @adminMenu(
      *     'name'   => '编辑用户操作提交',
      *     'parent' => 'index',
@@ -110,7 +112,8 @@ class AdminUserActionController extends AdminBaseController
     }
 
     /**
-     * 同步用户操作
+     * 同步用户操作.
+     *
      * @adminMenu(
      *     'name'   => '同步用户操作',
      *     'parent' => 'index',
@@ -124,16 +127,14 @@ class AdminUserActionController extends AdminBaseController
      */
     public function sync()
     {
-
-        $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
+        $apps = cmf_scan_dir(APP_PATH.'*', GLOB_ONLYDIR);
 
         foreach ($apps as $app) {
-            $userActionConfigFile = APP_PATH . $app . '/user_action.php';
+            $userActionConfigFile = APP_PATH.$app.'/user_action.php';
             if (file_exists($userActionConfigFile)) {
                 $userActionsInFile = include $userActionConfigFile;
 
                 foreach ($userActionsInFile as $userActionKey => $userAction) {
-
                     $userAction['cycle_type'] = empty($userAction['cycle_type']) ? 0 : $userAction['cycle_type'];
 
                     if (!in_array($userAction['cycle_type'], [0, 1, 2, 3])) {
@@ -155,7 +156,7 @@ class AdminUserActionController extends AdminBaseController
                             ->strict(false)->field(true)
                             ->update([
                                 'name' => $userAction['name'],
-                                'url'  => $userAction['url']
+                                'url'  => $userAction['url'],
                             ]);
                     } else {
                         $userAction['action'] = $userActionKey;
@@ -169,6 +170,4 @@ class AdminUserActionController extends AdminBaseController
 
         return $this->fetch();
     }
-
-
 }

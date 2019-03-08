@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,25 +9,28 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
+
 namespace app\portal\controller;
 
-use cmf\controller\HomeBaseController;
 use app\portal\service\PostService;
+use cmf\controller\HomeBaseController;
 
 class PageController extends HomeBaseController
 {
     /**
-     * 页面管理
-     * @return mixed
+     * 页面管理.
+     *
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
+     *
+     * @return mixed
      */
     public function index()
     {
         $postService = new PostService();
-        $pageId      = $this->request->param('id', 0, 'intval');
-        $page        = $postService->publishedPage($pageId);
+        $pageId = $this->request->param('id', 0, 'intval');
+        $page = $postService->publishedPage($pageId);
 
         if (empty($page)) {
             abort(404, ' 页面不存在!');
@@ -40,5 +44,4 @@ class PageController extends HomeBaseController
 
         return $this->fetch("/$tplName");
     }
-
 }

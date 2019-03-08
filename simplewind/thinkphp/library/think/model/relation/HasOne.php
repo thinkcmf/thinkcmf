@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -18,8 +19,8 @@ use think\Model;
 class HasOne extends OneToOne
 {
     /**
-     * 构造函数
-     * @access public
+     * 构造函数.
+     *
      * @param Model  $parent     上级模型对象
      * @param string $model      模型名
      * @param string $foreignKey 关联外键
@@ -28,18 +29,20 @@ class HasOne extends OneToOne
      */
     public function __construct(Model $parent, $model, $foreignKey, $localKey, $joinType = 'INNER')
     {
-        $this->parent     = $parent;
-        $this->model      = $model;
+        $this->parent = $parent;
+        $this->model = $model;
         $this->foreignKey = $foreignKey;
-        $this->localKey   = $localKey;
-        $this->joinType   = $joinType;
-        $this->query      = (new $model)->db();
+        $this->localKey = $localKey;
+        $this->joinType = $joinType;
+        $this->query = (new $model())->db();
     }
 
     /**
-     * 延迟获取关联数据
+     * 延迟获取关联数据.
+     *
      * @param string   $subRelation 子关联名
      * @param \Closure $closure     闭包查询条件
+     *
      * @return array|false|\PDOStatement|string|Model
      */
     public function getRelation($subRelation = '', $closure = null)
@@ -47,7 +50,7 @@ class HasOne extends OneToOne
         // 执行关联定义方法
         $localKey = $this->localKey;
         if ($closure) {
-            call_user_func_array($closure, [ & $this->query]);
+            call_user_func_array($closure, [&$this->query]);
         }
         // 判断关联类型执行查询
         $relationModel = $this->query
@@ -64,41 +67,43 @@ class HasOne extends OneToOne
     }
 
     /**
-     * 根据关联条件查询当前模型
-     * @access public
+     * 根据关联条件查询当前模型.
+     *
      * @return Query
      */
     public function has()
     {
-        $table      = $this->query->getTable();
-        $model      = basename(str_replace('\\', '/', get_class($this->parent)));
-        $relation   = basename(str_replace('\\', '/', $this->model));
-        $localKey   = $this->localKey;
+        $table = $this->query->getTable();
+        $model = basename(str_replace('\\', '/', get_class($this->parent)));
+        $relation = basename(str_replace('\\', '/', $this->model));
+        $localKey = $this->localKey;
         $foreignKey = $this->foreignKey;
+
         return $this->parent->db()
             ->alias($model)
             ->whereExists(function ($query) use ($table, $model, $relation, $localKey, $foreignKey) {
-                $query->table([$table => $relation])->field($relation . '.' . $foreignKey)->whereExp($model . '.' . $localKey, '=' . $relation . '.' . $foreignKey);
+                $query->table([$table => $relation])->field($relation.'.'.$foreignKey)->whereExp($model.'.'.$localKey, '='.$relation.'.'.$foreignKey);
             });
     }
 
     /**
-     * 根据关联条件查询当前模型
-     * @access public
-     * @param  mixed  $where 查询条件（数组或者闭包）
-     * @param  mixed  $fields   字段
+     * 根据关联条件查询当前模型.
+     *
+     * @param mixed $where  查询条件（数组或者闭包）
+     * @param mixed $fields 字段
+     *
      * @return Query
      */
     public function hasWhere($where = [], $fields = null)
     {
-        $table    = $this->query->getTable();
-        $model    = basename(str_replace('\\', '/', get_class($this->parent)));
+        $table = $this->query->getTable();
+        $model = basename(str_replace('\\', '/', get_class($this->parent)));
         $relation = basename(str_replace('\\', '/', $this->model));
 
         if (is_array($where)) {
             foreach ($where as $key => $val) {
                 if (false === strpos($key, '.')) {
-                    $where[$relation . '.' . $key] = $val;
+                    $where[$relation.'.'.$key] = $val;
                     unset($where[$key]);
                 }
             }
@@ -107,22 +112,23 @@ class HasOne extends OneToOne
 
         return $this->parent->db()->alias($model)
             ->field($fields)
-            ->join([$table => $relation], $model . '.' . $this->localKey . '=' . $relation . '.' . $this->foreignKey, $this->joinType)
+            ->join([$table => $relation], $model.'.'.$this->localKey.'='.$relation.'.'.$this->foreignKey, $this->joinType)
             ->where($where);
     }
 
     /**
-     * 预载入关联查询（数据集）
-     * @access public
+     * 预载入关联查询（数据集）.
+     *
      * @param array    $resultSet   数据集
      * @param string   $relation    当前关联名
      * @param string   $subRelation 子关联名
      * @param \Closure $closure     闭包
+     *
      * @return void
      */
     protected function eagerlySet(&$resultSet, $relation, $subRelation, $closure)
     {
-        $localKey   = $this->localKey;
+        $localKey = $this->localKey;
         $foreignKey = $this->foreignKey;
 
         $range = [];
@@ -165,17 +171,18 @@ class HasOne extends OneToOne
     }
 
     /**
-     * 预载入关联查询（数据）
-     * @access public
+     * 预载入关联查询（数据）.
+     *
      * @param Model    $result      数据对象
      * @param string   $relation    当前关联名
      * @param string   $subRelation 子关联名
      * @param \Closure $closure     闭包
+     *
      * @return void
      */
     protected function eagerlyOne(&$result, $relation, $subRelation, $closure)
     {
-        $localKey   = $this->localKey;
+        $localKey = $this->localKey;
         $foreignKey = $this->foreignKey;
         $this->query->removeWhereField($foreignKey);
         $data = $this->eagerlyWhere($this->query, [$foreignKey => $result->$localKey], $foreignKey, $relation, $subRelation, $closure);
@@ -197,8 +204,8 @@ class HasOne extends OneToOne
     }
 
     /**
-     * 执行基础查询（仅执行一次）
-     * @access protected
+     * 执行基础查询（仅执行一次）.
+     *
      * @return void
      */
     protected function baseQuery()

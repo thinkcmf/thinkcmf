@@ -1,6 +1,6 @@
 <?php
 /**
- * 配置文件
+ * 配置文件.
  */
 
 return [
@@ -20,6 +20,6 @@ return [
     'charset'  => '#charset#',
     // 数据库表前缀
     'prefix'   => '#prefix#',
-    "authcode" => '#authcode#',
+    'authcode' => '#authcode#',
     //#COOKIE_PREFIX#
 ];

@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,18 +9,18 @@
 // +----------------------------------------------------------------------
 // | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
+
 namespace app\portal\model;
 
 use app\admin\model\RouteModel;
-use think\Model;
 use think\Db;
+use think\Model;
 
 /**
  * @property mixed id
  */
 class PortalPostModel extends Model
 {
-
     protected $type = [
         'more' => 'array',
     ];
@@ -28,7 +29,8 @@ class PortalPostModel extends Model
     protected $autoWriteTimestamp = true;
 
     /**
-     * 关联 user表
+     * 关联 user表.
+     *
      * @return \think\model\relation\BelongsTo
      */
     public function user()
@@ -37,7 +39,8 @@ class PortalPostModel extends Model
     }
 
     /**
-     * 关联分类表
+     * 关联分类表.
+     *
      * @return \think\model\relation\BelongsToMany
      */
     public function categories()
@@ -46,7 +49,8 @@ class PortalPostModel extends Model
     }
 
     /**
-     * 关联标签表
+     * 关联标签表.
+     *
      * @return \think\model\relation\BelongsToMany
      */
     public function tags()
@@ -55,8 +59,10 @@ class PortalPostModel extends Model
     }
 
     /**
-     * post_content 自动转化
+     * post_content 自动转化.
+     *
      * @param $value
+     *
      * @return string
      */
     public function getPostContentAttr($value)
@@ -65,8 +71,10 @@ class PortalPostModel extends Model
     }
 
     /**
-     * post_content 自动转化
+     * post_content 自动转化.
+     *
      * @param $value
+     *
      * @return string
      */
     public function setPostContentAttr($value)
@@ -75,8 +83,10 @@ class PortalPostModel extends Model
     }
 
     /**
-     * published_time 自动完成
+     * published_time 自动完成.
+     *
      * @param $value
+     *
      * @return false|int
      */
     public function setPublishedTimeAttr($value)
@@ -85,15 +95,18 @@ class PortalPostModel extends Model
     }
 
     /**
-     * 后台管理添加文章
+     * 后台管理添加文章.
+     *
      * @param array        $data       文章数据
      * @param array|string $categories 文章分类 id
-     * @return $this
+     *
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      * @throws \think\exception\PDOException
+     *
+     * @return $this
      */
     public function adminAddArticle($data, $categories)
     {
@@ -101,7 +114,7 @@ class PortalPostModel extends Model
 
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
-            $data['thumbnail']         = $data['more']['thumbnail'];
+            $data['thumbnail'] = $data['more']['thumbnail'];
         }
 
         if (!empty($data['more']['audio'])) {
@@ -127,24 +140,25 @@ class PortalPostModel extends Model
         $this->addTags($keywords, $this->id);
 
         return $this;
-
     }
 
     /**
-     * 后台管理编辑文章
+     * 后台管理编辑文章.
+     *
      * @param array        $data       文章数据
      * @param array|string $categories 文章分类 id
-     * @return $this
+     *
      * @throws \think\Exception
+     *
+     * @return $this
      */
     public function adminEditArticle($data, $categories)
     {
-
         unset($data['user_id']);
 
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
-            $data['thumbnail']         = $data['more']['thumbnail'];
+            $data['thumbnail'] = $data['more']['thumbnail'];
         }
 
         if (!empty($data['more']['audio'])) {
@@ -161,10 +175,10 @@ class PortalPostModel extends Model
             $categories = explode(',', $categories);
         }
 
-        $oldCategoryIds        = $this->categories()->column('category_id');
-        $sameCategoryIds       = array_intersect($categories, $oldCategoryIds);
+        $oldCategoryIds = $this->categories()->column('category_id');
+        $sameCategoryIds = array_intersect($categories, $oldCategoryIds);
         $needDeleteCategoryIds = array_diff($oldCategoryIds, $sameCategoryIds);
-        $newCategoryIds        = array_diff($categories, $sameCategoryIds);
+        $newCategoryIds = array_diff($categories, $sameCategoryIds);
 
         if (!empty($needDeleteCategoryIds)) {
             $this->categories()->detach($needDeleteCategoryIds);
@@ -174,7 +188,6 @@ class PortalPostModel extends Model
             $this->categories()->attach(array_values($newCategoryIds));
         }
 
-
         $data['post_keywords'] = str_replace('，', ',', $data['post_keywords']);
 
         $keywords = explode(',', $data['post_keywords']);
@@ -182,13 +195,14 @@ class PortalPostModel extends Model
         $this->addTags($keywords, $data['id']);
 
         return $this;
-
     }
 
     /**
-     * 增加标签
+     * 增加标签.
+     *
      * @param $keywords
      * @param $articleId
+     *
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -204,7 +218,6 @@ class PortalPostModel extends Model
         $data = [];
 
         if (!empty($keywords)) {
-
             $oldTagIds = Db::name('portal_tag_post')->where('post_id', $articleId)->column('tag_id');
 
             foreach ($keywords as $keyword) {
@@ -213,7 +226,7 @@ class PortalPostModel extends Model
                     $findTag = $portalTagModel->where('name', $keyword)->find();
                     if (empty($findTag)) {
                         $tagId = $portalTagModel->insertGetId([
-                            'name' => $keyword
+                            'name' => $keyword,
                         ]);
                     } else {
                         $tagId = $findTag['id'];
@@ -224,10 +237,8 @@ class PortalPostModel extends Model
                     }
 
                     array_push($tagIds, $tagId);
-
                 }
             }
-
 
             if (empty($tagIds) && !empty($oldTagIds)) {
                 Db::name('portal_tag_post')->where('post_id', $articleId)->delete();
@@ -247,8 +258,6 @@ class PortalPostModel extends Model
             if (!empty($data)) {
                 Db::name('portal_tag_post')->insertAll($data);
             }
-
-
         } else {
             Db::name('portal_tag_post')->where('post_id', $articleId)->delete();
         }
@@ -256,14 +265,15 @@ class PortalPostModel extends Model
 
     /**
      * @param $data
-     * @return bool
+     *
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
+     *
+     * @return bool
      */
     public function adminDeletePage($data)
     {
-
         if (isset($data['id'])) {
             $id = $data['id']; //获取删除id
 
@@ -282,9 +292,10 @@ class PortalPostModel extends Model
 
                 Db::startTrans(); //开启事务
                 $transStatus = false;
+
                 try {
                     Db::name('portal_post')->where('id', $id)->update([
-                        'delete_time' => time()
+                        'delete_time' => time(),
                     ]);
                     Db::name('recycle_bin')->insert($recycleData);
 
@@ -296,9 +307,8 @@ class PortalPostModel extends Model
                     // 回滚事务
                     Db::rollback();
                 }
+
                 return $transStatus;
-
-
             } else {
                 return false;
             }
@@ -311,50 +321,46 @@ class PortalPostModel extends Model
             if ($res) {
                 $res = json_decode(json_encode($res), true);
                 foreach ($res as $key => $value) {
-                    $recycleData[$key]['object_id']   = $value['id'];
+                    $recycleData[$key]['object_id'] = $value['id'];
                     $recycleData[$key]['create_time'] = time();
-                    $recycleData[$key]['table_name']  = 'portal_post';
-                    $recycleData[$key]['name']        = $value['post_title'];
-
+                    $recycleData[$key]['table_name'] = 'portal_post';
+                    $recycleData[$key]['name'] = $value['post_title'];
                 }
 
                 Db::startTrans(); //开启事务
                 $transStatus = false;
+
                 try {
                     Db::name('portal_post')->where('id', 'in', $ids)
                         ->update([
-                            'delete_time' => time()
+                            'delete_time' => time(),
                         ]);
-
 
                     Db::name('recycle_bin')->insertAll($recycleData);
 
                     $transStatus = true;
                     // 提交事务
                     Db::commit();
-
                 } catch (\Exception $e) {
 
                     // 回滚事务
                     Db::rollback();
-
-
                 }
+
                 return $transStatus;
-
-
             } else {
                 return false;
             }
-
         } else {
             return false;
         }
     }
 
     /**
-     * 后台管理添加页面
+     * 后台管理添加页面.
+     *
      * @param array $data 页面数据
+     *
      * @return $this
      */
     public function adminAddPage($data)
@@ -366,16 +372,17 @@ class PortalPostModel extends Model
         }
 
         $data['post_status'] = empty($data['post_status']) ? 0 : 1;
-        $data['post_type']   = 2;
+        $data['post_type'] = 2;
         $this->allowField(true)->data($data, true)->save();
 
         return $this;
-
     }
 
     /**
-     * 后台管理编辑页面
+     * 后台管理编辑页面.
+     *
      * @param array $data 页面数据
+     *
      * @return $this
      */
     public function adminEditPage($data)
@@ -387,14 +394,14 @@ class PortalPostModel extends Model
         }
 
         $data['post_status'] = empty($data['post_status']) ? 0 : 1;
-        $data['post_type']   = 2;
+        $data['post_type'] = 2;
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
 
         $routeModel = new RouteModel();
         $routeModel->setRoute($data['post_alias'], 'portal/Page/index', ['id' => $data['id']], 2, 5000);
 
         $routeModel->getRoutes(true);
+
         return $this;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -14,16 +15,17 @@ namespace think\db;
 class Expression
 {
     /**
-     * 查询表达式
+     * 查询表达式.
      *
      * @var string
      */
     protected $value;
 
     /**
-     * 创建一个查询表达式
+     * 创建一个查询表达式.
      *
-     * @param  string  $value
+     * @param string $value
+     *
      * @return void
      */
     public function __construct($value)
@@ -32,7 +34,7 @@ class Expression
     }
 
     /**
-     * 获取表达式
+     * 获取表达式.
      *
      * @return string
      */

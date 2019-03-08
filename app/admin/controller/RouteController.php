@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
+
 namespace app\admin\controller;
 
 use app\admin\model\RouteModel;
@@ -16,9 +18,9 @@ use think\Db;
 
 class RouteController extends AdminBaseController
 {
-
     /**
-     * 路由规则列表
+     * 路由规则列表.
+     *
      * @adminMenu(
      *     'name'   => 'URL美化',
      *     'parent' => 'admin/Setting/default',
@@ -34,15 +36,17 @@ class RouteController extends AdminBaseController
     {
         global $CMF_GV_routes;
         $routeModel = new RouteModel();
-        $routes     = Db::name('route')->order("list_order asc")->select();
+        $routes = Db::name('route')->order('list_order asc')->select();
         $routeModel->getRoutes(true);
         unset($CMF_GV_routes);
-        $this->assign("routes", $routes);
+        $this->assign('routes', $routes);
+
         return $this->fetch();
     }
 
     /**
-     * 添加路由规则
+     * 添加路由规则.
+     *
      * @adminMenu(
      *     'name'   => '添加路由规则',
      *     'parent' => 'index',
@@ -60,7 +64,8 @@ class RouteController extends AdminBaseController
     }
 
     /**
-     * 添加路由规则提交
+     * 添加路由规则提交.
+     *
      * @adminMenu(
      *     'name'   => '添加路由规则提交',
      *     'parent' => 'index',
@@ -74,19 +79,20 @@ class RouteController extends AdminBaseController
      */
     public function addPost()
     {
-        $data       = $this->request->param();
+        $data = $this->request->param();
         $routeModel = new RouteModel();
-        $result     = $this->validate($data, 'Route');
+        $result = $this->validate($data, 'Route');
         if ($result !== true) {
             $this->error($result);
         }
         $routeModel->allowField(true)->save($data);
 
-        $this->success("添加成功！", url("Route/index", ['id' => $routeModel->id]));
+        $this->success('添加成功！', url('Route/index', ['id' => $routeModel->id]));
     }
 
     /**
-     * 路由规则编辑
+     * 路由规则编辑.
+     *
      * @adminMenu(
      *     'name'   => '路由规则编辑',
      *     'parent' => 'index',
@@ -100,14 +106,16 @@ class RouteController extends AdminBaseController
      */
     public function edit()
     {
-        $id    = $this->request->param("id", 0, 'intval');
+        $id = $this->request->param('id', 0, 'intval');
         $route = Db::name('route')->where('id', $id)->find();
         $this->assign($route);
+
         return $this->fetch();
     }
 
     /**
-     * 路由规则编辑提交
+     * 路由规则编辑提交.
+     *
      * @adminMenu(
      *     'name'   => '路由规则编辑提交',
      *     'parent' => 'index',
@@ -121,19 +129,20 @@ class RouteController extends AdminBaseController
      */
     public function editPost()
     {
-        $data       = $this->request->param();
+        $data = $this->request->param();
         $routeModel = new RouteModel();
-        $result     = $this->validate($data, 'Route');
+        $result = $this->validate($data, 'Route');
         if ($result !== true) {
             $this->error($result);
         }
         $routeModel->allowField(true)->isUpdate(true)->save($data);
 
-        $this->success("保存成功！", url("Route/index"));
+        $this->success('保存成功！', url('Route/index'));
     }
 
     /**
-     * 路由规则删除
+     * 路由规则删除.
+     *
      * @adminMenu(
      *     'name'   => '路由规则删除',
      *     'parent' => 'index',
@@ -150,11 +159,12 @@ class RouteController extends AdminBaseController
         $id = $this->request->param('id', 0, 'intval');
         RouteModel::destroy($id);
 
-        $this->success("删除成功！");
+        $this->success('删除成功！');
     }
 
     /**
-     * 路由规则禁用
+     * 路由规则禁用.
+     *
      * @adminMenu(
      *     'name'   => '路由规则禁用',
      *     'parent' => 'index',
@@ -168,18 +178,19 @@ class RouteController extends AdminBaseController
      */
     public function ban()
     {
-        $id             = $this->request->param("id", 0, 'intval');
-        $data           = [];
+        $id = $this->request->param('id', 0, 'intval');
+        $data = [];
         $data['status'] = 0;
-        $data['id']     = $id;
-        $routeModel     = new RouteModel();
+        $data['id'] = $id;
+        $routeModel = new RouteModel();
 
         $routeModel->isUpdate(true)->save($data);
-        $this->success("禁用成功！");
+        $this->success('禁用成功！');
     }
 
     /**
-     * 路由规则启用
+     * 路由规则启用.
+     *
      * @adminMenu(
      *     'name'   => '路由规则启用',
      *     'parent' => 'index',
@@ -193,18 +204,19 @@ class RouteController extends AdminBaseController
      */
     public function open()
     {
-        $id             = $this->request->param("id", 0, 'intval');
-        $data           = [];
+        $id = $this->request->param('id', 0, 'intval');
+        $data = [];
         $data['status'] = 1;
-        $data['id']     = $id;
-        $routeModel     = new RouteModel();
+        $data['id'] = $id;
+        $routeModel = new RouteModel();
 
         $routeModel->isUpdate(true)->save($data);
-        $this->success("启用成功！");
+        $this->success('启用成功！');
     }
 
     /**
-     * 路由规则排序
+     * 路由规则排序.
+     *
      * @adminMenu(
      *     'name'   => '路由规则排序',
      *     'parent' => 'index',
@@ -220,11 +232,12 @@ class RouteController extends AdminBaseController
     {
         $routeModel = new RouteModel();
         parent::listOrders($routeModel);
-        $this->success("排序更新成功！");
+        $this->success('排序更新成功！');
     }
 
     /**
-     * 选择 URL
+     * 选择 URL.
+     *
      * @adminMenu(
      *     'name'   => '选择URL',
      *     'parent' => 'index',
@@ -239,13 +252,14 @@ class RouteController extends AdminBaseController
     public function select()
     {
         $routeModel = new RouteModel();
-        $urls       = $routeModel->getAppUrls();
+        $urls = $routeModel->getAppUrls();
 
         $this->assign('urls', $urls);
+
         return $this->fetch();
     }
 
-    function _suggest_url($action, $url)
+    public function _suggest_url($action, $url)
     {
         $actionArr = explode('/', $action);
 
@@ -256,7 +270,6 @@ class RouteController extends AdminBaseController
         $urlDepr2Params = [];
 
         if (!empty($params)) {
-
             foreach ($params as $param) {
                 if (empty($url['vars'][$param]['require'])) {
                     array_push($urlDepr1Params, "[:$param]");
@@ -264,22 +277,22 @@ class RouteController extends AdminBaseController
                     array_push($urlDepr1Params, ":$param");
                 }
 
-                array_push($urlDepr2Params, htmlspecialchars('<') . $param . htmlspecialchars('>'));
+                array_push($urlDepr2Params, htmlspecialchars('<').$param.htmlspecialchars('>'));
             }
-
         }
 
         if ($actionArr[2] == 'index') {
             $actionArr[1] = cmf_parse_name($actionArr[1]);
-            return empty($params) ? $actionArr[1] . '$' : ($actionArr[1] . '/' . implode('/', $urlDepr1Params) /*. '或' . $actionArr[1] . '-' . implode('-', $urlDepr2Params)*/);
+
+            return empty($params) ? $actionArr[1].'$' : ($actionArr[1].'/'.implode('/', $urlDepr1Params) /*. '或' . $actionArr[1] . '-' . implode('-', $urlDepr2Params)*/);
         } else {
             $actionArr[2] = cmf_parse_name($actionArr[2]);
-            return empty($params) ? $actionArr[2] . '$' : ($actionArr[2] . '/' . implode('/', $urlDepr1Params) /*. '或' . $actionArr[2] . '-' . implode('-', $urlDepr2Params)*/);
-        }
 
+            return empty($params) ? $actionArr[2].'$' : ($actionArr[2].'/'.implode('/', $urlDepr1Params) /*. '或' . $actionArr[2] . '-' . implode('-', $urlDepr2Params)*/);
+        }
     }
 
-    function _url_vars($url)
+    public function _url_vars($url)
     {
         if (!empty($url['vars'])) {
             return implode(',', array_keys($url['vars']));
@@ -287,5 +300,4 @@ class RouteController extends AdminBaseController
 
         return '';
     }
-
 }

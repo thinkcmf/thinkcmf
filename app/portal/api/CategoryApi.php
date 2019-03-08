@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
+
 namespace app\portal\api;
 
 use app\portal\model\PortalCategoryModel;
@@ -17,11 +19,14 @@ class CategoryApi
 {
     /**
      * 分类列表 用于模板设计
+     *
      * @param array $param
-     * @return false|\PDOStatement|string|\think\Collection
+     *
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
+     *
+     * @return false|\PDOStatement|string|\think\Collection
      */
     public function index($param = [])
     {
@@ -39,7 +44,8 @@ class CategoryApi
     }
 
     /**
-     * 分类列表 用于导航选择
+     * 分类列表 用于导航选择.
+     *
      * @return array
      */
     public function nav()
@@ -55,13 +61,12 @@ class CategoryApi
             'rule'  => [
                 'action' => 'portal/List/index',
                 'param'  => [
-                    'id' => 'id'
-                ]
-            ],//url规则
-            'items' => $categories //每个子项item里必须包括id,name,如果想表示层级关系请加上 parent_id
+                    'id' => 'id',
+                ],
+            ], //url规则
+            'items' => $categories, //每个子项item里必须包括id,name,如果想表示层级关系请加上 parent_id
         ];
 
         return $return;
     }
-
 }

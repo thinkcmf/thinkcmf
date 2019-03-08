@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,19 +9,20 @@
 // +----------------------------------------------------------------------
 // | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
+
 namespace app\portal\controller;
 
 use app\admin\model\RouteModel;
-use cmf\controller\AdminBaseController;
+use app\admin\model\ThemeModel;
 use app\portal\model\PortalPostModel;
 use app\portal\service\PostService;
-use app\admin\model\ThemeModel;
+use cmf\controller\AdminBaseController;
 
 class AdminPageController extends AdminBaseController
 {
-
     /**
-     * 页面管理
+     * 页面管理.
+     *
      * @adminMenu(
      *     'name'   => '页面管理',
      *     'parent' => 'portal/AdminIndex/default',
@@ -43,7 +45,7 @@ class AdminPageController extends AdminBaseController
         $param = $this->request->param();
 
         $postService = new PostService();
-        $data        = $postService->adminPageList($param);
+        $data = $postService->adminPageList($param);
         $data->appends($param);
 
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
@@ -54,7 +56,8 @@ class AdminPageController extends AdminBaseController
     }
 
     /**
-     * 添加页面
+     * 添加页面.
+     *
      * @adminMenu(
      *     'name'   => '添加页面',
      *     'parent' => 'index',
@@ -74,14 +77,16 @@ class AdminPageController extends AdminBaseController
             return $content;
         }
 
-        $themeModel     = new ThemeModel();
+        $themeModel = new ThemeModel();
         $pageThemeFiles = $themeModel->getActionThemeFiles('portal/Page/index');
         $this->assign('page_theme_files', $pageThemeFiles);
+
         return $this->fetch();
     }
 
     /**
-     * 添加页面提交
+     * 添加页面提交.
+     *
      * @adminMenu(
      *     'name'   => '添加页面提交',
      *     'parent' => 'index',
@@ -106,7 +111,7 @@ class AdminPageController extends AdminBaseController
             $data['post']['more']['photos'] = [];
             foreach ($data['photo_urls'] as $key => $url) {
                 $photoUrl = cmf_asset_relative_url($url);
-                array_push($data['post']['more']['photos'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
+                array_push($data['post']['more']['photos'], ['url' => $photoUrl, 'name' => $data['photo_names'][$key]]);
             }
         }
 
@@ -114,18 +119,18 @@ class AdminPageController extends AdminBaseController
             $data['post']['more']['files'] = [];
             foreach ($data['file_urls'] as $key => $url) {
                 $fileUrl = cmf_asset_relative_url($url);
-                array_push($data['post']['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
+                array_push($data['post']['more']['files'], ['url' => $fileUrl, 'name' => $data['file_names'][$key]]);
             }
         }
 
         $portalPostModel = new PortalPostModel();
         $portalPostModel->adminAddPage($data['post']);
         $this->success(lang('ADD_SUCCESS'), url('AdminPage/edit', ['id' => $portalPostModel->id]));
-
     }
 
     /**
-     * 编辑页面
+     * 编辑页面.
+     *
      * @adminMenu(
      *     'name'   => '编辑页面',
      *     'parent' => 'index',
@@ -148,13 +153,13 @@ class AdminPageController extends AdminBaseController
         $id = $this->request->param('id', 0, 'intval');
 
         $portalPostModel = new PortalPostModel();
-        $post            = $portalPostModel->where('id', $id)->find();
+        $post = $portalPostModel->where('id', $id)->find();
 
-        $themeModel     = new ThemeModel();
+        $themeModel = new ThemeModel();
         $pageThemeFiles = $themeModel->getActionThemeFiles('portal/Page/index');
 
-        $routeModel         = new RouteModel();
-        $alias              = $routeModel->getUrl('portal/Page/index', ['id' => $id]);
+        $routeModel = new RouteModel();
+        $alias = $routeModel->getUrl('portal/Page/index', ['id' => $id]);
         $post['post_alias'] = $alias;
         $this->assign('page_theme_files', $pageThemeFiles);
         $this->assign('post', $post);
@@ -163,7 +168,8 @@ class AdminPageController extends AdminBaseController
     }
 
     /**
-     * 编辑页面提交
+     * 编辑页面提交.
+     *
      * @adminMenu(
      *     'name'   => '编辑页面提交',
      *     'parent' => 'index',
@@ -188,7 +194,7 @@ class AdminPageController extends AdminBaseController
             $data['post']['more']['photos'] = [];
             foreach ($data['photo_urls'] as $key => $url) {
                 $photoUrl = cmf_asset_relative_url($url);
-                array_push($data['post']['more']['photos'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
+                array_push($data['post']['more']['photos'], ['url' => $photoUrl, 'name' => $data['photo_names'][$key]]);
             }
         }
 
@@ -196,7 +202,7 @@ class AdminPageController extends AdminBaseController
             $data['post']['more']['files'] = [];
             foreach ($data['file_urls'] as $key => $url) {
                 $fileUrl = cmf_asset_relative_url($url);
-                array_push($data['post']['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
+                array_push($data['post']['more']['files'], ['url' => $fileUrl, 'name' => $data['file_names'][$key]]);
             }
         }
 
@@ -205,11 +211,11 @@ class AdminPageController extends AdminBaseController
         $portalPostModel->adminEditPage($data['post']);
 
         $this->success(lang('SAVE_SUCCESS'));
-
     }
 
     /**
-     * 删除页面
+     * 删除页面.
+     *
      * @author    iyting@foxmail.com
      * @adminMenu(
      *     'name'   => '删除页面',
@@ -225,7 +231,7 @@ class AdminPageController extends AdminBaseController
     public function delete()
     {
         $portalPostModel = new PortalPostModel();
-        $data            = $this->request->param();
+        $data = $this->request->param();
 
         $result = $portalPostModel->adminDeletePage($data);
         if ($result) {
@@ -233,7 +239,5 @@ class AdminPageController extends AdminBaseController
         } else {
             $this->error(lang('DELETE_FAILED'));
         }
-
     }
-
 }

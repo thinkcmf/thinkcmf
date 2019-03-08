@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
@@ -34,7 +35,8 @@ class Handle
     /**
      * Report or log an exception.
      *
-     * @param  \Exception $exception
+     * @param \Exception $exception
+     *
      * @return void
      */
     public function report(Exception $exception)
@@ -58,7 +60,7 @@ class Handle
             }
 
             if (Config::get('record_trace')) {
-                $log .= "\r\n" . $exception->getTraceAsString();
+                $log .= "\r\n".$exception->getTraceAsString();
             }
 
             Log::record($log, 'error');
@@ -72,13 +74,15 @@ class Handle
                 return true;
             }
         }
+
         return false;
     }
 
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Exception $e
+     * @param \Exception $e
+     *
      * @return Response
      */
     public function render(Exception $e)
@@ -111,11 +115,12 @@ class Handle
 
     /**
      * @param HttpException $e
+     *
      * @return Response
      */
     protected function renderHttpException(HttpException $e)
     {
-        $status   = $e->getStatusCode();
+        $status = $e->getStatusCode();
         $template = Config::get('http_exception_template');
         if (!App::$debug && !empty($template[$status])) {
             return Response::create($template[$status], 'view', $status)->assign(['e' => $e]);
@@ -126,6 +131,7 @@ class Handle
 
     /**
      * @param Exception $exception
+     *
      * @return Response
      */
     protected function convertExceptionToResponse(Exception $exception)
@@ -177,7 +183,7 @@ class Handle
         extract($data);
         include Config::get('exception_tmpl');
         // 获取并清空缓存
-        $content  = ob_get_clean();
+        $content = ob_get_clean();
         $response = new Response($content, 'html');
 
         if ($exception instanceof HttpException) {
@@ -189,14 +195,17 @@ class Handle
             $statusCode = 500;
         }
         $response->code($statusCode);
+
         return $response;
     }
 
     /**
      * 获取错误编码
      * ErrorException则使用错误级别作为错误编码
-     * @param  \Exception $exception
-     * @return integer                错误编码
+     *
+     * @param \Exception $exception
+     *
+     * @return int 错误编码
      */
     protected function getCode(Exception $exception)
     {
@@ -204,14 +213,17 @@ class Handle
         if (!$code && $exception instanceof ErrorException) {
             $code = $exception->getSeverity();
         }
+
         return $code;
     }
 
     /**
      * 获取错误信息
      * ErrorException则使用错误级别作为错误编码
-     * @param  \Exception $exception
-     * @return string                错误信息
+     *
+     * @param \Exception $exception
+     *
+     * @return string 错误信息
      */
     protected function getMessage(Exception $exception)
     {
@@ -221,46 +233,52 @@ class Handle
         }
 
         if (strpos($message, ':')) {
-            $name    = strstr($message, ':', true);
-            $message = Lang::has($name) ? Lang::get($name) . strstr($message, ':') : $message;
+            $name = strstr($message, ':', true);
+            $message = Lang::has($name) ? Lang::get($name).strstr($message, ':') : $message;
         } elseif (strpos($message, ',')) {
-            $name    = strstr($message, ',', true);
-            $message = Lang::has($name) ? Lang::get($name) . ':' . substr(strstr($message, ','), 1) : $message;
+            $name = strstr($message, ',', true);
+            $message = Lang::has($name) ? Lang::get($name).':'.substr(strstr($message, ','), 1) : $message;
         } elseif (Lang::has($message)) {
             $message = Lang::get($message);
         }
+
         return $message;
     }
 
     /**
      * 获取出错文件内容
-     * 获取错误的前9行和后9行
-     * @param  \Exception $exception
-     * @return array                 错误文件内容
+     * 获取错误的前9行和后9行.
+     *
+     * @param \Exception $exception
+     *
+     * @return array 错误文件内容
      */
     protected function getSourceCode(Exception $exception)
     {
         // 读取前9行和后9行
-        $line  = $exception->getLine();
+        $line = $exception->getLine();
         $first = ($line - 9 > 0) ? $line - 9 : 1;
 
         try {
             $contents = file($exception->getFile());
-            $source   = [
+            $source = [
                 'first'  => $first,
                 'source' => array_slice($contents, $first - 1, 19),
             ];
         } catch (Exception $e) {
             $source = [];
         }
+
         return $source;
     }
 
     /**
      * 获取异常扩展信息
-     * 用于非调试模式html返回类型显示
-     * @param  \Exception $exception
-     * @return array                 异常类定义的扩展数据
+     * 用于非调试模式html返回类型显示.
+     *
+     * @param \Exception $exception
+     *
+     * @return array 异常类定义的扩展数据
      */
     protected function getExtendData(Exception $exception)
     {
@@ -268,11 +286,13 @@ class Handle
         if ($exception instanceof \think\Exception) {
             $data = $exception->getData();
         }
+
         return $data;
     }
 
     /**
-     * 获取常量列表
+     * 获取常量列表.
+     *
      * @return array 常量列表
      */
     private static function getConst()

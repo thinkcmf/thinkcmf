@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -19,21 +20,22 @@ class DataNotFoundException extends DbException
 
     /**
      * DbException constructor.
+     *
      * @param string $message
      * @param string $table
-     * @param array $config
+     * @param array  $config
      */
     public function __construct($message, $table = '', array $config = [])
     {
         $this->message = $message;
-        $this->table   = $table;
+        $this->table = $table;
 
         $this->setData('Database Config', $config);
     }
 
     /**
-     * 获取数据表名
-     * @access public
+     * 获取数据表名.
+     *
      * @return string
      */
     public function getTable()

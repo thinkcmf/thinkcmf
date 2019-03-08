@@ -1,4 +1,5 @@
 <?php
+
 // +---------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +---------------------------------------------------------------------
@@ -9,12 +10,11 @@
 // | Author: catman <catman@thinkcmf.com>
 // +---------------------------------------------------------------------
 // ThinkPHP5.0兼容ThinkPHP5.1代码,用法请看ThinkPHP5.1文档
+
 namespace think\facade;
 
 use think\Cache as ThinkCache;
 
 class Cache extends ThinkCache
 {
-
-
 }

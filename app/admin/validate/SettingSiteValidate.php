@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
+
 namespace app\admin\validate;
 
 use app\admin\model\RouteModel;
@@ -17,7 +19,7 @@ class SettingSiteValidate extends Validate
 {
     protected $rule = [
         'options.site_name'             => 'require',
-        'admin_settings.admin_password' => 'alphaNum|checkAlias'
+        'admin_settings.admin_password' => 'alphaNum|checkAlias',
     ];
 
     protected $message = [
@@ -26,7 +28,6 @@ class SettingSiteValidate extends Validate
         'admin_settings.admin_password.checkAlias' => '此加密码不能使用!',
     ];
 
-
     // 自定义验证规则
     protected function checkAlias($value, $rule, $data)
     {
@@ -34,18 +35,16 @@ class SettingSiteValidate extends Validate
             return true;
         }
 
-        if(preg_match('/^\d+$/',$value)){
-            return "加密码不能是纯数字！";
+        if (preg_match('/^\d+$/', $value)) {
+            return '加密码不能是纯数字！';
         }
 
         $routeModel = new RouteModel();
-        $fullUrl    = $routeModel->buildFullUrl('admin/Index/index', []);
+        $fullUrl = $routeModel->buildFullUrl('admin/Index/index', []);
         if (!$routeModel->existsRoute($value.'$', $fullUrl)) {
             return true;
         } else {
-            return "URL规则已经存在,无法设置此加密码!";
+            return 'URL规则已经存在,无法设置此加密码!';
         }
-
     }
-
 }

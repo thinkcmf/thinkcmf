@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -32,9 +33,10 @@ class Cookie
     protected static $init;
 
     /**
-     * Cookie初始化
-     * @access public
-     * @param  array $config 配置参数
+     * Cookie初始化.
+     *
+     * @param array $config 配置参数
+     *
      * @return void
      */
     public static function init(array $config = [])
@@ -53,9 +55,10 @@ class Cookie
     }
 
     /**
-     * 设置或者获取 cookie 作用域（前缀）
-     * @access public
-     * @param  string $prefix 前缀
+     * 设置或者获取 cookie 作用域（前缀）.
+     *
+     * @param string $prefix 前缀
+     *
      * @return string|
      */
     public static function prefix($prefix = '')
@@ -68,11 +71,12 @@ class Cookie
     }
 
     /**
-     * Cookie 设置、获取、删除
-     * @access public
-     * @param  string $name   cookie 名称
-     * @param  mixed  $value  cookie 值
-     * @param  mixed  $option 可选参数 可能会是 null|integer|string
+     * Cookie 设置、获取、删除.
+     *
+     * @param string $name   cookie 名称
+     * @param mixed  $value  cookie 值
+     * @param mixed  $option 可选参数 可能会是 null|integer|string
+     *
      * @return void
      */
     public static function set($name, $value = '', $option = null)
@@ -92,12 +96,12 @@ class Cookie
             $config = self::$config;
         }
 
-        $name = $config['prefix'] . $name;
+        $name = $config['prefix'].$name;
 
         // 设置 cookie
         if (is_array($value)) {
             array_walk_recursive($value, 'self::jsonFormatProtect', 'encode');
-            $value = 'think:' . json_encode($value);
+            $value = 'think:'.json_encode($value);
         }
 
         $expire = !empty($config['expire']) ?
@@ -115,11 +119,12 @@ class Cookie
     }
 
     /**
-     * 永久保存 Cookie 数据
-     * @access public
-     * @param  string $name   cookie 名称
-     * @param  mixed  $value  cookie 值
-     * @param  mixed  $option 可选参数 可能会是 null|integer|string
+     * 永久保存 Cookie 数据.
+     *
+     * @param string $name   cookie 名称
+     * @param mixed  $value  cookie 值
+     * @param mixed  $option 可选参数 可能会是 null|integer|string
+     *
      * @return void
      */
     public static function forever($name, $value = '', $option = null)
@@ -134,10 +139,11 @@ class Cookie
     }
 
     /**
-     * 判断是否有 Cookie 数据
-     * @access public
-     * @param  string      $name   cookie 名称
-     * @param  string|null $prefix cookie 前缀
+     * 判断是否有 Cookie 数据.
+     *
+     * @param string      $name   cookie 名称
+     * @param string|null $prefix cookie 前缀
+     *
      * @return bool
      */
     public static function has($name, $prefix = null)
@@ -146,14 +152,15 @@ class Cookie
 
         $prefix = !is_null($prefix) ? $prefix : self::$config['prefix'];
 
-        return isset($_COOKIE[$prefix . $name]);
+        return isset($_COOKIE[$prefix.$name]);
     }
 
     /**
      * 获取 Cookie 的值
-     * @access public
+     *
      * @param string      $name   cookie 名称
      * @param string|null $prefix cookie 前缀
+     *
      * @return mixed
      */
     public static function get($name = '', $prefix = null)
@@ -161,7 +168,7 @@ class Cookie
         !isset(self::$init) && self::init();
 
         $prefix = !is_null($prefix) ? $prefix : self::$config['prefix'];
-        $key    = $prefix . $name;
+        $key = $prefix.$name;
 
         if ('' == $name) {
             // 获取全部
@@ -172,7 +179,6 @@ class Cookie
                     if (0 === strpos($k, $prefix)) {
                         $value[$k] = $val;
                     }
-
                 }
             } else {
                 $value = $_COOKIE;
@@ -192,10 +198,11 @@ class Cookie
     }
 
     /**
-     * 删除 Cookie
-     * @access public
-     * @param  string      $name   cookie 名称
-     * @param  string|null $prefix cookie 前缀
+     * 删除 Cookie.
+     *
+     * @param string      $name   cookie 名称
+     * @param string|null $prefix cookie 前缀
+     *
      * @return void
      */
     public static function delete($name, $prefix = null)
@@ -204,7 +211,7 @@ class Cookie
 
         $config = self::$config;
         $prefix = !is_null($prefix) ? $prefix : $config['prefix'];
-        $name   = $prefix . $name;
+        $name = $prefix.$name;
 
         if ($config['setcookie']) {
             setcookie(
@@ -218,9 +225,10 @@ class Cookie
     }
 
     /**
-     * 清除指定前缀的所有 cookie
-     * @access public
-     * @param  string|null $prefix cookie 前缀
+     * 清除指定前缀的所有 cookie.
+     *
+     * @param string|null $prefix cookie 前缀
+     *
      * @return void
      */
     public static function clear($prefix = null)
@@ -252,11 +260,12 @@ class Cookie
     }
 
     /**
-     * json 转换时的格式保护
-     * @access protected
-     * @param  mixed  $val  要转换的值
-     * @param  string $key  键名
-     * @param  string $type 转换类别
+     * json 转换时的格式保护.
+     *
+     * @param mixed  $val  要转换的值
+     * @param string $key  键名
+     * @param string $type 转换类别
+     *
      * @return void
      */
     protected static function jsonFormatProtect(&$val, $key, $type = 'encode')

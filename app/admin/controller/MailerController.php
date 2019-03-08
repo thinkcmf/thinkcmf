@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
+
 namespace app\admin\controller;
 
 use cmf\controller\AdminBaseController;
@@ -15,9 +17,9 @@ use think\Validate;
 
 class MailerController extends AdminBaseController
 {
-
     /**
-     * 邮箱配置
+     * 邮箱配置.
+     *
      * @adminMenu(
      *     'name'   => '邮箱配置',
      *     'parent' => 'admin/Setting/default',
@@ -33,11 +35,13 @@ class MailerController extends AdminBaseController
     {
         $emailSetting = cmf_get_option('smtp_setting');
         $this->assign($emailSetting);
+
         return $this->fetch();
     }
 
     /**
-     * 邮箱配置
+     * 邮箱配置.
+     *
      * @adminMenu(
      *     'name'   => '邮箱配置提交保存',
      *     'parent' => 'index',
@@ -54,16 +58,17 @@ class MailerController extends AdminBaseController
         $post = array_map('trim', $this->request->param());
 
         if (in_array('', $post) && !empty($post['smtpsecure'])) {
-            $this->error("不能留空！");
+            $this->error('不能留空！');
         }
 
         cmf_set_option('smtp_setting', $post);
 
-        $this->success("保存成功！");
+        $this->success('保存成功！');
     }
 
     /**
      * 邮件模板
+     *
      * @adminMenu(
      *     'name'   => '邮件模板',
      *     'parent' => 'index',
@@ -78,19 +83,21 @@ class MailerController extends AdminBaseController
     public function template()
     {
         $allowedTemplateKeys = ['verification_code'];
-        $templateKey         = $this->request->param('template_key');
+        $templateKey = $this->request->param('template_key');
 
         if (empty($templateKey) || !in_array($templateKey, $allowedTemplateKeys)) {
             $this->error('非法请求！');
         }
 
-        $template = cmf_get_option('email_template_' . $templateKey);
+        $template = cmf_get_option('email_template_'.$templateKey);
         $this->assign($template);
+
         return $this->fetch('template_verification_code');
     }
 
     /**
-     * 邮件模板提交
+     * 邮件模板提交.
+     *
      * @adminMenu(
      *     'name'   => '邮件模板提交',
      *     'parent' => 'index',
@@ -105,7 +112,7 @@ class MailerController extends AdminBaseController
     public function templatePost()
     {
         $allowedTemplateKeys = ['verification_code'];
-        $templateKey         = $this->request->param('template_key');
+        $templateKey = $this->request->param('template_key');
 
         if (empty($templateKey) || !in_array($templateKey, $allowedTemplateKeys)) {
             $this->error('非法请求！');
@@ -115,13 +122,14 @@ class MailerController extends AdminBaseController
 
         unset($data['template_key']);
 
-        cmf_set_option('email_template_' . $templateKey, $data);
+        cmf_set_option('email_template_'.$templateKey, $data);
 
-        $this->success("保存成功！");
+        $this->success('保存成功！');
     }
 
     /**
-     * 邮件发送测试
+     * 邮件发送测试.
+     *
      * @adminMenu(
      *     'name'   => '邮件发送测试',
      *     'parent' => 'index',
@@ -136,7 +144,6 @@ class MailerController extends AdminBaseController
     public function test()
     {
         if ($this->request->isPost()) {
-
             $validate = new Validate([
                 'to'      => 'require|email',
                 'subject' => 'require',
@@ -158,15 +165,10 @@ class MailerController extends AdminBaseController
             if ($result && empty($result['error'])) {
                 $this->success('发送成功！');
             } else {
-                $this->error('发送失败：' . $result['message']);
+                $this->error('发送失败：'.$result['message']);
             }
-
         } else {
             return $this->fetch();
         }
-
     }
-
-
 }
-

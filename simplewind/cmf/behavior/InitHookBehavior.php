@@ -1,4 +1,5 @@
 <?php
+
 // +---------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +---------------------------------------------------------------------
@@ -8,15 +9,15 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +---------------------------------------------------------------------
+
 namespace cmf\behavior;
 
+use think\Db;
 use think\db\Query;
 use think\facade\Hook;
-use think\Db;
 
 class InitHookBehavior
 {
-
     // 行为扩展的执行入口必须是run
     public function run($param)
     {
@@ -42,6 +43,5 @@ class InitHookBehavior
                 Hook::add($hookPlugin['hook'], cmf_get_plugin_class($hookPlugin['plugin']));
             }
         }
-
     }
 }

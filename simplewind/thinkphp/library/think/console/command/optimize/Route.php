@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+
 namespace think\console\command\optimize;
 
 use think\console\Command;
@@ -16,7 +18,7 @@ use think\console\Output;
 
 class Route extends Command
 {
-    /** @var  Output */
+    /** @var Output */
     protected $output;
 
     protected function configure()
@@ -27,12 +29,11 @@ class Route extends Command
 
     protected function execute(Input $input, Output $output)
     {
-
         if (!is_dir(RUNTIME_PATH)) {
             @mkdir(RUNTIME_PATH, 0755, true);
         }
 
-        file_put_contents(RUNTIME_PATH . 'route.php', $this->buildRouteCache());
+        file_put_contents(RUNTIME_PATH.'route.php', $this->buildRouteCache());
         $output->writeln('<info>Succeed!</info>');
     }
 
@@ -40,8 +41,8 @@ class Route extends Command
     {
         $files = \think\Config::get('route_config_file');
         foreach ($files as $file) {
-            if (is_file(CONF_PATH . $file . CONF_EXT)) {
-                $config = include CONF_PATH . $file . CONF_EXT;
+            if (is_file(CONF_PATH.$file.CONF_EXT)) {
+                $config = include CONF_PATH.$file.CONF_EXT;
                 if (is_array($config)) {
                     \think\Route::import($config);
                 }
@@ -49,9 +50,10 @@ class Route extends Command
         }
         $rules = \think\Route::rules(true);
         array_walk_recursive($rules, [$this, 'buildClosure']);
-        $content = '<?php ' . PHP_EOL . 'return ';
-        $content .= var_export($rules, true) . ';';
+        $content = '<?php '.PHP_EOL.'return ';
+        $content .= var_export($rules, true).';';
         $content = str_replace(['\'[__start__', '__end__]\''], '', stripcslashes($content));
+
         return $content;
     }
 
@@ -59,17 +61,17 @@ class Route extends Command
     {
         if ($value instanceof \Closure) {
             $reflection = new \ReflectionFunction($value);
-            $startLine  = $reflection->getStartLine();
-            $endLine    = $reflection->getEndLine();
-            $file       = $reflection->getFileName();
-            $item       = file($file);
-            $content    = '';
+            $startLine = $reflection->getStartLine();
+            $endLine = $reflection->getEndLine();
+            $file = $reflection->getFileName();
+            $item = file($file);
+            $content = '';
             for ($i = $startLine - 1; $i <= $endLine - 1; $i++) {
                 $content .= $item[$i];
             }
             $start = strpos($content, 'function');
-            $end   = strrpos($content, '}');
-            $value = '[__start__' . substr($content, $start, $end - $start + 1) . '__end__]';
+            $end = strrpos($content, '}');
+            $value = '[__start__'.substr($content, $start, $end - $start + 1).'__end__]';
         }
     }
 }

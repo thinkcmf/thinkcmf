@@ -1,10 +1,9 @@
 <?php
+
 namespace wxapp\aes;
 
 /**
- * Prpcrypt class
- *
- *
+ * Prpcrypt class.
  */
 class Prpcrypt
 {
@@ -16,17 +15,17 @@ class Prpcrypt
     }
 
     /**
-     * 对密文进行解密
+     * 对密文进行解密.
+     *
      * @param string $aesCipher 需要解密的密文
-     * @param string $aesIV 解密的初始向量
+     * @param string $aesIV     解密的初始向量
+     *
      * @return string 解密得到的明文
      */
     public function decrypt($aesCipher, $aesIV)
     {
-
         if (function_exists('mcrypt_module_open')) {
             try {
-
                 $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
 
                 mcrypt_generic_init($module, $this->key, $aesIV);
@@ -38,23 +37,23 @@ class Prpcrypt
             } catch (\Exception $e) {
                 return [ErrorCode::$IllegalBuffer, null];
             }
-        } else if (function_exists('openssl_decrypt')) {
-
+        } elseif (function_exists('openssl_decrypt')) {
             $decrypted = openssl_decrypt($aesCipher, 'AES-128-CBC', $this->key, OPENSSL_RAW_DATA, $aesIV);
 
-            if ($decrypted === false) return [ErrorCode::$IllegalBuffer, null];
+            if ($decrypted === false) {
+                return [ErrorCode::$IllegalBuffer, null];
+            }
         }
-
 
         try {
             //去除补位字符
-            $pkc_encoder = new PKCS7Encoder;
-            $result      = $pkc_encoder->decode($decrypted);
-
+            $pkc_encoder = new PKCS7Encoder();
+            $result = $pkc_encoder->decode($decrypted);
         } catch (\Exception $e) {
             //print $e;
             return [ErrorCode::$IllegalBuffer, null];
         }
+
         return [0, $result];
     }
 }

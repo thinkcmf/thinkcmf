@@ -9,8 +9,9 @@
  *         $this->error();
  *         $this->redirect();
  *     }
- * }
+ * }.
  */
+
 namespace traits\controller;
 
 use think\Config;
@@ -24,15 +25,17 @@ use think\View as ViewTemplate;
 trait Jump
 {
     /**
-     * 操作成功跳转的快捷方法
-     * @access protected
+     * 操作成功跳转的快捷方法.
+     *
      * @param mixed  $msg    提示信息
      * @param string $url    跳转的 URL 地址
      * @param mixed  $data   返回的数据
      * @param int    $wait   跳转等待时间
      * @param array  $header 发送的 Header 信息
-     * @return void
+     *
      * @throws HttpResponseException
+     *
+     * @return void
      */
     protected function success($msg = '', $url = null, $data = '', $wait = 3, array $header = [])
     {
@@ -65,15 +68,17 @@ trait Jump
     }
 
     /**
-     * 操作错误跳转的快捷方法
-     * @access protected
+     * 操作错误跳转的快捷方法.
+     *
      * @param mixed  $msg    提示信息
      * @param string $url    跳转的 URL 地址
      * @param mixed  $data   返回的数据
      * @param int    $wait   跳转等待时间
      * @param array  $header 发送的 Header 信息
-     * @return void
+     *
      * @throws HttpResponseException
+     *
+     * @return void
      */
     protected function error($msg = '', $url = null, $data = '', $wait = 3, array $header = [])
     {
@@ -106,15 +111,17 @@ trait Jump
     }
 
     /**
-     * 返回封装后的 API 数据到客户端
-     * @access protected
+     * 返回封装后的 API 数据到客户端.
+     *
      * @param mixed  $data   要返回的数据
      * @param int    $code   返回的 code
      * @param mixed  $msg    提示信息
      * @param string $type   返回数据格式
      * @param array  $header 发送的 Header 信息
-     * @return void
+     *
      * @throws HttpResponseException
+     *
+     * @return void
      */
     protected function result($data, $code = 0, $msg = '', $type = '', array $header = [])
     {
@@ -124,26 +131,28 @@ trait Jump
             'time' => Request::instance()->server('REQUEST_TIME'),
             'data' => $data,
         ];
-        $type     = $type ?: $this->getResponseType();
+        $type = $type ?: $this->getResponseType();
         $response = Response::create($result, $type)->header($header);
 
         throw new HttpResponseException($response);
     }
 
     /**
-     * URL 重定向
-     * @access protected
+     * URL 重定向.
+     *
      * @param string    $url    跳转的 URL 表达式
      * @param array|int $params 其它 URL 参数
      * @param int       $code   http code
      * @param array     $with   隐式传参
-     * @return void
+     *
      * @throws HttpResponseException
+     *
+     * @return void
      */
     protected function redirect($url, $params = [], $code = 302, $with = [])
     {
-        if (is_integer($params)) {
-            $code   = $params;
+        if (is_int($params)) {
+            $code = $params;
             $params = [];
         }
 
@@ -154,8 +163,8 @@ trait Jump
     }
 
     /**
-     * 获取当前的 response 输出类型
-     * @access protected
+     * 获取当前的 response 输出类型.
+     *
      * @return string
      */
     protected function getResponseType()

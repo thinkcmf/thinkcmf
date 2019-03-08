@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+
 namespace app\user\controller;
 
 use cmf\controller\HomeBaseController;
@@ -50,16 +52,16 @@ class VerificationCodeController extends HomeBaseController
 
         if (Validate::is($data['username'], 'email')) {
             $accountType = 'email';
-        } else if (cmf_check_mobile($data['username'])) {
+        } elseif (cmf_check_mobile($data['username'])) {
             $accountType = 'mobile';
         } else {
-            $this->error("请输入正确的手机或者邮箱格式!");
+            $this->error('请输入正确的手机或者邮箱格式!');
         }
 
         if (isset($data['type']) && $data['type'] == 'register') {
             if ($accountType == 'email') {
                 $findUserCount = db('user')->where('user_email', $data['username'])->count();
-            } else if ($accountType == 'mobile') {
+            } elseif ($accountType == 'mobile') {
                 $findUserCount = db('user')->where('mobile', $data['username'])->count();
             }
 
@@ -72,32 +74,29 @@ class VerificationCodeController extends HomeBaseController
 
         $code = cmf_get_verification_code($data['username']);
         if (empty($code)) {
-            $this->error("验证码发送过多,请明天再试!");
+            $this->error('验证码发送过多,请明天再试!');
         }
 
         if ($accountType == 'email') {
-
             $emailTemplate = cmf_get_option('email_template_verification_code');
 
-            $user     = cmf_get_current_user();
+            $user = cmf_get_current_user();
             $username = empty($user['user_nickname']) ? $user['user_login'] : $user['user_nickname'];
 
             $message = htmlspecialchars_decode($emailTemplate['template']);
             $message = $this->display($message, ['code' => $code, 'username' => $username]);
             $subject = empty($emailTemplate['subject']) ? 'ThinkCMF验证码' : $emailTemplate['subject'];
-            $result  = cmf_send_email($data['username'], $subject, $message);
+            $result = cmf_send_email($data['username'], $subject, $message);
 
             if (empty($result['error'])) {
                 cmf_verification_code_log($data['username'], $code);
-                $this->success("验证码已经发送成功!");
+                $this->success('验证码已经发送成功!');
             } else {
-                $this->error("邮箱验证码发送失败:" . $result['message']);
+                $this->error('邮箱验证码发送失败:'.$result['message']);
             }
-
-        } else if ($accountType == 'mobile') {
-
-            $param  = ['mobile' => $data['username'], 'code' => $code];
-            $result = hook_one("send_mobile_verification_code", $param);
+        } elseif ($accountType == 'mobile') {
+            $param = ['mobile' => $data['username'], 'code' => $code];
+            $result = hook_one('send_mobile_verification_code', $param);
 
             if ($result !== false && !empty($result['error'])) {
                 $this->error($result['message']);
@@ -116,10 +115,6 @@ class VerificationCodeController extends HomeBaseController
             } else {
                 $this->success('验证码已经发送成功!');
             }
-
         }
-
-
     }
-
 }

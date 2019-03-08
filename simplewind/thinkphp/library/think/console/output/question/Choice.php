@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -15,14 +16,14 @@ use think\console\output\Question;
 
 class Choice extends Question
 {
-
     private $choices;
-    private $multiselect  = false;
-    private $prompt       = ' > ';
+    private $multiselect = false;
+    private $prompt = ' > ';
     private $errorMessage = 'Value "%s" is invalid';
 
     /**
-     * 构造方法
+     * 构造方法.
+     *
      * @param string $question 问题
      * @param array  $choices  选项
      * @param mixed  $default  默认答案
@@ -37,7 +38,8 @@ class Choice extends Question
     }
 
     /**
-     * 可选项
+     * 可选项.
+     *
      * @return array
      */
     public function getChoices()
@@ -46,8 +48,10 @@ class Choice extends Question
     }
 
     /**
-     * 设置可否多选
+     * 设置可否多选.
+     *
      * @param bool $multiselect
+     *
      * @return self
      */
     public function setMultiselect($multiselect)
@@ -64,7 +68,8 @@ class Choice extends Question
     }
 
     /**
-     * 获取提示
+     * 获取提示.
+     *
      * @return string
      */
     public function getPrompt()
@@ -73,8 +78,10 @@ class Choice extends Question
     }
 
     /**
-     * 设置提示
+     * 设置提示.
+     *
      * @param string $prompt
+     *
      * @return self
      */
     public function setPrompt($prompt)
@@ -85,8 +92,10 @@ class Choice extends Question
     }
 
     /**
-     * 设置错误提示信息
+     * 设置错误提示信息.
+     *
      * @param string $errorMessage
+     *
      * @return self
      */
     public function setErrorMessage($errorMessage)
@@ -98,15 +107,16 @@ class Choice extends Question
     }
 
     /**
-     * 获取默认的验证方法
+     * 获取默认的验证方法.
+     *
      * @return callable
      */
     private function getDefaultValidator()
     {
-        $choices      = $this->choices;
+        $choices = $this->choices;
         $errorMessage = $this->errorMessage;
-        $multiselect  = $this->multiselect;
-        $isAssoc      = $this->isAssoc($choices);
+        $multiselect = $this->multiselect;
+        $isAssoc = $this->isAssoc($choices);
 
         return function ($selected) use ($choices, $errorMessage, $multiselect, $isAssoc) {
             // Collapse all spaces.

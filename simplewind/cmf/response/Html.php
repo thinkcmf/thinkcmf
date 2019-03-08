@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -16,5 +17,4 @@ use think\Response;
 class Html extends Response
 {
     protected $contentType = 'text/html';
-
 }

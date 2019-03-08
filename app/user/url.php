@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -13,18 +14,18 @@ return [
         'name'   => '用户登录',
         'vars'   => [
         ],
-        'simple' => false
+        'simple' => false,
     ],
     'Register/index'     => [
         'name'   => '用户注册',
         'vars'   => [
         ],
-        'simple' => false
+        'simple' => false,
     ],
     'Login/findPassword' => [
         'name'   => '找回密码',
         'vars'   => [
         ],
-        'simple' => false
+        'simple' => false,
     ],
 ];

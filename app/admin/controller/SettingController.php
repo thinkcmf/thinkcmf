@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,16 +9,16 @@
 // +----------------------------------------------------------------------
 // | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
+
 namespace app\admin\controller;
 
 use app\admin\model\RouteModel;
 use cmf\controller\AdminBaseController;
-
 use think\Db;
 
 /**
- * Class SettingController
- * @package app\admin\controller
+ * Class SettingController.
+ *
  * @adminMenuRoot(
  *     'name'   =>'设置',
  *     'action' =>'default',
@@ -30,9 +31,9 @@ use think\Db;
  */
 class SettingController extends AdminBaseController
 {
-
     /**
-     * 网站信息
+     * 网站信息.
+     *
      * @adminMenu(
      *     'name'   => '网站信息',
      *     'parent' => 'default',
@@ -52,26 +53,27 @@ class SettingController extends AdminBaseController
             return $content;
         }
 
-        $noNeedDirs     = [".", "..", ".svn", 'fonts'];
-        $adminThemesDir = config('template.cmf_admin_theme_path') . config('template.cmf_admin_default_theme') . '/public/assets/themes/';
-        $adminStyles    = cmf_scan_dir($adminThemesDir . '*', GLOB_ONLYDIR);
-        $adminStyles    = array_diff($adminStyles, $noNeedDirs);
-        $cdnSettings    = cmf_get_option('cdn_settings');
-        $cmfSettings    = cmf_get_option('cmf_settings');
-        $adminSettings  = cmf_get_option('admin_settings');
+        $noNeedDirs = ['.', '..', '.svn', 'fonts'];
+        $adminThemesDir = config('template.cmf_admin_theme_path').config('template.cmf_admin_default_theme').'/public/assets/themes/';
+        $adminStyles = cmf_scan_dir($adminThemesDir.'*', GLOB_ONLYDIR);
+        $adminStyles = array_diff($adminStyles, $noNeedDirs);
+        $cdnSettings = cmf_get_option('cdn_settings');
+        $cmfSettings = cmf_get_option('cmf_settings');
+        $adminSettings = cmf_get_option('admin_settings');
 
         $this->assign('site_info', cmf_get_option('site_info'));
-        $this->assign("admin_styles", $adminStyles);
-        $this->assign("templates", []);
-        $this->assign("cdn_settings", $cdnSettings);
-        $this->assign("admin_settings", $adminSettings);
-        $this->assign("cmf_settings", $cmfSettings);
+        $this->assign('admin_styles', $adminStyles);
+        $this->assign('templates', []);
+        $this->assign('cdn_settings', $cdnSettings);
+        $this->assign('admin_settings', $adminSettings);
+        $this->assign('cmf_settings', $cmfSettings);
 
         return $this->fetch();
     }
 
     /**
-     * 网站信息设置提交
+     * 网站信息设置提交.
+     *
      * @adminMenu(
      *     'name'   => '网站信息设置提交',
      *     'parent' => 'site',
@@ -96,7 +98,7 @@ class SettingController extends AdminBaseController
 
             $cmfSettings = $this->request->param('cmf_settings/a');
 
-            $bannedUsernames                 = preg_replace("/[^0-9A-Za-z_\\x{4e00}-\\x{9fa5}-]/u", ",", $cmfSettings['banned_usernames']);
+            $bannedUsernames = preg_replace('/[^0-9A-Za-z_\\x{4e00}-\\x{9fa5}-]/u', ',', $cmfSettings['banned_usernames']);
             $cmfSettings['banned_usernames'] = $bannedUsernames;
             cmf_set_option('cmf_settings', $cmfSettings);
 
@@ -107,7 +109,7 @@ class SettingController extends AdminBaseController
 
             $routeModel = new RouteModel();
             if (!empty($adminSettings['admin_password'])) {
-                $routeModel->setRoute($adminSettings['admin_password'] . '$', 'admin/Index/index', [], 2, 5000);
+                $routeModel->setRoute($adminSettings['admin_password'].'$', 'admin/Index/index', [], 2, 5000);
             } else {
                 $routeModel->deleteRoute('admin/Index/index', []);
             }
@@ -116,13 +118,13 @@ class SettingController extends AdminBaseController
 
             cmf_set_option('admin_settings', $adminSettings);
 
-            $this->success("保存成功！", '');
-
+            $this->success('保存成功！', '');
         }
     }
 
     /**
-     * 密码修改
+     * 密码修改.
+     *
      * @adminMenu(
      *     'name'   => '密码修改',
      *     'parent' => 'default',
@@ -140,7 +142,8 @@ class SettingController extends AdminBaseController
     }
 
     /**
-     * 密码修改提交
+     * 密码修改提交.
+     *
      * @adminMenu(
      *     'name'   => '密码修改提交',
      *     'parent' => 'password',
@@ -155,44 +158,42 @@ class SettingController extends AdminBaseController
     public function passwordPost()
     {
         if ($this->request->isPost()) {
-
             $data = $this->request->param();
             if (empty($data['old_password'])) {
-                $this->error("原始密码不能为空！");
+                $this->error('原始密码不能为空！');
             }
             if (empty($data['password'])) {
-                $this->error("新密码不能为空！");
+                $this->error('新密码不能为空！');
             }
 
             $userId = cmf_get_current_admin_id();
 
-            $admin = Db::name('user')->where("id", $userId)->find();
+            $admin = Db::name('user')->where('id', $userId)->find();
 
             $oldPassword = $data['old_password'];
-            $password    = $data['password'];
-            $rePassword  = $data['re_password'];
+            $password = $data['password'];
+            $rePassword = $data['re_password'];
 
             if (cmf_compare_password($oldPassword, $admin['user_pass'])) {
                 if ($password == $rePassword) {
-
                     if (cmf_compare_password($password, $admin['user_pass'])) {
-                        $this->error("新密码不能和原始密码相同！");
+                        $this->error('新密码不能和原始密码相同！');
                     } else {
                         Db::name('user')->where('id', $userId)->update(['user_pass' => cmf_password($password)]);
-                        $this->success("密码修改成功！");
+                        $this->success('密码修改成功！');
                     }
                 } else {
-                    $this->error("密码输入不一致！");
+                    $this->error('密码输入不一致！');
                 }
-
             } else {
-                $this->error("原始密码不正确！");
+                $this->error('原始密码不正确！');
             }
         }
     }
 
     /**
-     * 上传限制设置界面
+     * 上传限制设置界面.
+     *
      * @adminMenu(
      *     'name'   => '上传设置',
      *     'parent' => 'default',
@@ -208,11 +209,13 @@ class SettingController extends AdminBaseController
     {
         $uploadSetting = cmf_get_upload_setting();
         $this->assign('upload_setting', $uploadSetting);
+
         return $this->fetch();
     }
 
     /**
-     * 上传限制设置界面提交
+     * 上传限制设置界面提交.
+     *
      * @adminMenu(
      *     'name'   => '上传设置提交',
      *     'parent' => 'upload',
@@ -233,11 +236,11 @@ class SettingController extends AdminBaseController
             cmf_set_option('upload_setting', $uploadSetting);
             $this->success('保存成功！');
         }
-
     }
 
     /**
-     * 清除缓存
+     * 清除缓存.
+     *
      * @adminMenu(
      *     'name'   => '清除缓存',
      *     'parent' => 'default',
@@ -258,8 +261,7 @@ class SettingController extends AdminBaseController
         }
 
         cmf_clear_cache();
+
         return $this->fetch();
     }
-
-
 }

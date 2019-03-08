@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
@@ -17,13 +18,13 @@ class TemplateNotFoundException extends \RuntimeException
 
     public function __construct($message, $template = '')
     {
-        $this->message  = $message;
+        $this->message = $message;
         $this->template = $template;
     }
 
     /**
-     * 获取模板文件
-     * @access public
+     * 获取模板文件.
+     *
      * @return string
      */
     public function getTemplate()

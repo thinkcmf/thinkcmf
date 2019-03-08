@@ -1,4 +1,5 @@
 <?php
+
 // +---------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +---------------------------------------------------------------------
@@ -9,6 +10,7 @@
 // | Author: catman <catman@thinkcmf.com>
 // +---------------------------------------------------------------------
 // ThinkPHP5.0兼容ThinkPHP5.1代码,用法请看ThinkPHP5.1文档
+
 namespace think\facade;
 
 use think\Config as ThinkConfig;
@@ -16,13 +18,14 @@ use think\Config as ThinkConfig;
 class Config
 {
     /**
-     * 获取一级配置
-     * @access public
-     * @param  string    $name 一级配置名
+     * 获取一级配置.
+     *
+     * @param string $name 一级配置名
+     *
      * @return array
      */
     public static function pull($name)
     {
-       return ThinkConfig::get($name);
+        return ThinkConfig::get($name);
     }
 }

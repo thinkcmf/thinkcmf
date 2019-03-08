@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,13 +9,14 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
+
 namespace app\portal\controller;
 
 use cmf\controller\AdminBaseController;
 
 /**
- * Class AdminIndexController
- * @package app\portal\controller
+ * Class AdminIndexController.
+ *
  * @adminMenuRoot(
  *     'name'   =>'门户管理',
  *     'action' =>'default',
@@ -27,6 +29,4 @@ use cmf\controller\AdminBaseController;
  */
 class AdminIndexController extends AdminBaseController
 {
-
-
 }

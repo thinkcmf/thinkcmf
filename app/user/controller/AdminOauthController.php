@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: Powerless < wzxaini9@gmail.com>
 // +----------------------------------------------------------------------
+
 namespace app\user\controller;
 
 use cmf\controller\AdminBaseController;
@@ -15,9 +17,9 @@ use think\Db;
 
 class AdminOauthController extends AdminBaseController
 {
-
     /**
-     * 后台第三方用户列表
+     * 后台第三方用户列表.
+     *
      * @adminMenu(
      *     'name'   => '第三方用户',
      *     'parent' => 'user/AdminIndex/default1',
@@ -39,7 +41,7 @@ class AdminOauthController extends AdminBaseController
 
         $oauthUserQuery = Db::name('third_party_user');
 
-        $lists = $oauthUserQuery->field('a.*,u.user_nickname,u.sex,u.avatar')->alias('a')->join('__USER__ u', 'a.user_id = u.id')->where("status", 1)->order("create_time DESC")->paginate(10);
+        $lists = $oauthUserQuery->field('a.*,u.user_nickname,u.sex,u.avatar')->alias('a')->join('__USER__ u', 'a.user_id = u.id')->where('status', 1)->order('create_time DESC')->paginate(10);
         // 获取分页显示
         $page = $lists->render();
         $this->assign('lists', $lists);
@@ -49,7 +51,8 @@ class AdminOauthController extends AdminBaseController
     }
 
     /**
-     * 后台删除第三方用户绑定
+     * 后台删除第三方用户绑定.
+     *
      * @adminMenu(
      *     'name'   => '删除第三方用户绑定',
      *     'parent' => 'index',
@@ -67,9 +70,7 @@ class AdminOauthController extends AdminBaseController
         if (empty($id)) {
             $this->error('非法数据！');
         }
-        Db::name("third_party_user")->where("id", $id)->delete();
-        $this->success("删除成功！", "admin_oauth/index");
+        Db::name('third_party_user')->where('id', $id)->delete();
+        $this->success('删除成功！', 'admin_oauth/index');
     }
-
-
 }

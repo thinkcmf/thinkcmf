@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -17,7 +18,6 @@ use think\console\input\Option;
 
 class Input
 {
-
     /**
      * @var Definition
      */
@@ -57,20 +57,21 @@ class Input
     }
 
     /**
-     * 绑定实例
+     * 绑定实例.
+     *
      * @param Definition $definition A InputDefinition instance
      */
     public function bind(Definition $definition)
     {
-        $this->arguments  = [];
-        $this->options    = [];
+        $this->arguments = [];
+        $this->options = [];
         $this->definition = $definition;
 
         $this->parse();
     }
 
     /**
-     * 解析参数
+     * 解析参数.
      */
     protected function parse()
     {
@@ -92,7 +93,8 @@ class Input
     }
 
     /**
-     * 解析短选项
+     * 解析短选项.
+     *
      * @param string $token 当前的指令.
      */
     private function parseShortOption($token)
@@ -113,14 +115,16 @@ class Input
     }
 
     /**
-     * 解析短选项
+     * 解析短选项.
+     *
      * @param string $name 当前指令
+     *
      * @throws \RuntimeException
      */
     private function parseShortOptionSet($name)
     {
         $len = strlen($name);
-        for ($i = 0; $i < $len; ++$i) {
+        for ($i = 0; $i < $len; $i++) {
             if (!$this->definition->hasShortcut($name[$i])) {
                 throw new \RuntimeException(sprintf('The "-%s" option does not exist.', $name[$i]));
             }
@@ -137,7 +141,8 @@ class Input
     }
 
     /**
-     * 解析完整选项
+     * 解析完整选项.
+     *
      * @param string $token 当前指令
      */
     private function parseLongOption($token)
@@ -152,8 +157,10 @@ class Input
     }
 
     /**
-     * 解析参数
+     * 解析参数.
+     *
      * @param string $token 当前指令
+     *
      * @throws \RuntimeException
      */
     private function parseArgument($token)
@@ -164,7 +171,6 @@ class Input
             $arg = $this->definition->getArgument($c);
 
             $this->arguments[$arg->getName()] = $arg->isArray() ? [$token] : $token;
-
         } elseif ($this->definition->hasArgument($c - 1) && $this->definition->getArgument($c - 1)->isArray()) {
             $arg = $this->definition->getArgument($c - 1);
 
@@ -176,8 +182,10 @@ class Input
 
     /**
      * 添加一个短选项的值
+     *
      * @param string $shortcut 短名称
      * @param mixed  $value    值
+     *
      * @throws \RuntimeException
      */
     private function addShortOption($shortcut, $value)
@@ -191,8 +199,10 @@ class Input
 
     /**
      * 添加一个完整选项的值
+     *
      * @param string $name  选项名
      * @param mixed  $value 值
+     *
      * @throws \RuntimeException
      */
     private function addLongOption($name, $value)
@@ -240,7 +250,8 @@ class Input
     }
 
     /**
-     * 获取第一个参数
+     * 获取第一个参数.
+     *
      * @return string|null
      */
     public function getFirstArgument()
@@ -252,12 +263,13 @@ class Input
 
             return $token;
         }
-        return;
     }
 
     /**
      * 检查原始参数是否包含某个值
+     *
      * @param string|array $values 需要检查的值
+     *
      * @return bool
      */
     public function hasParameterOption($values)
@@ -266,7 +278,7 @@ class Input
 
         foreach ($this->tokens as $token) {
             foreach ($values as $value) {
-                if ($token === $value || 0 === strpos($token, $value . '=')) {
+                if ($token === $value || 0 === strpos($token, $value.'=')) {
                     return true;
                 }
             }
@@ -277,8 +289,10 @@ class Input
 
     /**
      * 获取原始选项的值
+     *
      * @param string|array $values  需要检查的值
      * @param mixed        $default 默认值
+     *
      * @return mixed The option value
      */
     public function getParameterOption($values, $default = false)
@@ -290,7 +304,7 @@ class Input
             $token = array_shift($tokens);
 
             foreach ($values as $value) {
-                if ($token === $value || 0 === strpos($token, $value . '=')) {
+                if ($token === $value || 0 === strpos($token, $value.'=')) {
                     if (false !== $pos = strpos($token, '=')) {
                         return substr($token, $pos + 1);
                     }
@@ -304,7 +318,8 @@ class Input
     }
 
     /**
-     * 验证输入
+     * 验证输入.
+     *
      * @throws \RuntimeException
      */
     public function validate()
@@ -315,7 +330,8 @@ class Input
     }
 
     /**
-     * 检查输入是否是交互的
+     * 检查输入是否是交互的.
+     *
      * @return bool
      */
     public function isInteractive()
@@ -324,7 +340,8 @@ class Input
     }
 
     /**
-     * 设置输入的交互
+     * 设置输入的交互.
+     *
      * @param bool
      */
     public function setInteractive($interactive)
@@ -333,7 +350,8 @@ class Input
     }
 
     /**
-     * 获取所有的参数
+     * 获取所有的参数.
+     *
      * @return Argument[]
      */
     public function getArguments()
@@ -342,10 +360,13 @@ class Input
     }
 
     /**
-     * 根据名称获取参数
+     * 根据名称获取参数.
+     *
      * @param string $name 参数名
-     * @return mixed
+     *
      * @throws \InvalidArgumentException
+     *
+     * @return mixed
      */
     public function getArgument($name)
     {
@@ -359,8 +380,10 @@ class Input
 
     /**
      * 设置参数的值
+     *
      * @param string $name  参数名
      * @param string $value 值
+     *
      * @throws \InvalidArgumentException
      */
     public function setArgument($name, $value)
@@ -373,8 +396,10 @@ class Input
     }
 
     /**
-     * 检查是否存在某个参数
+     * 检查是否存在某个参数.
+     *
      * @param string|int $name 参数名或位置
+     *
      * @return bool
      */
     public function hasArgument($name)
@@ -383,7 +408,8 @@ class Input
     }
 
     /**
-     * 获取所有的选项
+     * 获取所有的选项.
+     *
      * @return Option[]
      */
     public function getOptions()
@@ -393,9 +419,12 @@ class Input
 
     /**
      * 获取选项值
+     *
      * @param string $name 选项名称
-     * @return mixed
+     *
      * @throws \InvalidArgumentException
+     *
+     * @return mixed
      */
     public function getOption($name)
     {
@@ -408,8 +437,10 @@ class Input
 
     /**
      * 设置选项值
+     *
      * @param string      $name  选项名
      * @param string|bool $value 值
+     *
      * @throws \InvalidArgumentException
      */
     public function setOption($name, $value)
@@ -422,8 +453,10 @@ class Input
     }
 
     /**
-     * 是否有某个选项
+     * 是否有某个选项.
+     *
      * @param string $name 选项名
+     *
      * @return bool
      */
     public function hasOption($name)
@@ -432,8 +465,10 @@ class Input
     }
 
     /**
-     * 转义指令
+     * 转义指令.
+     *
      * @param string $token
+     *
      * @return string
      */
     public function escapeToken($token)
@@ -442,14 +477,15 @@ class Input
     }
 
     /**
-     * 返回传递给命令的参数的字符串
+     * 返回传递给命令的参数的字符串.
+     *
      * @return string
      */
     public function __toString()
     {
         $tokens = array_map(function ($token) {
             if (preg_match('{^(-[^=]+=)(.+)}', $token, $match)) {
-                return $match[1] . $this->escapeToken($match[2]);
+                return $match[1].$this->escapeToken($match[2]);
             }
 
             if ($token && '-' !== $token[0]) {

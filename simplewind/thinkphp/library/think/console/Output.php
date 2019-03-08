@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -22,15 +23,15 @@ use think\console\output\question\Choice;
 use think\console\output\question\Confirmation;
 
 /**
- * Class Output
- * @package think\console
+ * Class Output.
  *
  * @see     \think\console\output\driver\Console::setDecorated
+ *
  * @method void setDecorated($decorated)
  *
  * @see     \think\console\output\driver\Buffer::fetch
- * @method string fetch()
  *
+ * @method string fetch()
  * @method void info($message)
  * @method void error($message)
  * @method void comment($message)
@@ -40,15 +41,15 @@ use think\console\output\question\Confirmation;
  */
 class Output
 {
-    const VERBOSITY_QUIET        = 0;
-    const VERBOSITY_NORMAL       = 1;
-    const VERBOSITY_VERBOSE      = 2;
+    const VERBOSITY_QUIET = 0;
+    const VERBOSITY_NORMAL = 1;
+    const VERBOSITY_VERBOSE = 2;
     const VERBOSITY_VERY_VERBOSE = 3;
-    const VERBOSITY_DEBUG        = 4;
+    const VERBOSITY_DEBUG = 4;
 
     const OUTPUT_NORMAL = 0;
-    const OUTPUT_RAW    = 1;
-    const OUTPUT_PLAIN  = 2;
+    const OUTPUT_RAW = 1;
+    const OUTPUT_PLAIN = 2;
 
     private $verbosity = self::VERBOSITY_NORMAL;
 
@@ -61,12 +62,12 @@ class Output
         'comment',
         'question',
         'highlight',
-        'warning'
+        'warning',
     ];
 
     public function __construct($driver = 'console')
     {
-        $class = '\\think\\console\\output\\driver\\' . ucwords($driver);
+        $class = '\\think\\console\\output\\driver\\'.ucwords($driver);
 
         $this->handle = new $class($this);
     }
@@ -94,13 +95,10 @@ class Output
         return $this->askQuestion($input, new Confirmation($question, $default));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function choice(Input $input, $question, array $choices, $default = null)
     {
         if (null !== $default) {
-            $values  = array_flip($choices);
+            $values = array_flip($choices);
             $default = $values[$default];
         }
 
@@ -109,7 +107,7 @@ class Output
 
     protected function askQuestion(Input $input, Question $question)
     {
-        $ask    = new Ask($input, $this, $question);
+        $ask = new Ask($input, $this, $question);
         $answer = $ask->run();
 
         if ($input->isInteractive()) {
@@ -125,7 +123,8 @@ class Output
     }
 
     /**
-     * 输出空行
+     * 输出空行.
+     *
      * @param int $count
      */
     public function newLine($count = 1)
@@ -134,7 +133,8 @@ class Output
     }
 
     /**
-     * 输出信息并换行
+     * 输出信息并换行.
+     *
      * @param string $messages
      * @param int    $type
      */
@@ -144,7 +144,8 @@ class Output
     }
 
     /**
-     * 输出信息
+     * 输出信息.
+     *
      * @param string $messages
      * @param bool   $newline
      * @param int    $type
@@ -159,17 +160,11 @@ class Output
         $this->handle->renderException($e);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setVerbosity($level)
     {
         $this->verbosity = (int) $level;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getVerbosity()
     {
         return $this->verbosity;
@@ -198,7 +193,7 @@ class Output
     public function describe($object, array $options = [])
     {
         $descriptor = new Descriptor();
-        $options    = array_merge([
+        $options = array_merge([
             'raw_text' => false,
         ], $options);
 
@@ -209,14 +204,14 @@ class Output
     {
         if (in_array($method, $this->styles)) {
             array_unshift($args, $method);
+
             return call_user_func_array([$this, 'block'], $args);
         }
 
         if ($this->handle && method_exists($this->handle, $method)) {
             return call_user_func_array([$this->handle, $method], $args);
         } else {
-            throw new Exception('method not exists:' . __CLASS__ . '->' . $method);
+            throw new Exception('method not exists:'.__CLASS__.'->'.$method);
         }
     }
-
 }

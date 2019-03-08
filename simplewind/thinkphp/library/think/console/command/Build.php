@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -18,7 +19,6 @@ use think\console\Output;
 
 class Build extends Command
 {
-
     /**
      * {@inheritdoc}
      */
@@ -26,8 +26,8 @@ class Build extends Command
     {
         $this->setName('build')
             ->setDefinition([
-                new Option('config', null, Option::VALUE_OPTIONAL, "build.php path"),
-                new Option('module', null, Option::VALUE_OPTIONAL, "module name"),
+                new Option('config', null, Option::VALUE_OPTIONAL, 'build.php path'),
+                new Option('module', null, Option::VALUE_OPTIONAL, 'module name'),
             ])
             ->setDescription('Build Application Dirs');
     }
@@ -36,21 +36,22 @@ class Build extends Command
     {
         if ($input->hasOption('module')) {
             \think\Build::module($input->getOption('module'));
-            $output->writeln("Successed");
+            $output->writeln('Successed');
+
             return;
         }
 
         if ($input->hasOption('config')) {
             $build = include $input->getOption('config');
         } else {
-            $build = include APP_PATH . 'build.php';
+            $build = include APP_PATH.'build.php';
         }
         if (empty($build)) {
-            $output->writeln("Build Config Is Empty");
+            $output->writeln('Build Config Is Empty');
+
             return;
         }
         \think\Build::run($build);
-        $output->writeln("Successed");
-
+        $output->writeln('Successed');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -18,15 +19,16 @@ use think\View as ViewTemplate;
 class View extends Response
 {
     // 输出参数
-    protected $options     = [];
-    protected $vars        = [];
-    protected $replace     = [];
+    protected $options = [];
+    protected $vars = [];
+    protected $replace = [];
     protected $contentType = 'text/html';
 
     /**
-     * 处理数据
-     * @access protected
+     * 处理数据.
+     *
      * @param mixed $data 要处理的数据
+     *
      * @return mixed
      */
     protected function output($data)
@@ -37,9 +39,10 @@ class View extends Response
     }
 
     /**
-     * 获取视图变量
-     * @access public
+     * 获取视图变量.
+     *
      * @param string $name 模板变量
+     *
      * @return mixed
      */
     public function getVars($name = null)
@@ -53,27 +56,31 @@ class View extends Response
 
     /**
      * 模板变量赋值
-     * @access public
+     *
      * @param mixed $name  变量名
      * @param mixed $value 变量值
+     *
      * @return $this
      */
     public function assign($name, $value = '')
     {
         if (is_array($name)) {
             $this->vars = array_merge($this->vars, $name);
+
             return $this;
         } else {
             $this->vars[$name] = $value;
         }
+
         return $this;
     }
 
     /**
-     * 视图内容替换
-     * @access public
+     * 视图内容替换.
+     *
      * @param string|array $content 被替换内容（支持批量替换）
-     * @param string  $replace    替换内容
+     * @param string       $replace 替换内容
+     *
      * @return $this
      */
     public function replace($content, $replace = '')
@@ -83,7 +90,7 @@ class View extends Response
         } else {
             $this->replace[$content] = $replace;
         }
+
         return $this;
     }
-
 }

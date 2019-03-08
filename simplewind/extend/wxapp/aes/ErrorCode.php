@@ -1,6 +1,7 @@
 <?php
 
 namespace wxapp\aes;
+
 /**
  * error code 说明.
  * <ul>
@@ -9,9 +10,8 @@ namespace wxapp\aes;
  *    <li>-41004: 解密后得到的buffer非法</li>
  *    <li>-41005: base64加密失败</li>
  *    <li>-41016: base64解密失败</li>
- * </ul>
+ * </ul>.
  */
-
 class ErrorCode
 {
     public static $OK = 0;

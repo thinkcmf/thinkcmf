@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -16,7 +17,6 @@ use think\console\Command;
 
 class Console
 {
-
     const GLOBAL_NAMESPACE = '_global';
 
     /**
@@ -45,13 +45,14 @@ class Console
     private $aliases;
 
     /**
-     * 构造方法
+     * 构造方法.
+     *
      * @param ThinkConsole $console
      * @param string|null  $namespace
      */
     public function __construct(ThinkConsole $console, $namespace = null)
     {
-        $this->console   = $console;
+        $this->console = $console;
         $this->namespace = $namespace;
     }
 
@@ -81,8 +82,10 @@ class Console
 
     /**
      * @param string $name
-     * @return Command
+     *
      * @throws \InvalidArgumentException
+     *
+     * @return Command
      */
     public function getCommand($name)
     {
@@ -95,7 +98,7 @@ class Console
 
     private function inspectConsole()
     {
-        $this->commands   = [];
+        $this->commands = [];
         $this->namespaces = [];
 
         $all = $this->console->all($this->namespace ? $this->console->findNamespace($this->namespace) : null);
@@ -123,6 +126,7 @@ class Console
 
     /**
      * @param array $commands
+     *
      * @return array
      */
     private function sortCommands(array $commands)

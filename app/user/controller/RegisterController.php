@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,21 +9,21 @@
 // +----------------------------------------------------------------------
 // | Author: Powerless < wzxaini9@gmail.com>
 // +----------------------------------------------------------------------
+
 namespace app\user\controller;
 
+use app\user\model\UserModel;
 use cmf\controller\HomeBaseController;
 use think\facade\Validate;
-use app\user\model\UserModel;
 
 class RegisterController extends HomeBaseController
 {
-
     /**
-     * 前台用户注册
+     * 前台用户注册.
      */
     public function index()
     {
-        $redirect = $this->request->post("redirect");
+        $redirect = $this->request->post('redirect');
         if (empty($redirect)) {
             $redirect = $this->request->server('HTTP_REFERER');
         } else {
@@ -31,14 +32,14 @@ class RegisterController extends HomeBaseController
         session('login_http_referer', $redirect);
 
         if (cmf_is_user_login()) {
-            return redirect($this->request->root() . '/');
+            return redirect($this->request->root().'/');
         } else {
-            return $this->fetch(":register");
+            return $this->fetch(':register');
         }
     }
 
     /**
-     * 前台用户注册提交
+     * 前台用户注册提交.
      */
     public function doRegister()
     {
@@ -82,36 +83,34 @@ class RegisterController extends HomeBaseController
                 }
             }
 
-            $register          = new UserModel();
+            $register = new UserModel();
             $user['user_pass'] = $data['password'];
             if (Validate::is($data['username'], 'email')) {
                 $user['user_email'] = $data['username'];
-                $log                = $register->register($user, 3);
-            } else if (cmf_check_mobile($data['username'])) {
+                $log = $register->register($user, 3);
+            } elseif (cmf_check_mobile($data['username'])) {
                 $user['mobile'] = $data['username'];
-                $log            = $register->register($user, 2);
+                $log = $register->register($user, 2);
             } else {
                 $log = 2;
             }
             $sessionLoginHttpReferer = session('login_http_referer');
-            $redirect                = empty($sessionLoginHttpReferer) ? cmf_get_root() . '/' : $sessionLoginHttpReferer;
+            $redirect = empty($sessionLoginHttpReferer) ? cmf_get_root().'/' : $sessionLoginHttpReferer;
             switch ($log) {
                 case 0:
                     $this->success('注册成功', $redirect);
                     break;
                 case 1:
-                    $this->error("您的账户已注册过");
+                    $this->error('您的账户已注册过');
                     break;
                 case 2:
-                    $this->error("您输入的账号格式错误");
+                    $this->error('您输入的账号格式错误');
                     break;
-                default :
+                default:
                     $this->error('未受理的请求');
             }
-
         } else {
-            $this->error("请求错误");
+            $this->error('请求错误');
         }
-
     }
 }

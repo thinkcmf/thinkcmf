@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -13,7 +14,6 @@ namespace think\console\output\formatter;
 
 class Style
 {
-
     private static $availableForegroundColors = [
         'black'   => ['set' => 30, 'unset' => 39],
         'red'     => ['set' => 31, 'unset' => 39],
@@ -47,10 +47,12 @@ class Style
     private $options = [];
 
     /**
-     * 初始化输出的样式
+     * 初始化输出的样式.
+     *
      * @param string|null $foreground 字体颜色
      * @param string|null $background 背景色
      * @param array       $options    格式
+     *
      * @api
      */
     public function __construct($foreground = null, $background = null, array $options = [])
@@ -67,9 +69,12 @@ class Style
     }
 
     /**
-     * 设置字体颜色
+     * 设置字体颜色.
+     *
      * @param string|null $color 颜色名
+     *
      * @throws \InvalidArgumentException
+     *
      * @api
      */
     public function setForeground($color = null)
@@ -88,9 +93,12 @@ class Style
     }
 
     /**
-     * 设置背景色
+     * 设置背景色.
+     *
      * @param string|null $color 颜色名
+     *
      * @throws \InvalidArgumentException
+     *
      * @api
      */
     public function setBackground($color = null)
@@ -109,9 +117,12 @@ class Style
     }
 
     /**
-     * 设置字体格式
+     * 设置字体格式.
+     *
      * @param string $option 格式名
+     *
      * @throws \InvalidArgumentException When the option name isn't defined
+     *
      * @api
      */
     public function setOption($option)
@@ -126,8 +137,10 @@ class Style
     }
 
     /**
-     * 重置字体格式
+     * 重置字体格式.
+     *
      * @param string $option 格式名
+     *
      * @throws \InvalidArgumentException
      */
     public function unsetOption($option)
@@ -143,7 +156,8 @@ class Style
     }
 
     /**
-     * 批量设置字体格式
+     * 批量设置字体格式.
+     *
      * @param array $options
      */
     public function setOptions(array $options)
@@ -156,26 +170,28 @@ class Style
     }
 
     /**
-     * 应用样式到文字
+     * 应用样式到文字.
+     *
      * @param string $text 文字
+     *
      * @return string
      */
     public function apply($text)
     {
-        $setCodes   = [];
+        $setCodes = [];
         $unsetCodes = [];
 
         if (null !== $this->foreground) {
-            $setCodes[]   = $this->foreground['set'];
+            $setCodes[] = $this->foreground['set'];
             $unsetCodes[] = $this->foreground['unset'];
         }
         if (null !== $this->background) {
-            $setCodes[]   = $this->background['set'];
+            $setCodes[] = $this->background['set'];
             $unsetCodes[] = $this->background['unset'];
         }
         if (count($this->options)) {
             foreach ($this->options as $option) {
-                $setCodes[]   = $option['set'];
+                $setCodes[] = $option['set'];
                 $unsetCodes[] = $option['unset'];
             }
         }

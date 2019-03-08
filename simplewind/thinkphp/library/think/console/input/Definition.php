@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -13,7 +14,6 @@ namespace think\console\input;
 
 class Definition
 {
-
     /**
      * @var Argument[]
      */
@@ -30,8 +30,10 @@ class Definition
     private $shortcuts;
 
     /**
-     * 构造方法
+     * 构造方法.
+     *
      * @param array $definition
+     *
      * @api
      */
     public function __construct(array $definition = [])
@@ -40,13 +42,14 @@ class Definition
     }
 
     /**
-     * 设置指令的定义
+     * 设置指令的定义.
+     *
      * @param array $definition 定义的数组
      */
     public function setDefinition(array $definition)
     {
         $arguments = [];
-        $options   = [];
+        $options = [];
         foreach ($definition as $item) {
             if ($item instanceof Option) {
                 $options[] = $item;
@@ -60,21 +63,24 @@ class Definition
     }
 
     /**
-     * 设置参数
+     * 设置参数.
+     *
      * @param Argument[] $arguments 参数数组
      */
     public function setArguments($arguments = [])
     {
-        $this->arguments          = [];
-        $this->requiredCount      = 0;
-        $this->hasOptional        = false;
+        $this->arguments = [];
+        $this->requiredCount = 0;
+        $this->hasOptional = false;
         $this->hasAnArrayArgument = false;
         $this->addArguments($arguments);
     }
 
     /**
-     * 添加参数
+     * 添加参数.
+     *
      * @param Argument[] $arguments 参数数组
+     *
      * @api
      */
     public function addArguments($arguments = [])
@@ -87,8 +93,10 @@ class Definition
     }
 
     /**
-     * 添加一个参数
+     * 添加一个参数.
+     *
      * @param Argument $argument 参数
+     *
      * @throws \LogicException
      */
     public function addArgument(Argument $argument)
@@ -110,7 +118,7 @@ class Definition
         }
 
         if ($argument->isRequired()) {
-            ++$this->requiredCount;
+            $this->requiredCount++;
         } else {
             $this->hasOptional = true;
         }
@@ -119,10 +127,13 @@ class Definition
     }
 
     /**
-     * 根据名称或者位置获取参数
+     * 根据名称或者位置获取参数.
+     *
      * @param string|int $name 参数名或者位置
-     * @return Argument 参数
+     *
      * @throws \InvalidArgumentException
+     *
+     * @return Argument 参数
      */
     public function getArgument($name)
     {
@@ -136,9 +147,12 @@ class Definition
     }
 
     /**
-     * 根据名称或位置检查是否具有某个参数
+     * 根据名称或位置检查是否具有某个参数.
+     *
      * @param string|int $name 参数名或者位置
+     *
      * @return bool
+     *
      * @api
      */
     public function hasArgument($name)
@@ -149,7 +163,8 @@ class Definition
     }
 
     /**
-     * 获取所有的参数
+     * 获取所有的参数.
+     *
      * @return Argument[] 参数数组
      */
     public function getArguments()
@@ -158,7 +173,8 @@ class Definition
     }
 
     /**
-     * 获取参数数量
+     * 获取参数数量.
+     *
      * @return int
      */
     public function getArgumentCount()
@@ -167,7 +183,8 @@ class Definition
     }
 
     /**
-     * 获取必填的参数的数量
+     * 获取必填的参数的数量.
+     *
      * @return int
      */
     public function getArgumentRequiredCount()
@@ -177,6 +194,7 @@ class Definition
 
     /**
      * 获取参数默认值
+     *
      * @return array
      */
     public function getArgumentDefaults()
@@ -190,19 +208,22 @@ class Definition
     }
 
     /**
-     * 设置选项
+     * 设置选项.
+     *
      * @param Option[] $options 选项数组
      */
     public function setOptions($options = [])
     {
-        $this->options   = [];
+        $this->options = [];
         $this->shortcuts = [];
         $this->addOptions($options);
     }
 
     /**
-     * 添加选项
+     * 添加选项.
+     *
      * @param Option[] $options 选项数组
+     *
      * @api
      */
     public function addOptions($options = [])
@@ -213,9 +234,12 @@ class Definition
     }
 
     /**
-     * 添加一个选项
+     * 添加一个选项.
+     *
      * @param Option $option 选项
+     *
      * @throws \LogicException
+     *
      * @api
      */
     public function addOption(Option $option)
@@ -243,10 +267,14 @@ class Definition
     }
 
     /**
-     * 根据名称获取选项
+     * 根据名称获取选项.
+     *
      * @param string $name 选项名
-     * @return Option
+     *
      * @throws \InvalidArgumentException
+     *
+     * @return Option
+     *
      * @api
      */
     public function getOption($name)
@@ -259,9 +287,12 @@ class Definition
     }
 
     /**
-     * 根据名称检查是否有这个选项
+     * 根据名称检查是否有这个选项.
+     *
      * @param string $name 选项名
+     *
      * @return bool
+     *
      * @api
      */
     public function hasOption($name)
@@ -270,8 +301,10 @@ class Definition
     }
 
     /**
-     * 获取所有选项
+     * 获取所有选项.
+     *
      * @return Option[]
+     *
      * @api
      */
     public function getOptions()
@@ -280,8 +313,10 @@ class Definition
     }
 
     /**
-     * 根据名称检查某个选项是否有短名称
+     * 根据名称检查某个选项是否有短名称.
+     *
      * @param string $name 短名称
+     *
      * @return bool
      */
     public function hasShortcut($name)
@@ -290,8 +325,10 @@ class Definition
     }
 
     /**
-     * 根据短名称获取选项
+     * 根据短名称获取选项.
+     *
      * @param string $shortcut 短名称
+     *
      * @return Option
      */
     public function getOptionForShortcut($shortcut)
@@ -301,6 +338,7 @@ class Definition
 
     /**
      * 获取所有选项的默认值
+     *
      * @return array
      */
     public function getOptionDefaults()
@@ -314,10 +352,13 @@ class Definition
     }
 
     /**
-     * 根据短名称获取选项名
+     * 根据短名称获取选项名.
+     *
      * @param string $shortcut 短名称
-     * @return string
+     *
      * @throws \InvalidArgumentException
+     *
+     * @return string
      */
     private function shortcutToName($shortcut)
     {
@@ -329,8 +370,10 @@ class Definition
     }
 
     /**
-     * 获取该指令的介绍
+     * 获取该指令的介绍.
+     *
      * @param bool $short 是否简洁介绍
+     *
      * @return string
      */
     public function getSynopsis($short = false)
@@ -346,7 +389,7 @@ class Definition
                     $value = sprintf(' %s%s%s', $option->isValueOptional() ? '[' : '', strtoupper($option->getName()), $option->isValueOptional() ? ']' : '');
                 }
 
-                $shortcut   = $option->getShortcut() ? sprintf('-%s|', $option->getShortcut()) : '';
+                $shortcut = $option->getShortcut() ? sprintf('-%s|', $option->getShortcut()) : '';
                 $elements[] = sprintf('[%s--%s%s]', $shortcut, $option->getName(), $value);
             }
         }
@@ -356,11 +399,11 @@ class Definition
         }
 
         foreach ($this->getArguments() as $argument) {
-            $element = '<' . $argument->getName() . '>';
+            $element = '<'.$argument->getName().'>';
             if (!$argument->isRequired()) {
-                $element = '[' . $element . ']';
+                $element = '['.$element.']';
             } elseif ($argument->isArray()) {
-                $element .= ' (' . $element . ')';
+                $element .= ' ('.$element.')';
             }
 
             if ($argument->isArray()) {

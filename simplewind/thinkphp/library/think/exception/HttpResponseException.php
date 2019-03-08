@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
@@ -29,5 +30,4 @@ class HttpResponseException extends \RuntimeException
     {
         return $this->response;
     }
-
 }

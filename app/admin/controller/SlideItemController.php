@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,16 +9,18 @@
 // +----------------------------------------------------------------------
 // | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
+
 namespace app\admin\controller;
 
-use think\Db;
-use cmf\controller\AdminBaseController;
 use app\admin\model\SlideItemModel;
+use cmf\controller\AdminBaseController;
+use think\Db;
 
 class SlideItemController extends AdminBaseController
 {
     /**
-     * 幻灯片页面列表
+     * 幻灯片页面列表.
+     *
      * @adminMenu(
      *     'name'   => '幻灯片页面列表',
      *     'parent' => 'admin/Slide/index',
@@ -28,10 +31,12 @@ class SlideItemController extends AdminBaseController
      *     'remark' => '幻灯片页面列表',
      *     'param'  => ''
      * )
-     * @return mixed
+     *
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
+     *
+     * @return mixed
      */
     public function index()
     {
@@ -41,17 +46,19 @@ class SlideItemController extends AdminBaseController
             return $content;
         }
 
-        $id      = $this->request->param('slide_id', 0, 'intval');
+        $id = $this->request->param('slide_id', 0, 'intval');
         $slideId = !empty($id) ? $id : 1;
-        $result  = Db::name('slideItem')->where('slide_id', $slideId)->select();
+        $result = Db::name('slideItem')->where('slide_id', $slideId)->select();
 
         $this->assign('slide_id', $id);
         $this->assign('result', $result);
+
         return $this->fetch();
     }
 
     /**
-     * 幻灯片页面添加
+     * 幻灯片页面添加.
+     *
      * @adminMenu(
      *     'name'   => '幻灯片页面添加',
      *     'parent' => 'index',
@@ -73,11 +80,13 @@ class SlideItemController extends AdminBaseController
 
         $slideId = $this->request->param('slide_id');
         $this->assign('slide_id', $slideId);
+
         return $this->fetch();
     }
 
     /**
-     * 幻灯片页面添加提交
+     * 幻灯片页面添加提交.
+     *
      * @adminMenu(
      *     'name'   => '幻灯片页面添加提交',
      *     'parent' => 'index',
@@ -93,11 +102,12 @@ class SlideItemController extends AdminBaseController
     {
         $data = $this->request->param();
         Db::name('slideItem')->insert($data['post']);
-        $this->success("添加成功！", url("slideItem/index", ['slide_id' => $data['post']['slide_id']]));
+        $this->success('添加成功！', url('slideItem/index', ['slide_id' => $data['post']['slide_id']]));
     }
 
     /**
-     * 幻灯片页面编辑
+     * 幻灯片页面编辑.
+     *
      * @adminMenu(
      *     'name'   => '幻灯片页面编辑',
      *     'parent' => 'index',
@@ -117,16 +127,18 @@ class SlideItemController extends AdminBaseController
             return $content;
         }
 
-        $id     = $this->request->param('id', 0, 'intval');
+        $id = $this->request->param('id', 0, 'intval');
         $result = Db::name('slideItem')->where('id', $id)->find();
 
         $this->assign('result', $result);
         $this->assign('slide_id', $result['slide_id']);
+
         return $this->fetch();
     }
 
     /**
-     * 幻灯片页面编辑
+     * 幻灯片页面编辑.
+     *
      * @adminMenu(
      *     'name'   => '幻灯片页面编辑提交',
      *     'parent' => 'index',
@@ -146,12 +158,12 @@ class SlideItemController extends AdminBaseController
 
         Db::name('slideItem')->update($data['post']);
 
-        $this->success("保存成功！", url("SlideItem/index", ['slide_id' => $data['post']['slide_id']]));
-
+        $this->success('保存成功！', url('SlideItem/index', ['slide_id' => $data['post']['slide_id']]));
     }
 
     /**
-     * 幻灯片页面删除
+     * 幻灯片页面删除.
+     *
      * @adminMenu(
      *     'name'   => '幻灯片页面删除',
      *     'parent' => 'index',
@@ -175,15 +187,15 @@ class SlideItemController extends AdminBaseController
 //            if (file_exists("./upload/".$slideItem['image'])){
 //                @unlink("./upload/".$slideItem['image']);
 //            }
-            $this->success("删除成功！", url("SlideItem/index", ["slide_id" => $slideItem['slide_id']]));
+            $this->success('删除成功！', url('SlideItem/index', ['slide_id' => $slideItem['slide_id']]));
         } else {
             $this->error('删除失败！');
         }
-
     }
 
     /**
-     * 幻灯片页面隐藏
+     * 幻灯片页面隐藏.
+     *
      * @adminMenu(
      *     'name'   => '幻灯片页面隐藏',
      *     'parent' => 'index',
@@ -201,7 +213,7 @@ class SlideItemController extends AdminBaseController
         if ($id) {
             $rst = Db::name('slideItem')->where('id', $id)->update(['status' => 0]);
             if ($rst) {
-                $this->success("幻灯片隐藏成功！");
+                $this->success('幻灯片隐藏成功！');
             } else {
                 $this->error('幻灯片隐藏失败！');
             }
@@ -211,7 +223,8 @@ class SlideItemController extends AdminBaseController
     }
 
     /**
-     * 幻灯片页面显示
+     * 幻灯片页面显示.
+     *
      * @adminMenu(
      *     'name'   => '幻灯片页面显示',
      *     'parent' => 'index',
@@ -229,7 +242,7 @@ class SlideItemController extends AdminBaseController
         if ($id) {
             $result = Db::name('slideItem')->where('id', $id)->update(['status' => 1]);
             if ($result) {
-                $this->success("幻灯片启用成功！");
+                $this->success('幻灯片启用成功！');
             } else {
                 $this->error('幻灯片启用失败！');
             }
@@ -239,7 +252,8 @@ class SlideItemController extends AdminBaseController
     }
 
     /**
-     * 幻灯片页面排序
+     * 幻灯片页面排序.
+     *
      * @adminMenu(
      *     'name'   => '幻灯片页面排序',
      *     'parent' => 'index',
@@ -255,6 +269,6 @@ class SlideItemController extends AdminBaseController
     {
         $slideItemModel = new  SlideItemModel();
         parent::listOrders($slideItemModel);
-        $this->success("排序更新成功！");
+        $this->success('排序更新成功！');
     }
 }

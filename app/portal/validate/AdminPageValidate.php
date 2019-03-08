@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
+
 namespace app\portal\validate;
 
 use app\admin\model\RouteModel;
@@ -17,7 +19,7 @@ class AdminPageValidate extends Validate
 {
     protected $rule = [
         'post_title' => 'require',
-        'post_alias' => 'checkAlias'
+        'post_alias' => 'checkAlias',
     ];
     protected $message = [
         'post_title.require' => '页面标题不能为空',
@@ -36,16 +38,15 @@ class AdminPageValidate extends Validate
         }
 
         if (preg_match("/^\d+$/", $value)) {
-            return "别名不能为纯数字!";
+            return '别名不能为纯数字!';
         }
 
         $routeModel = new RouteModel();
-        $fullUrl    = $routeModel->buildFullUrl('portal/Page/index', ['id' => $data['id']]);
+        $fullUrl = $routeModel->buildFullUrl('portal/Page/index', ['id' => $data['id']]);
         if (!$routeModel->existsRoute($value, $fullUrl)) {
             return true;
         } else {
-            return "别名已经存在!";
+            return '别名已经存在!';
         }
-
     }
 }

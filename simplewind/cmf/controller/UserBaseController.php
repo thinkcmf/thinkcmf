@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,16 +9,14 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+
 namespace cmf\controller;
 
 class UserBaseController extends HomeBaseController
 {
-
     public function initialize()
     {
         parent::initialize();
         $this->checkUserLogin();
     }
-
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,33 +9,35 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+
 namespace cmf\controller;
 
 class PluginAdminBaseController extends PluginBaseController
 {
-
     // 初始化
     protected function initialize()
     {
         $adminId = cmf_get_current_admin_id();
         if (!empty($adminId)) {
             if (!$this->checkAccess($adminId)) {
-                $this->error("您没有访问权限！");
+                $this->error('您没有访问权限！');
             }
         } else {
             if ($this->request->isAjax()) {
-                $this->error("您还没有登录！", url("admin/Public/login"));
+                $this->error('您还没有登录！', url('admin/Public/login'));
             } else {
-                header("Location:" . url("admin/Public/login"));
+                header('Location:'.url('admin/Public/login'));
                 exit();
             }
         }
     }
 
     /**
-     *  检查后台用户访问权限
+     *  检查后台用户访问权限.
+     *
      * @param int $userId 后台用户id
-     * @return boolean 检查通过返回true
+     *
+     * @return bool 检查通过返回true
      */
     private function checkAccess($userId)
     {
@@ -46,10 +49,8 @@ class PluginAdminBaseController extends PluginBaseController
         $pluginName = $this->request->param('_plugin');
         $controller = $this->request->param('_controller');
         $controller = cmf_parse_name($controller, 1);
-        $action     = $this->request->param('_action');
+        $action = $this->request->param('_action');
 
         return cmf_auth_check($userId, "plugin/{$pluginName}/$controller/$action");
     }
-
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -13,7 +14,6 @@ namespace think\console\output\formatter;
 
 class Stack
 {
-
     /**
      * @var Style[]
      */
@@ -25,7 +25,8 @@ class Stack
     private $emptyStyle;
 
     /**
-     * 构造方法
+     * 构造方法.
+     *
      * @param Style|null $emptyStyle
      */
     public function __construct(Style $emptyStyle = null)
@@ -35,7 +36,7 @@ class Stack
     }
 
     /**
-     * 重置堆栈
+     * 重置堆栈.
      */
     public function reset()
     {
@@ -43,7 +44,8 @@ class Stack
     }
 
     /**
-     * 推一个样式进入堆栈
+     * 推一个样式进入堆栈.
+     *
      * @param Style $style
      */
     public function push(Style $style)
@@ -52,10 +54,13 @@ class Stack
     }
 
     /**
-     * 从堆栈中弹出一个样式
+     * 从堆栈中弹出一个样式.
+     *
      * @param Style|null $style
-     * @return Style
+     *
      * @throws \InvalidArgumentException
+     *
+     * @return Style
      */
     public function pop(Style $style = null)
     {
@@ -68,7 +73,7 @@ class Stack
         }
 
         /**
-         * @var int   $index
+         * @var int
          * @var Style $stackedStyle
          */
         foreach (array_reverse($this->styles, true) as $index => $stackedStyle) {
@@ -84,6 +89,7 @@ class Stack
 
     /**
      * 计算堆栈的当前样式。
+     *
      * @return Style
      */
     public function getCurrent()
@@ -97,6 +103,7 @@ class Stack
 
     /**
      * @param Style $emptyStyle
+     *
      * @return Stack
      */
     public function setEmptyStyle(Style $emptyStyle)

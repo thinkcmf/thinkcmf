@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
@@ -15,7 +16,7 @@ use PDO;
 use think\db\Connection;
 
 /**
- * Sqlsrv数据库驱动
+ * Sqlsrv数据库驱动.
  */
 class Sqlsrv extends Connection
 {
@@ -26,32 +27,36 @@ class Sqlsrv extends Connection
         PDO::ATTR_STRINGIFY_FETCHES => false,
     ];
     protected $builder = '\\think\\db\\builder\\Sqlsrv';
+
     /**
-     * 解析pdo连接的dsn信息
-     * @access protected
+     * 解析pdo连接的dsn信息.
+     *
      * @param array $config 连接信息
+     *
      * @return string
      */
     protected function parseDsn($config)
     {
-        $dsn = 'sqlsrv:Database=' . $config['database'] . ';Server=' . $config['hostname'];
+        $dsn = 'sqlsrv:Database='.$config['database'].';Server='.$config['hostname'];
         if (!empty($config['hostport'])) {
-            $dsn .= ',' . $config['hostport'];
+            $dsn .= ','.$config['hostport'];
         }
+
         return $dsn;
     }
 
     /**
-     * 取得数据表的字段信息
-     * @access public
+     * 取得数据表的字段信息.
+     *
      * @param string $tableName
+     *
      * @return array
      */
     public function getFields($tableName)
     {
         list($tableName) = explode(' ', $tableName);
-        $tableNames      = explode('.', $tableName);
-        $tableName       = isset($tableNames[1]) ? $tableNames[1] : $tableNames[0];
+        $tableNames = explode('.', $tableName);
+        $tableName = isset($tableNames[1]) ? $tableNames[1] : $tableNames[0];
 
         $sql = "SELECT   column_name,   data_type,   column_default,   is_nullable
         FROM    information_schema.tables AS t
@@ -61,12 +66,12 @@ class Sqlsrv extends Connection
         AND t.table_name    = c.table_name
         WHERE   t.table_name = '$tableName'";
 
-        $pdo    = $this->query($sql, [], false, true);
+        $pdo = $this->query($sql, [], false, true);
         $result = $pdo->fetchAll(PDO::FETCH_ASSOC);
-        $info   = [];
+        $info = [];
         if ($result) {
             foreach ($result as $key => $val) {
-                $val                       = array_change_key_case($val);
+                $val = array_change_key_case($val);
                 $info[$val['column_name']] = [
                     'name'    => $val['column_name'],
                     'type'    => $val['data_type'],
@@ -87,13 +92,15 @@ class Sqlsrv extends Connection
         if ($result) {
             $info[$result['column_name']]['primary'] = true;
         }
+
         return $this->fieldCase($info);
     }
 
     /**
-     * 取得数据表的字段信息
-     * @access public
+     * 取得数据表的字段信息.
+     *
      * @param string $dbName
+     *
      * @return array
      */
     public function getTables($dbName = '')
@@ -103,19 +110,21 @@ class Sqlsrv extends Connection
             WHERE TABLE_TYPE = 'BASE TABLE'
             ";
 
-        $pdo    = $this->query($sql, [], false, true);
+        $pdo = $this->query($sql, [], false, true);
         $result = $pdo->fetchAll(PDO::FETCH_ASSOC);
-        $info   = [];
+        $info = [];
         foreach ($result as $key => $val) {
             $info[$key] = current($val);
         }
+
         return $info;
     }
 
     /**
-     * SQL性能分析
-     * @access protected
+     * SQL性能分析.
+     *
      * @param string $sql
+     *
      * @return array
      */
     protected function getExplain($sql)

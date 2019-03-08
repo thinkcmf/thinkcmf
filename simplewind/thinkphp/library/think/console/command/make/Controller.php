@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -17,8 +18,7 @@ use think\console\input\Option;
 
 class Controller extends Make
 {
-
-    protected $type = "Controller";
+    protected $type = 'Controller';
 
     protected function configure()
     {
@@ -31,20 +31,19 @@ class Controller extends Make
     protected function getStub()
     {
         if ($this->input->getOption('plain')) {
-            return __DIR__ . '/stubs/controller.plain.stub';
+            return __DIR__.'/stubs/controller.plain.stub';
         }
 
-        return __DIR__ . '/stubs/controller.stub';
+        return __DIR__.'/stubs/controller.stub';
     }
 
     protected function getClassName($name)
     {
-        return parent::getClassName($name) . (Config::get('controller_suffix') ? ucfirst(Config::get('url_controller_layer')) : '');
+        return parent::getClassName($name).(Config::get('controller_suffix') ? ucfirst(Config::get('url_controller_layer')) : '');
     }
 
     protected function getNamespace($appNamespace, $module)
     {
-        return parent::getNamespace($appNamespace, $module) . '\controller';
+        return parent::getNamespace($appNamespace, $module).'\controller';
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,15 +9,15 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+
 namespace cmf\controller;
 
+use think\Db;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
-use think\Request;
-use think\Config;
-use think\Response;
 use think\Loader;
-use think\Db;
+use think\Request;
+use think\Response;
 
 class RestBaseController
 {
@@ -49,16 +50,16 @@ class RestBaseController
     protected $batchValidate = false;
 
     /**
-     * 前置操作方法列表
-     * @var array $beforeActionList
-     * @access protected
+     * 前置操作方法列表.
+     *
+     * @var array
      */
     protected $beforeActionList = [];
 
     /**
-     * 架构函数
+     * 架构函数.
+     *
      * @param Request $request Request对象
-     * @access public
      */
     public function __construct(Request $request = null)
     {
@@ -66,7 +67,7 @@ class RestBaseController
             $request = Request::instance();
         }
 
-        Request::instance()->root(cmf_get_root() . '/');
+        Request::instance()->root(cmf_get_root().'/');
 
         $this->request = $request;
 
@@ -102,7 +103,7 @@ class RestBaseController
 
     private function _initUser()
     {
-        $token      = $this->request->header('XX-Token');
+        $token = $this->request->header('XX-Token');
         $deviceType = $this->request->header('XX-Device-Type');
 
         if (empty($deviceType)) {
@@ -129,18 +130,17 @@ class RestBaseController
             ->find();
 
         if (!empty($user)) {
-            $this->user     = $user;
-            $this->userId   = $user['id'];
+            $this->user = $user;
+            $this->userId = $user['id'];
             $this->userType = $user['user_type'];
         }
-
     }
 
     /**
-     * 前置操作
-     * @access protected
-     * @param string $method 前置操作方法名
-     * @param array $options 调用参数 ['only'=>[...]] 或者['except'=>[...]]
+     * 前置操作.
+     *
+     * @param string $method  前置操作方法名
+     * @param array  $options 调用参数 ['only'=>[...]] 或者['except'=>[...]]
      */
     protected function beforeAction($method, $options = [])
     {
@@ -163,29 +163,32 @@ class RestBaseController
         call_user_func([$this, $method]);
     }
 
-
     /**
-     * 设置验证失败后是否抛出异常
-     * @access protected
+     * 设置验证失败后是否抛出异常.
+     *
      * @param bool $fail 是否抛出异常
+     *
      * @return $this
      */
     protected function validateFailException($fail = true)
     {
         $this->failException = $fail;
+
         return $this;
     }
 
     /**
-     * 验证数据
-     * @access protected
-     * @param array $data 数据
+     * 验证数据.
+     *
+     * @param array        $data     数据
      * @param string|array $validate 验证器名或者验证规则数组
-     * @param array $message 提示信息
-     * @param bool $batch 是否批量验证
-     * @param mixed $callback 回调方法（闭包）
-     * @return array|string|true
+     * @param array        $message  提示信息
+     * @param bool         $batch    是否批量验证
+     * @param mixed        $callback 回调方法（闭包）
+     *
      * @throws ValidateException
+     *
+     * @return array|string|true
      */
     protected function validate($data, $validate, $message = [], $batch = false, $callback = null)
     {
@@ -227,36 +230,39 @@ class RestBaseController
     }
 
     /**
-     * 操作成功跳转的快捷方法
-     * @access protected
-     * @param mixed $msg 提示信息
-     * @param mixed $data 返回的数据
+     * 操作成功跳转的快捷方法.
+     *
+     * @param mixed $msg    提示信息
+     * @param mixed $data   返回的数据
      * @param array $header 发送的Header信息
+     *
      * @return void
      */
     protected function success($msg = '', $data = '', array $header = [])
     {
-        $code   = 1;
+        $code = 1;
         $result = [
             'code' => $code,
             'msg'  => $msg,
             'data' => $data,
         ];
 
-        $type                                   = $this->getResponseType();
-        $header['Access-Control-Allow-Origin']  = '*';
+        $type = $this->getResponseType();
+        $header['Access-Control-Allow-Origin'] = '*';
         $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,XX-Device-Type,XX-Token,XX-Api-Version,XX-Wxapp-AppId';
         $header['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS';
-        $response                               = Response::create($result, $type)->header($header);
+        $response = Response::create($result, $type)->header($header);
+
         throw new HttpResponseException($response);
     }
 
     /**
-     * 操作错误跳转的快捷方法
-     * @access protected
-     * @param mixed $msg 提示信息,若要指定错误码,可以传数组,格式为['code'=>您的错误码,'msg'=>'您的错误消息']
-     * @param mixed $data 返回的数据
+     * 操作错误跳转的快捷方法.
+     *
+     * @param mixed $msg    提示信息,若要指定错误码,可以传数组,格式为['code'=>您的错误码,'msg'=>'您的错误消息']
+     * @param mixed $data   返回的数据
      * @param array $header 发送的Header信息
+     *
      * @return void
      */
     protected function error($msg = '', $data = '', array $header = [])
@@ -264,7 +270,7 @@ class RestBaseController
         $code = 0;
         if (is_array($msg)) {
             $code = $msg['code'];
-            $msg  = $msg['msg'];
+            $msg = $msg['msg'];
         }
         $result = [
             'code' => $code,
@@ -272,17 +278,18 @@ class RestBaseController
             'data' => $data,
         ];
 
-        $type                                   = $this->getResponseType();
-        $header['Access-Control-Allow-Origin']  = '*';
+        $type = $this->getResponseType();
+        $header['Access-Control-Allow-Origin'] = '*';
         $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,XX-Device-Type,XX-Token';
         $header['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS';
-        $response                               = Response::create($result, $type)->header($header);
+        $response = Response::create($result, $type)->header($header);
+
         throw new HttpResponseException($response);
     }
 
     /**
-     * 获取当前的response 输出类型
-     * @access protected
+     * 获取当前的response 输出类型.
+     *
      * @return string
      */
     protected function getResponseType()
@@ -291,7 +298,8 @@ class RestBaseController
     }
 
     /**
-     * 获取当前登录用户的id
+     * 获取当前登录用户的id.
+     *
      * @return int
      */
     public function getUserId()
@@ -299,10 +307,7 @@ class RestBaseController
         if (empty($this->userId)) {
             $this->error(['code' => 10001, 'msg' => '用户未登录']);
         }
+
         return $this->userId;
-
-
     }
-
-
 }

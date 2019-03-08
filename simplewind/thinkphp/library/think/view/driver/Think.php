@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -42,16 +43,17 @@ class Think
     {
         $this->config = array_merge($this->config, $config);
         if (empty($this->config['view_path'])) {
-            $this->config['view_path'] = App::$modulePath . 'view' . DS;
+            $this->config['view_path'] = App::$modulePath.'view'.DS;
         }
 
         $this->template = new Template($this->config);
     }
 
     /**
-     * 检测是否存在模板文件
-     * @access public
+     * 检测是否存在模板文件.
+     *
      * @param string $template 模板文件或者模板规则
+     *
      * @return bool
      */
     public function exists($template)
@@ -60,15 +62,17 @@ class Think
             // 获取模板文件名
             $template = $this->parseTemplate($template);
         }
+
         return is_file($template);
     }
 
     /**
-     * 渲染模板文件
-     * @access public
-     * @param string    $template 模板文件
-     * @param array     $data 模板变量
-     * @param array     $config 模板参数
+     * 渲染模板文件.
+     *
+     * @param string $template 模板文件
+     * @param array  $data     模板变量
+     * @param array  $config   模板参数
+     *
      * @return void
      */
     public function fetch($template, $data = [], $config = [])
@@ -79,19 +83,20 @@ class Think
         }
         // 模板不存在 抛出异常
         if (!is_file($template)) {
-            throw new TemplateNotFoundException('template not exists:' . $template, $template);
+            throw new TemplateNotFoundException('template not exists:'.$template, $template);
         }
         // 记录视图信息
-        App::$debug && Log::record('[ VIEW ] ' . $template . ' [ ' . var_export(array_keys($data), true) . ' ]', 'info');
+        App::$debug && Log::record('[ VIEW ] '.$template.' [ '.var_export(array_keys($data), true).' ]', 'info');
         $this->template->fetch($template, $data, $config);
     }
 
     /**
-     * 渲染模板内容
-     * @access public
-     * @param string    $template 模板内容
-     * @param array     $data 模板变量
-     * @param array     $config 模板参数
+     * 渲染模板内容.
+     *
+     * @param string $template 模板内容
+     * @param array  $data     模板变量
+     * @param array  $config   模板参数
+     *
      * @return void
      */
     public function display($template, $data = [], $config = [])
@@ -100,9 +105,10 @@ class Think
     }
 
     /**
-     * 自动定位模板文件
-     * @access private
+     * 自动定位模板文件.
+     *
      * @param string $template 模板文件规则
+     *
      * @return string
      */
     private function parseTemplate($template)
@@ -117,34 +123,36 @@ class Think
         if ($this->config['view_base']) {
             // 基础视图目录
             $module = isset($module) ? $module : $request->module();
-            $path   = $this->config['view_base'] . ($module ? $module . DS : '');
+            $path = $this->config['view_base'].($module ? $module.DS : '');
         } else {
-            $path = isset($module) ? APP_PATH . $module . DS . 'view' . DS : $this->config['view_path'];
+            $path = isset($module) ? APP_PATH.$module.DS.'view'.DS : $this->config['view_path'];
         }
 
         $depr = $this->config['view_depr'];
         if (0 !== strpos($template, '/')) {
-            $template   = str_replace(['/', ':'], $depr, $template);
+            $template = str_replace(['/', ':'], $depr, $template);
             $controller = Loader::parseName($request->controller());
             if ($controller) {
                 if ('' == $template) {
                     // 如果模板文件名为空 按照默认规则定位
-                    $template = str_replace('.', DS, $controller) . $depr . (1 == $this->config['auto_rule'] ? Loader::parseName($request->action(true)) : $request->action());
+                    $template = str_replace('.', DS, $controller).$depr.(1 == $this->config['auto_rule'] ? Loader::parseName($request->action(true)) : $request->action());
                 } elseif (false === strpos($template, $depr)) {
-                    $template = str_replace('.', DS, $controller) . $depr . $template;
+                    $template = str_replace('.', DS, $controller).$depr.$template;
                 }
             }
         } else {
             $template = str_replace(['/', ':'], $depr, substr($template, 1));
         }
-        return $path . ltrim($template, '/') . '.' . ltrim($this->config['view_suffix'], '.');
+
+        return $path.ltrim($template, '/').'.'.ltrim($this->config['view_suffix'], '.');
     }
 
     /**
-     * 配置或者获取模板引擎参数
-     * @access private
-     * @param string|array  $name 参数名
-     * @param mixed         $value 参数值
+     * 配置或者获取模板引擎参数.
+     *
+     * @param string|array $name  参数名
+     * @param mixed        $value 参数值
+     *
      * @return mixed
      */
     public function config($name, $value = null)
@@ -156,7 +164,7 @@ class Think
             return $this->template->config($name);
         } else {
             $this->template->$name = $value;
-            $this->config[$name]   = $value;
+            $this->config[$name] = $value;
         }
     }
 

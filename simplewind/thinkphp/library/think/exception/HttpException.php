@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
@@ -19,7 +20,7 @@ class HttpException extends \RuntimeException
     public function __construct($statusCode, $message = null, \Exception $previous = null, array $headers = [], $code = 0)
     {
         $this->statusCode = $statusCode;
-        $this->headers    = $headers;
+        $this->headers = $headers;
 
         parent::__construct($message, $code, $previous);
     }

@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -15,7 +16,6 @@ use think\Process;
 
 class Unix extends Pipes
 {
-
     /** @var bool */
     private $ttyMode;
     /** @var bool */
@@ -25,8 +25,8 @@ class Unix extends Pipes
 
     public function __construct($ttyMode, $ptyMode, $input, $disableOutput)
     {
-        $this->ttyMode       = (bool) $ttyMode;
-        $this->ptyMode       = (bool) $ptyMode;
+        $this->ttyMode = (bool) $ttyMode;
+        $this->ptyMode = (bool) $ptyMode;
         $this->disableOutput = (bool) $disableOutput;
 
         if (is_resource($input)) {
@@ -92,7 +92,6 @@ class Unix extends Pipes
      */
     public function readAndWrite($blocking, $close = false)
     {
-
         if (1 === count($this->pipes) && [0] === array_keys($this->pipes)) {
             fclose($this->pipes[0]);
             unset($this->pipes[0]);
@@ -118,7 +117,6 @@ class Unix extends Pipes
         $e = null;
 
         if (false === $n = @stream_select($r, $w, $e, 0, $blocking ? Process::TIMEOUT_PRECISION * 1E6 : 0)) {
-
             if (!$this->hasSystemCallBeenInterrupted()) {
                 $this->pipes = [];
             }
@@ -131,7 +129,6 @@ class Unix extends Pipes
         }
 
         foreach ($r as $pipe) {
-
             $type = (false !== $found = array_search($pipe, $this->pipes)) ? $found : 'input';
             $data = '';
             while ('' !== $dataread = (string) fread($pipe, self::CHUNK_SIZE)) {
@@ -184,9 +181,11 @@ class Unix extends Pipes
     }
 
     /**
-     * 创建一个新的 UnixPipes 实例
+     * 创建一个新的 UnixPipes 实例.
+     *
      * @param Process         $process
      * @param string|resource $input
+     *
      * @return self
      */
     public static function create(Process $process, $input)

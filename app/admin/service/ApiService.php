@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
+
 namespace app\admin\service;
 
 use think\Db;
@@ -15,7 +17,7 @@ use think\Db;
 class ApiService
 {
     /**
-     * 获取所有友情链接
+     * 获取所有友情链接.
      */
     public static function links()
     {
@@ -23,8 +25,10 @@ class ApiService
     }
 
     /**
-     * 获取所有幻灯片
+     * 获取所有幻灯片.
+     *
      * @param $slideId
+     *
      * @return false|\PDOStatement|string|\think\Collection
      */
     public static function slides($slideId)

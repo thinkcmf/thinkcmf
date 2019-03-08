@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -14,8 +15,7 @@ namespace think;
 use think\exception\ClassNotFoundException;
 
 /**
- * Class Log
- * @package think
+ * Class Log.
  *
  * @method void log($msg) static 记录一般日志
  * @method void error($msg) static 记录错误日志
@@ -26,13 +26,13 @@ use think\exception\ClassNotFoundException;
  */
 class Log
 {
-    const LOG    = 'log';
-    const ERROR  = 'error';
-    const INFO   = 'info';
-    const SQL    = 'sql';
+    const LOG = 'log';
+    const ERROR = 'error';
+    const INFO = 'info';
+    const SQL = 'sql';
     const NOTICE = 'notice';
-    const ALERT  = 'alert';
-    const DEBUG  = 'debug';
+    const ALERT = 'alert';
+    const DEBUG = 'debug';
 
     /**
      * @var array 日志信息
@@ -60,15 +60,16 @@ class Log
     protected static $key;
 
     /**
-     * 日志初始化
-     * @access public
-     * @param  array $config 配置参数
+     * 日志初始化.
+     *
+     * @param array $config 配置参数
+     *
      * @return void
      */
     public static function init($config = [])
     {
-        $type  = isset($config['type']) ? $config['type'] : 'File';
-        $class = false !== strpos($type, '\\') ? $type : '\\think\\log\\driver\\' . ucwords($type);
+        $type = isset($config['type']) ? $config['type'] : 'File';
+        $class = false !== strpos($type, '\\') ? $type : '\\think\\log\\driver\\'.ucwords($type);
 
         self::$config = $config;
         unset($config['type']);
@@ -76,17 +77,18 @@ class Log
         if (class_exists($class)) {
             self::$driver = new $class($config);
         } else {
-            throw new ClassNotFoundException('class not exists:' . $class, $class);
+            throw new ClassNotFoundException('class not exists:'.$class, $class);
         }
 
         // 记录初始化信息
-        App::$debug && Log::record('[ LOG ] INIT ' . $type, 'info');
+        App::$debug && self::record('[ LOG ] INIT '.$type, 'info');
     }
 
     /**
-     * 获取日志信息
-     * @access public
-     * @param  string $type 信息类型
+     * 获取日志信息.
+     *
+     * @param string $type 信息类型
+     *
      * @return array|string
      */
     public static function getLog($type = '')
@@ -95,10 +97,11 @@ class Log
     }
 
     /**
-     * 记录调试信息
-     * @access public
-     * @param  mixed  $msg  调试信息
-     * @param  string $type 信息类型
+     * 记录调试信息.
+     *
+     * @param mixed  $msg  调试信息
+     * @param string $type 信息类型
+     *
      * @return void
      */
     public static function record($msg, $type = 'log')
@@ -110,8 +113,8 @@ class Log
     }
 
     /**
-     * 清空日志信息
-     * @access public
+     * 清空日志信息.
+     *
      * @return void
      */
     public static function clear()
@@ -120,9 +123,10 @@ class Log
     }
 
     /**
-     * 设置当前日志记录的授权 key
-     * @access public
-     * @param  string $key 授权 key
+     * 设置当前日志记录的授权 key.
+     *
+     * @param string $key 授权 key
+     *
      * @return void
      */
     public static function key($key)
@@ -131,9 +135,10 @@ class Log
     }
 
     /**
-     * 检查日志写入权限
-     * @access public
-     * @param  array $config 当前日志配置参数
+     * 检查日志写入权限.
+     *
+     * @param array $config 当前日志配置参数
+     *
      * @return bool
      */
     public static function check($config)
@@ -142,8 +147,8 @@ class Log
     }
 
     /**
-     * 保存调试信息
-     * @access public
+     * 保存调试信息.
+     *
      * @return bool
      */
     public static function save()
@@ -186,11 +191,12 @@ class Log
     }
 
     /**
-     * 实时写入日志信息 并支持行为
-     * @access public
-     * @param  mixed  $msg   调试信息
-     * @param  string $type  信息类型
-     * @param  bool   $force 是否强制写入
+     * 实时写入日志信息 并支持行为.
+     *
+     * @param mixed  $msg   调试信息
+     * @param string $type  信息类型
+     * @param bool   $force 是否强制写入
+     *
      * @return bool
      */
     public static function write($msg, $type = 'log', $force = false)
@@ -219,10 +225,11 @@ class Log
     }
 
     /**
-     * 静态方法调用
-     * @access public
-     * @param  string $method 调用方法
-     * @param  mixed  $args   参数
+     * 静态方法调用.
+     *
+     * @param string $method 调用方法
+     * @param mixed  $args   参数
+     *
      * @return void
      */
     public static function __callStatic($method, $args)
@@ -233,5 +240,4 @@ class Log
             call_user_func_array('\\think\\Log::record', $args);
         }
     }
-
 }

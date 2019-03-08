@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -19,7 +20,6 @@ use think\console\Output;
 
 class Help extends Command
 {
-
     private $command;
 
     /**
@@ -32,7 +32,7 @@ class Help extends Command
         $this->setName('help')->setDefinition([
             new InputArgument('command_name', InputArgument::OPTIONAL, 'The command name', 'help'),
             new InputOption('raw', null, InputOption::VALUE_NONE, 'To output raw command help'),
-        ])->setDescription('Displays help for a command')->setHelp(<<<EOF
+        ])->setDescription('Displays help for a command')->setHelp(<<<'EOF'
 The <info>%command.name%</info> command displays help for a given command:
 
   <info>php %command.full_name% list</info>
@@ -44,6 +44,7 @@ EOF
 
     /**
      * Sets the command.
+     *
      * @param Command $command The command to set
      */
     public function setCommand(Command $command)

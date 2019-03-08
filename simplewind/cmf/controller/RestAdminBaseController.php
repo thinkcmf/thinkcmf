@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+
 namespace cmf\controller;
 
 class RestAdminBaseController extends RestBaseController
@@ -20,6 +22,4 @@ class RestAdminBaseController extends RestBaseController
             $this->error(['code' => 10001, 'msg' => '登录已失效!']);
         }
     }
-
-
 }

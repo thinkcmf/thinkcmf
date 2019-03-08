@@ -1,4 +1,5 @@
 <?php
+
 // +---------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +---------------------------------------------------------------------
@@ -8,25 +9,25 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +---------------------------------------------------------------------
+
 namespace cmf\lib;
 
+use think\Db;
 use think\exception\TemplateNotFoundException;
+use think\facade\Config;
 use think\facade\Lang;
 use think\Loader;
-use think\Db;
 use think\View;
-use think\facade\Config;
-
 
 /**
- * 插件类
+ * 插件类.
  */
 abstract class Plugin
 {
     /**
      * 视图实例对象
+     *
      * @var view
-     * @access protected
      */
     private $view = null;
 
@@ -38,20 +39,19 @@ abstract class Plugin
      *  'status'=>1,
      *  'author'=>'ThinkCMF',
      *  'version'=>'1.0'
-     *  )
+     *  ).
      */
-    public  $info           = [];
-    private $pluginPath     = '';
-    private $name           = '';
+    public $info = [];
+    private $pluginPath = '';
+    private $name = '';
     private $configFilePath = '';
-    private $themeRoot      = "";
+    private $themeRoot = '';
 
     /**
      * Plugin constructor.
      */
     public function __construct()
     {
-
         $request = request();
 
         $engineConfig = Config::pull('template');
@@ -60,8 +60,8 @@ abstract class Plugin
 
         $nameCStyle = Loader::parseName($this->name);
 
-        $this->pluginPath     = PLUGINS_PATH . $nameCStyle . '/';
-        $this->configFilePath = $this->pluginPath . 'config.php';
+        $this->pluginPath = PLUGINS_PATH.$nameCStyle.'/';
+        $this->configFilePath = $this->pluginPath.'config.php';
 
         $config = $this->getConfig();
 
@@ -71,17 +71,17 @@ abstract class Plugin
 
         $root = cmf_get_root();
 
-        $themeDir = empty($theme) ? "" : '/' . $theme;
+        $themeDir = empty($theme) ? '' : '/'.$theme;
 
-        $themePath = 'view' . $themeDir;
+        $themePath = 'view'.$themeDir;
 
-        $this->themeRoot = $this->pluginPath . $themePath . '/';
+        $this->themeRoot = $this->pluginPath.$themePath.'/';
 
         $engineConfig['view_base'] = $this->themeRoot;
 
         $pluginRoot = "plugins/{$nameCStyle}";
 
-        $cmfAdminThemePath    = config('template.cmf_admin_theme_path');
+        $cmfAdminThemePath = config('template.cmf_admin_theme_path');
         $cmfAdminDefaultTheme = config('template.cmf_admin_default_theme');
 
         $adminThemePath = "{$cmfAdminThemePath}{$cmfAdminDefaultTheme}";
@@ -90,58 +90,60 @@ abstract class Plugin
         $cdnSettings = cmf_get_option('cdn_settings');
         if (empty($cdnSettings['cdn_static_root'])) {
             $replaceConfig = [
-                '__PLUGIN_TMPL__' => $root . '/' . $pluginRoot . '/' . $themePath,
-                '__PLUGIN_ROOT__' => $root . '/' . $pluginRoot,
+                '__PLUGIN_TMPL__' => $root.'/'.$pluginRoot.'/'.$themePath,
+                '__PLUGIN_ROOT__' => $root.'/'.$pluginRoot,
                 '__ADMIN_TMPL__'  => "{$root}/{$adminThemePath}",
                 '__STATIC__'      => "{$root}/static",
-                '__WEB_ROOT__'    => $root
+                '__WEB_ROOT__'    => $root,
             ];
         } else {
             $cdnStaticRoot = rtrim($cdnSettings['cdn_static_root'], '/');
             $replaceConfig = [
-                '__PLUGIN_TMPL__' => $cdnStaticRoot . '/' . $pluginRoot . '/' . $themePath,
-                '__PLUGIN_ROOT__' => $cdnStaticRoot . '/' . $pluginRoot,
+                '__PLUGIN_TMPL__' => $cdnStaticRoot.'/'.$pluginRoot.'/'.$themePath,
+                '__PLUGIN_ROOT__' => $cdnStaticRoot.'/'.$pluginRoot,
                 '__ADMIN_TMPL__'  => "{$cdnStaticRoot}/{$adminThemePath}",
                 '__STATIC__'      => "{$cdnStaticRoot}/static",
-                '__WEB_ROOT__'    => $cdnStaticRoot
+                '__WEB_ROOT__'    => $cdnStaticRoot,
             ];
         }
 
         $this->view = new View($engineConfig, $replaceConfig);
 
         //加载多语言
-        $langSet   = $request->langset();
-        $lang_file = $this->pluginPath . "lang/" . $langSet . ".php";
+        $langSet = $request->langset();
+        $lang_file = $this->pluginPath.'lang/'.$langSet.'.php';
         Lang::load($lang_file);
-
     }
 
     /**
-     * 加载模板输出
-     * @access protected
+     * 加载模板输出.
+     *
      * @param string $template 模板文件名
-     * @return string
+     *
      * @throws \Exception
+     *
+     * @return string
      */
     final protected function fetch($template)
     {
         if (!is_file($template)) {
             $engineConfig = Config::pull('template');
-            $template     = $this->themeRoot . $template . '.' . $engineConfig['view_suffix'];
+            $template = $this->themeRoot.$template.'.'.$engineConfig['view_suffix'];
         }
 
         // 模板不存在 抛出异常
         if (!is_file($template)) {
-            throw new TemplateNotFoundException('template not exists:' . $template, $template);
+            throw new TemplateNotFoundException('template not exists:'.$template, $template);
         }
 
         return $this->view->fetch($template);
     }
 
     /**
-     * 渲染内容输出
-     * @access protected
+     * 渲染内容输出.
+     *
      * @param string $content 模板内容
+     *
      * @return mixed
      */
     final protected function display($content = '')
@@ -151,9 +153,10 @@ abstract class Plugin
 
     /**
      * 模板变量赋值
-     * @access protected
+     *
      * @param mixed $name  要显示的模板变量
      * @param mixed $value 变量的值
+     *
      * @return void
      */
     final protected function assign($name, $value = '')
@@ -162,7 +165,8 @@ abstract class Plugin
     }
 
     /**
-     * 获取插件名
+     * 获取插件名.
+     *
      * @return string
      */
     final public function getName()
@@ -174,35 +178,38 @@ abstract class Plugin
         }
 
         return $this->name;
-
     }
 
     /**
-     * 检查插件信息完整性
+     * 检查插件信息完整性.
+     *
      * @return bool
      */
     final public function checkInfo()
     {
         $infoCheckKeys = ['name', 'title', 'description', 'status', 'author', 'version'];
         foreach ($infoCheckKeys as $value) {
-            if (!array_key_exists($value, $this->info))
+            if (!array_key_exists($value, $this->info)) {
                 return false;
+            }
         }
+
         return true;
     }
 
     /**
-     * 获取插件根目录绝对路径
+     * 获取插件根目录绝对路径.
+     *
      * @return string
      */
     final public function getPluginPath()
     {
-
         return $this->pluginPath;
     }
 
     /**
-     * 获取插件配置文件绝对路径
+     * 获取插件配置文件绝对路径.
+     *
      * @return string
      */
     final public function getConfigFilePath()
@@ -211,7 +218,6 @@ abstract class Plugin
     }
 
     /**
-     *
      * @return string
      */
     final public function getThemeRoot()
@@ -228,7 +234,8 @@ abstract class Plugin
     }
 
     /**
-     * 获取插件的配置数组
+     * 获取插件的配置数组.
+     *
      * @return array
      */
     final public function getConfig()
@@ -241,18 +248,19 @@ abstract class Plugin
 
         $config = Db::name('plugin')->where('name', $name)->value('config');
 
-        if (!empty($config) && $config != "null") {
+        if (!empty($config) && $config != 'null') {
             $config = json_decode($config, true);
         } else {
             $config = $this->getDefaultConfig();
-
         }
         $_config[$name] = $config;
+
         return $config;
     }
 
     /**
-     * 获取插件的配置数组
+     * 获取插件的配置数组.
+     *
      * @return array
      */
     final public function getDefaultConfig()
@@ -274,7 +282,6 @@ abstract class Plugin
                 }
             }
         }
-
 
         return $config;
     }

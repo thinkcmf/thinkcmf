@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
+
 namespace app\admin\controller;
 
 use app\admin\model\RecycleBinModel;
@@ -18,7 +20,8 @@ use think\Db;
 class RecycleBinController extends AdminBaseController
 {
     /**
-     * 回收站
+     * 回收站.
+     *
      * @adminMenu(
      *     'name'   => '回收站',
      *     'parent' => '',
@@ -39,16 +42,18 @@ class RecycleBinController extends AdminBaseController
         }
 
         $recycleBinModel = new RecycleBinModel();
-        $list            = $recycleBinModel->order('create_time desc')->paginate(10);
+        $list = $recycleBinModel->order('create_time desc')->paginate(10);
         // 获取分页显示
         $page = $list->render();
         $this->assign('page', $page);
         $this->assign('list', $list);
+
         return $this->fetch();
     }
 
     /**
      * 回收站还原
+     *
      * @adminMenu(
      *     'name'   => '回收站还原',
      *     'parent' => 'index',
@@ -62,8 +67,7 @@ class RecycleBinController extends AdminBaseController
      */
     public function restore()
     {
-
-        $id     = $this->request->param('id', 0, 'intval');
+        $id = $this->request->param('id', 0, 'intval');
         $result = Db::name('recycleBin')->where('id', $id)->find();
 
         $tableName = explode('#', $result['table_name']);
@@ -81,14 +85,15 @@ class RecycleBinController extends AdminBaseController
             if ($res) {
                 $re = Db::name('recycleBin')->where('id', $id)->delete();
                 if ($re) {
-                    $this->success("还原成功！");
+                    $this->success('还原成功！');
                 }
             }
         }
     }
 
     /**
-     * 回收站彻底删除
+     * 回收站彻底删除.
+     *
      * @adminMenu(
      *     'name'   => '回收站彻底删除',
      *     'parent' => 'index',
@@ -102,7 +107,7 @@ class RecycleBinController extends AdminBaseController
      */
     public function delete()
     {
-        $id     = $this->request->param('id');
+        $id = $this->request->param('id');
         $result = Db::name('recycleBin')->where('id', $id)->find();
         //删除资源
         if ($result) {
@@ -125,9 +130,8 @@ class RecycleBinController extends AdminBaseController
                     Db::name('portal_tag_post')->where('post_id', $result['object_id'])->delete();
                 }
                 if ($res) {
-                    $this->success("删除成功！");
+                    $this->success('删除成功！');
                 }
-
             }
         }
     }

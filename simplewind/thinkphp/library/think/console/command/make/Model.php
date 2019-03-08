@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -15,7 +16,7 @@ use think\console\command\Make;
 
 class Model extends Make
 {
-    protected $type = "Model";
+    protected $type = 'Model';
 
     protected function configure()
     {
@@ -26,11 +27,11 @@ class Model extends Make
 
     protected function getStub()
     {
-        return __DIR__ . '/stubs/model.stub';
+        return __DIR__.'/stubs/model.stub';
     }
 
     protected function getNamespace($appNamespace, $module)
     {
-        return parent::getNamespace($appNamespace, $module) . '\model';
+        return parent::getNamespace($appNamespace, $module).'\model';
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -20,7 +21,7 @@ class Exception extends \Exception
 
     /**
      * 设置异常额外的 Debug 数据
-     * 数据将会显示为下面的格式
+     * 数据将会显示为下面的格式.
      *
      * Exception Data
      * --------------------------------------------------
@@ -31,9 +32,9 @@ class Exception extends \Exception
      *   key1      value1
      *   key2      value2
      *
-     * @access protected
-     * @param  string $label 数据分类，用于异常页面显示
-     * @param  array  $data  需要显示的数据，必须为关联数组
+     * @param string $label 数据分类，用于异常页面显示
+     * @param array  $data  需要显示的数据，必须为关联数组
+     *
      * @return void
      */
     final protected function setData($label, array $data)
@@ -43,13 +44,12 @@ class Exception extends \Exception
 
     /**
      * 获取异常额外 Debug 数据
-     * 主要用于输出到异常页面便于调试
-     * @access public
+     * 主要用于输出到异常页面便于调试.
+     *
      * @return array
      */
     final public function getData()
     {
         return $this->data;
     }
-
 }

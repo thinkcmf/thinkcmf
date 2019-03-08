@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -18,7 +19,7 @@ class Redis extends SessionHandler
 {
     /** @var \Redis */
     protected $handler = null;
-    protected $config  = [
+    protected $config = [
         'host'         => '127.0.0.1', // redis主机
         'port'         => 6379, // redis端口
         'password'     => '', // 密码
@@ -35,12 +36,14 @@ class Redis extends SessionHandler
     }
 
     /**
-     * 打开Session
-     * @access public
+     * 打开Session.
+     *
      * @param string $savePath
      * @param mixed  $sessName
-     * @return bool
+     *
      * @throws Exception
+     *
+     * @return bool
      */
     public function open($savePath, $sessName)
     {
@@ -48,7 +51,7 @@ class Redis extends SessionHandler
         if (!extension_loaded('redis')) {
             throw new Exception('not support:redis');
         }
-        $this->handler = new \Redis;
+        $this->handler = new \Redis();
 
         // 建立连接
         $func = $this->config['persistent'] ? 'pconnect' : 'connect';
@@ -66,59 +69,63 @@ class Redis extends SessionHandler
     }
 
     /**
-     * 关闭Session
-     * @access public
+     * 关闭Session.
      */
     public function close()
     {
         $this->gc(ini_get('session.gc_maxlifetime'));
         $this->handler->close();
         $this->handler = null;
+
         return true;
     }
 
     /**
-     * 读取Session
-     * @access public
+     * 读取Session.
+     *
      * @param string $sessID
+     *
      * @return string
      */
     public function read($sessID)
     {
-        return (string) $this->handler->get($this->config['session_name'] . $sessID);
+        return (string) $this->handler->get($this->config['session_name'].$sessID);
     }
 
     /**
-     * 写入Session
-     * @access public
+     * 写入Session.
+     *
      * @param string $sessID
-     * @param String $sessData
+     * @param string $sessData
+     *
      * @return bool
      */
     public function write($sessID, $sessData)
     {
         if ($this->config['expire'] > 0) {
-            return $this->handler->setex($this->config['session_name'] . $sessID, $this->config['expire'], $sessData);
+            return $this->handler->setex($this->config['session_name'].$sessID, $this->config['expire'], $sessData);
         } else {
-            return $this->handler->set($this->config['session_name'] . $sessID, $sessData);
+            return $this->handler->set($this->config['session_name'].$sessID, $sessData);
         }
     }
 
     /**
-     * 删除Session
-     * @access public
+     * 删除Session.
+     *
      * @param string $sessID
+     *
      * @return bool
      */
     public function destroy($sessID)
     {
-        return $this->handler->delete($this->config['session_name'] . $sessID) > 0;
+        return $this->handler->delete($this->config['session_name'].$sessID) > 0;
     }
 
     /**
-     * Session 垃圾回收
-     * @access public
+     * Session 垃圾回收.
+     *
      * @param string $sessMaxLifeTime
+     *
      * @return bool
      */
     public function gc($sessMaxLifeTime)

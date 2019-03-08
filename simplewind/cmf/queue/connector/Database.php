@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -34,16 +35,17 @@ class Database extends DataBaseConnector
         'expire'  => 60,
         'default' => 'default',
         'table'   => 'queue_jobs',
-        'dsn'     => []
+        'dsn'     => [],
     ];
 
     /**
      * Push a raw payload to the database with a given delay.
      *
-     * @param  \DateTime|int $delay
-     * @param  string|null $queue
-     * @param  string $payload
-     * @param  int $attempts
+     * @param \DateTime|int $delay
+     * @param string|null   $queue
+     * @param string        $payload
+     * @param int           $attempts
+     *
      * @return mixed
      */
     protected function pushToDatabase($delay, $queue, $payload, $attempts = 0)
@@ -55,14 +57,15 @@ class Database extends DataBaseConnector
             'reserved'       => 0,
             'reserve_time'   => null,
             'available_time' => time() + $delay,
-            'create_time'    => time()
+            'create_time'    => time(),
         ]);
     }
 
     /**
      * 获取下个有效任务
      *
-     * @param  string|null $queue
+     * @param string|null $queue
+     *
      * @return \StdClass|null
      */
     protected function getNextAvailableJob($queue)
@@ -77,27 +80,29 @@ class Database extends DataBaseConnector
             ->order('id', 'asc')
             ->find();
 
-        return $job ? (object)$job : null;
+        return $job ? (object) $job : null;
     }
 
     /**
      * 标记任务正在执行.
      *
-     * @param  string $id
+     * @param string $id
+     *
      * @return void
      */
     protected function markJobAsReserved($id)
     {
         $this->db->name($this->options['table'])->where('id', $id)->update([
             'reserved'     => 1,
-            'reserve_time' => time()
+            'reserve_time' => time(),
         ]);
     }
 
     /**
      * 重新发布超时的任务
      *
-     * @param  string $queue
+     * @param string $queue
+     *
      * @return void
      */
     protected function releaseJobsThatHaveBeenReservedTooLong($queue)
@@ -111,9 +116,7 @@ class Database extends DataBaseConnector
             ->update([
                 'reserved'     => 0,
                 'reserve_time' => null,
-                'attempts'     => $this->db->raw('attempts + 1')
+                'attempts'     => $this->db->raw('attempts + 1'),
             ]);
     }
-
-
 }

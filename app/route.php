@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -9,8 +10,8 @@
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
 
-if (file_exists(CMF_ROOT . "data/conf/route.php")) {
-    $runtimeRoutes = include CMF_ROOT . "data/conf/route.php";
+if (file_exists(CMF_ROOT.'data/conf/route.php')) {
+    $runtimeRoutes = include CMF_ROOT.'data/conf/route.php';
 } else {
     $runtimeRoutes = [];
 }

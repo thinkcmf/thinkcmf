@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,17 +9,19 @@
 // +----------------------------------------------------------------------
 // | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
+
 namespace app\admin\controller;
 
-use cmf\controller\AdminBaseController;
 use app\admin\model\LinkModel;
+use cmf\controller\AdminBaseController;
 
 class LinkController extends AdminBaseController
 {
-    protected $targets = ["_blank" => "新标签页打开", "_self" => "本窗口打开"];
+    protected $targets = ['_blank' => '新标签页打开', '_self' => '本窗口打开'];
 
     /**
-     * 友情链接管理
+     * 友情链接管理.
+     *
      * @adminMenu(
      *     'name'   => '友情链接',
      *     'parent' => 'admin/Setting/default',
@@ -29,10 +32,12 @@ class LinkController extends AdminBaseController
      *     'remark' => '友情链接管理',
      *     'param'  => ''
      * )
-     * @return mixed
+     *
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
+     *
+     * @return mixed
      */
     public function index()
     {
@@ -43,14 +48,15 @@ class LinkController extends AdminBaseController
         }
 
         $linkModel = new LinkModel();
-        $links     = $linkModel->select();
+        $links = $linkModel->select();
         $this->assign('links', $links);
 
         return $this->fetch();
     }
 
     /**
-     * 添加友情链接
+     * 添加友情链接.
+     *
      * @adminMenu(
      *     'name'   => '添加友情链接',
      *     'parent' => 'index',
@@ -65,11 +71,13 @@ class LinkController extends AdminBaseController
     public function add()
     {
         $this->assign('targets', $this->targets);
+
         return $this->fetch();
     }
 
     /**
-     * 添加友情链接提交保存
+     * 添加友情链接提交保存.
+     *
      * @adminMenu(
      *     'name'   => '添加友情链接提交保存',
      *     'parent' => 'index',
@@ -83,19 +91,20 @@ class LinkController extends AdminBaseController
      */
     public function addPost()
     {
-        $data      = $this->request->param();
+        $data = $this->request->param();
         $linkModel = new LinkModel();
-        $result    = $this->validate($data, 'Link');
+        $result = $this->validate($data, 'Link');
         if ($result !== true) {
             $this->error($result);
         }
         $linkModel->allowField(true)->save($data);
 
-        $this->success("添加成功！", url("link/index"));
+        $this->success('添加成功！', url('link/index'));
     }
 
     /**
-     * 编辑友情链接
+     * 编辑友情链接.
+     *
      * @adminMenu(
      *     'name'   => '编辑友情链接',
      *     'parent' => 'index',
@@ -106,21 +115,25 @@ class LinkController extends AdminBaseController
      *     'remark' => '编辑友情链接',
      *     'param'  => ''
      * )
-     * @return mixed
+     *
      * @throws \think\Exception\DbException
+     *
+     * @return mixed
      */
     public function edit()
     {
-        $id        = $this->request->param('id', 0, 'intval');
+        $id = $this->request->param('id', 0, 'intval');
         $linkModel = new LinkModel();
-        $link      = $linkModel->get($id);
+        $link = $linkModel->get($id);
         $this->assign('targets', $this->targets);
         $this->assign('link', $link);
+
         return $this->fetch();
     }
 
     /**
-     * 编辑友情链接提交保存
+     * 编辑友情链接提交保存.
+     *
      * @adminMenu(
      *     'name'   => '编辑友情链接提交保存',
      *     'parent' => 'index',
@@ -134,19 +147,20 @@ class LinkController extends AdminBaseController
      */
     public function editPost()
     {
-        $data      = $this->request->param();
+        $data = $this->request->param();
         $linkModel = new LinkModel();
-        $result    = $this->validate($data, 'Link');
+        $result = $this->validate($data, 'Link');
         if ($result !== true) {
             $this->error($result);
         }
         $linkModel->allowField(true)->isUpdate(true)->save($data);
 
-        $this->success("保存成功！", url("link/index"));
+        $this->success('保存成功！', url('link/index'));
     }
 
     /**
-     * 删除友情链接
+     * 删除友情链接.
+     *
      * @adminMenu(
      *     'name'   => '删除友情链接',
      *     'parent' => 'index',
@@ -162,11 +176,12 @@ class LinkController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         LinkModel::destroy($id);
-        $this->success("删除成功！", url("link/index"));
+        $this->success('删除成功！', url('link/index'));
     }
 
     /**
-     * 友情链接排序
+     * 友情链接排序.
+     *
      * @adminMenu(
      *     'name'   => '友情链接排序',
      *     'parent' => 'index',
@@ -182,11 +197,12 @@ class LinkController extends AdminBaseController
     {
         $linkModel = new  LinkModel();
         parent::listOrders($linkModel);
-        $this->success("排序更新成功！");
+        $this->success('排序更新成功！');
     }
 
     /**
-     * 友情链接显示隐藏
+     * 友情链接显示隐藏.
+     *
      * @adminMenu(
      *     'name'   => '友情链接显示隐藏',
      *     'parent' => 'index',
@@ -200,22 +216,19 @@ class LinkController extends AdminBaseController
      */
     public function toggle()
     {
-        $data      = $this->request->param();
+        $data = $this->request->param();
         $linkModel = new LinkModel();
 
-        if (isset($data['ids']) && !empty($data["display"])) {
+        if (isset($data['ids']) && !empty($data['display'])) {
             $ids = $this->request->param('ids/a');
             $linkModel->where('id', 'in', $ids)->update(['status' => 1]);
-            $this->success("更新成功！");
+            $this->success('更新成功！');
         }
 
-        if (isset($data['ids']) && !empty($data["hide"])) {
+        if (isset($data['ids']) && !empty($data['hide'])) {
             $ids = $this->request->param('ids/a');
             $linkModel->where('id', 'in', $ids)->update(['status' => 0]);
-            $this->success("更新成功！");
+            $this->success('更新成功！');
         }
-
-
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -18,31 +19,33 @@ use think\console\input\Option;
 
 class Command
 {
-
-    /** @var  Console */
+    /** @var Console */
     private $console;
     private $name;
     private $aliases = [];
     private $definition;
     private $help;
     private $description;
-    private $ignoreValidationErrors          = false;
-    private $consoleDefinitionMerged         = false;
+    private $ignoreValidationErrors = false;
+    private $consoleDefinitionMerged = false;
     private $consoleDefinitionMergedWithArgs = false;
     private $code;
     private $synopsis = [];
-    private $usages   = [];
+    private $usages = [];
 
-    /** @var  Input */
+    /** @var Input */
     protected $input;
 
-    /** @var  Output */
+    /** @var Output */
     protected $output;
 
     /**
-     * 构造方法
+     * 构造方法.
+     *
      * @param string|null $name 命令名称,如果没有设置则比如在 configure() 里设置
+     *
      * @throws \LogicException
+     *
      * @api
      */
     public function __construct($name = null)
@@ -61,7 +64,7 @@ class Command
     }
 
     /**
-     * 忽略验证错误
+     * 忽略验证错误.
      */
     public function ignoreValidationErrors()
     {
@@ -69,7 +72,8 @@ class Command
     }
 
     /**
-     * 设置控制台
+     * 设置控制台.
+     *
      * @param Console $console
      */
     public function setConsole(Console $console = null)
@@ -78,8 +82,10 @@ class Command
     }
 
     /**
-     * 获取控制台
+     * 获取控制台.
+     *
      * @return Console
+     *
      * @api
      */
     public function getConsole()
@@ -88,7 +94,8 @@ class Command
     }
 
     /**
-     * 是否有效
+     * 是否有效.
+     *
      * @return bool
      */
     public function isEnabled()
@@ -97,18 +104,22 @@ class Command
     }
 
     /**
-     * 配置指令
+     * 配置指令.
      */
     protected function configure()
     {
     }
 
     /**
-     * 执行指令
+     * 执行指令.
+     *
      * @param Input  $input
      * @param Output $output
-     * @return null|int
+     *
      * @throws \LogicException
+     *
+     * @return null|int
+     *
      * @see setCode()
      */
     protected function execute(Input $input, Output $output)
@@ -118,6 +129,7 @@ class Command
 
     /**
      * 用户验证
+     *
      * @param Input  $input
      * @param Output $output
      */
@@ -126,7 +138,8 @@ class Command
     }
 
     /**
-     * 初始化
+     * 初始化.
+     *
      * @param Input  $input  An InputInterface instance
      * @param Output $output An OutputInterface instance
      */
@@ -135,17 +148,21 @@ class Command
     }
 
     /**
-     * 执行
+     * 执行.
+     *
      * @param Input  $input
      * @param Output $output
-     * @return int
+     *
      * @throws \Exception
+     *
+     * @return int
+     *
      * @see setCode()
      * @see execute()
      */
     public function run(Input $input, Output $output)
     {
-        $this->input  = $input;
+        $this->input = $input;
         $this->output = $output;
 
         $this->getSynopsis(true);
@@ -180,9 +197,13 @@ class Command
 
     /**
      * 设置执行代码
+     *
      * @param callable $code callable(InputInterface $input, OutputInterface $output)
-     * @return Command
+     *
      * @throws \InvalidArgumentException
+     *
+     * @return Command
+     *
      * @see execute()
      */
     public function setCode(callable $code)
@@ -204,7 +225,8 @@ class Command
     }
 
     /**
-     * 合并参数定义
+     * 合并参数定义.
+     *
      * @param bool $mergeArgs
      */
     public function mergeConsoleDefinition($mergeArgs = true)
@@ -231,9 +253,12 @@ class Command
     }
 
     /**
-     * 设置参数定义
+     * 设置参数定义.
+     *
      * @param array|Definition $definition
+     *
      * @return Command
+     *
      * @api
      */
     public function setDefinition($definition)
@@ -250,8 +275,10 @@ class Command
     }
 
     /**
-     * 获取参数定义
+     * 获取参数定义.
+     *
      * @return Definition
+     *
      * @api
      */
     public function getDefinition()
@@ -260,7 +287,8 @@ class Command
     }
 
     /**
-     * 获取当前指令的参数定义
+     * 获取当前指令的参数定义.
+     *
      * @return Definition
      */
     public function getNativeDefinition()
@@ -269,11 +297,13 @@ class Command
     }
 
     /**
-     * 添加参数
+     * 添加参数.
+     *
      * @param string $name        名称
      * @param int    $mode        类型
      * @param string $description 描述
      * @param mixed  $default     默认值
+     *
      * @return Command
      */
     public function addArgument($name, $mode = null, $description = '', $default = null)
@@ -284,12 +314,14 @@ class Command
     }
 
     /**
-     * 添加选项
+     * 添加选项.
+     *
      * @param string $name        选项名称
      * @param string $shortcut    别名
      * @param int    $mode        类型
      * @param string $description 描述
      * @param mixed  $default     默认值
+     *
      * @return Command
      */
     public function addOption($name, $shortcut = null, $mode = null, $description = '', $default = null)
@@ -300,10 +332,13 @@ class Command
     }
 
     /**
-     * 设置指令名称
+     * 设置指令名称.
+     *
      * @param string $name
-     * @return Command
+     *
      * @throws \InvalidArgumentException
+     *
+     * @return Command
      */
     public function setName($name)
     {
@@ -315,7 +350,8 @@ class Command
     }
 
     /**
-     * 获取指令名称
+     * 获取指令名称.
+     *
      * @return string
      */
     public function getName()
@@ -324,8 +360,10 @@ class Command
     }
 
     /**
-     * 设置描述
+     * 设置描述.
+     *
      * @param string $description
+     *
      * @return Command
      */
     public function setDescription($description)
@@ -336,7 +374,8 @@ class Command
     }
 
     /**
-     *  获取描述
+     *  获取描述.
+     *
      * @return string
      */
     public function getDescription()
@@ -345,8 +384,10 @@ class Command
     }
 
     /**
-     * 设置帮助信息
+     * 设置帮助信息.
+     *
      * @param string $help
+     *
      * @return Command
      */
     public function setHelp($help)
@@ -357,7 +398,8 @@ class Command
     }
 
     /**
-     * 获取帮助信息
+     * 获取帮助信息.
+     *
      * @return string
      */
     public function getHelp()
@@ -366,7 +408,8 @@ class Command
     }
 
     /**
-     * 描述信息
+     * 描述信息.
+     *
      * @return string
      */
     public function getProcessedHelp()
@@ -379,17 +422,20 @@ class Command
         ];
         $replacements = [
             $name,
-            $_SERVER['PHP_SELF'] . ' ' . $name,
+            $_SERVER['PHP_SELF'].' '.$name,
         ];
 
         return str_replace($placeholders, $replacements, $this->getHelp());
     }
 
     /**
-     * 设置别名
+     * 设置别名.
+     *
      * @param string[] $aliases
-     * @return Command
+     *
      * @throws \InvalidArgumentException
+     *
+     * @return Command
      */
     public function setAliases($aliases)
     {
@@ -407,7 +453,8 @@ class Command
     }
 
     /**
-     * 获取别名
+     * 获取别名.
+     *
      * @return array
      */
     public function getAliases()
@@ -416,8 +463,10 @@ class Command
     }
 
     /**
-     * 获取简介
+     * 获取简介.
+     *
      * @param bool $short 是否简单的
+     *
      * @return string
      */
     public function getSynopsis($short = false)
@@ -432,8 +481,10 @@ class Command
     }
 
     /**
-     * 添加用法介绍
+     * 添加用法介绍.
+     *
      * @param string $usage
+     *
      * @return $this
      */
     public function addUsage($usage)
@@ -448,7 +499,8 @@ class Command
     }
 
     /**
-     * 获取用法介绍
+     * 获取用法介绍.
+     *
      * @return array
      */
     public function getUsages()
@@ -457,8 +509,10 @@ class Command
     }
 
     /**
-     * 验证指令名称
+     * 验证指令名称.
+     *
      * @param string $name
+     *
      * @throws \InvalidArgumentException
      */
     private function validateName($name)

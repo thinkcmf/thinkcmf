@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -23,11 +24,13 @@ class Json extends Response
     protected $contentType = 'application/json';
 
     /**
-     * 处理数据
-     * @access protected
+     * 处理数据.
+     *
      * @param mixed $data 要处理的数据
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     protected function output($data)
     {
@@ -44,8 +47,8 @@ class Json extends Response
             if ($e->getPrevious()) {
                 throw $e->getPrevious();
             }
+
             throw $e;
         }
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -17,8 +18,10 @@ use think\Request;
 class CaptchaController
 {
     /**
-     * captcha/new?height=50&width=200&font_size=25&length=4&bg=243,251,254&id=1
+     * captcha/new?height=50&width=200&font_size=25&length=4&bg=243,251,254&id=1.
+     *
      * @param Request $request
+     *
      * @return \think\Response
      */
     public function index(Request $request)
@@ -45,14 +48,13 @@ class CaptchaController
             $config['fontSize'] = $fontSize;
         }
 
-
         $imageH = $request->param('height', '');
         if ($imageH != '' && $imageH < 100) {
             $config['imageH'] = intval($imageH);
         }
 
         $imageW = $request->param('width', '');
-        if ($imageW != '' && $imageW < 200 ) {
+        if ($imageW != '' && $imageW < 200) {
             $config['imageW'] = intval($imageW);
         }
 
@@ -73,7 +75,7 @@ class CaptchaController
 
         $id = $request->param('id', 0, 'intval');
         if ($id > 5 || empty($id)) {
-            $id                   = '';
+            $id = '';
             $config['captcha_id'] = $id;
         }
 
@@ -83,10 +85,10 @@ class CaptchaController
             if ($defaultCaptchaConfig && is_array($defaultCaptchaConfig)) {
                 $config = array_merge($config, $defaultCaptchaConfig);
             }
-            $captcha  = new Captcha($config);
+            $captcha = new Captcha($config);
             $response = $captcha->entry($id);
         }
-        @ob_clean();// 清除输出缓存
+        @ob_clean(); // 清除输出缓存
         return $response;
     }
 }

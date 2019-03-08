@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -8,6 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
+
 namespace app\admin\model;
 
 use think\Model;
@@ -15,24 +17,27 @@ use think\Model;
 class RouteModel extends Model
 {
     /**
-     * 获取所有url美化规则
-     * @param boolean $refresh 是否强制刷新
-     * @return array|mixed|string|\think\Collection
+     * 获取所有url美化规则.
+     *
+     * @param bool $refresh 是否强制刷新
+     *
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
+     *
+     * @return array|mixed|string|\think\Collection
      */
     public function getRoutes($refresh = false)
     {
-        $routes = cache("routes");
+        $routes = cache('routes');
 
         $appUrls = $this->getAppUrls();
 
         if ((!empty($routes) || is_array($routes)) && !$refresh) {
             return $routes;
         }
-        $routes      = $this->where("status", 1)->order("list_order asc")->select();
-        $allRoutes   = [];
+        $routes = $this->where('status', 1)->order('list_order asc')->select();
+        $allRoutes = [];
         $cacheRoutes = [];
         foreach ($routes as $er) {
             $fullUrl = htmlspecialchars_decode($er['full_url']);
@@ -40,7 +45,7 @@ class RouteModel extends Model
             // 解析URL
             $info = parse_url($fullUrl);
 
-            $path = explode("/", $info['path']);
+            $path = explode('/', $info['path']);
             if (count($path) != 3) {//必须是完整 url
                 continue;
             }
@@ -60,7 +65,7 @@ class RouteModel extends Model
 
             $path = $info['path'];
 
-            $fullUrl = $path . (empty($vars) ? "" : "?") . http_build_query($vars);
+            $fullUrl = $path.(empty($vars) ? '' : '?').http_build_query($vars);
 
             $url = htmlspecialchars_decode($er['url']);
 
@@ -83,23 +88,22 @@ class RouteModel extends Model
             } else {
                 $allRoutes[$url] = [$fullUrl, [], $appUrls[$path]['pattern']];
             }
-
         }
-        cache("routes", $cacheRoutes);
+        cache('routes', $cacheRoutes);
 
         if (strpos(cmf_version(), '5.0.') === false) {
-            $routeDir = CMF_ROOT . "data/route/"; // 5.1
+            $routeDir = CMF_ROOT.'data/route/'; // 5.1
         } else {
-            $routeDir = CMF_ROOT . "data/conf/"; // 5.0
+            $routeDir = CMF_ROOT.'data/conf/'; // 5.0
         }
 
         if (!file_exists($routeDir)) {
             mkdir($routeDir);
         }
 
-        $route_file = $routeDir . "route.php";
+        $route_file = $routeDir.'route.php';
 
-        file_put_contents($route_file, "<?php\treturn " . stripslashes(var_export($allRoutes, true)) . ";");
+        file_put_contents($route_file, "<?php\treturn ".stripslashes(var_export($allRoutes, true)).';');
 
         return $cacheRoutes;
     }
@@ -109,16 +113,16 @@ class RouteModel extends Model
      */
     public function getAppUrls()
     {
-        $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
+        $apps = cmf_scan_dir(APP_PATH.'*', GLOB_ONLYDIR);
 
         $appUrls = [];
 
         foreach ($apps as $app) {
-            $urlConfigFile = APP_PATH . $app . '/url.php';
+            $urlConfigFile = APP_PATH.$app.'/url.php';
             if (file_exists($urlConfigFile)) {
                 $urls = include $urlConfigFile;
                 foreach ($urls as $action => $url) {
-                    $action = $app . '/' . $action;
+                    $action = $app.'/'.$action;
 
                     $appUrls[$action] = $url;
                     if (!empty($url['vars'])) {
@@ -126,7 +130,6 @@ class RouteModel extends Model
                             $appUrls[$action]['pattern'][$urlVarName] = $urlVar['pattern'];
                         }
                     }
-
                 }
             }
         }
@@ -148,7 +151,6 @@ class RouteModel extends Model
         $full_url = $this->where('url', $url)->value('full_url');
 
         return empty($full_url) ? '' : $full_url;
-
     }
 
     public function buildFullUrl($action, $vars)
@@ -162,7 +164,7 @@ class RouteModel extends Model
         if (!empty($vars)) {
             ksort($vars);
 
-            $fullUrl = $action . '?' . http_build_query($vars);
+            $fullUrl = $action.'?'.http_build_query($vars);
         } else {
             $fullUrl = $action;
         }
@@ -172,7 +174,6 @@ class RouteModel extends Model
 
     public function existsRoute($url, $fullUrl)
     {
-
         $findRouteCount = $this->where(['url' => $url, 'full_url' => ['neq', $fullUrl]])->count();
 
         return $findRouteCount > 0 ? true : false;
@@ -180,7 +181,7 @@ class RouteModel extends Model
 
     public function setRoute($url, $action, $vars, $type = 2, $listOrder = 10000)
     {
-        $fullUrl   = $this->buildFullUrl($action, $vars);
+        $fullUrl = $this->buildFullUrl($action, $vars);
         $findRoute = $this->where('full_url', $fullUrl)->find();
 
         if ($findRoute) {
@@ -190,7 +191,7 @@ class RouteModel extends Model
                 $this->where('id', $findRoute['id'])->update([
                     'url'        => $url,
                     'list_order' => $listOrder,
-                    'type'       => $type
+                    'type'       => $type,
                 ]);
             }
         } else {
@@ -199,7 +200,7 @@ class RouteModel extends Model
                     'full_url'   => $fullUrl,
                     'url'        => $url,
                     'list_order' => $listOrder,
-                    'type'       => $type
+                    'type'       => $type,
                 ]);
             }
         }
@@ -208,15 +209,16 @@ class RouteModel extends Model
     /**
      * @param $action
      * @param $vars
-     * @return bool
+     *
      * @throws \Exception
+     *
+     * @return bool
      */
     public function deleteRoute($action, $vars)
     {
         $fullUrl = $this->buildFullUrl($action, $vars);
         $this->where('full_url', $fullUrl)->delete();
+
         return true;
     }
-
-
 }

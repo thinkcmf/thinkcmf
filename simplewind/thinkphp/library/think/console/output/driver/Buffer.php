@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
@@ -27,8 +28,9 @@ class Buffer
 
     public function fetch()
     {
-        $content      = $this->buffer;
+        $content = $this->buffer;
         $this->buffer = '';
+
         return $content;
     }
 
@@ -48,5 +50,4 @@ class Buffer
     {
         // do nothing
     }
-
 }

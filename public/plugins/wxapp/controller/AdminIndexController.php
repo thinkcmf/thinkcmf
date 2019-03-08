@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -6,25 +7,28 @@
 // +----------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
-namespace plugins\wxapp\controller; //Demo插件英文名，改成你的插件英文就行了
+
+namespace plugins\wxapp\controller;
+
+//Demo插件英文名，改成你的插件英文就行了
 
 use cmf\controller\PluginAdminBaseController;
 
 class AdminIndexController extends PluginAdminBaseController
 {
-
     public function _initialize()
     {
-        $adminId = cmf_get_current_admin_id();//获取后台管理员id，可判断是否登录
+        $adminId = cmf_get_current_admin_id(); //获取后台管理员id，可判断是否登录
         if (!empty($adminId)) {
-            $this->assign("admin_id", $adminId);
+            $this->assign('admin_id', $adminId);
         } else {
             $this->error('未登录');
         }
     }
 
     /**
-     * 小程序管理
+     * 小程序管理.
+     *
      * @adminMenu(
      *     'name'   => '小程序管理',
      *     'parent' => 'admin/Plugin/default',
@@ -38,7 +42,6 @@ class AdminIndexController extends PluginAdminBaseController
      */
     public function index()
     {
-
         $wxappSettings = cmf_get_option('wxapp_settings');
 
         $wxapps = empty($wxappSettings['wxapps']) ? [] : $wxappSettings['wxapps'];
@@ -50,5 +53,4 @@ class AdminIndexController extends PluginAdminBaseController
 
         return $this->fetch('/admin_index');
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -15,22 +16,23 @@ use think\db\Builder;
 use think\Exception;
 
 /**
- * mysql数据库驱动
+ * mysql数据库驱动.
  */
 class Mysql extends Builder
 {
-
     protected $insertAllSql = '%INSERT% INTO %TABLE% (%FIELD%) VALUES %DATA% %COMMENT%';
-    protected $updateSql    = 'UPDATE %TABLE% %JOIN% SET %SET% %WHERE% %ORDER%%LIMIT% %LOCK%%COMMENT%';
+    protected $updateSql = 'UPDATE %TABLE% %JOIN% SET %SET% %WHERE% %ORDER%%LIMIT% %LOCK%%COMMENT%';
 
     /**
-     * 生成insertall SQL
-     * @access public
-     * @param array     $dataSet 数据集
-     * @param array     $options 表达式
-     * @param bool      $replace 是否replace
-     * @return string
+     * 生成insertall SQL.
+     *
+     * @param array $dataSet 数据集
+     * @param array $options 表达式
+     * @param bool  $replace 是否replace
+     *
      * @throws Exception
+     *
+     * @return string
      */
     public function insertAll($dataSet, $options = [], $replace = false)
     {
@@ -45,7 +47,7 @@ class Mysql extends Builder
             foreach ($data as $key => $val) {
                 if (!in_array($key, $fields, true)) {
                     if ($options['strict']) {
-                        throw new Exception('fields not exists:[' . $key . ']');
+                        throw new Exception('fields not exists:['.$key.']');
                     }
                     unset($data[$key]);
                 } elseif (is_null($val)) {
@@ -60,8 +62,8 @@ class Mysql extends Builder
                     unset($data[$key]);
                 }
             }
-            $value    = array_values($data);
-            $values[] = '( ' . implode(',', $value) . ' )';
+            $value = array_values($data);
+            $values[] = '( '.implode(',', $value).' )';
 
             if (!isset($insertFields)) {
                 $insertFields = array_map([$this, 'parseKey'], array_keys($data));
@@ -80,10 +82,11 @@ class Mysql extends Builder
     }
 
     /**
-     * 字段和表名处理
-     * @access protected
-     * @param mixed  $key
-     * @param array  $options
+     * 字段和表名处理.
+     *
+     * @param mixed $key
+     * @param array $options
+     *
      * @return string
      */
     protected function parseKey($key, $options = [], $strict = false)
@@ -98,7 +101,8 @@ class Mysql extends Builder
         if (strpos($key, '$.') && false === strpos($key, '(')) {
             // JSON字段支持
             list($field, $name) = explode('$.', $key);
-            return 'json_extract(' . $field . ', \'$.' . $name . '\')';
+
+            return 'json_extract('.$field.', \'$.'.$name.'\')';
         } elseif (strpos($key, '.') && !preg_match('/[,\'\"\(\)`\s]/', $key)) {
             list($table, $key) = explode('.', $key, 2);
             if ('__TABLE__' == $table) {
@@ -110,28 +114,28 @@ class Mysql extends Builder
         }
 
         if ($strict && !preg_match('/^[\w\.\*]+$/', $key)) {
-            throw new Exception('not support data:' . $key);
+            throw new Exception('not support data:'.$key);
         }
         if ('*' != $key && ($strict || !preg_match('/[,\'\"\*\(\)`.\s]/', $key))) {
-            $key = '`' . $key . '`';
+            $key = '`'.$key.'`';
         }
         if (isset($table)) {
             if (strpos($table, '.')) {
                 $table = str_replace('.', '`.`', $table);
             }
-            $key = '`' . $table . '`.' . $key;
+            $key = '`'.$table.'`.'.$key;
         }
+
         return $key;
     }
 
     /**
-     * 随机排序
-     * @access protected
+     * 随机排序.
+     *
      * @return string
      */
     protected function parseRand()
     {
         return 'rand()';
     }
-
 }
