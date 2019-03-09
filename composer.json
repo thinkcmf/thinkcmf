@@ -29,7 +29,8 @@
         "thinkcmf/cmf-install": "~5.1.0"
     },
     "extra": {
-        "think-path": "vendor/thinkphp"
+        "think-path": "vendor/thinkphp",
+        "think-config": "data/config"
     },
     "config": {
         "vendor-dir": "vendor"
