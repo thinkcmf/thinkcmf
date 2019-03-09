@@ -1,5 +1,4 @@
 <?php
-
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
@@ -40,8 +39,7 @@ class AdminIndexController extends PluginAdminBaseController
     }
 
     /**
-     * 演示插件用户列表.
-     *
+     * 演示插件用户列表
      * @adminMenu(
      *     'name'   => '演示插件用户列表',
      *     'parent' => 'default',
@@ -72,8 +70,7 @@ class AdminIndexController extends PluginAdminBaseController
     }
 
     /**
-     * 演示插件设置.
-     *
+     * 演示插件设置
      * @adminMenu(
      *     'name'   => '演示插件设置',
      *     'parent' => 'index',
