@@ -135,6 +135,9 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
+#### 5.1.1-dev
+* `composer.json` extra 增加`think-config`配置
+
 #### 5.1.0
 [核心]
 * 更改框架协议为`MIT`,让你更自由地飞
