@@ -79,7 +79,7 @@
                             <label for="input-site_adminstyle" class="col-sm-2 control-label">{:lang('WEBSITE_ADMIN_THEME')}</label>
                             <div class="col-md-6 col-sm-10">
                                 <php>
-                                    $site_admin_style=empty($admin_settings['admin_style'])?'':$admin_settings['admin_style'];
+                                    $site_admin_style=empty($admin_settings['admin_style'])?cmf_get_admin_style():$admin_settings['admin_style'];
                                 </php>
                                 <select class="form-control" name="admin_settings[admin_style]"
                                         id="input-site_adminstyle">
