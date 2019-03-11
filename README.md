@@ -1,6 +1,8 @@
 ThinkCMF 5.0.190312 正式版
 ===============
 
+> ThinkCMF5.1已经发布，如果你是新同学，请学习[ThinkCMF5.1](https://github.com/thinkcmf/thinkcmf/tree/5.1)，更清爽，更自由！
+
 ### 系列讲座
 https://www.thinkcmf.com/college.html
 
