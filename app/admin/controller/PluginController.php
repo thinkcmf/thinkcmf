@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -442,15 +442,15 @@ class PluginController extends AdminBaseController
 
     private function _getActions($pluginName)
     {
-        Annotations::$config['cache']             = false;
-        $annotationManager                        = Annotations::getManager();
-        $annotationManager->registry['adminMenu'] = 'app\admin\annotation\AdminMenuAnnotation';
+        Annotations::$config['cache']                 = false;
+        $annotationManager                            = Annotations::getManager();
+        $annotationManager->registry['adminMenu']     = 'app\admin\annotation\AdminMenuAnnotation';
         $annotationManager->registry['adminMenuRoot'] = 'app\admin\annotation\AdminMenuRootAnnotation';
-        $newMenus                                 = [];
+        $newMenus                                     = [];
 
         $pluginDir = cmf_parse_name($pluginName);
 
-        $filePatten = PLUGINS_PATH . $pluginDir . '/controller/Admin*Controller.php';
+        $filePatten = WEB_ROOT . 'plugins/' . $pluginDir . '/controller/Admin*Controller.php';
 
         $controllers = cmf_scan_dir($filePatten);
 

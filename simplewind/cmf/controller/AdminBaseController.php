@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2018 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +---------------------------------------------------------------------
@@ -20,11 +20,11 @@ class AdminBaseController extends BaseController
         // 监听admin_init
         hook('admin_init');
         parent::initialize();
-        $session_admin_id = session('ADMIN_ID');
-        if (!empty($session_admin_id)) {
-            $user = Db::name('user')->where(['id' => $session_admin_id])->find();
+        $sessionAdminId = session('ADMIN_ID');
+        if (!empty($sessionAdminId)) {
+            $user = Db::name('user')->where('id', $sessionAdminId)->find();
 
-            if (!$this->checkAccess($session_admin_id)) {
+            if (!$this->checkAccess($sessionAdminId)) {
                 $this->error("您没有访问权限！");
             }
             $this->assign("admin", $user);
@@ -65,6 +65,7 @@ class AdminBaseController extends BaseController
             ];
         }
 
+        $viewReplaceStr = array_merge(config('view_replace_str'), $viewReplaceStr);
         config('template.view_base', WEB_ROOT . "$themePath/");
         config('view_replace_str', $viewReplaceStr);
     }

@@ -34,9 +34,8 @@ var _top = artDialog.top = function () {
 			doc.getElementsByTagName; 			// chrome 本地安全限制
 		} catch (e) {
 			return false;
-		};
-		
-		return window[name].artDialog
+        }
+        return window[name].artDialog
 		// 框架集无法显示第三方元素
 		&& doc.getElementsByTagName('frameset').length === 0;
 	};
@@ -45,9 +44,8 @@ var _top = artDialog.top = function () {
 		top = window.top;
 	} else if (test('parent')) {
 		top = window.parent;
-	};
-	
-	return top;
+    }
+    return top;
 }();
 artDialog.parent = _top; // 兼容v4.1之前版本，未来版本将删除此
 
@@ -77,8 +75,8 @@ artDialog.data = function (name, value) {
 		cache[name] = value;
 	} else {
 		return cache[name];
-	};
-	return cache;
+    }
+    return cache;
 };
 
 
@@ -112,8 +110,8 @@ _top !== window && $(window).bind('unload', function () {
 			if (config) config.duration = 0; // 取消动画
 			list[i].close();
 			//delete list[i];
-		};
-	};
+        }
+    }
 });
 
 
@@ -136,9 +134,8 @@ artDialog.open = function (url, options, cache) {
 		var ts = + new Date,
 			ret = url.replace(/([?&])_=[^&]*/, "$1_=" + ts );
 		url = ret + ((ret === url) ? (/\?/.test(url) ? "&" : "?") + "_=" + ts : "");
-	};
-		
-	var load = function () {
+    }
+    var load = function () {
 		var iWidth, iHeight,
 			loading = DOM.content.find('.aui_loading'),
 			aConfig = api.config;
@@ -161,9 +158,8 @@ artDialog.open = function (url, options, cache) {
 			options.init && options.init.call(api, iwin, top);
 			options.init = null;
 			return;
-		};
-		
-		// 获取iframe内部尺寸
+        }
+        // 获取iframe内部尺寸
 		iWidth = aConfig.width === 'auto'
 		? $idoc.width() + (_isIE6 ? 0 : parseInt($(ibody).css('marginLeft')))
 		: aConfig.width;
@@ -210,17 +206,17 @@ artDialog.open = function (url, options, cache) {
 				iwin.name = iframe.name;
 				artDialog.data(iframe.name + _open, api);
 				artDialog.data(iframe.name + _opener, window);
-			} catch (e) {};
-			
-			$iframe.bind('load', load);
+            } catch (e) {
+            }
+            $iframe.bind('load', load);
 		},
 		close: function () {
 			$iframe.css('display', 'none').unbind('load', load);
 			
 			if (options.close && options.close.call(this, iframe.contentWindow, top) === false) {
 				return false;
-			};
-			$content.removeClass('aui_state_full');
+            }
+            $content.removeClass('aui_state_full');
 			
 			// 重要！需要重置iframe地址，否则下次出现的对话框在IE6、7无法聚焦input
 			// IE删除iframe后，iframe仍然会留在内存中出现上述问题，置换src是最容易解决的方法
@@ -230,8 +226,9 @@ artDialog.open = function (url, options, cache) {
 			try {
 				artDialog.removeData(iframe.name + _open);
 				artDialog.removeData(iframe.name + _opener);
-			} catch (e) {};
-		}
+            } catch (e) {
+            }
+        }
 	};
 	
 	// 回调函数第一个参数指向iframe内部window对象
@@ -246,9 +243,8 @@ artDialog.open = function (url, options, cache) {
 
 	for (var i in options) {
 		if (config[i] === undefined) config[i] = options[i];
-	};
-	
-	return _proxyDialog(config);
+    }
+    return _proxyDialog(config);
 };
 
 
@@ -306,9 +302,8 @@ artDialog.load = function(url, options, cache){
 	
 	for (var i in opt) {
 		if (config[i] === undefined) config[i] = opt[i];
-	};
-	
-	return _proxyDialog(config);
+    }
+    return _proxyDialog(config);
 };
 
 
@@ -449,12 +444,11 @@ $(function () {
 			style.height = $window.height() + 'px';
 			style.left = $document.scrollLeft() + 'px';
 			style.top = $document.scrollTop() + 'px';
-		};
-		
-		if (iframe && main.offsetWidth * main.offsetHeight > 307200) {
+        }
+        if (iframe && main.offsetWidth * main.offsetHeight > 307200) {
 			main.style.visibility = 'hidden';
-		};
-	};
+        }
+    };
 	
 	dragEvent.end = function () {
 		var dialog = artDialog.focus;
