@@ -18,7 +18,7 @@ class AdminMenuModel extends Model
 
     /**
      * 按父ID查找菜单子项
-     * @param int     $parentId 父菜单ID
+     * @param int $parentId 父菜单ID
      * @param boolean $withSelf 是否包括他自己
      * @return array|string|\think\Collection
      * @throws \think\db\exception\DataNotFoundException
@@ -74,7 +74,7 @@ class AdminMenuModel extends Model
     /**
      * 获取菜单 头部菜单导航
      * @param string $parentId 菜单id
-     * @param bool   $bigMenu
+     * @param bool $bigMenu
      * @return array|string|\think\Collection
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -103,7 +103,7 @@ class AdminMenuModel extends Model
      * 取得树形结构的菜单
      * @param        $myId
      * @param string $parent
-     * @param int    $Level
+     * @param int $Level
      * @return bool|null
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -122,15 +122,15 @@ class AdminMenuModel extends Model
                 $action     = $a['action'];
                 //附带参数
                 $params = "";
-                if ($a['param']) {
-                    $params = "?" . htmlspecialchars_decode($a['param']);
+                if (!empty($a['param'])) {
+                    $params = htmlspecialchars_decode($a['param']);
                 }
 
                 if (strpos($app, 'plugin/') === 0) {
                     $pluginName = str_replace('plugin/', '', $app);
                     $url        = cmf_plugin_url($pluginName . "://{$controller}/{$action}{$params}");
                 } else {
-                    $url = url("{$app}/{$controller}/{$action}{$params}");
+                    $url = url("{$app}/{$controller}/{$action}", $params);
                 }
 
                 $app = str_replace('/', '_', $app);
