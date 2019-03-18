@@ -25,6 +25,10 @@ class IndexController extends BaseController
             $this->error('网站已经安装', cmf_get_root() . '/');
         }
 
+        if (!is_writable(CMF_ROOT . 'data/')) {
+            abort(500, '目录' . realpath(CMF_ROOT . 'data').'无法写入！');
+        }
+
         $langSet = request()->langset();
         Lang::load([
             dirname(__DIR__) . '/lang/' . $langSet . ".php"
