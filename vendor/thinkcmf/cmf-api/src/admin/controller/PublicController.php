@@ -73,7 +73,7 @@ class PublicController extends RestBaseController
         $expireTime     = $currentTime + 24 * 3600 * 180;
         $token          = md5(uniqid()) . md5(uniqid());
         if (empty($findUserToken)) {
-            $result = $userTokenQuery->insert([
+            $result = Db::name("user_token")->insert([
                 'token'       => $token,
                 'user_id'     => $findUser['id'],
                 'expire_time' => $expireTime,
@@ -81,7 +81,7 @@ class PublicController extends RestBaseController
                 'device_type' => $data['device_type']
             ]);
         } else {
-            $result = $userTokenQuery
+            $result = Db::name("user_token")
                 ->where('user_id', $findUser['id'])
                 ->where('device_type', $data['device_type'])
                 ->update([
