@@ -375,7 +375,7 @@ function cmf_set_dynamic_config($data)
         $configs = [];
     }
 
-    $configs = array_merge($configs, $data);
+    $configs = array_replace_recursive($configs, $data);
     $result  = file_put_contents($configFile, "<?php\treturn " . var_export($configs, true) . ";");
 
     cmf_clear_cache();
