@@ -136,7 +136,15 @@ https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
 #### 5.1.1-dev
+[核心]
 * `composer.json` extra 增加`think-config`配置
+* 修复API UserLikeModel继承错误类
+* 优化后台菜单 url 生成
+* 增加Linux下全新安装时data目录不可写提示
+* 修复插件模板常量__ROOT__不替换
+* 增加swoole扩展钩子检测
+* 修复插件API基类报错#577
+
 
 #### 5.1.0
 [核心]

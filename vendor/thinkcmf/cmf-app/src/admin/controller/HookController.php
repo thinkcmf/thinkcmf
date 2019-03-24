@@ -110,7 +110,7 @@ class HookController extends AdminBaseController
 
         $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
 
-        array_push($apps, 'cmf', 'admin', 'user','swoole');
+        array_push($apps, 'cmf', 'admin', 'user', 'swoole');
 
         foreach ($apps as $app) {
             $hookConfigFile = cmf_get_app_config_file($app, 'hooks');
@@ -118,11 +118,15 @@ class HookController extends AdminBaseController
             if (file_exists($hookConfigFile)) {
                 $hooksInFile = include $hookConfigFile;
 
+                if (empty($hooksInFile) || !is_array($hooksInFile)) {
+                    continue;
+                }
+
                 foreach ($hooksInFile as $hookName => $hook) {
 
                     $hook['type'] = empty($hook['type']) ? 2 : $hook['type'];
 
-                    if (!in_array($hook['type'], [2, 3, 4]) && $app != 'cmf') {
+                    if (!in_array($hook['type'], [2, 3, 4]) && !in_array($app, ['cmf', 'swoole'])) {
                         $hook['type'] = 2;
                     }
 
