@@ -10,7 +10,7 @@ namespace api\admin\controller;
 
 use cmf\controller\RestBaseController;
 use think\Db;
-use think\Validate;
+use think\facade\Validate;
 
 class PublicController extends RestBaseController
 {
@@ -18,7 +18,7 @@ class PublicController extends RestBaseController
     // 用户登录 TODO 增加最后登录信息记录,如 ip
     public function login()
     {
-        $validate = new Validate([
+        $validate = new \think\Validate([
             'username' => 'require',
             'password' => 'require'
         ]);
