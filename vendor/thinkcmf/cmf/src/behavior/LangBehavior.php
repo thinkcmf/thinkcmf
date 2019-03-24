@@ -16,9 +16,29 @@ use think\facade\Lang;
 class LangBehavior
 {
 
+    protected static $run = false;
+
     // 行为扩展的执行入口必须是run
     public function run()
     {
+        $request = request();
+
+        // 处理全站跨域
+        if ($request->method(true) == 'OPTIONS') {
+            $header = [
+                'Access-Control-Allow-Origin'  => '*',
+                'Access-Control-Allow-Methods' => 'GET, POST, PATCH, PUT, DELETE',
+                'Access-Control-Allow-Headers' => 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-Requested-With, XX-Device-Type, XX-Token',
+            ];
+
+            throw new HttpResponseException(Response::create()->code(204)->header($header));
+        }
+        
+        if (self::$run) {
+            return;
+        }
+        self::$run = true;
+
         $langSet = request()->langset();
         Lang::load([
             __DIR__ . '/../lang' . DIRECTORY_SEPARATOR . $langSet . '.php',

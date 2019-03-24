@@ -15,10 +15,16 @@ use think\facade\Lang;
 
 class AdminLangBehavior
 {
+    protected static $run = false;
 
     // 行为扩展的执行入口必须是run
     public function run()
     {
+        if (self::$run) {
+            return;
+        }
+        self::$run = true;
+
         $langSet = request()->langset();
 
         // 加载核心应用后台菜单语言包

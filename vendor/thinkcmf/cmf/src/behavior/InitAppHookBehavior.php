@@ -16,26 +16,26 @@ use think\facade\Hook;
 class InitAppHookBehavior
 {
 
-    public static $appVendorLoaded = [];
+    public static $appLoaded = [];
 
     // 行为扩展的执行入口必须是run
     public function run($param)
     {
-        if (!cmf_is_installed()) {
+        $app = request()->module();
+        if (!empty(self::$appLoaded[$app])) {
             return;
         }
 
-        $app = request()->module();
+        self::$appLoaded[$app] = true;
 
         // 加载应用第三方库
+        $appAutoLoadFile = APP_PATH . $app . '/vendor/autoload.php';
+        if (file_exists($appAutoLoadFile)) {
+            require_once $appAutoLoadFile;
+        }
 
-        if (empty(self::$appVendorLoaded[$app])) {
-            $appAutoLoadFile = APP_PATH . $app . '/vendor/autoload.php';
-            if (file_exists($appAutoLoadFile)) {
-                require_once $appAutoLoadFile;
-            }
-
-            self::$appVendorLoaded[$app] = true;
+        if (!cmf_is_installed()) {
+            return;
         }
 
         // 加载应用钩子
