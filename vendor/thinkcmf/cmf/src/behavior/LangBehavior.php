@@ -10,6 +10,7 @@
 // +---------------------------------------------------------------------
 namespace cmf\behavior;
 
+use think\Container;
 use think\facade\Env;
 use think\facade\Lang;
 
@@ -23,8 +24,10 @@ class LangBehavior
     {
         $request = request();
 
-        // 处理全站跨域
-        if ($request->method(true) == 'OPTIONS') {
+        $app = Container::get('app');
+
+        // 处理API全站跨域
+        if ($request->method(true) == 'OPTIONS' && $app->getNamespace() == 'api') {
             $header = [
                 'Access-Control-Allow-Origin'  => '*',
                 'Access-Control-Allow-Methods' => 'GET, POST, PATCH, PUT, DELETE',
@@ -33,7 +36,7 @@ class LangBehavior
 
             throw new HttpResponseException(Response::create()->code(204)->header($header));
         }
-        
+
         if (self::$run) {
             return;
         }

@@ -42,6 +42,7 @@ class ComposerStaticInit5bfecc6fb5e853e2f790c7db297fb8ee
         array (
             'app\\install\\' => 12,
             'app\\' => 4,
+            'api\\' => 4,
         ),
         'P' => 
         array (
@@ -85,7 +86,6 @@ class ComposerStaticInit5bfecc6fb5e853e2f790c7db297fb8ee
         'cmf\\' => 
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf/src',
-            1 => __DIR__ . '/..' . '/thinkcmf/cmf-api/src',
         ),
         'app\\install\\' => 
         array (
@@ -94,6 +94,10 @@ class ComposerStaticInit5bfecc6fb5e853e2f790c7db297fb8ee
         'app\\' => 
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf-app/src',
+        ),
+        'api\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/thinkcmf/cmf-api/src',
         ),
         'PHPMailer\\PHPMailer\\' => 
         array (
