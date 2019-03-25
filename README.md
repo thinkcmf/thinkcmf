@@ -141,9 +141,10 @@ https://github.com/thinkcmf/thinkcmf/issues
 * 修复API UserLikeModel继承错误类
 * 优化后台菜单 url 生成
 * 增加Linux下全新安装时data目录不可写提示
-* 修复插件模板常量__ROOT__不替换
+* 修复插件模板常量`__ROOT__`不替换
 * 增加swoole扩展钩子检测
 * 修复插件API基类报错#577
+* 优化应用初始化流程
 
 
 #### 5.1.0
