@@ -1,0 +1,11 @@
+.buildpath
+.DS_Store
+.project
+.settings
+.idea
+.git
+/build
+/public/assets/dist
+/node_modules
+Vagrantfile
+.vagrant
