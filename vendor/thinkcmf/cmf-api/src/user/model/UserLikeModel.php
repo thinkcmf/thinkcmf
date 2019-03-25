@@ -9,9 +9,9 @@
 
 namespace api\user\model;
 
-use think\Model;
+use api\common\model\CommonModel;
 
-class UserLikeModel extends Model
+class UserLikeModel extends CommonModel
 {
 
     /**

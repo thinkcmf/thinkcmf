@@ -10,7 +10,7 @@ namespace api\admin\controller;
 
 use cmf\controller\RestBaseController;
 use think\Db;
-use think\facade\Validate;
+use think\Validate;
 
 class PublicController extends RestBaseController
 {
@@ -18,7 +18,7 @@ class PublicController extends RestBaseController
     // 用户登录 TODO 增加最后登录信息记录,如 ip
     public function login()
     {
-        $validate = new \think\Validate([
+        $validate = new Validate([
             'username' => 'require',
             'password' => 'require'
         ]);
@@ -73,7 +73,7 @@ class PublicController extends RestBaseController
         $expireTime     = $currentTime + 24 * 3600 * 180;
         $token          = md5(uniqid()) . md5(uniqid());
         if (empty($findUserToken)) {
-            $result = Db::name("user_token")->insert([
+            $result = $userTokenQuery->insert([
                 'token'       => $token,
                 'user_id'     => $findUser['id'],
                 'expire_time' => $expireTime,
@@ -81,7 +81,7 @@ class PublicController extends RestBaseController
                 'device_type' => $data['device_type']
             ]);
         } else {
-            $result = Db::name("user_token")
+            $result = $userTokenQuery
                 ->where('user_id', $findUser['id'])
                 ->where('device_type', $data['device_type'])
                 ->update([

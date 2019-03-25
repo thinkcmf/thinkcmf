@@ -852,9 +852,9 @@ class App extends Container
      * 解析应用类的类名
      * @access public
      * @param  string $module 模块名
-     * @param  string $layer  层名 controller model ...
-     * @param  string $name   类名
-     * @param  bool   $appendSuffix
+     * @param  string $layer 层名 controller model ...
+     * @param  string $name 类名
+     * @param  bool $appendSuffix
      * @return string
      */
     public function parseClass($module, $layer, $name, $appendSuffix = false)

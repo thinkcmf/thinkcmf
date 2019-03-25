@@ -1,4 +1,4 @@
-ThinkCMF 5.1.1开发版 让你更自由地飞
+ThinkCMF 5.1.1 让你更自由地飞
 ===============
 
 ### 系列讲座
@@ -135,16 +135,17 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
-#### 5.1.1-dev
+#### 5.1.1
 [核心]
 * `composer.json` extra 增加`think-config`配置
 * 修复API UserLikeModel继承错误类
 * 优化后台菜单 url 生成
 * 增加Linux下全新安装时data目录不可写提示
 * 修复插件模板常量`__ROOT__`不替换
-* 增加swoole扩展钩子检测
+* 增加`swoole`扩展钩子检测
 * 修复插件API基类报错#577
 * 优化应用初始化流程
+* 优化行为加载流程
 
 
 #### 5.1.0
