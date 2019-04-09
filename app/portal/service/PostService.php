@@ -168,13 +168,13 @@ class PostService
                 'post.post_type'   => 1,
                 'post.post_status' => 1,
                 'post.delete_time' => 0,
-                'post.id '         => ['<', $postId]
             ];
 
             $article = $portalPostModel
                 ->alias('post')
                 ->field('post.*')
                 ->where($where)
+                ->where('post.id', '<', $postId)
                 ->where('post.published_time', ['< time', time()], ['> time', 0], 'and')
                 ->order('id', 'DESC')
                 ->find();
@@ -185,7 +185,6 @@ class PostService
                 'post.post_status'     => 1,
                 'post.delete_time'     => 0,
                 'relation.category_id' => $categoryId,
-                'relation.post_id'     => ['<', $postId]
             ];
 
             $join    = [
@@ -196,6 +195,7 @@ class PostService
                 ->field('post.*')
                 ->join($join)
                 ->where($where)
+                ->where('relation.post_id', '<', $postId)
                 ->where('post.published_time', ['< time', time()], ['> time', 0], 'and')
                 ->order('id', 'DESC')
                 ->find();
@@ -224,11 +224,11 @@ class PostService
                 'post.post_type'   => 1,
                 'post.post_status' => 1,
                 'post.delete_time' => 0,
-                'post.id'          => ['>', $postId]
             ];
 
             $article = $portalPostModel->alias('post')->field('post.*')
                 ->where($where)
+                ->where('post.id', '>', $postId)
                 ->where('post.published_time', ['< time', time()], ['> time', 0], 'and')
                 ->order('id', 'ASC')
                 ->find();
@@ -238,7 +238,7 @@ class PostService
                 'post.post_status'     => 1,
                 'post.delete_time'     => 0,
                 'relation.category_id' => $categoryId,
-                'relation.post_id'     => ['>', $postId]
+
             ];
 
             $join    = [
@@ -247,6 +247,7 @@ class PostService
             $article = $portalPostModel->alias('post')->field('post.*')
                 ->join($join)
                 ->where($where)
+                ->where('relation.post_id', '>', $postId)
                 ->where('post.published_time', ['< time', time()], ['> time', 0], 'and')
                 ->order('id', 'ASC')
                 ->find();
