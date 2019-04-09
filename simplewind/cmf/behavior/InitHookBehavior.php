@@ -31,15 +31,14 @@ class InitHookBehavior
         Route::get('new_captcha', "\\cmf\\controller\\CaptchaController@index");
 
         $request = request();
-        
+
         // 处理全站跨域
         if ($request->method(true) == 'OPTIONS') {
             $header = [
                 'Access-Control-Allow-Origin'  => '*',
-                'Access-Control-Allow-Methods' => 'GET, POST, PATCH, PUT, DELETE',
-                'Access-Control-Allow-Headers' => 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-Requested-With, XX-Device-Type, XX-Token',
+                'Access-Control-Allow-Methods' => 'GET,POST,PATCH,PUT,DELETE,OPTIONS',
+                'Access-Control-Allow-Headers' => 'Authorization,Content-Type,If-Match,If-Modified-Since,If-None-Match,If-Unmodified-Since,X-Requested-With,XX-Device-Type,XX-Token,XX-Api-Version,XX-Wxapp-AppId',
             ];
-
             throw new HttpResponseException(Response::create()->code(204)->header($header));
         }
 

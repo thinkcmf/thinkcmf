@@ -135,6 +135,7 @@ https://github.com/thinkcmf/thinkcmf/issues
 * 优化门户几处where用法
 * 优化门户后台表单提交方式
 * 优化后台菜单url生成
+* 优化api跨域处理
 * 修复模板设计公共配置文件有数组时报错
 * 修复模板设计公共配置文件里数组列表有数据不显示
 
