@@ -130,6 +130,11 @@ https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
 
+#### 5.0.190410
+* 优化动态配置函数
+* 优化门户几处where用法
+* 优化门户后台表单提交方式
+
 #### 5.0.190312
 * 增加`app,api和插件`composer第三方库支持
 * 增加插件`@adminMenuRoot`注解
