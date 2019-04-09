@@ -16,10 +16,9 @@
 				<h3>'{$keyword}' 搜索结果 </h3>
 			</div>
 			<php>
-				$where=[
-				'post.create_time'=>['egt',0],
-				'post.post_title'=>['like',"%$keyword%"]
-				];
+				$where=function($query){
+				$query->where('post.create_time','egt',0)->where('post.post_title','like',"%$keyword%");
+				};
 			</php>
 
 			<portal:articles item="vo" where="$where" order="post.create_time DESC" page="10">

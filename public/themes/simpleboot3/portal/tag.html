@@ -16,9 +16,9 @@
         <div class="col-md-9">
             <div class="">
                 <php>
-                    $where=[
-                    'post.create_time'=>['egt',0]
-                    ];
+                    $where= function($query){
+                    $query->where('post.create_time','egt',0);
+                    };
                     $page=[
                         'list_rows'=>1,
                         'next'=>'下一页',
