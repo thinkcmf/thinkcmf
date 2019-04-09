@@ -122,15 +122,15 @@ class AdminMenuModel extends Model
                 $action     = $a['action'];
                 //附带参数
                 $params = "";
-                if ($a['param']) {
-                    $params = "?" . htmlspecialchars_decode($a['param']);
+                if (!empty($a['param'])) {
+                    $params = htmlspecialchars_decode($a['param']);
                 }
 
                 if (strpos($app, 'plugin/') === 0) {
                     $pluginName = str_replace('plugin/', '', $app);
                     $url        = cmf_plugin_url($pluginName . "://{$controller}/{$action}{$params}");
                 } else {
-                    $url = url("{$app}/{$controller}/{$action}{$params}");
+                    $url = url("{$app}/{$controller}/{$action}", $params);
                 }
 
                 $app = str_replace('/', '_', $app);
