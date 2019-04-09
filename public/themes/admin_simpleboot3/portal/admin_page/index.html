@@ -6,7 +6,7 @@
         <li class="active"><a href="{:url('AdminPage/index')}">页面管理</a></li>
         <li><a href="{:url('AdminPage/add')}">添加页面</a></li>
     </ul>
-    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminPage/index')}">
+    <form class="well form-inline margin-top-20" method="get" action="{:url('AdminPage/index')}">
         标题:
         <input type="text" class="form-control" name="keyword" style="width: 200px;"
                value="{$keyword|default=''}" placeholder="请输入关键字">

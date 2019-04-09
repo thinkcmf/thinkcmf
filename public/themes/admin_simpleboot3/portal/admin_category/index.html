@@ -6,7 +6,7 @@
         <li class="active"><a href="{:url('AdminCategory/index')}">分类管理</a></li>
         <li><a href="{:url('AdminCategory/add')}">添加分类</a></li>
     </ul>
-    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminCategory/index')}">
+    <form class="well form-inline margin-top-20" method="get" action="{:url('AdminCategory/index')}">
         分类名称:
         <input type="text" class="form-control" name="keyword" style="width: 200px;"
                value="{$keyword|default=''}" placeholder="请输入分类名称">

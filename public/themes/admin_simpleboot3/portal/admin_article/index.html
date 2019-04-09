@@ -6,7 +6,7 @@
         <li class="active"><a href="javascript:;">所有文章</a></li>
         <li><a href="{:url('AdminArticle/add')}">添加文章</a></li>
     </ul>
-    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminArticle/index')}">
+    <form class="well form-inline margin-top-20" method="get" action="{:url('AdminArticle/index')}">
         分类:
         <select class="form-control" name="category" style="width: 140px;">
             <option value='0'>全部</option>
