@@ -327,6 +327,9 @@ parse;
     public function tagSlides($tag, $content)
     {
         $id    = empty($tag['id']) ? '0' : $tag['id'];
+        if (strpos($id, '$') === 0) {
+            $this->autoBuildVar($id);
+        }
         $item  = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
         $parse = <<<parse
 <?php
@@ -347,6 +350,9 @@ parse;
     public function tagNoSlides($tag, $content)
     {
         $id    = empty($tag['id']) ? '0' : $tag['id'];
+        if (strpos($id, '$') === 0) {
+            $this->autoBuildVar($id);
+        }
         $parse = <<<parse
 <?php
     if(!isset(\$__SLIDE_ITEMS__)){
