@@ -531,7 +531,9 @@
             //分组各纵横项
             var check_all_direction = check_all.data('direction');
             check_items             = $('input.js-check[data-' + check_all_direction + 'id="' + check_all.data('checklist') + '"]').not(":disabled");
-
+            if($('.js-check-all').is(':checked')) {
+                check_items.prop('checked', true);
+            }
             //点击全选框
             check_all.change(function (e) {
                 var check_wrap = check_all.parents('.js-check-wrap'); //当前操作区域所有复选框的父标签（重用考虑）
