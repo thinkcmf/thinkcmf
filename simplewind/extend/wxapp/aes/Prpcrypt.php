@@ -1,4 +1,5 @@
 <?php
+
 namespace wxapp\aes;
 
 /**
@@ -24,7 +25,12 @@ class Prpcrypt
     public function decrypt($aesCipher, $aesIV)
     {
 
-        if (function_exists('mcrypt_module_open')) {
+        if (function_exists('openssl_decrypt')) {
+
+            $decrypted = openssl_decrypt($aesCipher, 'AES-128-CBC', $this->key, OPENSSL_RAW_DATA, $aesIV);
+
+            if ($decrypted === false) return [ErrorCode::$IllegalBuffer, null];
+        } else if (function_exists('mcrypt_module_open')) {
             try {
 
                 $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
@@ -36,20 +42,16 @@ class Prpcrypt
                 mcrypt_generic_deinit($module);
                 mcrypt_module_close($module);
             } catch (\Exception $e) {
+
                 return [ErrorCode::$IllegalBuffer, null];
             }
-        } else if (function_exists('openssl_decrypt')) {
-
-            $decrypted = openssl_decrypt($aesCipher, 'AES-128-CBC', $this->key, OPENSSL_RAW_DATA, $aesIV);
-
-            if ($decrypted === false) return [ErrorCode::$IllegalBuffer, null];
         }
 
 
         try {
             //去除补位字符
             $pkc_encoder = new PKCS7Encoder;
-            $result      = $pkc_encoder->decode($decrypted);
+            $result = $pkc_encoder->decode($decrypted);
 
         } catch (\Exception $e) {
             //print $e;
