@@ -16,7 +16,7 @@
 				<h3>'{$keyword}' 搜索结果 </h3>
 			</div>
 			<php>
-				$where=function($query){
+				$where=function($query)use($keyword){
 				$query->where('post.create_time','egt',0)->where('post.post_title','like',"%$keyword%");
 				};
 			</php>
