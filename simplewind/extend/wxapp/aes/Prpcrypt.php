@@ -51,7 +51,7 @@ class Prpcrypt
         try {
             //去除补位字符
             $pkc_encoder = new PKCS7Encoder;
-            $result = $pkc_encoder->decode($decrypted);
+            $result      = $pkc_encoder->decode($decrypted);
 
         } catch (\Exception $e) {
             //print $e;
