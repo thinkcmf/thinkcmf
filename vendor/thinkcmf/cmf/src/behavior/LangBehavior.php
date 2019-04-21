@@ -13,6 +13,8 @@ namespace cmf\behavior;
 use think\Container;
 use think\facade\Env;
 use think\facade\Lang;
+use think\facade\Response;
+use think\exception\HttpResponseException;
 
 class LangBehavior
 {

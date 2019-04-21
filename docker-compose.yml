@@ -1,0 +1,29 @@
+version: "2"
+
+services:
+  mysql:
+    image: mysql:8.0.13
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: thinkcmf-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=Root@123
+      - MYSQL_USER=thinkcmf
+      - MYSQL_PASSWORD=Thinkcmf@123
+      - MYSQL_DATABASE=thinkcmf
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+      - "80:80"
+    expose:
+      - 80
+
+  thinkcmf:
+    build: .
+    network_mode: service:mysql
+    restart: always
+    container_name: thinkcmf-web
+    depends_on:
+      - mysql
