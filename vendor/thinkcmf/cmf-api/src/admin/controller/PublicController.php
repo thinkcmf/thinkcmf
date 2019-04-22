@@ -69,7 +69,7 @@ class PublicController extends RestBaseController
 
         $userTokenQuery = Db::name("user_token")
             ->where('user_id', $findUser['id'])
-            ->where('device_type', $data['device_type']);
+            ->where('device_type', $this->deviceType);
         $findUserToken  = $userTokenQuery->find();
         $currentTime    = time();
         $expireTime     = $currentTime + 24 * 3600 * 180;
@@ -80,12 +80,12 @@ class PublicController extends RestBaseController
                 'user_id'     => $findUser['id'],
                 'expire_time' => $expireTime,
                 'create_time' => $currentTime,
-                'device_type' => $data['device_type']
+                'device_type' => $this->deviceType
             ]);
         } else {
             $result = Db::name("user_token")
                 ->where('user_id', $findUser['id'])
-                ->where('device_type', $data['device_type'])
+                ->where('device_type', $this->deviceType)
                 ->update([
                     'token'       => $token,
                     'expire_time' => $expireTime,
