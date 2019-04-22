@@ -137,8 +137,10 @@ class PublicController extends RestBaseController
 
         $allowedDeviceTypes = $this->allowedDeviceTypes;
 
-        if (empty($data['device_type']) || !in_array($data['device_type'], $allowedDeviceTypes)) {
+        if (empty($this->deviceType) && (empty($data['device_type']) || !in_array($data['device_type'], $this->allowedDeviceTypes))) {
             $this->error("请求错误,未知设备!");
+        } else if(!empty($data['device_type'])) {
+            $this->deviceType = $data['device_type'];
         }
 
 //        Db::name("user_token")
