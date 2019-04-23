@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\logic\HookLogic;
 use cmf\controller\AdminBaseController;
 use app\admin\model\HookModel;
 use app\admin\model\PluginModel;
@@ -113,35 +114,7 @@ class HookController extends AdminBaseController
         array_push($apps, 'cmf', 'admin', 'user', 'swoole');
 
         foreach ($apps as $app) {
-            $hookConfigFile = cmf_get_app_config_file($app, 'hooks');
-
-            if (file_exists($hookConfigFile)) {
-                $hooksInFile = include $hookConfigFile;
-
-                if (empty($hooksInFile) || !is_array($hooksInFile)) {
-                    continue;
-                }
-
-                foreach ($hooksInFile as $hookName => $hook) {
-
-                    $hook['type'] = empty($hook['type']) ? 2 : $hook['type'];
-
-                    if (!in_array($hook['type'], [2, 3, 4]) && !in_array($app, ['cmf', 'swoole'])) {
-                        $hook['type'] = 2;
-                    }
-
-                    $findHook = Db::name('hook')->where('hook', $hookName)->count();
-
-                    $hook['app'] = $app;
-
-                    if ($findHook > 0) {
-                        Db::name('hook')->where('hook', $hookName)->strict(false)->field(true)->update($hook);
-                    } else {
-                        $hook['hook'] = $hookName;
-                        Db::name('hook')->insert($hook);
-                    }
-                }
-            }
+            HookLogic::importHooks($app);
         }
 
         return $this->fetch();
