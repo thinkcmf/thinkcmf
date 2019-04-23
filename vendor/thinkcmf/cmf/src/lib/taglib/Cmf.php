@@ -31,7 +31,7 @@ class Cmf extends TagLib
         'slides'              => ['attr' => 'id', 'close' => 1],//非必须属性item
         'noslides'            => ['attr' => 'id', 'close' => 1],
         'captcha'             => ['attr' => 'height,width', 'close' => 0],//非必须属性font-size,length,bg,id
-        'hook'                => ['attr' => 'name,param', 'close' => 0]
+        'hook'                => ['attr' => 'name,param,once', 'close' => 0]
     ];
 
     /**
@@ -393,26 +393,17 @@ parse;
     {
         $name  = empty($tag['name']) ? '' : $tag['name'];
         $param = empty($tag['param']) ? '' : $tag['param'];
-        $extra = empty($tag['extra']) ? '' : $tag['extra'];
         $once  = empty($tag['once']) ? 'false' : 'true';
 
         if (empty($param)) {
-            //$param = '$temp' . uniqid();
             $param = 'null';
         } else if (strpos($param, '$') === false) {
             $this->autoBuildVar($param);
         }
 
-        if (empty($extra)) {
-            $extra = "null";
-        } else if (strpos($extra, '$') === false) {
-            $this->autoBuildVar($extra);
-        }
-
-
         $parse = <<<parse
 <php>
-    \\think\\facade\\Hook::listen('{$name}',{$param},{$extra},{$once});
+    \\think\\facade\\Hook::listen('{$name}',{$param},{$once});
 </php>
 parse;
         return $parse;
