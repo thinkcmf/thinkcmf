@@ -114,7 +114,7 @@
                                     ]
                                 });
                             } else {
-                                setDbConfig();
+                                stepAction(0)
                             }
                         }
 
@@ -145,64 +145,35 @@
             });
         }
 
-        function setDbConfig() {
-            $.ajax({
-                url: "{:url('install/index/setDbConfig')}",
-                dataType: 'json',
-                data:{_hithinkcmf:1},
-                type: 'post',
-                success: function (data) {
-                    if (data.code == 1) {
-                        $installMsgPanel.append('<li><i class="fa fa-check correct"></i>' + data.msg + '</li>');
-                        $log.scrollTop(1000000000);
-                        setSite();
-                    } else {
-                        $installMsgPanel.append('<li><i class="fa fa-remove error"></i>' + data.msg + '</li>');
-                        $log.scrollTop(1000000000);
-                        noty({
-                            text: data.msg + ',请检查 data/conf/database.php 是否可写!',
-                            type: 'confirm',
-                            layout: "center",
-                            timeout: false,
-                            modal: true,
-                            buttons: [
-                                {
-                                    addClass: 'btn btn-primary',
-                                    text: '重试',
-                                    onClick: function ($noty) {
-                                        $noty.close();
-                                        setDbConfig();
-                                    }
-                                },
-                                {
-                                    addClass: 'btn btn-danger',
-                                    text: '取消',
-                                    onClick: function ($noty) {
-                                        $noty.close();
-                                    }
-                                }
-                            ]
-                        });
-                    }
-                },
-                error: function () {
+        var stepUrls = [
+            "{:url('install/index/setDbConfig')}",
+            "{:url('install/index/setSite')}",
+            "{:url('install/index/installTheme')}",
+            "{:url('install/index/installAppMenus')}",
+            "{:url('install/index/installAppHooks')}",
+            "{:url('install/index/installAppUserActions')}",
+        ];
 
-                }
-            });
-        }
 
-        function setSite() {
+        function stepAction(index) {
             $.ajax({
-                url: "{:url('install/index/setSite')}",
+                url: stepUrls[index],
                 dataType: 'json',
-                data:{_hithinkcmf:1},
+                data: {_hithinkcmf: 1},
                 type: 'post',
                 success: function (data) {
 
                     if (data.code == 1) {
                         $installMsgPanel.append('<li><i class="fa fa-check correct"></i>' + data.msg + '</li>');
                         $log.scrollTop(1000000000);
-                        installTheme();
+                        if (index + 1 == stepUrls.length) {
+                            setTimeout(function () {
+                                window.location = "{:url('install/index/step5')}";
+                            }, 1000);
+                        } else {
+                            index++;
+                            stepAction(index);
+                        }
                     } else {
                         $installMsgPanel.append('<li><i class="fa fa-remove error"></i>' + data.msg + '</li>');
                         $log.scrollTop(1000000000);
@@ -218,57 +189,7 @@
                                     text: '重试',
                                     onClick: function ($noty) {
                                         $noty.close();
-                                        setSite();
-                                    }
-                                },
-                                {
-                                    addClass: 'btn btn-danger',
-                                    text: '取消',
-                                    onClick: function ($noty) {
-                                        $noty.close();
-                                    }
-                                }
-                            ]
-                        });
-                    }
-
-                },
-                error: function () {
-
-                }
-            });
-        }
-
-        function installTheme() {
-            $.ajax({
-                url: "{:url('install/index/installTheme')}",
-                dataType: 'json',
-                data:{_hithinkcmf:1},
-                type: 'post',
-                success: function (data) {
-
-                    if (data.code == 1) {
-                        $installMsgPanel.append('<li><i class="fa fa-check correct"></i>' + data.msg + '</li>');
-                        $log.scrollTop(1000000000);
-                        setTimeout(function () {
-                            window.location = "{:url('install/index/step5')}";
-                        }, 1000);
-                    } else {
-                        $installMsgPanel.append('<li><i class="fa fa-remove error"></i>' + data.msg + '</li>');
-                        $log.scrollTop(1000000000);
-                        noty({
-                            text: data.msg,
-                            type: 'confirm',
-                            layout: "center",
-                            timeout: false,
-                            modal: true,
-                            buttons: [
-                                {
-                                    addClass: 'btn btn-primary',
-                                    text: '重试',
-                                    onClick: function ($noty) {
-                                        $noty.close();
-                                        installTheme();
+                                        stepAction(index);
                                     }
                                 },
                                 {

@@ -137,8 +137,10 @@ class PublicController extends RestBaseController
 
         $allowedDeviceTypes = $this->allowedDeviceTypes;
 
-        if (empty($data['device_type']) || !in_array($data['device_type'], $allowedDeviceTypes)) {
+        if (empty($this->deviceType) && (empty($data['device_type']) || !in_array($data['device_type'], $this->allowedDeviceTypes))) {
             $this->error("请求错误,未知设备!");
+        } else if(!empty($data['device_type'])) {
+            $this->deviceType = $data['device_type'];
         }
 
 //        Db::name("user_token")
@@ -146,7 +148,7 @@ class PublicController extends RestBaseController
 //            ->where('device_type', $data['device_type']);
         $findUserToken  = Db::name("user_token")
             ->where('user_id', $findUser['id'])
-            ->where('device_type', $data['device_type'])
+            ->where('device_type', $this->deviceType)
             ->find();
         $currentTime    = time();
         $expireTime     = $currentTime + 24 * 3600 * 180;
@@ -157,12 +159,12 @@ class PublicController extends RestBaseController
                 'user_id'     => $findUser['id'],
                 'expire_time' => $expireTime,
                 'create_time' => $currentTime,
-                'device_type' => $data['device_type']
+                'device_type' => $this->deviceType
             ]);
         } else {
             $result = Db::name("user_token")
                 ->where('user_id', $findUser['id'])
-                ->where('device_type', $data['device_type'])
+                ->where('device_type', $this->deviceType)
                 ->update([
                     'token'       => $token,
                     'expire_time' => $expireTime,

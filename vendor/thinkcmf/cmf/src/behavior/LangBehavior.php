@@ -11,10 +11,10 @@
 namespace cmf\behavior;
 
 use think\Container;
+use think\exception\HttpResponseException;
 use think\facade\Env;
 use think\facade\Lang;
 use think\facade\Response;
-use think\exception\HttpResponseException;
 
 class LangBehavior
 {
@@ -32,8 +32,8 @@ class LangBehavior
         if ($request->method(true) == 'OPTIONS' && $app->getNamespace() == 'api') {
             $header = [
                 'Access-Control-Allow-Origin'  => '*',
-                'Access-Control-Allow-Methods' => 'GET, POST, PATCH, PUT, DELETE',
-                'Access-Control-Allow-Headers' => 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-Requested-With, XX-Device-Type, XX-Token',
+                'Access-Control-Allow-Methods' => 'GET,POST,PATCH,PUT,DELETE,OPTIONS',
+                'Access-Control-Allow-Headers' => 'Authorization,Content-Type,If-Match,If-Modified-Since,If-None-Match,If-Unmodified-Since,X-Requested-With,XX-Device-Type,XX-Token,XX-Api-Version,XX-Wxapp-AppId',
             ];
 
             throw new HttpResponseException(Response::create()->code(204)->header($header));

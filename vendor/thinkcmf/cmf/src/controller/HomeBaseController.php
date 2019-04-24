@@ -213,7 +213,18 @@ hello;
                     }
 
                     $widget['vars']       = $widgetVars;
-                    $widgets[$widgetName] = $widget;
+                    //如果重名，则合并配置
+                    if (empty($widgets[$widgetName])) {
+                        $widgets[$widgetName] = $widget;
+                    } else {
+                        foreach ($widgets[$widgetName] as $key => $value) {
+                            if (is_array($widget[$key])) {
+                                $widgets[$widgetName][$key] = array_merge($widgets[$widgetName][$key], $widget[$key]);
+                            } else {
+                                $widgets[$widgetName][$key] = $widget[$key];
+                            }
+                        }
+                    }
                 }
             }
         }
