@@ -17,7 +17,7 @@ return [
         "message" => [
             "require" => 'AccessKey不能为空'
         ],
-        'tip'     => '<a href="https://portal.qiniu.com/qvm/active?code=1381757652Gn5y" target="_blank">马上获取</a>,充值使用ThinkCMF七牛专属优惠码<a href="http://www.thinkcmf.com/qiniu/promotion_code.html" target="_blank">507670e8</a>有更多优惠,<a href="http://www.thinkcmf.com/faq.html?url=https://www.kancloud.cn/thinkcmf/faq/507454" target="_blank">查看帮助手册</a>' //表单的帮助提示
+        'tip'     => '<a href="https://portal.qiniu.com/signup?invitation_type=1&invitation_key=1381750588" target="_blank">马上获取</a>,充值使用ThinkCMF七牛专属优惠码<a href="http://www.thinkcmf.com/qiniu/promotion_code.html" target="_blank">507670e8</a>有更多优惠,<a href="http://www.thinkcmf.com/faq.html?url=https://www.kancloud.cn/thinkcmf/faq/507454" target="_blank">查看帮助手册</a>' //表单的帮助提示
     ],
     'secretKey'                 => [// 在后台插件配置表单中的键名 ,会是config[password]
         'title'   => 'SecretKey',
@@ -29,7 +29,7 @@ return [
         "message" => [
             "require" => 'SecretKey不能为空'
         ],
-        'tip'     => '<a href="https://portal.qiniu.com/qvm/active?code=1381757652Gn5y" target="_blank">马上获取</a>, <a href="http://www.thinkcmf.com/faq.html?url=https://www.kancloud.cn/thinkcmf/faq/507454" target="_blank">查看帮助手册</a>'
+        'tip'     => '<a href="https://portal.qiniu.com/signup?invitation_type=1&invitation_key=1381750588" target="_blank">马上获取</a>, <a href="http://www.thinkcmf.com/faq.html?url=https://www.kancloud.cn/thinkcmf/faq/507454" target="_blank">查看帮助手册</a>'
     ],
     'protocol'                  => [// 在后台插件配置表单中的键名 ,会是config[select]
         'title'   => '域名协议',
