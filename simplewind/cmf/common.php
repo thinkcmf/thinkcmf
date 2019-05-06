@@ -1071,6 +1071,16 @@ function cmf_get_plugin_config($name)
 }
 
 /**
+ * 获取插件状态
+ * @param string $name 插件名
+ * @return string
+ */
+function cmf_get_plugin_status($name)
+{
+    return Db::name('plugin')->where('name', $name)->value('status');
+}
+
+/**
  * 替代scan_dir的方法
  * @param string $pattern 检索模式 搜索模式 *.txt,*.doc; (同glog方法)
  * @param int    $flags
