@@ -214,12 +214,16 @@ class ProfileController extends UserBaseController
     }
 
     /**
-     * 绑定手机号或邮箱
+     * 绑定信息查询
      */
     public function binding()
     {
         $user = cmf_get_current_user();
+        $userId = cmf_get_current_user_id();
+        $third  = Db::name("third_party_user")->where('user_id', $userId)->select()->toArray();
+        $third = array_column($third,'third_party');
         $this->assign($user);
+        $this->assign('third', $third);
         return $this->fetch();
     }
 
