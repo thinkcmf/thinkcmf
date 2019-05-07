@@ -31,4 +31,10 @@ return [
     'log_write'    => [],
     // 应用结束
     'app_end'      => [],
+    'admin_init'  => [
+        'cmf\\behavior\\AdminLangBehavior',
+    ],
+    'home_init'    => [
+        'cmf\\behavior\\HomeLangBehavior',
+    ]
 ];
