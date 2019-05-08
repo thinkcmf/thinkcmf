@@ -10,7 +10,10 @@
 // +----------------------------------------------------------------------
 namespace app\install\controller;
 
+use app\admin\logic\HookLogic;
+use app\admin\logic\MenuLogic;
 use app\admin\model\ThemeModel;
+use app\user\logic\UserActionLogic;
 use cmf\controller\BaseController;
 use think\Db;
 
@@ -20,6 +23,10 @@ class IndexController extends BaseController
     {
         if (cmf_is_installed()) {
             $this->error('网站已经安装', cmf_get_root() . '/');
+        }
+
+        if (!is_writable(CMF_ROOT . 'data/')) {
+            abort(500, '目录' . realpath(CMF_ROOT . 'data') . '无法写入！');
         }
     }
 
@@ -126,7 +133,10 @@ class IndexController extends BaseController
 
         $folders    = [
             realpath(CMF_ROOT . 'data') . DIRECTORY_SEPARATOR,
+            realpath('./plugins') . DIRECTORY_SEPARATOR,
+            realpath('./themes') . DIRECTORY_SEPARATOR,
             realpath('./upload') . DIRECTORY_SEPARATOR,
+
         ];
         $newFolders = [];
         foreach ($folders as $dir) {
@@ -188,7 +198,16 @@ class IndexController extends BaseController
 
             session('install.db_config', $dbConfig);
 
-            $sql = cmf_split_sql(APP_PATH . 'install/data/thinkcmf.sql', $dbConfig['prefix'], $dbConfig['charset']);
+            $sql  = cmf_split_sql(dirname(__DIR__) . '/data/thinkcmf.sql', $dbConfig['prefix'], $dbConfig['charset']);
+            $apps = cmf_scan_dir(CMF_ROOT . 'app/*', GLOB_ONLYDIR);
+            foreach ($apps as $app) {
+                $appDbSqlFile = CMF_ROOT . "app/{$app}/data/{$app}.sql";
+                if (file_exists($appDbSqlFile)) {
+                    $sqlList = cmf_split_sql($appDbSqlFile, $dbConfig['prefix'], $dbConfig['charset']);
+                    $sql     = array_merge($sql, $sqlList);
+                }
+            }
+
             session('install.sql', $sql);
 
             $this->assign('sql_count', count($sql));
@@ -309,8 +328,44 @@ class IndexController extends BaseController
             $this->error('模板不存在!');
         }
 
-        session("install.step", 4);
+//        session("install.step", 4);
         $this->success("模板安装成功");
+    }
+
+    public function installAppMenus()
+    {
+        $apps = cmf_scan_dir(CMF_ROOT . 'app/*', GLOB_ONLYDIR);
+        foreach ($apps as $app) {
+            // 导入后台菜单
+            MenuLogic::importMenus($app);
+        }
+
+        $this->success("应用后台菜单导入成功");
+    }
+
+    public function installAppHooks()
+    {
+        $apps = cmf_scan_dir(CMF_ROOT . 'app/*', GLOB_ONLYDIR);
+        foreach ($apps as $app) {
+
+            // 导入应用钩子
+            HookLogic::importHooks($app);
+        }
+
+        $this->success("应用钩子导入成功");
+    }
+
+
+    public function installAppUserActions()
+    {
+        $apps = cmf_scan_dir(CMF_ROOT . 'app/*', GLOB_ONLYDIR);
+        foreach ($apps as $app) {
+            // 导入应用用户行为
+            UserActionLogic::importUserActions($app);
+        }
+
+        session("install.step", 4);
+        $this->success("应用用户行为成功");
     }
 
     public function step5()

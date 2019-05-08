@@ -145,7 +145,7 @@ function sp_create_db_config($config)
 {
     if (is_array($config)) {
         //读取配置内容
-        $conf = file_get_contents(APP_PATH . 'install/data/config.php');
+        $conf = file_get_contents(__DIR__ . '/data/config.php');
 
         //替换配置项
         foreach ($config as $key => $value) {
