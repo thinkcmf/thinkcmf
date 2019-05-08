@@ -311,7 +311,7 @@
     if ($('a.js-ajax-delete').length) {
         Wind.css('artDialog');
         Wind.use('artDialog', 'noty', function () {
-            $('.js-ajax-delete').on('click', function (e) {
+            $('body').on('click', '.js-ajax-delete', function (e) {
                 e.preventDefault();
                 var $_this  = this,
                     $this   = $($_this),
