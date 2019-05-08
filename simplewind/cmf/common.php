@@ -2121,3 +2121,28 @@ function cmf_core_path()
 {
     return __DIR__ . DIRECTORY_SEPARATOR;
 }
+
+/**
+ * 获取模块配置文件路径
+ * @param $app  应用
+ * @param $file 文件名不带后缀
+ */
+function cmf_get_app_config_file($app, $file)
+{
+    switch ($app) {
+        case 'cmf':
+            $configFile = cmf_core_path() . "{$file}.php";
+            break;
+        case 'swoole':
+            $configFile = Env::get('root_path') . "vendor/thinkcmf/cmf-swoole/src/{$file}.php";
+            break;
+        default:
+            $configFile = APP_PATH . $app . "/{$file}.php";
+            if (!file_exists($configFile)) {
+                $configFile = Env::get('root_path') . "vendor/thinkcmf/cmf-app/src/{$app}/{$file}.php";
+            }
+    }
+
+    return $configFile;
+
+}
