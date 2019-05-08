@@ -246,10 +246,12 @@ class PortalPostModel extends Model
                     ->where('post_id', $articleId)
                     ->where('tag_id', 'in', $shouldDeleteTagIds)
                     ->delete();
+                $portalTagModel->where('id', 'in', $shouldDeleteTagIds)->setDec('post_count');
             }
 
             if (!empty($data)) {
                 Db::name('portal_tag_post')->insertAll($data);
+                $portalTagModel->where('id', 'in', array_column($data,'tag_id'))->setInc('post_count');
             }
 
 
