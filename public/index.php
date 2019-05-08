@@ -35,7 +35,7 @@ define('EXTEND_PATH', CMF_ROOT . 'simplewind/extend/');
 define('VENDOR_PATH', CMF_ROOT . 'simplewind/vendor/');
 
 // 定义应用的运行时目录
-define('RUNTIME_PATH', CMF_ROOT . 'data/runtime/');
+define('RUNTIME_PATH', CMF_DATA . 'runtime/');
 
 // 定义CMF 版本号
 define('THINKCMF_VERSION', '5.0.190419');
