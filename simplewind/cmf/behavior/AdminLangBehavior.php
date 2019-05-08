@@ -32,7 +32,7 @@ class AdminLangBehavior
         // 加后台菜单动态语言包
         $defaultLangDir = config('DEFAULT_LANG');
         Lang::load([
-            CMF_ROOT . "data/lang/" . $defaultLangDir . "/admin_menu.php"
+            CMF_DATA . "lang/" . $defaultLangDir . "/admin_menu.php"
         ]);
     }
 }

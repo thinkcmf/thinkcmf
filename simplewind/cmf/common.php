@@ -368,7 +368,7 @@ function cmf_set_dynamic_config($data)
         return false;
     }
 
-    $configFile = CMF_ROOT . "data/conf/config.php";
+    $configFile = CMF_DATA . "conf/config.php";
     if (file_exists($configFile)) {
         $configs = include $configFile;
     } else {
@@ -1722,7 +1722,7 @@ function cmf_is_installed()
 {
     static $cmfIsInstalled;
     if (empty($cmfIsInstalled)) {
-        $cmfIsInstalled = file_exists(CMF_ROOT . 'data/install.lock');
+        $cmfIsInstalled = file_exists(CMF_DATA . 'install.lock');
     }
     return $cmfIsInstalled;
 }

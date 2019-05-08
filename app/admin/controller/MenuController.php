@@ -420,7 +420,7 @@ class MenuController extends AdminBaseController
     {
         $menus         = Db::name('AdminMenu')->order(["app" => "ASC", "controller" => "ASC", "action" => "ASC"])->select();
         $langDir       = config('DEFAULT_LANG');
-        $adminMenuLang = CMF_ROOT . "data/lang/" . $langDir . "/admin_menu.php";
+        $adminMenuLang = CMF_DATA . "lang/" . $langDir . "/admin_menu.php";
 
         if (!empty($adminMenuLang) && !file_exists_case($adminMenuLang)) {
             mkdir(dirname($adminMenuLang), 0777, true);

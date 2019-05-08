@@ -9,8 +9,8 @@
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
 
-if(file_exists(CMF_ROOT."data/conf/database.php")){
-    $database=include CMF_ROOT."data/conf/database.php";
+if(file_exists(CMF_DATA."conf/database.php")){
+    $database=include CMF_DATA."conf/database.php";
 }else{
     $database=[];
 }
