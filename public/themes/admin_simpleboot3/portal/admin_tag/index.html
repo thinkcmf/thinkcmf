@@ -15,6 +15,7 @@
             <tr>
                 <th width="50">ID</th>
                 <th>标签名称</th>
+                <th>文章数</th>
                 <th>状态</th>
                 <th width="160">操作</th>
             </tr>
@@ -24,6 +25,7 @@
                 <tr>
                     <td>{$vo.id}</td>
                     <td>{$vo.name}</td>
+                    <td>{$vo.post_count}</td>
                     <td>{$arrStatus[$vo['status']]}</td>
                     <td>
                         <if condition="$vo['status'] eq 1">
@@ -43,6 +45,7 @@
             <tr>
                 <th width="50">ID</th>
                 <th>标签名称</th>
+                <th>文章数</th>
                 <th>状态</th>
                 <th width="160">操作</th>
             </tr>

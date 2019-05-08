@@ -213,10 +213,14 @@ class PortalPostModel extends Model
                     $findTag = $portalTagModel->where('name', $keyword)->find();
                     if (empty($findTag)) {
                         $tagId = $portalTagModel->insertGetId([
-                            'name' => $keyword
+                            'name' => $keyword,
+                            'post_count' => 1,
                         ]);
                     } else {
                         $tagId = $findTag['id'];
+                        if(!$oldTagIds){
+                            $portalTagModel->where(['id'=>$tagId])->setInc('post_count');
+                        }
                     }
 
                     if (!in_array($tagId, $oldTagIds)) {
@@ -242,10 +246,12 @@ class PortalPostModel extends Model
                     ->where('post_id', $articleId)
                     ->where('tag_id', 'in', $shouldDeleteTagIds)
                     ->delete();
+                $portalTagModel->where('id', 'in', $shouldDeleteTagIds)->setDec('post_count');
             }
 
             if (!empty($data)) {
                 Db::name('portal_tag_post')->insertAll($data);
+                $portalTagModel->where('id', 'in', array_column($data,'tag_id'))->setInc('post_count');
             }
 
 
