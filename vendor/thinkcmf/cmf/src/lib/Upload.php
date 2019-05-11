@@ -91,7 +91,7 @@ class Upload
          * 断点续传 end
          */
 
-        $app = $this->request->post('app');
+        $app = $this->request->param('app');
         if (empty($app) || !file_exists(APP_PATH . $app)) {
             $app = 'default';
         }
@@ -112,7 +112,7 @@ class Upload
         $fileUploadMaxFileSize = empty($fileUploadMaxFileSize) ? 2097152 : $fileUploadMaxFileSize;//默认2M
 
         $strWebPath = "";//"upload" . DS;
-        $strId      = $this->request->post("id");
+        $strId      = $this->request->param("id");
         $strDate    = date('Ymd');
 
         $adminId   = cmf_get_current_admin_id();
