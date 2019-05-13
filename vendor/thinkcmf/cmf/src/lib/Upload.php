@@ -15,6 +15,7 @@ use think\facade\Env;
 use think\File;
 use app\user\model\AssetModel;
 use think\Response;
+use think\Db;
 
 /**
  * ThinkCMF上传类,分块上传
@@ -118,6 +119,9 @@ class Upload
         $adminId   = cmf_get_current_admin_id();
         $userId    = cmf_get_current_user_id();
         $userId    = empty($adminId) ? $userId : $adminId;
+        if(empty($userId)) {
+            $userId = Db::name('user_token')->where('token', $this->request->header('XX-Token'))->field('user_id,token')->value('user_id');
+        }
         $targetDir = Env::get('runtime_path') . "upload" . DIRECTORY_SEPARATOR . $userId . DIRECTORY_SEPARATOR; // 断点续传 need
         if (!file_exists($targetDir)) {
             mkdir($targetDir, 0777, true);
