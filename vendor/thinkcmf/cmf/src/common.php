@@ -229,10 +229,6 @@ function cmf_get_user_avatar_url($avatar)
         if (strpos($avatar, "http") === 0) {
             return $avatar;
         } else {
-            if (strpos($avatar, 'avatar/') === false) {
-                $avatar = 'avatar/' . $avatar;
-            }
-
             return cmf_get_image_url($avatar, 'avatar');
         }
 
