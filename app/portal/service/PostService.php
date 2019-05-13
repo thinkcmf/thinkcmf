@@ -54,12 +54,11 @@ class PostService
         $field = 'a.*,u.user_login,u.user_nickname,u.user_email';
 
         $category = empty($filter['category']) ? 0 : intval($filter['category']);
-        if (!empty($category)) {
-            array_push($join, [
-                '__PORTAL_CATEGORY_POST__ b', 'a.id = b.post_id'
-            ]);
-            $field = 'a.*,b.id AS post_category_id,b.list_order,b.category_id,u.user_login,u.user_nickname,u.user_email';
-        }
+
+        array_push($join, [
+            '__PORTAL_CATEGORY_POST__ b', 'a.id = b.post_id'
+        ]);
+        $field = 'a.*,b.id AS post_category_id,b.list_order,b.category_id,u.user_login,u.user_nickname,u.user_email';
 
         $portalPostModel = new PortalPostModel();
         $articles        = $portalPostModel->alias('a')->field($field)
@@ -68,9 +67,16 @@ class PostService
             ->where('a.delete_time', 0)
             ->where(function (Query $query) use ($filter, $isPage) {
 
-                $category = empty($filter['category']) ? 0 : intval($filter['category']);
+                $adminCategoryIds = CategoryService::adminCategoryIds();
+                $category         = empty($filter['category']) ? 0 : intval($filter['category']);
                 if (!empty($category)) {
+                    if (!in_array($category, $adminCategoryIds)) {
+                        $category = 0;
+                    }
                     $query->where('b.category_id', $category);
+                } else {
+
+                    $query->where('b.category_id', 'in', $adminCategoryIds);
                 }
 
                 $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);
@@ -102,8 +108,8 @@ class PostService
 
     /**
      * 已发布文章查询
-     * @param  int $postId     文章id
-     * @param int  $categoryId 分类id
+     * @param  int $postId 文章id
+     * @param int $categoryId 分类id
      * @return array|string|\think\Model|null
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -151,7 +157,7 @@ class PostService
 
     /**
      * 上一篇文章
-     * @param int $postId     文章id
+     * @param int $postId 文章id
      * @param int $categoryId 分类id
      * @return array|string|\think\Model|null
      * @throws \think\db\exception\DataNotFoundException
@@ -207,7 +213,7 @@ class PostService
 
     /**
      * 下一篇文章
-     * @param int $postId     文章id
+     * @param int $postId 文章id
      * @param int $categoryId 分类id
      * @return array|string|\think\Model|null
      * @throws \think\db\exception\DataNotFoundException

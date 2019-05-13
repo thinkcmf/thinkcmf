@@ -24,7 +24,7 @@ class PortalCategoryModel extends Model
 
     /**
      * 生成分类 select树形结构
-     * @param int $selectId   需要选中的分类 id
+     * @param int $selectId 需要选中的分类 id
      * @param int $currentCid 需要隐藏的分类 id
      * @return string
      * @throws \think\db\exception\DataNotFoundException
@@ -48,9 +48,11 @@ class PortalCategoryModel extends Model
 
         $newCategories = [];
         foreach ($categories as $item) {
-            $item['selected'] = $selectId == $item['id'] ? "selected" : "";
+            if (cmf_auth_check(cmf_get_current_admin_id(), 'portal/Category/index?id=' . $item['id'])) {
+                $item['selected'] = $selectId == $item['id'] ? "selected" : "";
 
-            array_push($newCategories, $item);
+                array_push($newCategories, $item);
+            }
         }
 
         $tree->init($newCategories);
@@ -62,7 +64,7 @@ class PortalCategoryModel extends Model
 
     /**
      * 分类树形结构
-     * @param int    $currentIds
+     * @param int $currentIds
      * @param string $tpl
      * @return string
      * @throws \think\db\exception\DataNotFoundException
@@ -86,18 +88,20 @@ class PortalCategoryModel extends Model
 
         $newCategories = [];
         foreach ($categories as $item) {
-            $item['parent_id_node'] = ($item['parent_id']) ? ' class="child-of-node-' . $item['parent_id'] . '"' : '';
-            $item['style']          = empty($item['parent_id']) ? '' : 'display:none;';
-            $item['status_text']    = empty($item['status']) ? '<span class="label label-warning">隐藏</span>' : '<span class="label label-success">显示</span>';
-            $item['checked']        = in_array($item['id'], $currentIds) ? "checked" : "";
-            $item['url']            = cmf_url('portal/List/index', ['id' => $item['id']]);
-            $item['str_action']     = '<a class="btn btn-xs btn-primary" href="' . url("AdminCategory/add", ["parent" => $item['id']]) . '">添加子分类</a>  <a class="btn btn-xs btn-primary" href="' . url("AdminCategory/edit", ["id" => $item['id']]) . '">' . lang('EDIT') . '</a>  <a class="btn btn-xs btn-danger js-ajax-delete" href="' . url("AdminCategory/delete", ["id" => $item['id']]) . '">' . lang('DELETE') . '</a> ';
-            if ($item['status']) {
-                $item['str_action'] .= '<a class="btn btn-xs btn-warning js-ajax-dialog-btn" data-msg="您确定隐藏此分类吗" href="' . url('AdminCategory/toggle', ['ids' => $item['id'], 'hide' => 1]) . '">隐藏</a>';
-            } else {
-                $item['str_action'] .= '<a class="btn btn-xs btn-success js-ajax-dialog-btn" data-msg="您确定显示此分类吗" href="' . url('AdminCategory/toggle', ['ids' => $item['id'], 'display' => 1]) . '">显示</a>';
+            if (cmf_auth_check(cmf_get_current_admin_id(), 'portal/Category/index?id=' . $item['id'])) {
+                $item['parent_id_node'] = ($item['parent_id']) ? ' class="child-of-node-' . $item['parent_id'] . '"' : '';
+                $item['style']          = empty($item['parent_id']) ? '' : 'display:none;';
+                $item['status_text']    = empty($item['status']) ? '<span class="label label-warning">隐藏</span>' : '<span class="label label-success">显示</span>';
+                $item['checked']        = in_array($item['id'], $currentIds) ? "checked" : "";
+                $item['url']            = cmf_url('portal/List/index', ['id' => $item['id']]);
+                $item['str_action']     = '<a class="btn btn-xs btn-primary" href="' . url("AdminCategory/add", ["parent" => $item['id']]) . '">添加子分类</a>  <a class="btn btn-xs btn-primary" href="' . url("AdminCategory/edit", ["id" => $item['id']]) . '">' . lang('EDIT') . '</a>  <a class="btn btn-xs btn-danger js-ajax-delete" href="' . url("AdminCategory/delete", ["id" => $item['id']]) . '">' . lang('DELETE') . '</a> ';
+                if ($item['status']) {
+                    $item['str_action'] .= '<a class="btn btn-xs btn-warning js-ajax-dialog-btn" data-msg="您确定隐藏此分类吗" href="' . url('AdminCategory/toggle', ['ids' => $item['id'], 'hide' => 1]) . '">隐藏</a>';
+                } else {
+                    $item['str_action'] .= '<a class="btn btn-xs btn-success js-ajax-dialog-btn" data-msg="您确定显示此分类吗" href="' . url('AdminCategory/toggle', ['ids' => $item['id'], 'display' => 1]) . '">显示</a>';
+                }
+                array_push($newCategories, $item);
             }
-            array_push($newCategories, $item);
         }
 
         $tree->init($newCategories);
@@ -117,6 +121,8 @@ class PortalCategoryModel extends Model
 
         return $treeStr;
     }
+
+
 
     /**
      * 添加文章分类
@@ -164,9 +170,14 @@ class PortalCategoryModel extends Model
     {
         $result = true;
 
+        if (!cmf_auth_check(cmf_get_current_admin_id(), "portal/Category/index?id={$id}")) {
+            return false;
+        }
+
         $id          = intval($data['id']);
         $parentId    = intval($data['parent_id']);
         $oldCategory = $this->where('id', $id)->find();
+
 
         if (empty($parentId)) {
             $newPath = '0-' . $id;
