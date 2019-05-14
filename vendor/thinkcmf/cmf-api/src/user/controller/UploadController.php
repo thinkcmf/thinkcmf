@@ -29,6 +29,8 @@ class UploadController extends RestUserBaseController
             if ($result === false) {
                 $this->error($uploader->getError());
             } else {
+                $result['preview_url'] = cmf_get_image_preview_url($result["filepath"]);
+                $result['url']         = cmf_get_image_url($result["filepath"]);
                 $this->success('上传成功!', $result);
             }
         }
