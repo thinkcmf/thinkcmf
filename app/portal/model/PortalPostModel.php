@@ -214,13 +214,10 @@ class PortalPostModel extends Model
                     if (empty($findTag)) {
                         $tagId = $portalTagModel->insertGetId([
                             'name' => $keyword,
-                            'post_count' => 1,
+                            'post_count' => 0,
                         ]);
                     } else {
                         $tagId = $findTag['id'];
-                        if(!$oldTagIds){
-                            $portalTagModel->where(['id'=>$tagId])->setInc('post_count');
-                        }
                     }
 
                     if (!in_array($tagId, $oldTagIds)) {
