@@ -122,6 +122,8 @@ class RecycleBinController extends AdminBaseController
                 $res = Db::name('recycleBin')->where('id', $id)->delete();
                 if ($result['table_name'] === 'portal_post') {
                     Db::name('portal_category_post')->where('post_id', $result['object_id'])->delete();
+                    $tag_post = Db::name('portal_tag_post')->where('post_id', $result['object_id'])->select()->toArray();
+                    Db::name('portal_tag')->where('id','in', array_column($tag_post,'tag_id'))->setDec('post_count');
                     Db::name('portal_tag_post')->where('post_id', $result['object_id'])->delete();
                 }
                 if ($res) {
