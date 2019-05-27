@@ -84,7 +84,6 @@ class Portal extends TagLib
         }
 
         if (strpos($order, '$') === 0) {
-            $order = $tag['order'];
             $this->autoBuildVar($order);
         } else {
             $order = "'{$order}'";
@@ -168,8 +167,7 @@ parse;
             }
         }
 
-        if (strpos($tag['order'], '$') === 0) {
-            $order = $tag['order'];
+        if (strpos($order, '$') === 0) {
             $this->autoBuildVar($order);
         } else {
             $order = "'{$order}'";
