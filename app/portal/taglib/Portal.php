@@ -21,8 +21,10 @@ class Portal extends TagLib
         // 标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次
         'articles'         => ['attr' => 'field,where,limit,order,page,relation,returnVarName,pageVarName,categoryIds', 'close' => 1],//非必须属性item
         'tagarticles'      => ['attr' => 'field,where,limit,order,page,relation,returnVarName,pageVarName,tagId', 'close' => 1],//非必须属性item
+        'page'             => ['attr' => 'id', 'close' => 1],//非必须属性item
         'breadcrumb'       => ['attr' => 'cid', 'close' => 1],//非必须属性self
         'categories'       => ['attr' => 'where,order', 'close' => 1],//非必须属性item
+        'category'         => ['attr' => 'id', 'close' => 1],//非必须属性item
         'subcategories'    => ['attr' => 'categoryId', 'close' => 1],//非必须属性item
         'allsubcategories' => ['attr' => 'categoryId', 'close' => 1],//非必须属性item
     ];
@@ -196,6 +198,28 @@ parse;
     }
 
     /**
+     * 单页文章标签
+     * @param array  $tag     标签属性
+     * @param string $content 标签包含的内容
+     * @return string
+     * @author 惠达浪
+     */
+    public function tagPage($tag, $content)
+    {
+        $id = empty($tag['id']) ? 0 : $tag['id'];
+        if (strpos($id, '$') === 0) {
+            $this->autoBuildVar($id);
+        }
+        $returnVarName = empty($tag['item']) ? 'portal_page' : $tag['item'];
+
+        $parse = <<<parse
+<?php \${$returnVarName} = \app\portal\service\ApiService::page({$id}); ?>
+{$content}
+parse;
+        return $parse;
+    }
+
+    /**
      * 面包屑标签
      */
     public function tagBreadcrumb($tag, $content)
@@ -251,6 +275,28 @@ parse;
 <volist name="{$returnVarName}" id="{$item}">
 {$content}
 </volist>
+parse;
+        return $parse;
+    }
+
+    /**
+     * 文章分类详情标签
+     * @param array  $tag     标签属性
+     * @param string $content 标签包含的内容
+     * @return string
+     * @author 惠达浪
+     */
+    public function tagCategory($tag, $content)
+    {
+        $id = empty($tag['id']) ? 0 : $tag['id'];
+        if (strpos($id, '$') === 0) {
+            $this->autoBuildVar($id);
+        }
+        $returnVarName = empty($tag['item']) ? 'portal_category' : $tag['item'];
+
+        $parse = <<<parse
+<?php \${$returnVarName} = \app\portal\service\ApiService::category({$id}); ?>
+{$content}
 parse;
         return $parse;
     }
