@@ -18,13 +18,13 @@ class ScoreController extends RestUserBaseController
 
     public function logs()
     {
-        $userId = $this->getUserId();
+        $userId            = $this->getUserId();
         $userScoreLogModel = new UserScoreLogModel();
-        $map = [
-            ['user_id' ,'=' , $userId],
-            ['score'   ,'<>', 0]
-        ];
-        $logs = $userScoreLogModel->where($map)->order('create_time DESC')->paginate();
+
+        $logs = $userScoreLogModel->where('user_id', $userId)
+            ->where('score', '<>', 0)
+            ->order('create_time DESC')
+            ->paginate();
 
         $this->success('请求成功', ['list' => $logs->items()]);
     }

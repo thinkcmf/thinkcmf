@@ -135,6 +135,23 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
+#### 5.1.2
+[核心]
+* 升级tp到`5.1.37`
+* 优化`slides,noslides`标签
+* 修复头像地址获取函数
+* 优化上传类支持API文件上传
+* 封装后台菜单，应用钩子，用户行为导入
+* 增加应用自动安装
+* 优化后台百度地图链接支持https
+
+[API]
+* 优化文件上传，支持云存储
+* 修复积分日志接口数据返回错误
+* 修复钩子不加载问题
+* 修复API跨域报错问题
+
+
 #### 5.1.1
 [核心]
 * `composer.json` extra 增加`think-config`配置

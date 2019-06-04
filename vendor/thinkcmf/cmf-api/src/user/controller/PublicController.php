@@ -11,7 +11,6 @@ namespace api\user\controller;
 use think\Db;
 use think\facade\Validate;
 use cmf\controller\RestBaseController;
-use api\user\model\UserModel;
 
 class PublicController extends RestBaseController
 {
@@ -118,7 +117,7 @@ class PublicController extends RestBaseController
             $findUserWhere['user_login'] = $data['username'];
         }
 
-        $findUser = UserModel::where($findUserWhere)->find();
+        $findUser = Db::name("user")->where($findUserWhere)->find();
 
         if (empty($findUser)) {
             $this->error("用户不存在!");
