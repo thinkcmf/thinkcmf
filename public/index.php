@@ -17,6 +17,9 @@ define('APP_DEBUG', true);
 // 定义CMF根目录,可更改此目录
 define('CMF_ROOT', dirname(__DIR__) . '/');
 
+// 定义CMF数据目录,可更改此目录
+define('CMF_DATA', CMF_ROOT . 'data/');
+
 // 定义应用目录
 define('APP_PATH', CMF_ROOT . 'app/');
 
