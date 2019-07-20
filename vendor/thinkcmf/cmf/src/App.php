@@ -435,6 +435,7 @@ class App extends Container
                 }
             }
 
+
             // 监听app_dispatch
             $this->hook->listen('app_dispatch');
 
@@ -443,6 +444,13 @@ class App extends Container
             if (empty($dispatch)) {
                 // 路由检测
                 $dispatch = $this->routeCheck()->init();
+            }
+
+            // 插件路由参数处理
+            $routeInfo = $this->request->routeInfo();
+            if (strpos($routeInfo['route'], '\cmf\controller\PluginController@index?') !== false) {
+                parse_str(str_replace('\cmf\controller\PluginController@index?', '', $routeInfo['route']), $routeParams);
+                $this->request->withRoute($routeParams);
             }
 
             // 记录当前调度信息
