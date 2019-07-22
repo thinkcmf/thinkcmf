@@ -448,7 +448,7 @@ class App extends Container
 
             // 插件路由参数处理
             $routeInfo = $this->request->routeInfo();
-            if (strpos($routeInfo['route'], '\cmf\controller\PluginController@index?') !== false) {
+            if (!empty($routeInfo['route']) && strpos($routeInfo['route'], '\cmf\controller\PluginController@index?') !== false) {
                 parse_str(str_replace('\cmf\controller\PluginController@index?', '', $routeInfo['route']), $routeParams);
                 $this->request->withRoute($routeParams);
             }
