@@ -108,7 +108,7 @@ function cmf_get_root()
     $root = str_replace("//", '/', $root);
     $root = str_replace('/index.php', '', $root);
     if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
-        $root = preg_replace('/\/api$/', '', $root);
+        $root = preg_replace('/\/api(.php)$/', '', $root);
     }
 
     $root = rtrim($root, '/');
