@@ -382,7 +382,7 @@ function cmf_set_dynamic_config($data)
 
     foreach ($data as $key => $value) {
         if (is_array($value)) {
-            $configFile = CMF_ROOT . "data/config/{$key}.php";
+            $configFile = CMF_DATA . "config/{$key}.php";
             if (file_exists($configFile)) {
                 $configs = include $configFile;
             } else {
@@ -1759,7 +1759,7 @@ function cmf_is_installed()
 {
     static $cmfIsInstalled;
     if (empty($cmfIsInstalled)) {
-        $cmfIsInstalled = file_exists(CMF_ROOT . 'data/install.lock');
+        $cmfIsInstalled = file_exists(CMF_DATA . 'install.lock');
     }
     return $cmfIsInstalled;
 }

@@ -28,7 +28,7 @@ class IndexController extends BaseController
             $this->error('网站已经安装', cmf_get_root() . '/');
         }
 
-        if (!is_writable(CMF_ROOT . 'data/')) {
+        if (!is_writable(CMF_DATA)) {
             abort(500, '目录' . realpath(CMF_ROOT . 'data') . '无法写入！');
         }
 
@@ -384,7 +384,7 @@ class IndexController extends BaseController
     public function step5()
     {
         if (session("install.step") == 4) {
-            @touch(CMF_ROOT . 'data/install.lock');
+            @touch(CMF_DATA . 'install.lock');
             return $this->fetch(":step5");
         } else {
             $this->error("非法安装！");

@@ -153,9 +153,9 @@ function sp_create_db_config($config)
         }
 
         if (strpos(cmf_version(), '5.0.') === false) {
-            $confDir = CMF_ROOT . 'data/config/'; // 5.1
+            $confDir = CMF_DATA . 'config/'; // 5.1
         } else {
-            $confDir = CMF_ROOT . 'data/conf/'; // 5.0
+            $confDir = CMF_DATA . 'conf/'; // 5.0
         }
 
         try {

@@ -173,9 +173,9 @@ class App extends Container
         $this->beginMem    = memory_get_usage();
 
         $this->rootPath    = dirname($this->appPath) . DIRECTORY_SEPARATOR;
-        $this->runtimePath = $this->rootPath . 'data/runtime' . DIRECTORY_SEPARATOR;
-        $this->routePath   = $this->rootPath . 'data/route' . DIRECTORY_SEPARATOR;
-        $this->configPath  = $this->rootPath . 'data/config' . DIRECTORY_SEPARATOR;
+        $this->runtimePath = CMF_DATA . 'runtime' . DIRECTORY_SEPARATOR;
+        $this->routePath   = CMF_DATA . 'route' . DIRECTORY_SEPARATOR;
+        $this->configPath  = CMF_DATA . 'config' . DIRECTORY_SEPARATOR;
 
         if (defined('RUNTIME_PATH')) {
             $this->runtimePath = RUNTIME_PATH;

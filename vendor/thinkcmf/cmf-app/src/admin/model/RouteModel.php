@@ -100,9 +100,9 @@ class RouteModel extends Model
         cache("routes", $cacheRoutes);
 
         if (strpos(cmf_version(), '5.0.') === false) {
-            $routeDir = CMF_ROOT . "data/route/"; // 5.1
+            $routeDir = CMF_DATA . "route/"; // 5.1
         } else {
-            $routeDir = CMF_ROOT . "data/conf/"; // 5.0
+            $routeDir = CMF_DATA . "conf/"; // 5.0
         }
 
         if (!file_exists($routeDir)) {
