@@ -435,7 +435,6 @@ class App extends Container
                 }
             }
 
-
             // 监听app_dispatch
             $this->hook->listen('app_dispatch');
 
