@@ -20,7 +20,7 @@ use think\route\Dispatch;
  */
 class App extends Container
 {
-    const VERSION = '5.1.35 LTS';
+    const VERSION = '5.1.37 LTS';
 
     /**
      * 当前模块路径
@@ -124,6 +124,8 @@ class App extends Container
      */
     protected $initialized = false;
 
+    protected static $modulesInited = [];
+
     public function __construct($appPath = '')
     {
         $this->thinkPath = CMF_ROOT . 'vendor' . DIRECTORY_SEPARATOR . 'thinkphp' . DIRECTORY_SEPARATOR;
@@ -171,9 +173,9 @@ class App extends Container
         $this->beginMem    = memory_get_usage();
 
         $this->rootPath    = dirname($this->appPath) . DIRECTORY_SEPARATOR;
-        $this->runtimePath = $this->rootPath . 'data/runtime' . DIRECTORY_SEPARATOR;
-        $this->routePath   = $this->rootPath . 'data/route' . DIRECTORY_SEPARATOR;
-        $this->configPath  = $this->rootPath . 'data/config' . DIRECTORY_SEPARATOR;
+        $this->runtimePath = CMF_DATA . 'runtime' . DIRECTORY_SEPARATOR;
+        $this->routePath   = CMF_DATA . 'route' . DIRECTORY_SEPARATOR;
+        $this->configPath  = CMF_DATA . 'config' . DIRECTORY_SEPARATOR;
 
         if (defined('RUNTIME_PATH')) {
             $this->runtimePath = RUNTIME_PATH;
@@ -272,6 +274,9 @@ class App extends Container
 
         // 路由初始化
         $this->routeInit();
+
+        // 监听app_init
+        $this->hook->listen('app_init');
     }
 
     /**
@@ -286,82 +291,86 @@ class App extends Container
         $module = $module ? $module . DIRECTORY_SEPARATOR : '';
         $path   = $this->appPath . $module;
 
-        // 加载初始化文件
-        if (is_file($path . 'init.php')) {
-            include $path . 'init.php';
-        } elseif (is_file($this->runtimePath . $module . 'init.php')) {
-            include $this->runtimePath . $module . 'init.php';
-        } else {
-            // 加载行为扩展文件
-            if (is_file($path . 'tags.php')) {
-                $tags = include $path . 'tags.php';
-                if (is_array($tags)) {
-                    $this->hook->import($tags);
-                }
-            }
-
-            // 加载公共文件
-            if (is_file($path . 'common.php')) {
-                include_once $path . 'common.php';
-            }
-
-            if ('' == $module) {
-                // 加载系统助手函数
-                include $this->thinkPath . 'helper.php';
-
-                // 加载主要配置
-                $mainConfigNames = ['app', 'database', 'template', 'paginate'];
-
-                if ($this->namespace == 'app' || $this->namespace == 'api') {
-                    foreach ($mainConfigNames as $configName) {
-                        $this->config->load(CMF_ROOT . "vendor/thinkcmf/cmf-{$this->namespace}/src/" . $configName . $this->configExt, $configName);
+        if (empty($module) || empty(static::$modulesInited[$module])) {
+            // 加载初始化文件
+            if (is_file($path . 'init.php')) {
+                include $path . 'init.php';
+            } elseif (is_file($this->runtimePath . $module . 'init.php')) {
+                include $this->runtimePath . $module . 'init.php';
+            } else {
+                // 加载行为扩展文件
+                if (is_file($path . 'tags.php')) {
+                    $tags = include $path . 'tags.php';
+                    if (is_array($tags)) {
+                        $this->hook->import($tags);
                     }
+                }
 
-                    $tagsFile = CMF_ROOT . "vendor/thinkcmf/cmf-{$this->namespace}/src/" . 'tags.php';
-                    if (is_file($tagsFile)) {
-                        $tags = include $tagsFile;
-                        if (is_array($tags)) {
-                            $this->hook->import($tags);
+                // 加载公共文件
+                if (is_file($path . 'common.php')) {
+                    include_once $path . 'common.php';
+                }
+
+                if ('' == $module) {
+                    // 加载系统助手函数
+                    include $this->thinkPath . 'helper.php';
+
+                    // 加载主要配置
+                    $mainConfigNames = ['app', 'database', 'template', 'paginate'];
+
+                    if ($this->namespace == 'app' || $this->namespace == 'api') {
+                        foreach ($mainConfigNames as $configName) {
+                            $this->config->load(CMF_ROOT . "vendor/thinkcmf/cmf-{$this->namespace}/src/" . $configName . $this->configExt, $configName);
+                        }
+
+                        $tagsFile = CMF_ROOT . "vendor/thinkcmf/cmf-{$this->namespace}/src/" . 'tags.php';
+                        if (is_file($tagsFile)) {
+                            $tags = include $tagsFile;
+                            if (is_array($tags)) {
+                                $this->hook->import($tags);
+                            }
                         }
                     }
+
+                    $mainConfigNames = ['app', 'database', 'template', 'paginate'];
+                    foreach ($mainConfigNames as $configName) {
+                        $this->config->load($path . $configName . $this->configExt, $configName);
+                    }
                 }
 
-                $mainConfigNames = ['app', 'database', 'template', 'paginate'];
-                foreach ($mainConfigNames as $configName) {
-                    $this->config->load($path . $configName . $this->configExt, $configName);
+                // 加载中间件
+                if (is_file($path . 'middleware.php')) {
+                    $middleware = include $path . 'middleware.php';
+                    if (is_array($middleware)) {
+                        $this->middleware->import($middleware);
+                    }
+                }
+
+                // 注册服务的容器对象实例
+                if (is_file($path . 'provider.php')) {
+                    $provider = include $path . 'provider.php';
+                    if (is_array($provider)) {
+                        $this->bindTo($provider);
+                    }
+                }
+
+                // 自动读取配置文件
+                if (is_dir($path . 'config')) {
+                    $dir = $path . 'config' . DIRECTORY_SEPARATOR;
+                } elseif (is_dir($this->configPath . $module)) {
+                    $dir = $this->configPath . $module;
+                }
+
+                $files = isset($dir) ? scandir($dir) : [];
+
+                foreach ($files as $file) {
+                    if ('.' . pathinfo($file, PATHINFO_EXTENSION) === $this->configExt) {
+                        $this->config->load($dir . $file, pathinfo($file, PATHINFO_FILENAME));
+                    }
                 }
             }
 
-            // 加载中间件
-            if (is_file($path . 'middleware.php')) {
-                $middleware = include $path . 'middleware.php';
-                if (is_array($middleware)) {
-                    $this->middleware->import($middleware);
-                }
-            }
-
-            // 注册服务的容器对象实例
-            if (is_file($path . 'provider.php')) {
-                $provider = include $path . 'provider.php';
-                if (is_array($provider)) {
-                    $this->bindTo($provider);
-                }
-            }
-
-            // 自动读取配置文件
-            if (is_dir($path . 'config')) {
-                $dir = $path . 'config' . DIRECTORY_SEPARATOR;
-            } elseif (is_dir($this->configPath . $module)) {
-                $dir = $this->configPath . $module;
-            }
-
-            $files = isset($dir) ? scandir($dir) : [];
-
-            foreach ($files as $file) {
-                if ('.' . pathinfo($file, PATHINFO_EXTENSION) === $this->configExt) {
-                    $this->config->load($dir . $file, pathinfo($file, PATHINFO_FILENAME));
-                }
-            }
+            static::$modulesInited[$module] = true;
         }
 
         $this->setModulePath($path);
@@ -415,9 +424,6 @@ class App extends Container
             // 初始化应用
             $this->initialize();
 
-            // 监听app_init
-            $this->hook->listen('app_init');
-
             if ($this->bindModule) {
                 // 模块/控制器绑定
                 $this->route->bind($this->bindModule);
@@ -437,6 +443,13 @@ class App extends Container
             if (empty($dispatch)) {
                 // 路由检测
                 $dispatch = $this->routeCheck()->init();
+            }
+
+            // 插件路由参数处理
+            $routeInfo = $this->request->routeInfo();
+            if (!empty($routeInfo['route']) && strpos($routeInfo['route'], '\cmf\controller\PluginController@index?') !== false) {
+                parse_str(str_replace('\cmf\controller\PluginController@index?', '', $routeInfo['route']), $routeParams);
+                $this->request->withRoute($routeParams);
             }
 
             // 记录当前调度信息

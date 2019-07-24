@@ -10,15 +10,40 @@
 // +---------------------------------------------------------------------
 namespace cmf\behavior;
 
+use think\Container;
+use think\exception\HttpResponseException;
 use think\facade\Env;
 use think\facade\Lang;
+use think\facade\Response;
 
 class LangBehavior
 {
 
+    protected static $run = false;
+
     // 行为扩展的执行入口必须是run
     public function run()
     {
+        $request = request();
+
+        $app = Container::get('app');
+
+        // 处理API全站跨域
+        if ($request->method(true) == 'OPTIONS' && $app->getNamespace() == 'api') {
+            $header = [
+                'Access-Control-Allow-Origin'  => '*',
+                'Access-Control-Allow-Methods' => 'GET,POST,PATCH,PUT,DELETE,OPTIONS',
+                'Access-Control-Allow-Headers' => 'Authorization,Content-Type,If-Match,If-Modified-Since,If-None-Match,If-Unmodified-Since,X-Requested-With,XX-Device-Type,XX-Token,XX-Api-Version,XX-Wxapp-AppId',
+            ];
+
+            throw new HttpResponseException(Response::create()->code(204)->header($header));
+        }
+
+        if (self::$run) {
+            return;
+        }
+        self::$run = true;
+
         $langSet = request()->langset();
         Lang::load([
             __DIR__ . '/../lang' . DIRECTORY_SEPARATOR . $langSet . '.php',

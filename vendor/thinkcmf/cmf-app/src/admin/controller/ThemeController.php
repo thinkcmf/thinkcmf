@@ -337,6 +337,8 @@ class ThemeController extends AdminBaseController
         $items = [];
         $item  = [];
 
+        $tab = ($tab == 'public_var') ? 'var' : $tab;
+
         if ($tab == 'var' && !empty($oldMore['vars']) && is_array($oldMore['vars'])) {
 
             if (isset($oldMore['vars'][$varName]) && is_array($oldMore['vars'][$varName])) {
@@ -686,58 +688,15 @@ class ThemeController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             $files = $this->request->param('files/a');
-            foreach ($files as $id => $post) {
-                $file = Db::name('theme_file')->field('theme,more')->where('id', $id)->find();
-                $more = json_decode($file['more'], true);
-                if (isset($post['vars'])) {
-                    $messages = [];
-                    $rules    = [];
-
-                    foreach ($more['vars'] as $mVarName => $mVar) {
-
-                        if (!empty($mVar['rule'])) {
-                            $rules[$mVarName] = $this->_parseRules($mVar['rule']);
-                        }
-
-                        if (!empty($mVar['message'])) {
-                            foreach ($mVar['message'] as $rule => $msg) {
-                                $messages[$mVarName . '.' . $rule] = $msg;
-                            }
-                        }
-
-                        if (isset($post['vars'][$mVarName])) {
-                            $more['vars'][$mVarName]['value'] = $post['vars'][$mVarName];
-                        }
-
-                        if (isset($post['vars'][$mVarName . '_text_'])) {
-                            $more['vars'][$mVarName]['valueText'] = $post['vars'][$mVarName . '_text_'];
-                        }
-                    }
-
-                    $validate = new Validate($rules, $messages);
-                    $result   = $validate->check($post['vars']);
-                    if (!$result) {
-                        $this->error($validate->getError());
-                    }
-                }
-
-                if (isset($post['widget_vars'])) {
-                    foreach ($more['widgets'] as $mWidgetName => $widget) {
-
-                        if (empty($post['widget'][$mWidgetName]['display'])) {
-                            $widget['display'] = 0;
-                        } else {
-                            $widget['display'] = 1;
-                        }
-
-                        if (!empty($post['widget'][$mWidgetName]['title'])) {
-                            $widget['title'] = $post['widget'][$mWidgetName]['title'];
-                        }
-
+            if (!empty($files) && is_array($files)) {
+                foreach ($files as $id => $post) {
+                    $file = Db::name('theme_file')->field('theme,more')->where('id', $id)->find();
+                    $more = json_decode($file['more'], true);
+                    if (isset($post['vars'])) {
                         $messages = [];
                         $rules    = [];
 
-                        foreach ($widget['vars'] as $mVarName => $mVar) {
+                        foreach ($more['vars'] as $mVarName => $mVar) {
 
                             if (!empty($mVar['rule'])) {
                                 $rules[$mVarName] = $this->_parseRules($mVar['rule']);
@@ -749,30 +708,75 @@ class ThemeController extends AdminBaseController
                                 }
                             }
 
-                            if (isset($post['widget_vars'][$mWidgetName][$mVarName])) {
-                                $widget['vars'][$mVarName]['value'] = $post['widget_vars'][$mWidgetName][$mVarName];
+                            if (isset($post['vars'][$mVarName])) {
+                                $more['vars'][$mVarName]['value'] = $post['vars'][$mVarName];
                             }
 
-                            if (isset($post['widget_vars'][$mWidgetName][$mVarName . '_text_'])) {
-                                $widget['vars'][$mVarName]['valueText'] = $post['widget_vars'][$mWidgetName][$mVarName . '_text_'];
-                            }
-                        }
-
-                        if ($widget['display']) {
-                            $validate   = new Validate($rules, $messages);
-                            $widgetVars = empty($post['widget_vars'][$mWidgetName]) ? [] : $post['widget_vars'][$mWidgetName];
-                            $result     = $validate->check($widgetVars);
-                            if (!$result) {
-                                $this->error($widget['title'] . ':' . $validate->getError());
+                            if (isset($post['vars'][$mVarName . '_text_'])) {
+                                $more['vars'][$mVarName]['valueText'] = $post['vars'][$mVarName . '_text_'];
                             }
                         }
 
-                        $more['widgets'][$mWidgetName] = $widget;
+                        $validate = new Validate($rules, $messages);
+                        $result   = $validate->check($post['vars']);
+                        if (!$result) {
+                            $this->error($validate->getError());
+                        }
                     }
-                }
 
-                $more = json_encode($more);
-                Db::name('theme_file')->where('id', $id)->update(['more' => $more]);
+                    if (isset($post['widget_vars'])) {
+                        foreach ($more['widgets'] as $mWidgetName => $widget) {
+
+                            if (empty($post['widget'][$mWidgetName]['display'])) {
+                                $widget['display'] = 0;
+                            } else {
+                                $widget['display'] = 1;
+                            }
+
+                            if (!empty($post['widget'][$mWidgetName]['title'])) {
+                                $widget['title'] = $post['widget'][$mWidgetName]['title'];
+                            }
+
+                            $messages = [];
+                            $rules    = [];
+
+                            foreach ($widget['vars'] as $mVarName => $mVar) {
+
+                                if (!empty($mVar['rule'])) {
+                                    $rules[$mVarName] = $this->_parseRules($mVar['rule']);
+                                }
+
+                                if (!empty($mVar['message'])) {
+                                    foreach ($mVar['message'] as $rule => $msg) {
+                                        $messages[$mVarName . '.' . $rule] = $msg;
+                                    }
+                                }
+
+                                if (isset($post['widget_vars'][$mWidgetName][$mVarName])) {
+                                    $widget['vars'][$mVarName]['value'] = $post['widget_vars'][$mWidgetName][$mVarName];
+                                }
+
+                                if (isset($post['widget_vars'][$mWidgetName][$mVarName . '_text_'])) {
+                                    $widget['vars'][$mVarName]['valueText'] = $post['widget_vars'][$mWidgetName][$mVarName . '_text_'];
+                                }
+                            }
+
+                            if ($widget['display']) {
+                                $validate   = new Validate($rules, $messages);
+                                $widgetVars = empty($post['widget_vars'][$mWidgetName]) ? [] : $post['widget_vars'][$mWidgetName];
+                                $result     = $validate->check($widgetVars);
+                                if (!$result) {
+                                    $this->error($widget['title'] . ':' . $validate->getError());
+                                }
+                            }
+
+                            $more['widgets'][$mWidgetName] = $widget;
+                        }
+                    }
+
+                    $more = json_encode($more);
+                    Db::name('theme_file')->where('id', $id)->update(['more' => $more]);
+                }
             }
             $this->success("保存成功！", '');
         }

@@ -23,24 +23,11 @@ class InitHookBehavior
     // 行为扩展的执行入口必须是run
     public function run($param)
     {
-        if (!cmf_is_installed()) {
-            return;
-        }
-
         Route::any('plugin/[:_plugin]/[:_controller]/[:_action]', "\\cmf\\controller\\PluginController@index");
         Route::get('new_captcha', "\\cmf\\controller\\CaptchaController@index");
 
-        $request = request();
-        
-        // 处理全站跨域
-        if ($request->method(true) == 'OPTIONS') {
-            $header = [
-                'Access-Control-Allow-Origin'  => '*',
-                'Access-Control-Allow-Methods' => 'GET, POST, PATCH, PUT, DELETE',
-                'Access-Control-Allow-Headers' => 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-Requested-With, XX-Device-Type, XX-Token',
-            ];
-
-            throw new HttpResponseException(Response::create()->code(204)->header($header));
+        if (!cmf_is_installed()) {
+            return;
         }
 
         $systemHookPlugins = cache('init_hook_plugins_system_hook_plugins');

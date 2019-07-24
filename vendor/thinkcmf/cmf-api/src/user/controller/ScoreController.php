@@ -21,10 +21,10 @@ class ScoreController extends RestUserBaseController
         $userId            = $this->getUserId();
         $userScoreLogModel = new UserScoreLogModel();
 
-        $logs = $userScoreLogModel->where([
-            'user_id' => $userId,
-            'score'   => ['neq', 0]
-        ])->order('create_time DESC')->paginate();
+        $logs = $userScoreLogModel->where('user_id', $userId)
+            ->where('score', '<>', 0)
+            ->order('create_time DESC')
+            ->paginate();
 
         $this->success('请求成功', ['list' => $logs->items()]);
     }

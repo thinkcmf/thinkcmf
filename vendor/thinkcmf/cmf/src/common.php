@@ -108,7 +108,7 @@ function cmf_get_root()
     $root = str_replace("//", '/', $root);
     $root = str_replace('/index.php', '', $root);
     if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
-        $root = preg_replace('/\/api$/', '', $root);
+        $root = preg_replace('/\/api(.php)$/', '', $root);
     }
 
     $root = rtrim($root, '/');
@@ -229,10 +229,6 @@ function cmf_get_user_avatar_url($avatar)
         if (strpos($avatar, "http") === 0) {
             return $avatar;
         } else {
-            if (strpos($avatar, 'avatar/') === false) {
-                $avatar = 'avatar/' . $avatar;
-            }
-
             return cmf_get_image_url($avatar, 'avatar');
         }
 
@@ -386,7 +382,7 @@ function cmf_set_dynamic_config($data)
 
     foreach ($data as $key => $value) {
         if (is_array($value)) {
-            $configFile = CMF_ROOT . "data/config/{$key}.php";
+            $configFile = CMF_DATA . "config/{$key}.php";
             if (file_exists($configFile)) {
                 $configs = include $configFile;
             } else {
@@ -1145,12 +1141,19 @@ function cmf_sub_dirs($dir)
 /**
  * 生成访问插件的url
  * @param string $url    url格式：插件名://控制器名/方法
- * @param array  $param  参数
+ * @param array  $vars   参数
  * @param bool   $domain 是否显示域名 或者直接传入域名
  * @return string
  */
-function cmf_plugin_url($url, $param = [], $domain = false)
+function cmf_plugin_url($url, $vars = [], $domain = false)
 {
+    global $CMF_GV_routes;
+
+    if (empty($CMF_GV_routes)) {
+        $routeModel    = new \app\admin\model\RouteModel();
+        $CMF_GV_routes = $routeModel->getRoutes();
+    }
+
     $url              = parse_url($url);
     $case_insensitive = true;
     $plugin           = $case_insensitive ? Loader::parseName($url['scheme']) : $url['scheme'];
@@ -1160,7 +1163,7 @@ function cmf_plugin_url($url, $param = [], $domain = false)
     /* 解析URL带的参数 */
     if (isset($url['query'])) {
         parse_str($url['query'], $query);
-        $param = array_merge($query, $param);
+        $vars = array_merge($query, $vars);
     }
 
     /* 基础参数 */
@@ -1169,9 +1172,24 @@ function cmf_plugin_url($url, $param = [], $domain = false)
         '_controller' => $controller,
         '_action'     => $action,
     ];
-    $params = array_merge($params, $param); //添加额外参数
 
-    return url('\\cmf\\controller\\PluginController@index', $params, true, $domain);
+    $pluginUrl = '\\cmf\\controller\\PluginController@index?' . http_build_query($params);
+
+    if (!empty($vars) && !empty($CMF_GV_routes[$pluginUrl])) {
+
+        foreach ($CMF_GV_routes[$pluginUrl] as $actionRoute) {
+            $sameVars = array_intersect_assoc($vars, $actionRoute['vars']);
+
+            if (count($sameVars) == count($actionRoute['vars'])) {
+                ksort($sameVars);
+                $pluginUrl  = $pluginUrl . '&' . http_build_query($sameVars);
+                $vars = array_diff_assoc($vars, $sameVars);
+                break;
+            }
+        }
+    }
+
+    return url($pluginUrl, $vars, true, $domain);
 }
 
 /**
@@ -1741,7 +1759,7 @@ function cmf_is_installed()
 {
     static $cmfIsInstalled;
     if (empty($cmfIsInstalled)) {
-        $cmfIsInstalled = file_exists(CMF_ROOT . 'data/install.lock');
+        $cmfIsInstalled = file_exists(CMF_DATA . 'install.lock');
     }
     return $cmfIsInstalled;
 }
@@ -1844,10 +1862,10 @@ function cmf_curl_get($url)
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_TIMEOUT, 5);
     $SSL = substr($url, 0, 8) == "https://" ? true : false;
-    if ($SSL) {
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 信任任何证书
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // 检查证书中是否设置域名
-    }
+//    if ($SSL) {
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 信任任何证书
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // 检查证书中是否设置域名
+//    }
     $content = curl_exec($ch);
     curl_close($ch);
     return $content;
@@ -2156,6 +2174,9 @@ function cmf_get_app_config_file($app, $file)
     switch ($app) {
         case 'cmf':
             $configFile = cmf_core_path() . "{$file}.php";
+            break;
+        case 'swoole':
+            $configFile = Env::get('root_path') . "vendor/thinkcmf/cmf-swoole/src/{$file}.php";
             break;
         default:
             $configFile = APP_PATH . $app . "/{$file}.php";

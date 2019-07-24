@@ -212,17 +212,17 @@
     },
     {
         "name": "thinkcmf/cmf",
-        "version": "v5.1.2",
-        "version_normalized": "5.1.2.0",
+        "version": "v5.1.6",
+        "version_normalized": "5.1.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thinkcmf/cmf-core.git",
-            "reference": "5711e918988e06c52c3503f1dc0138b407710676"
+            "reference": "b16a47b76fcd77d570103a3623011747e7a51f01"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/5711e918988e06c52c3503f1dc0138b407710676",
-            "reference": "5711e918988e06c52c3503f1dc0138b407710676",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/b16a47b76fcd77d570103a3623011747e7a51f01",
+            "reference": "b16a47b76fcd77d570103a3623011747e7a51f01",
             "shasum": ""
         },
         "require": {
@@ -234,7 +234,7 @@
             "topthink/framework": "~5.1.0",
             "topthink/think-captcha": "^2.0"
         },
-        "time": "2019-03-05T01:35:14+00:00",
+        "time": "2019-06-06T06:10:00+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -264,23 +264,23 @@
     },
     {
         "name": "thinkcmf/cmf-api",
-        "version": "v5.1.2",
-        "version_normalized": "5.1.2.0",
+        "version": "v5.1.5",
+        "version_normalized": "5.1.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thinkcmf/cmf-api.git",
-            "reference": "3acb16c539f69d6d1c73e4ce9e05784c6e28b012"
+            "reference": "9481157c43e6ebf58b6ff2b0ac59217aa91fb9f4"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/3acb16c539f69d6d1c73e4ce9e05784c6e28b012",
-            "reference": "3acb16c539f69d6d1c73e4ce9e05784c6e28b012",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/9481157c43e6ebf58b6ff2b0ac59217aa91fb9f4",
+            "reference": "9481157c43e6ebf58b6ff2b0ac59217aa91fb9f4",
             "shasum": ""
         },
         "require": {
             "thinkcmf/cmf": "~5.1.0"
         },
-        "time": "2019-03-05T01:34:38+00:00",
+        "time": "2019-05-27T02:42:30+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -303,23 +303,23 @@
     },
     {
         "name": "thinkcmf/cmf-app",
-        "version": "v5.1.2",
-        "version_normalized": "5.1.2.0",
+        "version": "v5.1.4",
+        "version_normalized": "5.1.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thinkcmf/cmf-app.git",
-            "reference": "8cf808eaa70c4c007c31a7df121538b1757c815c"
+            "reference": "e61386cbf70770cf696b728d04376b8bdd924299"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/8cf808eaa70c4c007c31a7df121538b1757c815c",
-            "reference": "8cf808eaa70c4c007c31a7df121538b1757c815c",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/e61386cbf70770cf696b728d04376b8bdd924299",
+            "reference": "e61386cbf70770cf696b728d04376b8bdd924299",
             "shasum": ""
         },
         "require": {
             "thinkcmf/cmf": "~5.1.0"
         },
-        "time": "2019-03-05T01:34:54+00:00",
+        "time": "2019-04-23T11:26:03+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -380,20 +380,20 @@
     },
     {
         "name": "thinkcmf/cmf-install",
-        "version": "v5.1.1",
-        "version_normalized": "5.1.1.0",
+        "version": "v5.1.3",
+        "version_normalized": "5.1.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thinkcmf/cmf-install.git",
-            "reference": "53f3a15095054174bb4c3d11233a21f9c22d9489"
+            "reference": "259eeffdf8ed96dc600bc6721e046a9d52b5be2d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/53f3a15095054174bb4c3d11233a21f9c22d9489",
-            "reference": "53f3a15095054174bb4c3d11233a21f9c22d9489",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/259eeffdf8ed96dc600bc6721e046a9d52b5be2d",
+            "reference": "259eeffdf8ed96dc600bc6721e046a9d52b5be2d",
             "shasum": ""
         },
-        "time": "2019-03-06T14:21:51+00:00",
+        "time": "2019-05-27T02:49:00+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -416,17 +416,17 @@
     },
     {
         "name": "topthink/framework",
-        "version": "v5.1.35",
-        "version_normalized": "5.1.35.0",
+        "version": "v5.1.37.1",
+        "version_normalized": "5.1.37.1",
         "source": {
             "type": "git",
             "url": "https://github.com/top-think/framework.git",
-            "reference": "c53c0c6132022a87e8ee9c4109939eaf9a8a7adb"
+            "reference": "05eecd121d18d6705aaa10aa44fcdf7c14da4d0b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/top-think/framework/zipball/c53c0c6132022a87e8ee9c4109939eaf9a8a7adb",
-            "reference": "c53c0c6132022a87e8ee9c4109939eaf9a8a7adb",
+            "url": "https://api.github.com/repos/top-think/framework/zipball/05eecd121d18d6705aaa10aa44fcdf7c14da4d0b",
+            "reference": "05eecd121d18d6705aaa10aa44fcdf7c14da4d0b",
             "shasum": ""
         },
         "require": {
@@ -442,7 +442,7 @@
             "sebastian/phpcpd": "2.*",
             "squizlabs/php_codesniffer": "2.*"
         },
-        "time": "2019-03-03T00:44:44+00:00",
+        "time": "2019-05-28T06:57:29+00:00",
         "type": "think-framework",
         "installation-source": "dist",
         "notification-url": "https://packagist.org/downloads/",

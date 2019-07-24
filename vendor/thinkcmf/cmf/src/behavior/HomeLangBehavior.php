@@ -15,10 +15,16 @@ use think\facade\Lang;
 
 class HomeLangBehavior
 {
+    protected static $run = false;
 
     // 行为扩展的执行入口必须是run
     public function run()
     {
+        if (self::$run) {
+            return;
+        }
+        self::$run = true;
+        
         $langSet = request()->langset();
 
         // 加载核心应用前台通用语言包

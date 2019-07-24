@@ -64,8 +64,6 @@ class AdminIndexController extends PluginAdminBaseController
 
         $this->assign('users', $users);
 
-        $this->assign('users', $users);
-
         return $this->fetch('/admin_index');
     }
 

@@ -1,4 +1,4 @@
-ThinkCMF 5.1.0 让你更自由地飞
+ThinkCMF 5.1.2 让你更自由地飞
 ===============
 
 ### 系列讲座
@@ -135,8 +135,44 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
-#### 5.1.1-dev
+#### 5.1.2
+[核心]
+* 升级tp到`5.1.37`
+* 优化`slides,noslides`标签
+* 修复头像地址获取函数
+* 优化上传类支持API文件上传
+* 封装后台菜单，应用钩子，用户行为导入
+* 增加应用自动安装
+* 优化后台百度地图链接支持https
+
+[API]
+* 优化文件上传，支持云存储
+* 修复积分日志接口数据返回错误
+* 修复钩子不加载问题
+* 修复API跨域报错问题
+
+
+#### 5.1.1
+[核心]
 * `composer.json` extra 增加`think-config`配置
+* 修复API UserLikeModel继承错误类
+* 优化后台菜单 url 生成
+* 增加Linux下全新安装时data目录不可写提示
+* 修复插件模板常量`__ROOT__`不替换
+* 增加`swoole`扩展钩子检测
+* 修复插件API基类报错#577
+* 优化应用初始化流程
+* 优化行为加载流程
+
+[swoole]
+* 增加`swoole_server_start`,`swoole_worker_start`,`swoole_websocket_on_open`,`swoole_websocket_on_close`钩子
+* 增加`WebSocket`独立运行命令
+* 增加`WebSocket onOpen`回调
+* 修复`WebSocket`事件引起的数据库执行报错
+* 修复`WebSocket`发送消息未判断是否为`WebSocket`连接
+* 增加`worker`进程启动时自动初始化所有模块
+
+
 
 #### 5.1.0
 [核心]

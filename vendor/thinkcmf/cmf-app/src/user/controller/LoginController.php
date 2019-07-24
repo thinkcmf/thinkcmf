@@ -149,7 +149,7 @@ class LoginController extends HomeBaseController
             }
 
             $userModel = new UserModel();
-            if ($validate::is($data['username'], 'email')) {
+            if (Validate::is($data['username'], 'email')) {
 
                 $log = $userModel->emailPasswordReset($data['username'], $data['password']);
 

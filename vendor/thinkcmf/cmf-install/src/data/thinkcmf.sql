@@ -773,7 +773,7 @@ CREATE TABLE IF NOT EXISTS `cmf_third_party_user` (
   `login_times` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '登录次数',
   `status` tinyint(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '状态;1:正常;0:禁用',
   `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '用户昵称',
-  `third_party` varchar(20) NOT NULL DEFAULT '' COMMENT '第三方惟一码',
+  `third_party` varchar(20) NOT NULL DEFAULT '' COMMENT '第三方唯一码',
   `app_id` varchar(64) NOT NULL DEFAULT '' COMMENT '第三方应用 id',
   `last_login_ip` varchar(15) NOT NULL DEFAULT '' COMMENT '最后登录ip',
   `access_token` varchar(512) NOT NULL DEFAULT '' COMMENT '第三方授权码',

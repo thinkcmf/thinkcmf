@@ -17,7 +17,7 @@
             right: 20px;
             top: 20px;
             line-height: 32px;
-            padding: 0px 10px;
+            padding: 0 10px;
             width: 300px;
             border: 1px solid #e4e6e7;
 
@@ -27,7 +27,7 @@
             outline: none;
         }
     </style>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=KxkuAcGBup6sD1XxaDW85KBG"></script>
+    <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=KxkuAcGBup6sD1XxaDW85KBG"></script>
     <title>点击地图获取当前经纬度</title>
 </head>
 <body>
@@ -85,7 +85,7 @@
         title: "", // 信息窗口标题
         enableMessage: false,//设置允许信息窗发送短息
 
-    }
+    };
     var infoWindow = new BMap.InfoWindow("拖动我设置你的位置", opts);  // 创建信息窗口对象
     marker.openInfoWindow(infoWindow);
 
@@ -113,7 +113,7 @@
         });
     }
 
-    marker.addEventListener("dragend", msetpoint)
+    marker.addEventListener("dragend", msetpoint);
 
     map.addEventListener("click", msetpoint);
 

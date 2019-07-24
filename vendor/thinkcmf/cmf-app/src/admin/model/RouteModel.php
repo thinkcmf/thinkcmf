@@ -40,27 +40,39 @@ class RouteModel extends Model
             // 解析URL
             $info = parse_url($fullUrl);
 
-            $path = explode("/", $info['path']);
-            if (count($path) != 3) {//必须是完整 url
-                continue;
-            }
-
-            $module = strtolower($path[0]);
-
-            // 解析参数
             $vars = [];
+            // 解析参数
             if (isset($info['query'])) { // 解析地址里面参数 合并到vars
-                parse_str($info['query'], $params);
-                $vars = array_merge($params, $vars);
+                parse_str($info['query'], $vars);
+                ksort($vars);
             }
 
-            $vars_src = $vars;
 
-            ksort($vars);
+            if (isset($info['scheme'])) { //插件
+                $plugin     = cmf_parse_name($info['scheme']);
+                $controller = cmf_parse_name($info['host']);
+                $action     = trim(strtolower($info['path']), '/');
 
-            $path = $info['path'];
+                $pluginParams = [
+                    '_plugin'     => $plugin,
+                    '_controller' => $controller,
+                    '_action'     => $action,
+                ];
 
-            $fullUrl = $path . (empty($vars) ? "" : "?") . http_build_query($vars);
+                $path = '\\cmf\\controller\\PluginController@index?' . http_build_query($pluginParams);
+
+                $fullUrl = $path . (empty($vars) ? '' : '&') . http_build_query($vars);
+
+            } else { // 应用
+                $path = explode("/", $info['path']);
+                if (count($path) != 3) {//必须是完整 url
+                    continue;
+                }
+
+                $path = $info['path'];
+
+                $fullUrl = $path . (empty($vars) ? "" : "?") . http_build_query($vars);
+            }
 
             $url = htmlspecialchars_decode($er['url']);
 
@@ -88,9 +100,9 @@ class RouteModel extends Model
         cache("routes", $cacheRoutes);
 
         if (strpos(cmf_version(), '5.0.') === false) {
-            $routeDir = CMF_ROOT . "data/route/"; // 5.1
+            $routeDir = CMF_DATA . "route/"; // 5.1
         } else {
-            $routeDir = CMF_ROOT . "data/conf/"; // 5.0
+            $routeDir = CMF_DATA . "conf/"; // 5.0
         }
 
         if (!file_exists($routeDir)) {

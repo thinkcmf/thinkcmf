@@ -10,7 +10,7 @@ namespace api\admin\controller;
 
 use cmf\controller\RestBaseController;
 use think\Db;
-use think\Validate;
+use think\facade\Validate;
 
 class PublicController extends RestBaseController
 {
@@ -18,7 +18,7 @@ class PublicController extends RestBaseController
     // 用户登录 TODO 增加最后登录信息记录,如 ip
     public function login()
     {
-        $validate = new Validate([
+        $validate = new \think\Validate([
             'username' => 'require',
             'password' => 'require'
         ]);
@@ -61,29 +61,31 @@ class PublicController extends RestBaseController
 
         $allowedDeviceTypes = ['mobile', 'android', 'iphone', 'ipad', 'web', 'pc', 'mac'];
 
-        if (empty($data['device_type']) || !in_array($data['device_type'], $allowedDeviceTypes)) {
+        if (empty($this->deviceType) && (empty($data['device_type']) || !in_array($data['device_type'], $this->allowedDeviceTypes))) {
             $this->error("请求错误,未知设备!");
+        } else if(!empty($data['device_type'])) {
+            $this->deviceType = $data['device_type'];
         }
 
         $userTokenQuery = Db::name("user_token")
             ->where('user_id', $findUser['id'])
-            ->where('device_type', $data['device_type']);
+            ->where('device_type', $this->deviceType);
         $findUserToken  = $userTokenQuery->find();
         $currentTime    = time();
         $expireTime     = $currentTime + 24 * 3600 * 180;
         $token          = md5(uniqid()) . md5(uniqid());
         if (empty($findUserToken)) {
-            $result = $userTokenQuery->insert([
+            $result = Db::name("user_token")->insert([
                 'token'       => $token,
                 'user_id'     => $findUser['id'],
                 'expire_time' => $expireTime,
                 'create_time' => $currentTime,
-                'device_type' => $data['device_type']
+                'device_type' => $this->deviceType
             ]);
         } else {
-            $result = $userTokenQuery
+            $result = Db::name("user_token")
                 ->where('user_id', $findUser['id'])
-                ->where('device_type', $data['device_type'])
+                ->where('device_type', $this->deviceType)
                 ->update([
                     'token'       => $token,
                     'expire_time' => $expireTime,

@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
+use think\App;
 use think\exception\ValidateException;
 use think\Request;
 use think\Loader;
@@ -27,9 +28,9 @@ class PluginRestBaseController extends RestBaseController
      * @param Request $request Request对象
      * @access public
      */
-    public function __construct(Request $request = null)
+    public function __construct(App $app = null)
     {
-        parent::__construct($request);
+        parent::__construct($app);
 
         $this->getPlugin();
     }
