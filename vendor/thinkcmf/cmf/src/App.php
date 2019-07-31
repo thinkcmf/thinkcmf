@@ -420,9 +420,12 @@ class App extends Container
         try {
             // 初始化应用
             $this->initialize();
-            // 监听app_init
-            $this->hook->listen('app_init');
-            
+
+            if (!$this->initialized) {
+                // 监听app_init
+                $this->hook->listen('app_init');
+            }
+
             if ($this->bindModule) {
                 // 模块/控制器绑定
                 $this->route->bind($this->bindModule);

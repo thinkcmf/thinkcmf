@@ -43,26 +43,26 @@
     },
     {
         "name": "ezyang/htmlpurifier",
-        "version": "v4.10.0",
-        "version_normalized": "4.10.0.0",
+        "version": "v4.11.0",
+        "version_normalized": "4.11.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/ezyang/htmlpurifier.git",
-            "reference": "d85d39da4576a6934b72480be6978fb10c860021"
+            "reference": "83ab08bc1af7d808a9e0fbf024f1c24bfd73c0a7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/d85d39da4576a6934b72480be6978fb10c860021",
-            "reference": "d85d39da4576a6934b72480be6978fb10c860021",
+            "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/83ab08bc1af7d808a9e0fbf024f1c24bfd73c0a7",
+            "reference": "83ab08bc1af7d808a9e0fbf024f1c24bfd73c0a7",
             "shasum": ""
         },
         "require": {
             "php": ">=5.2"
         },
         "require-dev": {
-            "simpletest/simpletest": "^1.1"
+            "simpletest/simpletest": "dev-master#72de02a7b80c6bb8864ef9bf66d41d2f58f826bd"
         },
-        "time": "2018-02-23T01:58:20+00:00",
+        "time": "2019-07-14T18:58:38+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -75,7 +75,7 @@
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "LGPL"
+            "LGPL-2.1-or-later"
         ],
         "authors": [
             {
@@ -212,17 +212,17 @@
     },
     {
         "name": "thinkcmf/cmf",
-        "version": "v5.1.6",
-        "version_normalized": "5.1.6.0",
+        "version": "v5.1.7",
+        "version_normalized": "5.1.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thinkcmf/cmf-core.git",
-            "reference": "b16a47b76fcd77d570103a3623011747e7a51f01"
+            "reference": "d8936707f726e73e7240e2ba3cb970ea451b096f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/b16a47b76fcd77d570103a3623011747e7a51f01",
-            "reference": "b16a47b76fcd77d570103a3623011747e7a51f01",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/d8936707f726e73e7240e2ba3cb970ea451b096f",
+            "reference": "d8936707f726e73e7240e2ba3cb970ea451b096f",
             "shasum": ""
         },
         "require": {
@@ -234,7 +234,7 @@
             "topthink/framework": "~5.1.0",
             "topthink/think-captcha": "^2.0"
         },
-        "time": "2019-06-06T06:10:00+00:00",
+        "time": "2019-07-30T23:57:01+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -264,23 +264,23 @@
     },
     {
         "name": "thinkcmf/cmf-api",
-        "version": "v5.1.5",
-        "version_normalized": "5.1.5.0",
+        "version": "v5.1.6",
+        "version_normalized": "5.1.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thinkcmf/cmf-api.git",
-            "reference": "9481157c43e6ebf58b6ff2b0ac59217aa91fb9f4"
+            "reference": "a7d9edecc8c44aec6395dac8678a2577127f776d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/9481157c43e6ebf58b6ff2b0ac59217aa91fb9f4",
-            "reference": "9481157c43e6ebf58b6ff2b0ac59217aa91fb9f4",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/a7d9edecc8c44aec6395dac8678a2577127f776d",
+            "reference": "a7d9edecc8c44aec6395dac8678a2577127f776d",
             "shasum": ""
         },
         "require": {
             "thinkcmf/cmf": "~5.1.0"
         },
-        "time": "2019-05-27T02:42:30+00:00",
+        "time": "2019-07-23T23:29:11+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -303,23 +303,23 @@
     },
     {
         "name": "thinkcmf/cmf-app",
-        "version": "v5.1.4",
-        "version_normalized": "5.1.4.0",
+        "version": "v5.1.5",
+        "version_normalized": "5.1.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thinkcmf/cmf-app.git",
-            "reference": "e61386cbf70770cf696b728d04376b8bdd924299"
+            "reference": "701477e9c6cfed749bc2ec03b47f891748a9aa58"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/e61386cbf70770cf696b728d04376b8bdd924299",
-            "reference": "e61386cbf70770cf696b728d04376b8bdd924299",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/701477e9c6cfed749bc2ec03b47f891748a9aa58",
+            "reference": "701477e9c6cfed749bc2ec03b47f891748a9aa58",
             "shasum": ""
         },
         "require": {
             "thinkcmf/cmf": "~5.1.0"
         },
-        "time": "2019-04-23T11:26:03+00:00",
+        "time": "2019-07-23T23:27:32+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -380,20 +380,20 @@
     },
     {
         "name": "thinkcmf/cmf-install",
-        "version": "v5.1.3",
-        "version_normalized": "5.1.3.0",
+        "version": "v5.1.4",
+        "version_normalized": "5.1.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thinkcmf/cmf-install.git",
-            "reference": "259eeffdf8ed96dc600bc6721e046a9d52b5be2d"
+            "reference": "651f7ff4d4413e2bcf98823853144bb2b67f671a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/259eeffdf8ed96dc600bc6721e046a9d52b5be2d",
-            "reference": "259eeffdf8ed96dc600bc6721e046a9d52b5be2d",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/651f7ff4d4413e2bcf98823853144bb2b67f671a",
+            "reference": "651f7ff4d4413e2bcf98823853144bb2b67f671a",
             "shasum": ""
         },
-        "time": "2019-05-27T02:49:00+00:00",
+        "time": "2019-07-23T23:26:40+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

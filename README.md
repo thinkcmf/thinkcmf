@@ -135,6 +135,13 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
+#### 5.1.3
+* 增加`CMF_DATA`常量（注意升级）
+* 增加插件路由功能
+* 增加插件URL美化功能
+* 修复app_init钩子引起的命令行报错
+* 修复API中文件url转化错误
+
 #### 5.1.2
 [核心]
 * 升级tp到`5.1.37`
