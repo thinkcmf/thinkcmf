@@ -23,7 +23,7 @@ class Portal extends TagLib
         'tagarticles'      => ['attr' => 'field,where,limit,order,page,relation,returnVarName,pageVarName,tagId', 'close' => 1],//非必须属性item
         'page'             => ['attr' => 'id', 'close' => 1],//非必须属性item
         'breadcrumb'       => ['attr' => 'cid', 'close' => 1],//非必须属性self
-        'categories'       => ['attr' => 'where,order', 'close' => 1],//非必须属性item
+        'categories'       => ['attr' => 'ids,where,order', 'close' => 1],//非必须属性item
         'category'         => ['attr' => 'id', 'close' => 1],//非必须属性item
         'subcategories'    => ['attr' => 'categoryId', 'close' => 1],//非必须属性item
         'allsubcategories' => ['attr' => 'categoryId', 'close' => 1],//非必须属性item
@@ -69,6 +69,7 @@ class Portal extends TagLib
         if (!empty($tag['page'])) {
             if (strpos($tag['page'], '$') === 0) {
                 $page = $tag['page'];
+                $this->autoBuildVar($page);
             } else {
                 $page = intval($tag['page']);
                 $page = "'{$page}'";
@@ -85,7 +86,7 @@ class Portal extends TagLib
             }
         }
 
-        if (strpos($order, '$') === 0) {
+        if (!empty($order) && strpos($order, '$') === 0) {
             $this->autoBuildVar($order);
         } else {
             $order = "'{$order}'";
@@ -153,6 +154,7 @@ parse;
         if (!empty($tag['page'])) {
             if (strpos($tag['page'], '$') === 0) {
                 $page = $tag['page'];
+                $this->autoBuildVar($page);
             } else {
                 $page = intval($tag['page']);
                 $page = "'{$page}'";
@@ -199,10 +201,6 @@ parse;
 
     /**
      * 单页文章标签
-     * @param array  $tag     标签属性
-     * @param string $content 标签包含的内容
-     * @return string
-     * @author 惠达浪
      */
     public function tagPage($tag, $content)
     {
@@ -213,7 +211,9 @@ parse;
         $returnVarName = empty($tag['item']) ? 'portal_page' : $tag['item'];
 
         $parse = <<<parse
-<?php \${$returnVarName} = \app\portal\service\ApiService::page({$id}); ?>
+<?php
+\${$returnVarName} = \app\portal\service\ApiService::page({$id});
+?>
 {$content}
 parse;
         return $parse;
@@ -258,8 +258,12 @@ parse;
     {
         $item          = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
         $order         = empty($tag['order']) ? '' : $tag['order'];
+        $ids           = empty($tag['ids']) ? '""' : $tag['ids'];
         $returnVarName = 'portal_categories_data';
-        $where         = '""';
+        if (strpos($ids, '$') === 0) {
+            $this->autoBuildVar($ids);
+        }
+        $where = '""';
         if (!empty($tag['where']) && strpos($tag['where'], '$') === 0) {
             $where = $tag['where'];
         }
@@ -269,6 +273,7 @@ parse;
 \${$returnVarName} = \app\portal\service\ApiService::categories([
     'where'   => {$where},
     'order'   => '{$order}',
+    'ids'     => {$ids}
 ]);
 
  ?>
@@ -281,10 +286,9 @@ parse;
 
     /**
      * 文章分类详情标签
-     * @param array  $tag     标签属性
-     * @param string $content 标签包含的内容
+     * @param array  $tag
+     * @param string $content
      * @return string
-     * @author 惠达浪
      */
     public function tagCategory($tag, $content)
     {
@@ -295,7 +299,9 @@ parse;
         $returnVarName = empty($tag['item']) ? 'portal_category' : $tag['item'];
 
         $parse = <<<parse
-<?php \${$returnVarName} = \app\portal\service\ApiService::category({$id}); ?>
+<?php
+\${$returnVarName} = \app\portal\service\ApiService::category({$id});
+?>
 {$content}
 parse;
         return $parse;
@@ -331,6 +337,7 @@ parse;
 parse;
         return $parse;
     }
+
 
     /**
      * 文章分类所有子分类标签
