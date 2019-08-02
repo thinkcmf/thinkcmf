@@ -806,6 +806,8 @@ function cmf_get_file_download_url($file, $expires = 3600)
         return $file;
     } else if (strpos($file, "/") === 0) {
         return $file;
+    } else if(strpos($file, "#") === 0) {
+        return $file;
     } else {
         $storage = Storage::instance();
         return $storage->getFileDownloadUrl($file, $expires);
