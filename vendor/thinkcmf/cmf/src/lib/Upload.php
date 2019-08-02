@@ -116,10 +116,10 @@ class Upload
         $strId      = $this->request->param("id");
         $strDate    = date('Ymd');
 
-        $adminId   = cmf_get_current_admin_id();
-        $userId    = cmf_get_current_user_id();
-        $userId    = empty($adminId) ? $userId : $adminId;
-        if(empty($userId)) {
+        $adminId = cmf_get_current_admin_id();
+        $userId  = cmf_get_current_user_id();
+        $userId  = empty($adminId) ? $userId : $adminId;
+        if (empty($userId)) {
             $userId = Db::name('user_token')->where('token', $this->request->header('XX-Token'))->field('user_id,token')->value('user_id');
         }
         $targetDir = Env::get('runtime_path') . "upload" . DIRECTORY_SEPARATOR . $userId . DIRECTORY_SEPARATOR; // 断点续传 need
@@ -318,6 +318,11 @@ class Upload
 
         } else {
             $needUploadToRemoteStorage = true;
+        }
+
+        if ($objAsset) {
+            $assetModel->where('id', $objAsset['id'])->update(['filename' => $arrInfo["filename"]]);
+        } else {
             $assetModel->data($arrInfo)->allowField(true)->save();
         }
 
