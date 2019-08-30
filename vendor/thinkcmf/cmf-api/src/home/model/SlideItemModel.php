@@ -18,10 +18,17 @@ use think\Model;
 class SlideItemModel extends Model
 {
     /**
-     * [base 全局查询范围status=1显示状态]
-     * @Author:   wuwu<15093565100@163.com>
-     * @DateTime: 2017-05-25T21:54:03+0800
-     * @since:    1.0
+     * 类型转换
+     * @var array
+     */
+    protected $type = [
+        'more' => 'array',
+    ];
+
+    /**
+     * 全局查询范围status=1显示状态
+     *
+     * @param $query
      */
     protected function base($query)
     {
