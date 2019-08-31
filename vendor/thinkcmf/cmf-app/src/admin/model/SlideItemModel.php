@@ -14,5 +14,12 @@ use think\Model;
 
 class SlideItemModel extends Model
 {
-
+    /**
+     * 类型转换
+     * @var array
+     */
+    protected $type = [
+        'more' => 'array',
+    ];
+    
 }
