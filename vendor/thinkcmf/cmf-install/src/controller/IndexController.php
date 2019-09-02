@@ -204,7 +204,7 @@ class IndexController extends BaseController
             $db     = Db::connect($dbConfig);
             $dbName = $this->request->param('dbname');
             $sql    = "CREATE DATABASE IF NOT EXISTS `{$dbName}` DEFAULT CHARACTER SET " . $dbConfig['charset'];
-            $db->execute($sql) || $this->error($db->getError());
+            $db->execute($sql);
 
             $dbConfig['database'] = $dbName;
 
