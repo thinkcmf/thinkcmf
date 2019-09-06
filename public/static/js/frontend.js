@@ -331,9 +331,9 @@
                     $this     = $($_this),
                     href      = $this.data('href'),
                     refresh   = $this.data('refresh'),
-                    msg       = $this.data('msg');
-                okBtnText     = $this.data('ok-btn');
-                cancelBtnText = $this.data('cancel-btn');
+                    msg       = $this.data('msg'),
+                    okBtnText     = $this.data('ok-btn'),
+                    cancelBtnText = $this.data('cancel-btn');
                 href          = href ? href : $this.attr('href');
                 noty({
                     text: msg ? msg : '确定要删除吗？',
@@ -455,8 +455,7 @@
                 var $_this = this,
                     $this  = $($_this),
                     href   = $this.data('href'),
-                    msg    = $this.data('msg');
-                refresh    = $this.data('refresh');
+                    refresh    = $this.data('refresh');
                 href       = href ? href : $this.attr('href');
                 refresh    = refresh == undefined ? 1 : refresh;
 
@@ -1215,7 +1214,6 @@ function openUploadDialog(dialog_title, callback, extra_params, multi, filetype,
                 if (typeof callback == 'function') {
                     var iframewindow = this.iframe.contentWindow;
                     var files        = iframewindow.get_selected_files();
-                    console.log(files);
                     if (files && files.length > 0) {
                         callback.apply(this, [this, files, extra_params]);
                     } else {
