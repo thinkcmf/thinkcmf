@@ -32,6 +32,7 @@ return [
     'CAPTCHA_NOT_RIGHT'        => "验证码错误！",
     'USERNAME_NOT_EXIST'       => "用户名不存在！",
     'USERNAME_OR_EMAIL_EMPTY'  => "用户名或邮箱不能为空！",
+    'USE_DISABLED'             => "此用户已被禁用！",
     'ENTER_VERIFY_CODE'        => '请输入验证码',
     'HOME'                     => '首页',
     'LOADING'                  => '正在加载...',
