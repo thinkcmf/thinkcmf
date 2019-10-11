@@ -135,6 +135,15 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
+#### 5.1.4
+* 优化上传逻辑已传文件更新文件名
+* 优化系统钩子初始化
+* 上传文件优化，更新已上传文件名
+* 修复编辑器锚点处理错误
+* 修复部分系统函数判断问题
+* 修复tp5.1.38前台控制器报错
+* 修复tp5.1.38下邮件验证码发不出
+
 #### 5.1.3
 * 增加`CMF_DATA`常量（注意升级）
 * 增加插件路由功能

@@ -74,17 +74,16 @@ class HomeBaseController extends BaseController
      * @access protected
      * @param string $template 模板文件名
      * @param array  $vars     模板输出变量
-     * @param array  $replace  模板替换
      * @param array  $config   模板参数
      * @return mixed
      */
-    protected function fetch($template = '', $vars = [], $replace = [], $config = [])
+    protected function fetch($template = '', $vars = [], $config = [])
     {
         $template = $this->parseTemplate($template);
         $more     = $this->getThemeFileMore($template);
         $this->assign('theme_vars', $more['vars']);
         $this->assign('theme_widgets', $more['widgets']);
-        $content = parent::fetch($template, $vars, $replace, $config);
+        $content = $this->view->fetch($template, $vars, $config);
 
         $designingTheme = cookie('cmf_design_theme');
 
@@ -115,8 +114,7 @@ hello;
             }
         }
 
-
-        return $content;
+        return parent::display($content, $vars, $config);;
     }
 
     /**
@@ -212,7 +210,7 @@ hello;
                         }
                     }
 
-                    $widget['vars']       = $widgetVars;
+                    $widget['vars'] = $widgetVars;
                     //如果重名，则合并配置
                     if (empty($widgets[$widgetName])) {
                         $widgets[$widgetName] = $widget;

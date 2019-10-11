@@ -43,7 +43,7 @@ class SlideItemController extends AdminBaseController
 
         $id      = $this->request->param('slide_id', 0, 'intval');
         $slideId = !empty($id) ? $id : 1;
-        $result  = SlideItemModel::where('slide_id', $slideId)->select();
+        $result  = Db::name('slideItem')->where('slide_id', $slideId)->select();
 
         $this->assign('slide_id', $id);
         $this->assign('result', $result);
@@ -92,7 +92,7 @@ class SlideItemController extends AdminBaseController
     public function addPost()
     {
         $data = $this->request->param();
-        SlideItemModel::create($data['post']);
+        Db::name('slideItem')->insert($data['post']);
         $this->success("添加成功！", url("slideItem/index", ['slide_id' => $data['post']['slide_id']]));
     }
 
@@ -118,7 +118,7 @@ class SlideItemController extends AdminBaseController
         }
 
         $id     = $this->request->param('id', 0, 'intval');
-        $result = SlideItemModel::where('id', $id)->find();
+        $result = Db::name('slideItem')->where('id', $id)->find();
 
         $this->assign('result', $result);
         $this->assign('slide_id', $result['slide_id']);
@@ -144,7 +144,7 @@ class SlideItemController extends AdminBaseController
 
         $data['post']['image'] = cmf_asset_relative_url($data['post']['image']);
 
-        SlideItemModel::update($data['post']);
+        Db::name('slideItem')->update($data['post']);
 
         $this->success("保存成功！", url("SlideItem/index", ['slide_id' => $data['post']['slide_id']]));
 
@@ -171,6 +171,9 @@ class SlideItemController extends AdminBaseController
 
         $result = Db::name('slideItem')->delete($id);
         if ($result) {
+            //删除图片。
+//            if (file_exists("./upload/".$slideItem['image'])){
+//            }
             $this->success("删除成功！", url("SlideItem/index", ["slide_id" => $slideItem['slide_id']]));
         } else {
             $this->error('删除失败！');

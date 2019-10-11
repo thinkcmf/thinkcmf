@@ -145,16 +145,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.0.7",
+            "version": "v6.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "0c41a36d4508d470e376498c1c0c527aa36a2d59"
+                "reference": "26bd96350b0b2fcbf0ef4e6f0f9cf3528302a9d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/0c41a36d4508d470e376498c1c0c527aa36a2d59",
-                "reference": "0c41a36d4508d470e376498c1c0c527aa36a2d59",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/26bd96350b0b2fcbf0ef4e6f0f9cf3528302a9d8",
+                "reference": "26bd96350b0b2fcbf0ef4e6f0f9cf3528302a9d8",
                 "shasum": ""
             },
             "require": {
@@ -187,16 +187,16 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL-2.1"
+                "LGPL-2.1-only"
             ],
             "authors": [
                 {
-                    "name": "Jim Jagielski",
-                    "email": "jimjag@gmail.com"
-                },
-                {
                     "name": "Marcus Bointon",
                     "email": "phpmailer@synchromedia.co.uk"
+                },
+                {
+                    "name": "Jim Jagielski",
+                    "email": "jimjag@gmail.com"
                 },
                 {
                     "name": "Andy Prevost",
@@ -207,20 +207,20 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2019-02-01T15:04:28+00:00"
+            "time": "2019-09-27T21:33:43+00:00"
         },
         {
             "name": "thinkcmf/cmf",
-            "version": "v5.1.8",
+            "version": "v5.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-core.git",
-                "reference": "38c731d817c57652f23150b6bd790702bbcceea6"
+                "reference": "277133f921668d831e95ddcb428bc9cb4e4b5158"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/38c731d817c57652f23150b6bd790702bbcceea6",
-                "reference": "38c731d817c57652f23150b6bd790702bbcceea6",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/277133f921668d831e95ddcb428bc9cb4e4b5158",
+                "reference": "277133f921668d831e95ddcb428bc9cb4e4b5158",
                 "shasum": ""
             },
             "require": {
@@ -257,7 +257,7 @@
                 }
             ],
             "description": "The ThinkCMF Core Package",
-            "time": "2019-07-31T03:56:18+00:00"
+            "time": "2019-10-11T02:27:37+00:00"
         },
         {
             "name": "thinkcmf/cmf-api",
@@ -298,16 +298,16 @@
         },
         {
             "name": "thinkcmf/cmf-app",
-            "version": "v5.1.5",
+            "version": "v5.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-app.git",
-                "reference": "701477e9c6cfed749bc2ec03b47f891748a9aa58"
+                "reference": "dd02fc871dcfccc59ac21750ce6ddec359e79e7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/701477e9c6cfed749bc2ec03b47f891748a9aa58",
-                "reference": "701477e9c6cfed749bc2ec03b47f891748a9aa58",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/dd02fc871dcfccc59ac21750ce6ddec359e79e7d",
+                "reference": "dd02fc871dcfccc59ac21750ce6ddec359e79e7d",
                 "shasum": ""
             },
             "require": {
@@ -331,7 +331,7 @@
                 }
             ],
             "description": "The ThinkCMF App Package",
-            "time": "2019-07-23T23:27:32+00:00"
+            "time": "2019-09-06T03:58:33+00:00"
         },
         {
             "name": "thinkcmf/cmf-extend",
