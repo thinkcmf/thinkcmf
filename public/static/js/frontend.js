@@ -812,6 +812,22 @@
         });
     }
 
+    // bootstrap年月份选择器
+    var bootstrapYearMonthInput = $("input.js-bootstrap-year-month");
+    if (bootstrapYearMonthInput.length) {
+        Wind.css('bootstrapDatetimePicker');
+        Wind.use('bootstrapDatetimePicker', function () {
+            bootstrapYearMonthInput.datetimepicker({
+                language: 'zh-CN',
+                format: 'yyyy-mm',
+                minView: 'year',
+                startView: 'decade',
+                todayBtn: 1,
+                autoclose: true
+            });
+        });
+    }
+
     // bootstrap日期选择器
     var bootstrapDateInput = $("input.js-bootstrap-date")
     if (bootstrapDateInput.length) {
