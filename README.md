@@ -135,6 +135,12 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
+#### 5.1.5
+* 升级到tp5.1.39
+* 增加模板设计数组列表图片显示
+* 优化前台基类
+* 取消路由排序限制
+
 #### 5.1.4
 * 优化上传逻辑，已传文件更新文件名
 * 优化系统钩子初始化

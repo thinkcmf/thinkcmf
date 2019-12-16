@@ -207,16 +207,16 @@
         },
         {
             "name": "thinkcmf/cmf",
-            "version": "v5.1.10",
+            "version": "v5.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-core.git",
-                "reference": "277133f921668d831e95ddcb428bc9cb4e4b5158"
+                "reference": "f9e726abc3b6412bdce8b5d1e426e40bb2932380"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/277133f921668d831e95ddcb428bc9cb4e4b5158",
-                "reference": "277133f921668d831e95ddcb428bc9cb4e4b5158",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/f9e726abc3b6412bdce8b5d1e426e40bb2932380",
+                "reference": "f9e726abc3b6412bdce8b5d1e426e40bb2932380",
                 "shasum": ""
             },
             "require": {
@@ -253,7 +253,7 @@
                 }
             ],
             "description": "The ThinkCMF Core Package",
-            "time": "2019-10-11T02:27:37+00:00"
+            "time": "2019-12-16T09:51:55+00:00"
         },
         {
             "name": "thinkcmf/cmf-api",
