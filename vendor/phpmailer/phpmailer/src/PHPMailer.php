@@ -745,7 +745,7 @@ class PHPMailer
      *
      * @var string
      */
-    const VERSION = '6.1.3';
+    const VERSION = '6.1.4';
 
     /**
      * Error severity: message only, continue processing.
@@ -1346,7 +1346,7 @@ class PHPMailer
                 );
             case 'php':
             default:
-                return (bool) filter_var($address, FILTER_VALIDATE_EMAIL);
+                return filter_var($address, FILTER_VALIDATE_EMAIL) !== false;
         }
     }
 
@@ -1389,7 +1389,13 @@ class PHPMailer
                 $domain = mb_convert_encoding($domain, 'UTF-8', $this->CharSet);
                 //Ignore IDE complaints about this line - method signature changed in PHP 5.4
                 $errorcode = 0;
-                $punycode = idn_to_ascii($domain, $errorcode, INTL_IDNA_VARIANT_UTS46);
+                if (defined('INTL_IDNA_VARIANT_UTS46')) {
+                    $punycode = idn_to_ascii($domain, $errorcode, INTL_IDNA_VARIANT_UTS46);
+                } elseif (defined('INTL_IDNA_VARIANT_2003')) {
+                    $punycode = idn_to_ascii($domain, $errorcode, INTL_IDNA_VARIANT_2003);
+                } else {
+                    $punycode = idn_to_ascii($domain, $errorcode);
+                }
                 if (false !== $punycode) {
                     return substr($address, 0, $pos) . $punycode;
                 }
@@ -1942,33 +1948,33 @@ class PHPMailer
         foreach ($hosts as $hostentry) {
             $hostinfo = [];
             if (!preg_match(
-                '/^((ssl|tls):\/\/)*([a-zA-Z\d.-]*|\[[a-fA-F\d:]+]):?(\d*)$/',
+                '/^(?:(ssl|tls):\/\/)?(.+?)(?::(\d+))?$/',
                 trim($hostentry),
                 $hostinfo
             )) {
-                $this->edebug($this->lang('connect_host') . ' ' . $hostentry);
+                $this->edebug($this->lang('invalid_hostentry') . ' ' . trim($hostentry));
                 // Not a valid host entry
                 continue;
             }
-            // $hostinfo[2]: optional ssl or tls prefix
-            // $hostinfo[3]: the hostname
-            // $hostinfo[4]: optional port number
+            // $hostinfo[1]: optional ssl or tls prefix
+            // $hostinfo[2]: the hostname
+            // $hostinfo[3]: optional port number
             // The host string prefix can temporarily override the current setting for SMTPSecure
             // If it's not specified, the default value is used
 
             //Check the host name is a valid name or IP address before trying to use it
-            if (!static::isValidHost($hostinfo[3])) {
-                $this->edebug($this->lang('connect_host') . ' ' . $hostentry);
+            if (!static::isValidHost($hostinfo[2])) {
+                $this->edebug($this->lang('invalid_host') . ' ' . $hostinfo[2]);
                 continue;
             }
             $prefix = '';
             $secure = $this->SMTPSecure;
             $tls = (static::ENCRYPTION_STARTTLS === $this->SMTPSecure);
-            if ('ssl' === $hostinfo[2] || ('' === $hostinfo[2] && static::ENCRYPTION_SMTPS === $this->SMTPSecure)) {
+            if ('ssl' === $hostinfo[1] || ('' === $hostinfo[1] && static::ENCRYPTION_SMTPS === $this->SMTPSecure)) {
                 $prefix = 'ssl://';
                 $tls = false; // Can't have SSL and TLS at the same time
                 $secure = static::ENCRYPTION_SMTPS;
-            } elseif ('tls' === $hostinfo[2]) {
+            } elseif ('tls' === $hostinfo[1]) {
                 $tls = true;
                 // tls doesn't use a prefix
                 $secure = static::ENCRYPTION_STARTTLS;
@@ -1981,11 +1987,10 @@ class PHPMailer
                     throw new Exception($this->lang('extension_missing') . 'openssl', self::STOP_CRITICAL);
                 }
             }
-            $host = $hostinfo[3];
+            $host = $hostinfo[2];
             $port = $this->Port;
-            $tport = (int) $hostinfo[4];
-            if ($tport > 0 && $tport < 65536) {
-                $port = $tport;
+            if (array_key_exists(3, $hostinfo) && is_numeric($hostinfo[3]) && $hostinfo[3] > 0 && $hostinfo[3] < 65536) {
+                $port = (int) $hostinfo[3];
             }
             if ($this->smtp->connect($prefix . $host, $port, $this->Timeout, $options)) {
                 try {
@@ -2089,6 +2094,8 @@ class PHPMailer
             'from_failed' => 'The following From address failed: ',
             'instantiate' => 'Could not instantiate mail function.',
             'invalid_address' => 'Invalid address: ',
+            'invalid_hostentry' => 'Invalid hostentry: ',
+            'invalid_host' => 'Invalid host: ',
             'mailer_not_supported' => ' mailer is not supported.',
             'provide_address' => 'You must provide at least one recipient email address.',
             'recipients_failed' => 'SMTP Error: The following recipients failed: ',
@@ -3239,7 +3246,7 @@ class PHPMailer
         if ('mail' === $this->Mailer) {
             $maxlen = static::MAIL_MAX_LINE_LENGTH - $overhead;
         } else {
-            $maxlen = static::STD_LINE_LENGTH - $overhead;
+            $maxlen = static::MAX_LINE_LENGTH - $overhead;
         }
 
         // Select the encoding that produces the shortest output and/or prevents corruption.
@@ -3861,20 +3868,21 @@ class PHPMailer
         if (empty($host)
             || !is_string($host)
             || strlen($host) > 256
+            || !preg_match('/^([a-zA-Z\d.-]*|\[[a-fA-F\d:]+])$/', $host)
         ) {
             return false;
         }
         //Looks like a bracketed IPv6 address
-        if (trim($host, '[]') !== $host) {
-            return (bool) filter_var(trim($host, '[]'), FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
+        if (strlen($host) > 2 && substr($host, 0, 1) === '[' && substr($host, -1, 1) === ']') {
+            return filter_var(substr($host, 1, -1), FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false;
         }
         //If removing all the dots results in a numeric string, it must be an IPv4 address.
         //Need to check this first because otherwise things like `999.0.0.0` are considered valid host names
         if (is_numeric(str_replace('.', '', $host))) {
             //Is it a valid IPv4 address?
-            return (bool) filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+            return filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) !== false;
         }
-        if (filter_var('http://' . $host, FILTER_VALIDATE_URL)) {
+        if (filter_var('http://' . $host, FILTER_VALIDATE_URL) !== false) {
             //Is it a syntactically valid hostname?
             return true;
         }

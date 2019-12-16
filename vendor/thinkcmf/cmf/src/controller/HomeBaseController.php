@@ -114,7 +114,7 @@ hello;
             }
         }
 
-        return parent::display($content, $vars, $config);;
+        return $content;
     }
 
     /**
