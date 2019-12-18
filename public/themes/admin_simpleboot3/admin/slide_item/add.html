@@ -25,6 +25,17 @@
                         </td>
                     </tr>
                     <tr>
+                        <th>打开方式</th>
+                        <td>
+                            <select class="form-control" name="post[target]" id="target" style="width: 400px">
+                                <option value="_blank" selected="selected">新窗口(_blank)</option>
+                                <option value="_self">当前窗口(_self)</option>
+                                <option value="_parent">父窗口(_parent)</option>
+                                <option value="_top">主窗口(_top)</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <th>描述</th>
                         <td><input class="form-control" type="text" name="post[description]" id="source" value=""
                                    style="width: 400px" placeholder="请输入描述"></td>
