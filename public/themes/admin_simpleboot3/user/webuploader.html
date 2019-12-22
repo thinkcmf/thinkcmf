@@ -402,7 +402,6 @@
 
                     // 成功
                     if (cur === 'error' || cur === 'invalid') {
-                        console.log(file.statusText);
                         showError(file.statusText);
                         percentages[file.id][1] = 1;
                     } else if (cur === 'interrupt') {
@@ -670,8 +669,6 @@
             });
 
             uploader.on("uploadAccept", function (object, ret) {
-                console.log(object);
-                console.log(ret);
                 if (ret.code == 0) {
                     fileErrorMsg[object.file.id] = ret.msg;
                     return false;
@@ -682,8 +679,6 @@
             });
 
             uploader.on('uploadError', function (file, reason) {
-                console.log(file.id);
-                console.log(reason);
                 if (reason == 'server') {
                     $('#' + file.id).find('p.error').text(fileErrorMsg[file.id]);
                 }
