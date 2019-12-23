@@ -11,10 +11,8 @@
             <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">{:lang('SORT')}</button>
         </div>
         <php>
-            $status = [
-                '隐藏',
-                '开启'
-            ];
+			$status = ['隐藏', '开启'];
+			$target = ['_blank'=>'新窗口', '_self'=>'当前窗口', '_parent'=>'父窗口', '_top'=>'主窗口'];
         </php>
         <table class="table table-hover table-bordered">
             <thead>
@@ -24,6 +22,7 @@
                 <th>幻灯片标题</th>
                 <th>描述</th>
                 <th>链接</th>
+                <th>打开方式</th>
                 <th>图片</th>
                 <th>状态</th>
                 <th width="160">{:lang('ACTIONS')}</th>
@@ -39,6 +38,7 @@
                     <td>{$vo.title}</td>
                     <td>{$description = mb_substr($vo['description'], 0, 48,'utf-8')}</td>
                     <td>{$vo.url}</td>
+                    <td>{$target[$vo.target]}</td>
                     <td>
                         <if condition="!empty($vo['image'])">
                             <a href="javascript:imagePreviewDialog('{:cmf_get_image_preview_url($vo.image)}');">
