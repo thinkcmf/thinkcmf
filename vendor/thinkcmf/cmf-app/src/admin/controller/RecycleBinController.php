@@ -89,7 +89,7 @@ class RecycleBinController extends AdminBaseController
     }
 
     /**
-     * 回收站彻底删除
+     * 清空回收站
      * @adminMenu(
      *     'name'   => '清空回收站',
      *     'parent' => 'index',
