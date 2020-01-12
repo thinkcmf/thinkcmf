@@ -15,6 +15,8 @@ use think\Model;
 
 class RecycleBinModel extends Model
 {
+    protected $autoWriteTimestamp = true;
+    protected $update = false;
 
     public function user()
     {
