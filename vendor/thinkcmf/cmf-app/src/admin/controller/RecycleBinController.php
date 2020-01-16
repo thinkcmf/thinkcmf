@@ -14,6 +14,8 @@ use app\admin\model\RecycleBinModel;
 use app\admin\model\RouteModel;
 use cmf\controller\AdminBaseController;
 use think\Db;
+use think\Exception;
+use think\exception\PDOException;
 
 class RecycleBinController extends AdminBaseController
 {
@@ -38,12 +40,13 @@ class RecycleBinController extends AdminBaseController
             return $content;
         }
 
-        $recycleBinModel = new RecycleBinModel();
-        $list            = $recycleBinModel->order('create_time desc')->paginate(10);
         // 获取分页显示
-        $page = $list->render();
-        $this->assign('page', $page);
-        $this->assign('list', $list);
+        $list = (new RecycleBinModel())->order('create_time desc')->paginate(20);
+
+        $this->assign([
+            'list' => $list,
+            'page' => $list->render()
+        ]);
         return $this->fetch();
     }
 
@@ -62,29 +65,8 @@ class RecycleBinController extends AdminBaseController
      */
     public function restore()
     {
-
-        $id     = $this->request->param('id', 0, 'intval');
-        $result = Db::name('recycleBin')->where('id', $id)->find();
-
-        $tableName = explode('#', $result['table_name']);
-        $tableName = $tableName[0];
-        //还原资源
-        if ($result) {
-            $res = Db::name($tableName)
-                ->where('id', $result['object_id'])
-                ->update(['delete_time' => '0']);
-            if ($tableName == 'portal_post') {
-                Db::name('portal_category_post')->where('post_id', $result['object_id'])->update(['status' => 1]);
-                Db::name('portal_tag_post')->where('post_id', $result['object_id'])->update(['status' => 1]);
-            }
-
-            if ($res) {
-                $re = Db::name('recycleBin')->where('id', $id)->delete();
-                if ($re) {
-                    $this->success("还原成功！");
-                }
-            }
-        }
+        $this->operate($this->request->param('ids'), false);
+        $this->success('还原成功');
     }
 
     /**
@@ -102,32 +84,86 @@ class RecycleBinController extends AdminBaseController
      */
     public function delete()
     {
-        $id     = $this->request->param('id');
-        $result = Db::name('recycleBin')->where('id', $id)->find();
-        //删除资源
-        if ($result) {
+        $this->operate($this->request->param('ids'));
+        $this->success('删除成功');
+    }
 
-            //页面没有单独的表.
-            if ($result['table_name'] === 'portal_post#page') {
-                $re = Db::name('portal_post')->where('id', $result['object_id'])->delete();
-                //消除路由
-                $routeModel = new RouteModel();
-                $routeModel->setRoute('', 'portal/Page/index', ['id' => $result['object_id']], 2, 5000);
-                $routeModel->getRoutes(true);
-            } else {
-                $re = Db::name($result['table_name'])->where('id', $result['object_id'])->delete();
-            }
+    /**
+     * 清空回收站
+     * @adminMenu(
+     *     'name'   => '清空回收站',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '一键清空回收站',
+     *     'param'  => ''
+     * )
+     */
+    public function clear()
+    {
+        $this->operate(null);
+        $this->success('回收站已清空');
+    }
 
-            if ($re) {
-                $res = Db::name('recycleBin')->where('id', $id)->delete();
-                if ($result['table_name'] === 'portal_post') {
-                    Db::name('portal_category_post')->where('post_id', $result['object_id'])->delete();
-                    Db::name('portal_tag_post')->where('post_id', $result['object_id'])->delete();
+    /**
+     * 统一处理删除、还原
+     * @param bool  $isDelete 是否是删除操作
+     * @param array $ids      处理的资源id集
+     */
+    private function operate($ids, $isDelete = true)
+    {
+        $records = RecycleBinModel::all($ids);
+
+        if ($records) {
+            try {
+                Db::startTrans();
+                $desIds = [];
+                foreach ($records as $record) {
+                    $desIds[] = $record['id'];
+                    if ($isDelete) {
+                        // 删除资源
+                        if ($record['table_name'] === 'portal_post#page') {
+                            // 页面没有单独的表，需要单独处理
+                            Db::name('portal_post')->delete($record['object_id']);
+
+                            // 消除路由
+                            $routeModel = new RouteModel();
+                            $routeModel->setRoute('', 'portal/Page/index', ['id' => $record['object_id']], 2, 5000);
+                            $routeModel->getRoutes(true);
+                        } else {
+                            Db::name($record['table_name'])->delete($record['object_id']);
+                        }
+
+                        // 如果是文章表，删除相关数据
+                        if ($record['table_name'] === 'portal_post') {
+                            Db::name('portal_category_post')->where('post_id', '=', $record['object_id'])->delete();
+                            Db::name('portal_tag_post')->where('post_id', '=', $record['object_id'])->delete();
+                        }
+                    } else {
+                        // 还原资源
+                        $tableNameArr = explode('#', $record['table_name']);
+                        $tableName    = $tableNameArr[0];
+
+                        $result = Db::name($tableName)->where('id', '=', $record['object_id'])->update(['delete_time' => '0']);
+                        if ($result) {
+                            if ($tableName === 'portal_post') {
+                                Db::name('portal_category_post')->where('post_id', '=', $record['object_id'])->update(['status' => 1]);
+                                Db::name('portal_tag_post')->where('post_id', '=', $record['object_id'])->update(['status' => 1]);
+                            }
+                        }
+                    }
                 }
-                if ($res) {
-                    $this->success("删除成功！");
-                }
-
+                // 删除回收站数据
+                RecycleBinModel::destroy($desIds);
+                Db::commit();
+            } catch (PDOException $e) {
+                Db::rollback();
+                $this->error('数据库错误', $e->getMessage());
+            } catch (Exception $e) {
+                Db::rollback();
+                $this->error($isDelete ? '删除' : '还原' . '失败', $e->getMessage());
             }
         }
     }
