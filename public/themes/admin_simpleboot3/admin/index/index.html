@@ -348,7 +348,8 @@
             $(this).removeClass("open");
         });
 
-        var menus= {:$menus_js_var};
+        //var menus= {:$menus_js_var};//unexpected syntaxerror: unexpected token ':'
+	  var $menus = $('.menus_js_var');  
         //读取url参数。尝试执行菜单功能。
         if(typeof(menus) != "undefined"){
 
