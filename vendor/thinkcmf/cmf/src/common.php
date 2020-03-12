@@ -1176,7 +1176,7 @@ function cmf_plugin_url($url, $vars = [], $domain = false)
         foreach ($CMF_GV_routes[$pluginUrl] as $actionRoute) {
             $sameVars = array_intersect_assoc($vars, $actionRoute['vars']);
 
-            if (count($sameVars) == count($actionRoute['vars'])) {
+            if (!empty($sameVars) && (count($sameVars) == count($actionRoute['vars']))) {
                 ksort($sameVars);
                 $pluginUrl  = $pluginUrl . '&' . http_build_query($sameVars);
                 $vars = array_diff_assoc($vars, $sameVars);
@@ -1727,7 +1727,7 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
         foreach ($CMF_GV_routes[$url] as $actionRoute) {
             $sameVars = array_intersect_assoc($vars, $actionRoute['vars']);
 
-            if (count($sameVars) == count($actionRoute['vars'])) {
+            if (!empty($sameVars) && (count($sameVars) == count($actionRoute['vars']))) {
                 ksort($sameVars);
                 $url  = $url . '?' . http_build_query($sameVars);
                 $vars = array_diff_assoc($vars, $sameVars);

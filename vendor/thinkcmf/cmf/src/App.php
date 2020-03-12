@@ -451,6 +451,7 @@ class App extends Container
             $routeInfo = $this->request->routeInfo();
             if (!empty($routeInfo['route']) && strpos($routeInfo['route'], '\cmf\controller\PluginController@index?') !== false) {
                 parse_str(str_replace('\cmf\controller\PluginController@index?', '', $routeInfo['route']), $routeParams);
+                $routeParams = array_merge($routeParams, $routeInfo['var']);
                 $this->request->withRoute($routeParams);
             }
 
