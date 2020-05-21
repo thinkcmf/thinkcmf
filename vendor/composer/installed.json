@@ -144,17 +144,17 @@
     },
     {
         "name": "phpmailer/phpmailer",
-        "version": "v6.1.4",
-        "version_normalized": "6.1.4.0",
+        "version": "v6.1.5",
+        "version_normalized": "6.1.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/PHPMailer/PHPMailer.git",
-            "reference": "c5e61d0729507049cec9673aa1a679f9adefd683"
+            "reference": "a8bf068f64a580302026e484ee29511f661b2ad3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/c5e61d0729507049cec9673aa1a679f9adefd683",
-            "reference": "c5e61d0729507049cec9673aa1a679f9adefd683",
+            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/a8bf068f64a580302026e484ee29511f661b2ad3",
+            "reference": "a8bf068f64a580302026e484ee29511f661b2ad3",
             "shasum": ""
         },
         "require": {
@@ -175,7 +175,7 @@
             "stevenmaguire/oauth2-microsoft": "Needed for Microsoft XOAUTH2 authentication",
             "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
         },
-        "time": "2019-12-10T11:17:38+00:00",
+        "time": "2020-03-14T14:23:48+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -208,17 +208,17 @@
     },
     {
         "name": "thinkcmf/cmf",
-        "version": "v5.1.10",
-        "version_normalized": "5.1.10.0",
+        "version": "v5.1.11",
+        "version_normalized": "5.1.11.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thinkcmf/cmf-core.git",
-            "reference": "277133f921668d831e95ddcb428bc9cb4e4b5158"
+            "reference": "f9e726abc3b6412bdce8b5d1e426e40bb2932380"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/277133f921668d831e95ddcb428bc9cb4e4b5158",
-            "reference": "277133f921668d831e95ddcb428bc9cb4e4b5158",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/f9e726abc3b6412bdce8b5d1e426e40bb2932380",
+            "reference": "f9e726abc3b6412bdce8b5d1e426e40bb2932380",
             "shasum": ""
         },
         "require": {
@@ -230,7 +230,7 @@
             "topthink/framework": "~5.1.0",
             "topthink/think-captcha": "^2.0"
         },
-        "time": "2019-10-11T02:27:37+00:00",
+        "time": "2019-12-16T09:51:55+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

@@ -34,7 +34,7 @@ class SMTP
      *
      * @var string
      */
-    const VERSION = '6.1.4';
+    const VERSION = '6.1.5';
 
     /**
      * SMTP line break constant.
@@ -1344,6 +1344,7 @@ class SMTP
         } else {
             $this->last_smtp_transaction_id = false;
             foreach ($this->smtp_transaction_id_patterns as $smtp_transaction_id_pattern) {
+                $matches = [];
                 if (preg_match($smtp_transaction_id_pattern, $reply, $matches)) {
                     $this->last_smtp_transaction_id = trim($matches[1]);
                     break;

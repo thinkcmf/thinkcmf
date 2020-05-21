@@ -31,6 +31,18 @@ if (PHP_SAPI == 'cli') {
             \think\Console::addDefaultCommands($commands);
         }
     }
+
+    $plugins = cmf_scan_dir(WEB_ROOT . '/plugins/*', GLOB_ONLYDIR);
+
+    foreach ($plugins as $plugin) {
+        $commandFile = WEB_ROOT . "/plugins/$plugin/command.php";
+
+        if (file_exists($commandFile)) {
+            $commands = include $commandFile;
+            // 注册命令行指令
+            \think\Console::addDefaultCommands($commands);
+        }
+    }
 }
 
 /**
@@ -1176,7 +1188,7 @@ function cmf_plugin_url($url, $vars = [], $domain = false)
         foreach ($CMF_GV_routes[$pluginUrl] as $actionRoute) {
             $sameVars = array_intersect_assoc($vars, $actionRoute['vars']);
 
-            if (!empty($sameVars) && (count($sameVars) == count($actionRoute['vars']))) {
+            if (count($sameVars) == count($actionRoute['vars'])) {
                 ksort($sameVars);
                 $pluginUrl  = $pluginUrl . '&' . http_build_query($sameVars);
                 $vars = array_diff_assoc($vars, $sameVars);
@@ -1727,7 +1739,7 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
         foreach ($CMF_GV_routes[$url] as $actionRoute) {
             $sameVars = array_intersect_assoc($vars, $actionRoute['vars']);
 
-            if (!empty($sameVars) && (count($sameVars) == count($actionRoute['vars']))) {
+            if (count($sameVars) == count($actionRoute['vars'])) {
                 ksort($sameVars);
                 $url  = $url . '?' . http_build_query($sameVars);
                 $vars = array_diff_assoc($vars, $sameVars);
@@ -1824,7 +1836,7 @@ function cmf_replace_content_file_url($content, $isForDbSave = false)
         }
     }
 
-    $content = $pq->html();
+    $content = $pq->htmlOuter();
 
     \phpQuery::$documents = null;
 
