@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
-use think\Db;
+use cmf\model\ThemeFileModel;
 use app\admin\model\ThemeModel;
 use think\facade\View;
 
@@ -185,7 +185,7 @@ hello;
         $webRoot   = str_replace('\\', '/', WEB_ROOT);
         $themeFile = str_replace(['.html', '.php', $themePath . $theme . "/", $webRoot], '', $file);
 
-        $files = Db::name('theme_file')->field('more')->where('theme', $theme)
+        $files = ThemeFileModel::field('more')->where('theme', $theme)
             ->where(function ($query) use ($themeFile) {
                 $query->where('is_public', 1)->whereOr('file', $themeFile);
             })->select();
@@ -193,7 +193,7 @@ hello;
         $vars    = [];
         $widgets = [];
         foreach ($files as $file) {
-            $oldMore = json_decode($file['more'], true);
+            $oldMore = $file['more'];
             if (!empty($oldMore['vars'])) {
                 foreach ($oldMore['vars'] as $varName => $var) {
                     $vars[$varName] = $var['value'];
