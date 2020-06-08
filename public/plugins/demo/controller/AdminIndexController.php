@@ -11,8 +11,8 @@ namespace plugins\demo\controller;
 
 //Demo插件英文名，改成你的插件英文就行了
 
+use app\user\model\UserModel;
 use cmf\controller\PluginAdminBaseController;
-use think\Db;
 
 /**
  * Class AdminIndexController.
@@ -57,7 +57,7 @@ class AdminIndexController extends PluginAdminBaseController
 //        if ($result !== true) {
 //            $this->error($result);
 //        }
-        $users = Db::name('user')->limit(0, 5)->select();
+        $users = UserModel::limit(0, 5)->select();
         //$demos = PluginDemoModel::all();
 
         // print_r($demos);
@@ -82,7 +82,7 @@ class AdminIndexController extends PluginAdminBaseController
      */
     public function setting()
     {
-        $users = Db::name('user')->limit(0, 5)->select();
+        $users = UserModel::limit(0, 5)->select();
         //$demos = PluginDemoModel::all();
 
         // print_r($demos);
