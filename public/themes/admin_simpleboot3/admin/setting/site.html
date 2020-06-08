@@ -209,7 +209,7 @@
                             <label for="input-banned_usernames" class="col-sm-2 control-label">{:lang('SPECAIL_USERNAME')}</label>
                             <div class="col-md-6 col-sm-10">
                                 <textarea class="form-control" id="input-banned_usernames"
-                                          name="cmf_settings[banned_usernames]">{$cmf_settings.banned_usernames}</textarea>
+                                          name="cmf_settings[banned_usernames]">{$cmf_settings.banned_usernames|default=''}</textarea>
                             </div>
                         </div>
                         <div class="form-group">
