@@ -1918,10 +1918,11 @@ function cmf_user_action($action)
                     $endDayEndTime     = strtotime(date('Y-m-d', strtotime("+{$cycleTime} day", $firstDayStartTime)));
 //                    $todayStartTime        = strtotime(date('Y-m-d'));
 //                    $todayEndTime          = strtotime(date('Y-m-d', strtotime('+1 day')));
-                    $findUserScoreLogCount = Db::name('user_score_log')->where([
-                        'user_id'     => $userId,
-                        'create_time' => [['gt', $firstDayStartTime], ['lt', $endDayEndTime]]
-                    ])->count();
+                    $findUserScoreLogCount = Db::name('user_score_log')
+                        ->where('user_id', $userId)
+                        ->where('create_time', '>', $firstDayStartTime)
+                        ->where('create_time', '<', $endDayEndTime)
+                        ->count();
                     if ($findUserScoreLogCount < $findUserAction['reward_number']) {
                         $changeScore = true;
                     }

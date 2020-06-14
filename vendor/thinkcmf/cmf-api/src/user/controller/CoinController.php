@@ -24,10 +24,9 @@ class CoinController extends RestUserBaseController
         $userId            = $this->getUserId();
         $userScoreLogModel = new UserScoreLogModel();
 
-        $logs = $userScoreLogModel->where([
-            'user_id' => $userId,
-            'coin'    => ['neq', 0]
-        ])->order('create_time DESC')->paginate();
+        $logs = $userScoreLogModel->where('user_id', $userId)
+            ->where('coin', '<>', 0)
+            ->order('create_time DESC')->paginate();
 
         $this->success('请求成功', ['list' => $logs->items()]);
     }
