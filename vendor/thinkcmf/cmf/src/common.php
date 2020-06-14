@@ -518,7 +518,7 @@ function cmf_set_option($key, $data, $replace = false)
     } else {
         $option['option_name']  = $key;
         $option['option_value'] = json_encode($data);
-        OptionModel::insert($option);
+        OptionModel::create($option);
     }
 
     cache('cmf_options_' . $key, null);//删除缓存
