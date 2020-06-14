@@ -83,7 +83,7 @@ class CommentModel extends Model
     {
         return $this->belongsTo('UserModel', 'to_user_id')->field('id,user_nickname');
     }
-    
+
     /**
      * 添加评论
      * @param $data
@@ -100,7 +100,7 @@ class CommentModel extends Model
             try {
                 $pk = Db::name($data['table_name'])->getPk();
 
-                Db::name($data['table_name'])->where([$pk => $objectId])->setInc('comment_count');
+                Db::name($data['table_name'])->where([$pk => $objectId])->inc('comment_count')->update();
 
                 Db::name($data['table_name'])->where([$pk => $objectId])->update(['last_comment' => time()]);
 
