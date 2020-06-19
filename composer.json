@@ -1,39 +1,61 @@
 {
     "name": "thinkcmf/thinkcmf",
-    "description": "ThinkCMF based on ThinkPHP 5.1 , it is a free and open source Content Management Framework(CMF)",
+    "description": "ThinkCMF based on ThinkPHP 6.0 , it is a free and open source Content Management Framework(CMF)",
     "type": "project",
     "keywords": [
         "cmf",
-        "thinkcmf",
+        "ThinkCMF",
         "framework",
-        "thinkphp",
+        "ThinkPHP",
         "ORM"
     ],
     "homepage": "http://www.thinkcmf.com/",
     "license": "MIT",
     "authors": [
         {
-            "name": "thinkcmf",
+            "name": "catman",
             "email": "catman@thinkcmf.com"
+        },
+        {
+            "name": "Xia",
+            "email": "449134904@qq.com"
         }
     ],
     "require": {
-        "php": ">=5.6.0",
+        "php": ">=7.1.0",
         "ext-json": "*",
         "ext-curl": "*",
         "ext-pdo": "*",
-        "topthink/think-helper": "^1.0",
-        "topthink/think-image": "^1.0",
-        "thinkcmf/cmf-app": "~5.1.0",
-        "thinkcmf/cmf-install": "~5.1.0",
-        "thinkcmf/cmf-api": "~5.1.0"
+        "topthink/framework": "^6.0.0",
+        "topthink/think-orm": "^2.0",
+        "topthink/think-multi-app": "^1.0"
+
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^4.2",
+        "topthink/think-trace":"^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "app\\": "app"
+        },
+        "psr-0": {
+            "": "extend/"
+        }
     },
     "extra": {
         "think-path": "vendor/thinkphp",
         "think-config": "data/config"
     },
     "config": {
+        "preferred-install": "dist",
         "vendor-dir": "vendor"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php think service:discover",
+            "@php think vendor:publish"
+        ]
     },
     "repositories": {
         "packagist": {
