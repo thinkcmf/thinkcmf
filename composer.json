@@ -28,7 +28,8 @@
         "ext-pdo": "*",
         "topthink/framework": "^6.0.0",
         "topthink/think-orm": "^2.0",
-        "topthink/think-multi-app": "^1.0"
+        "topthink/think-multi-app": "^1.0",
+        "thinkcmf/cmf": "6.0.x-dev"
 
     },
     "require-dev": {
