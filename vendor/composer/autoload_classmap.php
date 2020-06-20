@@ -27,4 +27,5 @@ return array(
     'phpQueryPlugin_WebBrowser' => $vendorDir . '/electrolinux/phpquery/phpQuery/phpQuery/plugins/WebBrowser.php',
     'phpQueryPlugin_example' => $vendorDir . '/electrolinux/phpquery/phpQuery/phpQuery/plugins/example.php',
     'phpQueryPlugins' => $vendorDir . '/electrolinux/phpquery/phpQuery/phpQuery.php',
+    'think\\App' => $vendorDir . '/thinkcmf/cmf/src/App.php',
 );

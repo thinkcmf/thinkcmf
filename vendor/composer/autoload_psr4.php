@@ -8,9 +8,10 @@ $baseDir = dirname($vendorDir);
 return array(
     'wxapp\\' => array($vendorDir . '/thinkcmf/cmf-extend/src/wxapp'),
     'tree\\' => array($vendorDir . '/thinkcmf/cmf-extend/src/tree'),
+    'think\\view\\driver\\' => array($vendorDir . '/topthink/think-view/src'),
     'think\\trace\\' => array($vendorDir . '/topthink/think-trace/src'),
     'think\\app\\' => array($vendorDir . '/topthink/think-multi-app/src'),
-    'think\\' => array($vendorDir . '/topthink/framework/src/think', $vendorDir . '/topthink/think-helper/src', $vendorDir . '/topthink/think-orm/src'),
+    'think\\' => array($vendorDir . '/topthink/framework/src/think', $vendorDir . '/topthink/think-helper/src', $vendorDir . '/topthink/think-orm/src', $vendorDir . '/topthink/think-template/src'),
     'mindplay\\annotations\\' => array($vendorDir . '/mindplay/annotations/src/annotations'),
     'dir\\' => array($vendorDir . '/thinkcmf/cmf-extend/src/dir'),
     'cmf\\' => array($vendorDir . '/thinkcmf/cmf/src'),

@@ -25,6 +25,7 @@ class ComposerStaticInite579552c74f52c0eb2f704ad93758bc0
         't' => 
         array (
             'tree\\' => 5,
+            'think\\view\\driver\\' => 18,
             'think\\trace\\' => 12,
             'think\\app\\' => 10,
             'think\\' => 6,
@@ -80,6 +81,10 @@ class ComposerStaticInite579552c74f52c0eb2f704ad93758bc0
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf-extend/src/tree',
         ),
+        'think\\view\\driver\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/topthink/think-view/src',
+        ),
         'think\\trace\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-trace/src',
@@ -93,6 +98,7 @@ class ComposerStaticInite579552c74f52c0eb2f704ad93758bc0
             0 => __DIR__ . '/..' . '/topthink/framework/src/think',
             1 => __DIR__ . '/..' . '/topthink/think-helper/src',
             2 => __DIR__ . '/..' . '/topthink/think-orm/src',
+            3 => __DIR__ . '/..' . '/topthink/think-template/src',
         ),
         'mindplay\\annotations\\' => 
         array (
@@ -196,6 +202,7 @@ class ComposerStaticInite579552c74f52c0eb2f704ad93758bc0
         'phpQueryPlugin_WebBrowser' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/plugins/WebBrowser.php',
         'phpQueryPlugin_example' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/plugins/example.php',
         'phpQueryPlugins' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery.php',
+        'think\\App' => __DIR__ . '/..' . '/thinkcmf/cmf/src/App.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
