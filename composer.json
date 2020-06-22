@@ -26,10 +26,11 @@
         "ext-json": "*",
         "ext-curl": "*",
         "ext-pdo": "*",
+        "thinkcmf/cmf": "6.0.x-dev",
         "topthink/framework": "^6.0.0",
+        "topthink/think-view": "^1.0",
         "topthink/think-orm": "^2.0",
-        "topthink/think-multi-app": "^1.0",
-        "thinkcmf/cmf": "6.0.x-dev"
+        "topthink/think-multi-app": "^1.0"
 
     },
     "require-dev": {
