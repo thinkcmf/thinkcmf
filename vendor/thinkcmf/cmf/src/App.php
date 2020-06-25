@@ -162,10 +162,10 @@ class App extends Container
      */
     public function __construct(string $rootPath = '')
     {
-        $this->thinkPath   = dirname(dirname(dirname(__DIR__))) . '/topthink/framework/src' . DIRECTORY_SEPARATOR;
+        $this->thinkPath   = dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . 'topthink' . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR;
         $this->rootPath    = $rootPath ? rtrim($rootPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : $this->getDefaultRootPath();
         $this->appPath     = $this->rootPath . $this->namespace . DIRECTORY_SEPARATOR;
-        $this->runtimePath = $this->rootPath . 'runtime' . DIRECTORY_SEPARATOR;
+        $this->runtimePath = $this->rootPath . 'data' . DIRECTORY_SEPARATOR . 'runtime' . DIRECTORY_SEPARATOR;
 
         if (is_file($this->appPath . 'provider.php')) {
             $this->bind(include $this->appPath . 'provider.php');
@@ -498,6 +498,14 @@ class App extends Container
         }
 
         include_once $this->thinkPath . 'helper.php';
+
+        // 加载应用配置
+        $appConfigFiles = glob(__DIR__ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . '*.php');
+
+        foreach ($appConfigFiles as $file) {
+            $this->config->load($file, pathinfo($file, PATHINFO_FILENAME));
+        }
+        // 加载应用配置结束
 
         $configPath = $this->getConfigPath();
 
