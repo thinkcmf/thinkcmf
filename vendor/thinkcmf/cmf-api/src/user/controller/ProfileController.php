@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace api\user\controller;
 
+use api\user\model\UserModel;
 use cmf\controller\RestUserBaseController;
 use think\Db;
 use think\Validate;
@@ -160,7 +161,7 @@ class ProfileController extends RestUserBaseController
             $userId   = $this->getUserId();
             $fieldStr = 'user_type,user_login,mobile,user_email,user_nickname,avatar,signature,user_url,sex,birthday,score,coin,user_status,user_activation_key,create_time,last_login_time,last_login_ip';
             if (empty($field)) {
-                $userData = Db::name("user")->field($fieldStr)->find($userId);
+                $userData = UserModel::field($fieldStr)->find($userId);
             } else {
                 $fieldArr     = explode(',', $fieldStr);
                 $postFieldArr = explode(',', $field);
@@ -170,9 +171,9 @@ class ProfileController extends RestUserBaseController
                 }
                 if (count($mixedField) > 1) {
                     $fieldStr = implode(',', $mixedField);
-                    $userData = Db::name("user")->field($fieldStr)->find($userId);
+                    $userData = UserModel::field($fieldStr)->find($userId);
                 } else {
-                    $userData = Db::name("user")->where('id', $userId)->value($mixedField);
+                    $userData = UserModel::where('id', $userId)->value($mixedField);
                 }
             }
             $this->success('获取成功！', $userData);
@@ -190,7 +191,7 @@ class ProfileController extends RestUserBaseController
                 $data['birthday'] = strtotime($data['birthday']);
             }
 
-            $upData = Db::name("user")->where('id', $userId)->field($fieldStr)->update($data);
+            $upData = UserModel::where('id', $userId)->field($fieldStr)->update($data);
             if ($upData !== false) {
                 $this->success('修改成功！');
             } else {
