@@ -44,6 +44,7 @@ class PluginAdminBaseController extends PluginBaseController
         }
 
         $pluginName = $this->request->param('_plugin');
+        $pluginName = cmf_parse_name($pluginName, 1);
         $controller = $this->request->param('_controller');
         $controller = cmf_parse_name($controller, 1);
         $action     = $this->request->param('_action');
