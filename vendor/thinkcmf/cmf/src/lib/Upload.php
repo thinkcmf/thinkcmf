@@ -323,7 +323,7 @@ class Upload
         if ($objAsset) {
             $assetModel->where('id', $objAsset['id'])->update(['filename' => $arrInfo["filename"]]);
         } else {
-            $assetModel->data($arrInfo)->allowField(true)->save();
+            $assetModel->allowField(true)->save($arrInfo);
         }
 
         //删除临时文件
