@@ -43,17 +43,17 @@
     },
     {
         "name": "ezyang/htmlpurifier",
-        "version": "v4.12.0",
-        "version_normalized": "4.12.0.0",
+        "version": "v4.13.0",
+        "version_normalized": "4.13.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/ezyang/htmlpurifier.git",
-            "reference": "a617e55bc62a87eec73bd456d146d134ad716f03"
+            "reference": "08e27c97e4c6ed02f37c5b2b20488046c8d90d75"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/a617e55bc62a87eec73bd456d146d134ad716f03",
-            "reference": "a617e55bc62a87eec73bd456d146d134ad716f03",
+            "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/08e27c97e4c6ed02f37c5b2b20488046c8d90d75",
+            "reference": "08e27c97e4c6ed02f37c5b2b20488046c8d90d75",
             "shasum": ""
         },
         "require": {
@@ -62,7 +62,7 @@
         "require-dev": {
             "simpletest/simpletest": "dev-master#72de02a7b80c6bb8864ef9bf66d41d2f58f826bd"
         },
-        "time": "2019-10-28T03:44:26+00:00",
+        "time": "2020-06-29T00:56:53+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -71,6 +71,9 @@
             },
             "files": [
                 "library/HTMLPurifier.composer.php"
+            ],
+            "exclude-from-classmap": [
+                "/library/HTMLPurifier/Language/"
             ]
         },
         "notification-url": "https://packagist.org/downloads/",
@@ -144,22 +147,23 @@
     },
     {
         "name": "phpmailer/phpmailer",
-        "version": "v6.1.6",
-        "version_normalized": "6.1.6.0",
+        "version": "v6.1.8",
+        "version_normalized": "6.1.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/PHPMailer/PHPMailer.git",
-            "reference": "c2796cb1cb99d7717290b48c4e6f32cb6c60b7b3"
+            "reference": "917ab212fa00dc6eacbb26e8bc387ebe40993bc1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/c2796cb1cb99d7717290b48c4e6f32cb6c60b7b3",
-            "reference": "c2796cb1cb99d7717290b48c4e6f32cb6c60b7b3",
+            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/917ab212fa00dc6eacbb26e8bc387ebe40993bc1",
+            "reference": "917ab212fa00dc6eacbb26e8bc387ebe40993bc1",
             "shasum": ""
         },
         "require": {
             "ext-ctype": "*",
             "ext-filter": "*",
+            "ext-hash": "*",
             "php": ">=5.5.0"
         },
         "require-dev": {
@@ -175,7 +179,7 @@
             "stevenmaguire/oauth2-microsoft": "Needed for Microsoft XOAUTH2 authentication",
             "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
         },
-        "time": "2020-05-27T12:24:03+00:00",
+        "time": "2020-10-09T14:55:58+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -204,7 +208,13 @@
                 "name": "Brent R. Matzelle"
             }
         ],
-        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+        "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+        "funding": [
+            {
+                "url": "https://github.com/synchro",
+                "type": "github"
+            }
+        ]
     },
     {
         "name": "thinkcmf/cmf",
@@ -412,17 +422,17 @@
     },
     {
         "name": "topthink/framework",
-        "version": "v5.1.39",
-        "version_normalized": "5.1.39.0",
+        "version": "v5.1.40",
+        "version_normalized": "5.1.40.0",
         "source": {
             "type": "git",
             "url": "https://github.com/top-think/framework.git",
-            "reference": "5762858f3d58faafb3a39427f8788884b2927007"
+            "reference": "df0f92d58c70207c9ce9526fa7743eeff0831328"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/top-think/framework/zipball/5762858f3d58faafb3a39427f8788884b2927007",
-            "reference": "5762858f3d58faafb3a39427f8788884b2927007",
+            "url": "https://api.github.com/repos/top-think/framework/zipball/df0f92d58c70207c9ce9526fa7743eeff0831328",
+            "reference": "df0f92d58c70207c9ce9526fa7743eeff0831328",
             "shasum": ""
         },
         "require": {
@@ -438,7 +448,7 @@
             "sebastian/phpcpd": "2.*",
             "squizlabs/php_codesniffer": "2.*"
         },
-        "time": "2019-11-17T23:22:02+00:00",
+        "time": "2020-10-09T07:36:44+00:00",
         "type": "think-framework",
         "installation-source": "dist",
         "notification-url": "https://packagist.org/downloads/",
