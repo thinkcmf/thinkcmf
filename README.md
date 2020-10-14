@@ -1,4 +1,4 @@
-ThinkCMF 5.1.5 让你更自由地飞
+ThinkCMF 5.1.6 让你更自由地飞
 ===============
 
 ### 系列讲座
@@ -135,6 +135,13 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
+#### 5.1.6
+* 修复插件后台权限认证问题
+* 升级到tp5.1.40
+* 优化后台管理添加和编辑
+* 删除phpquery类jqueryServer目录
+* 优化后台管理员新增和编辑
+
 #### 5.1.5
 * 升级到tp5.1.39
 * 增加模板设计数组列表图片显示
