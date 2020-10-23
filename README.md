@@ -141,6 +141,7 @@ https://github.com/thinkcmf/thinkcmf/issues
 * 优化后台管理添加和编辑
 * 删除phpquery类jqueryServer目录
 * 优化后台管理员新增和编辑
+* 优化语言包加载顺序
 
 #### 5.1.5
 * 升级到tp5.1.39
