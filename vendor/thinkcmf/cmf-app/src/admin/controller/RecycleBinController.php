@@ -40,13 +40,12 @@ class RecycleBinController extends AdminBaseController
             return $content;
         }
 
+        $recycleBinModel = new RecycleBinModel();
+        $list            = $recycleBinModel->order('create_time desc')->paginate(10);
         // 获取分页显示
-        $list = (new RecycleBinModel())->order('create_time desc')->paginate(20);
-
-        $this->assign([
-            'list' => $list,
-            'page' => $list->render()
-        ]);
+        $page = $list->render();
+        $this->assign('page', $page);
+        $this->assign('list', $list);
         return $this->fetch();
     }
 
@@ -65,7 +64,11 @@ class RecycleBinController extends AdminBaseController
      */
     public function restore()
     {
-        $this->operate($this->request->param('ids'), false);
+        $ids = $this->request->param('ids');
+        if (empty($ids)) {
+            $ids = $this->request->param('id');
+        }
+        $this->operate($ids, false);
         $this->success('还原成功');
     }
 
@@ -84,7 +87,11 @@ class RecycleBinController extends AdminBaseController
      */
     public function delete()
     {
-        $this->operate($this->request->param('ids'));
+        $ids = $this->request->param('ids');
+        if (empty($ids)) {
+            $ids = $this->request->param('id');
+        }
+        $this->operate($ids);
         $this->success('删除成功');
     }
 
@@ -114,6 +121,9 @@ class RecycleBinController extends AdminBaseController
      */
     private function operate($ids, $isDelete = true)
     {
+        if (!empty($ids) && !is_array($ids)) {
+            $ids = [$ids];
+        }
         $records = RecycleBinModel::all($ids);
 
         if ($records) {
