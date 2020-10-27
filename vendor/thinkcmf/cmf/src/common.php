@@ -513,11 +513,11 @@ function cmf_set_option($key, $data, $replace = false)
             }
         }
 
-        $option['option_value'] = json_encode($data);
+        $option['option_value'] = json_encode($data,JSON_UNESCAPED_UNICODE);
         OptionModel::where('option_name', $key)->update($option);
     } else {
         $option['option_name']  = $key;
-        $option['option_value'] = json_encode($data);
+        $option['option_value'] = $data;
         OptionModel::create($option);
     }
 
