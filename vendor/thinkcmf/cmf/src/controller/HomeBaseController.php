@@ -54,6 +54,7 @@ class HomeBaseController extends BaseController
         }
 
         $this->view->engine()->config([
+            'view_base'          => $themePath . '/',
             'tpl_replace_string' => $viewReplaceStr
         ]);
 //        config('template.view_base', WEB_ROOT . "{$themePath}/");
@@ -86,7 +87,7 @@ class HomeBaseController extends BaseController
 //        $more     = $this->getThemeFileMore($template);
 //        $this->assign('theme_vars', $more['vars']);
 //        $this->assign('theme_widgets', $more['widgets']);
-        $content = $this->view->fetch($template, $vars, $config);
+        $content        = $this->view->fetch($template, $vars, $config);
         $designingTheme = cookie('cmf_design_theme');
 
         if ($designingTheme) {

@@ -10,8 +10,10 @@ return [
     'app_namespace'    => '',
     // 是否启用路由
     'with_route'       => true,
+    // 开启应用快速访问
+    'app_express'    =>    true,
     // 默认应用
-    'default_app'      => 'index',
+    'default_app'      => 'portal',
     // 默认时区
     'default_timezone' => 'Asia/Shanghai',
 

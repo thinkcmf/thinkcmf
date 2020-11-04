@@ -1225,6 +1225,9 @@ class Template
     private function parseTemplateFile(string $template): string
     {
         if ('' == pathinfo($template, PATHINFO_EXTENSION)) {
+            if (strpos($template, '@')) {
+                list($module, $template) = explode('@', $template);
+            }
 
             if (0 !== strpos($template, '/')) {
                 $template = str_replace(['/', ':'], $this->config['view_depr'], $template);
@@ -1232,7 +1235,13 @@ class Template
                 $template = str_replace(['/', ':'], $this->config['view_depr'], substr($template, 1));
             }
 
-            $template = $this->config['view_path'] . $template . '.' . ltrim($this->config['view_suffix'], '.');
+            if ($this->config['view_base']) {
+                $module = isset($module) ? $module : app()->http->getName();
+                $path   = $this->config['view_base'] . ($module ? $module . DIRECTORY_SEPARATOR : '');
+            } else {
+                $path = isset($module) ? $this->app->getAppPath() . $module . DIRECTORY_SEPARATOR . basename($this->config['view_path']) . DIRECTORY_SEPARATOR : $this->config['view_path'];
+            }
+            $template = $path . $template . '.' . ltrim($this->config['view_suffix'], '.');
         }
 
         if (is_file($template)) {
