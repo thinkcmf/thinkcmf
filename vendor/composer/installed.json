@@ -984,6 +984,45 @@
         "description": "The ThinkCMF Core Package"
     },
     {
+        "name": "thinkcmf/cmf-app",
+        "version": "6.0.x-dev",
+        "version_normalized": "6.0.9999999.9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thinkcmf/cmf-app.git",
+            "reference": "de47befcb2f66400d54dffe34690c4a66afa39d3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/de47befcb2f66400d54dffe34690c4a66afa39d3",
+            "reference": "de47befcb2f66400d54dffe34690c4a66afa39d3",
+            "shasum": ""
+        },
+        "require": {
+            "thinkcmf/cmf": "6.0.x-dev"
+        },
+        "time": "2020-11-04T17:02:55+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "app\\": "src"
+            },
+            "files": []
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "catman",
+                "email": "catman@thinkcmf.com"
+            }
+        ],
+        "description": "The ThinkCMF App Package"
+    },
+    {
         "name": "thinkcmf/cmf-extend",
         "version": "v5.1.0",
         "version_normalized": "5.1.0.0",

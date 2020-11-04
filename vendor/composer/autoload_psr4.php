@@ -15,7 +15,7 @@ return array(
     'mindplay\\annotations\\' => array($vendorDir . '/mindplay/annotations/src/annotations'),
     'dir\\' => array($vendorDir . '/thinkcmf/cmf-extend/src/dir'),
     'cmf\\' => array($vendorDir . '/thinkcmf/cmf/src'),
-    'app\\' => array($baseDir . '/app'),
+    'app\\' => array($baseDir . '/app', $vendorDir . '/thinkcmf/cmf-app/src'),
     'api\\' => array($baseDir . '/api'),
     'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
     'Symfony\\Polyfill\\Php72\\' => array($vendorDir . '/symfony/polyfill-php72'),

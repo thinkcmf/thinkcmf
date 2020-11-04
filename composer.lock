@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "385e457e4c67f3031624650aad245080",
+    "content-hash": "15e978605011da52fba5e8901a3555df",
     "packages": [
         {
             "name": "electrolinux/phpquery",
@@ -641,6 +641,43 @@
             ],
             "description": "The ThinkCMF Core Package",
             "time": "2020-06-20T21:44:41+00:00"
+        },
+        {
+            "name": "thinkcmf/cmf-app",
+            "version": "6.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thinkcmf/cmf-app.git",
+                "reference": "de47befcb2f66400d54dffe34690c4a66afa39d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/de47befcb2f66400d54dffe34690c4a66afa39d3",
+                "reference": "de47befcb2f66400d54dffe34690c4a66afa39d3",
+                "shasum": ""
+            },
+            "require": {
+                "thinkcmf/cmf": "6.0.x-dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "app\\": "src"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "catman",
+                    "email": "catman@thinkcmf.com"
+                }
+            ],
+            "description": "The ThinkCMF App Package",
+            "time": "2020-11-04T17:02:55+00:00"
         },
         {
             "name": "thinkcmf/cmf-extend",
@@ -1310,7 +1347,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "thinkcmf/cmf": 20
+        "thinkcmf/cmf": 20,
+        "thinkcmf/cmf-app": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
