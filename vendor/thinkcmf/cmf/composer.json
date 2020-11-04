@@ -24,7 +24,8 @@
             "src/common.php"
         ],
         "classmap": [
-            "src/App.php"
+            "src/App.php",
+            "src/console/command/VendorPublish.php"
         ]
     }
 }

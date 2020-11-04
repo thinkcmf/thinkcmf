@@ -162,7 +162,7 @@ class App extends Container
      */
     public function __construct(string $rootPath = '')
     {
-        $this->thinkPath   = dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . 'topthink' . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR;
+        $this->thinkPath   = dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'topthink' . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR;
         $this->rootPath    = $rootPath ? rtrim($rootPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : $this->getDefaultRootPath();
         $this->appPath     = $this->rootPath . $this->namespace . DIRECTORY_SEPARATOR;
         $this->runtimePath = $this->rootPath . 'data' . DIRECTORY_SEPARATOR . 'runtime' . DIRECTORY_SEPARATOR;
@@ -610,9 +610,7 @@ class App extends Container
      */
     protected function getDefaultRootPath(): string
     {
-        $path = dirname(dirname(dirname(dirname($this->thinkPath))));
-
-        return $path . DIRECTORY_SEPARATOR;
+        return dirname($this->thinkPath, 4) . DIRECTORY_SEPARATOR;
     }
 
 }

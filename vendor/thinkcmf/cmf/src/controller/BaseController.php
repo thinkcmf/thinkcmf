@@ -16,13 +16,11 @@ use think\Response;
 use think\Validate;
 
 
-use think\Container;
-use think\Controller;
-use think\Db;
-use think\facade\View;
+use think\facade\Db;
+use think\View;
 use think\facade\Config;
 
-class BaseController extends Controller
+class BaseController
 {
     /**
      * Request实例
@@ -43,11 +41,16 @@ class BaseController extends Controller
     protected $batchValidate = false;
 
     /**
+     * 前置操作方法列表（即将废弃）
+     * @var array $beforeActionList
+     */
+    protected $beforeActionList = [];
+
+    /**
      * 控制器中间件
      * @var array
      */
     protected $middleware = [];
-
 
     /**
      * BaseController constructor.
@@ -62,7 +65,8 @@ class BaseController extends Controller
         }
 
         $this->_initializeView();
-        $this->view = View::init(Config::get('template.'));
+        $this->view = new View($app);
+//        $this->view = View::init(Config::get('template.'));
 
         // 控制器初始化
         $this->initialize();
@@ -78,7 +82,8 @@ class BaseController extends Controller
 
     // 初始化
     protected function initialize()
-    {}
+    {
+    }
 
 
     // 初始化视图配置
@@ -89,9 +94,9 @@ class BaseController extends Controller
     /**
      * 加载模板输出
      * @access protected
-     * @param  string $template 模板文件名
-     * @param  array  $vars     模板输出变量
-     * @param  array  $config   模板参数
+     * @param string $template 模板文件名
+     * @param array  $vars     模板输出变量
+     * @param array  $config   模板参数
      * @return mixed
      */
     protected function fetch($template = '', $vars = [], $config = [])
@@ -102,9 +107,9 @@ class BaseController extends Controller
     /**
      * 渲染内容输出
      * @access protected
-     * @param  string $content 模板内容
-     * @param  array  $vars    模板输出变量
-     * @param  array  $config  模板参数
+     * @param string $content 模板内容
+     * @param array  $vars    模板输出变量
+     * @param array  $config  模板参数
      * @return mixed
      */
     protected function display($content = '', $vars = [], $config = [])
@@ -115,8 +120,8 @@ class BaseController extends Controller
     /**
      * 模板变量赋值
      * @access protected
-     * @param  mixed $name  要显示的模板变量
-     * @param  mixed $value 变量的值
+     * @param mixed $name  要显示的模板变量
+     * @param mixed $value 变量的值
      * @return $this
      */
     protected function assign($name, $value = '')
@@ -129,10 +134,10 @@ class BaseController extends Controller
     /**
      * 验证数据
      * @access protected
-     * @param  array        $data     数据
-     * @param  string|array $validate 验证器名或者验证规则数组
-     * @param  array        $message  提示信息
-     * @param  bool         $batch    是否批量验证
+     * @param array        $data     数据
+     * @param string|array $validate 验证器名或者验证规则数组
+     * @param array        $message  提示信息
+     * @param bool         $batch    是否批量验证
      * @return array|string|true
      * @throws ValidateException
      */

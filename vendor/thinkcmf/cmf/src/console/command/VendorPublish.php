@@ -58,7 +58,7 @@ class VendorPublish extends Command
                         try {
                             copy($source, $target);
                         } catch (\Exception $e) {
-                            $this->output->info($e->getTraceAsString() . "\n" . $e->getMessage());
+                            //$this->output->info($e->getTraceAsString() . "\n" . $e->getMessage());
                         }
                     }
                 }

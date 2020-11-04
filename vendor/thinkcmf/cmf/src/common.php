@@ -8,7 +8,7 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
-use think\Db;
+use think\facade\Db;
 use think\facade\Env;
 use think\facade\Url;
 use dir\Dir;
@@ -806,7 +806,7 @@ function cmf_get_file_download_url($file, $expires = 3600)
         return $file;
     } else if (strpos($file, "/") === 0) {
         return $file;
-    } else if(strpos($file, "#") === 0) {
+    } else if (strpos($file, "#") === 0) {
         return $file;
     } else {
         $storage = Storage::instance();
@@ -1048,7 +1048,7 @@ function cmf_is_ipad()
  */
 function hook($hook, $params = null)
 {
-    return Hook::listen($hook, $params);
+    //return Hook::listen($hook, $params);
 }
 
 /**
@@ -1059,7 +1059,7 @@ function hook($hook, $params = null)
  */
 function hook_one($hook, $params = null)
 {
-    return Hook::listen($hook, $params, true);
+    //return Hook::listen($hook, $params, true);
 }
 
 /**
@@ -1178,8 +1178,8 @@ function cmf_plugin_url($url, $vars = [], $domain = false)
 
             if (count($sameVars) == count($actionRoute['vars'])) {
                 ksort($sameVars);
-                $pluginUrl  = $pluginUrl . '&' . http_build_query($sameVars);
-                $vars = array_diff_assoc($vars, $sameVars);
+                $pluginUrl = $pluginUrl . '&' . http_build_query($sameVars);
+                $vars      = array_diff_assoc($vars, $sameVars);
                 break;
             }
         }
@@ -1568,7 +1568,14 @@ function cmf_generate_user_token($userId, $deviceType)
  */
 function cmf_parse_name($name, $type = 0, $ucfirst = true)
 {
-    return Loader::parseName($name, $type, $ucfirst);
+    if ($type) {
+        $name = preg_replace_callback('/_([a-zA-Z])/', function ($match) {
+            return strtoupper($match[1]);
+        }, $name);
+        return $ucfirst ? ucfirst($name) : lcfirst($name);
+    }
+
+    return strtolower(trim(preg_replace("/[A-Z]/", "_\\0", $name), "_"));
 }
 
 /**
@@ -1629,9 +1636,9 @@ function cmf_get_cmf_settings($key = "")
 }
 
 /**
+ * @return bool
  * @deprecated
  * 判读是否sae环境
- * @return bool
  */
 function cmf_is_sae()
 {
@@ -2187,9 +2194,9 @@ function cmf_get_app_config_file($app, $file)
 
 /**
  * 转换+-为desc和asc
- * @deprecated
  * @param $order array 转换对象
  * @return array
+ * @deprecated
  */
 function order_shift($order)
 {
@@ -2211,10 +2218,10 @@ function order_shift($order)
 
 /**
  * 模型检查
- * @deprecated
  * @param $relationFilter array 检查的字段
  * @param $relations      string 被检查的字段
  * @return array|bool
+ * @deprecated
  */
 function allowed_relations($relationFilter, $relations)
 {
@@ -2229,9 +2236,9 @@ function allowed_relations($relationFilter, $relations)
 
 /**
  * 字符串转数组
- * @deprecated
  * @param string $string 字符串
  * @return array
+ * @deprecated
  */
 function str_to_arr($string)
 {

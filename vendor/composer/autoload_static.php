@@ -45,6 +45,7 @@ class ComposerStaticInite579552c74f52c0eb2f704ad93758bc0
         'a' => 
         array (
             'app\\' => 4,
+            'api\\' => 4,
         ),
         'S' => 
         array (
@@ -115,6 +116,10 @@ class ComposerStaticInite579552c74f52c0eb2f704ad93758bc0
         'app\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
+        ),
+        'api\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/api',
         ),
         'Symfony\\Polyfill\\Php80\\' => 
         array (
@@ -203,6 +208,7 @@ class ComposerStaticInite579552c74f52c0eb2f704ad93758bc0
         'phpQueryPlugin_example' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/plugins/example.php',
         'phpQueryPlugins' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery.php',
         'think\\App' => __DIR__ . '/..' . '/thinkcmf/cmf/src/App.php',
+        'think\\console\\command\\VendorPublish' => __DIR__ . '/..' . '/thinkcmf/cmf/src/console/command/VendorPublish.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

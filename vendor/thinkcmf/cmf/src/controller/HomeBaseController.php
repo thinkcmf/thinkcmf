@@ -23,7 +23,7 @@ class HomeBaseController extends BaseController
         hook('home_init');
         parent::initialize();
         $siteInfo = cmf_get_site_info();
-        View::share('site_info', $siteInfo);
+        View::assign('site_info', $siteInfo);
     }
 
     protected function _initializeView()
@@ -143,7 +143,7 @@ hello;
             $path = isset($module) ? APP_PATH . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR : config('template.view_path');
         }
 
-        $depr = config('template.view_depr');
+        $depr = config('view.view_depr');
         if (0 !== strpos($template, '/')) {
             $template   = str_replace(['/', ':'], $depr, $template);
             $controller = cmf_parse_name($request->controller());

@@ -16,6 +16,7 @@ return array(
     'dir\\' => array($vendorDir . '/thinkcmf/cmf-extend/src/dir'),
     'cmf\\' => array($vendorDir . '/thinkcmf/cmf/src'),
     'app\\' => array($baseDir . '/app'),
+    'api\\' => array($baseDir . '/api'),
     'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
     'Symfony\\Polyfill\\Php72\\' => array($vendorDir . '/symfony/polyfill-php72'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
