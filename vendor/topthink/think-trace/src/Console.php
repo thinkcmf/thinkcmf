@@ -40,12 +40,15 @@ class Console
     {
         $request     = $app->request;
         $contentType = $response->getHeader('Content-Type');
-        $accept      = $request->header('accept', '');
-        if (strpos($accept, 'application/json') === 0 || $request->isAjax()) {
+
+        if ($request->isJson() || $request->isAjax()) {
             return false;
         } elseif (!empty($contentType) && strpos($contentType, 'html') === false) {
             return false;
+        } elseif ($response->getCode() == 204) {
+            return false;
         }
+
         // 获取基本信息
         $runtime = number_format(microtime(true) - $app->getBeginTime(), 10, '.', '');
         $reqs    = $runtime > 0 ? number_format(1 / $runtime, 2) : '∞';

@@ -40,13 +40,14 @@ class Html
      */
     public function output(App $app, Response $response, array $log = [])
     {
-        $request = $app->request;
-
+        $request     = $app->request;
         $contentType = $response->getHeader('Content-Type');
-        $accept      = $request->header('accept', '');
-        if (strpos($accept, 'application/json') === 0 || $request->isAjax()) {
+
+        if ($request->isJson() || $request->isAjax()) {
             return false;
         } elseif (!empty($contentType) && strpos($contentType, 'html') === false) {
+            return false;
+        } elseif ($response->getCode() == 204) {
             return false;
         }
 
