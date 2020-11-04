@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace think;
 
@@ -39,7 +39,7 @@ use think\initializer\RegisterService;
  */
 class App extends Container
 {
-    const VERSION = '6.0.2';
+    const VERSION = '6.0.5';
 
     /**
      * 应用调试模式
@@ -229,8 +229,8 @@ class App extends Container
     {
         $name = is_string($service) ? $service : get_class($service);
         return array_values(array_filter($this->services, function ($value) use ($name) {
-                return $value instanceof $name;
-            }, ARRAY_FILTER_USE_BOTH))[0] ?? null;
+            return $value instanceof $name;
+        }, ARRAY_FILTER_USE_BOTH))[0] ?? null;
     }
 
     /**
