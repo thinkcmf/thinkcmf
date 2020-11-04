@@ -53,18 +53,21 @@ class HomeBaseController extends BaseController
             ];
         }
 
-        config('template.view_base', WEB_ROOT . "{$themePath}/");
-        config('template.tpl_replace_string', $viewReplaceStr);
+        $this->view->engine()->config([
+            'tpl_replace_string' => $viewReplaceStr
+        ]);
+//        config('template.view_base', WEB_ROOT . "{$themePath}/");
+//        config('template.tpl_replace_string', $viewReplaceStr);
 
-        $themeErrorTmpl = "{$themePath}/error.html";
-        if (file_exists_case($themeErrorTmpl)) {
-            config('dispatch_error_tmpl', $themeErrorTmpl);
-        }
-
-        $themeSuccessTmpl = "{$themePath}/success.html";
-        if (file_exists_case($themeSuccessTmpl)) {
-            config('dispatch_success_tmpl', $themeSuccessTmpl);
-        }
+//        $themeErrorTmpl = "{$themePath}/error.html";
+//        if (file_exists_case($themeErrorTmpl)) {
+//            config('dispatch_error_tmpl', $themeErrorTmpl);
+//        }
+//
+//        $themeSuccessTmpl = "{$themePath}/success.html";
+//        if (file_exists_case($themeSuccessTmpl)) {
+//            config('dispatch_success_tmpl', $themeSuccessTmpl);
+//        }
 
 
     }
@@ -84,11 +87,10 @@ class HomeBaseController extends BaseController
 //        $this->assign('theme_vars', $more['vars']);
 //        $this->assign('theme_widgets', $more['widgets']);
         $content = $this->view->fetch($template, $vars, $config);
-
         $designingTheme = cookie('cmf_design_theme');
 
         if ($designingTheme) {
-            $app        = $this->request->module();
+            $app        = $this->app->http->getName();
             $controller = $this->request->controller();
             $action     = $this->request->action();
 
@@ -133,15 +135,13 @@ hello;
             list($module, $template) = explode('@', $template);
         }
 
-        $viewBase = config('template.view_base');
+        $cmfThemePath    = config('template.cmf_theme_path');
+        $cmfDefaultTheme = cmf_get_current_theme();
+        $themePath       = "{$cmfThemePath}{$cmfDefaultTheme}/";
 
-        if ($viewBase) {
-            // 基础视图目录
-            $module = isset($module) ? $module : $request->module();
-            $path   = $viewBase . ($module ? $module . DIRECTORY_SEPARATOR : '');
-        } else {
-            $path = isset($module) ? APP_PATH . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR : config('template.view_path');
-        }
+        // 基础视图目录
+        $module = isset($module) ? $module : $this->app->http->getName();
+        $path   = $themePath . ($module ? $module . DIRECTORY_SEPARATOR : '');
 
         $depr = config('view.view_depr');
         if (0 !== strpos($template, '/')) {
@@ -158,7 +158,8 @@ hello;
         } else {
             $template = str_replace(['/', ':'], $depr, substr($template, 1));
         }
-        return $path . ltrim($template, '/') . '.' . ltrim(config('template.view_suffix'), '.');
+
+        return $path . ltrim($template, '/') . '.' . ltrim(config('view.view_suffix'), '.');
     }
 
     /**

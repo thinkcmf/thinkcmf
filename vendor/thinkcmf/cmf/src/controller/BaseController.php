@@ -34,6 +34,8 @@ class BaseController
      */
     protected $app;
 
+    protected $view;
+
     /**
      * 是否批量验证
      * @var bool
@@ -64,8 +66,8 @@ class BaseController
             return $this->redirect(cmf_get_root() . '/?s=install');
         }
 
-        $this->_initializeView();
         $this->view = new View($app);
+        $this->_initializeView();
 //        $this->view = View::init(Config::get('template.'));
 
         // 控制器初始化

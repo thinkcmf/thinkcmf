@@ -104,7 +104,7 @@ function cmf_get_domain()
  */
 function cmf_get_root()
 {
-    $root = request()->root();
+    $root = "";
     $root = str_replace("//", '/', $root);
     $root = str_replace('/index.php', '', $root);
     if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
