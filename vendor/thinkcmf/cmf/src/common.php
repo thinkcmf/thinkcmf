@@ -1942,13 +1942,15 @@ function cmf_user_action($action)
     }
 
     if ($changeScore) {
-        Db::name('user_score_log')->insert([
-            'user_id'     => $userId,
-            'create_time' => time(),
-            'action'      => $action,
-            'score'       => $findUserAction['score'],
-            'coin'        => $findUserAction['coin'],
-        ]);
+        if (!empty($findUserAction['score']) || !empty($findUserAction['coin'])) {
+            Db::name('user_score_log')->insert([
+                'user_id'     => $userId,
+                'create_time' => time(),
+                'action'      => $action,
+                'score'       => $findUserAction['score'],
+                'coin'        => $findUserAction['coin'],
+            ]);
+        }
 
         $data = [];
         if ($findUserAction['score'] > 0) {
