@@ -61,3 +61,6 @@ Db::name('user')->where('id', '>=', 1)
 
 ## 其它升级注意
 * `url()`方法输出不再是字符串（待考虑是否优化）
+
+## 更多注意问题
+参见https://www.kancloud.cn/manual/thinkphp6_0/1037654
