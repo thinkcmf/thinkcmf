@@ -1048,7 +1048,8 @@ function cmf_is_ipad()
  */
 function hook($hook, $params = null)
 {
-    //return Hook::listen($hook, $params);
+    $hook = cmf_parse_name($hook, 1);
+    return \think\facade\Event::trigger($hook);
 }
 
 /**
@@ -1059,7 +1060,8 @@ function hook($hook, $params = null)
  */
 function hook_one($hook, $params = null)
 {
-    //return Hook::listen($hook, $params, true);
+    $hook = cmf_parse_name($hook, 1);
+    return \think\facade\Event::trigger($hook, $params, true);
 }
 
 /**
@@ -1208,7 +1210,7 @@ function cmf_auth_check($userId, $name = null, $relation = 'or')
     $authObj = new \cmf\lib\Auth();
     if (empty($name)) {
         $request    = request();
-        $app     = app()->http->getName();
+        $app        = app()->http->getName();
         $controller = $request->controller();
         $action     = $request->action();
         $name       = strtolower($app . "/" . $controller . "/" . $action);

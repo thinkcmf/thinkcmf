@@ -8,13 +8,15 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare (strict_types=1);
 
 namespace think\app;
 
 use Closure;
 use think\App;
 use think\exception\HttpException;
+use think\facade\Env;
+use think\facade\Lang;
 use think\Request;
 use think\Response;
 
@@ -198,12 +200,29 @@ class MultiApp
         // 设置应用命名空间
         $this->app->setNamespace($this->app->config->get('app.app_namespace') ?: 'app\\' . $appName);
 
+        $this->loadVendorApp($appName, $appPath);
         if (is_dir($appPath)) {
             $this->app->setRuntimePath($this->app->getRuntimePath() . $appName . DIRECTORY_SEPARATOR);
             $this->app->http->setRoutePath($this->getRoutePath());
 
             //加载应用
             $this->loadApp($appName, $appPath);
+        }
+    }
+
+    protected function loadVendorApp(string $appName, string $appPath){
+        $langSet = $this->app->lang->getLangSet();
+        $this->app->lang->load([
+            root_path() . "vendor/thinkcmf/cmf/src/lang/{$langSet}.php",
+        ]);
+
+        // 加载核心应用公共语言包
+        $coreApps = ['admin', 'user'];
+        foreach ($coreApps as $app) {
+            $this->app->lang->load([
+                root_path() . "vendor/thinkcmf/cmf-app/src/{$app}/lang/{$langSet}.php",
+                root_path() . "vendor/thinkcmf/cmf-app/src/{$app}/lang/{$langSet}/common.php"
+            ]);
         }
     }
 
