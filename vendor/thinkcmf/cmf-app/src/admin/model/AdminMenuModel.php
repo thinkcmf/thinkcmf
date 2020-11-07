@@ -136,7 +136,7 @@ class AdminMenuModel extends Model
                     $url        = cmf_plugin_url($pluginName . "://{$controller}/{$action}{$params}");
                 } else {
                     parse_str($params,$paramsArr);
-                    $url = url("{$app}/{$controller}/{$action}", $paramsArr)->build();
+                    $url = url("{$app}/{$controller}/{$action}", $paramsArr);
                 }
 
                 $app = str_replace('/', '_', $app);
