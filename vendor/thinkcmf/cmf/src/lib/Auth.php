@@ -63,7 +63,7 @@ class Auth
         $list   = []; //保存验证通过的规则名
         $groups = Db::name('RoleUser')
             ->alias("a")
-            ->join('__ROLE__ r', 'a.role_id = r.id')
+            ->join('role r', 'a.role_id = r.id')
             ->where(["a.user_id" => $uid, "r.status" => 1])
             ->column("role_id");
 
@@ -76,7 +76,7 @@ class Auth
         }
         $rules = Db::name('AuthAccess')
             ->alias("a")
-            ->join('__AUTH_RULE__ b ', ' a.rule_name = b.name')
+            ->join('auth_rule b ', ' a.rule_name = b.name')
             ->where('a.role_id', 'in', $groups)
             ->where('b.name', 'in', $name)
             ->select();

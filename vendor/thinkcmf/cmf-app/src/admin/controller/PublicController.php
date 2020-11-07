@@ -87,13 +87,13 @@ class PublicController extends AdminBaseController
 
         if (!empty($result) && $result['user_type'] == 1) {
             if (cmf_compare_password($pass, $result['user_pass'])) {
-//                $groups = RoleUserModel::alias("a")
-//                    ->join('__ROLE__ b', 'a.role_id =b.id')
-//                    ->where(["user_id" => $result["id"], "status" => 1])
-//                    ->value("role_id");
-//                if ($result["id"] != 1 && (empty($groups) || empty($result['user_status']))) {
-//                    $this->error(lang('USE_DISABLED'));
-//                }
+                $groups = RoleUserModel::alias("a")
+                    ->join('role b', 'a.role_id =b.id')
+                    ->where(["user_id" => $result["id"], "status" => 1])
+                    ->value("role_id");
+                if ($result["id"] != 1 && (empty($groups) || empty($result['user_status']))) {
+                    $this->error(lang('USE_DISABLED'));
+                }
                 //登入成功页面跳转
                 session('ADMIN_ID', $result["id"]);
                 session('name', $result["user_login"]);

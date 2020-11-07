@@ -115,7 +115,7 @@ class RestBaseController
             ->alias('a')
             ->field('b.*')
             ->where(['token' => $token, 'device_type' => $deviceType])
-            ->join('__USER__ b', 'a.user_id = b.id')
+            ->join('user b', 'a.user_id = b.id')
             ->find();
 
         if (!empty($user)) {
