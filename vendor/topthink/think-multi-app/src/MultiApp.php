@@ -79,7 +79,7 @@ class MultiApp
      */
     protected function getRoutePath(): string
     {
-        return $this->app->getAppPath() . 'route' . DIRECTORY_SEPARATOR;
+        return 'route' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -156,8 +156,8 @@ class MultiApp
                 }
 
                 if ($name) {
-                    $this->app->request->setRoot('/' . $name);
-                    $this->app->request->setPathinfo(strpos($path, '/') ? ltrim(strstr($path, '/'), '/') : '');
+//                    $this->app->request->setRoot('/' . $name);
+//                    $this->app->request->setPathinfo(strpos($path, '/') ? ltrim(strstr($path, '/'), '/') : '');
                 }
             }
         }

@@ -1,22 +1,20 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2018 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2015 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: liu21st <liu21st@gmail.com>
+// | Author: yunwuxin <448901948@qq.com>
 // +----------------------------------------------------------------------
-namespace think\trace;
 
-use think\Service as BaseService;
+namespace think\captcha;
 
-class Service extends BaseService
+class CaptchaController
 {
-    public function register()
+    public function index(Captcha $captcha, $config = null)
     {
-        
-        $this->app->middleware->add(TraceDebug::class);
+        return $captcha->create($config);
     }
 }

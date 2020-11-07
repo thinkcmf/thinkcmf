@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "15e978605011da52fba5e8901a3555df",
+    "content-hash": "9c99f9dd40cffa720bc10205f34092dc",
     "packages": [
         {
             "name": "electrolinux/phpquery",
@@ -775,6 +775,55 @@
                 "thinkphp"
             ],
             "time": "2020-10-26T07:18:00+00:00"
+        },
+        {
+            "name": "topthink/think-captcha",
+            "version": "v3.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-captcha.git",
+                "reference": "1eef3717c1bcf4f5bbe2d1a1c704011d330a8b55"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-captcha/zipball/1eef3717c1bcf4f5bbe2d1a1c704011d330a8b55",
+                "reference": "1eef3717c1bcf4f5bbe2d1a1c704011d330a8b55",
+                "shasum": ""
+            },
+            "require": {
+                "topthink/framework": "^6.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [
+                        "think\\captcha\\CaptchaService"
+                    ],
+                    "config": {
+                        "captcha": "src/config.php"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "think\\captcha\\": "src/"
+                },
+                "files": [
+                    "src/helper.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "yunwuxin",
+                    "email": "448901948@qq.com"
+                }
+            ],
+            "description": "captcha package for thinkphp",
+            "time": "2020-05-19T10:55:45+00:00"
         },
         {
             "name": "topthink/think-helper",
