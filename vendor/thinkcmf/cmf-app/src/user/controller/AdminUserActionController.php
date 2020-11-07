@@ -13,7 +13,7 @@ namespace app\user\controller;
 
 use app\user\logic\UserActionLogic;
 use cmf\controller\AdminBaseController;
-use think\Db;
+use think\facade\Db;
 
 /**
  * Class AdminUserActionController

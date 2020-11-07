@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use think\Db;
+use think\facade\Db;
 use cmf\controller\AdminBaseController;
 use app\admin\model\SlideItemModel;
 

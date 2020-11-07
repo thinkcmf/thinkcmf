@@ -15,7 +15,7 @@ use think\Validate;
 use think\Image;
 use cmf\controller\UserBaseController;
 use app\user\model\UserModel;
-use think\Db;
+use think\facade\Db;
 
 class ProfileController extends UserBaseController
 {

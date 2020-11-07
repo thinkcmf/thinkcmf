@@ -11,7 +11,7 @@
 namespace app\admin\model;
 
 use think\Model;
-use think\Db;
+use think\facade\Db;
 
 class ThemeModel extends Model
 {

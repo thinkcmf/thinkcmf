@@ -13,7 +13,7 @@ namespace app\admin\controller;
 use app\admin\logic\MenuLogic;
 use app\admin\model\AdminMenuModel;
 use cmf\controller\AdminBaseController;
-use think\Db;
+use think\facade\Db;
 use think\facade\Cache;
 use tree\Tree;
 use mindplay\annotations\Annotations;
@@ -46,7 +46,7 @@ class MenuController extends AdminBaseController
         }
 
         session('admin_menu_index', 'Menu/index');
-        $result     = Db::name('AdminMenu')->order(["list_order" => "ASC"])->select()->toArray();
+        $result     = AdminMenuModel::order(["list_order" => "ASC"])->select()->toArray();
         $tree       = new Tree();
         $tree->icon = ['&nbsp;&nbsp;&nbsp;│ ', '&nbsp;&nbsp;&nbsp;├─', '&nbsp;&nbsp;&nbsp;└─ '];
         $tree->nbsp = '&nbsp;&nbsp;&nbsp;';
@@ -102,7 +102,7 @@ class MenuController extends AdminBaseController
     public function lists()
     {
         session('admin_menu_index', 'Menu/lists');
-        $result = Db::name('AdminMenu')->order(["app" => "ASC", "controller" => "ASC", "action" => "ASC"])->select();
+        $result = AdminMenuModel::order(["app" => "ASC", "controller" => "ASC", "action" => "ASC"])->select();
         $this->assign("menus", $result);
         return $this->fetch();
     }
@@ -128,7 +128,7 @@ class MenuController extends AdminBaseController
     {
         $tree     = new Tree();
         $parentId = $this->request->param("parent_id", 0, 'intval');
-        $result   = Db::name('AdminMenu')->order(["list_order" => "ASC"])->select();
+        $result   = AdminMenuModel::order(["list_order" => "ASC"])->select();
         $array    = [];
         foreach ($result as $r) {
             $r['selected'] = $r['id'] == $parentId ? 'selected' : '';
@@ -162,7 +162,7 @@ class MenuController extends AdminBaseController
                 $this->error($result);
             } else {
                 $data = $this->request->param();
-                Db::name('AdminMenu')->strict(false)->field(true)->insert($data);
+                AdminMenuModel::strict(false)->field(true)->insert($data);
 
                 $app          = $this->request->param("app");
                 $controller   = $this->request->param("controller");

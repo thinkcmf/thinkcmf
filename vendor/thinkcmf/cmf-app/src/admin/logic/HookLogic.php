@@ -11,7 +11,7 @@
 
 namespace app\admin\logic;
 
-use think\Db;
+use think\facade\Db;
 
 class HookLogic
 {

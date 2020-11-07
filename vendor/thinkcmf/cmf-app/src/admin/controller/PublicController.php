@@ -14,7 +14,7 @@ use app\admin\model\RoleUserModel;
 use app\admin\model\UserModel;
 use cmf\controller\AdminBaseController;
 use http\Client\Curl\User;
-use think\Db;
+use think\facade\Db;
 
 class PublicController extends AdminBaseController
 {

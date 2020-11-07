@@ -11,7 +11,7 @@
 namespace app\admin\validate;
 
 use think\Validate;
-use think\Db;
+use think\facade\Db;
 
 class AdminMenuValidate extends Validate
 {

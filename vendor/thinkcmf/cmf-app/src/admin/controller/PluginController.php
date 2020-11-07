@@ -15,7 +15,7 @@ use cmf\controller\AdminBaseController;
 use app\admin\model\PluginModel;
 use app\admin\model\HookPluginModel;
 use mindplay\annotations\Annotations;
-use think\Db;
+use think\facade\Db;
 use think\facade\Cache;
 use think\Validate;
 

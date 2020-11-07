@@ -13,7 +13,7 @@ namespace app\admin\controller;
 use app\admin\model\RecycleBinModel;
 use app\admin\model\RouteModel;
 use cmf\controller\AdminBaseController;
-use think\Db;
+use think\facade\Db;
 use think\Exception;
 use think\exception\PDOException;
 

@@ -11,7 +11,7 @@
 
 namespace app\user\logic;
 
-use think\Db;
+use think\facade\Db;
 
 class UserActionLogic
 {

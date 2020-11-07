@@ -13,7 +13,7 @@ namespace app\admin\model;
 use think\Exception;
 use think\Model;
 use tree\Tree;
-use think\Db;
+use think\facade\Db;
 
 class NavMenuModel extends Model
 {

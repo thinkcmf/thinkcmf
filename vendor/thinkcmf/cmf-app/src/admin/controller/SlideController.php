@@ -12,7 +12,7 @@ namespace app\admin\controller;
 
 use app\admin\model\SlideModel;
 use cmf\controller\AdminBaseController;
-use think\Db;
+use think\facade\Db;
 
 class SlideController extends AdminBaseController
 {

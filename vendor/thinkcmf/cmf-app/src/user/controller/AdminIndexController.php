@@ -12,7 +12,7 @@
 namespace app\user\controller;
 
 use cmf\controller\AdminBaseController;
-use think\Db;
+use think\facade\Db;
 use think\db\Query;
 
 /**

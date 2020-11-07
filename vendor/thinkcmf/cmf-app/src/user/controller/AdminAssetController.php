@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\user\controller;
 
-use think\Db;
+use think\facade\Db;
 use cmf\controller\AdminBaseController;
 
 class AdminAssetController extends AdminBaseController

@@ -14,7 +14,7 @@ namespace app\admin\logic;
 use app\admin\model\HookPluginModel;
 use app\admin\model\PluginModel;
 use mindplay\annotations\Annotations;
-use think\Db;
+use think\facade\Db;
 use think\facade\Cache;
 
 class PluginLogic

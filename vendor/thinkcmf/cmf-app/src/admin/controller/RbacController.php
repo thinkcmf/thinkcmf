@@ -11,7 +11,7 @@
 namespace app\admin\controller;
 
 use cmf\controller\AdminBaseController;
-use think\Db;
+use think\facade\Db;
 use think\facade\Cache;
 use tree\Tree;
 use app\admin\model\AdminMenuModel;

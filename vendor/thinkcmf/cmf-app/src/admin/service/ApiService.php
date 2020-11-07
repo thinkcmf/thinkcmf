@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\service;
 
-use think\Db;
+use think\facade\Db;
 
 class ApiService
 {

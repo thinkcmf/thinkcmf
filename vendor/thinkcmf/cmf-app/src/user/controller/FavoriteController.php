@@ -12,7 +12,7 @@ namespace app\user\controller;
 
 use cmf\controller\UserBaseController;
 use app\user\model\UserFavoriteModel;
-use think\Db;
+use think\facade\Db;
 
 class FavoriteController extends UserBaseController
 {

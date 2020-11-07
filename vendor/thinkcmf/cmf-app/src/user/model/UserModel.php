@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\user\model;
 
-use think\Db;
+use think\facade\Db;
 use think\Model;
 
 class UserModel extends Model

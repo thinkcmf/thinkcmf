@@ -11,7 +11,7 @@
 
 namespace app\admin\logic;
 
-use think\Db;
+use think\facade\Db;
 use think\facade\Env;
 use mindplay\annotations\Annotations;
 
