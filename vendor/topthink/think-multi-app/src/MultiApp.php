@@ -144,7 +144,7 @@ class MultiApp
                     $appName = $name ?: $defaultApp;
                     $appPath = $this->path ?: $this->app->getBasePath() . $appName . DIRECTORY_SEPARATOR;
 
-//                    if (!is_dir($appPath)) {
+                    if (!is_dir($appPath)) {
 //                        $express = $this->app->config->get('app.app_express', false);
 //                        if ($express) {
 //                            $this->setApp($defaultApp);
@@ -152,12 +152,12 @@ class MultiApp
 //                        } else {
 //                            return false;
 //                        }
-//                    }
+                    }
                 }
 
                 if ($name) {
-//                    $this->app->request->setRoot('/' . $name);
-//                    $this->app->request->setPathinfo(strpos($path, '/') ? ltrim(strstr($path, '/'), '/') : '');
+                    $this->app->request->setRoot('/' . $name);
+                    $this->app->request->setPathinfo(strpos($path, '/') ? ltrim(strstr($path, '/'), '/') : '');
                 }
             }
         }

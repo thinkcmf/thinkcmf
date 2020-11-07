@@ -6,22 +6,18 @@
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: 老猫 <thinkcmf@126.com>
+// | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
-namespace app\admin\model;
+namespace app\admin\controller;
 
-use think\Model;
+use cmf\controller\AdminBaseController;
+use think\Db;
+use app\admin\model\AdminMenuModel;
 
-class UserModel extends Model
+class TestController
 {
-    /**
-     * 模型名称
-     * @var string
-     */
-    protected $name = 'user';
 
-    protected $type = [
-        'more' => 'array',
-    ];
-
+    public function index()
+    {
+    }
 }

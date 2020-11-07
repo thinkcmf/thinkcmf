@@ -15,6 +15,11 @@ use think\facade\Cache;
 
 class AdminMenuModel extends Model
 {
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'admin_menu';
 
     /**
      * 按父ID查找菜单子项
@@ -130,7 +135,8 @@ class AdminMenuModel extends Model
                     $pluginName = str_replace('plugin/', '', $app);
                     $url        = cmf_plugin_url($pluginName . "://{$controller}/{$action}{$params}");
                 } else {
-                    $url = url("{$app}/{$controller}/{$action}", $params);
+                    parse_str($params,$paramsArr);
+                    $url = url("{$app}/{$controller}/{$action}", $paramsArr)->build();
                 }
 
                 $app = str_replace('/', '_', $app);

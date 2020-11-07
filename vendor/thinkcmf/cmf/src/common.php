@@ -1208,10 +1208,10 @@ function cmf_auth_check($userId, $name = null, $relation = 'or')
     $authObj = new \cmf\lib\Auth();
     if (empty($name)) {
         $request    = request();
-        $module     = $request->module();
+        $app     = app()->http->getName();
         $controller = $request->controller();
         $action     = $request->action();
-        $name       = strtolower($module . "/" . $controller . "/" . $action);
+        $name       = strtolower($app . "/" . $controller . "/" . $action);
     }
     return $authObj->check($userId, $name, $relation);
 }
@@ -1284,9 +1284,7 @@ function cmf_alpha_id($in, $to_num = false, $pad_up = 4, $passKey = null)
  */
 function cmf_captcha_check($value, $id = "", $reset = true)
 {
-    $captcha        = new \think\captcha\Captcha();
-    $captcha->reset = $reset;
-    return $captcha->check($value, $id);
+    return \think\captcha\facade\Captcha::check($value);
 }
 
 /**

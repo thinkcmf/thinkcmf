@@ -12,16 +12,13 @@ namespace app\admin\model;
 
 use think\Model;
 
-class UserModel extends Model
+class RoleUserModel extends Model
 {
     /**
      * 模型名称
      * @var string
      */
-    protected $name = 'user';
+    protected $name = 'role_user';
 
-    protected $type = [
-        'more' => 'array',
-    ];
 
 }
