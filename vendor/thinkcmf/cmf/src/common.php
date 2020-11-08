@@ -324,28 +324,29 @@ function cmf_clear_cache()
         opcache_reset();
     }
 
-    $dirs     = [];
-    $rootDirs = cmf_scan_dir(Env::get('runtime_path') . "*");
+    $runtimePath = runtime_path();
+    $dirs        = [];
+    $rootDirs    = cmf_scan_dir($runtimePath . "*");
     //$noNeedClear=array(".","..","Data");
-    $noNeedClear = ['.', '..', 'log'];
+    $noNeedClear = ['.', '..', 'log', 'session'];
     $rootDirs    = array_diff($rootDirs, $noNeedClear);
     foreach ($rootDirs as $dir) {
 
         if ($dir != "." && $dir != "..") {
-            $dir = Env::get('runtime_path') . $dir;
+            $dir = $runtimePath . $dir;
             if (is_dir($dir)) {
-                //array_push ( $dirs, $dir );
-                $tmpRootDirs = cmf_scan_dir($dir . "/*");
-                foreach ($tmpRootDirs as $tDir) {
-                    if ($tDir != "." && $tDir != "..") {
-                        $tDir = $dir . '/' . $tDir;
-                        if (is_dir($tDir)) {
-                            array_push($dirs, $tDir);
-                        } else {
-//                            @unlink($tDir);
-                        }
-                    }
-                }
+                array_push($dirs, $dir);
+//                $tmpRootDirs = cmf_scan_dir($dir . "/*");
+//                foreach ($tmpRootDirs as $tDir) {
+//                    if ($tDir != "." && $tDir != "..") {
+//                        $tDir = $dir . '/' . $tDir;
+//                        if (is_dir($tDir)) {
+//                            array_push($dirs, $tDir);
+//                        } else {
+////                            @unlink($tDir);
+//                        }
+//                    }
+//                }
             } else {
 //                @unlink($dir);
             }
