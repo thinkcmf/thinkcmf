@@ -75,7 +75,7 @@ class PluginController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
 
-        $pluginModel = PluginModel::get($id);
+        $pluginModel = PluginModel::find($id);
 
         if (empty($pluginModel)) {
             $this->error('插件不存在！');

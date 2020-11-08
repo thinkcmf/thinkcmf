@@ -129,13 +129,13 @@ class SlideController extends AdminBaseController
      */
     public function editPost()
     {
-        $data           = $this->request->param();
-        $slidePostModel = new SlideModel();
-        $result         = $this->validate($data, 'Slide');
+        $data   = $this->request->param();
+        $result = $this->validate($data, 'Slide');
         if ($result !== true) {
             $this->error($result);
         }
-        $slidePostModel->save($data, ['id' => $data['id']]);
+        $slidePostModel = SlideModel::find($data['id']);
+        $slidePostModel->save($data);
         $this->success("保存成功！", url("slide/index"));
     }
 
