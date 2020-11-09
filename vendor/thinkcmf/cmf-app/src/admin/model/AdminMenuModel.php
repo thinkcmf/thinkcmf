@@ -173,7 +173,7 @@ class AdminMenuModel extends Model
     public function menuCache($data = null)
     {
         if (empty($data)) {
-            $data = $this->order("list_order", "ASC")->column('*');
+            $data = $this->order("list_order", "ASC")->column('*','id');
             Cache::set('Menu', $data, 0);
         } else {
             Cache::set('Menu', $data, 0);
