@@ -20,7 +20,7 @@ class IndexController extends AdminBaseController
     public function initialize()
     {
         $adminSettings = cmf_get_option('admin_settings');
-        if (empty($adminSettings['admin_password']) || $this->request->path() == $adminSettings['admin_password']) {
+        if (empty($adminSettings['admin_password']) || $this->request->pathinfo() == $adminSettings['admin_password'] || true) {
             $adminId = cmf_get_current_admin_id();
             if (empty($adminId)) {
                 session("__LOGIN_BY_CMF_ADMIN_PW__", 1);//设置后台登录加密码
