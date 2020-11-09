@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
-use think\Db;
+use think\facade\Db;
 use app\admin\model\ThemeModel;
 use think\facade\View;
 
@@ -84,9 +84,9 @@ class HomeBaseController extends BaseController
     protected function fetch($template = '', $vars = [], $config = [])
     {
         $template = $this->parseTemplate($template);
-//        $more     = $this->getThemeFileMore($template);
-//        $this->assign('theme_vars', $more['vars']);
-//        $this->assign('theme_widgets', $more['widgets']);
+        $more     = $this->getThemeFileMore($template);
+        $this->assign('theme_vars', $more['vars']);
+        $this->assign('theme_widgets', $more['widgets']);
         $content        = $this->view->fetch($template, $vars, $config);
         $designingTheme = cookie('cmf_design_theme');
 

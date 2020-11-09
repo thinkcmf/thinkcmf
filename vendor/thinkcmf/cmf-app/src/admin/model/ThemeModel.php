@@ -55,7 +55,7 @@ class ThemeModel extends Model
 
             $this->updateThemeFiles($theme);
 
-            $this->save($themeData, ['theme' => $theme]);
+            $this->where('theme' , $theme)->update($themeData);
             return true;
         } else {
             return false;
