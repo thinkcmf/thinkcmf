@@ -20,7 +20,7 @@ class IndexController extends HomeBaseController
         return $this->fetch(':index');
     }
 
-    public function test()
+    public function block()
     {
         return $this->fetch();
     }
