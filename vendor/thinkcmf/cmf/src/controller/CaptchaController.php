@@ -17,11 +17,6 @@ use think\Request;
 
 class CaptchaController
 {
-    public function test()
-    {
-        echo "test";
-    }
-
     /**
      * new_captcha?height=50&width=200&font_size=25&length=4&bg=243,251,254&id=1
      * @param Request $request
@@ -31,7 +26,7 @@ class CaptchaController
     {
         $config  = [
             // 验证码字体大小(px)
-            'fontSize' => 25,
+            'fontSize' => 16,
             // 验证码图片高度
             'imageH'   => 38,
             // 验证码图片宽度
@@ -43,7 +38,7 @@ class CaptchaController
         ];
         $request = request();
 
-        $fontSize = $request->param('font_size', 25, 'intval');
+        $fontSize = $request->param('font_size', 16, 'intval');
         if ($fontSize > 8 && $fontSize < 100) {
             $config['fontSize'] = $fontSize;
         }
