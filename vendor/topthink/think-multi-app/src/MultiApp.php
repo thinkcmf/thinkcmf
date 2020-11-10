@@ -157,6 +157,22 @@ class MultiApp
                     }
                 }
 
+                if ($appName) {
+                    $routeFile = $this->app->getBasePath() . $appName . DIRECTORY_SEPARATOR . 'route.php';
+                    if (is_file($routeFile)) {
+                        include $routeFile;
+                    }
+
+                    $routePath = $this->app->getBasePath() . $appName . DIRECTORY_SEPARATOR . 'route' . DIRECTORY_SEPARATOR;
+                    if (is_dir($routePath)) {
+                        $files = glob($routePath . '*.php');
+                        foreach ($files as $file) {
+                            include $file;
+                        }
+                    }
+                }
+
+
                 if ($name) {
                     $this->app->request->setRoot('/' . $name);
                     $this->app->request->setPathinfo(strpos($path, '/') ? ltrim(strstr($path, '/'), '/') : '');

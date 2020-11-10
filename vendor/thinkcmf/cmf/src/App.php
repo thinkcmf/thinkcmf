@@ -308,7 +308,11 @@ class App extends Container
      */
     public function getBasePath(): string
     {
-        return $this->rootPath . 'app' . DIRECTORY_SEPARATOR;
+        $app = 'app';
+        if (defined('APP_NAMESPACE')) {
+            $app = APP_NAMESPACE;
+        }
+        return $this->rootPath . $app . DIRECTORY_SEPARATOR;
     }
 
     /**
