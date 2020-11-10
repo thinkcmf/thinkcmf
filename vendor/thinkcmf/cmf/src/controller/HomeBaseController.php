@@ -22,8 +22,6 @@ class HomeBaseController extends BaseController
         // 监听home_init
         hook('home_init');
         parent::initialize();
-        $siteInfo = cmf_get_site_info();
-        View::assign('site_info', $siteInfo);
     }
 
     protected function _initializeView()
@@ -128,6 +126,9 @@ hello;
      */
     private function parseTemplate($template)
     {
+        $siteInfo = cmf_get_site_info();
+        $this->view->assign('site_info', $siteInfo);
+
         // 分析模板文件规则
         $request = $this->request;
         // 获取视图根目录
