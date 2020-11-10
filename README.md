@@ -17,7 +17,7 @@ ThinkCMF 6.0.0开发版 让你更自由地飞
 -[ ] 应用后台菜单注解
 -[ ] 用户操作配置
 -[ ] URL 规则配置
--[ ] 网站安装功能
+-[x] 网站安装功能
 -[ ] `View::share`（待定）
 -[ ] 删除`Db::name()`的使用
 -[ ] 单独维护`think-template`,`think-view`,`cmf-route`
