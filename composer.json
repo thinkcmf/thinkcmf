@@ -32,7 +32,8 @@
         "topthink/think-view": "^1.0",
         "topthink/think-orm": "^2.0",
         "topthink/think-multi-app": "^1.0",
-        "topthink/think-captcha": "^3.0"
+        "topthink/think-captcha": "^3.0",
+        "thinkcmf/cmf-install": "6.0.x-dev"
 
     },
     "require-dev": {
@@ -49,7 +50,6 @@
         }
     },
     "extra": {
-        "think-path": "vendor/thinkphp",
         "think-config": "data/config"
     },
     "config": {

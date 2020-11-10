@@ -65,7 +65,7 @@ class BaseController
         $this->app     = $app;
         $this->request = $this->app->request;
 
-        if (!cmf_is_installed() && $this->request->module() != 'install') {
+        if (!cmf_is_installed() && strpos($this->request->url(), 'install') === false) {
             return $this->redirect(cmf_get_root() . '/?s=install');
         }
 
@@ -106,7 +106,7 @@ class BaseController
      */
     protected function fetch($template = '', $vars = [], $config = [])
     {
-        return Response::create($template, 'view')->assign($vars)->config($config);
+        return $this->view->fetch($template, $vars, $config);;
     }
 
     /**

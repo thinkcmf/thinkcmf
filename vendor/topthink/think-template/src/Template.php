@@ -1235,7 +1235,7 @@ class Template
                 $template = str_replace(['/', ':'], $this->config['view_depr'], substr($template, 1));
             }
 
-            if ($this->config['view_base']) {
+            if (!empty($this->config['view_base'])) {
                 $module = isset($module) ? $module : app()->http->getName();
                 $path   = $this->config['view_base'] . ($module ? $module . DIRECTORY_SEPARATOR : '');
             } else {

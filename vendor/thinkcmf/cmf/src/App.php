@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare (strict_types=1);
 
 namespace think;
 
@@ -229,8 +229,8 @@ class App extends Container
     {
         $name = is_string($service) ? $service : get_class($service);
         return array_values(array_filter($this->services, function ($value) use ($name) {
-            return $value instanceof $name;
-        }, ARRAY_FILTER_USE_BOTH))[0] ?? null;
+                return $value instanceof $name;
+            }, ARRAY_FILTER_USE_BOTH))[0] ?? null;
     }
 
     /**
@@ -518,6 +518,20 @@ class App extends Container
         foreach ($files as $file) {
             $this->config->load($file, pathinfo($file, PATHINFO_FILENAME));
         }
+
+        // 动态配置
+        $runtimeConfigPath = $this->rootPath . 'data' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR;
+
+        $files = [];
+
+        if (is_dir($runtimeConfigPath)) {
+            $files = glob($runtimeConfigPath . '*' . $this->configExt);
+        }
+
+        foreach ($files as $file) {
+            $this->config->load($file, pathinfo($file, PATHINFO_FILENAME));
+        }
+        // 动态配置结束
 
         if (is_file($appPath . 'event.php')) {
             $this->loadEvent(include $appPath . 'event.php');

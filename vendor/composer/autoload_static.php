@@ -18,11 +18,11 @@ class ComposerStaticInite579552c74f52c0eb2f704ad93758bc0
     );
 
     public static $prefixLengthsPsr4 = array (
-        'w' =>
+        'w' => 
         array (
             'wxapp\\' => 6,
         ),
-        't' =>
+        't' => 
         array (
             'tree\\' => 5,
             'think\\view\\driver\\' => 18,
@@ -31,31 +31,32 @@ class ComposerStaticInite579552c74f52c0eb2f704ad93758bc0
             'think\\app\\' => 10,
             'think\\' => 6,
         ),
-        'm' =>
+        'm' => 
         array (
             'mindplay\\annotations\\' => 21,
         ),
-        'd' =>
+        'd' => 
         array (
             'dir\\' => 4,
         ),
-        'c' =>
+        'c' => 
         array (
             'cmf\\' => 4,
         ),
-        'a' =>
+        'a' => 
         array (
+            'app\\install\\' => 12,
             'app\\' => 4,
             'api\\' => 4,
         ),
-        'S' =>
+        'S' => 
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Php72\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\VarDumper\\' => 28,
         ),
-        'P' =>
+        'P' => 
         array (
             'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
@@ -63,7 +64,7 @@ class ComposerStaticInite579552c74f52c0eb2f704ad93758bc0
             'Psr\\Cache\\' => 10,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
-        'L' =>
+        'L' => 
         array (
             'League\\MimeTypeDetection\\' => 25,
             'League\\Flysystem\\Cached\\' => 24,
@@ -72,112 +73,116 @@ class ComposerStaticInite579552c74f52c0eb2f704ad93758bc0
     );
 
     public static $prefixDirsPsr4 = array (
-        'wxapp\\' =>
+        'wxapp\\' => 
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf-extend/src/wxapp',
         ),
-        'tree\\' =>
+        'tree\\' => 
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf-extend/src/tree',
         ),
-        'think\\view\\driver\\' =>
+        'think\\view\\driver\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-view/src',
         ),
-        'think\\trace\\' =>
+        'think\\trace\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-trace/src',
         ),
-        'think\\captcha\\' =>
+        'think\\captcha\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-captcha/src',
         ),
-        'think\\app\\' =>
+        'think\\app\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-multi-app/src',
         ),
-        'think\\' =>
+        'think\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/framework/src/think',
             1 => __DIR__ . '/..' . '/topthink/think-helper/src',
             2 => __DIR__ . '/..' . '/topthink/think-orm/src',
             3 => __DIR__ . '/..' . '/topthink/think-template/src',
         ),
-        'mindplay\\annotations\\' =>
+        'mindplay\\annotations\\' => 
         array (
             0 => __DIR__ . '/..' . '/mindplay/annotations/src/annotations',
         ),
-        'dir\\' =>
+        'dir\\' => 
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf-extend/src/dir',
         ),
-        'cmf\\' =>
+        'cmf\\' => 
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf/src',
         ),
-        'app\\' =>
+        'app\\install\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/thinkcmf/cmf-install/src',
+        ),
+        'app\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
             1 => __DIR__ . '/..' . '/thinkcmf/cmf-app/src',
         ),
-        'api\\' =>
+        'api\\' => 
         array (
             0 => __DIR__ . '/../..' . '/api',
         ),
-        'Symfony\\Polyfill\\Php80\\' =>
+        'Symfony\\Polyfill\\Php80\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
         ),
-        'Symfony\\Polyfill\\Php72\\' =>
+        'Symfony\\Polyfill\\Php72\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php72',
         ),
-        'Symfony\\Polyfill\\Mbstring\\' =>
+        'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'Symfony\\Component\\VarDumper\\' =>
+        'Symfony\\Component\\VarDumper\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
-        'Psr\\SimpleCache\\' =>
+        'Psr\\SimpleCache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
         ),
-        'Psr\\Log\\' =>
+        'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
-        'Psr\\Container\\' =>
+        'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'Psr\\Cache\\' =>
+        'Psr\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
-        'PHPMailer\\PHPMailer\\' =>
+        'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
-        'League\\MimeTypeDetection\\' =>
+        'League\\MimeTypeDetection\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/mime-type-detection/src',
         ),
-        'League\\Flysystem\\Cached\\' =>
+        'League\\Flysystem\\Cached\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/flysystem-cached-adapter/src',
         ),
-        'League\\Flysystem\\' =>
+        'League\\Flysystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/flysystem/src',
         ),
     );
 
     public static $prefixesPsr0 = array (
-        'H' =>
+        'H' => 
         array (
-            'HTMLPurifier' =>
+            'HTMLPurifier' => 
             array (
                 0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
             ),
@@ -213,7 +218,6 @@ class ComposerStaticInite579552c74f52c0eb2f704ad93758bc0
         'phpQueryPlugin_example' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/plugins/example.php',
         'phpQueryPlugins' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery.php',
         'think\\App' => __DIR__ . '/..' . '/thinkcmf/cmf/src/App.php',
-        'think\\Route' => __DIR__ . '/..' . '/thinkcmf/cmf/src/Route.php',
         'think\\console\\command\\VendorPublish' => __DIR__ . '/..' . '/thinkcmf/cmf/src/console/command/VendorPublish.php',
     );
 

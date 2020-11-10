@@ -1061,6 +1061,42 @@
         "description": "The ThinkCMF extend Package"
     },
     {
+        "name": "thinkcmf/cmf-install",
+        "version": "6.0.x-dev",
+        "version_normalized": "6.0.9999999.9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thinkcmf/cmf-install.git",
+            "reference": "651f7ff4d4413e2bcf98823853144bb2b67f671a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/651f7ff4d4413e2bcf98823853144bb2b67f671a",
+            "reference": "651f7ff4d4413e2bcf98823853144bb2b67f671a",
+            "shasum": ""
+        },
+        "time": "2019-07-23T23:26:40+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "app\\install\\": "src"
+            },
+            "files": []
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "catman",
+                "email": "catman@thinkcmf.com"
+            }
+        ],
+        "description": "The ThinkCMF Install Package"
+    },
+    {
         "name": "topthink/framework",
         "version": "v6.0.5",
         "version_normalized": "6.0.5.0",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c99f9dd40cffa720bc10205f34092dc",
+    "content-hash": "49034a29356b2091d4509057ff6fcaad",
     "packages": [
         {
             "name": "electrolinux/phpquery",
@@ -716,6 +716,40 @@
             "time": "2019-03-04T05:15:23+00:00"
         },
         {
+            "name": "thinkcmf/cmf-install",
+            "version": "6.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thinkcmf/cmf-install.git",
+                "reference": "651f7ff4d4413e2bcf98823853144bb2b67f671a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/651f7ff4d4413e2bcf98823853144bb2b67f671a",
+                "reference": "651f7ff4d4413e2bcf98823853144bb2b67f671a",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "app\\install\\": "src"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "catman",
+                    "email": "catman@thinkcmf.com"
+                }
+            ],
+            "description": "The ThinkCMF Install Package",
+            "time": "2019-07-23T23:26:40+00:00"
+        },
+        {
             "name": "topthink/framework",
             "version": "v6.0.5",
             "source": {
@@ -1397,7 +1431,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "thinkcmf/cmf": 20,
-        "thinkcmf/cmf-app": 20
+        "thinkcmf/cmf-app": 20,
+        "thinkcmf/cmf-install": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
