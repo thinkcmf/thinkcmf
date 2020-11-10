@@ -6,10 +6,8 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
-
+// [ 应用入口文件 ]
 namespace think;
-
-// [ 入口文件 ]
 
 // 调试模式开关
 define('APP_DEBUG', true);
@@ -21,22 +19,22 @@ define('CMF_ROOT', dirname(__DIR__) . '/');
 define('CMF_DATA', CMF_ROOT . 'data/');
 
 // 定义应用目录
-define('APP_PATH', CMF_ROOT . 'api/');
-
-// 定义路由目录
-define('ROUTE_PATH', APP_PATH . 'route.php');
-
-// 定义配置目录
-define('CONFIG_PATH', CMF_ROOT . 'data/config/');
-
-// 定义命名空间
-define('APP_NAMESPACE', 'api');
+define('APP_PATH', CMF_ROOT . 'app/');
 
 // 定义网站入口目录
 define('WEB_ROOT', __DIR__ . '/');
 
-// 加载基础文件
-require __DIR__ . '/../vendor/thinkphp/base.php';
+// 定义命名空间
+define('APP_NAMESPACE', 'api');
 
-// 执行应用并响应
-Container::get('app', [APP_PATH])->run()->send();
+require CMF_ROOT . 'vendor/autoload.php';
+
+// 执行HTTP应用并响应
+$http = (new App())->http;
+
+$response = $http->run();
+
+$response->send();
+
+$http->end($response);
+

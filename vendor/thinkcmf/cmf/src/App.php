@@ -162,6 +162,10 @@ class App extends Container
      */
     public function __construct(string $rootPath = '')
     {
+        if (defined('APP_NAMESPACE')) {
+            $this->namespace = APP_NAMESPACE;
+        }
+
         $this->thinkPath   = dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'topthink' . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR;
         $this->rootPath    = $rootPath ? rtrim($rootPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : $this->getDefaultRootPath();
         $this->appPath     = $this->rootPath . $this->namespace . DIRECTORY_SEPARATOR;

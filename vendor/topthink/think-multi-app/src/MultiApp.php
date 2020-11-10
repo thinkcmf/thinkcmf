@@ -93,7 +93,7 @@ class MultiApp
         $scriptName = $this->getScriptName();
         $defaultApp = $this->app->config->get('app.default_app') ?: 'index';
 
-        if ($this->name || ($scriptName && !in_array($scriptName, ['index', 'router', 'think']))) {
+        if ($this->name || ($scriptName && !in_array($scriptName, ['index', 'router', 'think', 'api']))) {
             $appName = $this->name ?: $scriptName;
             $this->app->http->setBind();
         } else {
@@ -198,7 +198,8 @@ class MultiApp
 
         $this->app->setAppPath($appPath);
         // 设置应用命名空间
-        $this->app->setNamespace($this->app->config->get('app.app_namespace') ?: 'app\\' . $appName);
+        $appNamespace = defined('APP_NAMESPACE') ? APP_NAMESPACE : 'app';
+        $this->app->setNamespace($this->app->config->get('app.app_namespace') ?: $appNamespace . '\\' . $appName);
 
         $this->loadVendorApp($appName, $appPath);
         if (is_dir($appPath)) {
@@ -210,7 +211,8 @@ class MultiApp
         }
     }
 
-    protected function loadVendorApp(string $appName, string $appPath){
+    protected function loadVendorApp(string $appName, string $appPath)
+    {
         $langSet = $this->app->lang->getLangSet();
         $this->app->lang->load([
             root_path() . "vendor/thinkcmf/cmf/src/lang/{$langSet}.php",
