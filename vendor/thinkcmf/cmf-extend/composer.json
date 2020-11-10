@@ -1,0 +1,20 @@
+{
+    "name": "thinkcmf/cmf-extend",
+    "description": "The ThinkCMF extend Package",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "catman",
+            "email": "catman@thinkcmf.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "dir\\": "src/dir",
+            "tree\\": "src/tree",
+            "wxapp\\": "src/wxapp"
+        },
+        "files": [
+        ]
+    }
+}

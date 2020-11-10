@@ -1,0 +1,18 @@
+{
+    "name": "thinkcmf/cmf-install",
+    "description": "The ThinkCMF Install Package",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "catman",
+            "email": "catman@thinkcmf.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "app\\install\\": "src"
+        },
+        "files": [
+        ]
+    }
+}
