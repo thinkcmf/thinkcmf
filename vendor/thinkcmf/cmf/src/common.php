@@ -34,6 +34,19 @@ if (PHP_SAPI == 'cli') {
 }
 
 /**
+ * Url生成
+ * @param string      $url    路由地址
+ * @param array       $vars   变量
+ * @param bool|string $suffix 生成的URL后缀
+ * @param bool|string $domain 域名
+ * @return UrlBuild
+ */
+function url(string $url = '', array $vars = [], $suffix = true, $domain = false)
+{
+    return Route::buildUrl($url, $vars)->suffix($suffix)->domain($domain)->build();
+}
+
+/**
  * 获取当前登录的管理员ID
  * @return int
  */
