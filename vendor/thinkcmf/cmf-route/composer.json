@@ -20,7 +20,8 @@
             "think\\": "src"
         },
         "classmap": [
-            "src/Route.php"
+            "src/Route.php",
+            "src/Http.php"
         ]
     }
 }

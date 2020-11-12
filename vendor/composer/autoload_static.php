@@ -220,6 +220,7 @@ class ComposerStaticInitd993744c07b9c574b972c3091e1d4ff1
         'phpQueryPlugin_example' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/plugins/example.php',
         'phpQueryPlugins' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery.php',
         'think\\App' => __DIR__ . '/..' . '/thinkcmf/cmf/src/App.php',
+        'think\\Http' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/Http.php',
         'think\\Route' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/Route.php',
         'think\\console\\command\\VendorPublish' => __DIR__ . '/..' . '/thinkcmf/cmf/src/console/command/VendorPublish.php',
     );

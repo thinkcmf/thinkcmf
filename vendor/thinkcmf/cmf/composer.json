@@ -26,7 +26,6 @@
         ],
         "classmap": [
             "src/App.php",
-            "src/Route.php",
             "src/console/command/VendorPublish.php"
         ]
     },

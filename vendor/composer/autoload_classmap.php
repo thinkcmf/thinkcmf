@@ -30,6 +30,7 @@ return array(
     'phpQueryPlugin_example' => $vendorDir . '/electrolinux/phpquery/phpQuery/phpQuery/plugins/example.php',
     'phpQueryPlugins' => $vendorDir . '/electrolinux/phpquery/phpQuery/phpQuery.php',
     'think\\App' => $vendorDir . '/thinkcmf/cmf/src/App.php',
+    'think\\Http' => $vendorDir . '/thinkcmf/cmf-route/src/Http.php',
     'think\\Route' => $vendorDir . '/thinkcmf/cmf-route/src/Route.php',
     'think\\console\\command\\VendorPublish' => $vendorDir . '/thinkcmf/cmf/src/console/command/VendorPublish.php',
 );
