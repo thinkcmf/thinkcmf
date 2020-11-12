@@ -1136,6 +1136,51 @@
         "description": "The ThinkCMF Install Package"
     },
     {
+        "name": "thinkcmf/cmf-route",
+        "version": "6.0.x-dev",
+        "version_normalized": "6.0.9999999.9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thinkcmf/cmf-route.git",
+            "reference": "d34510366cf2d3a020aa8f5b71b711d4a5f85b30"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-route/zipball/d34510366cf2d3a020aa8f5b71b711d4a5f85b30",
+            "reference": "d34510366cf2d3a020aa8f5b71b711d4a5f85b30",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.1.0"
+        },
+        "time": "2020-11-12T00:14:11+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "think\\": "src"
+            },
+            "classmap": [
+                "src/Route.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "liu21st",
+                "email": "liu21st@gmail.com"
+            },
+            {
+                "name": "catman",
+                "email": "catman@thinkcmf.com"
+            }
+        ],
+        "description": "thinkcmf6 route"
+    },
+    {
         "name": "thinkcmf/think-template",
         "version": "2.0.x-dev",
         "version_normalized": "2.0.9999999.9999999-dev",

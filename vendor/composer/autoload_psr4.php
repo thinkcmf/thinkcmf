@@ -12,7 +12,7 @@ return array(
     'think\\trace\\' => array($vendorDir . '/topthink/think-trace/src'),
     'think\\captcha\\' => array($vendorDir . '/topthink/think-captcha/src'),
     'think\\app\\' => array($vendorDir . '/topthink/think-multi-app/src'),
-    'think\\' => array($vendorDir . '/thinkcmf/think-template/src', $vendorDir . '/topthink/framework/src/think', $vendorDir . '/topthink/think-helper/src', $vendorDir . '/topthink/think-orm/src'),
+    'think\\' => array($vendorDir . '/thinkcmf/cmf-route/src', $vendorDir . '/thinkcmf/think-template/src', $vendorDir . '/topthink/framework/src/think', $vendorDir . '/topthink/think-helper/src', $vendorDir . '/topthink/think-orm/src'),
     'mindplay\\annotations\\' => array($vendorDir . '/mindplay/annotations/src/annotations'),
     'dir\\' => array($vendorDir . '/thinkcmf/cmf-extend/src/dir'),
     'cmf\\' => array($vendorDir . '/thinkcmf/cmf/src'),

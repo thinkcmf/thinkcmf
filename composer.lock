@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "62750b3681db0135c5851a7541581ea7",
+    "content-hash": "daba6d3afe5598c9f37f430d36264360",
     "packages": [
         {
             "name": "electrolinux/phpquery",
@@ -625,7 +625,8 @@
                     "src/common.php"
                 ],
                 "classmap": [
-                    "src/App.php"
+                    "src/App.php",
+                    "src/console/command/VendorPublish.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -784,6 +785,49 @@
             ],
             "description": "The ThinkCMF Install Package",
             "time": "2019-07-23T23:26:40+00:00"
+        },
+        {
+            "name": "thinkcmf/cmf-route",
+            "version": "6.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thinkcmf/cmf-route.git",
+                "reference": "d34510366cf2d3a020aa8f5b71b711d4a5f85b30"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-route/zipball/d34510366cf2d3a020aa8f5b71b711d4a5f85b30",
+                "reference": "d34510366cf2d3a020aa8f5b71b711d4a5f85b30",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "think\\": "src"
+                },
+                "classmap": [
+                    "src/Route.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                },
+                {
+                    "name": "catman",
+                    "email": "catman@thinkcmf.com"
+                }
+            ],
+            "description": "thinkcmf6 route",
+            "time": "2020-11-12T00:14:11+00:00"
         },
         {
             "name": "thinkcmf/think-template",
@@ -1468,6 +1512,7 @@
     "stability-flags": {
         "thinkcmf/cmf": 20,
         "thinkcmf/cmf-app": 20,
+        "thinkcmf/cmf-route": 20,
         "thinkcmf/think-view": 20,
         "thinkcmf/cmf-install": 20,
         "thinkcmf/cmf-api": 20

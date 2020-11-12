@@ -99,10 +99,11 @@ class ComposerStaticInitd993744c07b9c574b972c3091e1d4ff1
         ),
         'think\\' => 
         array (
-            0 => __DIR__ . '/..' . '/thinkcmf/think-template/src',
-            1 => __DIR__ . '/..' . '/topthink/framework/src/think',
-            2 => __DIR__ . '/..' . '/topthink/think-helper/src',
-            3 => __DIR__ . '/..' . '/topthink/think-orm/src',
+            0 => __DIR__ . '/..' . '/thinkcmf/cmf-route/src',
+            1 => __DIR__ . '/..' . '/thinkcmf/think-template/src',
+            2 => __DIR__ . '/..' . '/topthink/framework/src/think',
+            3 => __DIR__ . '/..' . '/topthink/think-helper/src',
+            4 => __DIR__ . '/..' . '/topthink/think-orm/src',
         ),
         'mindplay\\annotations\\' => 
         array (
@@ -219,6 +220,7 @@ class ComposerStaticInitd993744c07b9c574b972c3091e1d4ff1
         'phpQueryPlugin_example' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/plugins/example.php',
         'phpQueryPlugins' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery.php',
         'think\\App' => __DIR__ . '/..' . '/thinkcmf/cmf/src/App.php',
+        'think\\Route' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/Route.php',
         'think\\console\\command\\VendorPublish' => __DIR__ . '/..' . '/thinkcmf/cmf/src/console/command/VendorPublish.php',
     );
 
