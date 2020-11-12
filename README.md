@@ -19,7 +19,8 @@ ThinkCMF 6.0.0开发版 让你更自由地飞
 - [x] 网站安装功能
 - [ ] `View::share`（待定）
 - [ ] 删除`Db::name()`的使用
-- [ ] 单独维护`think-template`,`think-view`,`cmf-route`
+- [x] 单独维护`think-template`,`think-view`
+- [ ] 单独维护`cmf-route`
 - [ ] API
 - [x] API基顾功能
 - [ ] API用户基顾功能

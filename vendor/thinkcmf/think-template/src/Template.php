@@ -345,7 +345,13 @@ class Template
         }
 
         // 读取第一行
-        preg_match('/\/\*(.+?)\*\//', fgets($handle), $matches);
+        $line = fgets($handle);
+
+        if (false === $line) {
+            return false;
+        }
+
+        preg_match('/\/\*(.+?)\*\//', $line, $matches);
 
         if (!isset($matches[1])) {
             return false;

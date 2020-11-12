@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "49034a29356b2091d4509057ff6fcaad",
+    "content-hash": "62750b3681db0135c5851a7541581ea7",
     "packages": [
         {
             "name": "electrolinux/phpquery",
@@ -625,8 +625,7 @@
                     "src/common.php"
                 ],
                 "classmap": [
-                    "src/App.php",
-                    "src/console/command/VendorPublish.php"
+                    "src/App.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -641,6 +640,43 @@
             ],
             "description": "The ThinkCMF Core Package",
             "time": "2020-06-20T21:44:41+00:00"
+        },
+        {
+            "name": "thinkcmf/cmf-api",
+            "version": "6.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thinkcmf/cmf-api.git",
+                "reference": "6f0724072ff564c71059721d84216dde8acaf34d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/6f0724072ff564c71059721d84216dde8acaf34d",
+                "reference": "6f0724072ff564c71059721d84216dde8acaf34d",
+                "shasum": ""
+            },
+            "require": {
+                "thinkcmf/cmf": "6.0.x-dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "api\\": "src"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "catman",
+                    "email": "catman@thinkcmf.com"
+                }
+            ],
+            "description": "The ThinkCMF 5.1 Core Api Package",
+            "time": "2020-11-10T16:17:09+00:00"
         },
         {
             "name": "thinkcmf/cmf-app",
@@ -748,6 +784,80 @@
             ],
             "description": "The ThinkCMF Install Package",
             "time": "2019-07-23T23:26:40+00:00"
+        },
+        {
+            "name": "thinkcmf/think-template",
+            "version": "2.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thinkcmf/think-template.git",
+                "reference": "43a5746c1d94406a4449f485634c1881f13994b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thinkcmf/think-template/zipball/43a5746c1d94406a4449f485634c1881f13994b3",
+                "reference": "43a5746c1d94406a4449f485634c1881f13994b3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0",
+                "psr/simple-cache": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "think\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                }
+            ],
+            "description": "the php template engine",
+            "time": "2020-11-11T23:19:59+00:00"
+        },
+        {
+            "name": "thinkcmf/think-view",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thinkcmf/think-view.git",
+                "reference": "5adb33f607992e4bfb235ceeb2798a8e3ae69b3f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thinkcmf/think-view/zipball/5adb33f607992e4bfb235ceeb2798a8e3ae69b3f",
+                "reference": "5adb33f607992e4bfb235ceeb2798a8e3ae69b3f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0",
+                "thinkcmf/think-template": "2.0.x-dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "think\\view\\driver\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                }
+            ],
+            "description": "thinkphp template driver",
+            "time": "2020-11-11T23:49:22+00:00"
         },
         {
             "name": "topthink/framework",
@@ -986,80 +1096,6 @@
                 "orm"
             ],
             "time": "2020-09-28T08:24:57+00:00"
-        },
-        {
-            "name": "topthink/think-template",
-            "version": "v2.0.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/top-think/think-template.git",
-                "reference": "e98bdbb4a4c94b442f17dfceba81e0134d4fbd19"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-template/zipball/e98bdbb4a4c94b442f17dfceba81e0134d4fbd19",
-                "reference": "e98bdbb4a4c94b442f17dfceba81e0134d4fbd19",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.0",
-                "psr/simple-cache": "^1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "think\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "liu21st",
-                    "email": "liu21st@gmail.com"
-                }
-            ],
-            "description": "the php template engine",
-            "time": "2019-09-20T15:31:04+00:00"
-        },
-        {
-            "name": "topthink/think-view",
-            "version": "v1.0.14",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/top-think/think-view.git",
-                "reference": "edce0ae2c9551ab65f9e94a222604b0dead3576d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-view/zipball/edce0ae2c9551ab65f9e94a222604b0dead3576d",
-                "reference": "edce0ae2c9551ab65f9e94a222604b0dead3576d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.0",
-                "topthink/think-template": "^2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "think\\view\\driver\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "liu21st",
-                    "email": "liu21st@gmail.com"
-                }
-            ],
-            "description": "thinkphp template driver",
-            "time": "2019-11-06T11:40:13+00:00"
         }
     ],
     "packages-dev": [
@@ -1428,13 +1464,15 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "thinkcmf/cmf": 20,
         "thinkcmf/cmf-app": 20,
-        "thinkcmf/cmf-install": 20
+        "thinkcmf/think-view": 20,
+        "thinkcmf/cmf-install": 20,
+        "thinkcmf/cmf-api": 20
     },
-    "prefer-stable": false,
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.1.0",

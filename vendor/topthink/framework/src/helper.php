@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types=1);
+declare (strict_types = 1);
 
 //------------------------
 // ThinkPHP 助手函数
@@ -274,8 +274,8 @@ if (!function_exists('input')) {
         }
 
         return isset($has) ?
-            request()->has($key, $method) :
-            request()->$method($key, $default, $filter);
+        request()->has($key, $method) :
+        request()->$method($key, $default, $filter);
     }
 }
 
@@ -498,9 +498,9 @@ if (!function_exists('url')) {
      * @param bool|string $domain 域名
      * @return UrlBuild
      */
-    function url(string $url = '', array $vars = [], $suffix = true, $domain = false)
+    function url(string $url = '', array $vars = [], $suffix = true, $domain = false): UrlBuild
     {
-        return Route::buildUrl($url, $vars)->suffix($suffix)->domain($domain)->build();
+        return Route::buildUrl($url, $vars)->suffix($suffix)->domain($domain);
     }
 }
 

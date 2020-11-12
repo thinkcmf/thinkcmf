@@ -1,21 +1,18 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2018 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: liu21st <liu21st@gmail.com>
+// | Author: Powerless < wzxaini9@gmail.com>
 // +----------------------------------------------------------------------
-namespace think\trace;
+namespace api\user\model;
 
-use think\Service as BaseService;
+use think\Model;
 
-class Service extends BaseService
+class UserScoreLogModel extends Model
 {
-    public function register()
-    {
-        $this->app->middleware->add(TraceDebug::class);
-    }
+
 }

@@ -1,5 +1,5 @@
 {
-    "name": "topthink/think-view",
+    "name": "thinkcmf/think-view",
     "description": "thinkphp template driver",
     "license": "Apache-2.0",
     "authors": [
@@ -10,7 +10,7 @@
     ],
     "require": {
     	"php": ">=7.1.0",
-        "topthink/think-template": "^2.0"
+        "thinkcmf/think-template": "2.0.x-dev"
     },
     "autoload": {
         "psr-4": {

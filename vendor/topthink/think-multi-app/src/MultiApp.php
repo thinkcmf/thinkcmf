@@ -163,11 +163,23 @@ class MultiApp
                         include $routeFile;
                     }
 
-                    $routePath = $this->app->getBasePath() . $appName . DIRECTORY_SEPARATOR . 'route' . DIRECTORY_SEPARATOR;
-                    if (is_dir($routePath)) {
-                        $files = glob($routePath . '*.php');
-                        foreach ($files as $file) {
-                            include $file;
+//                    $routePath = $this->app->getBasePath() . $appName . DIRECTORY_SEPARATOR . 'route' . DIRECTORY_SEPARATOR;
+//                    if (is_dir($routePath)) {
+//                        $files = glob($routePath . '*.php');
+//                        foreach ($files as $file) {
+//                            include_once $file;
+//                        }
+//                    }
+                }
+
+                if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
+                    $coreApps = glob($this->app->getRootPath() . 'vendor/thinkcmf/cmf-api/src/*', GLOB_ONLYDIR);
+
+                    foreach ($coreApps as $coreAppPath) {
+                        $routeFile = $coreAppPath . DIRECTORY_SEPARATOR . 'route.php';
+
+                        if (file_exists($routeFile)) {
+                            include $routeFile;
                         }
                     }
                 }
