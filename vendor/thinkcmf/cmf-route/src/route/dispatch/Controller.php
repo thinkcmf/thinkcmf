@@ -76,6 +76,7 @@ class Controller extends Dispatch
 
     public function exec()
     {
+        $this->app->event->trigger('ModuleInit');
         try {
             // 实例化控制器
             $instance = $this->controller($this->controller);
