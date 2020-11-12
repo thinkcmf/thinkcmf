@@ -17,6 +17,11 @@ use think\Model;
 
 class SlideModel extends Model
 {
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'slide';
 
     /**
      * 一对一关联模型 关联分类下的幻灯片

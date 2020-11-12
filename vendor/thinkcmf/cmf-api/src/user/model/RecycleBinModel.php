@@ -12,5 +12,9 @@ use think\Model;
 
 class RecycleBinModel extends Model
 {
-
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'recycle_bin';
 }

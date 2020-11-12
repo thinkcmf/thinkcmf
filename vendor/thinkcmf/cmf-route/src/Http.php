@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare (strict_types=1);
 
 namespace think;
 
@@ -233,15 +233,33 @@ class Http
      */
     protected function loadRoutes(): void
     {
-        // 加载路由定义
-        $routePath = $this->getRoutePath();
+        $appRootNamespace = $this->app->getRootNamespace();
 
-        if (is_dir($routePath)) {
-            $files = glob($routePath . '*.php');
-            foreach ($files as $file) {
-                include $file;
+        if ($appRootNamespace == 'app') {
+            // 加载路由定义
+            $routePath = $this->getRoutePath();
+
+            if (is_dir($routePath)) {
+                $files = glob($routePath . '*.php');
+                foreach ($files as $file) {
+                    include $file;
+                }
             }
         }
+
+        $rootPath = root_path();
+
+        if ($appRootNamespace == 'api') {
+            // 加载核心应用公共语言包
+            $coreApps = ['home', 'user'];
+            foreach ($coreApps as $app) {
+                $routeFile = "{$rootPath}vendor/thinkcmf/cmf-api/src/{$app}/route.php";
+                if (is_file($routeFile)) {
+                    include $routeFile;
+                }
+            }
+        }
+
 
         $this->app->event->trigger(RouteLoaded::class);
     }

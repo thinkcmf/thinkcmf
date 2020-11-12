@@ -15,5 +15,9 @@ use think\Model;
 
 class UserBalanceLogModel extends Model
 {
-
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'user_balance_log';
 }

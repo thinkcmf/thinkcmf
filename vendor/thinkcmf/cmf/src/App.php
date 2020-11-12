@@ -66,6 +66,12 @@ class App extends Container
     protected $namespace = 'app';
 
     /**
+     * 当前项目应用类库根命名空间
+     * @var string
+     */
+    protected $rootNamespace = 'app';
+
+    /**
      * 应用根目录
      * @var string
      */
@@ -163,7 +169,8 @@ class App extends Container
     public function __construct(string $rootPath = '')
     {
         if (defined('APP_NAMESPACE')) {
-            $this->namespace = APP_NAMESPACE;
+            $this->namespace     = APP_NAMESPACE;
+            $this->rootNamespace = APP_NAMESPACE;
         }
 
         $this->thinkPath   = dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'topthink' . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR;
@@ -279,6 +286,16 @@ class App extends Container
     public function getNamespace(): string
     {
         return $this->namespace;
+    }
+
+    /**
+     * 获取项目应用类库根命名空间
+     * @access public
+     * @return string
+     */
+    public function getRootNamespace(): string
+    {
+        return $this->rootNamespace;
     }
 
     /**

@@ -26,7 +26,7 @@ class SlideService
     {
         $slideModel = new SlideModel();
         $data       = $slideModel
-            ->relation('items')
+//            ->relation(['items'])
             ->where('status', 1)
             ->where('delete_time', 0)
             ->where($map)

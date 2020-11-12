@@ -17,6 +17,11 @@ use think\Model;
 
 class ThemeFileModel extends Model
 {
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'theme_file';
 
     //类型转换
     protected $type = [

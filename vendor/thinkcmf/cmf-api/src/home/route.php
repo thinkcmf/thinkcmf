@@ -2,4 +2,4 @@
 
 use think\facade\Route;
 
-Route::resource('home/slides', 'Slides');
+Route::resource('home/slides', 'home/Slides');
