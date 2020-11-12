@@ -33,4 +33,8 @@ return array(
     'think\\Http' => $vendorDir . '/thinkcmf/cmf-route/src/Http.php',
     'think\\Route' => $vendorDir . '/thinkcmf/cmf-route/src/Route.php',
     'think\\console\\command\\VendorPublish' => $vendorDir . '/thinkcmf/cmf/src/console/command/VendorPublish.php',
+    'think\\route\\Rule' => $vendorDir . '/thinkcmf/cmf-route/src/route/Rule.php',
+    'think\\route\\Url' => $vendorDir . '/thinkcmf/cmf-route/src/route/Url.php',
+    'think\\route\\dispatch\\Controller' => $vendorDir . '/thinkcmf/cmf-route/src/route/dispatch/Controller.php',
+    'think\\route\\dispatch\\Url' => $vendorDir . '/thinkcmf/cmf-route/src/route/dispatch/Url.php',
 );

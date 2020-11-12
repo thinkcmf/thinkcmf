@@ -223,6 +223,10 @@ class ComposerStaticInitd993744c07b9c574b972c3091e1d4ff1
         'think\\Http' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/Http.php',
         'think\\Route' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/Route.php',
         'think\\console\\command\\VendorPublish' => __DIR__ . '/..' . '/thinkcmf/cmf/src/console/command/VendorPublish.php',
+        'think\\route\\Rule' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/route/Rule.php',
+        'think\\route\\Url' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/route/Url.php',
+        'think\\route\\dispatch\\Controller' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/route/dispatch/Controller.php',
+        'think\\route\\dispatch\\Url' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/route/dispatch/Url.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare (strict_types=1);
 
 namespace think\route\dispatch;
 
@@ -48,8 +48,11 @@ class Controller extends Dispatch
             $result = explode('/', $result);
         }
 
+        // 获取应用名
+        $appName = $result[0] ?: config('app.default_app');
+
         // 获取控制器名
-        $controller = strip_tags($result[0] ?: $this->rule->config('default_controller'));
+        $controller = strip_tags($result[1] ?: $this->rule->config('default_controller'));
 
         if (strpos($controller, '.')) {
             $pos              = strrpos($controller, '.');
@@ -58,8 +61,12 @@ class Controller extends Dispatch
             $this->controller = Str::studly($controller);
         }
 
+        $app->http->name($appName);
+        $appNamespace = defined('APP_NAMESPACE') ? APP_NAMESPACE : 'app';
+        $app->setNamespace($appNamespace . '\\' . $appName);
+
         // 获取操作名
-        $this->actionName = strip_tags($result[1] ?: $this->rule->config('default_action'));
+        $this->actionName = strip_tags($result[2] ?: $this->rule->config('default_action'));
 
         // 设置当前请求的控制器、操作
         $this->request
@@ -132,12 +139,12 @@ class Controller extends Dispatch
             foreach ($middlewares as $key => $val) {
                 if (!is_int($key)) {
                     if (isset($val['only']) && !in_array($this->request->action(true), array_map(function ($item) {
-                        return strtolower($item);
-                    }, is_string($val['only']) ? explode(",", $val['only']) : $val['only']))) {
+                            return strtolower($item);
+                        }, is_string($val['only']) ? explode(",", $val['only']) : $val['only']))) {
                         continue;
                     } elseif (isset($val['except']) && in_array($this->request->action(true), array_map(function ($item) {
-                        return strtolower($item);
-                    }, is_string($val['except']) ? explode(',', $val['except']) : $val['except']))) {
+                            return strtolower($item);
+                        }, is_string($val['except']) ? explode(',', $val['except']) : $val['except']))) {
                         continue;
                     } else {
                         $val = $key;

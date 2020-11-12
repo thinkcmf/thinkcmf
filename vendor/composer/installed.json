@@ -1162,7 +1162,11 @@
             },
             "classmap": [
                 "src/Route.php",
-                "src/Http.php"
+                "src/Http.php",
+                "src/route/Rule.php",
+                "src/route/Url.php",
+                "src/route/dispatch/Controller.php",
+                "src/route/dispatch/Url.php"
             ]
         },
         "notification-url": "https://packagist.org/downloads/",

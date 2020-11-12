@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare (strict_types=1);
 
 namespace think\route;
 
@@ -71,8 +71,8 @@ class Url
     /**
      * 架构函数
      * @access public
-     * @param  string $url URL地址
-     * @param  array  $vars 参数
+     * @param string $url  URL地址
+     * @param array  $vars 参数
      */
     public function __construct(Route $route, App $app, string $url = '', array $vars = [])
     {
@@ -85,7 +85,7 @@ class Url
     /**
      * 设置URL参数
      * @access public
-     * @param  array $vars URL参数
+     * @param array $vars URL参数
      * @return $this
      */
     public function vars(array $vars = [])
@@ -97,7 +97,7 @@ class Url
     /**
      * 设置URL后缀
      * @access public
-     * @param  string|bool $suffix URL后缀
+     * @param string|bool $suffix URL后缀
      * @return $this
      */
     public function suffix($suffix)
@@ -109,7 +109,7 @@ class Url
     /**
      * 设置URL域名（或者子域名）
      * @access public
-     * @param  string|bool $domain URL域名
+     * @param string|bool $domain URL域名
      * @return $this
      */
     public function domain($domain)
@@ -121,7 +121,7 @@ class Url
     /**
      * 设置URL 根地址
      * @access public
-     * @param  string $root URL root
+     * @param string $root URL root
      * @return $this
      */
     public function root(string $root)
@@ -133,7 +133,7 @@ class Url
     /**
      * 设置是否使用HTTPS
      * @access public
-     * @param  bool $https
+     * @param bool $https
      * @return $this
      */
     public function https(bool $https = true)
@@ -145,8 +145,8 @@ class Url
     /**
      * 检测域名
      * @access protected
-     * @param  string      $url URL
-     * @param  string|true $domain 域名
+     * @param string      $url    URL
+     * @param string|true $domain 域名
      * @return string
      */
     protected function parseDomain(string &$url, $domain): string
@@ -205,7 +205,7 @@ class Url
     /**
      * 解析URL后缀
      * @access protected
-     * @param  string|bool $suffix 后缀
+     * @param string|bool $suffix 后缀
      * @return string
      */
     protected function parseSuffix($suffix): string
@@ -218,14 +218,14 @@ class Url
             }
         }
 
-        return (empty($suffix) || 0 === strpos($suffix, '.')) ? (string) $suffix : '.' . $suffix;
+        return (empty($suffix) || 0 === strpos($suffix, '.')) ? (string)$suffix : '.' . $suffix;
     }
 
     /**
      * 直接解析URL地址
      * @access protected
-     * @param  string      $url URL
-     * @param  string|bool $domain Domain
+     * @param string      $url    URL
+     * @param string|bool $domain Domain
      * @return string
      */
     protected function parseUrl(string $url, &$domain): string
@@ -249,8 +249,14 @@ class Url
             $path       = explode('/', $url);
             $action     = array_pop($path);
             $controller = empty($path) ? $controller : array_pop($path);
+            $appName    = empty($path) ? '' : array_pop($path);
 
-            $url = $controller . '/' . $action;
+            if (empty($appName)) {
+                $url = $controller . '/' . $action;
+            } else {
+                $url = $appName . '/' . $controller . '/' . $action;
+            }
+
         }
 
         return $url;
@@ -259,7 +265,7 @@ class Url
     /**
      * 分析路由规则中的变量
      * @access protected
-     * @param  string $rule 路由规则
+     * @param string $rule 路由规则
      * @return array
      */
     protected function parseVar(string $rule): array
@@ -288,9 +294,9 @@ class Url
     /**
      * 匹配路由地址
      * @access protected
-     * @param  array $rule 路由规则
-     * @param  array $vars 路由变量
-     * @param  mixed $allowDomain 允许域名
+     * @param array $rule        路由规则
+     * @param array $vars        路由变量
+     * @param mixed $allowDomain 允许域名
      * @return array
      */
     protected function getRuleUrl(array $rule, array &$vars = [], $allowDomain = ''): array
@@ -328,7 +334,7 @@ class Url
 
             foreach ($pattern as $key => $val) {
                 if (isset($vars[$key])) {
-                    $url    = str_replace(['[:' . $key . ']', '<' . $key . '?>', ':' . $key, '<' . $key . '>'], $type ? $vars[$key] : urlencode((string) $vars[$key]), $url);
+                    $url    = str_replace(['[:' . $key . ']', '<' . $key . '?>', ':' . $key, '<' . $key . '>'], $type ? $vars[$key] : urlencode((string)$vars[$key]), $url);
                     $keys[] = $key;
                     $url    = str_replace(['/?', '-?'], ['/', '-'], $url);
                     $result = [rtrim($url, '?/-'), $domain, $suffix];
@@ -473,10 +479,10 @@ class Url
             // 添加参数
             if ($this->route->config('url_common_param')) {
                 $vars = http_build_query($vars);
-                $url .= $suffix . '?' . $vars . $anchor;
+                $url  .= $suffix . '?' . $vars . $anchor;
             } else {
                 foreach ($vars as $var => $val) {
-                    $val = (string) $val;
+                    $val = (string)$val;
                     if ('' !== $val) {
                         $url .= $depr . $var . $depr . urlencode($val);
                     }

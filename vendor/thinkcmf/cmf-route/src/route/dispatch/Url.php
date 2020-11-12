@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare (strict_types=1);
 
 namespace think\route\dispatch;
 
@@ -36,7 +36,7 @@ class Url extends Controller
     /**
      * 解析URL地址
      * @access protected
-     * @param  string $url URL
+     * @param string $url URL
      * @return array
      */
     protected function parseUrl(string $url): array
@@ -55,15 +55,17 @@ class Url extends Controller
             return [null, null];
         }
 
+        $appName    = !empty($path) ? array_shift($path) : null;
+
         // 解析控制器
-        $controller = !empty($path) ? array_shift($path) : null;
+        $controller = !empty($path) ? array_shift($path) : $this->rule->config('default_controller');
 
         if ($controller && !preg_match('/^[A-Za-z0-9][\w|\.]*$/', $controller)) {
             throw new HttpException(404, 'controller not exists:' . $controller);
         }
 
         // 解析操作
-        $action = !empty($path) ? array_shift($path) : null;
+        $action = !empty($path) ? array_shift($path) : $this->rule->config('default_action');
         $var    = [];
 
         // 解析额外参数
@@ -83,7 +85,7 @@ class Url extends Controller
         $this->param = $var;
 
         // 封装路由
-        $route = [$controller, $action];
+        $route = [$appName, $controller, $action];
 
         if ($this->hasDefinedRoute($route)) {
             throw new HttpException(404, 'invalid request:' . str_replace('|', $depr, $url));
@@ -95,15 +97,15 @@ class Url extends Controller
     /**
      * 检查URL是否已经定义过路由
      * @access protected
-     * @param  array $route 路由信息
+     * @param array $route 路由信息
      * @return bool
      */
     protected function hasDefinedRoute(array $route): bool
     {
-        [$controller, $action] = $route;
+        [$appName, $controller, $action] = $route;
 
         // 检查地址是否被定义过路由
-        $name = strtolower(Str::studly($controller) . '/' . $action);
+        $name = strtolower($appName . '/' . Str::studly($controller) . '/' . $action);
 
         $host   = $this->request->host(true);
         $method = $this->request->method();
