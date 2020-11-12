@@ -249,7 +249,9 @@ class Url
             $path       = explode('/', $url);
             $action     = array_pop($path);
             $controller = empty($path) ? $controller : array_pop($path);
-            $appName    = empty($path) ? '' : array_pop($path);
+            $appName    = empty($path) ? $this->app->http->getName() : array_pop($path);
+
+            $controller = parse_name($controller, 0);
 
             if (empty($appName)) {
                 $url = $controller . '/' . $action;
