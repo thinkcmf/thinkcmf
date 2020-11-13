@@ -423,6 +423,46 @@ class IndexController extends BaseController
 
     }
 
+    public function testDataExist()
+    {
+        if ($this->request->isPost()) {
+            $dbConfig         = $this->request->param();
+            $dbConfig['type'] = "mysql";
+            $canCreateDbAndImportData = false;
+
+            
+
+
+            try {
+                //检查 cmf_admin_menu  
+                $table = $dbConfig['dbprefix']."admin_menu";
+                // Db::connect($dbConfig)->query("use ".$dbConfig['dbname'].";");
+                $tableExist = Db::connect($dbConfig)->query("show tables like '".$table."';");
+                if($tableExist){
+                    $dataExist = Db::connect($dbConfig)->query("select * from ".$table." where 1;");
+                    //存在数据，则警告
+                    if(is_array($dataExist) && count($dataExist) >0){
+                        $canCreateDbAndImportData = false;
+                    }else{
+                        $canCreateDbAndImportData = true;
+                    }
+                }else{
+                    $canCreateDbAndImportData = true;
+                }
+            } catch (\Exception $e) {
+                $this->success('验证成功！');
+            }
+            if ($canCreateDbAndImportData) {
+                $this->success('验证成功！');
+            } else {
+                $this->error('配置的数据库存在数据,请更换数据库或者清空数据');
+            }
+        } else {
+            $this->error('非法请求方式！');
+        }
+
+    }
+
     public function testRewrite()
     {
         $this->success('success');
