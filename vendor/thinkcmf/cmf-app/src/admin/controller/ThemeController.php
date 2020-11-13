@@ -724,7 +724,7 @@ class ThemeController extends AdminBaseController
                         }
                     }
 
-                    if (isset($post['widget_vars'])) {
+                    if (isset($post['widget_vars'])||isset($post['widget'])) {
                         foreach ($more['widgets'] as $mWidgetName => $widget) {
 
                             if (empty($post['widget'][$mWidgetName]['display'])) {

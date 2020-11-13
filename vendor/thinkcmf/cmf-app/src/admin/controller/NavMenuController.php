@@ -174,7 +174,7 @@ class NavMenuController extends AdminBaseController
         $intParentId  = $this->request->param("parent_id", 0, 'intval');
         $objResult    = $navMenuModel
             ->where("nav_id", $intNavId)
-            ->where("id", "neq", $intId)
+            ->where("id", "<>", $intId)
             ->order(["list_order" => "ASC"])
             ->select();
         $arrResult    = $objResult ? $objResult->toArray() : [];

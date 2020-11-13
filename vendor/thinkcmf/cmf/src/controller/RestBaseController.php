@@ -10,12 +10,12 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
+use cmf\model\UserTokenModel;
 use think\App;
 use think\Container;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
 use think\Response;
-use think\Db;
 
 class RestBaseController
 {
@@ -111,8 +111,7 @@ class RestBaseController
 
         $this->token = $token;
 
-        $user = Db::name('user_token')
-            ->alias('a')
+        $user = UserTokenModel::alias('a')
             ->field('b.*')
             ->where(['token' => $token, 'device_type' => $deviceType])
             ->join('__USER__ b', 'a.user_id = b.id')
@@ -129,8 +128,8 @@ class RestBaseController
     /**
      * 前置操作
      * @access protected
-     * @param string $method 前置操作方法名
-     * @param array $options 调用参数 ['only'=>[...]] 或者['except'=>[...]]
+     * @param string $method  前置操作方法名
+     * @param array  $options 调用参数 ['only'=>[...]] 或者['except'=>[...]]
      */
     protected function beforeAction($method, $options = [])
     {
@@ -169,11 +168,11 @@ class RestBaseController
     /**
      * 验证数据
      * @access protected
-     * @param array $data 数据
+     * @param array        $data     数据
      * @param string|array $validate 验证器名或者验证规则数组
-     * @param array $message 提示信息
-     * @param bool $batch 是否批量验证
-     * @param mixed $callback 回调方法（闭包）
+     * @param array        $message  提示信息
+     * @param bool         $batch    是否批量验证
+     * @param mixed        $callback 回调方法（闭包）
      * @return bool
      */
     protected function validate($data, $validate, $message = [], $batch = false, $callback = null)
@@ -218,8 +217,8 @@ class RestBaseController
     /**
      * 操作成功跳转的快捷方法
      * @access protected
-     * @param mixed $msg 提示信息
-     * @param mixed $data 返回的数据
+     * @param mixed $msg    提示信息
+     * @param mixed $data   返回的数据
      * @param array $header 发送的Header信息
      * @return void
      */
@@ -243,8 +242,8 @@ class RestBaseController
     /**
      * 操作错误跳转的快捷方法
      * @access protected
-     * @param mixed $msg 提示信息,若要指定错误码,可以传数组,格式为['code'=>您的错误码,'msg'=>'您的错误消息']
-     * @param mixed $data 返回的数据
+     * @param mixed $msg    提示信息,若要指定错误码,可以传数组,格式为['code'=>您的错误码,'msg'=>'您的错误消息']
+     * @param mixed $data   返回的数据
      * @param array $header 发送的Header信息
      * @return void
      */

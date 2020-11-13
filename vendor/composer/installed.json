@@ -43,26 +43,26 @@
     },
     {
         "name": "ezyang/htmlpurifier",
-        "version": "v4.10.0",
-        "version_normalized": "4.10.0.0",
+        "version": "v4.13.0",
+        "version_normalized": "4.13.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/ezyang/htmlpurifier.git",
-            "reference": "d85d39da4576a6934b72480be6978fb10c860021"
+            "reference": "08e27c97e4c6ed02f37c5b2b20488046c8d90d75"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/d85d39da4576a6934b72480be6978fb10c860021",
-            "reference": "d85d39da4576a6934b72480be6978fb10c860021",
+            "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/08e27c97e4c6ed02f37c5b2b20488046c8d90d75",
+            "reference": "08e27c97e4c6ed02f37c5b2b20488046c8d90d75",
             "shasum": ""
         },
         "require": {
             "php": ">=5.2"
         },
         "require-dev": {
-            "simpletest/simpletest": "^1.1"
+            "simpletest/simpletest": "dev-master#72de02a7b80c6bb8864ef9bf66d41d2f58f826bd"
         },
-        "time": "2018-02-23T01:58:20+00:00",
+        "time": "2020-06-29T00:56:53+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -71,11 +71,14 @@
             },
             "files": [
                 "library/HTMLPurifier.composer.php"
+            ],
+            "exclude-from-classmap": [
+                "/library/HTMLPurifier/Language/"
             ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "LGPL"
+            "LGPL-2.1-or-later"
         ],
         "authors": [
             {
@@ -144,32 +147,29 @@
     },
     {
         "name": "phpmailer/phpmailer",
-        "version": "v6.0.7",
-        "version_normalized": "6.0.7.0",
+        "version": "v6.1.8",
+        "version_normalized": "6.1.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/PHPMailer/PHPMailer.git",
-            "reference": "0c41a36d4508d470e376498c1c0c527aa36a2d59"
+            "reference": "917ab212fa00dc6eacbb26e8bc387ebe40993bc1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/0c41a36d4508d470e376498c1c0c527aa36a2d59",
-            "reference": "0c41a36d4508d470e376498c1c0c527aa36a2d59",
+            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/917ab212fa00dc6eacbb26e8bc387ebe40993bc1",
+            "reference": "917ab212fa00dc6eacbb26e8bc387ebe40993bc1",
             "shasum": ""
         },
         "require": {
             "ext-ctype": "*",
             "ext-filter": "*",
+            "ext-hash": "*",
             "php": ">=5.5.0"
         },
         "require-dev": {
-            "doctrine/annotations": "1.2.*",
+            "doctrine/annotations": "^1.2",
             "friendsofphp/php-cs-fixer": "^2.2",
-            "phpdocumentor/phpdocumentor": "2.*",
-            "phpunit/phpunit": "^4.8 || ^5.7",
-            "zendframework/zend-eventmanager": "3.0.*",
-            "zendframework/zend-i18n": "2.7.3",
-            "zendframework/zend-serializer": "2.7.*"
+            "phpunit/phpunit": "^4.8 || ^5.7"
         },
         "suggest": {
             "ext-mbstring": "Needed to send email in multibyte encoding charset",
@@ -179,7 +179,7 @@
             "stevenmaguire/oauth2-microsoft": "Needed for Microsoft XOAUTH2 authentication",
             "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
         },
-        "time": "2019-02-01T15:04:28+00:00",
+        "time": "2020-10-09T14:55:58+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -189,16 +189,16 @@
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "LGPL-2.1"
+            "LGPL-2.1-only"
         ],
         "authors": [
             {
-                "name": "Jim Jagielski",
-                "email": "jimjag@gmail.com"
-            },
-            {
                 "name": "Marcus Bointon",
                 "email": "phpmailer@synchromedia.co.uk"
+            },
+            {
+                "name": "Jim Jagielski",
+                "email": "jimjag@gmail.com"
             },
             {
                 "name": "Andy Prevost",
@@ -208,21 +208,27 @@
                 "name": "Brent R. Matzelle"
             }
         ],
-        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+        "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+        "funding": [
+            {
+                "url": "https://github.com/synchro",
+                "type": "github"
+            }
+        ]
     },
     {
         "name": "thinkcmf/cmf",
-        "version": "v5.1.4",
-        "version_normalized": "5.1.4.0",
+        "version": "v5.1.11",
+        "version_normalized": "5.1.11.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thinkcmf/cmf-core.git",
-            "reference": "b88da6a20e84c1ed950d81fa53da244839e3cb5b"
+            "reference": "f9e726abc3b6412bdce8b5d1e426e40bb2932380"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/b88da6a20e84c1ed950d81fa53da244839e3cb5b",
-            "reference": "b88da6a20e84c1ed950d81fa53da244839e3cb5b",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/f9e726abc3b6412bdce8b5d1e426e40bb2932380",
+            "reference": "f9e726abc3b6412bdce8b5d1e426e40bb2932380",
             "shasum": ""
         },
         "require": {
@@ -234,7 +240,7 @@
             "topthink/framework": "~5.1.0",
             "topthink/think-captcha": "^2.0"
         },
-        "time": "2019-03-25T23:42:23+00:00",
+        "time": "2019-12-16T09:51:55+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -264,23 +270,23 @@
     },
     {
         "name": "thinkcmf/cmf-api",
-        "version": "v5.1.4",
-        "version_normalized": "5.1.4.0",
+        "version": "v5.1.6",
+        "version_normalized": "5.1.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thinkcmf/cmf-api.git",
-            "reference": "b48b380a9e152ed528360e0db22cde19aad2f00d"
+            "reference": "a7d9edecc8c44aec6395dac8678a2577127f776d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/b48b380a9e152ed528360e0db22cde19aad2f00d",
-            "reference": "b48b380a9e152ed528360e0db22cde19aad2f00d",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/a7d9edecc8c44aec6395dac8678a2577127f776d",
+            "reference": "a7d9edecc8c44aec6395dac8678a2577127f776d",
             "shasum": ""
         },
         "require": {
             "thinkcmf/cmf": "~5.1.0"
         },
-        "time": "2019-03-25T15:19:06+00:00",
+        "time": "2019-07-23T23:29:11+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -303,23 +309,23 @@
     },
     {
         "name": "thinkcmf/cmf-app",
-        "version": "v5.1.3",
-        "version_normalized": "5.1.3.0",
+        "version": "v5.1.6",
+        "version_normalized": "5.1.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thinkcmf/cmf-app.git",
-            "reference": "280135a25301d0bd280a5fe1055c5782a17990ff"
+            "reference": "dd02fc871dcfccc59ac21750ce6ddec359e79e7d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/280135a25301d0bd280a5fe1055c5782a17990ff",
-            "reference": "280135a25301d0bd280a5fe1055c5782a17990ff",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/dd02fc871dcfccc59ac21750ce6ddec359e79e7d",
+            "reference": "dd02fc871dcfccc59ac21750ce6ddec359e79e7d",
             "shasum": ""
         },
         "require": {
             "thinkcmf/cmf": "~5.1.0"
         },
-        "time": "2019-03-25T14:54:55+00:00",
+        "time": "2019-09-06T03:58:33+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -380,20 +386,20 @@
     },
     {
         "name": "thinkcmf/cmf-install",
-        "version": "v5.1.2",
-        "version_normalized": "5.1.2.0",
+        "version": "v5.1.4",
+        "version_normalized": "5.1.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thinkcmf/cmf-install.git",
-            "reference": "d5cb888c2a9a8db94f8d78ab1e6843a121fd2627"
+            "reference": "651f7ff4d4413e2bcf98823853144bb2b67f671a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/d5cb888c2a9a8db94f8d78ab1e6843a121fd2627",
-            "reference": "d5cb888c2a9a8db94f8d78ab1e6843a121fd2627",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/651f7ff4d4413e2bcf98823853144bb2b67f671a",
+            "reference": "651f7ff4d4413e2bcf98823853144bb2b67f671a",
             "shasum": ""
         },
-        "time": "2019-03-25T15:15:13+00:00",
+        "time": "2019-07-23T23:26:40+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -416,17 +422,17 @@
     },
     {
         "name": "topthink/framework",
-        "version": "v5.1.35",
-        "version_normalized": "5.1.35.0",
+        "version": "v5.1.40",
+        "version_normalized": "5.1.40.0",
         "source": {
             "type": "git",
             "url": "https://github.com/top-think/framework.git",
-            "reference": "c53c0c6132022a87e8ee9c4109939eaf9a8a7adb"
+            "reference": "df0f92d58c70207c9ce9526fa7743eeff0831328"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/top-think/framework/zipball/c53c0c6132022a87e8ee9c4109939eaf9a8a7adb",
-            "reference": "c53c0c6132022a87e8ee9c4109939eaf9a8a7adb",
+            "url": "https://api.github.com/repos/top-think/framework/zipball/df0f92d58c70207c9ce9526fa7743eeff0831328",
+            "reference": "df0f92d58c70207c9ce9526fa7743eeff0831328",
             "shasum": ""
         },
         "require": {
@@ -442,7 +448,7 @@
             "sebastian/phpcpd": "2.*",
             "squizlabs/php_codesniffer": "2.*"
         },
-        "time": "2019-03-03T00:44:44+00:00",
+        "time": "2020-10-09T07:36:44+00:00",
         "type": "think-framework",
         "installation-source": "dist",
         "notification-url": "https://packagist.org/downloads/",

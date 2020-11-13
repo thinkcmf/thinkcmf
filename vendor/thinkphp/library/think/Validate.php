@@ -408,6 +408,7 @@ class Validate
         foreach ($this->append as $key => $rule) {
             if (!isset($rules[$key])) {
                 $rules[$key] = $rule;
+                unset($this->append[$key]);
             }
         }
 
@@ -519,7 +520,8 @@ class Validate
 
         if (isset($this->append[$field])) {
             // 追加额外的验证规则
-            $rules = array_unique(array_merge($rules, $this->append[$field]));
+            $rules = array_unique(array_merge($rules, $this->append[$field]), SORT_REGULAR);
+            unset($this->append[$field]);
         }
 
         $i      = 0;
@@ -570,7 +572,7 @@ class Validate
                     $result = str_replace(':attribute', $title, $result);
 
                     if (strpos($result, ':rule') && is_scalar($rule)) {
-                        $msg = str_replace(':rule', (string) $rule, $result);
+                        $result = str_replace(':rule', (string) $rule, $result);
                     }
                 }
 
@@ -934,8 +936,8 @@ class Validate
             if (isset($rule[2])) {
                 $imageType = strtolower($rule[2]);
 
-                if ('jpeg' == $imageType) {
-                    $imageType = 'jpg';
+                if ('jpg' == $imageType) {
+                    $imageType = 'jpeg';
                 }
 
                 if (image_type_to_extension($type, false) != $imageType) {
@@ -1514,11 +1516,11 @@ class Validate
             $scene = $this->currentScene;
         }
 
+        $this->only = $this->append = $this->remove = [];
+
         if (empty($scene)) {
             return;
         }
-
-        $this->only = $this->append = $this->remove = [];
 
         if (method_exists($this, 'scene' . $scene)) {
             call_user_func([$this, 'scene' . $scene]);

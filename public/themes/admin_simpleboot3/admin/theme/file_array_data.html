@@ -21,7 +21,18 @@
             <foreach name="array_items" item="item" key="itemKey">
                 <tr>
                     <foreach name="array_item" item="vo">
-                        <td>{$item[$key]|default=''}</td>
+                        <td>
+                            <switch name="vo.type">
+                                <case value="image">
+                                    <notempty name="$item[$key]">
+                                        <img src="{:cmf_get_image_preview_url($item[$key])}" style="height:100px;"/>
+                                    </notempty>
+                                </case>
+                                <default>
+                                    {$item[$key]|default=''}
+                                </default>
+                            </switch>
+                        </td>
                     </foreach>
                     <td>
                         <a href="{:url('theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'item_index'=>$itemKey])}">编辑</a>

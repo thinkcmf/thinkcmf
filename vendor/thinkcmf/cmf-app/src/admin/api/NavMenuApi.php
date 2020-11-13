@@ -11,6 +11,7 @@
 namespace app\admin\api;
 
 use app\admin\model\NavMenuModel;
+use think\db\Query;
 
 class NavMenuApi
 {

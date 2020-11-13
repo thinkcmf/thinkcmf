@@ -18,10 +18,12 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezo
     && echo "deb http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib" >>/etc/apt/sources.list \
     && echo "deb http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib" >>/etc/apt/sources.list \
     #安装程序依赖库
-    && apt-get update && apt-get install -y \
+    && apt-get update && apt-get install -y --allow-downgrades \
               libfreetype6-dev \
               libjpeg62-turbo-dev \
               libpng-dev \
+              zlib1g=1:1.2.8.dfsg-5 \
+              zlib1g-dev \
     #安装 PHP 依赖
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \

@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
+use cmf\model\UserModel;
 use think\Db;
 
 class AdminBaseController extends BaseController
@@ -22,7 +23,7 @@ class AdminBaseController extends BaseController
         parent::initialize();
         $sessionAdminId = session('ADMIN_ID');
         if (!empty($sessionAdminId)) {
-            $user = Db::name('user')->where('id', $sessionAdminId)->find();
+            $user = UserModel::where('id', $sessionAdminId)->find();
 
             if (!$this->checkAccess($sessionAdminId)) {
                 $this->error("您没有访问权限！");

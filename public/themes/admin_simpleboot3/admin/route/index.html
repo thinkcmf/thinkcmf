@@ -29,13 +29,8 @@
             <foreach name="routes" item="vo">
                 <tr>
                     <td>
-                        <eq name="vo.type" value="2">
-                            <input class="input-order" type="text" value="{$vo.list_order}" readonly>
-                            <else/>
-                            <input name="list_orders[{$vo.id}]" class="input-order" type="text"
-                                   value="{$vo.list_order}">
-                        </eq>
-
+                        <input name="list_orders[{$vo.id}]" class="input-order" type="text"
+                               value="{$vo.list_order}">
                     </td>
                     <td>{$vo.id}</td>
                     <td>{$vo.full_url}</td>

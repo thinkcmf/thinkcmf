@@ -311,7 +311,7 @@
     if ($('a.js-ajax-delete').length) {
         Wind.css('artDialog');
         Wind.use('artDialog', 'noty', function () {
-            $('.js-ajax-delete').on('click', function (e) {
+            $('body').on('click', '.js-ajax-delete', function (e) {
                 e.preventDefault();
                 var $_this  = this,
                     $this   = $($_this),
@@ -531,7 +531,9 @@
             //分组各纵横项
             var check_all_direction = check_all.data('direction');
             check_items             = $('input.js-check[data-' + check_all_direction + 'id="' + check_all.data('checklist') + '"]').not(":disabled");
-
+            if($('.js-check-all').is(':checked')) {
+                check_items.prop('checked', true);
+            }
             //点击全选框
             check_all.change(function (e) {
                 var check_wrap = check_all.parents('.js-check-wrap'); //当前操作区域所有复选框的父标签（重用考虑）
@@ -634,6 +636,22 @@
                 language: 'zh-CN',
                 format: 'yyyy-mm-dd',
                 minView: 'month',
+                todayBtn: 1,
+                autoclose: true
+            });
+        });
+    }
+
+    // bootstrap年月份选择器
+    var bootstrapYearMonthInput = $("input.js-bootstrap-year-month");
+    if (bootstrapYearMonthInput.length) {
+        Wind.css('bootstrapDatetimePicker');
+        Wind.use('bootstrapDatetimePicker', function () {
+            bootstrapYearMonthInput.datetimepicker({
+                language: 'zh-CN',
+                format: 'yyyy-mm',
+                minView: 'year',
+                startView: 'decade',
                 todayBtn: 1,
                 autoclose: true
             });

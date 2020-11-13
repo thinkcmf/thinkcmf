@@ -366,7 +366,7 @@
 		,outputXssFilter: true
 		// xss过滤白名单 名单来源: https://raw.githubusercontent.com/leizongmin/js-xss/master/lib/default.js
 		,whiteList: {
-			a:      ['target', 'href', 'title', 'class', 'style'],
+			a:      ['target', 'href', 'title', 'class', 'style','name'],
 			abbr:   ['title', 'class', 'style'],
 			address: ['class', 'style', 'id'],
 			area:   ['shape', 'coords', 'href', 'alt'],
@@ -410,7 +410,7 @@
 			hr:     ['class', 'style', 'id'],
 			i:      ['class', 'style', 'id'],
 			iframe: ['src', 'width', 'height', 'class', 'id', 'style', 'frameborder', 'name'],
-			img:    ['src', 'alt', 'title', 'width', 'height', 'id', '_src', 'loadingclass', 'class', 'style','_url', 'data-latex'],
+			img:    ['src', 'alt', 'title', 'width', 'height', 'id', '_src', 'loadingclass', 'class', 'style','_url', 'data-latex','anchorname'],
 			ins:    ['datetime', 'class', 'style', 'id'],
 			li:     ['class', 'style', 'id'],
 			mark:   [],

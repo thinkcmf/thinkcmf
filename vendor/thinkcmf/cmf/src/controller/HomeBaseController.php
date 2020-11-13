@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
-use think\Db;
+use cmf\model\ThemeFileModel;
 use app\admin\model\ThemeModel;
 use think\facade\View;
 
@@ -74,17 +74,16 @@ class HomeBaseController extends BaseController
      * @access protected
      * @param string $template 模板文件名
      * @param array  $vars     模板输出变量
-     * @param array  $replace  模板替换
      * @param array  $config   模板参数
      * @return mixed
      */
-    protected function fetch($template = '', $vars = [], $replace = [], $config = [])
+    protected function fetch($template = '', $vars = [], $config = [])
     {
         $template = $this->parseTemplate($template);
         $more     = $this->getThemeFileMore($template);
         $this->assign('theme_vars', $more['vars']);
         $this->assign('theme_widgets', $more['widgets']);
-        $content = parent::fetch($template, $vars, $replace, $config);
+        $content = $this->view->fetch($template, $vars, $config);
 
         $designingTheme = cookie('cmf_design_theme');
 
@@ -114,7 +113,6 @@ hello;
                 $content = $content . $output;
             }
         }
-
 
         return $content;
     }
@@ -187,7 +185,7 @@ hello;
         $webRoot   = str_replace('\\', '/', WEB_ROOT);
         $themeFile = str_replace(['.html', '.php', $themePath . $theme . "/", $webRoot], '', $file);
 
-        $files = Db::name('theme_file')->field('more')->where('theme', $theme)
+        $files = ThemeFileModel::field('more')->where('theme', $theme)
             ->where(function ($query) use ($themeFile) {
                 $query->where('is_public', 1)->whereOr('file', $themeFile);
             })->select();
@@ -195,7 +193,7 @@ hello;
         $vars    = [];
         $widgets = [];
         foreach ($files as $file) {
-            $oldMore = json_decode($file['more'], true);
+            $oldMore = $file['more'];
             if (!empty($oldMore['vars'])) {
                 foreach ($oldMore['vars'] as $varName => $var) {
                     $vars[$varName] = $var['value'];
@@ -212,7 +210,7 @@ hello;
                         }
                     }
 
-                    $widget['vars']       = $widgetVars;
+                    $widget['vars'] = $widgetVars;
                     //如果重名，则合并配置
                     if (empty($widgets[$widgetName])) {
                         $widgets[$widgetName] = $widget;

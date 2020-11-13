@@ -83,6 +83,114 @@ class PublicController extends RestBaseController
     }
 
     /**
+     * 验证码登录
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
+     */
+    public function verificationCodeLogin()
+    {
+        $validate = new \think\Validate([
+            'username'          => 'require',
+            'verification_code' => 'require'
+        ]);
+
+        $validate->message([
+            'username.require'          => '请输入手机号,邮箱!',
+            'verification_code.require' => '请输入数字验证码!'
+        ]);
+
+        $data = $this->request->param();
+        if (!$validate->check($data)) {
+            $this->error($validate->getError());
+        }
+
+        $user = [];
+
+        $findUserWhere = [];
+
+        if (Validate::is($data['username'], 'email')) {
+            $user['user_email']          = $data['username'];
+            $findUserWhere['user_email'] = $data['username'];
+        } else if (cmf_check_mobile($data['username'])) {
+            $user['mobile']          = $data['username'];
+            $findUserWhere['mobile'] = $data['username'];
+        } else {
+            $this->error("请输入正确的手机或者邮箱格式!");
+        }
+
+        $errMsg = cmf_check_verification_code($data['username'], $data['verification_code']);
+        if (!empty($errMsg)) {
+            $this->error($errMsg);
+        }
+
+        $findUser = Db::name("user")->where($findUserWhere)->find();
+
+        if (empty($findUser)) {
+            $user['create_time'] = time();
+            $user['user_status'] = 1;
+            $user['user_type']   = 2;
+
+            $userId   = Db::name("user")->insertGetId($user);
+            $findUser = Db::name("user")->where('id', $userId)->find();
+        } else {
+            switch ($findUser['user_status']) {
+                case 0:
+                    $this->error('您已被拉黑!');
+                case 2:
+                    $this->error('账户还没有验证成功!');
+            }
+            $userId = $findUser['id'];
+        }
+
+
+        $allowedDeviceTypes = $this->allowedDeviceTypes;
+
+        if (empty($this->deviceType) && (empty($data['device_type']) || !in_array($data['device_type'], $this->allowedDeviceTypes))) {
+            $this->error("请求错误,未知设备!");
+        } else if (!empty($data['device_type'])) {
+            $this->deviceType = $data['device_type'];
+        }
+
+        $findUserToken = Db::name("user_token")
+            ->where('user_id', $userId)
+            ->where('device_type', $this->deviceType)
+            ->find();
+        $currentTime   = time();
+        $expireTime    = $currentTime + 24 * 3600 * 180;
+        $token         = md5(uniqid()) . md5(uniqid());
+        if (empty($findUserToken)) {
+            $result = Db::name("user_token")->insert([
+                'token'       => $token,
+                'user_id'     => $userId,
+                'expire_time' => $expireTime,
+                'create_time' => $currentTime,
+                'device_type' => $this->deviceType
+            ]);
+        } else {
+            $result = Db::name("user_token")
+                ->where('user_id', $userId)
+                ->where('device_type', $this->deviceType)
+                ->update([
+                    'token'       => $token,
+                    'expire_time' => $expireTime,
+                    'create_time' => $currentTime
+                ]);
+        }
+
+
+        if (empty($result)) {
+            $this->error("登录失败!");
+        }
+
+        $this->success("登录成功!", ['token' => $token, 'user' => $findUser]);
+
+
+    }
+
+    /**
      * 用户登录
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
@@ -139,20 +247,20 @@ class PublicController extends RestBaseController
 
         if (empty($this->deviceType) && (empty($data['device_type']) || !in_array($data['device_type'], $this->allowedDeviceTypes))) {
             $this->error("请求错误,未知设备!");
-        } else if(!empty($data['device_type'])) {
+        } else if (!empty($data['device_type'])) {
             $this->deviceType = $data['device_type'];
         }
 
 //        Db::name("user_token")
 //            ->where('user_id', $findUser['id'])
 //            ->where('device_type', $data['device_type']);
-        $findUserToken  = Db::name("user_token")
+        $findUserToken = Db::name("user_token")
             ->where('user_id', $findUser['id'])
             ->where('device_type', $this->deviceType)
             ->find();
-        $currentTime    = time();
-        $expireTime     = $currentTime + 24 * 3600 * 180;
-        $token          = md5(uniqid()) . md5(uniqid());
+        $currentTime   = time();
+        $expireTime    = $currentTime + 24 * 3600 * 180;
+        $token         = md5(uniqid()) . md5(uniqid());
         if (empty($findUserToken)) {
             $result = Db::name("user_token")->insert([
                 'token'       => $token,

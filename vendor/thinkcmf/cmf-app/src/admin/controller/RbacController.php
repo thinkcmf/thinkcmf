@@ -303,10 +303,11 @@ class RbacController extends AdminBaseController
             if (!$roleId) {
                 $this->error("需要授权的角色不存在！");
             }
-            if (is_array($this->request->param('menuId/a')) && count($this->request->param('menuId/a')) > 0) {
+            $menuIds = $this->request->param('menuId/a');
+            if (is_array($menuIds) && count($menuIds) > 0) {
 
                 Db::name("authAccess")->where(["role_id" => $roleId, 'type' => 'admin_url'])->delete();
-                foreach ($_POST['menuId'] as $menuId) {
+                foreach ($menuIds as $menuId) {
                     $menu = Db::name("adminMenu")->where("id", $menuId)->field("app,controller,action")->find();
                     if ($menu) {
                         $app    = $menu['app'];

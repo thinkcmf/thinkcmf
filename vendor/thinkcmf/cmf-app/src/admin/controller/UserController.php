@@ -127,24 +127,24 @@ class UserController extends AdminBaseController
     public function addPost()
     {
         if ($this->request->isPost()) {
-            if (!empty($_POST['role_id']) && is_array($_POST['role_id'])) {
-                $role_ids = $_POST['role_id'];
-                unset($_POST['role_id']);
-                $result = $this->validate($this->request->param(), 'User');
+            $roleIds = $this->request->param('role_id/a');
+            if (!empty($roleIds) && is_array($roleIds)) {
+                $data   = $this->request->param();
+                $result = $this->validate($data, 'User');
                 if ($result !== true) {
                     $this->error($result);
                 } else {
-                    $_POST['user_pass'] = cmf_password($_POST['user_pass']);
-                    $result             = DB::name('user')->insertGetId($_POST);
-                    if ($result !== false) {
+                    $data['user_pass'] = cmf_password($data['user_pass']);
+                    $userId            = DB::name('user')->strict(false)->insertGetId($data);
+                    if ($userId !== false) {
                         //$role_user_model=M("RoleUser");
-                        foreach ($role_ids as $role_id) {
-                            if (cmf_get_current_admin_id() != 1 && $role_id == 1) {
+                        foreach ($roleIds as $roleId) {
+                            if (cmf_get_current_admin_id() != 1 && $roleId == 1) {
                                 $this->error("为了网站的安全，非网站创建者不可创建超级管理员！");
                             }
-                            Db::name('RoleUser')->insert(["role_id" => $role_id, "user_id" => $result]);
+                            Db::name('RoleUser')->insert(["role_id" => $roleId, "user_id" => $userId]);
                         }
-                        $this->success("添加成功！", url("user/index"));
+                        $this->success("添加成功！", url("User/index"));
                     } else {
                         $this->error("添加失败！");
                     }
@@ -204,29 +204,29 @@ class UserController extends AdminBaseController
     public function editPost()
     {
         if ($this->request->isPost()) {
-            if (!empty($_POST['role_id']) && is_array($_POST['role_id'])) {
-                if (empty($_POST['user_pass'])) {
-                    unset($_POST['user_pass']);
+            $roleIds = $this->request->param('role_id/a');
+            if (!empty($roleIds) && is_array($roleIds)) {
+                $data = $this->request->param();
+                if (empty($data['user_pass'])) {
+                    unset($data['user_pass']);
                 } else {
-                    $_POST['user_pass'] = cmf_password($_POST['user_pass']);
+                    $data['user_pass'] = cmf_password($data['user_pass']);
                 }
-                $role_ids = $this->request->param('role_id/a');
-                unset($_POST['role_id']);
-                $result = $this->validate($this->request->param(), 'User.edit');
+                $result = $this->validate($data, 'User.edit');
 
                 if ($result !== true) {
                     // 验证失败 输出错误信息
                     $this->error($result);
                 } else {
-                    $result = DB::name('user')->update($_POST);
+                    $userId = $this->request->param('id', 0, 'intval');
+                    $result = DB::name('user')->strict(false)->where('id', $userId)->update($data);
                     if ($result !== false) {
-                        $uid = $this->request->param('id', 0, 'intval');
-                        DB::name("RoleUser")->where("user_id", $uid)->delete();
-                        foreach ($role_ids as $role_id) {
-                            if (cmf_get_current_admin_id() != 1 && $role_id == 1) {
+                        DB::name("RoleUser")->where("user_id", $userId)->delete();
+                        foreach ($roleIds as $roleId) {
+                            if (cmf_get_current_admin_id() != 1 && $roleId == 1) {
                                 $this->error("为了网站的安全，非网站创建者不可创建超级管理员！");
                             }
-                            DB::name("RoleUser")->insert(["role_id" => $role_id, "user_id" => $uid]);
+                            DB::name("RoleUser")->insert(["role_id" => $roleId, "user_id" => $userId]);
                         }
                         $this->success("保存成功！");
                     } else {
