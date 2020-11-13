@@ -34,7 +34,6 @@
         "topthink/framework": "^6.0.0",
         "thinkcmf/think-view": "dev-master",
         "topthink/think-orm": "^2.0",
-        "topthink/think-multi-app": "^1.0",
         "topthink/think-captcha": "^3.0",
         "thinkcmf/cmf-install": "6.0.x-dev",
         "thinkcmf/cmf-api": "6.0.x-dev"

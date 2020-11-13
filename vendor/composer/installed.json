@@ -1419,52 +1419,6 @@
         "description": "The ThinkPHP6 Helper Package"
     },
     {
-        "name": "topthink/think-multi-app",
-        "version": "v1.0.14",
-        "version_normalized": "1.0.14.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/think-multi-app.git",
-            "reference": "ccaad7c2d33f42cb1cc2a78d6610aaec02cea4c3"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/top-think/think-multi-app/zipball/ccaad7c2d33f42cb1cc2a78d6610aaec02cea4c3",
-            "reference": "ccaad7c2d33f42cb1cc2a78d6610aaec02cea4c3",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=7.1.0",
-            "topthink/framework": "^6.0.0"
-        },
-        "time": "2020-07-12T13:50:37+00:00",
-        "type": "library",
-        "extra": {
-            "think": {
-                "services": [
-                    "think\\app\\Service"
-                ]
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "think\\app\\": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "liu21st",
-                "email": "liu21st@gmail.com"
-            }
-        ],
-        "description": "thinkphp6 multi app support"
-    },
-    {
         "name": "topthink/think-orm",
         "version": "v2.0.34",
         "version_normalized": "2.0.34.0",

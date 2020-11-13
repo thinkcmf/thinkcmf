@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "daba6d3afe5598c9f37f430d36264360",
+    "content-hash": "b4ed57bffd8668eb22b86a87213810f9",
     "packages": [
         {
             "name": "electrolinux/phpquery",
@@ -809,7 +809,12 @@
                     "think\\": "src"
                 },
                 "classmap": [
-                    "src/Route.php"
+                    "src/Route.php",
+                    "src/Http.php",
+                    "src/route/Rule.php",
+                    "src/route/Url.php",
+                    "src/route/dispatch/Controller.php",
+                    "src/route/dispatch/Url.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1051,50 +1056,6 @@
             ],
             "description": "The ThinkPHP6 Helper Package",
             "time": "2019-11-08T08:01:10+00:00"
-        },
-        {
-            "name": "topthink/think-multi-app",
-            "version": "v1.0.14",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/top-think/think-multi-app.git",
-                "reference": "ccaad7c2d33f42cb1cc2a78d6610aaec02cea4c3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-multi-app/zipball/ccaad7c2d33f42cb1cc2a78d6610aaec02cea4c3",
-                "reference": "ccaad7c2d33f42cb1cc2a78d6610aaec02cea4c3",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.0",
-                "topthink/framework": "^6.0.0"
-            },
-            "type": "library",
-            "extra": {
-                "think": {
-                    "services": [
-                        "think\\app\\Service"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "think\\app\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "liu21st",
-                    "email": "liu21st@gmail.com"
-                }
-            ],
-            "description": "thinkphp6 multi app support",
-            "time": "2020-07-12T13:50:37+00:00"
         },
         {
             "name": "topthink/think-orm",

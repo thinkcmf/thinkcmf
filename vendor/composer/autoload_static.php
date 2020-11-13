@@ -28,7 +28,6 @@ class ComposerStaticInitd993744c07b9c574b972c3091e1d4ff1
             'think\\view\\driver\\' => 18,
             'think\\trace\\' => 12,
             'think\\captcha\\' => 14,
-            'think\\app\\' => 10,
             'think\\' => 6,
         ),
         'm' => 
@@ -92,10 +91,6 @@ class ComposerStaticInitd993744c07b9c574b972c3091e1d4ff1
         'think\\captcha\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-captcha/src',
-        ),
-        'think\\app\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/topthink/think-multi-app/src',
         ),
         'think\\' => 
         array (
