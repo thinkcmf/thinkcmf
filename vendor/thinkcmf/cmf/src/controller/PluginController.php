@@ -18,7 +18,7 @@ class PluginController extends HomeBaseController
     public function index($_plugin, $_controller, $_action)
     {
 
-        $_controller = Loader::parseName($_controller, 1);
+        $_controller = cmf_parse_name($_controller, 1);
 
         if (!preg_match('/^[A-Za-z](\w|\.)*$/', $_controller)) {
             abort(404, 'controller not exists:' . $_controller);
@@ -31,7 +31,7 @@ class PluginController extends HomeBaseController
         $pluginControllerClass = "plugins\\{$_plugin}\\controller\\{$_controller}Controller";;
 
         $vars = [];
-        return App::invokeMethod([$pluginControllerClass, $_action, $vars]);
+        return App::invokeMethod([$pluginControllerClass, $_action], $vars);
     }
 
 }

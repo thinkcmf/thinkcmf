@@ -12,7 +12,7 @@ namespace plugins\demo\controller;
 //Demo插件英文名，改成你的插件英文就行了
 
 use cmf\controller\PluginAdminBaseController;
-use think\Db;
+use think\facade\Db;
 
 /**
  * Class AdminIndexController.

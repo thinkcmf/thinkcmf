@@ -1168,8 +1168,8 @@ function cmf_plugin_url($url, $vars = [], $domain = false)
 
     $url              = parse_url($url);
     $case_insensitive = true;
-    $plugin           = $case_insensitive ? Loader::parseName($url['scheme']) : $url['scheme'];
-    $controller       = $case_insensitive ? Loader::parseName($url['host']) : $url['host'];
+    $plugin           = $case_insensitive ? cmf_parse_name($url['scheme']) : $url['scheme'];
+    $controller       = $case_insensitive ? cmf_parse_name($url['host']) : $url['host'];
     $action           = trim($case_insensitive ? strtolower($url['path']) : $url['path'], '/');
 
     /* 解析URL带的参数 */

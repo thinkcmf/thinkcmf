@@ -45,7 +45,9 @@
     "autoload": {
         "psr-4": {
             "app\\": "app",
-            "api\\": "api"
+            "api\\": "api",
+            "plugins\\": "public/plugins",
+            "themes\\": "public/plugins"
         },
         "psr-0": {
             "": "extend/"

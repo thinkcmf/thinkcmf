@@ -67,11 +67,11 @@ class PluginLogic
 
         $info['config'] = json_encode($plugin->getConfig());
 
-        $pluginModel->data($info)->allowField(true)->save();
+        $pluginModel->data($info)->save();
 
         $hookPluginModel = new HookPluginModel();
         foreach ($pluginHooks as $pluginHook) {
-            $hookPluginModel->data(['hook' => $pluginHook, 'plugin' => $pluginName, 'status' => 1])->isUpdate(false)->save();
+            $hookPluginModel->data(['hook' => $pluginHook, 'plugin' => $pluginName, 'status' => 1])->save();
         }
 
         self::getActions($pluginName);

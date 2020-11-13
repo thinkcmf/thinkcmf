@@ -23,7 +23,7 @@ class InitHookListener
     // 行为扩展的执行入口必须是run
     public function handle($param)
     {
-//        Route::any('plugin/[:_plugin]/[:_controller]/[:_action]', "\\cmf\\controller\\PluginController@index");
+        Route::any('plugin/[:_plugin]/[:_controller]/[:_action]', "\\cmf\\controller\\PluginController@index");
         Route::get('new_captcha', "\\cmf\\controller\\CaptchaController@index");
 
         if (!cmf_is_installed()) {

@@ -37,8 +37,8 @@ class PluginBaseController extends BaseController
      */
     public function __construct()
     {
-        $this->app     = Container::get('app');
-        $this->request = $this->app['request'];
+        $this->app     = app();
+        $this->request = request();
 
         $this->getPlugin();
 
@@ -104,7 +104,7 @@ class PluginBaseController extends BaseController
     private function parseTemplate($template)
     {
         // 分析模板文件规则
-        $viewEngineConfig = Config::get('template.');
+        $viewEngineConfig = config('view');
 
         $path = $this->plugin->getThemeRoot();
 
@@ -160,7 +160,7 @@ class PluginBaseController extends BaseController
     /**
      * 设置验证失败后是否抛出异常
      * @access protected
-     * @param  bool $fail 是否抛出异常
+     * @param bool $fail 是否抛出异常
      * @return $this
      */
     protected function validateFailException($fail = true)
@@ -172,11 +172,11 @@ class PluginBaseController extends BaseController
     /**
      * 验证数据
      * @access protected
-     * @param  array        $data     数据
-     * @param  string|array $validate 验证器名或者验证规则数组
-     * @param  array        $message  提示信息
-     * @param  bool         $batch    是否批量验证
-     * @param  mixed        $callback 回调方法（闭包）
+     * @param array        $data     数据
+     * @param string|array $validate 验证器名或者验证规则数组
+     * @param array        $message  提示信息
+     * @param bool         $batch    是否批量验证
+     * @param mixed        $callback 回调方法（闭包）
      * @return array|string|true
      * @throws ValidateException
      */

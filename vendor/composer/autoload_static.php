@@ -29,6 +29,11 @@ class ComposerStaticInitd993744c07b9c574b972c3091e1d4ff1
             'think\\trace\\' => 12,
             'think\\captcha\\' => 14,
             'think\\' => 6,
+            'themes\\' => 7,
+        ),
+        'p' => 
+        array (
+            'plugins\\' => 8,
         ),
         'm' => 
         array (
@@ -99,6 +104,14 @@ class ComposerStaticInitd993744c07b9c574b972c3091e1d4ff1
             2 => __DIR__ . '/..' . '/topthink/framework/src/think',
             3 => __DIR__ . '/..' . '/topthink/think-helper/src',
             4 => __DIR__ . '/..' . '/topthink/think-orm/src',
+        ),
+        'themes\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/public/plugins',
+        ),
+        'plugins\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/public/plugins',
         ),
         'mindplay\\annotations\\' => 
         array (
