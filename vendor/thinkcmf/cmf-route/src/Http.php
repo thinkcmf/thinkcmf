@@ -234,8 +234,18 @@ class Http
     protected function loadRoutes(): void
     {
         $appRootNamespace = $this->app->getRootNamespace();
+        $rootPath         = root_path();
 
         if ($appRootNamespace == 'app') {
+            $routePath = "{$rootPath}data/route/";
+
+            if (is_dir($routePath)) {
+                $files = glob($routePath . '*.php');
+                foreach ($files as $file) {
+                    include $file;
+                }
+            }
+
             // 加载路由定义
             $routePath = $this->getRoutePath();
 
@@ -246,8 +256,6 @@ class Http
                 }
             }
         }
-
-        $rootPath = root_path();
 
         if ($appRootNamespace == 'api') {
             // 加载核心应用公共语言包
