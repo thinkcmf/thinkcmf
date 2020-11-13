@@ -18,11 +18,6 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezo
     && echo "deb http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib" >>/etc/apt/sources.list \
     && echo "deb http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib" >>/etc/apt/sources.list \
 
-    #添加 中科大镜像
-    && echo "deb http://mirrors.ustc.edu.cn/debian stable main contrib non-free" >/etc/apt/sources.list \
-    && echo "deb-src http://mirrors.ustc.edu.cn/debian stable main contrib non-free" >>/etc/apt/sources.list \
-    && echo "deb http://mirrors.ustc.edu.cn/debian stable-proposed-updates main contrib non-free" >>/etc/apt/sources.list \
-    && echo "deb-src http://mirrors.ustc.edu.cn/debian stable-proposed-updates main contrib non-free" >>/etc/apt/sources.list \
 
 
     #安装程序依赖库
