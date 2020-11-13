@@ -259,7 +259,13 @@ class Upload
 
         //  $url=$first['url'];
         $storageSetting = cmf_get_cmf_settings('storage');
-        $qiniuSetting   = $storageSetting['Qiniu']['setting'];
+
+        if (is_array($storageSetting) && is_array($storageSetting['Qiniu']) && array_key_exists("setting",$storageSetting['Qiniu'])){
+            $qiniuSetting   = $storageSetting['Qiniu']['setting'];
+        }else{
+            $qiniuSetting   = "";
+
+        }
         //$url=preg_replace('/^https/', $qiniu_setting['protocol'], $url);
         //$url=preg_replace('/^http/', $qiniu_setting['protocol'], $url);
 
