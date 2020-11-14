@@ -2193,12 +2193,12 @@ function cmf_get_app_config_file($app, $file)
             $configFile = cmf_core_path() . "{$file}.php";
             break;
         case 'swoole':
-            $configFile = Env::get('root_path') . "vendor/thinkcmf/cmf-swoole/src/{$file}.php";
+            $configFile = root_path() . "vendor/thinkcmf/cmf-swoole/src/{$file}.php";
             break;
         default:
             $configFile = APP_PATH . $app . "/{$file}.php";
             if (!file_exists($configFile)) {
-                $configFile = Env::get('root_path') . "vendor/thinkcmf/cmf-app/src/{$app}/{$file}.php";
+                $configFile = root_path() . "vendor/thinkcmf/cmf-app/src/{$app}/{$file}.php";
             }
     }
 
