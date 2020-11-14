@@ -11,7 +11,7 @@ namespace plugins\demo\controller;
 
 //Demo插件英文名，改成你的插件英文就行了
 use cmf\controller\PluginBaseController;
-use think\Db;
+use think\facade\Db;
 
 class IndexController extends PluginBaseController
 {
