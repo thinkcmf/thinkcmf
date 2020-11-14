@@ -12,16 +12,60 @@
         <li class="active"><a>插件演示后台</a></li>
     </ul>
     <div class="common-form">
+        <div>
+            <php>
+                $config          = $plugin->getConfig();
+                $pluginName      = $plugin->getName();
+                $pluginInfo      = $plugin->checkInfo();
+                $configFilePath  = $plugin->getConfigFilePath();
+                $defaultConfig   = $plugin->getDefaultConfig();
+                $pluginThemeRoot = $plugin->getThemeRoot();
+                $pluginFetchContent = $plugin->testFetch();
+
+                echo "<b>\$plugin->getConfig():</b>";
+                dump($config);
+
+                echo "<b>\$plugin->getName():</b>";
+                dump($pluginName);
+
+                echo "<b>\$plugin->checkInfo():</b>";
+                dump($pluginInfo);
+
+                echo "<b>\$plugin->getConfigFilePath():</b>";
+                dump($configFilePath);
+
+                echo "<b>\$plugin->getDefaultConfig():</b>";
+                dump($defaultConfig);
+
+                echo "<b>\$plugin->getThemeRoot():</b>";
+                dump($pluginThemeRoot);
+
+                echo "<b>\$plugin->testFetch():</b>";
+                dump($pluginFetchContent);
+            </php>
+        </div>
         <div class="well">
 
             <p>
                 <b>当前登录管理员id:</b>{$admin_id|default='管理员未登录'}
             </p>
             <p>
+                <b>网站根目录:</b>__ROOT__
+            </p>
+            <p>
                 <b>插件根目录:</b>__PLUGIN_ROOT__
             </p>
             <p>
                 <b>插件模板根目录:</b>__PLUGIN_TMPL__
+            </p>
+            <p>
+                <b>后台当前模板目录:</b>__ADMIN_TMPL__
+            </p>
+            <p>
+                <b>网站资源根目录:</b>__WEB_ROOT__
+            </p>
+            <p>
+                <b>public/static目录:</b>__STATIC__
             </p>
 
         </div>

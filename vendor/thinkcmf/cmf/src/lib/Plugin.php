@@ -53,7 +53,6 @@ abstract class Plugin
      */
     public function __construct()
     {
-
         $request = request();
 
         $engineConfig = config('template');
@@ -87,8 +86,6 @@ abstract class Plugin
         $themePath = 'view' . $themeDir;
 
         $this->themeRoot = $this->pluginPath . $themePath . '/';
-
-        $engineConfig['view_base'] = $this->themeRoot;
 
         $pluginRoot = "plugins/{$nameCStyle}";
 
@@ -146,7 +143,7 @@ abstract class Plugin
     final protected function fetch($template)
     {
         if (!is_file($template)) {
-            $engineConfig = Config::pull('template');
+            $engineConfig = config('view');
             $template     = $this->themeRoot . $template . '.' . $engineConfig['view_suffix'];
         }
 
@@ -297,7 +294,6 @@ abstract class Plugin
                 }
             }
         }
-
 
         return $config;
     }

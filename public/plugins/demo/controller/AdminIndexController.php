@@ -57,11 +57,9 @@ class AdminIndexController extends PluginAdminBaseController
 //        if ($result !== true) {
 //            $this->error($result);
 //        }
-        $users = Db::name('user')->limit(0, 5)->select();
-        //$demos = PluginDemoModel::all();
-
-        // print_r($demos);
-
+        $users           = Db::name('user')->limit(0, 5)->select();
+        $plugin          = $this->getPlugin();
+        $this->assign('plugin', $plugin);
         $this->assign('users', $users);
 
         return $this->fetch('/admin_index');
