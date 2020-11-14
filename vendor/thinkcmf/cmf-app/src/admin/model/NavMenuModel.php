@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\model;
 
+use think\facade\App;
 use think\Exception;
 use think\Model;
 use tree\Tree;
@@ -149,8 +150,10 @@ class NavMenuModel extends Model
                             foreach ($navApis as $navApi) {
 
                                 if (!empty($navApi['api'])) {
+
+                                    $apiUrlArr = explode('/', $navApi['api']);
                                     try {
-                                        $navData = action($app . '/' . $navApi['api'], [], 'api');
+                                        $navData = App::invokeMethod(["app\\$app\\api\\{$apiUrlArr[0]}Api",$apiUrlArr[1]], []);
                                     } catch (Exception $e) {
                                         $navData = null;
                                     }
