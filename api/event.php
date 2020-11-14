@@ -8,6 +8,9 @@ return [
 
     'listen' => [
         'AppInit'   => ['\cmf\listener\InitHookListener'],
+        'ModuleInit' => [
+            '\cmf\listener\LangListener',
+            '\cmf\listener\InitAppHookListener'],
         'HttpRun'   => [],
         'HttpEnd'   => [],
         'LogLevel'  => [],
