@@ -14,6 +14,7 @@ ThinkCMF 6.0.0开发版 让你更自由地飞
 - [x] 插件功能
 - [x] 插件钩子功能
 - [ ] 补齐相关钩子(app_begin、response_send、response_end、action_begin、module_init和view_filter)（待定）
+- [ ] 迁移behavior到listener
 - [x] 应用导航共享
 - [x] 应用后台菜单注解
 - [x] 应用钩子配置
@@ -30,8 +31,8 @@ ThinkCMF 6.0.0开发版 让你更自由地飞
 - [x] 应用第三方库的支持
 - [x] 所有模板常量测试
 - [ ] 所有CMF模板标签测试
-- [ ] 傻瓜式模板
-- [ ] 前台模板切换
+- [x] 傻瓜式模板
+- [x] 前台模板切换
 - [ ] 后台多模板机制
 - [ ] 所有系统函数测试
 - [ ] 所有基类控制器方法测试
