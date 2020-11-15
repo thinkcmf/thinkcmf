@@ -69,8 +69,8 @@ class PluginLogic
 
         $pluginModel->data($info)->save();
 
-        $hookPluginModel = new HookPluginModel();
         foreach ($pluginHooks as $pluginHook) {
+            $hookPluginModel = new HookPluginModel();
             $hookPluginModel->data(['hook' => $pluginHook, 'plugin' => $pluginName, 'status' => 1])->save();
         }
 
