@@ -224,6 +224,15 @@ class Http
         if (is_file($this->app->getBasePath() . 'middleware.php')) {
             $this->app->middleware->import(include $this->app->getBasePath() . 'middleware.php');
         }
+
+        $appRootNamespace = $this->app->getRootNamespace();
+        $rootPath         = root_path();
+
+        $vendorMiddlewareFile = "{$rootPath}vendor/thinkcmf/cmf-{$appRootNamespace}/src/middleware.php";
+        if (is_file($vendorMiddlewareFile)) {
+            $this->app->middleware->import(include $vendorMiddlewareFile);
+        }
+
     }
 
     /**

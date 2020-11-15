@@ -558,6 +558,15 @@ class App extends Container
         }
         // 动态配置结束
 
+        // 加载cmf-app，cmf-api事件配置
+        $appRootNamespace = $this->getRootNamespace();
+        $rootPath         = root_path();
+        
+        $vendorEventFile = "{$rootPath}vendor/thinkcmf/cmf-{$appRootNamespace}/src/event.php";
+        if (is_file($vendorEventFile)) {
+            $this->loadEvent(include $vendorEventFile);
+        }
+
         if (is_file($appPath . 'event.php')) {
             $this->loadEvent(include $appPath . 'event.php');
         }
