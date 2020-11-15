@@ -1063,7 +1063,7 @@ function cmf_is_ipad()
 function hook($hook, $params = null)
 {
     $hook = cmf_parse_name($hook, 1);
-    return \think\facade\Event::trigger($hook);
+    return \think\facade\Event::trigger($hook, $params);
 }
 
 /**
