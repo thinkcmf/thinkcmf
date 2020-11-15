@@ -8,6 +8,7 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+use think\facade\App;
 use think\facade\Db;
 use think\facade\Env;
 use think\facade\Url;
@@ -44,6 +45,26 @@ if (PHP_SAPI == 'cli') {
 function url(string $url = '', array $vars = [], $suffix = true, $domain = false)
 {
     return Route::buildUrl($url, $vars)->suffix($suffix)->domain($domain)->build();
+}
+
+/**
+ * 调用模块的操作方法 参数格式 [模块/控制器/]操作
+ * @param string       $url          调用地址
+ * @param string|array $vars         调用参数 支持字符串和数组
+ * @param string       $layer        要调用的控制层名称
+ * @param bool         $appendSuffix 是否添加类名后缀
+ * @return mixed
+ */
+function action($url, $vars = [], $layer = 'controller', $appendSuffix = false)
+{
+    $app           = app();
+    $rootNamespace = $app->getRootNamespace();
+    $urlArr        = explode('/', $url);
+    $appName       = $urlArr[0];
+    $controller    = cmf_parse_name($urlArr[1], 1, true);
+    $action        = $urlArr[2];
+
+    return $app->invokeMethod(["{$rootNamespace}\\$appName\\$layer\\$controller" . ucfirst($layer), $action], $vars);
 }
 
 /**
