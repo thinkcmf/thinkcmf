@@ -12,8 +12,9 @@ namespace cmf\listener;
 
 use think\db\Query;
 use think\exception\HttpResponseException;
+use think\facade\Event;
 use think\facade\Hook;
-use think\Db;
+use think\facade\Db;
 use think\facade\Response;
 use think\facade\Route;
 
@@ -28,6 +29,33 @@ class InitHookListener
 
         if (!cmf_is_installed()) {
             return;
+        }
+
+        $systemHookPlugins = cache('init_hook_plugins_system_hook_plugins');
+        if (empty($systemHookPlugins)) {
+            $systemHooks = Db::name('hook')->where(function (Query $query) {
+                $query->where(function (Query $query) {
+                    $query->where('app', '=', '')->whereOr('app', '=', 'cmf');
+                })->where('type', 3);
+            })->whereOr('type', 1)->column('hook', 'id');
+
+            $systemHookPlugins = Db::name('hook_plugin')->field('hook,plugin')->where('status', 1)
+                ->where('hook', 'in', $systemHooks)
+                ->order('list_order ASC')
+                ->select()->toArray();
+
+            if (!empty($systemHookPlugins)) {
+                cache('init_hook_plugins_system_hook_plugins', $systemHookPlugins, null, 'init_hook_plugins');
+            }
+        }
+
+        if (!empty($systemHookPlugins)) {
+            foreach ($systemHookPlugins as $hookPlugin) {
+                $hookMethod  = cmf_parse_name($hookPlugin['hook'], 1, false);
+                $eventName   = ucfirst($hookMethod);
+                $pluginClass = cmf_get_plugin_class($hookPlugin['plugin']);
+                Event::listen($eventName, [$pluginClass, $hookMethod]);
+            }
         }
 
 
