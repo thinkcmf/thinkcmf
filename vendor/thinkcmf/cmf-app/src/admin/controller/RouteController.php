@@ -80,7 +80,7 @@ class RouteController extends AdminBaseController
         if ($result !== true) {
             $this->error($result);
         }
-        $routeModel->allowField(true)->save($data);
+        $routeModel->save($data);
 
         $this->success("添加成功！", url("Route/index", ['id' => $routeModel->id]));
     }
@@ -127,7 +127,7 @@ class RouteController extends AdminBaseController
         if ($result !== true) {
             $this->error($result);
         }
-        $routeModel->allowField(true)->isUpdate(true)->save($data);
+        $routeModel->where('id', $data['id'])->update($data);
 
         $this->success("保存成功！", url("Route/index"));
     }

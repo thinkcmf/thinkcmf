@@ -8,9 +8,9 @@ ThinkCMF 6.0.0开发版 让你更自由地飞
 * 升级到ThinkPHP6
 
 ### 未完功能列表
-- [ ] url美化（这是个大坑）
+- [x] url美化（这是个大大坑）
 - [x] `url()`方法单独维护
-- [ ] 后台加密码
+- [x] 后台加密码
 - [x] 插件功能
 - [x] 插件钩子功能
 - [ ] 补齐相关钩子(app_begin、response_send、response_end、action_begin、module_init和view_filter)（待定）
