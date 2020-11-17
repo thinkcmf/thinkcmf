@@ -94,7 +94,7 @@ class UserFavoriteModel extends Model
     public function addFavorite($data)
     {
         //获取收藏内容信息
-        $Favorite =$this->allowField(true)->isUpdate(false)->data($data,true)->save();
+        $Favorite =$this->data($data,true)->save();
         return $Favorite;
     }
 

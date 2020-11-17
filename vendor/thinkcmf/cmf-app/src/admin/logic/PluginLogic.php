@@ -129,7 +129,7 @@ class PluginLogic
 
         $info['config'] = json_encode($config);
 
-        $pluginModel->allowField(true)->save($info, ['name' => $pluginName]);
+        $pluginModel->where('name', $pluginName)->update($info);
 
         $hookPluginModel = new HookPluginModel();
 

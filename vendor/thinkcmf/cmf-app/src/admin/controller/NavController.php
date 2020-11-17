@@ -93,7 +93,7 @@ class NavController extends AdminBaseController
             $navModel->where("is_main", 1)->update(["is_main" => 0]);
         }
 
-        $navModel->allowField(true)->insert($arrData);
+        $navModel->insert($arrData);
         $this->success(lang("EDIT_SUCCESS"), url("nav/index"));
 
     }
@@ -149,7 +149,7 @@ class NavController extends AdminBaseController
             $navModel->where("is_main", 1)->update(["is_main" => 0]);
         }
 
-        $navModel->allowField(true)->where("id", intval($arrData["id"]))->update($arrData);
+        $navModel->where("id", intval($arrData["id"]))->update($arrData);
         $this->success(lang("EDIT_SUCCESS"), url("nav/index"));
 
     }
