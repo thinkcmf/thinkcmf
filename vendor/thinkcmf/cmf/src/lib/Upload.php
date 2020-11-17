@@ -98,7 +98,7 @@ class Upload
         }
 
         $fileImage    = $this->request->file($this->formName);
-        $originalName = $fileImage->getInfo('name');
+        $originalName = $fileImage->getOriginalName();
 
         $arrAllowedExtensions = explode(',', $arrFileTypes[$fileType]['extensions']);
 
