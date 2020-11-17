@@ -13,7 +13,7 @@ namespace cmf\listener;
 use think\db\Query;
 use think\exception\HttpResponseException;
 use think\facade\Hook;
-use think\Db;
+use think\facade\Db;
 use think\facade\Response;
 use think\facade\Route;
 

@@ -11,7 +11,6 @@
 namespace cmf\controller;
 
 use app\admin\model\UserModel;
-use think\Db;
 
 class AdminBaseController extends BaseController
 {

@@ -10,7 +10,7 @@
 // +---------------------------------------------------------------------
 namespace cmf\lib;
 
-use think\Db;
+use think\facade\Db;
 
 /**
  * ThinkCMF权限认证类

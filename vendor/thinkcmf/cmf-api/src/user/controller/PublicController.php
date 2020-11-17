@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 namespace api\user\controller;
 
-use think\Db;
+use think\facade\Db;
 use think\facade\Validate;
 use cmf\controller\RestBaseController;
 

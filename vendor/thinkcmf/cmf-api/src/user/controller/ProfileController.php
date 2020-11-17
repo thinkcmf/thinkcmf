@@ -10,7 +10,7 @@ namespace api\user\controller;
 
 use api\user\model\UserModel;
 use cmf\controller\RestUserBaseController;
-use think\Db;
+use think\facade\Db;
 use think\Validate;
 
 class ProfileController extends RestUserBaseController

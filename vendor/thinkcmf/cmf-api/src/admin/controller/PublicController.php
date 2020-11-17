@@ -9,7 +9,7 @@
 namespace api\admin\controller;
 
 use cmf\controller\RestBaseController;
-use think\Db;
+use think\facade\Db;
 use think\facade\Validate;
 
 class PublicController extends RestBaseController
