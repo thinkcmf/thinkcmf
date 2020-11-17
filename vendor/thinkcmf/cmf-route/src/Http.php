@@ -164,6 +164,7 @@ class Http
 
         //自动创建request对象
         $request = $request ?? $this->app->make('request', [], true);
+        $request->filter(['htmlspecialchars']);
         $this->app->instance('request', $request);
 
         try {
