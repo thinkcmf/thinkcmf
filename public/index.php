@@ -9,8 +9,8 @@
 // [ 应用入口文件 ]
 namespace think;
 
-// 调试模式开关
-define('APP_DEBUG', true);
+// 调试模式开关 已经移到.env文件中，APP_DEBUG = true
+//define('APP_DEBUG', true);
 
 // 定义CMF根目录,可更改此目录
 define('CMF_ROOT', dirname(__DIR__) . '/');
