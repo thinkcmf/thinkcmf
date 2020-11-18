@@ -368,6 +368,8 @@ class ThemeController extends AdminBaseController
             }
         }
 
+        print_r($items);
+
         $this->assign('tab', $tab);
         $this->assign('var', $varName);
         $this->assign('widget', $widgetName);

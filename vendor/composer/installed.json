@@ -1142,18 +1142,18 @@
         "source": {
             "type": "git",
             "url": "https://github.com/thinkcmf/cmf-route.git",
-            "reference": "d34510366cf2d3a020aa8f5b71b711d4a5f85b30"
+            "reference": "d511708fce221a5ac54223159b45c70e07b0d5e2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-route/zipball/d34510366cf2d3a020aa8f5b71b711d4a5f85b30",
-            "reference": "d34510366cf2d3a020aa8f5b71b711d4a5f85b30",
+            "url": "https://api.github.com/repos/thinkcmf/cmf-route/zipball/d511708fce221a5ac54223159b45c70e07b0d5e2",
+            "reference": "d511708fce221a5ac54223159b45c70e07b0d5e2",
             "shasum": ""
         },
         "require": {
             "php": ">=7.1.0"
         },
-        "time": "2020-11-12T00:14:11+00:00",
+        "time": "2020-11-12T00:15:22+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1183,7 +1183,7 @@
                 "email": "catman@thinkcmf.com"
             }
         ],
-        "description": "thinkcmf6 route"
+        "description": "ThinkCMF6 route"
     },
     {
         "name": "thinkcmf/think-template",
