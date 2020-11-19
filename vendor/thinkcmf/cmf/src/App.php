@@ -589,14 +589,16 @@ class App extends Container
         // 应用调试模式
         if (!$this->appDebug) {
             $this->appDebug = $this->env->get('app_debug') ? true : false;
-            ini_set('display_errors', 'Off');
+            if (!$this->appDebug) {
+                ini_set('display_errors', 'Off');
+            }
         }
 
         if (!defined('APP_DEBUG')) {
             if ($this->appDebug) {
-                define(APP_DEBUG, true);
+                define('APP_DEBUG', true);
             } else {
-                define(APP_DEBUG, false);
+                define('APP_DEBUG', false);
             }
         }
 
