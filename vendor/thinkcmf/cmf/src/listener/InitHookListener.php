@@ -33,19 +33,22 @@ class InitHookListener
 
         $systemHookPlugins = cache('init_hook_plugins_system_hook_plugins');
         if (empty($systemHookPlugins)) {
-            $systemHooks = Db::name('hook')->where(function (Query $query) {
-                $query->where(function (Query $query) {
-                    $query->where('app', '=', '')->whereOr('app', '=', 'cmf');
-                })->where('type', 3);
-            })->whereOr('type', 1)->column('hook', 'id');
+            try {
+                $systemHooks = Db::name('hook')->where(function (Query $query) {
+                    $query->where(function (Query $query) {
+                        $query->where('app', '=', '')->whereOr('app', '=', 'cmf');
+                    })->where('type', 3);
+                })->whereOr('type', 1)->column('hook', 'id');
 
-            $systemHookPlugins = Db::name('hook_plugin')->field('hook,plugin')->where('status', 1)
-                ->where('hook', 'in', $systemHooks)
-                ->order('list_order ASC')
-                ->select()->toArray();
+                $systemHookPlugins = Db::name('hook_plugin')->field('hook,plugin')->where('status', 1)
+                    ->where('hook', 'in', $systemHooks)
+                    ->order('list_order ASC')
+                    ->select()->toArray();
 
-            if (!empty($systemHookPlugins)) {
-                cache('init_hook_plugins_system_hook_plugins', $systemHookPlugins, null, 'init_hook_plugins');
+                if (!empty($systemHookPlugins)) {
+                    cache('init_hook_plugins_system_hook_plugins', $systemHookPlugins, null, 'init_hook_plugins');
+                }
+            } catch (\Exception $e) {
             }
         }
 

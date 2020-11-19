@@ -10,7 +10,8 @@ return [
         'AppInit'    => ['\cmf\listener\InitHookListener'],
         'ModuleInit' => [
             '\cmf\listener\LangListener',
-            '\cmf\listener\InitAppHookListener'],
+            '\cmf\listener\InitAppHookListener'
+        ],
         'HttpRun'    => [],
         'HttpEnd'    => [],
         'LogLevel'   => [],
