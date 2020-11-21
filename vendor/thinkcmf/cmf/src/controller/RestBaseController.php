@@ -10,12 +10,12 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
+use cmf\model\UserTokenModel;
 use think\App;
 use think\Container;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
 use think\Response;
-use think\facade\Db;
 
 class RestBaseController
 {
@@ -111,8 +111,7 @@ class RestBaseController
 
         $this->token = $token;
 
-        $user = Db::name('user_token')
-            ->alias('a')
+        $user = UserTokenModel::alias('a')
             ->field('b.*')
             ->where(['token' => $token, 'device_type' => $deviceType])
             ->join('user b', 'a.user_id = b.id')

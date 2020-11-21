@@ -233,7 +233,7 @@ class Upload
         }
         @fclose($out);
 
-        $fileImage = new File($strSaveFilePath);
+        $fileImage = new File($strSaveFilePath, 'r');
 //        $arrInfo   = [
 //            "name"     => $originalName,
 //            "type"     => $fileImage->getMime(),
@@ -325,7 +325,7 @@ class Upload
         if ($objAsset) {
             $assetModel->where('id', $objAsset['id'])->update(['filename' => $arrInfo["filename"]]);
         } else {
-            $assetModel->data($arrInfo)->save();
+            $assetModel->save($arrInfo);
         }
 
         //删除临时文件

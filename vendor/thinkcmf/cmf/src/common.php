@@ -8,8 +8,8 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
-use think\facade\App;
 use think\facade\Db;
+use cmf\model\OptionModel;
 use think\facade\Env;
 use think\facade\Url;
 use dir\Dir;
@@ -19,20 +19,6 @@ use cmf\lib\Storage;
 use think\facade\Hook;
 
 // 应用公共文件
-
-if (PHP_SAPI == 'cli') {
-//    $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
-//
-//    foreach ($apps as $app) {
-//        $commandFile = APP_PATH . $app . '/command.php';
-//
-//        if (file_exists($commandFile)) {
-//            $commands = include $commandFile;
-//            // 注册命令行指令
-//            \think\Console::addDefaultCommands($commands);
-//        }
-//    }
-}
 
 /**
  * Url生成
@@ -65,6 +51,32 @@ function action($url, $vars = [], $layer = 'controller', $appendSuffix = false)
     $action        = $urlArr[2];
 
     return $app->invokeMethod(["{$rootNamespace}\\$appName\\$layer\\$controller" . ucfirst($layer), $action], $vars);
+}
+
+if (PHP_SAPI == 'cli') {
+    $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
+
+    foreach ($apps as $app) {
+        $commandFile = APP_PATH . $app . '/command.php';
+
+        if (file_exists($commandFile)) {
+            $commands = include $commandFile;
+            // 注册命令行指令
+            \think\Console::addDefaultCommands($commands);
+        }
+    }
+
+    $plugins = cmf_scan_dir(WEB_ROOT . '/plugins/*', GLOB_ONLYDIR);
+
+    foreach ($plugins as $plugin) {
+        $commandFile = WEB_ROOT . "/plugins/$plugin/command.php";
+
+        if (file_exists($commandFile)) {
+            $commands = include $commandFile;
+            // 注册命令行指令
+            \think\Console::addDefaultCommands($commands);
+        }
+    }
 }
 
 /**
@@ -523,24 +535,24 @@ function cmf_set_option($key, $data, $replace = false)
         return false;
     }
 
-    $key        = strtolower($key);
-    $option     = [];
-    $findOption = Db::name('option')->where('option_name', $key)->find();
+    $key    = strtolower($key);
+    $option = [];
+
+    $findOption = OptionModel::where('option_name', $key)->find();
     if ($findOption) {
         if (!$replace) {
-            $oldOptionValue = json_decode($findOption['option_value'], true);
+            $oldOptionValue = $findOption['option_value'];
             if (!empty($oldOptionValue)) {
                 $data = array_merge($oldOptionValue, $data);
             }
         }
 
-        $option['option_value'] = json_encode($data);
-        Db::name('option')->where('option_name', $key)->update($option);
-//        echo Db::name('option')->getLastSql() . "\n";
+        $option['option_value'] = json_encode($data,JSON_UNESCAPED_UNICODE);
+        OptionModel::where('option_name', $key)->update($option);
     } else {
         $option['option_name']  = $key;
-        $option['option_value'] = json_encode($data);
-        Db::name('option')->insert($option);
+        $option['option_value'] = $data;
+        OptionModel::create($option);
     }
 
     cache('cmf_options_' . $key, null);//删除缓存
@@ -574,7 +586,7 @@ function cmf_get_option($key)
     $optionValue = cache('cmf_options_' . $key);
 
     if (empty($optionValue)) {
-        $optionValue = Db::name('option')->where('option_name', $key)->value('option_value');
+        $optionValue = OptionModel::where('option_name', $key)->value('option_value');
         if (!empty($optionValue)) {
             $optionValue = json_decode($optionValue, true);
 
@@ -1079,12 +1091,13 @@ function cmf_is_ipad()
  * 添加钩子
  * @param string $hook   钩子名称
  * @param mixed  $params 传入参数
- * @return void
+ * @param bool   $once
+ * @return mixed
  */
-function hook($hook, $params = null)
+function hook($hook, $params = null, $once = false)
 {
     $hook = cmf_parse_name($hook, 1);
-    return \think\facade\Event::trigger($hook, $params);
+    return \think\facade\Event::trigger($hook, $params, $once);
 }
 
 /**
@@ -1785,6 +1798,7 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
 //    if (!empty($domain)) {
 //        $url = $url . '@' . $domain;
 //    }
+
     return url($url, $vars, $suffix, $domain);
 }
 
@@ -1865,7 +1879,7 @@ function cmf_replace_content_file_url($content, $isForDbSave = false)
         }
     }
 
-    $content = $pq->html();
+    $content = $pq->htmlOuter();
 
     \phpQuery::$documents = null;
 
@@ -1946,10 +1960,11 @@ function cmf_user_action($action)
                     $endDayEndTime     = strtotime(date('Y-m-d', strtotime("+{$cycleTime} day", $firstDayStartTime)));
 //                    $todayStartTime        = strtotime(date('Y-m-d'));
 //                    $todayEndTime          = strtotime(date('Y-m-d', strtotime('+1 day')));
-                    $findUserScoreLogCount = Db::name('user_score_log')->where([
-                        'user_id'     => $userId,
-                        'create_time' => [['gt', $firstDayStartTime], ['lt', $endDayEndTime]]
-                    ])->count();
+                    $findUserScoreLogCount = Db::name('user_score_log')
+                        ->where('user_id', $userId)
+                        ->where('create_time', '>', $firstDayStartTime)
+                        ->where('create_time', '<', $endDayEndTime)
+                        ->count();
                     if ($findUserScoreLogCount < $findUserAction['reward_number']) {
                         $changeScore = true;
                     }
@@ -1969,13 +1984,15 @@ function cmf_user_action($action)
     }
 
     if ($changeScore) {
-        Db::name('user_score_log')->insert([
-            'user_id'     => $userId,
-            'create_time' => time(),
-            'action'      => $action,
-            'score'       => $findUserAction['score'],
-            'coin'        => $findUserAction['coin'],
-        ]);
+        if (!empty($findUserAction['score']) || !empty($findUserAction['coin'])) {
+            Db::name('user_score_log')->insert([
+                'user_id'     => $userId,
+                'create_time' => time(),
+                'action'      => $action,
+                'score'       => $findUserAction['score'],
+                'coin'        => $findUserAction['coin'],
+            ]);
+        }
 
         $data = [];
         if ($findUserAction['score'] > 0) {

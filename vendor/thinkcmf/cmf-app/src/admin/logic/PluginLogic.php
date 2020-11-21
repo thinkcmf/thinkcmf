@@ -67,7 +67,7 @@ class PluginLogic
 
         $info['config'] = json_encode($plugin->getConfig());
 
-        $pluginModel->data($info)->save();
+        $pluginModel->save($info);
 
         foreach ($pluginHooks as $pluginHook) {
             $hookPluginModel = new HookPluginModel();
