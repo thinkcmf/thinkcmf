@@ -12,7 +12,6 @@ namespace cmf\listener;
 
 use think\db\Query;
 use think\exception\HttpResponseException;
-use think\facade\Hook;
 use think\facade\Db;
 use think\facade\Response;
 use think\facade\Route;
@@ -20,9 +19,15 @@ use think\facade\Route;
 class LangListener
 {
 
+    protected static $run = false;
+
     // 行为扩展的执行入口必须是run
     public function handle($param)
     {
+        if (self::$run) {
+            return;
+        }
+        self::$run = true;
 
         $this->app = app();
         $langSet   = $this->app->lang->getLangSet();
@@ -42,5 +47,12 @@ class LangListener
         // 加载应用默认语言包
         $this->app->loadLangPack($this->app->lang->defaultLangSet());
 
+	// 加载应用公共语言包
+        $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
+        foreach ($apps as $app) {
+            $this->app->lang->load([
+                APP_PATH . $app . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'common' . '.php',
+            ]);
+        }
     }
 }

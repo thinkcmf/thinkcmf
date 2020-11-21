@@ -38,18 +38,18 @@ class AdminLangListener
         }
 
         // 加载应用后台菜单语言包
-//        $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
-//        foreach ($apps as $app) {
-//            $app->lang->load([
-//                APP_PATH . $app . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'admin_menu.php',
-//                APP_PATH . $app . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'admin.php',
-//            ]);
-//        }
+        $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
+        foreach ($apps as $appName) {
+            $app->lang->load([
+                APP_PATH . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'admin_menu.php',
+                APP_PATH . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'admin.php',
+            ]);
+        }
 
         // 加后台菜单动态语言包
-//        $defaultLangDir = config('DEFAULT_LANG');
-//        Lang::load([
-//            CMF_DATA . "lang/" . $defaultLangDir . "/admin_menu.php"
-//        ]);
+        $defaultLangDir = $app->lang->defaultLangSet();
+        $app->lang->load([
+            CMF_DATA . "lang/" . $defaultLangDir . "/admin_menu.php"
+        ]);
     }
 }

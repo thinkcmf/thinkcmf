@@ -19,6 +19,9 @@ return [
         'AdminInit'  => [
             '\cmf\listener\AdminLangListener'
         ],
+        'HomeInit'   => [
+            '\cmf\listener\HomeLangListener'
+        ],
     ],
 
     'subscribe' => [
