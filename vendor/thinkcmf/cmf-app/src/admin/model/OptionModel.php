@@ -14,5 +14,10 @@ use think\Model;
 
 class OptionModel extends Model
 {
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'option';
 
 }

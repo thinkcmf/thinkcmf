@@ -15,6 +15,11 @@ use think\Db;
 
 class ThemeModel extends Model
 {
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'theme';
 
     /**
      * 获取插件列表

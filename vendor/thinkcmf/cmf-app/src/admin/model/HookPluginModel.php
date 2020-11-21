@@ -15,6 +15,11 @@ use think\Model;
 class HookPluginModel extends Model
 {
 
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'hook_plugin';
 
 
 

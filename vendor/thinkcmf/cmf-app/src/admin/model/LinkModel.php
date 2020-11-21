@@ -14,6 +14,10 @@ use think\Model;
 
 class LinkModel extends Model
 {
-
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'link';
 
 }

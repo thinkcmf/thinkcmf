@@ -15,6 +15,12 @@ use think\Model;
 
 class UserFavoriteModel extends Model
 {
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'user_favorite';
+
     public function favorites()
     {
         $userId        = cmf_get_current_user_id();

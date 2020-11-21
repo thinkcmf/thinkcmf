@@ -18,6 +18,12 @@ use think\Db;
 class NavMenuModel extends Model
 {
     /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'nav_menu';
+
+    /**
      * 获取某导航下所有菜单树形结构数组
      * @param int $navId    导航id
      * @param int $maxLevel 最大获取层级,默认不限制

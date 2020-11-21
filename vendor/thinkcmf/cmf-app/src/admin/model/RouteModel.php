@@ -15,6 +15,12 @@ use think\Model;
 class RouteModel extends Model
 {
     /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'route';
+
+    /**
      * 获取所有url美化规则
      * @param boolean $refresh 是否强制刷新
      * @return array|mixed|string|\think\Collection

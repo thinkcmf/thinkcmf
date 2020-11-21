@@ -17,6 +17,12 @@ class PluginModel extends Model
 {
 
     /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'plugin';
+
+    /**
      * 获取插件列表
      */
     public function getList()

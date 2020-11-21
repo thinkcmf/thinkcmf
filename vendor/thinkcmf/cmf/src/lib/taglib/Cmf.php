@@ -403,7 +403,7 @@ parse;
 
         $parse = <<<parse
 <php>
-    \\think\\facade\\Hook::listen('{$name}',{$param},{$once});
+    hook('{$name}',{$param},{$once});
 </php>
 parse;
         return $parse;

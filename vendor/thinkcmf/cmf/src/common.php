@@ -513,7 +513,7 @@ function cmf_set_option($key, $data, $replace = false)
             }
         }
 
-        $option['option_value'] = json_encode($data,JSON_UNESCAPED_UNICODE);
+        $option['option_value'] = json_encode($data, JSON_UNESCAPED_UNICODE);
         OptionModel::where('option_name', $key)->update($option);
     } else {
         $option['option_name']  = $key;
@@ -1057,11 +1057,12 @@ function cmf_is_ipad()
  * 添加钩子
  * @param string $hook   钩子名称
  * @param mixed  $params 传入参数
- * @return void
+ * @param bool   $once
+ * @return mixed
  */
-function hook($hook, $params = null)
+function hook($hook, $params = null, $once = false)
 {
-    return Hook::listen($hook, $params);
+    return Hook::listen($hook, $params, $once);
 }
 
 /**
@@ -1165,8 +1166,8 @@ function cmf_plugin_url($url, $vars = [], $domain = false)
 
     $url              = parse_url($url);
     $case_insensitive = true;
-    $plugin           = $case_insensitive ? Loader::parseName($url['scheme']) : $url['scheme'];
-    $controller       = $case_insensitive ? Loader::parseName($url['host']) : $url['host'];
+    $plugin           = $case_insensitive ? cmf_parse_name($url['scheme']) : $url['scheme'];
+    $controller       = $case_insensitive ? cmf_parse_name($url['host']) : $url['host'];
     $action           = trim($case_insensitive ? strtolower($url['path']) : $url['path'], '/');
 
     /* 解析URL带的参数 */
@@ -1221,10 +1222,10 @@ function cmf_auth_check($userId, $name = null, $relation = 'or')
     $authObj = new \cmf\lib\Auth();
     if (empty($name)) {
         $request    = request();
-        $module     = $request->module();
+        $app        = $request->module();
         $controller = $request->controller();
         $action     = $request->action();
-        $name       = strtolower($module . "/" . $controller . "/" . $action);
+        $name       = strtolower($app . "/" . $controller . "/" . $action);
     }
     return $authObj->check($userId, $name, $relation);
 }
@@ -1581,7 +1582,14 @@ function cmf_generate_user_token($userId, $deviceType)
  */
 function cmf_parse_name($name, $type = 0, $ucfirst = true)
 {
-    return Loader::parseName($name, $type, $ucfirst);
+    if ($type) {
+        $name = preg_replace_callback('/_([a-zA-Z])/', function ($match) {
+            return strtoupper($match[1]);
+        }, $name);
+        return $ucfirst ? ucfirst($name) : lcfirst($name);
+    }
+
+    return strtolower(trim(preg_replace("/[A-Z]/", "_\\0", $name), "_"));
 }
 
 /**
@@ -1757,7 +1765,7 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
 //        $url = $url . '@' . $domain;
 //    }
 
-    return Url::build($url, $vars, $suffix, $domain);
+    return url($url, $vars, $suffix, $domain);
 }
 
 /**

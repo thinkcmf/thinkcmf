@@ -15,6 +15,12 @@ use think\Model;
 
 class UserModel extends Model
 {
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'user';
+
     protected $type = [
         'more' => 'array',
     ];
@@ -230,7 +236,7 @@ class UserModel extends Model
 
         $field = 'user_nickname,sex,birthday,user_url,signature,more';
 
-        if ($this->allowField($field)->save($user, ['id' => $userId])) {
+        if ($this->where('id', $userId)->update($user)) {
             $userInfo = $this->where('id', $userId)->find();
             cmf_update_current_user($userInfo->toArray());
             return 1;

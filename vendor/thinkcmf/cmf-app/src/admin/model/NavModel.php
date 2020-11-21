@@ -15,7 +15,11 @@ use tree\Tree;
 
 class NavModel extends Model
 {
-
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'nav';
 
     public function navMenusTreeArray(){
 

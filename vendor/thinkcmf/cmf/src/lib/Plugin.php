@@ -53,14 +53,13 @@ abstract class Plugin
      */
     public function __construct()
     {
-
         $request = request();
 
         $engineConfig = Config::pull('template');
 
         $this->name = $this->getName();
 
-        $nameCStyle = Loader::parseName($this->name);
+        $nameCStyle = cmf_parse_name($this->name);
 
         $this->pluginPath     = WEB_ROOT . 'plugins/' . $nameCStyle . '/';
         $this->configFilePath = $this->pluginPath . 'config.php';
@@ -292,7 +291,6 @@ abstract class Plugin
                 }
             }
         }
-
 
         return $config;
     }
