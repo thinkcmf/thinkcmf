@@ -176,6 +176,7 @@ class SlideController extends AdminBaseController
 
         $resultSlide = $slidePostModel->save(['delete_time' => time()], ['id' => $id]);
         if ($resultSlide) {
+            $data['user_id'] = cmf_get_current_admin_id();
             Db::name('recycleBin')->insert($data);
         }
         $this->success("删除成功！", url("slide/index"));

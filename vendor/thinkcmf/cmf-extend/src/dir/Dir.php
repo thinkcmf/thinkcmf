@@ -75,7 +75,7 @@ class Dir {//类定义开始
                 $dir[$i]['atime'] = fileatime($file);
                 $dir[$i]['ctime'] = filectime($file);
                 $dir[$i]['size'] = filesize($file);
-                $dir[$i]['type'] = filetype($file);
+                $dir[$i]['type'] = is_file($file) ?filetype($file): 'unknown';;
                 $dir[$i]['ext'] = is_file($file) ? strtolower(substr(strrchr(basename($file), '.'), 1)) : '';
                 $dir[$i]['mtime'] = filemtime($file);
                 $dir[$i]['isDir'] = is_dir($file);
