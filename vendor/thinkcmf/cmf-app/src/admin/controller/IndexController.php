@@ -13,7 +13,7 @@ namespace app\admin\controller;
 use cmf\controller\AdminBaseController;
 use think\facade\Db;
 use app\admin\model\AdminMenuModel;
-
+use app\admin\service\interfaces\AdminMenuService;
 class IndexController extends AdminBaseController
 {
 
@@ -33,7 +33,7 @@ class IndexController extends AdminBaseController
     /**
      * 后台首页
      */
-    public function index()
+    public function index(AdminMenuService $service)
     {
         $content = hook_one('admin_index_index_view');
 
@@ -52,7 +52,7 @@ class IndexController extends AdminBaseController
         $this->assign("menus", $menus);
 
 
-        $result = AdminMenuModel::order(["app" => "ASC", "controller" => "ASC", "action" => "ASC"])->select();
+        $result = $service->getAll();
         $menusTmp = array();
         foreach ($result as $item){
             //去掉/ _ 全部小写。作为索引。
