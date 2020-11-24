@@ -15,7 +15,7 @@ return [
     'auto_timestamp'  => false,
 
     // 时间字段取出后的默认时间格式
-    'datetime_format' => 'Y-m-d H:i:s',
+    'datetime_format' => false,
     'authcode'        => env('database.authcode', '#authcode#'),
 
     // 数据库连接配置信息
