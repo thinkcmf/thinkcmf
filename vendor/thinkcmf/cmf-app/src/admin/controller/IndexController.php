@@ -13,7 +13,8 @@ namespace app\admin\controller;
 use cmf\controller\AdminBaseController;
 use think\facade\Db;
 use app\admin\model\AdminMenuModel;
-use app\admin\service\interfaces\AdminMenuService;
+use app\admin\service\AdminMenuService;
+
 class IndexController extends AdminBaseController
 {
 
@@ -52,16 +53,16 @@ class IndexController extends AdminBaseController
         $this->assign("menus", $menus);
 
 
-        $result = $service->getAll();
+        $result   = $service->getAll();
         $menusTmp = array();
-        foreach ($result as $item){
+        foreach ($result as $item) {
             //去掉/ _ 全部小写。作为索引。
-            $indexTmp = $item['app'].$item['controller'].$item['action'];
-            $indexTmp = preg_replace("/[\\/|_]/","",$indexTmp);
-            $indexTmp = strtolower($indexTmp);
+            $indexTmp            = $item['app'] . $item['controller'] . $item['action'];
+            $indexTmp            = preg_replace("/[\\/|_]/", "", $indexTmp);
+            $indexTmp            = strtolower($indexTmp);
             $menusTmp[$indexTmp] = $item;
         }
-        $this->assign("menus_js_var",json_encode($menusTmp));
+        $this->assign("menus_js_var", json_encode($menusTmp));
 
         //$admin = Db::name("user")->where('id', cmf_get_current_admin_id())->find();
         //$this->assign('admin', $admin);

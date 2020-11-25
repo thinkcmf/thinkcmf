@@ -13,7 +13,7 @@ namespace app\admin\service\impl;
 
 
 use app\admin\model\AdminMenuModel;
-use app\admin\service\interfaces\AdminMenuService;
+use app\admin\service\AdminMenuService;
 
 class AdminMenuServiceImpl implements AdminMenuService
 {
@@ -26,11 +26,11 @@ class AdminMenuServiceImpl implements AdminMenuService
      * @param string[] $order
      * @return mixed
      * @author 小夏
-     * @email 449134904@qq.com
-     * @date 2020-11-21 21:44:21
+     * @email  449134904@qq.com
+     * @date   2020-11-21 21:44:21
      */
-    public function getAll($order=["app" => "ASC", "controller" => "ASC", "action" => "ASC"])
+    public function getAll($order = ["app" => "ASC", "controller" => "ASC", "action" => "ASC"])
     {
-      return  $this->order($order)->select();
+        return $this->model->order($order)->select();
     }
 }

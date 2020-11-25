@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\admin\service\interfaces;
+namespace app\admin\service;
 
 
 interface AdminMenuService
