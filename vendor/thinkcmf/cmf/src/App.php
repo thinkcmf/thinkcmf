@@ -190,6 +190,15 @@ class App extends Container
             $this->bind(include $vendorProviderFile);
         }
 
+        // 加载应用 provider
+        $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
+        foreach ($apps as $appName) {
+            $appProviderFile = APP_PATH . $appName . DIRECTORY_SEPARATOR . 'provider.php';
+            if (is_file($appProviderFile)) {
+                $this->bind(include $appProviderFile);
+            }
+        }
+
         static::setInstance($this);
 
         $this->instance('app', $this);
