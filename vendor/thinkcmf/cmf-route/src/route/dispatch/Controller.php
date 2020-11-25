@@ -77,6 +77,23 @@ class Controller extends Dispatch
     public function exec()
     {
         $this->app->event->trigger('ModuleInit');
+
+        $appName = $this->app->http->getName();
+        $appPath = APP_PATH . $appName . DIRECTORY_SEPARATOR;
+
+        // 加载应用event
+        if (is_file($appPath . 'event.php')) {
+            $this->app->loadEvent(include $appPath . 'event.php');
+        }
+
+        // 加载应用service
+        if (is_file($appPath . 'service.php')) {
+            $services = include $appPath . 'service.php';
+            foreach ($services as $service) {
+                $this->app->register($service);
+            }
+        }
+
         try {
             // 实例化控制器
             $instance = $this->controller($this->controller);
