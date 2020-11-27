@@ -30,17 +30,17 @@ class HomeLangListener
 
         // 加载核心应用前台通用语言包
         $coreApps = ['admin', 'user'];
-        foreach ($coreApps as $app) {
+        foreach ($coreApps as $appName) {
             $app->lang->load([
-                root_path() . "vendor/thinkcmf/cmf-app/src/{$app}/lang/{$langSet}/home.php"
+                root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}/lang/{$langSet}/home.php"
             ]);
         }
 
         // 加载应用前台通用语言包
         $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
-        foreach ($apps as $app) {
+        foreach ($apps as $appName) {
             $app->lang->load([
-                APP_PATH . $app . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'home.php',
+                APP_PATH . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'home.php',
             ]);
         }
 
