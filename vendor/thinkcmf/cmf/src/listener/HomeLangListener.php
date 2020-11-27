@@ -18,7 +18,7 @@ class HomeLangListener
     protected static $run = false;
 
     // 行为扩展的执行入口必须是run
-    public function run()
+    public function handle()
     {
         if (self::$run) {
             return;
