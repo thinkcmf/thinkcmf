@@ -112,7 +112,7 @@ class RouteModel extends Model
                 $routeDir = CMF_DATA . "conf/"; // 5.0
             }
 
-            $content="<?php\treturn " . var_export($allRoutes, true) . ";";
+            $content = "<?php\treturn " . var_export($allRoutes, true) . ";";
 
         } else {
             $routeDir = CMF_DATA . "route/";
@@ -134,7 +134,7 @@ class RouteModel extends Model
                 }
 
                 $ruleName = $routeUrl;
-                $query=[];
+                $query    = [];
                 if (strpos($routeUrl, '?') > 0) {
                     $routeUrlArr = parse_url($routeUrl);
                     $routeUrl    = $routeUrlArr['path'];
@@ -146,10 +146,12 @@ class RouteModel extends Model
 
                 if (!empty($query)) {
                     $query     = var_export($query, true);
+                    $query     = str_replace(["\n", 'array (  '], ['', 'array('], $query);
                     $routeCode .= "->append($query)";
                 }
 
                 if (!empty($pattern)) {
+                    $pattern   = str_replace(["\n", 'array (  '], ['', 'array('], $pattern);
                     $routeCode .= "\n->pattern($pattern)";
                 }
 
@@ -166,7 +168,7 @@ class RouteModel extends Model
         }
 
         $routeFile = $routeDir . "route.php";
-        file_put_contents($routeFile, $content);
+        file_put_contents($routeFile, $content . "\n\n");
 
         return $cacheRoutes;
     }
