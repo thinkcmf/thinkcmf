@@ -21,13 +21,24 @@ class InitAppHookListener
     // 行为扩展的执行入口必须是run
     public function handle($param)
     {
-
         $appName = app()->http->getName();
         if (!empty(self::$appLoaded[$appName])) {
             return;
         }
-
         self::$appLoaded[$appName] = true;
+
+        $this->app = app();
+        $langSet   = $this->app->lang->getLangSet();
+
+        // 加载核心应用公共语言包
+        $this->app->lang->load([
+            root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}/lang/{$langSet}.php",
+        ]);
+
+        // 加载应用语言包
+        $this->app->lang->load([
+            APP_PATH . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . '.php',
+        ]);
 
         // 加载应用第三方库
         $appAutoLoadFile = APP_PATH . $appName . '/vendor/autoload.php';

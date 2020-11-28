@@ -7,15 +7,19 @@ return [
     ],
 
     'listen' => [
-        'AppInit'    => ['\cmf\listener\InitHookListener'],
-        'ModuleInit' => [
+        'AppInit'    => [
             '\cmf\listener\LangListener',
-            '\cmf\listener\InitAppHookListener'],
+            '\cmf\listener\InitHookListener'
+        ],
+        'ModuleInit' => [
+            '\cmf\listener\InitAppHookListener'
+        ],
         'HttpRun'    => [],
         'HttpEnd'    => [],
         'LogLevel'   => [],
         'LogWrite'   => [],
         'AdminInit'  => [
+            '\cmf\listener\AdminMenuLangListener',
             '\cmf\listener\AdminLangListener'
         ],
         'HomeInit'   => [
