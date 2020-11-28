@@ -26,7 +26,7 @@ class CaptchaController
     {
         $config  = [
             // 验证码字体大小(px)
-            'fontSize' => 16,
+            'fontSize' => 12,
             // 验证码图片高度
             'imageH'   => 38,
             // 验证码图片宽度
@@ -38,7 +38,7 @@ class CaptchaController
         ];
         $request = request();
 
-        $fontSize = $request->param('font_size', 16, 'intval');
+        $fontSize = $request->param('font_size', 12, 'intval');
         if ($fontSize > 8 && $fontSize < 100) {
             $config['fontSize'] = $fontSize;
         }
