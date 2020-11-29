@@ -27,13 +27,23 @@
     <h2>ThinkCMF插件演示</h2>
     {:lang('plugin_demo_hello_world')}
     <p>
+        <b>网站根目录:</b>__ROOT__
+    </p>
+    <p>
         <b>插件根目录:</b>__PLUGIN_ROOT__
     </p>
-
     <p>
         <b>插件模板根目录:</b>__PLUGIN_TMPL__
     </p>
-
+    <p>
+        <b>后台当前模板目录:</b>__ADMIN_TMPL__
+    </p>
+    <p>
+        <b>网站资源根目录:</b>__WEB_ROOT__
+    </p>
+    <p>
+        <b>public/static目录:</b>__STATIC__
+    </p>
     <p>
         <b>生成插件控制器 URL:</b>{:cmf_plugin_url('Demo://Index/index',['id'=>1])}
     </p>

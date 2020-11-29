@@ -47,4 +47,11 @@ class DemoPlugin extends Plugin
         $this->assign($config);
         echo $this->fetch('widget');
     }
+
+    public function testFetch()
+    {
+        $config = $this->getConfig();
+        $this->assign($config);
+        return $this->fetch('widget');
+    }
 }
