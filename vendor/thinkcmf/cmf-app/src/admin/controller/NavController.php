@@ -12,7 +12,6 @@ namespace app\admin\controller;
 
 use cmf\controller\AdminBaseController;
 use app\admin\model\NavModel;
-use think\facade\Db;
 
 /**
  * Class NavController 导航类别管理控制器

@@ -89,7 +89,7 @@ class LinkController extends AdminBaseController
         if ($result !== true) {
             $this->error($result);
         }
-        $linkModel->strict(false)->save($data);
+        $linkModel->save($data);
 
         $this->success("添加成功！", url("Link/index"));
     }

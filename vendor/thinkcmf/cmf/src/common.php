@@ -1371,7 +1371,7 @@ function cmf_split_sql($file, $tablePre, $charset = 'utf8mb4', $defaultTablePre 
  */
 function cmf_current_lang()
 {
-    return request()->langset();
+    return app()->lang->getLangSet();
 }
 
 /**
