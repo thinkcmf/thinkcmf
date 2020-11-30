@@ -128,7 +128,7 @@ class MenuController extends AdminBaseController
     {
         $tree     = new Tree();
         $parentId = $this->request->param("parent_id", 0, 'intval');
-        $result   = AdminMenuModel::order(["list_order" => "ASC"])->select();
+        $result   = AdminMenuModel::order(["list_order" => "ASC"])->select()->toArray();
         $array    = [];
         foreach ($result as $r) {
             $r['selected'] = $r['id'] == $parentId ? 'selected' : '';
