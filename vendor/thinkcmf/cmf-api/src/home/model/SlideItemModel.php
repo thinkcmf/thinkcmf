@@ -18,6 +18,12 @@ use think\Model;
 class SlideItemModel extends Model
 {
     /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'slide_item';
+
+    /**
      * 类型转换
      * @var array
      */

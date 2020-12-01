@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 namespace api\wxapp\controller;
 
-use think\Db;
+use think\facade\Db;
 use cmf\controller\RestBaseController;
 use wxapp\aes\WXBizDataCrypt;
 use think\Validate;

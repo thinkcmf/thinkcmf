@@ -15,6 +15,12 @@ use think\Model;
 
 class ThemeFileModel extends Model
 {
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'theme_file';
+
     protected $type = [
         'more'        => 'array',
         'config_more' => 'array',

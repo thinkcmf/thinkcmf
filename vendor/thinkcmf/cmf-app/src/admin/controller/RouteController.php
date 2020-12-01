@@ -12,7 +12,6 @@ namespace app\admin\controller;
 
 use app\admin\model\RouteModel;
 use cmf\controller\AdminBaseController;
-use think\Db;
 
 class RouteController extends AdminBaseController
 {
@@ -34,7 +33,7 @@ class RouteController extends AdminBaseController
     {
         global $CMF_GV_routes;
         $routeModel = new RouteModel();
-        $routes     = Db::name('route')->order("list_order asc")->select();
+        $routes     = RouteModel::order("list_order asc")->select();
         $routeModel->getRoutes(true);
         unset($CMF_GV_routes);
         $this->assign("routes", $routes);
@@ -101,7 +100,7 @@ class RouteController extends AdminBaseController
     public function edit()
     {
         $id    = $this->request->param("id", 0, 'intval');
-        $route = Db::name('route')->where('id', $id)->find();
+        $route = RouteModel::where('id', $id)->find();
         $this->assign($route);
         return $this->fetch();
     }

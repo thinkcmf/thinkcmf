@@ -10,8 +10,10 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\model\AuthAccessModel;
+use app\admin\model\RoleModel;
+use app\admin\model\RoleUserModel;
 use cmf\controller\AdminBaseController;
-use think\Db;
 use think\facade\Cache;
 use tree\Tree;
 use app\admin\model\AdminMenuModel;
@@ -44,7 +46,7 @@ class RbacController extends AdminBaseController
             return $content;
         }
 
-        $data = Db::name('role')->order(["list_order" => "ASC", "id" => "DESC"])->select();
+        $data = RoleModel::order(["list_order" => "ASC", "id" => "DESC"])->select();
         $this->assign("roles", $data);
         return $this->fetch();
     }
@@ -96,7 +98,7 @@ class RbacController extends AdminBaseController
                 // 验证失败 输出错误信息
                 $this->error($result);
             } else {
-                $result = Db::name('role')->insert($data);
+                $result = RoleModel::insert($data);
                 if ($result) {
                     $this->success("添加角色成功", url("rbac/index"));
                 } else {
@@ -136,7 +138,7 @@ class RbacController extends AdminBaseController
         if ($id == 1) {
             $this->error("超级管理员角色不能被修改！");
         }
-        $data = Db::name('role')->where("id", $id)->find();
+        $data = RoleModel::where("id", $id)->find();
         if (!$data) {
             $this->error("该角色不存在！");
         }
@@ -173,7 +175,7 @@ class RbacController extends AdminBaseController
                 $this->error($result);
 
             } else {
-                if (Db::name('role')->update($data) !== false) {
+                if (RoleModel::update($data) !== false) {
                     $this->success("保存成功！", url('rbac/index'));
                 } else {
                     $this->error("保存失败！");
@@ -203,11 +205,11 @@ class RbacController extends AdminBaseController
         if ($id == 1) {
             $this->error("超级管理员角色不能被删除！");
         }
-        $count = Db::name('RoleUser')->where('role_id', $id)->count();
+        $count = RoleUserModel::where('role_id', $id)->count();
         if ($count > 0) {
             $this->error("该角色已经有用户！");
         } else {
-            $status = Db::name('role')->delete($id);
+            $status = RoleModel::delete($id);
             if (!empty($status)) {
                 $this->success("删除成功！", url('rbac/index'));
             } else {
@@ -238,7 +240,6 @@ class RbacController extends AdminBaseController
             return $content;
         }
 
-        $AuthAccess     = Db::name("AuthAccess");
         $adminMenuModel = new AdminMenuModel();
         //角色ID
         $roleId = $this->request->param("id", 0, 'intval');
@@ -253,7 +254,7 @@ class RbacController extends AdminBaseController
         $result = $adminMenuModel->menuCache();
 
         $newMenus      = [];
-        $privilegeData = $AuthAccess->where("role_id", $roleId)->column("rule_name");//获取权限表数据
+        $privilegeData = AuthAccessModel::where("role_id", $roleId)->column("rule_name");//获取权限表数据
 
         foreach ($result as $m) {
             $newMenus[$m['id']] = $m;
@@ -306,15 +307,15 @@ class RbacController extends AdminBaseController
             $menuIds = $this->request->param('menuId/a');
             if (is_array($menuIds) && count($menuIds) > 0) {
 
-                Db::name("authAccess")->where(["role_id" => $roleId, 'type' => 'admin_url'])->delete();
+                AuthAccessModel::where(["role_id" => $roleId, 'type' => 'admin_url'])->delete();
                 foreach ($menuIds as $menuId) {
-                    $menu = Db::name("adminMenu")->where("id", $menuId)->field("app,controller,action")->find();
+                    $menu = AdminMenuModel::where("id", $menuId)->field("app,controller,action")->find();
                     if ($menu) {
                         $app    = $menu['app'];
                         $model  = $menu['controller'];
                         $action = $menu['action'];
                         $name   = strtolower("$app/$model/$action");
-                        Db::name("authAccess")->insert(["role_id" => $roleId, "rule_name" => $name, 'type' => 'admin_url']);
+                        AuthAccessModel::insert(["role_id" => $roleId, "rule_name" => $name, 'type' => 'admin_url']);
                     }
                 }
 
@@ -323,7 +324,7 @@ class RbacController extends AdminBaseController
                 $this->success("授权成功！");
             } else {
                 //当没有数据时，清除当前角色授权
-                Db::name("authAccess")->where("role_id", $roleId)->delete();
+                AuthAccessModel::where("role_id", $roleId)->delete();
                 $this->error("没有接收到数据，执行清除授权成功！");
             }
         }

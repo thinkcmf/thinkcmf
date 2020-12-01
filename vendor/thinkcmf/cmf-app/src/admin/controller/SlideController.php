@@ -10,9 +10,10 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\model\RecycleBinModel;
+use app\admin\model\SlideItemModel;
 use app\admin\model\SlideModel;
 use cmf\controller\AdminBaseController;
-use think\Db;
 
 class SlideController extends AdminBaseController
 {
@@ -162,7 +163,7 @@ class SlideController extends AdminBaseController
         }
 
         //如果存在页面。则不能删除。
-        $slidePostCount = Db::name('slide_item')->where('slide_id', $id)->count();
+        $slidePostCount = SlideItemModel::where('slide_id', $id)->count();
         if ($slidePostCount > 0) {
             $this->error('此幻灯片有页面无法删除!');
         }
@@ -176,8 +177,7 @@ class SlideController extends AdminBaseController
 
         $resultSlide = $slidePostModel->save(['delete_time' => time()], ['id' => $id]);
         if ($resultSlide) {
-            $data['user_id'] = cmf_get_current_admin_id();
-            Db::name('recycleBin')->insert($data);
+            RecycleBinModel::insert($data);
         }
         $this->success("删除成功！", url("slide/index"));
     }

@@ -11,8 +11,8 @@
 
 namespace app\user\controller;
 
+use app\user\model\UserModel;
 use cmf\controller\AdminBaseController;
-use think\Db;
 use think\db\Query;
 
 /**
@@ -63,20 +63,18 @@ class AdminIndexController extends AdminBaseController
             return $content;
         }
 
-        $list = Db::name('user')
-            ->where(function (Query $query) {
-                $data = $this->request->param();
-                if (!empty($data['uid'])) {
-                    $query->where('id', intval($data['uid']));
-                }
+        $list = UserModel::where(function (Query $query) {
+            $data = $this->request->param();
+            if (!empty($data['uid'])) {
+                $query->where('id', intval($data['uid']));
+            }
 
-                if (!empty($data['keyword'])) {
-                    $keyword = $data['keyword'];
-                    $query->where('user_login|user_nickname|user_email|mobile', 'like', "%$keyword%");
-                }
+            if (!empty($data['keyword'])) {
+                $keyword = $data['keyword'];
+                $query->where('user_login|user_nickname|user_email|mobile', 'like', "%$keyword%");
+            }
 
-            })
-            ->order("create_time DESC")
+        })->order("create_time DESC")
             ->paginate(10);
         // 获取分页显示
         $page = $list->render();
@@ -103,7 +101,7 @@ class AdminIndexController extends AdminBaseController
     {
         $id = input('param.id', 0, 'intval');
         if ($id) {
-            $result = Db::name("user")->where(["id" => $id, "user_type" => 2])->setField('user_status', 0);
+            $result = UserModel::where(["id" => $id, "user_type" => 2])->update(['user_status' => 0]);
             if ($result) {
                 $this->success("会员拉黑成功！", "adminIndex/index");
             } else {
@@ -131,7 +129,7 @@ class AdminIndexController extends AdminBaseController
     {
         $id = input('param.id', 0, 'intval');
         if ($id) {
-            Db::name("user")->where(["id" => $id, "user_type" => 2])->setField('user_status', 1);
+            UserModel::where(["id" => $id, "user_type" => 2])->update(['user_status' => 1]);
             $this->success("会员启用成功！", '');
         } else {
             $this->error('数据传入失败！');

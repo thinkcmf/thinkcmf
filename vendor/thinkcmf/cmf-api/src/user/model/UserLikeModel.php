@@ -13,7 +13,12 @@ use think\Model;
 
 class UserLikeModel extends Model
 {
-
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'user_like';
+    
     /**
      * url   自动转化
      * @param $value

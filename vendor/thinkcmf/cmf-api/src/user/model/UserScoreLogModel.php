@@ -14,5 +14,9 @@ use think\Model;
 
 class UserScoreLogModel extends Model
 {
-
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'user_score_log';
 }

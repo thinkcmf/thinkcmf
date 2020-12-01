@@ -12,17 +12,13 @@
 namespace app\demo\controller;
 
 use cmf\controller\HomeBaseController;
-use think\Db;
+use think\facade\Db;
 
 class IndexController extends HomeBaseController
 {
     public function index()
     {
-        Db::name('user_token')
-            ->alias('a')
-            ->field('b.*')
-            ->where(['token' => '', 'device_type' => ''])
-            ->join('user b', 'a.user_id = b.id')
+        Db::name('user')
             ->find();
        // return $this->fetch(':index');
     }

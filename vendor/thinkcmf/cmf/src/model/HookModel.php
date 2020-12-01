@@ -6,15 +6,23 @@
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: Powerless < wzxaini9@gmail.com>
+// | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
 namespace cmf\model;
 
-use think\Db;
 use think\Model;
 
 class HookModel extends Model
 {
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'hook';
 
+    public function plugins()
+    {
+        return $this->belongsToMany('PluginModel', 'hook_plugin', 'plugin', 'hook');
+    }
 
 }

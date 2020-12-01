@@ -89,7 +89,7 @@ class LinkController extends AdminBaseController
         if ($result !== true) {
             $this->error($result);
         }
-        $linkModel->allowField(true)->save($data);
+        $linkModel->save($data);
 
         $this->success("添加成功！", url("Link/index"));
     }
@@ -113,7 +113,7 @@ class LinkController extends AdminBaseController
     {
         $id        = $this->request->param('id', 0, 'intval');
         $linkModel = new LinkModel();
-        $link      = $linkModel->get($id);
+        $link      = $linkModel->find($id);
         $this->assign('targets', $this->targets);
         $this->assign('link', $link);
         return $this->fetch();
@@ -134,13 +134,13 @@ class LinkController extends AdminBaseController
      */
     public function editPost()
     {
-        $data      = $this->request->param();
-        $linkModel = new LinkModel();
-        $result    = $this->validate($data, 'Link');
+        $data   = $this->request->param();
+        $result = $this->validate($data, 'Link');
         if ($result !== true) {
             $this->error($result);
         }
-        $linkModel->allowField(true)->isUpdate(true)->save($data);
+        $linkModel = LinkModel::find($data['id']);
+        $linkModel->save($data);
 
         $this->success("保存成功！", url("Link/index"));
     }

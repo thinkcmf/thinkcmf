@@ -137,6 +137,7 @@ class ComposerStaticInit5bfecc6fb5e853e2f790c7db297fb8ee
         'phpQueryPlugins' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery.php',
         'think\\App' => __DIR__ . '/..' . '/thinkcmf/cmf/src/App.php',
         'think\\Log' => __DIR__ . '/..' . '/thinkcmf/cmf/src/Log.php',
+        'think\\facade\\Db' => __DIR__ . '/..' . '/thinkcmf/cmf/src/facade/Db.php',
         'think\\route\\dispatch\\Module' => __DIR__ . '/..' . '/thinkcmf/cmf/src/route/dispatch/Module.php',
     );
 

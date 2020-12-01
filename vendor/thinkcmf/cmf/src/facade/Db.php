@@ -4,20 +4,18 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 小夏 < 449134904@qq.com>
-// | Time: 2018/8/10 12:25
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: 老猫 <thinkcmf@126.com>
 // +----------------------------------------------------------------------
 
-namespace api\user\model;
+namespace think\facade;
 
-
-use think\Model;
-
-class UserBalanceLogModel extends Model
+/**
+ * @see \think\DbManager
+ * @mixin \think\DbManager
+ */
+class Db extends \think\Db
 {
-    /**
-     * 模型名称
-     * @var string
-     */
-    protected $name = 'user_balance_log';
+
 }

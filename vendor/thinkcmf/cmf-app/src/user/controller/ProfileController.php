@@ -15,7 +15,6 @@ use think\Validate;
 use think\Image;
 use cmf\controller\UserBaseController;
 use app\user\model\UserModel;
-use think\Db;
 
 class ProfileController extends UserBaseController
 {
@@ -203,7 +202,7 @@ class ProfileController extends UserBaseController
                 $result  = $storage->upload($avatar, $avatarPath, 'image');
 
                 $userId = cmf_get_current_user_id();
-                Db::name("user")->where("id", $userId)->update(["avatar" => $avatar]);
+                UserModel::where("id", $userId)->update(["avatar" => $avatar]);
                 session('user.avatar', $avatar);
                 $this->success("头像更新成功！");
             } else {

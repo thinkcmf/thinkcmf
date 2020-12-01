@@ -10,8 +10,10 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\model\RoleModel;
+use app\admin\model\RoleUserModel;
+use app\admin\model\UserModel;
 use cmf\controller\AdminBaseController;
-use think\Db;
 use think\db\Query;
 
 /**
@@ -56,8 +58,7 @@ class UserController extends AdminBaseController
         $userLogin = $this->request->param('user_login');
         $userEmail = trim($this->request->param('user_email'));
 
-        $users = Db::name('user')
-            ->where('user_type', 1)
+        $users = UserModel::where('user_type', 1)
             ->where(function (Query $query) use ($userLogin, $userEmail) {
                 if ($userLogin) {
                     $query->where('user_login', 'like', "%$userLogin%");
@@ -73,7 +74,7 @@ class UserController extends AdminBaseController
         // 获取分页显示
         $page = $users->render();
 
-        $rolesSrc = Db::name('role')->select();
+        $rolesSrc = RoleModel::select();
         $roles    = [];
         foreach ($rolesSrc as $r) {
             $roleId           = $r['id'];
@@ -106,7 +107,7 @@ class UserController extends AdminBaseController
             return $content;
         }
 
-        $roles = Db::name('role')->where('status', 1)->order("id DESC")->select();
+        $roles = RoleModel::where('status', 1)->order("id DESC")->select();
         $this->assign("roles", $roles);
         return $this->fetch();
     }
@@ -135,14 +136,14 @@ class UserController extends AdminBaseController
                     $this->error($result);
                 } else {
                     $data['user_pass'] = cmf_password($data['user_pass']);
-                    $userId            = DB::name('user')->strict(false)->insertGetId($data);
+                    $userId            = UserModel::strict(false)->insertGetId($data);
                     if ($userId !== false) {
                         //$role_user_model=M("RoleUser");
                         foreach ($roleIds as $roleId) {
                             if (cmf_get_current_admin_id() != 1 && $roleId == 1) {
                                 $this->error("为了网站的安全，非网站创建者不可创建超级管理员！");
                             }
-                            Db::name('RoleUser')->insert(["role_id" => $roleId, "user_id" => $userId]);
+                            RoleUserModel::insert(["role_id" => $roleId, "user_id" => $userId]);
                         }
                         $this->success("添加成功！", url("User/index"));
                     } else {
@@ -178,12 +179,12 @@ class UserController extends AdminBaseController
         }
 
         $id    = $this->request->param('id', 0, 'intval');
-        $roles = DB::name('role')->where('status', 1)->order("id DESC")->select();
+        $roles = RoleModel::where('status', 1)->order("id DESC")->select();
         $this->assign("roles", $roles);
-        $role_ids = DB::name('RoleUser')->where("user_id", $id)->column("role_id");
+        $role_ids = RoleUserModel::where("user_id", $id)->column("role_id");
         $this->assign("role_ids", $role_ids);
 
-        $user = DB::name('user')->where("id", $id)->find();
+        $user = UserModel::where("id", $id)->find();
         $this->assign($user);
         return $this->fetch();
     }
@@ -219,14 +220,14 @@ class UserController extends AdminBaseController
                     $this->error($result);
                 } else {
                     $userId = $this->request->param('id', 0, 'intval');
-                    $result = DB::name('user')->strict(false)->where('id', $userId)->update($data);
+                    $result = UserModel::strict(false)->where('id', $userId)->update($data);
                     if ($result !== false) {
-                        DB::name("RoleUser")->where("user_id", $userId)->delete();
+                        RoleUserModel::where("user_id", $userId)->delete();
                         foreach ($roleIds as $roleId) {
                             if (cmf_get_current_admin_id() != 1 && $roleId == 1) {
                                 $this->error("为了网站的安全，非网站创建者不可创建超级管理员！");
                             }
-                            DB::name("RoleUser")->insert(["role_id" => $roleId, "user_id" => $userId]);
+                            RoleUserModel::insert(["role_id" => $roleId, "user_id" => $userId]);
                         }
                         $this->success("保存成功！");
                     } else {
@@ -256,7 +257,7 @@ class UserController extends AdminBaseController
     public function userInfo()
     {
         $id   = cmf_get_current_admin_id();
-        $user = Db::name('user')->where("id", $id)->find();
+        $user = UserModel::where("id", $id)->find();
         $this->assign($user);
         return $this->fetch();
     }
@@ -281,7 +282,7 @@ class UserController extends AdminBaseController
             $data             = $this->request->post();
             $data['birthday'] = strtotime($data['birthday']);
             $data['id']       = cmf_get_current_admin_id();
-            $create_result    = Db::name('user')->update($data);;
+            $create_result    = UserModel::update($data);;
             if ($create_result !== false) {
                 $this->success("保存成功！");
             } else {
@@ -310,8 +311,8 @@ class UserController extends AdminBaseController
             $this->error("最高管理员不能删除！");
         }
 
-        if (Db::name('user')->delete($id) !== false) {
-            Db::name("RoleUser")->where("user_id", $id)->delete();
+        if (UserModel::delete($id) !== false) {
+            RoleUserModel::where("user_id", $id)->delete();
             $this->success("删除成功！");
         } else {
             $this->error("删除失败！");
@@ -335,7 +336,7 @@ class UserController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         if (!empty($id)) {
-            $result = Db::name('user')->where(["id" => $id, "user_type" => 1])->setField('user_status', '0');
+            $result = UserModel::where(["id" => $id, "user_type" => 1])->update(['user_status' => '0']);
             if ($result !== false) {
                 $this->success("管理员停用成功！", url("user/index"));
             } else {
@@ -363,7 +364,7 @@ class UserController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         if (!empty($id)) {
-            $result = Db::name('user')->where(["id" => $id, "user_type" => 1])->setField('user_status', '1');
+            $result = UserModel::where(["id" => $id, "user_type" => 1])->update(['user_status' => '1']);
             if ($result !== false) {
                 $this->success("管理员启用成功！", url("user/index"));
             } else {

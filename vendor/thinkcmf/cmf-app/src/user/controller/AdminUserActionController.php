@@ -12,8 +12,8 @@
 namespace app\user\controller;
 
 use app\user\logic\UserActionLogic;
+use app\user\model\UserActionModel;
 use cmf\controller\AdminBaseController;
-use think\Db;
 
 /**
  * Class AdminUserActionController
@@ -52,7 +52,7 @@ class AdminUserActionController extends AdminBaseController
             $keywordComplex['user_email']    = ['like', "%$keyword%"];
         }
 
-        $actions = Db::name('user_action')->paginate(20);
+        $actions = UserActionModel::paginate(20);
         // 获取分页显示
         $page = $actions->render();
         $this->assign('actions', $actions);
@@ -77,7 +77,7 @@ class AdminUserActionController extends AdminBaseController
     public function edit()
     {
         $id     = $this->request->param('id', 0, 'intval');
-        $action = Db::name('user_action')->where('id', $id)->find();
+        $action = UserActionModel::where('id', $id)->find();
         $this->assign($action);
 
         return $this->fetch();
@@ -102,7 +102,7 @@ class AdminUserActionController extends AdminBaseController
 
         $data = $this->request->param();
 
-        Db::name('user_action')->where('id', $id)
+        UserActionModel::where('id', $id)
             ->strict(false)
             ->field('score,coin,reward_number,cycle_type,cycle_time')
             ->update($data);

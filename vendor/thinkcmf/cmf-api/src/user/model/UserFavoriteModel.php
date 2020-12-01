@@ -16,6 +16,12 @@ use think\Model;
  */
 class UserFavoriteModel extends Model
 {
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'user_favorite';
+    
     // 开启自动写入时间戳字段
     protected $autoWriteTimestamp = true;
 
@@ -88,7 +94,7 @@ class UserFavoriteModel extends Model
     public function addFavorite($data)
     {
         //获取收藏内容信息
-        $Favorite =$this->allowField(true)->isUpdate(false)->data($data,true)->save();
+        $Favorite =$this->save($data);
         return $Favorite;
     }
 

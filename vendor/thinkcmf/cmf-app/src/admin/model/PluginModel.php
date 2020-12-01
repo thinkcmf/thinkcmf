@@ -11,7 +11,6 @@
 namespace app\admin\model;
 
 use think\Model;
-use think\Db;
 
 class PluginModel extends Model
 {
@@ -101,7 +100,7 @@ class PluginModel extends Model
 
         ];
 
-        $dbHooks = Db::name('hook')->column('hook');
+        $dbHooks = HookModel::column('hook');
 
         $returnHooks = array_unique(array_merge($systemHooks, $dbHooks));
 
@@ -119,32 +118,32 @@ class PluginModel extends Model
         }
         $class = cmf_get_plugin_class($findPlugin['name']);
 
-        Db::startTrans();
+        HookPluginModel::startTrans();
         try {
             $this->where('name', $findPlugin['name'])->delete();
-            Db::name('hook_plugin')->where('plugin', $findPlugin['name'])->delete();
+            HookPluginModel::here('plugin', $findPlugin['name'])->delete();
 
             if (class_exists($class)) {
                 $plugin = new $class;
 
                 $uninstallSuccess = $plugin->uninstall();
                 if (!$uninstallSuccess) {
-                    Db::rollback();
+                    HookPluginModel::rollback();
                     return -2;
                 }
             }
 
             // 删除后台菜单
-            Db::name('admin_menu')->where([
+            AdminMenuModel::where([
                 'app' => "plugin/{$findPlugin['name']}",
             ])->delete();
 
             // 删除权限规则
-            Db::name('auth_rule')->where('app', "plugin/{$findPlugin['name']}")->delete();
+            AuthRuleModel::where('app', "plugin/{$findPlugin['name']}")->delete();
 
-            Db::commit();
+            HookPluginModel::commit();
         } catch (\Exception $e) {
-            Db::rollback();
+            HookPluginModel::rollback();
             return false;
         }
 

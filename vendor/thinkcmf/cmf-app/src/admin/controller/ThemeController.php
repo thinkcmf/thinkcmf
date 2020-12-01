@@ -10,9 +10,9 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\model\ThemeFileModel;
 use cmf\controller\AdminBaseController;
 use app\admin\model\ThemeModel;
-use think\Db;
 use think\Validate;
 use tree\Tree;
 
@@ -107,7 +107,7 @@ class ThemeController extends AdminBaseController
         $themeModel = new ThemeModel();
         $themeModel->transaction(function () use ($theme, $themeModel) {
             $themeModel->where('theme', $theme)->delete();
-            Db::name('theme_file')->where('theme', $theme)->delete();
+            ThemeFileModel::where('theme', $theme)->delete();
         });
 
         $this->success("卸载成功", url("theme/index"));
@@ -227,7 +227,7 @@ class ThemeController extends AdminBaseController
     public function files()
     {
         $theme = $this->request->param('theme');
-        $files = Db::name('theme_file')->where('theme', $theme)->order('list_order ASC')->select()->toArray();
+        $files = ThemeFileModel::where('theme', $theme)->order('list_order ASC')->select();
         $this->assign('files', $files);
         return $this->fetch();
     }
@@ -252,15 +252,15 @@ class ThemeController extends AdminBaseController
         if (empty($fileId)) {
             $file  = $this->request->param('file');
             $theme = $this->request->param('theme');
-            $files = Db::name('theme_file')->where('theme', $theme)
+            $files = ThemeFileModel::where('theme', $theme)
                 ->where(function ($query) use ($file) {
                     $query->where('is_public', 1)->whereOr('file', $file);
                 })->order('list_order ASC')->select();
-            $file  = Db::name('theme_file')->where(['file' => $file, 'theme' => $theme])->find();
+            $file  = ThemeFileModel::where(['file' => $file, 'theme' => $theme])->find();
 
         } else {
-            $file  = Db::name('theme_file')->where('id', $fileId)->find();
-            $files = Db::name('theme_file')->where('theme', $file['theme'])
+            $file  = ThemeFileModel::where('id', $fileId)->find();
+            $files = ThemeFileModel::where('theme', $file['theme'])
                 ->where(function ($query) use ($fileId) {
                     $query->where('id', $fileId)->whereOr('is_public', 1);
                 })->order('list_order ASC')->select();
@@ -272,14 +272,9 @@ class ThemeController extends AdminBaseController
             $hasFile = true;
             $fileId  = $file['id'];
 
-            $file['config_more'] = json_decode($file['config_more'], true);
-            $file['more']        = json_decode($file['more'], true);
-
             $hasPublicVar = false;
             $hasWidget    = false;
             foreach ($files as $key => $mFile) {
-                $mFile['config_more'] = json_decode($mFile['config_more'], true);
-                $mFile['more']        = json_decode($mFile['more'], true);
                 if (!empty($mFile['is_public']) && !empty($mFile['more']['vars'])) {
                     $hasPublicVar = true;
                 }
@@ -328,9 +323,7 @@ class ThemeController extends AdminBaseController
         $varName             = $this->request->param('var');
         $widgetName          = $this->request->param('widget', '');
         $fileId              = $this->request->param('file_id', 0, 'intval');
-        $file                = Db::name('theme_file')->where('id', $fileId)->find();
-        $file['config_more'] = json_decode($file['config_more'], true);
-        $file['more']        = json_decode($file['more'], true);
+        $file                = ThemeFileModel::where('id', $fileId)->find();
         $oldMore             = $file['more'];
 
 
@@ -399,10 +392,8 @@ class ThemeController extends AdminBaseController
         $fileId     = $this->request->param('file_id', 0, 'intval');
         $itemIndex  = $this->request->param('item_index', '');
 
-        $file = Db::name('theme_file')->where('id', $fileId)->find();
+        $file = ThemeFileModel::where('id', $fileId)->find();
 
-        $file['config_more'] = json_decode($file['config_more'], true);
-        $file['more']        = json_decode($file['more'], true);
         $oldMore             = $file['more'];
 
         $items = [];
@@ -499,13 +490,13 @@ class ThemeController extends AdminBaseController
         $fileId     = $this->request->param('file_id', 0, 'intval');
         $itemIndex  = $this->request->param('item_index', '');
 
-        $file = Db::name('theme_file')->where('id', $fileId)->find();
+        $file = ThemeFileModel::where('id', $fileId)->find();
 
         if ($this->request->isPost()) {
 
             $post = $this->request->param();
 
-            $more = json_decode($file['more'], true);
+            $more = $file['more'];
 
             if ($tab == 'var') {
                 if (isset($more['vars'][$varName])) {
@@ -595,7 +586,7 @@ class ThemeController extends AdminBaseController
             }
 
             $more = json_encode($more);
-            Db::name('theme_file')->where('id', $fileId)->update(['more' => $more]);
+            ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
 
             $this->success("保存成功！", url('theme/fileArrayData', ['tab' => $tab, 'var' => $varName, 'file_id' => $fileId, 'widget' => $widgetName]));
 
@@ -628,9 +619,9 @@ class ThemeController extends AdminBaseController
             $this->error('未指定删除元素!');
         }
 
-        $file = Db::name('theme_file')->where('id', $fileId)->find();
+        $file = ThemeFileModel::where('id', $fileId)->find();
 
-        $more = json_decode($file['more'], true);
+        $more = $file['more'];
         if ($tab == 'var') {
             foreach ($more['vars'] as $mVarName => $mVar) {
 
@@ -666,7 +657,7 @@ class ThemeController extends AdminBaseController
         }
 
         $more = json_encode($more);
-        Db::name('theme_file')->where('id', $fileId)->update(['more' => $more]);
+        ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
 
         $this->success("删除成功！", url('theme/fileArrayData', ['tab' => $tab, 'var' => $varName, 'file_id' => $fileId, 'widget' => $widgetName]));
     }
@@ -690,8 +681,8 @@ class ThemeController extends AdminBaseController
             $files = $this->request->param('files/a');
             if (!empty($files) && is_array($files)) {
                 foreach ($files as $id => $post) {
-                    $file = Db::name('theme_file')->field('theme,more')->where('id', $id)->find();
-                    $more = json_decode($file['more'], true);
+                    $file = ThemeFileModel::field('theme,more')->where('id', $id)->find();
+                    $more = $file['more'];
                     if (isset($post['vars'])) {
                         $messages = [];
                         $rules    = [];
@@ -775,7 +766,7 @@ class ThemeController extends AdminBaseController
                     }
 
                     $more = json_encode($more);
-                    Db::name('theme_file')->where('id', $id)->update(['more' => $more]);
+                    ThemeFileModel::where('id', $id)->update(['more' => $more]);
                 }
             }
             $this->success("保存成功！", '');

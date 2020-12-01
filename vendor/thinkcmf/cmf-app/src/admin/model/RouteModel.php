@@ -99,25 +99,76 @@ class RouteModel extends Model
             if (empty($appUrls[$path]['pattern'])) {
                 $allRoutes[$url] = $fullUrl;
             } else {
-                $allRoutes[$url] = [$fullUrl, [], $appUrls[$path]['pattern']];
+                $allRoutes[$url] = [$fullUrl, [], $appUrls[$path]['pattern']];//[routeUrl,options,patterns]
             }
 
         }
         cache("routes", $cacheRoutes);
 
-        if (strpos(cmf_version(), '5.0.') === false) {
-            $routeDir = CMF_DATA . "route/"; // 5.1
+        if (strpos(cmf_version(), '5.') === 0) {
+            if (strpos(cmf_version(), '5.0.') === false) {
+                $routeDir = CMF_DATA . "route/"; // 5.1
+            } else {
+                $routeDir = CMF_DATA . "conf/"; // 5.0
+            }
+
+            $content = "<?php\treturn " . var_export($allRoutes, true) . ";";
+
         } else {
-            $routeDir = CMF_DATA . "conf/"; // 5.0
+            $routeDir = CMF_DATA . "route/";
+
+            $fileStrs = [
+                '<?php',
+                'use think\facade\Route;',
+                '',
+            ];
+            foreach ($allRoutes as $rule => $route) {
+
+                if (is_array($route)) {
+                    $routeUrl = $route[0];
+                    if (!empty($route[2])) {
+                        $pattern = stripslashes(var_export($route[2], true));
+                    }
+                } else {
+                    $routeUrl = $route;
+                }
+
+                $ruleName = $routeUrl;
+                $query    = [];
+                if (strpos($routeUrl, '?') > 0) {
+                    $routeUrlArr = parse_url($routeUrl);
+                    $routeUrl    = $routeUrlArr['path'];
+                    parse_str($routeUrlArr['query'], $query);
+                }
+
+                $routeCode = "Route::get('$rule', '$routeUrl')";
+                $routeCode .= "->name('$ruleName')";
+
+                if (!empty($query)) {
+                    $query     = var_export($query, true);
+                    $query     = str_replace(["\n", 'array (  '], ['', 'array('], $query);
+                    $routeCode .= "->append($query)";
+                }
+
+                if (!empty($pattern)) {
+                    $pattern   = str_replace(["\n", 'array (  '], ['', 'array('], $pattern);
+                    $routeCode .= "\n->pattern($pattern)";
+                }
+
+                $routeCode .= ";\n";
+
+                $fileStrs[] = $routeCode;
+            }
+
+            $content = join("\n", $fileStrs);
         }
 
         if (!file_exists($routeDir)) {
             mkdir($routeDir);
         }
 
-        $route_file = $routeDir . "route.php";
-
-        file_put_contents($route_file, "<?php\treturn " . var_export($allRoutes, true) . ";");
+        $routeFile = $routeDir . "route.php";
+        file_put_contents($routeFile, $content . "\n\n");
 
         return $cacheRoutes;
     }

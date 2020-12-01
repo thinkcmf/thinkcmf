@@ -8,7 +8,8 @@
 // +----------------------------------------------------------------------
 namespace api\user\controller;
 
-use think\Db;
+use api\user\model\UserModel;
+use think\facade\Db;
 use think\facade\Validate;
 use cmf\controller\RestBaseController;
 
@@ -60,7 +61,7 @@ class PublicController extends RestBaseController
             $this->error($errMsg);
         }
 
-        $findUserCount = Db::name("user")->where($findUserWhere)->count();
+        $findUserCount = UserModel::where($findUserWhere)->count();
 
         if ($findUserCount > 0) {
             $this->error("此账号已存在!");
@@ -71,7 +72,7 @@ class PublicController extends RestBaseController
         $user['user_type']   = 2;
         $user['user_pass']   = cmf_password($data['password']);
 
-        $result = Db::name("user")->insert($user);
+        $result = UserModel::insert($user);
 
 
         if (empty($result)) {
@@ -126,15 +127,15 @@ class PublicController extends RestBaseController
             $this->error($errMsg);
         }
 
-        $findUser = Db::name("user")->where($findUserWhere)->find();
+        $findUser = UserModel::where($findUserWhere)->select();
 
         if (empty($findUser)) {
             $user['create_time'] = time();
             $user['user_status'] = 1;
             $user['user_type']   = 2;
 
-            $userId   = Db::name("user")->insertGetId($user);
-            $findUser = Db::name("user")->where('id', $userId)->find();
+            $userId   = UserModel::insertGetId($user);
+            $findUser = UserModel::where('id', $userId)->find();
         } else {
             switch ($findUser['user_status']) {
                 case 0:
@@ -225,7 +226,7 @@ class PublicController extends RestBaseController
             $findUserWhere['user_login'] = $data['username'];
         }
 
-        $findUser = Db::name("user")->where($findUserWhere)->find();
+        $findUser = UserModel::where($findUserWhere)->find();
 
         if (empty($findUser)) {
             $this->error("用户不存在!");
@@ -347,7 +348,7 @@ class PublicController extends RestBaseController
         }
 
         $userPass = cmf_password($data['password']);
-        Db::name("user")->where($userWhere)->update(['user_pass' => $userPass]);
+        UserModel::where($userWhere)->update(['user_pass' => $userPass]);
 
         $this->success("密码重置成功,请使用新密码登录!");
 

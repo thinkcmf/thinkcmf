@@ -10,8 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\user\controller;
 
+use app\user\model\ThirdPartyUserModel;
 use cmf\controller\AdminBaseController;
-use think\Db;
 
 class AdminOauthController extends AdminBaseController
 {
@@ -37,7 +37,7 @@ class AdminOauthController extends AdminBaseController
             return $content;
         }
 
-        $lists = Db::name('third_party_user')->field('a.*,u.user_nickname,u.sex,u.avatar')
+        $lists = ThirdPartyUserModel::field('a.*,u.user_nickname,u.sex,u.avatar')
             ->alias('a')
             ->join('user u', 'a.user_id = u.id')
             ->where("status", 1)
@@ -71,7 +71,8 @@ class AdminOauthController extends AdminBaseController
         if (empty($id)) {
             $this->error('非法数据！');
         }
-        Db::name("third_party_user")->where("id", $id)->delete();
+
+        ThirdPartyUserModel::where("id", $id)->delete();
         $this->success("删除成功！", "admin_oauth/index");
     }
 

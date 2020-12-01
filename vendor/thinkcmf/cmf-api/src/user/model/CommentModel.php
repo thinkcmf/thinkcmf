@@ -22,6 +22,12 @@ use think\Model;
 class CommentModel extends Model
 {
 
+    /**
+     * 模型名称
+     * @var string
+     */
+    protected $name = 'comment';
+    
     //模型关联方法
     protected $relationFilter = ['user', 'to_user'];
 
