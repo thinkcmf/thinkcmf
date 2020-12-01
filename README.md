@@ -23,7 +23,7 @@ ThinkCMF 6.0.0内测版 让你更自由地飞
 - [x] URL 规则配置
 - [x] 网站安装功能
 - [ ] `View::share`（待定）
-- [ ] 删除`Db::name()`的使用
+- [x] 删除`Db::name()`的使用
 - [x] 单独维护`think-template`,`think-view`
 - [x] 单独维护`cmf-route`
 - [x] API

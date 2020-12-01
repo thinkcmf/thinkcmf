@@ -11,7 +11,7 @@
 
 namespace app\user\logic;
 
-use think\facade\Db;
+use app\user\model\UserActionModel;
 
 class UserActionLogic
 {
@@ -47,12 +47,12 @@ class UserActionLogic
                     $userAction['url'] = '';
                 }
 
-                $findUserAction = Db::name('user_action')->where('action', $userActionKey)->count();
+                $findUserAction = UserActionModel::where('action', $userActionKey)->count();
 
                 $userAction['app'] = $app;
 
                 if ($findUserAction > 0) {
-                    Db::name('user_action')->where('action', $userActionKey)
+                    UserActionModel::where('action', $userActionKey)
                         ->strict(false)->field(true)
                         ->update([
                             'name' => $userAction['name'],
@@ -60,7 +60,7 @@ class UserActionLogic
                         ]);
                 } else {
                     $userAction['action'] = $userActionKey;
-                    Db::name('user_action')->strict(false)
+                    UserActionModel::strict(false)
                         ->field(true)
                         ->insert($userAction);
                 }

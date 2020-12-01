@@ -12,7 +12,6 @@ namespace app\user\controller;
 
 use cmf\controller\UserBaseController;
 use app\user\model\UserFavoriteModel;
-use think\facade\Db;
 
 class FavoriteController extends UserBaseController
 {
@@ -62,7 +61,7 @@ class FavoriteController extends UserBaseController
         $table = $this->request->param('table');
 
 
-        $findFavoriteCount = Db::name("user_favorite")->where([
+        $findFavoriteCount = UserFavoriteModel::where([
             'object_id'  => $id,
             'table_name' => $table,
             'user_id'    => cmf_get_current_user_id()
@@ -78,7 +77,7 @@ class FavoriteController extends UserBaseController
         $url         = base64_decode($url);
         $description = $this->request->param('description', '', 'base64_decode');
         $description = empty($description) ? $title : $description;
-        Db::name("user_favorite")->insert([
+        UserFavoriteModel::insert([
             'user_id'     => cmf_get_current_user_id(),
             'title'       => $title,
             'description' => $description,

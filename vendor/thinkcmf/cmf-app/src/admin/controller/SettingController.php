@@ -11,9 +11,8 @@
 namespace app\admin\controller;
 
 use app\admin\model\RouteModel;
+use app\admin\model\UserModel;
 use cmf\controller\AdminBaseController;
-
-use think\facade\Db;
 
 /**
  * Class SettingController
@@ -194,7 +193,7 @@ class SettingController extends AdminBaseController
 
             $userId = cmf_get_current_admin_id();
 
-            $admin = Db::name('user')->where("id", $userId)->find();
+            $admin = UserModel::where("id", $userId)->find();
 
             $oldPassword = $data['old_password'];
             $password    = $data['password'];
@@ -206,7 +205,7 @@ class SettingController extends AdminBaseController
                     if (cmf_compare_password($password, $admin['user_pass'])) {
                         $this->error("新密码不能和原始密码相同！");
                     } else {
-                        Db::name('user')->where('id', $userId)->update(['user_pass' => cmf_password($password)]);
+                        UserModel::where('id', $userId)->update(['user_pass' => cmf_password($password)]);
                         $this->success("密码修改成功！");
                     }
                 } else {

@@ -547,7 +547,7 @@ function cmf_set_option($key, $data, $replace = false)
             }
         }
 
-        $option['option_value'] = json_encode($data,JSON_UNESCAPED_UNICODE);
+        $option['option_value'] = json_encode($data, JSON_UNESCAPED_UNICODE);
         OptionModel::where('option_name', $key)->update($option);
     } else {
         $option['option_name']  = $key;
@@ -2230,12 +2230,12 @@ function cmf_get_app_config_file($app, $file)
             $configFile = cmf_core_path() . "{$file}.php";
             break;
         case 'swoole':
-            $configFile = root_path() . "vendor/thinkcmf/cmf-swoole/src/{$file}.php";
+            $configFile = CMF_ROOT . "vendor/thinkcmf/cmf-swoole/src/{$file}.php";
             break;
         default:
             $configFile = APP_PATH . $app . "/{$file}.php";
             if (!file_exists($configFile)) {
-                $configFile = root_path() . "vendor/thinkcmf/cmf-app/src/{$app}/{$file}.php";
+                $configFile = CMF_ROOT . "vendor/thinkcmf/cmf-app/src/{$app}/{$file}.php";
             }
     }
 

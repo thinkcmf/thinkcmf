@@ -13,7 +13,6 @@ namespace app\admin\model;
 use think\Exception;
 use think\Model;
 use tree\Tree;
-use think\facade\Db;
 
 class NavMenuModel extends Model
 {
@@ -35,7 +34,7 @@ class NavMenuModel extends Model
     public function navMenusTreeArray($navId = 0, $maxLevel = 0)
     {
         if (empty($navId)) {
-            $navId = Db::name('nav')->where('is_main', 1)->value('id');
+            $navId = NavModel::where('is_main', 1)->value('id');
         }
         $navMenus     = $this->where('nav_id', $navId)->where('status', 1)->order('list_order ASC')->select()->toArray();
         $navMenusTree = [];

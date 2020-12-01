@@ -11,7 +11,7 @@
 
 namespace app\admin\logic;
 
-use think\facade\Db;
+use app\admin\model\HookModel;
 
 class HookLogic
 {
@@ -45,15 +45,15 @@ class HookLogic
                     $hook['type'] = 2;
                 }
 
-                $findHook = Db::name('hook')->where('hook', $hookName)->count();
+                $findHook = HookModel::where('hook', $hookName)->count();
 
                 $hook['app'] = $app;
 
                 if ($findHook > 0) {
-                    Db::name('hook')->where('hook', $hookName)->strict(false)->field(true)->update($hook);
+                    HookModel::where('hook', $hookName)->strict(false)->field(true)->update($hook);
                 } else {
                     $hook['hook'] = $hookName;
-                    Db::name('hook')->insert($hook);
+                    HookModel::insert($hook);
                 }
             }
         }

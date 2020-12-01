@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\user\controller;
 
-use think\facade\Db;
+use app\user\model\AssetModel;
 use cmf\controller\AdminBaseController;
 
 class AdminAssetController extends AdminBaseController
@@ -36,7 +36,7 @@ class AdminAssetController extends AdminBaseController
             return $content;
         }
 
-        $result = Db::name('asset')->field('a.*,u.user_login,u.user_email,u.user_nickname')
+        $result = AssetModel::field('a.*,u.user_login,u.user_email,u.user_nickname')
             ->alias('a')->join('user u', 'a.user_id = u.id')
             ->order('create_time', 'DESC')
             ->paginate(10);
@@ -61,14 +61,14 @@ class AdminAssetController extends AdminBaseController
     public function delete()
     {
         $id            = $this->request->param('id');
-        $file_filePath = Db::name('asset')->where('id', $id)->value('file_path');
+        $file_filePath = AssetModel::where('id', $id)->value('file_path');
         $file          = 'upload/' . $file_filePath;
         $res           = true;
         if (file_exists($file)) {
             $res = unlink($file);
         }
         if ($res) {
-            Db::name('asset')->where('id', $id)->delete();
+            AssetModel::where('id', $id)->delete();
             $this->success('删除成功');
         } else {
             $this->error('删除失败');

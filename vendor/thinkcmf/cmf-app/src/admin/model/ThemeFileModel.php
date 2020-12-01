@@ -6,27 +6,23 @@
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: Powerless < wzxaini9@gmail.com>,老猫 <thinkcmf@126.com>
+// | Author: 小夏 < 449134904@qq.com>
 // +----------------------------------------------------------------------
-namespace cmf\model;
+namespace app\admin\model;
 
 use think\Model;
 
-class OptionModel extends Model
+class ThemeFileModel extends Model
 {
     /**
      * 模型名称
      * @var string
      */
-    protected $name = 'option';
+    protected $name = 'theme_file';
 
-    /**
-     * 数据表字段类型
-     * @var array
-     */
     protected $type = [
-        'option_value' => 'array',
+        'more'        => 'array',
+        'config_more' => 'array',
+        'draft_more'  => 'array'
     ];
-
-
 }
