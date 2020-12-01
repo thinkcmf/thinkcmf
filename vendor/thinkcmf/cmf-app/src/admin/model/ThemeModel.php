@@ -54,7 +54,7 @@ class ThemeModel extends Model
 
             $this->updateThemeFiles($theme);
 
-            $this->where('theme' , $theme)->update($themeData);
+            $this->where('theme', $theme)->update($themeData);
             return true;
         } else {
             return false;
@@ -128,7 +128,7 @@ class ThemeModel extends Model
                     'list_order'  => $listOrder
                 ]);
             } else { // 更新文件
-                $moreInDb = json_decode($findFile['more'], true);
+                $moreInDb = $findFile['more'];
                 $more     = $this->updateThemeConfigMore($configMore, $moreInDb);
                 ThemeFileModel::where(['theme' => $theme, 'file' => $file])->update([
                     'theme'       => $theme,
