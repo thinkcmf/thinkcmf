@@ -21,6 +21,7 @@ ThinkCMF 6.0.0内测版 让你更自由地飞
 - [x] 应用钩子配置
 - [x] 用户操作配置
 - [x] URL 规则配置
+- [ ] 移动Model的逻辑方法到Service里
 - [x] 网站安装功能
 - [ ] `View::share`（待定）
 - [x] 删除`Db::name()`的使用
@@ -41,6 +42,7 @@ ThinkCMF 6.0.0内测版 让你更自由地飞
 - [ ] 应用单独配置目录
 - [x] 默认过滤器htmlspecialchars
 - [x] 文件上传
+
 
 
 
