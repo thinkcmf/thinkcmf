@@ -55,8 +55,6 @@ class HomeBaseController extends BaseController
             'view_base'          => $themePath . '/',
             'tpl_replace_string' => $viewReplaceStr
         ]);
-//        config('template.view_base', WEB_ROOT . "{$themePath}/");
-//        config('template.tpl_replace_string', $viewReplaceStr);
 
 //        $themeErrorTmpl = "{$themePath}/error.html";
 //        if (file_exists_case($themeErrorTmpl)) {

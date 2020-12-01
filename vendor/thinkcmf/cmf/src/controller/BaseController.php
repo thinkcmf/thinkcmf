@@ -71,7 +71,6 @@ class BaseController
 
         $this->view = new View($app);
         $this->_initializeView();
-//        $this->view = View::init(Config::get('template.'));
 
         // 控制器初始化
         $this->initialize();

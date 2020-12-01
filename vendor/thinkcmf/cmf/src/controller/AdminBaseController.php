@@ -70,8 +70,6 @@ class AdminBaseController extends BaseController
             'tpl_replace_string' => $viewReplaceStr
         ]);
 
-//        config('template.view_base', WEB_ROOT . "$themePath/");
-//        config('template.tpl_replace_string', $viewReplaceStr);
     }
 
     /**
