@@ -62,7 +62,7 @@ if (PHP_SAPI == 'cli') {
         if (file_exists($commandFile)) {
             $commands = include $commandFile;
             // 注册命令行指令
-            \think\Console::addDefaultCommands($commands);
+            \think\facade\Console::addCommands($commands);
         }
     }
 
@@ -74,7 +74,7 @@ if (PHP_SAPI == 'cli') {
         if (file_exists($commandFile)) {
             $commands = include $commandFile;
             // 注册命令行指令
-            \think\Console::addDefaultCommands($commands);
+            \think\facade\Console::addCommands($commands);
         }
     }
 }
@@ -151,13 +151,13 @@ function cmf_get_domain()
 function cmf_get_root()
 {
     $root = "";
-    $root = str_replace("//", '/', $root);
-    $root = str_replace('/index.php', '', $root);
-    if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
-        $root = preg_replace('/\/api(.php)$/', '', $root);
-    }
-
-    $root = rtrim($root, '/');
+//    $root = str_replace("//", '/', $root);
+//    $root = str_replace('/index.php', '', $root);
+//    if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
+//        $root = preg_replace('/\/api(.php)$/', '', $root);
+//    }
+//
+//    $root = rtrim($root, '/');
 
     return $root;
 }
@@ -306,7 +306,7 @@ function cmf_password($pw, $authCode = '')
  */
 function cmf_password_old($pw)
 {
-    $decor = md5(config('database.prefix'));
+    $decor = md5(config('database.connections.mysql.prefix'));
     $mi    = md5($pw);
     return substr($decor, 0, 12) . $mi . substr($decor, -4, 4);
 }
@@ -412,7 +412,7 @@ function cmf_clear_cache()
  */
 function cmf_save_var($path, $var)
 {
-    $result = file_put_contents($path, "<?php\treturn " . var_export($var, true) . ";?>");
+    $result = file_put_contents($path, "<?php\treturn " . var_export($var, true) . ";");
     return $result;
 }
 
@@ -699,11 +699,11 @@ function cmf_strip_chars($str, $chars = '?<*.>\'\"')
  * @param string $subject 邮件标题
  * @param string $message 邮件内容
  * @return array<br>
- *                        返回格式：<br>
- *                        array(<br>
- *                        "error"=>0|1,//0代表出错<br>
- *                        "message"=> "出错信息"<br>
- *                        );
+ *         返回格式：<br>
+ *         array(<br>
+ *         &nbsp;"error"=>0|1,//0代表出错<br>
+ *         &nbsp;"message"=> "出错信息"<br>
+ *         );
  * @throws phpmailerException
  */
 function cmf_send_email($address, $subject, $message)
@@ -1823,7 +1823,6 @@ function cmf_is_installed()
  */
 function cmf_replace_content_file_url($content, $isForDbSave = false)
 {
-    //import('phpQuery.phpQuery', EXTEND_PATH);
     \phpQuery::newDocumentHTML($content);
     $pq = pq(null);
 
