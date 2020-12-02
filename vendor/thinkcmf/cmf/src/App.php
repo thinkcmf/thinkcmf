@@ -178,6 +178,10 @@ class App extends Container
         $this->appPath     = $this->rootPath . $this->namespace . DIRECTORY_SEPARATOR;
         $this->runtimePath = $this->rootPath . 'data' . DIRECTORY_SEPARATOR . 'runtime' . DIRECTORY_SEPARATOR;
 
+        if (defined('RUNTIME_PATH')) {
+            $this->runtimePath = RUNTIME_PATH;
+        }
+        
         if (is_file($this->appPath . 'provider.php')) {
             $this->bind(include $this->appPath . 'provider.php');
         }
