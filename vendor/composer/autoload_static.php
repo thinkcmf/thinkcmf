@@ -230,6 +230,7 @@ class ComposerStaticInitd61b58c8781ebb98cf0216731fe95879
         'think\\App' => __DIR__ . '/..' . '/thinkcmf/cmf/src/App.php',
         'think\\Http' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/Http.php',
         'think\\Route' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/Route.php',
+        'think\\View' => __DIR__ . '/..' . '/thinkcmf/think-template/src/View.php',
         'think\\console\\command\\VendorPublish' => __DIR__ . '/..' . '/thinkcmf/cmf/src/console/command/VendorPublish.php',
         'think\\route\\Rule' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/route/Rule.php',
         'think\\route\\Url' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/route/Url.php',

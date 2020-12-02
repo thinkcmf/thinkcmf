@@ -62,7 +62,7 @@ if (PHP_SAPI == 'cli') {
         if (file_exists($commandFile)) {
             $commands = include $commandFile;
             // 注册命令行指令
-            \think\facade\Console::addCommands($commands);
+//            \think\facade\Console::addCommands($commands);
         }
     }
 
@@ -74,7 +74,7 @@ if (PHP_SAPI == 'cli') {
         if (file_exists($commandFile)) {
             $commands = include $commandFile;
             // 注册命令行指令
-            \think\facade\Console::addCommands($commands);
+//            \think\facade\Console::addCommands($commands);
         }
     }
 }

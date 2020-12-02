@@ -10,7 +10,6 @@ namespace api\user\controller;
 
 use api\user\model\UserModel;
 use cmf\controller\RestUserBaseController;
-use think\facade\Db;
 use think\Validate;
 
 class ProfileController extends RestUserBaseController
@@ -41,13 +40,13 @@ class ProfileController extends RestUserBaseController
         }
 
         $userId       = $this->getUserId();
-        $userPassword = Db::name("user")->where('id', $userId)->value('user_pass');
+        $userPassword = UserModel::where('id', $userId)->value('user_pass');
 
         if (!cmf_compare_password($data['old_password'], $userPassword)) {
             $this->error('旧密码不正确!');
         }
 
-        Db::name("user")->where('id', $userId)->update(['user_pass' => cmf_password($data['password'])]);
+        UserModel::where('id', $userId)->update(['user_pass' => cmf_password($data['password'])]);
 
         $this->success("密码修改成功!");
 
@@ -81,7 +80,7 @@ class ProfileController extends RestUserBaseController
         }
 
         $userId    = $this->getUserId();
-        $userEmail = Db::name("user")->where('id', $userId)->value('user_email');
+        $userEmail = UserModel::where('id', $userId)->value('user_email');
 
         if (!empty($userEmail)) {
             $this->error("您已经绑定邮箱!");
@@ -92,7 +91,7 @@ class ProfileController extends RestUserBaseController
             $this->error($errMsg);
         }
 
-        Db::name("user")->where('id', $userId)->update(['user_email' => $data['email']]);
+        UserModel::where('id', $userId)->update(['user_email' => $data['email']]);
 
         $this->success("绑定成功!");
     }
@@ -129,7 +128,7 @@ class ProfileController extends RestUserBaseController
 
 
         $userId = $this->getUserId();
-        $mobile = Db::name("user")->where('id', $userId)->value('mobile');
+        $mobile = UserModel::where('id', $userId)->value('mobile');
 
         if (!empty($mobile)) {
             $this->error("您已经绑定手机!");
@@ -140,7 +139,7 @@ class ProfileController extends RestUserBaseController
             $this->error($errMsg);
         }
 
-        Db::name("user")->where('id', $userId)->update(['mobile' => $data['mobile']]);
+        UserModel::where('id', $userId)->update(['mobile' => $data['mobile']]);
 
         $this->success("绑定成功!");
     }
