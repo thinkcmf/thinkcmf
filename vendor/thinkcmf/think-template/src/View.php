@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare (strict_types=1);
 
 namespace think;
 
@@ -55,8 +55,8 @@ class View extends Manager
     /**
      * 模板变量静态赋值
      * @access public
-     * @param  mixed $name  变量名
-     * @param  mixed $value 变量值
+     * @param mixed $name  变量名
+     * @param mixed $value 变量值
      * @return $this
      */
     public function share($name, $value = '')
@@ -122,7 +122,7 @@ class View extends Manager
     public function fetch(string $template = '', array $vars = []): string
     {
         return $this->getContent(function () use ($vars, $template) {
-            $this->engine()->fetch($template, array_merge($this->data, $vars));
+            $this->engine()->fetch($template, array_merge(self::$var, $this->data, $vars));
         });
     }
 
@@ -136,7 +136,7 @@ class View extends Manager
     public function display(string $content, array $vars = []): string
     {
         return $this->getContent(function () use ($vars, $content) {
-            $this->engine()->display($content, array_merge($this->data, $vars));
+            $this->engine()->display($content, array_merge(self::$var, $this->data, $vars));
         });
     }
 
