@@ -14,7 +14,7 @@
 - [x] 后台加密码
 - [x] 插件功能
 - [x] 插件钩子功能
-- [ ] 补齐相关钩子(app_begin、response_send、response_end、action_begin、module_init和view_filter)（待定）
+- [x] 补齐相关钩子(action_begin、module_init)
 - [x] 迁移behavior到listener
 - [x] 应用导航共享
 - [x] 应用后台菜单注解
@@ -44,6 +44,11 @@
 - [ ] 总结数据库和模型统一使用规范
 - [ ] 移动Model的逻辑方法到Service里
 
+### 废弃功能
+* 钩子app_begin（使用module_init）
+* 钩子response_send
+* 钩子response_end（使用http_end）
+* 钩子view_filter
 
 
 
