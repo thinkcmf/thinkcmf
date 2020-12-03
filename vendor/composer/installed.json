@@ -968,7 +968,8 @@
             ],
             "classmap": [
                 "src/App.php",
-                "src/console/command/VendorPublish.php"
+                "src/console/command/VendorPublish.php",
+                "src/captcha/Captcha.php"
             ]
         },
         "notification-url": "https://packagist.org/downloads/",
