@@ -62,10 +62,10 @@ class RestBaseController
      */
     public function __construct(App $app = null)
     {
-        $this->app     = $app ?: Container::get('app');
-        $this->request = $this->app['request'];
+        $this->app     = $app ?: app();
+        $this->request = $this->app->request;
 
-        $this->request->root(cmf_get_root() . '/');
+//        $this->request->root(cmf_get_root() . '/');
 
         $this->apiVersion = $this->request->header('XX-Api-Version');
 

@@ -15,6 +15,7 @@ class IndexController extends RestBaseController
 {
     public function index()
     {
-        $this->success('请求成功!', ['test'=>'test']);
+        $data = $this->request->param();
+        $this->success('请求成功!', ['test' => 'test', 'data' => $data]);
     }
 }
