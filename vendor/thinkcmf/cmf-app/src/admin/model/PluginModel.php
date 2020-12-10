@@ -121,7 +121,7 @@ class PluginModel extends Model
         HookPluginModel::startTrans();
         try {
             $this->where('name', $findPlugin['name'])->delete();
-            HookPluginModel::here('plugin', $findPlugin['name'])->delete();
+            HookPluginModel::where('plugin', $findPlugin['name'])->delete();
 
             if (class_exists($class)) {
                 $plugin = new $class;
