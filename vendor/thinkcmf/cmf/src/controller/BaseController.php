@@ -169,7 +169,13 @@ class BaseController
             $v->batch(true);
         }
 
-        return $v->failException(true)->check($data);
+        $result = $v->failException(false)->check($data);
+
+        if (!$result) {
+            $result = $v->getError();
+        }
+
+        return $result;
     }
 
     /**
