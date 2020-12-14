@@ -15,6 +15,7 @@ use cmf\controller\AdminBaseController;
 use app\admin\model\PluginModel;
 use app\admin\model\HookPluginModel;
 use mindplay\annotations\Annotations;
+use think\db\Where;
 use think\facade\Cache;
 use think\Validate;
 
@@ -91,11 +92,11 @@ class PluginController extends AdminBaseController
         $pluginModel->startTrans();
 
         try {
-            $pluginModel->save(['status' => $status], ['id' => $id]);
+            $pluginModel->save(['status' => $status]);
 
             $hookPluginModel = new HookPluginModel();
 
-            $hookPluginModel->save(['status' => $status], ['plugin' => $pluginModel->name]);
+            $hookPluginModel->where(['plugin' => $pluginModel->name])->update(['status' => $status]);
 
             $pluginModel->commit();
 
@@ -254,8 +255,8 @@ class PluginController extends AdminBaseController
                 $this->error($validate->getError());
             }
 
-            $pluginModel = new PluginModel();
-            $pluginModel->save(['config' => json_encode($config)], ['id' => $id]);
+            $pluginModel = PluginModel::Where('id', $id)->find();
+            $pluginModel->save(['config' => json_encode($config)]);
             $this->success('保存成功', '');
         }
     }
