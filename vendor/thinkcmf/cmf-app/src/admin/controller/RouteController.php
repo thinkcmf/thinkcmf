@@ -173,7 +173,7 @@ class RouteController extends AdminBaseController
         $data['id']     = $id;
         $routeModel     = new RouteModel();
 
-        $routeModel->isUpdate(true)->save($data);
+        $routeModel->save($data);
         $this->success("禁用成功！");
     }
 
@@ -198,7 +198,7 @@ class RouteController extends AdminBaseController
         $data['id']     = $id;
         $routeModel     = new RouteModel();
 
-        $routeModel->isUpdate(true)->save($data);
+        $routeModel->save($data);
         $this->success("启用成功！");
     }
 

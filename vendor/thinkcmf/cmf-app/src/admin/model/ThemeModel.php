@@ -38,7 +38,7 @@ class ThemeModel extends Model
 
             $this->updateThemeFiles($theme);
 
-            $this->data($themeData)->save();
+            $this->save($themeData);
             return true;
         } else {
             return false;

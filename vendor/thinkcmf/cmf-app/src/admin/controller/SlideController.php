@@ -156,9 +156,8 @@ class SlideController extends AdminBaseController
     public function delete()
     {
         $id             = $this->request->param('id', 0, 'intval');
-        $slidePostModel = new SlideModel();
-        $result         = $slidePostModel->where('id', $id)->find();
-        if (empty($result)) {
+        $slidePostModel = SlideModel::where('id', $id)->find();
+        if (empty($slidePostModel)) {
             $this->error('幻灯片不存在!');
         }
 
@@ -175,10 +174,10 @@ class SlideController extends AdminBaseController
             'name'        => $result['name']
         ];
 
-        $resultSlide = $slidePostModel->save(['delete_time' => time()], ['id' => $id]);
+        $resultSlide = $slidePostModel->save(['delete_time' => time()]);
         if ($resultSlide) {
             RecycleBinModel::insert($data);
         }
-        $this->success("删除成功！", url("slide/index"));
+        $this->success("删除成功！", url("Slide/index"));
     }
 }

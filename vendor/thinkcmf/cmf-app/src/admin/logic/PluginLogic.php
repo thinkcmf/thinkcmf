@@ -72,7 +72,7 @@ class PluginLogic
 
         foreach ($pluginHooks as $pluginHook) {
             $hookPluginModel = new HookPluginModel();
-            $hookPluginModel->data(['hook' => $pluginHook, 'plugin' => $pluginName, 'status' => 1])->save();
+            $hookPluginModel->save(['hook' => $pluginHook, 'plugin' => $pluginName, 'status' => 1]);
         }
 
         self::getActions($pluginName);
@@ -147,7 +147,7 @@ class PluginLogic
         }
 
         foreach ($newHooks as $pluginHook) {
-            $hookPluginModel->data(['hook' => $pluginHook, 'plugin' => $pluginName])->isUpdate(false)->save();
+            $hookPluginModel->save(['hook' => $pluginHook, 'plugin' => $pluginName]);
         }
 
         self::getActions($pluginName);
