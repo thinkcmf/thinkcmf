@@ -100,7 +100,7 @@ class RouteController extends AdminBaseController
     public function edit()
     {
         $id    = $this->request->param("id", 0, 'intval');
-        $route = RouteModel::where('id', $id)->find();
+        $route = RouteModel::where('id', $id)->find()->toArray();
         $this->assign($route);
         return $this->fetch();
     }
