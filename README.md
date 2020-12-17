@@ -24,7 +24,7 @@ ThinkCMF 6.0.0内测版 让你更自由地飞
 - [x] 插件和应用的command功能
 - [x] 网站安装功能
 - [x] `View::share`
-- [x] 删除`Db::name()`的使用
+- [x] 规范所有`Db::name()`为Model调用
 - [x] 单独维护`think-template`,`think-view`
 - [x] 单独维护`cmf-route`
 - [x] API
