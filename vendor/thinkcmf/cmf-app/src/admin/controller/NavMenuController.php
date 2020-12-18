@@ -147,6 +147,8 @@ class NavMenuController extends AdminBaseController
             $arrData['href'] = base64_decode($arrData['href']);
         }
 
+        unset($arrData['external_href']);
+
         $navMenuModel->save($arrData);
 
         $this->success(lang("EDIT_SUCCESS"), url("NavMenu/index", ['nav_id' => $arrData['nav_id']]));
