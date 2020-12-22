@@ -117,7 +117,7 @@ class PluginBaseController extends BaseController
 
         if (0 !== strpos($template, '/')) {
             $template   = str_replace(['/', ':'], $depr, $template);
-            $controller = Loader::parseName($controller);
+            $controller = cmf_parse_name($controller);
             if ($controller) {
                 if ('' == $template) {
                     // 如果模板文件名为空 按照默认规则定位
