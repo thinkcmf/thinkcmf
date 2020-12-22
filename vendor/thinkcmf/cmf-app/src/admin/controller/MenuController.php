@@ -330,7 +330,7 @@ class MenuController extends AdminBaseController
         if ($count > 0) {
             $this->error("该菜单下还有子菜单，无法删除！");
         }
-        if (AdminMenuModel::delete($id) !== false) {
+        if (AdminMenuModel::destroy($id) !== false) {
             $this->success("删除菜单成功！");
         } else {
             $this->error("删除失败！");
