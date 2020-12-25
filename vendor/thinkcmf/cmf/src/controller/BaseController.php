@@ -215,8 +215,18 @@ class BaseController
      */
     protected function success($msg = '', $url = null, $data = '', $wait = 3, array $header = [])
     {
-        if (is_null($url) && isset($_SERVER["HTTP_REFERER"])) {
-            $url = $_SERVER["HTTP_REFERER"];
+        $type = $this->getResponseType();
+        if (is_null($url)) {
+            if (isset($_SERVER["HTTP_REFERER"])) {
+                $url = $_SERVER["HTTP_REFERER"];
+            } else {
+                if ($type == 'html') {
+                    $url = 'javascript:history.back(-1);';
+                } else {
+                    $url = '';
+                }
+            }
+
         } elseif ('' !== $url) {
             $url = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : url($url);
         }
@@ -229,13 +239,17 @@ class BaseController
             'wait' => $wait,
         ];
 
-        $type = $this->getResponseType();
+
         // 把跳转模板的渲染下沉，这样在 response_send 行为里通过getData()获得的数据是一致性的格式
         if ('html' == strtolower($type)) {
             $type = 'view';
         }
 
-        $response = Response::create($result, $type)->header($header)->options(['jump_template' => $this->app['config']->get('dispatch_success_tmpl')]);
+        if ($type == 'view') {
+            $response = Response::create($this->app->config->get('app.dispatch_success_tmpl'), $type)->assign($result)->header($header);
+        } else {
+            $response = Response::create($result, $type)->header($header);
+        }
 
         throw new HttpResponseException($response);
     }
@@ -254,7 +268,7 @@ class BaseController
     {
         $type = $this->getResponseType();
         if (is_null($url)) {
-            $url = $this->app['request']->isAjax() ? '' : 'javascript:history.back(-1);';
+            $url = $this->request->isAjax() ? '' : 'javascript:history.back(-1);';
         } elseif ('' !== $url) {
             $url = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : url($url);
         }
@@ -271,7 +285,11 @@ class BaseController
             $type = 'view';
         }
 
-        $response = Response::create($result, $type)->header($header)->options(['jump_template' => $this->app['config']->get('dispatch_error_tmpl')]);
+        if ($type == 'view') {
+            $response = Response::create($this->app->config->get('app.dispatch_error_tmpl'), $type)->assign($result)->header($header);
+        } else {
+            $response = Response::create($result, $type)->header($header);
+        }
 
         throw new HttpResponseException($response);
     }
