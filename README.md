@@ -37,6 +37,7 @@ ThinkCMF 6.0.0内测版 让你更自由地飞
 - [x] 默认过滤器htmlspecialchars
 - [x] 文件上传
 - [x] 验证码优化
+- [x] Swagger规范
 
 ### 待测试功能
 - [x] 所有基类控制器方法测试
