@@ -36,7 +36,8 @@
         "topthink/think-orm": "^2.0",
         "topthink/think-captcha": "^3.0",
         "thinkcmf/cmf-install": "6.0.x-dev",
-        "thinkcmf/cmf-api": "6.0.x-dev"
+        "thinkcmf/cmf-api": "6.0.x-dev",
+        "zircote/swagger-php": "^3.1"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",

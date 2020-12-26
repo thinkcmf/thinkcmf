@@ -22,6 +22,21 @@ class SlidesController extends RestBaseController
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
+     * @OA\Get(
+     *     tags={"home"},
+     *     path="/home/slides/{id}",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="query",
+     *         description="slide item id",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\Response(response="200", description="An example resource"),
+     *     @OA\Response(response="default", description="An example resource")
+     * )
      */
     public function read()
     {
