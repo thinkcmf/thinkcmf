@@ -673,11 +673,11 @@ function cmf_strip_chars($str, $chars = '?<*.>\'\"')
  * @param string $subject 邮件标题
  * @param string $message 邮件内容
  * @return array<br>
- *         返回格式：<br>
- *         array(<br>
- *         &nbsp;"error"=>0|1,//0代表出错<br>
- *         &nbsp;"message"=> "出错信息"<br>
- *         );
+ *                        返回格式：<br>
+ *                        array(<br>
+ *                        &nbsp;"error"=>0|1,//0代表出错<br>
+ *                        &nbsp;"message"=> "出错信息"<br>
+ *                        );
  * @throws phpmailerException
  */
 function cmf_send_email($address, $subject, $message)
@@ -936,7 +936,7 @@ function cmf_asset_relative_url($assetUrl)
 function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, $expire = 0)
 {
     $request = request();
-    $action  = $request->module() . "/" . $request->controller() . "/" . $request->action();
+    $action  = app()->http->getName() . "/" . $request->controller() . "/" . $request->action();
 
     if (is_array($object)) {
         $userId = $object['user_id'];
@@ -976,7 +976,8 @@ function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, 
             "action"          => $action,
             "object"          => $object,
             "count"           => Db::raw("count+1"),
-            "last_visit_time" => $time, "ip" => $ip
+            "last_visit_time" => $time,
+            "ip"              => $ip
         ]);
     }
 
