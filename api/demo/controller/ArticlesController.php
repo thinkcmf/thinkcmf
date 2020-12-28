@@ -31,8 +31,22 @@ class ArticlesController extends RestBaseController
      *             type="string",
      *         )
      *     ),
-     *     @OA\Response(response="200", description="An example resource"),
-     *     @OA\Response(response="default", description="An example resource")
+     *     @OA\Response(
+     *         response="200",
+     *         description="success",
+     *         @OA\JsonContent(
+     *             example={
+     *                 "id": "a3fb6",
+     *                 "name": "sss"
+     *             },
+     *             ref="#/components/schemas/DemoArticlesIndexResponse"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="default",
+     *         description="error operation",
+     *         @OA\JsonContent(ref="#/components/schemas/ErrorResponse")
+     *     ),
      * )
      */
     public function index()
@@ -98,8 +112,16 @@ class ArticlesController extends RestBaseController
      *             type="string",
      *         )
      *     ),
-     *     @OA\Response(response="200", description="An example resource"),
-     *     @OA\Response(response="default", description="An example resource")
+     *     @OA\Response(
+     *         response="200",
+     *         description="success",
+     *         @OA\JsonContent(ref="#/components/schemas/SuccessResponse")
+     *     ),
+     *     @OA\Response(
+     *         response="default",
+     *         description="error operation",
+     *         @OA\JsonContent(ref="#/components/schemas/ErrorResponse")
+     *     ),
      * )
      */
     public function update($id)
@@ -119,8 +141,16 @@ class ArticlesController extends RestBaseController
      *             type="string",
      *         )
      *     ),
-     *     @OA\Response(response="200", description="An example resource"),
-     *     @OA\Response(response="default", description="An example resource")
+     *     @OA\Response(
+     *         response="200",
+     *         description="success",
+     *         @OA\JsonContent(ref="#/components/schemas/SuccessResponse")
+     *     ),
+     *     @OA\Response(
+     *         response="default",
+     *         description="error operation",
+     *         @OA\JsonContent(ref="#/components/schemas/ErrorResponse")
+     *     ),
      * )
      */
     public function delete($id)

@@ -26,17 +26,17 @@ class SwaggerController
 
     public function config()
     {
-        $api    = \OpenApi\scan(CMF_ROOT . 'api');
-        $apiArr = json_decode($api->toJson(), true);
-        //$openapi = \OpenApi\scan(CMF_ROOT . 'vendor/zircote/swagger-php/Examples/petstore-3.0');
-
+//        $openapi = \OpenApi\scan(CMF_ROOT . 'vendor/zircote/swagger-php/Examples/petstore-3.0');
+//
+//        echo $openapi->toJson();exit;
 //        $openapi = \OpenApi\scan(CMF_ROOT . 'vendor/zircote/swagger-php/Examples/petstore.swagger.io');
         header('Content-Type: application/json');
-        $cmfApi    = \OpenApi\scan(CMF_ROOT . 'vendor/thinkcmf/cmf-api');
-        $cmfApiArr = json_decode($cmfApi->toJson(), true);
-        $apiArr    = array_replace_recursive($cmfApiArr, $apiArr);
+        $api    = \OpenApi\scan([
+            CMF_ROOT . 'api',
+            CMF_ROOT . 'vendor/thinkcmf/cmf-api'
+        ]);
 
-        echo json_encode($apiArr);
+        echo $api->toJson();
         exit;
     }
 }

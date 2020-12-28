@@ -2,6 +2,8 @@
 
 namespace api\demo\swagger\request;
 
+use OpenApi\Annotations as OA;
+
 /**
  * @OA\Schema(@OA\Xml(name="DemoArticlesSave"))
  */
