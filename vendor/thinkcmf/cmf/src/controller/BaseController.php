@@ -183,24 +183,28 @@ class BaseController
      */
     protected function listOrders($model)
     {
-        $modelName = '';
-        if (is_object($model)) {
-            $modelName = $model->getName();
-        } else {
-            $modelName = $model;
-        }
-
-        $pk  = Db::name($modelName)->getPk(); //获取主键名称
-        $ids = $this->request->post("list_orders/a");
-
-        if (!empty($ids)) {
-            foreach ($ids as $key => $r) {
-                $data['list_order'] = $r;
-                Db::name($modelName)->where($pk, $key)->update($data);
+        if ($this->request->isPost()) {
+            $modelName = '';
+            if (is_object($model)) {
+                $modelName = $model->getName();
+            } else {
+                $modelName = $model;
             }
+
+            $pk  = Db::name($modelName)->getPk(); //获取主键名称
+            $ids = $this->request->post("list_orders/a");
+
+            if (!empty($ids)) {
+                foreach ($ids as $key => $r) {
+                    $data['list_order'] = $r;
+                    Db::name($modelName)->where($pk, $key)->update($data);
+                }
+            }
+            return true;
+        } else {
+            return false;
         }
 
-        return true;
     }
 
     /**
