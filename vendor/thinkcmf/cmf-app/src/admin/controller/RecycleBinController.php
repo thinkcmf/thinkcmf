@@ -64,12 +64,14 @@ class RecycleBinController extends AdminBaseController
      */
     public function restore()
     {
-        $ids = $this->request->param('ids');
-        if (empty($ids)) {
-            $ids = $this->request->param('id');
+        if ($this->request->isPost()) {
+            $ids = $this->request->param('ids');
+            if (empty($ids)) {
+                $ids = $this->request->param('id');
+            }
+            $this->operate($ids, false);
+            $this->success('还原成功');
         }
-        $this->operate($ids, false);
-        $this->success('还原成功');
     }
 
     /**
@@ -87,12 +89,14 @@ class RecycleBinController extends AdminBaseController
      */
     public function delete()
     {
-        $ids = $this->request->param('ids');
-        if (empty($ids)) {
-            $ids = $this->request->param('id');
+        if ($this->request->isPost()) {
+            $ids = $this->request->param('ids');
+            if (empty($ids)) {
+                $ids = $this->request->param('id');
+            }
+            $this->operate($ids);
+            $this->success('删除成功');
         }
-        $this->operate($ids);
-        $this->success('删除成功');
     }
 
     /**
@@ -110,8 +114,10 @@ class RecycleBinController extends AdminBaseController
      */
     public function clear()
     {
-        $this->operate(null);
-        $this->success('回收站已清空');
+        if ($this->request->isPost()) {
+            $this->operate(null);
+            $this->success('回收站已清空');
+        }
     }
 
     /**

@@ -82,18 +82,19 @@ class NavController extends AdminBaseController
      */
     public function addPost()
     {
+        if ($this->request->isPost()) {
+            $navModel = new NavModel();
+            $arrData  = $this->request->post();
 
-        $navModel = new NavModel();
-        $arrData  = $this->request->post();
+            if (empty($arrData["is_main"])) {
+                $arrData["is_main"] = 0;
+            } else {
+                $navModel->where("is_main", 1)->update(["is_main" => 0]);
+            }
 
-        if (empty($arrData["is_main"])) {
-            $arrData["is_main"] = 0;
-        } else {
-            $navModel->where("is_main", 1)->update(["is_main" => 0]);
+            $navModel->insert($arrData);
+            $this->success(lang("EDIT_SUCCESS"), url("Nav/index"));
         }
-
-        $navModel->insert($arrData);
-        $this->success(lang("EDIT_SUCCESS"), url("nav/index"));
 
     }
 
@@ -138,19 +139,19 @@ class NavController extends AdminBaseController
      */
     public function editPost()
     {
+        if ($this->request->isPost()) {
+            $navModel = new NavModel();
+            $arrData  = $this->request->post();
 
-        $navModel = new NavModel();
-        $arrData  = $this->request->post();
+            if (empty($arrData["is_main"])) {
+                $arrData["is_main"] = 0;
+            } else {
+                $navModel->where("is_main", 1)->update(["is_main" => 0]);
+            }
 
-        if (empty($arrData["is_main"])) {
-            $arrData["is_main"] = 0;
-        } else {
-            $navModel->where("is_main", 1)->update(["is_main" => 0]);
+            $navModel->where("id", intval($arrData["id"]))->update($arrData);
+            $this->success(lang("EDIT_SUCCESS"), url("nav/index"));
         }
-
-        $navModel->where("id", intval($arrData["id"]))->update($arrData);
-        $this->success(lang("EDIT_SUCCESS"), url("nav/index"));
-
     }
 
     /**
@@ -168,15 +169,17 @@ class NavController extends AdminBaseController
      */
     public function delete()
     {
-        $navModel = new NavModel();
-        $intId    = $this->request->param("id", 0, "intval");
+        if ($this->request->isPost()) {
+            $navModel = new NavModel();
+            $intId    = $this->request->param("id", 0, "intval");
 
-        if (empty($intId)) {
-            $this->error(lang("NO_ID"));
+            if (empty($intId)) {
+                $this->error(lang("NO_ID"));
+            }
+
+            $navModel->where("id", $intId)->delete();
+            $this->success(lang("DELETE_SUCCESS"), url("Nav/index"));
         }
-
-        $navModel->where("id", $intId)->delete();
-        $this->success(lang("DELETE_SUCCESS"), url("nav/index"));
 
     }
 

@@ -17,6 +17,9 @@ class VerificationCodeController extends HomeBaseController
 {
     public function send()
     {
+        if (!$this->request->isPost()) {
+            $this->error('非法请求！');
+        }
         $validate = new \think\Validate([
             'username' => 'require',
             'captcha'  => 'require',

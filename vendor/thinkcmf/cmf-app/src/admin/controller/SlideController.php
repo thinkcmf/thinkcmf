@@ -82,15 +82,17 @@ class SlideController extends AdminBaseController
      */
     public function addPost()
     {
-        $data           = $this->request->param();
-        $slidePostModel = new SlideModel();
-        $result         = $this->validate($data, 'Slide');
-        if ($result !== true) {
-            $this->error($result);
-        }
-        $slidePostModel->save($data);
+        if ($this->request->isPost()) {
+            $data           = $this->request->param();
+            $slidePostModel = new SlideModel();
+            $result         = $this->validate($data, 'Slide');
+            if ($result !== true) {
+                $this->error($result);
+            }
+            $slidePostModel->save($data);
 
-        $this->success("添加成功！", url("slide/index"));
+            $this->success("添加成功！", url("Slide/index"));
+        }
     }
 
     /**
@@ -130,14 +132,16 @@ class SlideController extends AdminBaseController
      */
     public function editPost()
     {
-        $data   = $this->request->param();
-        $result = $this->validate($data, 'Slide');
-        if ($result !== true) {
-            $this->error($result);
+        if ($this->request->isPost()) {
+            $data   = $this->request->param();
+            $result = $this->validate($data, 'Slide');
+            if ($result !== true) {
+                $this->error($result);
+            }
+            $slidePostModel = SlideModel::find($data['id']);
+            $slidePostModel->save($data);
+            $this->success("保存成功！", url("Slide/index"));
         }
-        $slidePostModel = SlideModel::find($data['id']);
-        $slidePostModel->save($data);
-        $this->success("保存成功！", url("slide/index"));
     }
 
     /**
@@ -155,29 +159,31 @@ class SlideController extends AdminBaseController
      */
     public function delete()
     {
-        $id             = $this->request->param('id', 0, 'intval');
-        $slidePostModel = SlideModel::where('id', $id)->find();
-        if (empty($slidePostModel)) {
-            $this->error('幻灯片不存在!');
-        }
+        if ($this->request->isPost()) {
+            $id             = $this->request->param('id', 0, 'intval');
+            $slidePostModel = SlideModel::where('id', $id)->find();
+            if (empty($slidePostModel)) {
+                $this->error('幻灯片不存在!');
+            }
 
-        //如果存在页面。则不能删除。
-        $slidePostCount = SlideItemModel::where('slide_id', $id)->count();
-        if ($slidePostCount > 0) {
-            $this->error('此幻灯片有页面无法删除!');
-        }
+            //如果存在页面。则不能删除。
+            $slidePostCount = SlideItemModel::where('slide_id', $id)->count();
+            if ($slidePostCount > 0) {
+                $this->error('此幻灯片有页面无法删除!');
+            }
 
-        $data = [
-            'object_id'   => $id,
-            'create_time' => time(),
-            'table_name'  => 'slide',
-            'name'        => $result['name']
-        ];
+            $data = [
+                'object_id'   => $id,
+                'create_time' => time(),
+                'table_name'  => 'slide',
+                'name'        => $result['name']
+            ];
 
-        $resultSlide = $slidePostModel->save(['delete_time' => time()]);
-        if ($resultSlide) {
-            RecycleBinModel::insert($data);
+            $resultSlide = $slidePostModel->save(['delete_time' => time()]);
+            if ($resultSlide) {
+                RecycleBinModel::insert($data);
+            }
+            $this->success("删除成功！", url("Slide/index"));
         }
-        $this->success("删除成功！", url("Slide/index"));
     }
 }

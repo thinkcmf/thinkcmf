@@ -35,13 +35,15 @@ class FavoriteController extends UserBaseController
      */
     public function delete()
     {
-        $id                = $this->request->param("id", 0, "intval");
-        $userFavoriteModel = new UserFavoriteModel();
-        $data              = $userFavoriteModel->deleteFavorite($id);
-        if ($data) {
-            $this->success("取消收藏成功！");
-        } else {
-            $this->error("取消收藏失败！");
+        if ($this->request->isPost()) {
+            $id                = $this->request->param("id", 0, "intval");
+            $userFavoriteModel = new UserFavoriteModel();
+            $data              = $userFavoriteModel->deleteFavorite($id);
+            if ($data) {
+                $this->success("取消收藏成功！");
+            } else {
+                $this->error("取消收藏失败！");
+            }
         }
     }
 
@@ -50,6 +52,9 @@ class FavoriteController extends UserBaseController
      */
     public function add()
     {
+        if (!$this->request->isPost()) {
+            $this->error('非法请求！');
+        }
         $data   = $this->request->param();
         $result = $this->validate($data, 'Favorite');
 

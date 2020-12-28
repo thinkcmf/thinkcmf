@@ -60,18 +60,20 @@ class AdminAssetController extends AdminBaseController
      */
     public function delete()
     {
-        $id            = $this->request->param('id');
-        $file_filePath = AssetModel::where('id', $id)->value('file_path');
-        $file          = 'upload/' . $file_filePath;
-        $res           = true;
-        if (file_exists($file)) {
-            $res = unlink($file);
-        }
-        if ($res) {
-            AssetModel::where('id', $id)->delete();
-            $this->success('删除成功');
-        } else {
-            $this->error('删除失败');
+        if ($this->request->isPost()) {
+            $id            = $this->request->param('id');
+            $file_filePath = AssetModel::where('id', $id)->value('file_path');
+            $file          = 'upload/' . $file_filePath;
+            $res           = true;
+            if (file_exists($file)) {
+                $res = unlink($file);
+            }
+            if ($res) {
+                AssetModel::where('id', $id)->delete();
+                $this->success('删除成功');
+            } else {
+                $this->error('删除失败');
+            }
         }
     }
 

@@ -49,6 +49,9 @@ class PublicController extends AdminBaseController
      */
     public function doLogin()
     {
+        if (!$this->request->isPost()) {
+            $this->error('非法登录!');
+        }
         if (hook_one('admin_custom_login_open')) {
             $this->error('您已经通过插件自定义后台登录！');
         }
@@ -95,10 +98,10 @@ class PublicController extends AdminBaseController
                 //登入成功页面跳转
                 session('ADMIN_ID', $result["id"]);
                 session('name', $result["user_login"]);
-                $data=[];
+                $data                    = [];
                 $data['last_login_ip']   = get_client_ip(0, true);
                 $data['last_login_time'] = time();
-                $token                     = cmf_generate_user_token($result["id"], 'web');
+                $token                   = cmf_generate_user_token($result["id"], 'web');
                 if (!empty($token)) {
                     session('token', $token);
                 }

@@ -201,19 +201,21 @@ class RbacController extends AdminBaseController
      */
     public function roleDelete()
     {
-        $id = $this->request->param("id", 0, 'intval');
-        if ($id == 1) {
-            $this->error("超级管理员角色不能被删除！");
-        }
-        $count = RoleUserModel::where('role_id', $id)->count();
-        if ($count > 0) {
-            $this->error("该角色已经有用户！");
-        } else {
-            $status = RoleModel::delete($id);
-            if (!empty($status)) {
-                $this->success("删除成功！", url('rbac/index'));
+        if ($this->request->isPost()) {
+            $id = $this->request->param("id", 0, 'intval');
+            if ($id == 1) {
+                $this->error("超级管理员角色不能被删除！");
+            }
+            $count = RoleUserModel::where('role_id', $id)->count();
+            if ($count > 0) {
+                $this->error("该角色已经有用户！");
             } else {
-                $this->error("删除失败！");
+                $status = RoleModel::delete($id);
+                if (!empty($status)) {
+                    $this->success("删除成功！", url('rbac/index'));
+                } else {
+                    $this->error("删除失败！");
+                }
             }
         }
     }

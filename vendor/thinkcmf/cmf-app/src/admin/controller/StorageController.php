@@ -64,13 +64,15 @@ class StorageController extends AdminBaseController
      */
     public function settingPost()
     {
-        $post = $this->request->post();
+        if ($this->request->isPost()) {
+            $post = $this->request->post();
 
-        $storage = cmf_get_option('storage');
+            $storage = cmf_get_option('storage');
 
-        $storage['type'] = $post['type'];
-        cmf_set_option('storage', $storage);
-        $this->success("设置成功！", '');
+            $storage['type'] = $post['type'];
+            cmf_set_option('storage', $storage);
+            $this->success("设置成功！", '');
+        }
 
     }
 
