@@ -162,7 +162,7 @@ class LinkController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         LinkModel::destroy($id);
-        $this->success("删除成功！", url("link/index"));
+        $this->success("删除成功！", url("Link/index"));
     }
 
     /**
