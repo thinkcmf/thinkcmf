@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+<head>
+	<include file="public/head"/>
+	<title>ThinkCMF插件演示首页</title>
+	<meta name="description" content="ThinkCMF插件演示首页">
+	<meta name="keywords" content="ThinkCMF插件演示首页">
+	<style>.expander{margin-left: -20px;}</style>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li class="active"><a>角色分类权限设置</a></li>
+	</ul>
+	<form method="post" class="js-ajax-form margin-top-20" action="{:cmf_plugin_url('Portal://AdminRbac/authorizePost')}">
+		只能看到自己的文章:
+		<empty name="only_self_articles">
+			<input type="checkbox"  name="only_self_articles" value="1"/>
+			<else/>
+			<input type="checkbox"  name="only_self_articles" value="1" checked/>
+		</empty>
+
+		<empty name="keyword">
+			<table class="table table-hover table-bordered table-list" id="menus-table">
+				<thead>
+				<tr>
+					<th width="16" style="padding-left:20px;">
+						<label>
+							<input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+						</label>
+					</th>
+					<th width="50">ID</th>
+					<th>分类名称</th>
+					<th>描述</th>
+					<th>状态</th>
+				</tr>
+				</thead>
+				{$category_tree}
+				<tfoot>
+				<tr>
+					<th width="16" style="padding-left:20px;">
+						<label>
+							<input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+						</label>
+					</th>
+					<th width="50">ID</th>
+					<th>分类名称</th>
+					<th>描述</th>
+					<th>状态</th>
+				</tr>
+				</tfoot>
+			</table>
+			<else/>
+			<table class="table table-hover table-bordered table-list">
+				<thead>
+				<tr>
+					<th width="16">
+						<label>
+							<input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+						</label>
+					</th>
+					<th width="50">ID</th>
+					<th>分类名称</th>
+					<th>描述</th>
+					<th>状态</th>
+					<th width="200">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<foreach name="categories" item="vo">
+					<tr>
+						<td>
+							<input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x"
+								   name="ids[]" value="{$vo.id}">
+						</td>
+						<td>
+							<input name="list_orders[{$vo.id}]" type="text" size="3" value="{$vo.list_order}"
+								   class="input-order">
+						</td>
+						<td>{$vo.id}</td>
+						<td><a href="{cmf_url('portal/List/index', ['id' => $vo['id']])}" target="_blank">{$vo.name}</a>
+						</td>
+						<td>{$vo.description}</td>
+						<td>{$vo.status?'显示':'隐藏'}</td>
+						<td>
+							<a href="{:url('AdminCategory/add', ['parent' => $vo.id])}">添加子分类</a>
+							<a href="{:url('AdminCategory/edit',['id'=>$vo.id])}">编辑</a>
+							<a class="js-ajax-delete" href="{:url('AdminCategory/delete',['id'=>$vo.id])}">删除</a>
+							<empty name="vo.status">
+								<a class="js-ajax-dialog-btn" data-msg="您确定显示此分类吗"
+								   href="{:url('AdminCategory/toggle',['ids'=>$vo.id,'display'=>1])}">显示</a>
+								<else/>
+								<a class="js-ajax-dialog-btn" data-msg="您确定隐藏此分类吗"
+								   href="{:url('AdminCategory/toggle',['ids'=>$vo.id,'hide'=>1])}">隐藏</a>
+							</empty>
+						</td>
+					</tr>
+				</foreach>
+				</tbody>
+				<tfoot>
+				<tr>
+					<th width="16">
+						<label>
+							<input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+						</label>
+					</th>
+					<th width="50">ID</th>
+					<th>分类名称</th>
+					<th>描述</th>
+					<th>状态</th>
+				</tr>
+				</tfoot>
+			</table>
+		</empty>
+
+		<div class="form-actions">
+			<input type="hidden" name="role_id" value="{$role_id}" />
+			<button class="btn btn-primary js-ajax-submit" type="submit">{:lang('SAVE')}</button>
+			<a class="btn btn-default" href="{:url('admin/rbac/index')}">{:lang('BACK')}</a>
+		</div>
+	</form>
+</div>
+<include file="public/scripts"/>
+<script type="text/javascript">
+	$(document).ready(function () {
+		Wind.css('treeTable');
+		Wind.use('treeTable', function () {
+			$("#menus-table").treeTable({
+				indent: 20
+			});
+		});
+	});
+
+	function checknode(obj) {
+		var chk = $("input[type='checkbox']");
+		var count = chk.length;
+
+		var num = chk.index(obj);
+		var level_top = level_bottom = chk.eq(num).attr('level');
+		for (var i = num; i >= 0; i--) {
+			var le = chk.eq(i).attr('level');
+			if (le <level_top) {
+				chk.eq(i).prop("checked", true);
+				var level_top = level_top - 1;
+			}
+		}
+		for (var j = num + 1; j < count; j++) {
+			var le = chk.eq(j).attr('level');
+			if (chk.eq(num).prop("checked")) {
+
+				if (le > level_bottom){
+					chk.eq(j).prop("checked", true);
+				}
+				else if (le == level_bottom){
+					break;
+				}
+			} else {
+				if (le >level_bottom){
+					chk.eq(j).prop("checked", false);
+				}else if(le == level_bottom){
+					break;
+				}
+			}
+		}
+	}
+</script>
+</body>
+</html>

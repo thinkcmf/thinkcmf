@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-present http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -306,16 +306,18 @@ class UserController extends AdminBaseController
      */
     public function delete()
     {
-        $id = $this->request->param('id', 0, 'intval');
-        if ($id == 1) {
-            $this->error("最高管理员不能删除！");
-        }
+        if ($this->request->isPost()) {
+            $id = $this->request->param('id', 0, 'intval');
+            if ($id == 1) {
+                $this->error("最高管理员不能删除！");
+            }
 
-        if (UserModel::delete($id) !== false) {
-            RoleUserModel::where("user_id", $id)->delete();
-            $this->success("删除成功！");
-        } else {
-            $this->error("删除失败！");
+            if (UserModel::delete($id) !== false) {
+                RoleUserModel::where("user_id", $id)->delete();
+                $this->success("删除成功！");
+            } else {
+                $this->error("删除失败！");
+            }
         }
     }
 
@@ -334,16 +336,18 @@ class UserController extends AdminBaseController
      */
     public function ban()
     {
-        $id = $this->request->param('id', 0, 'intval');
-        if (!empty($id)) {
-            $result = UserModel::where(["id" => $id, "user_type" => 1])->update(['user_status' => '0']);
-            if ($result !== false) {
-                $this->success("管理员停用成功！", url("user/index"));
+        if ($this->request->isPost()) {
+            $id = $this->request->param('id', 0, 'intval');
+            if (!empty($id)) {
+                $result = UserModel::where(["id" => $id, "user_type" => 1])->update(['user_status' => '0']);
+                if ($result !== false) {
+                    $this->success("管理员停用成功！", url("User/index"));
+                } else {
+                    $this->error('管理员停用失败！');
+                }
             } else {
-                $this->error('管理员停用失败！');
+                $this->error('数据传入失败！');
             }
-        } else {
-            $this->error('数据传入失败！');
         }
     }
 
@@ -362,16 +366,18 @@ class UserController extends AdminBaseController
      */
     public function cancelBan()
     {
-        $id = $this->request->param('id', 0, 'intval');
-        if (!empty($id)) {
-            $result = UserModel::where(["id" => $id, "user_type" => 1])->update(['user_status' => '1']);
-            if ($result !== false) {
-                $this->success("管理员启用成功！", url("user/index"));
+        if ($this->request->isPost()) {
+            $id = $this->request->param('id', 0, 'intval');
+            if (!empty($id)) {
+                $result = UserModel::where(["id" => $id, "user_type" => 1])->update(['user_status' => '1']);
+                if ($result !== false) {
+                    $this->success("管理员启用成功！", url("User/index"));
+                } else {
+                    $this->error('管理员启用失败！');
+                }
             } else {
-                $this->error('管理员启用失败！');
+                $this->error('数据传入失败！');
             }
-        } else {
-            $this->error('数据传入失败！');
         }
     }
 }

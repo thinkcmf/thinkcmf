@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-present http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -17,6 +17,9 @@ class VerificationCodeController extends HomeBaseController
 {
     public function send()
     {
+        if (!$this->request->isPost()) {
+            $this->error('非法请求！');
+        }
         $validate = new \think\Validate([
             'username' => 'require',
             'captcha'  => 'require',

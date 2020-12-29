@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-present http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -72,44 +72,46 @@ class PluginController extends AdminBaseController
      */
     public function toggle()
     {
-        $id = $this->request->param('id', 0, 'intval');
+        if ($this->request->isPost()) {
+            $id = $this->request->param('id', 0, 'intval');
 
-        $pluginModel = PluginModel::find($id);
+            $pluginModel = PluginModel::find($id);
 
-        if (empty($pluginModel)) {
-            $this->error('插件不存在！');
+            if (empty($pluginModel)) {
+                $this->error('插件不存在！');
+            }
+
+            $status         = 1;
+            $successMessage = "启用成功！";
+
+            if ($this->request->param('disable')) {
+                $status         = 0;
+                $successMessage = "禁用成功！";
+            }
+
+            $pluginModel->startTrans();
+
+            try {
+                $pluginModel->save(['status' => $status]);
+
+                $hookPluginModel = new HookPluginModel();
+
+                $hookPluginModel->where(['plugin' => $pluginModel->name])->update(['status' => $status]);
+
+                $pluginModel->commit();
+
+            } catch (\Exception $e) {
+
+                $pluginModel->rollback();
+
+                $this->error('操作失败！');
+
+            }
+
+            Cache::clear('init_hook_plugins');
+
+            $this->success($successMessage);
         }
-
-        $status         = 1;
-        $successMessage = "启用成功！";
-
-        if ($this->request->param('disable')) {
-            $status         = 0;
-            $successMessage = "禁用成功！";
-        }
-
-        $pluginModel->startTrans();
-
-        try {
-            $pluginModel->save(['status' => $status], ['id' => $id]);
-
-            $hookPluginModel = new HookPluginModel();
-
-            $hookPluginModel->save(['status' => $status], ['plugin' => $pluginModel->name]);
-
-            $pluginModel->commit();
-
-        } catch (\Exception $e) {
-
-            $pluginModel->rollback();
-
-            $this->error('操作失败！');
-
-        }
-
-        Cache::clear('init_hook_plugins');
-
-        $this->success($successMessage);
     }
 
     /**
@@ -254,8 +256,8 @@ class PluginController extends AdminBaseController
                 $this->error($validate->getError());
             }
 
-            $pluginModel = new PluginModel();
-            $pluginModel->save(['config' => json_encode($config)], ['id' => $id]);
+            $pluginModel = PluginModel::where('id', $id)->find();
+            $pluginModel->save(['config' => json_encode($config)]);
             $this->success('保存成功', '');
         }
     }
@@ -299,14 +301,16 @@ class PluginController extends AdminBaseController
      */
     public function install()
     {
-        $pluginName = $this->request->param('name', '', 'trim');
-        $result     = PluginLogic::install($pluginName);
+        if ($this->request->isPost()) {
+            $pluginName = $this->request->param('name', '', 'trim');
+            $result     = PluginLogic::install($pluginName);
 
-        if ($result !== true) {
-            $this->error($result);
+            if ($result !== true) {
+                $this->error($result);
+            }
+
+            $this->success('安装成功!');
         }
-
-        $this->success('安装成功!');
     }
 
     /**
@@ -324,13 +328,15 @@ class PluginController extends AdminBaseController
      */
     public function update()
     {
-        $pluginName = $this->request->param('name', '', 'trim');
-        $result     = PluginLogic::update($pluginName);
+        if ($this->request->isPost()) {
+            $pluginName = $this->request->param('name', '', 'trim');
+            $result     = PluginLogic::update($pluginName);
 
-        if ($result !== true) {
-            $this->error($result);
+            if ($result !== true) {
+                $this->error($result);
+            }
+            $this->success('更新成功!');
         }
-        $this->success('更新成功!');
     }
 
     /**
@@ -348,19 +354,21 @@ class PluginController extends AdminBaseController
      */
     public function uninstall()
     {
-        $pluginModel = new PluginModel();
-        $id          = $this->request->param('id', 0, 'intval');
+        if ($this->request->isPost()) {
+            $pluginModel = new PluginModel();
+            $id          = $this->request->param('id', 0, 'intval');
 
-        $result = $pluginModel->uninstall($id);
+            $result = $pluginModel->uninstall($id);
 
-        if ($result !== true) {
-            $this->error('卸载失败!');
+            if ($result !== true) {
+                $this->error('卸载失败!');
+            }
+
+            Cache::clear('init_hook_plugins');
+            Cache::clear('admin_menus');// 删除后台菜单缓存
+
+            $this->success('卸载成功!');
         }
-
-        Cache::clear('init_hook_plugins');
-        Cache::clear('admin_menus');// 删除后台菜单缓存
-
-        $this->success('卸载成功!');
     }
 
 

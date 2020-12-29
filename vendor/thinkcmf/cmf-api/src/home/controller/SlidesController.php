@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | 文件说明：幻灯片
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-present http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: wuwu <15093565100@163.com>
 // +----------------------------------------------------------------------
@@ -22,6 +22,21 @@ class SlidesController extends RestBaseController
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
+     * @OA\Get(
+     *     tags={"home"},
+     *     path="/home/slides/{id}",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="query",
+     *         description="slide item id",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\Response(response="200", description="An example resource"),
+     *     @OA\Response(response="default", description="An example resource")
+     * )
      */
     public function read()
     {

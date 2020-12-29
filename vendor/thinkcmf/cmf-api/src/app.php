@@ -53,7 +53,7 @@ return [
     // +----------------------------------------------------------------------
 
     // 默认模块名
-    'default_module'         => 'home',
+    'default_module'         => 'portal',
     // 禁止访问模块
     'deny_module_list'       => ['common'],
     // 默认控制器名

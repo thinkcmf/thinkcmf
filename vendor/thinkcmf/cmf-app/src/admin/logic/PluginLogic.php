@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-present http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -72,7 +72,7 @@ class PluginLogic
 
         foreach ($pluginHooks as $pluginHook) {
             $hookPluginModel = new HookPluginModel();
-            $hookPluginModel->data(['hook' => $pluginHook, 'plugin' => $pluginName, 'status' => 1])->save();
+            $hookPluginModel->save(['hook' => $pluginHook, 'plugin' => $pluginName, 'status' => 1]);
         }
 
         self::getActions($pluginName);
@@ -147,7 +147,7 @@ class PluginLogic
         }
 
         foreach ($newHooks as $pluginHook) {
-            $hookPluginModel->data(['hook' => $pluginHook, 'plugin' => $pluginName])->isUpdate(false)->save();
+            $hookPluginModel->save(['hook' => $pluginHook, 'plugin' => $pluginName]);
         }
 
         self::getActions($pluginName);

@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-present http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -98,16 +98,18 @@ class AdminUserActionController extends AdminBaseController
      */
     public function editPost()
     {
-        $id = $this->request->param('id', 0, 'intval');
+        if ($this->request->isPost()) {
+            $id = $this->request->param('id', 0, 'intval');
 
-        $data = $this->request->param();
+            $data = $this->request->param();
 
-        UserActionModel::where('id', $id)
-            ->strict(false)
-            ->field('score,coin,reward_number,cycle_type,cycle_time')
-            ->update($data);
+            UserActionModel::where('id', $id)
+                ->strict(false)
+                ->field('score,coin,reward_number,cycle_type,cycle_time')
+                ->update($data);
 
-        $this->success('保存成功！');
+            $this->success('保存成功！');
+        }
     }
 
     /**

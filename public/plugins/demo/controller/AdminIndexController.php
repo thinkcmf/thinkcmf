@@ -61,6 +61,7 @@ class AdminIndexController extends PluginAdminBaseController
         //$demos = PluginDemoModel::all();
 
         // print_r($demos);
+        $this->assign('plugin',$this->getPlugin());
 
         $this->assign('users', $users);
 

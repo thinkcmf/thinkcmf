@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-present http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -83,15 +83,17 @@ class LinkController extends AdminBaseController
      */
     public function addPost()
     {
-        $data      = $this->request->param();
-        $linkModel = new LinkModel();
-        $result    = $this->validate($data, 'Link');
-        if ($result !== true) {
-            $this->error($result);
-        }
-        $linkModel->save($data);
+        if ($this->request->isPost()) {
+            $data      = $this->request->param();
+            $linkModel = new LinkModel();
+            $result    = $this->validate($data, 'Link');
+            if ($result !== true) {
+                $this->error($result);
+            }
+            $linkModel->save($data);
 
-        $this->success("添加成功！", url("Link/index"));
+            $this->success("添加成功！", url("Link/index"));
+        }
     }
 
     /**
@@ -134,15 +136,17 @@ class LinkController extends AdminBaseController
      */
     public function editPost()
     {
-        $data   = $this->request->param();
-        $result = $this->validate($data, 'Link');
-        if ($result !== true) {
-            $this->error($result);
-        }
-        $linkModel = LinkModel::find($data['id']);
-        $linkModel->save($data);
+        if ($this->request->isPost()) {
+            $data   = $this->request->param();
+            $result = $this->validate($data, 'Link');
+            if ($result !== true) {
+                $this->error($result);
+            }
+            $linkModel = LinkModel::find($data['id']);
+            $linkModel->save($data);
 
-        $this->success("保存成功！", url("Link/index"));
+            $this->success("保存成功！", url("Link/index"));
+        }
     }
 
     /**
@@ -160,9 +164,11 @@ class LinkController extends AdminBaseController
      */
     public function delete()
     {
-        $id = $this->request->param('id', 0, 'intval');
-        LinkModel::destroy($id);
-        $this->success("删除成功！", url("link/index"));
+        if ($this->request->isPost()) {
+            $id = $this->request->param('id', 0, 'intval');
+            LinkModel::destroy($id);
+            $this->success("删除成功！", url("Link/index"));
+        }
     }
 
     /**
@@ -200,22 +206,22 @@ class LinkController extends AdminBaseController
      */
     public function toggle()
     {
-        $data      = $this->request->param();
-        $linkModel = new LinkModel();
+        if ($this->request->isPost()) {
+            $data      = $this->request->param();
+            $linkModel = new LinkModel();
 
-        if (isset($data['ids']) && !empty($data["display"])) {
-            $ids = $this->request->param('ids/a');
-            $linkModel->where('id', 'in', $ids)->update(['status' => 1]);
-            $this->success("更新成功！");
+            if (isset($data['ids']) && !empty($data["display"])) {
+                $ids = $this->request->param('ids/a');
+                $linkModel->where('id', 'in', $ids)->update(['status' => 1]);
+                $this->success("更新成功！");
+            }
+
+            if (isset($data['ids']) && !empty($data["hide"])) {
+                $ids = $this->request->param('ids/a');
+                $linkModel->where('id', 'in', $ids)->update(['status' => 0]);
+                $this->success("更新成功！");
+            }
         }
-
-        if (isset($data['ids']) && !empty($data["hide"])) {
-            $ids = $this->request->param('ids/a');
-            $linkModel->where('id', 'in', $ids)->update(['status' => 0]);
-            $this->success("更新成功！");
-        }
-
-
     }
 
 }

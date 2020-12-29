@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-present http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -51,15 +51,17 @@ class MailerController extends AdminBaseController
      */
     public function indexPost()
     {
-        $post = array_map('trim', $this->request->param());
+        if ($this->request->isPost()) {
+            $post = array_map('trim', $this->request->param());
 
-        if (in_array('', $post) && !empty($post['smtpsecure'])) {
-            $this->error("不能留空！");
+            if (in_array('', $post) && !empty($post['smtpsecure'])) {
+                $this->error("不能留空！");
+            }
+
+            cmf_set_option('smtp_setting', $post);
+
+            $this->success("保存成功！");
         }
-
-        cmf_set_option('smtp_setting', $post);
-
-        $this->success("保存成功！");
     }
 
     /**
@@ -104,20 +106,22 @@ class MailerController extends AdminBaseController
      */
     public function templatePost()
     {
-        $allowedTemplateKeys = ['verification_code'];
-        $templateKey         = $this->request->param('template_key');
+        if ($this->request->isPost()) {
+            $allowedTemplateKeys = ['verification_code'];
+            $templateKey         = $this->request->param('template_key');
 
-        if (empty($templateKey) || !in_array($templateKey, $allowedTemplateKeys)) {
-            $this->error('非法请求！');
+            if (empty($templateKey) || !in_array($templateKey, $allowedTemplateKeys)) {
+                $this->error('非法请求！');
+            }
+
+            $data = $this->request->param();
+
+            unset($data['template_key']);
+
+            cmf_set_option('email_template_' . $templateKey, $data);
+
+            $this->success("保存成功！");
         }
-
-        $data = $this->request->param();
-
-        unset($data['template_key']);
-
-        cmf_set_option('email_template_' . $templateKey, $data);
-
-        $this->success("保存成功！");
     }
 
     /**

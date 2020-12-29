@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-present http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -90,9 +90,11 @@ class SlideItemController extends AdminBaseController
      */
     public function addPost()
     {
-        $data = $this->request->param();
-        SlideItemModel::insert($data['post']);
-        $this->success("添加成功！", url("slideItem/index", ['slide_id' => $data['post']['slide_id']]));
+        if ($this->request->isPost()) {
+            $data = $this->request->param();
+            SlideItemModel::insert($data['post']);
+            $this->success("添加成功！", url("slideItem/index", ['slide_id' => $data['post']['slide_id']]));
+        }
     }
 
     /**
@@ -139,14 +141,15 @@ class SlideItemController extends AdminBaseController
      */
     public function editPost()
     {
-        $data = $this->request->param();
+        if ($this->request->isPost()) {
+            $data = $this->request->param();
 
-        $data['post']['image'] = cmf_asset_relative_url($data['post']['image']);
+            $data['post']['image'] = cmf_asset_relative_url($data['post']['image']);
 
-        SlideItemModel::update($data['post']);
+            SlideItemModel::update($data['post']);
 
-        $this->success("保存成功！", url("SlideItem/index", ['slide_id' => $data['post']['slide_id']]));
-
+            $this->success("保存成功！", url("SlideItem/index", ['slide_id' => $data['post']['slide_id']]));
+        }
     }
 
     /**
@@ -164,18 +167,20 @@ class SlideItemController extends AdminBaseController
      */
     public function delete()
     {
-        $id = $this->request->param('id', 0, 'intval');
+        if ($this->request->isPost()) {
+            $id = $this->request->param('id', 0, 'intval');
 
-        $slideItem = SlideItemModel::find($id);
+            $slideItem = SlideItemModel::find($id);
 
-        $result = SlideItemModel::delete($id);
-        if ($result) {
-            //删除图片。
+            $result = SlideItemModel::delete($id);
+            if ($result) {
+                //删除图片。
 //            if (file_exists("./upload/".$slideItem['image'])){
 //            }
-            $this->success("删除成功！", url("SlideItem/index", ["slide_id" => $slideItem['slide_id']]));
-        } else {
-            $this->error('删除失败！');
+                $this->success("删除成功！", url("SlideItem/index", ["slide_id" => $slideItem['slide_id']]));
+            } else {
+                $this->error('删除失败！');
+            }
         }
 
     }
@@ -195,16 +200,18 @@ class SlideItemController extends AdminBaseController
      */
     public function ban()
     {
-        $id = $this->request->param('id', 0, 'intval');
-        if ($id) {
-            $rst = SlideItemModel::where('id', $id)->update(['status' => 0]);
-            if ($rst) {
-                $this->success("幻灯片隐藏成功！");
+        if ($this->request->isPost()) {
+            $id = $this->request->param('id', 0, 'intval');
+            if ($id) {
+                $rst = SlideItemModel::where('id', $id)->update(['status' => 0]);
+                if ($rst) {
+                    $this->success("幻灯片隐藏成功！");
+                } else {
+                    $this->error('幻灯片隐藏失败！');
+                }
             } else {
-                $this->error('幻灯片隐藏失败！');
+                $this->error('数据传入失败！');
             }
-        } else {
-            $this->error('数据传入失败！');
         }
     }
 
@@ -223,16 +230,18 @@ class SlideItemController extends AdminBaseController
      */
     public function cancelBan()
     {
-        $id = $this->request->param('id', 0, 'intval');
-        if ($id) {
-            $result = SlideItemModel::where('id', $id)->update(['status' => 1]);
-            if ($result) {
-                $this->success("幻灯片启用成功！");
+        if ($this->request->isPost()) {
+            $id = $this->request->param('id', 0, 'intval');
+            if ($id) {
+                $result = SlideItemModel::where('id', $id)->update(['status' => 1]);
+                if ($result) {
+                    $this->success("幻灯片启用成功！");
+                } else {
+                    $this->error('幻灯片启用失败！');
+                }
             } else {
-                $this->error('幻灯片启用失败！');
+                $this->error('数据传入失败！');
             }
-        } else {
-            $this->error('数据传入失败！');
         }
     }
 

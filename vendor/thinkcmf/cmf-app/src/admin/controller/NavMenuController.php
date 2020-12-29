@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-present http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -137,20 +137,23 @@ class NavMenuController extends AdminBaseController
      */
     public function addPost()
     {
-        $navMenuModel = new NavMenuModel();
-        $arrData      = $this->request->post();
+        if ($this->request->isPost()) {
+            $navMenuModel = new NavMenuModel();
+            $arrData      = $this->request->post();
 
-        if (isset($arrData['external_href'])) {
-            $arrData['href'] = htmlspecialchars_decode($arrData['external_href']);
-        } else {
-            $arrData['href'] = htmlspecialchars_decode($arrData['href']);
-            $arrData['href'] = base64_decode($arrData['href']);
+            if (isset($arrData['external_href'])) {
+                $arrData['href'] = htmlspecialchars_decode($arrData['external_href']);
+            } else {
+                $arrData['href'] = htmlspecialchars_decode($arrData['href']);
+                $arrData['href'] = base64_decode($arrData['href']);
+            }
+
+            unset($arrData['external_href']);
+
+            $navMenuModel->save($arrData);
+
+            $this->success(lang("EDIT_SUCCESS"), url("NavMenu/index", ['nav_id' => $arrData['nav_id']]));
         }
-
-        $navMenuModel->save($arrData);
-
-        $this->success(lang("EDIT_SUCCESS"), url("NavMenu/index", ['nav_id' => $arrData['nav_id']]));
-
     }
 
     /**
@@ -232,21 +235,24 @@ class NavMenuController extends AdminBaseController
      */
     public function editPost()
     {
-        $navMenuModel = new NavMenuModel();
-        $intId        = $this->request->param('id', 0, 'intval');
-        $arrData      = $this->request->post();
+        if ($this->request->isPost()) {
+            $navMenuModel = new NavMenuModel();
+            $intId        = $this->request->param('id', 0, 'intval');
+            $arrData      = $this->request->post();
 
-        if (isset($arrData['external_href'])) {
-            $arrData['href'] = htmlspecialchars_decode($arrData['external_href']);
-        } else {
-            $arrData['href'] = htmlspecialchars_decode($arrData['href']);
-            $arrData['href'] = base64_decode($arrData['href']);
+            if (isset($arrData['external_href'])) {
+                $arrData['href'] = htmlspecialchars_decode($arrData['external_href']);
+            } else {
+                $arrData['href'] = htmlspecialchars_decode($arrData['href']);
+                $arrData['href'] = base64_decode($arrData['href']);
+            }
+
+            unset($arrData['external_href']);
+
+            $navMenuModel->where('id', $intId)->update($arrData);
+
+            $this->success(lang("EDIT_SUCCESS"), url("NavMenu/index", ['nav_id' => $arrData['nav_id']]));
         }
-
-        $navMenuModel->where('id', $intId)->update($arrData);
-
-        $this->success(lang("EDIT_SUCCESS"), url("NavMenu/index", ['nav_id' => $arrData['nav_id']]));
-
     }
 
     /**
@@ -264,23 +270,24 @@ class NavMenuController extends AdminBaseController
      */
     public function delete()
     {
-        $navMenuModel = new NavMenuModel();
+        if ($this->request->isPost()) {
+            $navMenuModel = new NavMenuModel();
 
-        $intId    = $this->request->param("id", 0, "intval");
-        $intNavId = $this->request->param("nav_id", 0, "intval");
+            $intId    = $this->request->param("id", 0, "intval");
+            $intNavId = $this->request->param("nav_id", 0, "intval");
 
-        if (empty($intId)) {
-            $this->error(lang("NO_ID"));
+            if (empty($intId)) {
+                $this->error(lang("NO_ID"));
+            }
+
+            $count = $navMenuModel->where("parent_id", $intId)->count();
+            if ($count > 0) {
+                $this->error("该菜单下还有子菜单，无法删除！");
+            }
+
+            $navMenuModel->where("id", $intId)->delete();
+            $this->success(lang("DELETE_SUCCESS"), url("NavMenu/index", ['nav_id' => $intNavId]));
         }
-
-        $count = $navMenuModel->where("parent_id", $intId)->count();
-        if ($count > 0) {
-            $this->error("该菜单下还有子菜单，无法删除！");
-        }
-
-        $navMenuModel->where("id", $intId)->delete();
-        $this->success(lang("DELETE_SUCCESS"), url("NavMenu/index", ['nav_id' => $intNavId]));
-
     }
 
     /**

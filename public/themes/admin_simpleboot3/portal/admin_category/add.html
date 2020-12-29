@@ -1,0 +1,123 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminCategory/index')}">分类管理</a></li>
+        <li class="active"><a href="{:url('AdminCategory/add')}">添加分类</a></li>
+    </ul>
+    <div class="row margin-top-20">
+        <div class="col-md-2">
+            <div class="list-group">
+                <a class="list-group-item" href="#A" data-toggle="tab">基本属性</a>
+                <a class="list-group-item" href="#B" data-toggle="tab">SEO设置</a>
+                <a class="list-group-item" href="#C" data-toggle="tab">模板设置</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <form class="js-ajax-form" action="{:url('AdminCategory/addPost')}" method="post">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="A">
+                        <div class="form-group">
+                            <label for="input-parent"><span class="form-required">*</span>上级</label>
+                            <div>
+                                <select class="form-control" name="parent_id" id="input-parent">
+                                    <option value="0">作为一级分类</option>
+                                    {$categories_tree}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-name"><span class="form-required">*</span>分类名称</label>
+                            <div>
+                                <input type="text" class="form-control" id="input-name" name="name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input-name">分类别名</label>
+                            <div>
+                                <input type="text" class="form-control" id="input-alias" name="alias">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input-description">描述</label>
+                            <div>
+                                <textarea class="form-control" name="description" id="input-description"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-description">缩略图</label>
+                            <div>
+                                <input type="hidden" name="more[thumbnail]" class="form-control"
+                                       id="js-thumbnail-input">
+                                <div>
+                                    <a href="javascript:uploadOneImage('图片上传','#js-thumbnail-input');">
+                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                             id="js-thumbnail-input-preview"
+                                             width="135" style="cursor: pointer"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="B">
+                        <div class="form-group">
+                            <label for="input-seo_title">SEO标题</label>
+                            <div>
+                                <input type="text" class="form-control" id="input-seo_title" name="seo_title">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-seo_keywords">SEO关键字</label>
+                            <div>
+                                <input type="text" class="form-control" id="input-seo_keywords" name="seo_keywords">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-seo_description">SEO描述</label>
+                            <div>
+                                <textarea class="form-control" name="seo_description"
+                                          id="input-seo_description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="C">
+                        <div class="form-group">
+                            <label for="input-list_tpl"><span class="form-required">*</span>列表模板</label>
+                            <div>
+                                <select class="form-control" name="list_tpl" id="input-list_tpl">
+                                    <!--<option value="list">portal/list.html(默认)</option>-->
+                                    <foreach name="list_theme_files" item="vo">
+                                        <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
+                                        <option value="{$value}">{$vo.name} {$vo.file}.html</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-one_tpl"><span class="form-required">*</span>文章模板</label>
+                            <div>
+                                <select class="form-control" name="one_tpl" id="input-one_tpl">
+                                    <!--<option value="article">portal/article.html(默认)</option>-->
+                                    <foreach name="article_theme_files" item="vo">
+                                        <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
+                                        <option value="{$value}">{$vo.name} {$vo.file}.html</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+                    <a class="btn btn-default" href="{:url('AdminCategory/index')}">{:lang('BACK')}</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

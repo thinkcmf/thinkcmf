@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+    <include file="public/head"/>
+    <title>ThinkCMF插件演示首页</title>
+    <meta name="description" content="ThinkCMF插件演示首页">
+    <meta name="keywords" content="ThinkCMF插件演示首页">
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>角色分类权限设置</a></li>
+    </ul>
+    <form action="{:url('Rbac/listorders')}" method="post" class="margin-top-20">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="40">ID</th>
+                <th align="left">角色名称</th>
+                <th align="left">角色描述	</th>
+                <th width="60" align="left">{:lang('STATUS')}</th>
+                <th width="160">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="roles" item="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.remark}</td>
+                    <td>
+                        <if condition="$vo['status'] eq 1">
+                            <span class="label label-success">已启用</span>
+                            <else />
+                            <span class="label label-danger">已禁用</span>
+                        </if>
+                    </td>
+                    <td>
+                        <if condition="$vo['id'] eq 1">
+                            <span class="btn btn-xs btn-primary disabled">分类权限设置</span>
+                            <else />
+                            <a class="btn btn-xs btn-primary" href="{:cmf_plugin_url('Portal://AdminRbac/authorize',['id'=>$vo['id']])}">分类权限设置</a>
+                        </if>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+</div>
+<include file="public/scripts"/>
+</body>
+</html>

@@ -331,46 +331,51 @@
                     },
                     okVal: "确定",
                     ok: function () {
-                        $.getJSON(href).done(function (data) {
-                            if (data.code == '1') {
-                                noty({
-                                    text: data.msg,
-                                    type: 'success',
-                                    layout: 'topCenter',
-                                    modal: true,
-                                    // animation: {
-                                    //     open: 'animated bounceInDown', // Animate.css class names
-                                    //     close: 'animated bounceOutUp', // Animate.css class names
-                                    // },
-                                    timeout: 800,
-                                    callback: {
-                                        afterClose: function () {
-                                            if (refresh == undefined || refresh) {
-                                                if (data.url) {
-                                                    //返回带跳转地址
-                                                    window.location.href = data.url;
-                                                } else {
-                                                    //刷新当前页
-                                                    reloadPage(window);
+                        $.ajax({
+                            url: href,
+                            type: 'post',
+                            dataType: 'JSON',
+                            success: function (data) {
+                                if (data.code == '1') {
+                                    noty({
+                                        text: data.msg,
+                                        type: 'success',
+                                        layout: 'topCenter',
+                                        modal: true,
+                                        // animation: {
+                                        //     open: 'animated bounceInDown', // Animate.css class names
+                                        //     close: 'animated bounceOutUp', // Animate.css class names
+                                        // },
+                                        timeout: 800,
+                                        callback: {
+                                            afterClose: function () {
+                                                if (refresh == undefined || refresh) {
+                                                    if (data.url) {
+                                                        //返回带跳转地址
+                                                        window.location.href = data.url;
+                                                    } else {
+                                                        //刷新当前页
+                                                        reloadPage(window);
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                }).show();
+                                    }).show();
 
-                            } else if (data.code == '0') {
-                                //art.dialog.alert(data.info);
-                                //alert(data.info);//暂时处理方案
-                                art.dialog({
-                                    content: data.msg,
-                                    icon: 'warning',
-                                    ok: function () {
-                                        this.title(data.msg);
-                                        return true;
-                                    }
-                                });
+                                } else if (data.code == '0') {
+                                    //art.dialog.alert(data.info);
+                                    //alert(data.info);//暂时处理方案
+                                    art.dialog({
+                                        content: data.msg,
+                                        icon: 'warning',
+                                        ok: function () {
+                                            this.title(data.msg);
+                                            return true;
+                                        }
+                                    });
+                                }
                             }
-                        });
+                        })
                     },
                     cancelVal: '关闭',
                     cancel: true
@@ -408,6 +413,7 @@
                         $.ajax({
                             url: href,
                             type: 'post',
+                            dataType: 'JSON',
                             success: function (data) {
                                 if (data.code == 1) {
                                     noty({
@@ -470,38 +476,43 @@
                 refresh    = refresh == undefined ? 1 : refresh;
 
 
-                $.getJSON(href).done(function (data) {
-                    if (data.code == 1) {
-                        noty({
-                            text: data.msg,
-                            type: 'success',
-                            layout: 'center',
-                            callback: {
-                                afterClose: function () {
-                                    if (data.url) {
-                                        location.href = data.url;
-                                        return;
-                                    }
+                $.ajax({
+                    url: href,
+                    type: 'post',
+                    dataType: 'JSON',
+                    success: function (data) {
+                        if (data.code == 1) {
+                            noty({
+                                text: data.msg,
+                                type: 'success',
+                                layout: 'center',
+                                callback: {
+                                    afterClose: function () {
+                                        if (data.url) {
+                                            location.href = data.url;
+                                            return;
+                                        }
 
-                                    if (refresh || refresh == undefined) {
-                                        reloadPage(window);
+                                        if (refresh || refresh == undefined) {
+                                            reloadPage(window);
+                                        }
                                     }
                                 }
-                            }
-                        });
-                    } else if (data.code == 0) {
-                        noty({
-                            text: data.msg,
-                            type: 'error',
-                            layout: 'center',
-                            callback: {
-                                afterClose: function () {
-                                    if (data.url) {
-                                        location.href = data.url;
+                            });
+                        } else if (data.code == 0) {
+                            noty({
+                                text: data.msg,
+                                type: 'error',
+                                layout: 'center',
+                                callback: {
+                                    afterClose: function () {
+                                        if (data.url) {
+                                            location.href = data.url;
+                                        }
                                     }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
                 });
 

@@ -1,0 +1,61 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <form method="post" class="js-ajax-form" action="{:url('AdminCategory/listorders')}">
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th width="16">
+                    <label>
+                        <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                    </label>
+                </th>
+                <th width="50">ID</th>
+                <th>分类名称</th>
+                <th>分类描述</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="categories" item="vo">
+                <tr>
+                    <td>
+                        <php>$checked = in_array($vo['id'],$selectedIds)?'checked':'';</php>
+                        <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]"
+                               value="{$vo.id}" data-name="{$vo.name}" {$checked}>
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.description}</td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    function confirm() {
+        var selectedCategoriesId   = [];
+        var selectedCategoriesName = [];
+        var selectedCategories     = [];
+        $('.js-check:checked').each(function () {
+            var $this = $(this);
+            selectedCategoriesId.push($this.val());
+            selectedCategoriesName.push($this.data('name'));
+
+            selectedCategories.push({
+                id: $this.val(),
+                name: $this.data('name')
+            });
+        });
+
+        return {
+            selectedCategories: selectedCategories,
+            selectedCategoriesId: selectedCategoriesId,
+            selectedCategoriesName: selectedCategoriesName
+        };
+    }
+</script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-present http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -64,13 +64,15 @@ class StorageController extends AdminBaseController
      */
     public function settingPost()
     {
-        $post = $this->request->post();
+        if ($this->request->isPost()) {
+            $post = $this->request->post();
 
-        $storage = cmf_get_option('storage');
+            $storage = cmf_get_option('storage');
 
-        $storage['type'] = $post['type'];
-        cmf_set_option('storage', $storage);
-        $this->success("设置成功！", '');
+            $storage['type'] = $post['type'];
+            cmf_set_option('storage', $storage);
+            $this->success("设置成功！", '');
+        }
 
     }
 

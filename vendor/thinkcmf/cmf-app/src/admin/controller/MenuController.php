@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-present http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -325,15 +325,17 @@ class MenuController extends AdminBaseController
      */
     public function delete()
     {
-        $id    = $this->request->param("id", 0, 'intval');
-        $count = AdminMenuModel::where("parent_id", $id)->count();
-        if ($count > 0) {
-            $this->error("该菜单下还有子菜单，无法删除！");
-        }
-        if (AdminMenuModel::delete($id) !== false) {
-            $this->success("删除菜单成功！");
-        } else {
-            $this->error("删除失败！");
+        if ($this->request->isPost()) {
+            $id    = $this->request->param("id", 0, 'intval');
+            $count = AdminMenuModel::where("parent_id", $id)->count();
+            if ($count > 0) {
+                $this->error("该菜单下还有子菜单，无法删除！");
+            }
+            if (AdminMenuModel::destroy($id) !== false) {
+                $this->success("删除菜单成功！");
+            } else {
+                $this->error("删除失败！");
+            }
         }
     }
 

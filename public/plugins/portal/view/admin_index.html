@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+    <include file="public/head"/>
+    <title>ThinkCMF插件演示首页</title>
+    <meta name="description" content="ThinkCMF插件演示首页">
+    <meta name="keywords" content="ThinkCMF插件演示首页">
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>插件演示后台</a></li>
+    </ul>
+    <div class="common-form">
+        <div class="well">
+
+            <p>
+                <b>当前登录管理员id:</b>{$admin_id|default='管理员未登录'}
+            </p>
+            <p>
+                <b>插件根目录:</b>__PLUGIN_ROOT__
+            </p>
+            <p>
+                <b>插件模板根目录:</b>__PLUGIN_TMPL__
+            </p>
+
+        </div>
+        <form method="post" class="js-ajax-form" action="#">
+            <div class="table_list">
+                <table width="100%" class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th width="50">ID</th>
+                        <th>用户名</th>
+                        <th>邮箱</th>
+                        <th>注册时间</th>
+                        <th width="120">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <foreach name="users" item="vo">
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.user_login}</td>
+                            <td>{$vo.user_email}</td>
+                            <td>{$vo.create_time}</td>
+                            <td>
+                                <a href="javascript:;">修改</a>|
+                                <a href="javascript:;" class="js-ajax-delete">删除</a>
+                            </td>
+                        </tr>
+                    </foreach>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+<include file="public/scripts"/>
+</body>
+</html>

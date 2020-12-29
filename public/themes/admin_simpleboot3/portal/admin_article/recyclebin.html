@@ -1,0 +1,126 @@
+<admintpl file="header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('AdminPost/recyclebin')}">{:L('PORTAL_ADMINPOST_RECYCLEBIN')}</a></li>
+		</ul>
+		<form class="well form-inline margin-top-20" method="post" action="{:U('AdminPost/recyclebin')}">
+			分类： 
+			<select class="form-control" name="term" style="width: 140px;">
+				<option value='0'>全部</option>{$taxonomys}
+			</select> &nbsp;&nbsp;
+			时间：
+			<input type="text" class="form-control js-datetime" name="start_time" value="{$formget.start_time|default=''}" style="width: 140px;" autocomplete="off">-
+			<input type="text" class="form-control js-datetime" name="end_time" value="{$formget.end_time}" style="width: 140px;" autocomplete="off"> &nbsp; &nbsp;
+			关键字： 
+			<input type="text" class="form-control" name="keyword" style="width: 200px;" value="{$formget.keyword}" placeholder="请输入关键字...">
+			<input type="submit" class="btn btn-primary" value="搜索" />
+			<a class="btn btn-danger" href="{:U('AdminPost/recyclebin')}">清空</a>
+		</form>
+		<form class="js-ajax-form" method="post">
+			<div class="table-actions">
+				<button class="btn btn-danger btn-sm js-ajax-submit" type="submit" data-action="{:U('AdminPost/clean')}" data-subcheck="true" data-msg="你确定删除吗？删除后无法恢复！">{:L('DELETE')}</button>
+			</div>
+			<table class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
+						<th width="50">ID</th>
+						<th>{:L('TITLE')}</th>
+						<th width="50">{:L('AUTHOR')}</th>
+						<th width="60">{:L('HITS')}</th>
+						<th width="60">{:L('COMMENT_COUNT')}</th>
+						<th>{:L('KEYWORDS')}/{:L('SOURCE')}/{:L('ABSTRACT')}/{:L('THUMBNAIL')}</th>
+						<th width="130">{:L('PUBLISH_DATE')}</th>
+						<th width="70">{:L('STATUS')}</th>
+						<th width="90">{:L('ACTIONS')}</th>
+					</tr>
+				</thead>
+				<php>
+				$status=array("1"=>"已审核","0"=>"未审核");
+				$top_status=array("1"=>"已置顶","0"=>"未置顶");
+				$recommend_status=array("1"=>"已推荐","0"=>"未推荐");
+				</php>
+				<foreach name="posts" item="vo">
+				<tr>
+					<td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[{$vo.id}]" value="{$vo.id}"></td>
+					<td><b>{$vo.id}</b></td>
+					<td>{$vo.post_title}</td>
+					<td>{$vo.user_nickname|default=$vo.user_login}</td>
+					<td>{$vo.post_hits}</td>
+					<td>
+						<notempty name="vo.comment_count">
+							<a href="javascript:parent.openIframeDialog('{:U('comment/commentadmin/index',array('post_id'=>$vo['id']))}','评论列表')">{$vo.comment_count}</a>
+						<else/>
+							{$vo.comment_count}
+						</notempty>
+					</td>
+					<td>
+						<notempty name="vo.post_keywords">
+							<i class="fa fa-check fa-fw"></i>
+						<else/>
+							<i class="fa fa-close fa-fw"></i> 
+						</notempty>
+						<notempty name="vo.post_source">
+							<i class="fa fa-check fa-fw"></i>
+						<else/>
+							<i class="fa fa-close fa-fw"></i> 
+						</notempty>
+						<notempty name="vo.post_excerpt">
+							<i class="fa fa-check fa-fw"></i>
+						<else/>
+							<i class="fa fa-close fa-fw"></i> 
+						</notempty>
+						
+						<php>$smeta=json_decode($vo['smeta'],true);</php>
+						<notempty name="smeta.thumb">
+							<a href="javascript:imagePreviewDialog('{:sp_get_image_preview_url($smeta['thumb'])}');">
+								<i class="fa fa-photo fa-fw"></i>
+							</a>
+						</notempty>
+					</td>
+					<td>{:date('Y-m-d H:i',strtotime($vo['post_date']))}</td>
+					<td>
+						<notempty name="vo.post_status">
+							<a data-toggle="tooltip" title="已审核"><i class="fa fa-check"></i></a> 
+						<else/>
+							<a data-toggle="tooltip" title="未审核"><i class="fa fa-close"></i></a> 
+						</notempty>
+						<notempty name="vo.istop">
+							<a data-toggle="tooltip" title="已置顶"><i class="fa fa-arrow-up"></i></a> 
+						</notempty>
+						<notempty name="vo.recommended">
+							<a data-toggle="tooltip" title="已推荐"><i class="fa fa-thumbs-up"></i></a>
+						</notempty>
+					</td>
+					<td>
+						<a href="{:U('AdminPost/restore',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn" data-msg="确定还原吗？">还原</a>| 
+						<a href="{:U('AdminPost/clean',array('id'=>$vo['id'],'id'=>$vo['id']))}" class="js-ajax-delete">删除</a>
+					</td>
+				</tr>
+				</foreach>
+				<tfoot>
+					<tr>
+						<th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
+						<th width="50">ID</th>
+						<th>{:L('TITLE')}</th>
+						<th width="50">{:L('AUTHOR')}</th>
+						<th width="60">{:L('HITS')}</th>
+						<th width="60">{:L('COMMENT_COUNT')}</th>
+						<th>{:L('KEYWORDS')}/{:L('SOURCE')}/{:L('ABSTRACT')}/{:L('THUMBNAIL')}</th>
+						<th width="130">{:L('PUBLISH_DATE')}</th>
+						<th width="70">{:L('STATUS')}</th>
+						<th width="90">{:L('ACTIONS')}</th>
+					</tr>
+				</tfoot>
+			</table>
+			<div class="table-actions">
+				<button class="btn btn-danger btn-sm js-ajax-submit" type="submit" data-action="{:U('AdminPost/clean')}" data-subcheck="true" data-msg="你确定删除吗？删除后无法恢复！">{:L('DELETE')}</button>
+			</div>
+			<div class="pagination">{$page}</div>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

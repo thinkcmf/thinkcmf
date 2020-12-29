@@ -1,0 +1,223 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('AdminCategory/index')}">分类管理</a></li>
+        <li><a href="{:url('AdminCategory/add')}">添加分类</a></li>
+    </ul>
+    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminCategory/index')}">
+        分类名称:
+        <input type="text" class="form-control" name="keyword" style="width: 200px;"
+               value="{$keyword|default=''}" placeholder="请输入分类名称">
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('AdminCategory/index')}">清空</a>
+    </form>
+
+    <form method="post" class="js-ajax-form" action="{:url('AdminCategory/listOrder')}">
+        <div class="table-actions">
+            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminCategory/toggle',array('display'=>'1'))}" data-subcheck="true">
+                {:lang('DISPLAY')}
+            </button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminCategory/toggle',array('hide'=>1))}" data-subcheck="true">{:lang('HIDE')}
+            </button>
+        </div>
+        <empty name="keyword">
+            <table class="table table-hover table-bordered table-list" id="menus-table">
+                <thead>
+                <tr>
+                    <th width="16" style="padding-left:20px;">
+                        <label>
+                            <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                        </label>
+                    </th>
+                    <th width="50">排序</th>
+                    <th width="50">ID</th>
+                    <th>分类名称</th>
+                    <th>描述</th>
+                    <th>状态</th>
+                    <th width="210">操作</th>
+                </tr>
+                </thead>
+                {$category_tree}
+                <tfoot>
+                <tr>
+                    <th width="16" style="padding-left:20px;">
+                        <label>
+                            <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                        </label>
+                    </th>
+                    <th width="50">排序</th>
+                    <th width="50">ID</th>
+                    <th>分类名称</th>
+                    <th>描述</th>
+                    <th>状态</th>
+                    <th width="200">操作</th>
+                </tr>
+                </tfoot>
+            </table>
+            <else/>
+            <table class="table table-hover table-bordered table-list">
+                <thead>
+                <tr>
+                    <th width="16">
+                        <label>
+                            <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                        </label>
+                    </th>
+                    <th width="50">排序</th>
+                    <th width="50">ID</th>
+                    <th>分类名称</th>
+                    <th>描述</th>
+                    <th>状态</th>
+                    <th width="200">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <foreach name="categories" item="vo">
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x"
+                                   name="ids[]" value="{$vo.id}">
+                        </td>
+                        <td>
+                            <input name="list_orders[{$vo.id}]" type="text" size="3" value="{$vo.list_order}"
+                                   class="input-order">
+                        </td>
+                        <td>{$vo.id}</td>
+                        <td><a href="{cmf_url('portal/List/index', ['id' => $vo['id']])}" target="_blank">{$vo.name}</a>
+                        </td>
+                        <td>{$vo.description}</td>
+                        <td>{$vo.status?'显示':'隐藏'}</td>
+                        <td>
+                            <a href="{:url('AdminCategory/add', ['parent' => $vo.id])}">添加子分类</a>
+                            <a href="{:url('AdminCategory/edit',['id'=>$vo.id])}">编辑</a>
+                            <a class="js-ajax-delete" href="{:url('AdminCategory/delete',['id'=>$vo.id])}">删除</a>
+                            <empty name="vo.status">
+                                <a class="js-ajax-dialog-btn" data-msg="您确定显示此分类吗"
+                                   href="{:url('AdminCategory/toggle',['ids'=>$vo.id,'display'=>1])}">显示</a>
+                                <else/>
+                                <a class="js-ajax-dialog-btn" data-msg="您确定隐藏此分类吗"
+                                   href="{:url('AdminCategory/toggle',['ids'=>$vo.id,'hide'=>1])}">隐藏</a>
+                            </empty>
+                        </td>
+                    </tr>
+                </foreach>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th width="16">
+                        <label>
+                            <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                        </label>
+                    </th>
+                    <th width="50">排序</th>
+                    <th width="50">ID</th>
+                    <th>分类名称</th>
+                    <th>描述</th>
+                    <th>状态</th>
+                    <th width="200">操作</th>
+                </tr>
+                </tfoot>
+            </table>
+        </empty>
+        <div class="table-actions">
+            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminCategory/toggle',array('display'=>'1'))}" data-subcheck="true">
+                {:lang('DISPLAY')}
+            </button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminCategory/toggle',array('hide'=>1))}" data-subcheck="true">{:lang('HIDE')}
+            </button>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    $(document).ready(function () {
+        Wind.css('treeTable');
+        Wind.use('treeTable', function () {
+            $("#menus-table").treeTable({
+                indent: 20,
+                initialState: 'expanded'
+            });
+        });
+    });
+
+    // $(' #menus-table .js-check').change(function () {
+    //     console.log('change');
+    //     checkNode(this);
+    // });
+    //
+    // function checkNode(obj) {
+    //     var $obj   = $(obj);
+    //     var $table = $obj.parents('table');
+    //
+    //     var id       = $obj.data('id');
+    //     var parentId = $obj.data('parent_id');
+    //
+    //     function checkParent(id, parentId, checked) {
+    //         console.log('checkParent:' + id);
+    //         var $parent = $("tr [data-id='" + parentId + "']", $table);
+    //         if ($parent.length > 0) {
+    //             $parent.prop("checked", checked);
+    //             checkParent($parent.data('id'), $parent.data('parent_id'), checked);
+    //         }
+    //     }
+    //
+    //     function checkChild(id, parentId, checked) {
+    //         console.log('checkChild:' + id);
+    //         var $child = $("tr [data-parent_id='" + id + "']", $table);
+    //
+    //         if ($child.length > 0) {
+    //             $child.prop("checked", checked);
+    //             checkChild($child.data('id'), $child.data('parent_id'), checked);
+    //         }
+    //     }
+    //
+    //     if ($obj.is(':checked')) {
+    //         checkParent(id, parentId, true);
+    //         checkChild(id, parentId, true);
+    //     } else {
+    //         checkParent(id, parentId, false);
+    //         checkChild(id, parentId, false);
+    //     }
+    //     return;
+    //     var chk   = $("input[type='checkbox']");
+    //     var count = chk.length;
+    //
+    //     var num       = chk.index(obj);
+    //     var level_top = level_bottom = chk.eq(num).attr('level');
+    //     for (var i = num; i >= 0; i--) {
+    //         var le = chk.eq(i).attr('level');
+    //         if (le < level_top) {
+    //             chk.eq(i).prop("checked", true);
+    //             var level_top = level_top - 1;
+    //         }
+    //     }
+    //     for (var j = num + 1; j < count; j++) {
+    //         var le = chk.eq(j).attr('level');
+    //         if (chk.eq(num).prop("checked")) {
+    //
+    //             if (le > level_bottom) {
+    //                 chk.eq(j).prop("checked", true);
+    //             }
+    //             else if (le == level_bottom) {
+    //                 break;
+    //             }
+    //         } else {
+    //             if (le > level_bottom) {
+    //                 chk.eq(j).prop("checked", false);
+    //             } else if (le == level_bottom) {
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // }
+</script>
+</body>
+</html>

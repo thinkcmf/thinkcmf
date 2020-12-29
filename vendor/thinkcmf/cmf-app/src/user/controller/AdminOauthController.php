@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013-2019 http://www.thinkcmf.com All rights reserved.
+// | Copyright (c) 2013-present http://www.thinkcmf.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -67,13 +67,15 @@ class AdminOauthController extends AdminBaseController
      */
     public function delete()
     {
-        $id = input('param.id', 0, 'intval');
-        if (empty($id)) {
-            $this->error('非法数据！');
-        }
+        if ($this->request->isPost()) {
+            $id = input('param.id', 0, 'intval');
+            if (empty($id)) {
+                $this->error('非法数据！');
+            }
 
-        ThirdPartyUserModel::where("id", $id)->delete();
-        $this->success("删除成功！", "admin_oauth/index");
+            ThirdPartyUserModel::where("id", $id)->delete();
+            $this->success("删除成功！", url('AdminOauth/index));
+        }
     }
 
 

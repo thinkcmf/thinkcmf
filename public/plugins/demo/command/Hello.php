@@ -12,17 +12,18 @@ class Hello extends Command
 {
     protected function configure()
     {
-        $this->setName('demo:hello')
+        $this->setName('plugin:hello')
             ->addArgument('name', Argument::OPTIONAL, "your name")
             ->addOption('city', '-c', Option::VALUE_REQUIRED, 'city name')
-            ->setDescription('Say Hello');
+            ->setDescription('Say Plugin Hello');
     }
 
     protected function execute(Input $input, Output $output)
     {
         $name = trim($input->getArgument('name'));
         $city = $input->getOption('city');
-        $name = $name ?: 'ThinkCMF';
+        $city = $city ? $city : 'China';
+        $name = $name ? $name : 'ThinkCMF';
         $output->writeln("Hello, My name is " . $name . '! I\'m from ' . $city);
     }
 

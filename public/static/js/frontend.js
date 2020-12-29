@@ -194,14 +194,14 @@
                     },
                     submitHandler: function (form) {
                         var $form = $(form);
-                        if(!$btn){
-                            $btn=$form.find('button.js-ajax-submit');
+                        if (!$btn) {
+                            $btn = $form.find('button.js-ajax-submit');
                         }
                         $form.ajaxSubmit({
                             url: $btn && $btn.data('action') ? $btn.data('action') : $form.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
                             dataType: 'json',
                             beforeSubmit: function (arr, $form, options) {
-                                if($btn){
+                                if ($btn) {
                                     $btn.data("loading", true);
                                     var text = $btn.text();
                                     //按钮文案、状态修改
@@ -347,26 +347,31 @@
                             text: okBtnText ? okBtnText : '确定',
                             onClick: function ($noty) {
                                 $noty.close();
-                                $.getJSON(href).done(function (data) {
-                                    if (data.code == 1) {
-                                        if (data.url) {
-                                            location.href = data.url;
-                                        } else if (refresh || refresh == undefined) {
-                                            reloadPage(window);
-                                        }
-                                    } else if (data.code == 0) {
-                                        noty({
-                                            text: data.msg,
-                                            type: 'error',
-                                            layout: 'center',
-                                            callback: {
-                                                afterClose: function () {
-                                                    if (data.url) {
-                                                        location.href = data.url;
+                                $.ajax({
+                                    url: href,
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        if (data.code == 1) {
+                                            if (data.url) {
+                                                location.href = data.url;
+                                            } else if (refresh || refresh == undefined) {
+                                                reloadPage(window);
+                                            }
+                                        } else if (data.code == 0) {
+                                            noty({
+                                                text: data.msg,
+                                                type: 'error',
+                                                layout: 'center',
+                                                callback: {
+                                                    afterClose: function () {
+                                                        if (data.url) {
+                                                            location.href = data.url;
+                                                        }
                                                     }
                                                 }
-                                            }
-                                        });
+                                            });
+                                        }
                                     }
                                 });
                             }
@@ -409,26 +414,31 @@
                             text: '确定',
                             onClick: function ($noty) {
                                 $noty.close();
-                                $.getJSON(href).done(function (data) {
-                                    if (data.code == 1) {
-                                        if (data.url) {
-                                            location.href = data.url;
-                                        } else if (refresh || refresh == undefined) {
-                                            reloadPage(window);
-                                        }
-                                    } else if (data.code == 0) {
-                                        noty({
-                                            text: data.msg,
-                                            type: 'error',
-                                            layout: 'center',
-                                            callback: {
-                                                afterClose: function () {
-                                                    if (data.url) {
-                                                        location.href = data.url;
+                                $.ajax({
+                                    url: href,
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        if (data.code == 1) {
+                                            if (data.url) {
+                                                location.href = data.url;
+                                            } else if (refresh || refresh == undefined) {
+                                                reloadPage(window);
+                                            }
+                                        } else if (data.code == 0) {
+                                            noty({
+                                                text: data.msg,
+                                                type: 'error',
+                                                layout: 'center',
+                                                callback: {
+                                                    afterClose: function () {
+                                                        if (data.url) {
+                                                            location.href = data.url;
+                                                        }
                                                     }
                                                 }
-                                            }
-                                        });
+                                            });
+                                        }
                                     }
                                 });
                             }
@@ -461,38 +471,43 @@
                 refresh    = refresh == undefined ? 1 : refresh;
 
 
-                $.getJSON(href).done(function (data) {
-                    if (data.code == 1) {
-                        noty({
-                            text: data.msg,
-                            type: 'success',
-                            layout: 'center',
-                            callback: {
-                                afterClose: function () {
-                                    if (data.url) {
-                                        location.href = data.url;
-                                        return;
-                                    }
+                $.ajax({
+                    url: href,
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == 1) {
+                            noty({
+                                text: data.msg,
+                                type: 'success',
+                                layout: 'center',
+                                callback: {
+                                    afterClose: function () {
+                                        if (data.url) {
+                                            location.href = data.url;
+                                            return;
+                                        }
 
-                                    if (refresh || refresh == undefined) {
-                                        reloadPage(window);
+                                        if (refresh || refresh == undefined) {
+                                            reloadPage(window);
+                                        }
                                     }
                                 }
-                            }
-                        });
-                    } else if (data.code == 0) {
-                        noty({
-                            text: data.msg,
-                            type: 'error',
-                            layout: 'center',
-                            callback: {
-                                afterClose: function () {
-                                    if (data.url) {
-                                        location.href = data.url;
+                            });
+                        } else if (data.code == 0) {
+                            noty({
+                                text: data.msg,
+                                type: 'error',
+                                layout: 'center',
+                                callback: {
+                                    afterClose: function () {
+                                        if (data.url) {
+                                            location.href = data.url;
+                                        }
                                     }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
                 });
 

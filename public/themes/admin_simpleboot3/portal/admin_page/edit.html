@@ -1,0 +1,225 @@
+<include file="public@header"/>
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+<script type="text/html" id="photos-item-tpl">
+    <li id="saved-image{id}">
+        <input id="photo-{id}" type="hidden" name="photo_urls[]" value="{filepath}">
+        <input class="form-control" id="photo-{id}-name" type="text" name="photo_names[]" value="{name}"
+               style="width: 200px;" title="图片名称">
+        <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
+             onclick="imagePreviewDialog(this.src);">
+        <a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
+        <a href="javascript:(function(){$('#saved-image{id}').remove();})();">移除</a>
+    </li>
+</script>
+<script type="text/html" id="files-item-tpl">
+    <li id="saved-file{id}">
+        <input id="file-{id}" type="hidden" name="file_urls[]" value="{filepath}">
+        <input class="form-control" id="file-{id}-name" type="text" name="file_names[]" value="{name}"
+               style="width: 200px;" title="文件名称">
+        <a id="file-{id}-preview" href="{preview_url}" target="_blank">下载</a>
+        <a href="javascript:uploadOne('文件上传','#file-{id}','file');">替换</a>
+        <a href="javascript:(function(){$('#saved-file{id}').remove();})();">移除</a>
+    </li>
+</script>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminPage/index')}">所有页面</a></li>
+        <li><a href="{:url('AdminPage/add')}">添加页面</a></li>
+        <li class="active"><a href="#">编辑页面</a></li>
+    </ul>
+    <form action="{:url('AdminPage/editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+        <div class="row">
+            <div class="col-md-9">
+                <table class="table table-bordered">
+                    <tr>
+                        <th width="100">标题<span class="form-required">*</span></th>
+                        <td>
+                            <input type="hidden" name="post[id]" value="{$post.id}">
+                            <input class="form-control" type="text" style="width: 400px;" name="post[post_title]"
+                                   required
+                                   value="{$post.post_title}" placeholder="请输入标题"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100">别名</th>
+                        <td>
+                            <input class="form-control" type="text" style="width: 400px;" name="post[post_alias]"
+                                   value="{$post.post_alias}" placeholder="请输入别名"/>
+                            <p class="help-block">用于美化url链接</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>关键词</th>
+                        <td>
+                            <input class="form-control" type="text" name="post[post_keywords]" style="width:400px"
+                                   value="{$post['post_keywords']}" placeholder="请输入关键字">
+                            <p class="help-block">多关键词之间用空格隔开</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>摘要</th>
+                        <td><textarea class="form-control" name="post[post_excerpt]" style="height: 50px;">{$post.post_excerpt}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>内容</th>
+                        <td>
+                            <script type="text/plain" id="content" name="post[post_content]">{$post.post_content}</script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>相册</th>
+                        <td>
+                            <ul id="photos" class="pic-list list-unstyled form-inline">
+                                <notempty name="post.more.photos">
+                                    <foreach name="post.more.photos" item="vo">
+                                        <php>$img_url=cmf_get_image_preview_url($vo['url']);</php>
+                                        <li id="saved-image{$key}">
+                                            <input id="photo-{$key}" type="hidden" name="photo_urls[]"
+                                                   value="{$vo.url}">
+                                            <input class="form-control" id="photo-{$key}-name" type="text"
+                                                   name="photo_names[]"
+                                                   value="{$vo.name|default=''}" style="width: 200px;" title="图片名称">
+                                            <img id="photo-{$key}-preview"
+                                                 src="{:cmf_get_image_preview_url($vo['url'])}"
+                                                 style="height:36px;width: 36px;"
+                                                 onclick="parent.imagePreviewDialog(this.src);">
+                                            <a href="javascript:uploadOneImage('图片上传','#photo-{$key}');">替换</a>
+                                            <a href="javascript:(function(){$('#saved-image{$key}').remove();})();">移除</a>
+                                        </li>
+                                    </foreach>
+                                </notempty>
+                            </ul>
+                            <a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-tpl');"
+                               class="btn btn-sm btn-default">选择图片</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>附件</th>
+                        <td>
+                            <ul id="files" class="pic-list list-unstyled form-inline">
+                                <notempty name="post.more.files">
+                                    <foreach name="post.more.files" item="vo">
+                                        <php>$file_url=cmf_get_file_download_url($vo['url']);</php>
+                                        <li id="saved-file{$key}">
+                                            <input id="file-{$key}" type="hidden" name="file_urls[]"
+                                                   value="{$vo.url}">
+                                            <input class="form-control" id="file-{$key}-name" type="text"
+                                                   name="file_names[]"
+                                                   value="{$vo.name}" style="width: 200px;" title="图片名称">
+                                            <a id="file-{$key}-preview" href="{$file_url}" target="_blank">下载</a>
+                                            <a href="javascript:uploadOne('文件上传','#file-{$key}','file');">替换</a>
+                                            <a href="javascript:(function(){$('#saved-file{$key}').remove();})();">移除</a>
+                                        </li>
+                                    </foreach>
+                                </notempty>
+                            </ul>
+                            <a href="javascript:uploadMultiFile('附件上传','#files','files-item-tpl','file');"
+                               class="btn btn-sm btn-default">选择文件</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                        <a class="btn btn-default" href="{:url('AdminPage/index')}">{:lang('BACK')}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>缩略图</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="text-align: center;">
+                                <input type='hidden' name='post[more][thumbnail]' id='thumbnail'
+                                       value="{$post.more.thumbnail|default=''}">
+                                <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
+                                    <if condition="empty($post['more']['thumbnail'])">
+                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                             id='thumbnail-preview'
+                                             width='135' height='135' style='cursor: pointer'/>
+                                        <else/>
+                                        <img src="{:cmf_get_image_preview_url($post['more']['thumbnail'])}"
+                                             id='thumbnail-preview'
+                                             width='135' height='135' style='cursor: hand'/>
+                                    </if>
+                                </a>
+                                <input type="button" class="btn btn-sm"
+                                       onclick="$('#thumbnail-preview').attr('src','__TMPL__/public/assets/images/default-thumbnail.png');$('#thumbnail').val('');return false;"
+                                       value="取消图片">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>发布时间</th>
+                    </tr>
+                    <tr>
+                        <td><input class="form-control js-bootstrap-datetime" type="text" name="post[published_time]"
+                                   value="{:date('Y-m-d H:i',$post['published_time'])}"></td>
+                    </tr>
+                    <tr>
+                        <th>状态</th>
+                        <php>
+                            $status_yes=$post['post_status']==1?"checked":"";
+                        </php>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="post[post_status]" value="1" {$status_yes}>发布
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>模板</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="form-control" name="post[more][template]" id="more-template-select">
+                                <option value="">请选择模板</option>
+                                <foreach name="page_theme_files" item="vo">
+                                    <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
+                                    <option value="{$value}">{$vo.name} {$vo.file}.html</option>
+                                </foreach>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        editorcontent = new baidu.editor.ui.Editor();
+        editorcontent.render('content');
+        try {
+            editorcontent.sync();
+        } catch (err) {
+        }
+
+        $('#more-template-select').val("{$post.more.template|default=''}");
+    });
+</script>
+</body>
+</html>
