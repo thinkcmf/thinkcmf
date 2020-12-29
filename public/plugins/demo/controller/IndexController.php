@@ -22,14 +22,4 @@ class IndexController extends PluginBaseController
 
         return $this->fetch('/index');
     }
-
-    public function test()
-    {
-        $data   = $this->request->param();
-        $result = $this->validate($data, "Demo");
-
-        if ($result !== true) {
-            $this->error($result);
-        }
-    }
 }
