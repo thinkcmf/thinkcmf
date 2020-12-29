@@ -40,6 +40,14 @@ ThinkCMF 6.0.0内测版 让你更自由地飞
 - [x] Swagger规范
 - [x] 强制所有创建，更新，删除操作为POST请求
 
+### Swagger
+#### 开启swagger
+调试模式下访问: http://你的域名/swagger
+
+#### 相关文档
+**OpenAPI** (https://www.openapis.org)  
+**Swagger-PHP** (https://zircote.github.io/swagger-php/)
+
 ### 待测试功能
 - [x] 所有基类控制器方法测试
 - [x] 所有模板常量测试
