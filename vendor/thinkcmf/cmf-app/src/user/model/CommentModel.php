@@ -18,7 +18,7 @@ class CommentModel extends Model
      */
     public function user()
     {
-        return $this->belongsTo('UserModel', 'user_id')->setEagerlyType(1);
+        return $this->belongsTo('UserModel', 'user_id');
     }
 
 

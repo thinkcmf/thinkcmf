@@ -39,7 +39,8 @@ ThinkCMF 6.0.0内测版 让你更自由地飞
 - [x] 验证码优化
 - [x] Swagger规范
 - [x] 强制所有创建，更新，删除操作为POST请求
-
+- [x] 增加基础控制器validateFailError()方法
+ 
 ### Swagger
 #### 开启swagger
 调试模式下访问: http://你的域名/swagger
