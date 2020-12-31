@@ -20,7 +20,6 @@
             "think\\": "src"
         },
         "classmap": [
-            "src/App.php",
             "src/Route.php",
             "src/Http.php",
             "src/route/Rule.php",
