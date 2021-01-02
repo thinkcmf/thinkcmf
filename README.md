@@ -1,7 +1,7 @@
 ThinkCMF 5.1.6 让你更自由地飞
 ===============
 
-### ThinkCMF6邀您来测
+### ThinkCMF 6.0.0已发布，推荐所有用户使用
 仓库地址如下：
 1. https://github.com/thinkcmf/thinkcmf/tree/6.0 主要仓库
 2. https://gitee.com/thinkcmf/ThinkCMF/tree/6.0 中国镜像
