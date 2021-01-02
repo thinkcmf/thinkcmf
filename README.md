@@ -5,6 +5,8 @@ ThinkCMF 5.1.6 让你更自由地飞
 仓库地址如下：
 1. https://github.com/thinkcmf/thinkcmf/tree/6.0 主要仓库
 2. https://gitee.com/thinkcmf/ThinkCMF/tree/6.0 中国镜像
+### 如何保证代码同时兼容5.1和6.0?
+https://www.thinkcmf.com/topic/10455.html
 
 ### 系列讲座
 https://www.thinkcmf.com/college.html
