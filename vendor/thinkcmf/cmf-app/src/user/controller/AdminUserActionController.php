@@ -77,7 +77,7 @@ class AdminUserActionController extends AdminBaseController
     public function edit()
     {
         $id     = $this->request->param('id', 0, 'intval');
-        $action = UserActionModel::where('id', $id)->find();
+        $action = UserActionModel::where('id', $id)->find()->toArray();
         $this->assign($action);
 
         return $this->fetch();
