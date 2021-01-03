@@ -74,7 +74,7 @@ class AdminOauthController extends AdminBaseController
             }
 
             ThirdPartyUserModel::where("id", $id)->delete();
-            $this->success("删除成功！", url('AdminOauth/index));
+            $this->success("删除成功！", url('AdminOauth/index'));
         }
     }
 

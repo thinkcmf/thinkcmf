@@ -184,7 +184,7 @@ class UserController extends AdminBaseController
         $role_ids = RoleUserModel::where("user_id", $id)->column("role_id");
         $this->assign("role_ids", $role_ids);
 
-        $user = UserModel::where("id", $id)->find();
+        $user = UserModel::where("id", $id)->find()->toArray();
         $this->assign($user);
         return $this->fetch();
     }
@@ -257,7 +257,7 @@ class UserController extends AdminBaseController
     public function userInfo()
     {
         $id   = cmf_get_current_admin_id();
-        $user = UserModel::where("id", $id)->find();
+        $user = UserModel::where("id", $id)->find()->toArray();
         $this->assign($user);
         return $this->fetch();
     }

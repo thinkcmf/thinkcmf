@@ -63,5 +63,8 @@ Db::name('user')->where('id', '>=', 1)
 ## 其它升级注意
 * `url()`方法输出不再是字符串（待考虑是否优化）
 
+## 删除关联类的setEagerlyType方法
+一对一关联无需在定义关联的时候指定为JOIN查询，在查询的时候直接使用withJoin方法即可使用JOIN
+
 ## 更多注意问题
 参见https://www.kancloud.cn/manual/thinkphp6_0/1037654

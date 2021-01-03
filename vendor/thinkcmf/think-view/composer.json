@@ -10,7 +10,7 @@
     ],
     "require": {
     	"php": ">=7.1.0",
-        "thinkcmf/think-template": "2.0.x-dev"
+        "thinkcmf/think-template": "~2.0.8"
     },
     "autoload": {
         "psr-4": {

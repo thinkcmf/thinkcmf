@@ -47,7 +47,7 @@
             $('.js-dialog').on('click', function (e) {
                 e.preventDefault();
                 var $_this = this,
-                    _this = $($_this);
+                    _this  = $($_this);
                 art.dialog.open($(this).prop('href'), {
                     close: function () {
                         $_this.focus(); //关闭时让触发弹窗的元素获取焦点
@@ -73,7 +73,7 @@
                 /*var btn = $(this).find('button.js-ajax-submit'),
                  form = $(this);*/
                 var btn = $(this), form = btn.parents('form.js-ajax-form');
-                $btn = btn;
+                $btn    = btn;
 
                 if (btn.data("loading")) {
                     return false;
@@ -327,14 +327,14 @@
         Wind.use('noty', function () {
             $('.js-ajax-delete').on('click', function (e) {
                 e.preventDefault();
-                var $_this = this,
-                    $this = $($_this),
-                    href = $this.data('href'),
-                    refresh = $this.data('refresh'),
-                    msg = $this.data('msg');
-                okBtnText = $this.data('ok-btn');
+                var $_this    = this,
+                    $this     = $($_this),
+                    href      = $this.data('href'),
+                    refresh   = $this.data('refresh'),
+                    msg       = $this.data('msg');
+                okBtnText     = $this.data('ok-btn');
                 cancelBtnText = $this.data('cancel-btn');
-                href = href ? href : $this.attr('href');
+                href          = href ? href : $this.attr('href');
                 noty({
                     text: msg ? msg : '确定要删除吗？',
                     type: 'confirm',
@@ -396,12 +396,12 @@
         Wind.use('noty', function () {
             $('.js-ajax-dialog-btn').on('click', function (e) {
                 e.preventDefault();
-                var $_this = this,
-                    $this = $($_this),
-                    href = $this.data('href'),
+                var $_this  = this,
+                    $this   = $($_this),
+                    href    = $this.data('href'),
                     refresh = $this.data('refresh'),
-                    msg = $this.data('msg');
-                href = href ? href : $this.attr('href');
+                    msg     = $this.data('msg');
+                href        = href ? href : $this.attr('href');
                 noty({
                     text: msg,
                     type: 'confirm',
@@ -458,17 +458,16 @@
         });
     }
 
-    if ($('a.js-ajax-btn').length) {
-        Wind.use('noty', function () {
-            $('.js-ajax-btn').on('click', function (e) {
-                e.preventDefault();
-                var $_this = this,
-                    $this = $($_this),
-                    href = $this.data('href'),
-                    msg = $this.data('msg');
-                refresh = $this.data('refresh');
-                href = href ? href : $this.attr('href');
-                refresh = refresh == undefined ? 1 : refresh;
+    Wind.use('noty', function () {
+        $('body').on('click', '.js-ajax-btn', function (e) {
+            e.preventDefault();
+            var $_this = this,
+                $this = $($_this),
+                href = $this.data('href'),
+                msg = $this.data('msg');
+            refresh = $this.data('refresh');
+            href = href ? href : $this.attr('href');
+            refresh = refresh == undefined ? 1 : refresh;
 
 
                 $.ajax({
@@ -511,10 +510,9 @@
                     }
                 });
 
-            });
-
         });
-    }
+
+    });
 
     //所有的请求刷新操作
     var ajax_refresh = $('a.js-ajax-refresh'),
@@ -553,17 +551,17 @@
                 if ($this.data('loading')) return;
                 if ($this.data('sending')) return;
                 var $mobile_input = $($this.data('mobile-input'));
-                var mobile = $mobile_input.val();
+                var mobile        = $mobile_input.val();
                 if (mobile == '') {
                     $mobile_input.focus();
                     return;
                 }
 
-                var $form = $this.parents('form');
-                var $captchaInput = $("input[name='captcha']", $form);
+                var $form           = $this.parents('form');
+                var $captchaInput   = $("input[name='captcha']", $form);
                 var $captchaIdInput = $("input[name='_captcha_id']", $form);
-                var captcha = $captchaInput.val();
-                var captchaId = $captchaIdInput.val();
+                var captcha         = $captchaInput.val();
+                var captchaId       = $captchaIdInput.val();
 
                 if (!captcha) {
                     $captchaInput.focus();
@@ -577,8 +575,8 @@
                 var url = $this.data('url');
 
                 var init_secode_left = parseInt($this.data('init-second-left'));
-                init_secode_left = init_secode_left > 0 ? init_secode_left : 60;
-                var init_text = $this.text();
+                init_secode_left     = init_secode_left > 0 ? init_secode_left : 60;
+                var init_text        = $this.text();
                 $this.data('second-left', init_secode_left);
                 var wait_msg = $this.data('wait-msg');
                 var codeType = $this.data('type');
@@ -644,17 +642,17 @@
                 if ($this.data('loading')) return;
                 if ($this.data('sending')) return;
                 var $email_input = $($this.data('email-input'));
-                var email = $email_input.val();
+                var email        = $email_input.val();
                 if (email == '') {
                     $email_input.focus();
                     return;
                 }
 
-                var $form = $this.parents('form');
-                var $captchaInput = $("input[name='captcha']", $form);
+                var $form           = $this.parents('form');
+                var $captchaInput   = $("input[name='captcha']", $form);
                 var $captchaIdInput = $("input[name='_captcha_id']", $form);
-                var captcha = $captchaInput.val();
-                var captchaId = $captchaIdInput.val();
+                var captcha         = $captchaInput.val();
+                var captchaId       = $captchaIdInput.val();
 
                 if (!captcha) {
                     $captchaInput.focus();
@@ -667,8 +665,8 @@
                 var url = $this.data('url');
 
                 var init_secode_left = parseInt($this.data('init-second-left'));
-                init_secode_left = init_secode_left > 0 ? init_secode_left : 60;
-                var init_text = $this.text();
+                init_secode_left     = init_secode_left > 0 ? init_secode_left : 60;
+                var init_text        = $this.text();
                 $this.data('second-left', init_secode_left);
                 var wait_msg = $this.data('wait-msg');
                 var codeType = $this.data('type');
@@ -744,7 +742,7 @@
 
             //分组各纵横项
             var check_all_direction = check_all.data('direction');
-            check_items = $('input.js-check[data-' + check_all_direction + 'id="' + check_all.data('checklist') + '"]').not(":disabled");
+            check_items             = $('input.js-check[data-' + check_all_direction + 'id="' + check_all.data('checklist') + '"]').not(":disabled");
 
             //点击全选框
             check_all.change(function (e) {
@@ -879,14 +877,14 @@
             $js_count_btn.on('click', function (e) {
                 e.preventDefault();
                 var $this = $(this),
-                    href = $this.prop('href');
+                    href  = $this.prop('href');
 
                 $.post(href, {}, function (data) {
 
                     if (data.code == 1) {
 
                         var $count = $this.find(".count");
-                        var count = parseInt($count.text());
+                        var count  = parseInt($count.text());
                         $count.text(count + 1);
                         if (data.msg) {
                             noty({
@@ -931,8 +929,8 @@
     var $js_address_select = $('.js-address-select');
     if ($js_address_select.length > 0) {
         $('.js-address-province-select,.js-address-city-select').change(function () {
-            var $this = $(this);
-            var id = $this.val();
+            var $this                   = $(this);
+            var id                      = $this.val();
             var $child_area_select;
             var $this_js_address_select = $this.parents('.js-address-select');
             if ($this.is('.js-address-province-select')) {
@@ -964,8 +962,8 @@
 
                             $.each(data.data.areas, function (i, area) {
                                 var area_html = '<option value="[id]">[name]</option>';
-                                area_html = area_html.replace('[name]', area.name);
-                                area_html = area_html.replace('[id]', area.id);
+                                area_html     = area_html.replace('[name]', area.name);
+                                area_html     = area_html.replace('[id]', area.id);
                                 html.push(area_html);
                             });
                             html = html.join('', html);
@@ -997,7 +995,7 @@
             $js_action_btn.on('click', function (e) {
                 e.preventDefault();
                 var $this = $(this),
-                    href = $this.prop('href');
+                    href  = $this.prop('href');
 
                 $.post(href, {}, function (data) {
 
@@ -1045,12 +1043,12 @@
         Wind.use('noty', function () {
             $js_favorite_btn.on('click', function (e) {
                 e.preventDefault();
-                var $this = $(this),
-                    href = $this.prop('href'),
-                    url = $this.data("url"),
-                    id = $this.data("id"),
-                    table = $this.data('table'),
-                    title = $this.data("title"),
+                var $this       = $(this),
+                    href        = $this.prop('href'),
+                    url         = $this.data("url"),
+                    id          = $this.data("id"),
+                    table       = $this.data('table'),
+                    title       = $this.data("title"),
                     description = $this.data("description");
 
 
@@ -1112,7 +1110,7 @@ function reloadPage(win) {
     } else {
         win = window;
     }
-    var location = win.location;
+    var location  = win.location;
     location.href = location.pathname + location.search;
 }
 
@@ -1148,7 +1146,7 @@ function getCookie(name) {
 function setCookie(name, value, options) {
     options = options || {};
     if (value === null) {
-        value = '';
+        value           = '';
         options.expires = -1;
     }
     var expires = '';
@@ -1162,9 +1160,9 @@ function setCookie(name, value, options) {
         }
         expires = '; expires=' + date.toUTCString(); // use expires attribute, max-age is not supported by IE
     }
-    var path = options.path ? '; path=' + options.path : '';
-    var domain = options.domain ? '; domain=' + options.domain : '';
-    var secure = options.secure ? '; secure' : '';
+    var path        = options.path ? '; path=' + options.path : '';
+    var domain      = options.domain ? '; domain=' + options.domain : '';
+    var secure      = options.secure ? '; secure' : '';
     document.cookie = [name, '=', encodeURIComponent(value), expires, path, domain, secure].join('');
 }
 
@@ -1175,7 +1173,7 @@ function openIframeDialog(url, title, options) {
         opacity: 0,
         width: "95%"
     };
-    params = options ? $.extend(params, options) : params;
+    params     = options ? $.extend(params, options) : params;
     Wind.use('artDialog', 'iframeTools', function () {
         art.dialog.open(url, params);
     });
@@ -1199,19 +1197,19 @@ function openMapDialog(url, title, options, callback) {
         height: 400,
         ok: function () {
             if (callback) {
-                var d = this.iframe.contentWindow;
-                var lng = $("#lng_input", d.document).val();
-                var lat = $("#lat_input", d.document).val();
-                var address = {};
-                address.address = $("#address_input", d.document).val();
+                var d            = this.iframe.contentWindow;
+                var lng          = $("#lng_input", d.document).val();
+                var lat          = $("#lat_input", d.document).val();
+                var address      = {};
+                address.address  = $("#address_input", d.document).val();
                 address.province = $("#province_input", d.document).val();
-                address.city = $("#city_input", d.document).val();
+                address.city     = $("#city_input", d.document).val();
                 address.district = $("#district_input", d.document).val();
                 callback.apply(this, [lng, lat, address]);
             }
         }
     };
-    params = options ? $.extend(params, options) : params;
+    params     = options ? $.extend(params, options) : params;
     Wind.use('artDialog', 'iframeTools', function () {
         art.dialog.open(url, params);
     });
@@ -1228,9 +1226,9 @@ function openMapDialog(url, title, options, callback) {
  */
 function openUploadDialog(dialog_title, callback, extra_params, multi, filetype, app) {
     Wind.css('artDialog');
-    multi = multi ? 1 : 0;
-    filetype = filetype ? filetype : 'image';
-    app = app ? app : GV.APP;
+    multi      = multi ? 1 : 0;
+    filetype   = filetype ? filetype : 'image';
+    app        = app ? app : GV.APP;
     var params = '&multi=' + multi + '&filetype=' + filetype + '&app=' + app;
     Wind.use("artDialog", "iframeTools", function () {
         art.dialog.open(GV.ROOT + 'user/Asset/webuploader?' + params, {
@@ -1245,7 +1243,7 @@ function openUploadDialog(dialog_title, callback, extra_params, multi, filetype,
             ok: function () {
                 if (typeof callback == 'function') {
                     var iframewindow = this.iframe.contentWindow;
-                    var files = iframewindow.get_selected_files();
+                    var files        = iframewindow.get_selected_files();
                     console.log(files);
                     if (files && files.length > 0) {
                         callback.apply(this, [this, files, extra_params]);
@@ -1309,15 +1307,15 @@ function uploadOneImage(dialog_title, input_selector, extra_params, app) {
  */
 function uploadMultiImage(dialog_title, container_selector, item_tpl_wrapper_id, extra_params, app) {
     openUploadDialog(dialog_title, function (dialog, files) {
-        var tpl = $('#' + item_tpl_wrapper_id).html();
+        var tpl  = $('#' + item_tpl_wrapper_id).html();
         var html = '';
         $.each(files, function (i, item) {
             var itemtpl = tpl;
-            itemtpl = itemtpl.replace(/\{id\}/g, item.id);
-            itemtpl = itemtpl.replace(/\{url\}/g, item.url);
-            itemtpl = itemtpl.replace(/\{preview_url\}/g, item.preview_url);
-            itemtpl = itemtpl.replace(/\{filepath\}/g, item.filepath);
-            itemtpl = itemtpl.replace(/\{name\}/g, item.name);
+            itemtpl     = itemtpl.replace(/\{id\}/g, item.id);
+            itemtpl     = itemtpl.replace(/\{url\}/g, item.url);
+            itemtpl     = itemtpl.replace(/\{preview_url\}/g, item.preview_url);
+            itemtpl     = itemtpl.replace(/\{filepath\}/g, item.filepath);
+            itemtpl     = itemtpl.replace(/\{name\}/g, item.name);
             html += itemtpl;
         });
         $(container_selector).append(html);
@@ -1337,15 +1335,15 @@ function uploadMultiImage(dialog_title, container_selector, item_tpl_wrapper_id,
 function uploadMultiFile(dialog_title, container_selector, item_tpl_wrapper_id, filetype, extra_params, app) {
     filetype = filetype ? filetype : 'file';
     openUploadDialog(dialog_title, function (dialog, files) {
-        var tpl = $('#' + item_tpl_wrapper_id).html();
+        var tpl  = $('#' + item_tpl_wrapper_id).html();
         var html = '';
         $.each(files, function (i, item) {
             var itemtpl = tpl;
-            itemtpl = itemtpl.replace(/\{id\}/g, item.id);
-            itemtpl = itemtpl.replace(/\{url\}/g, item.url);
-            itemtpl = itemtpl.replace(/\{preview_url\}/g, item.preview_url);
-            itemtpl = itemtpl.replace(/\{filepath\}/g, item.filepath);
-            itemtpl = itemtpl.replace(/\{name\}/g, item.name);
+            itemtpl     = itemtpl.replace(/\{id\}/g, item.id);
+            itemtpl     = itemtpl.replace(/\{url\}/g, item.url);
+            itemtpl     = itemtpl.replace(/\{preview_url\}/g, item.preview_url);
+            itemtpl     = itemtpl.replace(/\{filepath\}/g, item.filepath);
+            itemtpl     = itemtpl.replace(/\{name\}/g, item.name);
             html += itemtpl;
         });
         $(container_selector).append(html);
@@ -1370,7 +1368,7 @@ function openIframeLayer(url, title, options) {
             layer.close(index); //如果设定了yes回调，需进行手工关闭
         }
     };
-    params = options ? $.extend(params, options) : params;
+    params     = options ? $.extend(params, options) : params;
 
     Wind.css('layer');
 
