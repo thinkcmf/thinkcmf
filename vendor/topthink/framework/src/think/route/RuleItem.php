@@ -292,10 +292,13 @@ class RuleItem extends Rule
             $regex = $this->buildRuleRegex($rule, $matches[0], $pattern, $option, $completeMatch);
 
             try {
+                print_r($regex);
                 if (!preg_match('/^' . $regex . '/u', $url, $match)) {
                     return false;
                 }
             } catch (\Exception $e) {
+                print_r($regex);
+                print_r($e->getMessage());
                 throw new Exception('route pattern error');
             }
 
