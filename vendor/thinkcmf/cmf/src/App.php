@@ -39,7 +39,7 @@ use think\initializer\RegisterService;
  */
 class App extends Container
 {
-    const VERSION = '6.0.5';
+    const VERSION = '6.0.7';
 
     /**
      * 应用调试模式
@@ -181,7 +181,7 @@ class App extends Container
         if (defined('RUNTIME_PATH')) {
             $this->runtimePath = RUNTIME_PATH;
         }
-        
+
         if (is_file($this->appPath . 'provider.php')) {
             $this->bind(include $this->appPath . 'provider.php');
         }
