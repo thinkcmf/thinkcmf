@@ -379,7 +379,7 @@ function cmf_clear_cache()
  */
 function cmf_save_var($path, $var)
 {
-    $result = file_put_contents($path, "<?php\treturn " . var_export($var, true) . ";?>");
+    $result = file_put_contents($path, "<?php\treturn " . var_export($var, true) . ";");
     return $result;
 }
 
@@ -668,8 +668,8 @@ function cmf_strip_chars($str, $chars = '?<*.>\'\"')
  * @return array<br>
  *                        返回格式：<br>
  *                        array(<br>
- *                        "error"=>0|1,//0代表出错<br>
- *                        "message"=> "出错信息"<br>
+ *                        &nbsp;"error"=>0|1,//0代表出错<br>
+ *                        &nbsp;"message"=> "出错信息"<br>
  *                        );
  * @throws phpmailerException
  */
@@ -969,7 +969,8 @@ function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, 
             "action"          => $action,
             "object"          => $object,
             "count"           => Db::raw("count+1"),
-            "last_visit_time" => $time, "ip" => $ip
+            "last_visit_time" => $time,
+            "ip"              => $ip
         ]);
     }
 
@@ -1790,7 +1791,6 @@ function cmf_is_installed()
  */
 function cmf_replace_content_file_url($content, $isForDbSave = false)
 {
-    //import('phpQuery.phpQuery', EXTEND_PATH);
     \phpQuery::newDocumentHTML($content);
     $pq = pq(null);
 
