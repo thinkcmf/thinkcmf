@@ -1,0 +1,18 @@
+<extend name="public@base"/>
+<block name="main">
+    <div style="color: red;">
+        这里是主要内容，被我改了！
+        <b>网站根目录，不带/:</b>__ROOT__
+
+        __WEB_ROOT__:
+        网站资源根目录,不带/,如果以前版本用__ROOT__来定位网站资源,方便以后cdn切换
+
+        __TMPL__:
+        当前模板根目录，不带/;
+        如:前台 default模板根目录是 public/themes/default
+        后台admin_simpleboot3模板根目录是public/themes/admin_simpleboot3
+
+        __STATIC__:
+        public/static目录,不带/;
+    </div>
+</block>

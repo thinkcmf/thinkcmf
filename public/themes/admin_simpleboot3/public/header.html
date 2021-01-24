@@ -45,13 +45,21 @@
             color: red;
         }
     </style>
+    <php>
+        $cmf_version=cmf_version();
+        if (strpos(cmf_version(), '6.') === 0) {
+            $_app=app()->http->getName();
+        }else{
+            $_app=request()->module();
+        }
+    </php>
     <script type="text/javascript">
         //全局变量
         var GV = {
             ROOT: "__ROOT__/",
             WEB_ROOT: "__WEB_ROOT__/",
             JS_ROOT: "static/js/",
-            APP: '{$Request.module}'/*当前应用名*/
+            APP: '{$_app}'/*当前应用名*/
         };
     </script>
     <script src="__TMPL__/public/assets/js/jquery-1.10.2.min.js"></script>
