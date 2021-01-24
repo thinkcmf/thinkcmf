@@ -122,8 +122,8 @@ class Upload
         if (empty($userId)) {
             $userId = Db::name('user_token')->where('token', $this->request->header('XX-Token'))->field('user_id,token')->value('user_id');
         }
-        $targetDir = Env::get('runtime_path') . "upload" . DIRECTORY_SEPARATOR . $userId . DIRECTORY_SEPARATOR; // 断点续传 need
-        if (!file_exists($targetDir)) {
+        $targetDir = runtime_path() . "upload" . DIRECTORY_SEPARATOR . $userId . DIRECTORY_SEPARATOR; // 断点续传 need
+        if (!is_dir($targetDir)) {
             mkdir($targetDir, 0777, true);
         }
 
@@ -262,10 +262,10 @@ class Upload
         //  $url=$first['url'];
         $storageSetting = cmf_get_cmf_settings('storage');
 
-        if (is_array($storageSetting) && is_array($storageSetting['Qiniu']) && array_key_exists("setting",$storageSetting['Qiniu'])){
-            $qiniuSetting   = $storageSetting['Qiniu']['setting'];
-        }else{
-            $qiniuSetting   = "";
+        if (is_array($storageSetting) && is_array($storageSetting['Qiniu']) && array_key_exists("setting", $storageSetting['Qiniu'])) {
+            $qiniuSetting = $storageSetting['Qiniu']['setting'];
+        } else {
+            $qiniuSetting = "";
 
         }
         //$url=preg_replace('/^https/', $qiniu_setting['protocol'], $url);
