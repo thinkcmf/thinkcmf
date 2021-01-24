@@ -16,6 +16,9 @@ class PluginAdminBaseController extends PluginBaseController
     // 初始化
     protected function initialize()
     {
+        // 监听admin_init
+        $param = ['is_plugin' => true];
+        hook('admin_init', $param);
         $adminId = cmf_get_current_admin_id();
         if (!empty($adminId)) {
             if (!$this->checkAccess($adminId)) {

@@ -1,641 +1,678 @@
-[
-    {
-        "name": "electrolinux/phpquery",
-        "version": "0.9.6",
-        "version_normalized": "0.9.6.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/electrolinux/phpquery.git",
-            "reference": "6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/electrolinux/phpquery/zipball/6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a",
-            "reference": "6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a",
-            "shasum": ""
-        },
-        "time": "2013-03-21T12:39:33+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "phpQuery/"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Tobiasz Cudnik",
-                "email": "tobiasz.cudnik@gmail.com",
-                "homepage": "https://github.com/TobiaszCudnik",
-                "role": "Developer"
+{
+    "packages": [
+        {
+            "name": "electrolinux/phpquery",
+            "version": "0.9.6",
+            "version_normalized": "0.9.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/electrolinux/phpquery.git",
+                "reference": "6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a"
             },
-            {
-                "name": "didier Belot",
-                "role": "Packager"
-            }
-        ],
-        "description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library",
-        "homepage": "http://code.google.com/p/phpquery/"
-    },
-    {
-        "name": "ezyang/htmlpurifier",
-        "version": "v4.13.0",
-        "version_normalized": "4.13.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/ezyang/htmlpurifier.git",
-            "reference": "08e27c97e4c6ed02f37c5b2b20488046c8d90d75"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/08e27c97e4c6ed02f37c5b2b20488046c8d90d75",
-            "reference": "08e27c97e4c6ed02f37c5b2b20488046c8d90d75",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.2"
-        },
-        "require-dev": {
-            "simpletest/simpletest": "dev-master#72de02a7b80c6bb8864ef9bf66d41d2f58f826bd"
-        },
-        "time": "2020-06-29T00:56:53+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "HTMLPurifier": "library/"
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/electrolinux/phpquery/zipball/6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a",
+                "reference": "6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a",
+                "shasum": ""
             },
-            "files": [
-                "library/HTMLPurifier.composer.php"
+            "time": "2013-03-21T12:39:33+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "classmap": [
+                    "phpQuery/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
             ],
-            "exclude-from-classmap": [
-                "/library/HTMLPurifier/Language/"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "LGPL-2.1-or-later"
-        ],
-        "authors": [
-            {
-                "name": "Edward Z. Yang",
-                "email": "admin@htmlpurifier.org",
-                "homepage": "http://ezyang.com"
-            }
-        ],
-        "description": "Standards compliant HTML filter written in PHP",
-        "homepage": "http://htmlpurifier.org/",
-        "keywords": [
-            "html"
-        ]
-    },
-    {
-        "name": "mindplay/annotations",
-        "version": "1.3.1",
-        "version_normalized": "1.3.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/php-annotations/php-annotations.git",
-            "reference": "77ef66f79fb65a7b7e7e005be0bd6b643de43867"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/php-annotations/php-annotations/zipball/77ef66f79fb65a7b7e7e005be0bd6b643de43867",
-            "reference": "77ef66f79fb65a7b7e7e005be0bd6b643de43867",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "require-dev": {
-            "phpunit/php-code-coverage": "~1.2.1",
-            "phpunit/php-file-iterator": ">=1.3.0@stable"
-        },
-        "time": "2019-01-15T17:03:08+00:00",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.3.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "mindplay\\annotations\\": "src\\annotations"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "LGPL-3.0+"
-        ],
-        "authors": [
-            {
-                "name": "Rasmus Schultz",
-                "email": "rasmus@mindplay.dk"
-            }
-        ],
-        "description": "Industrial-strength annotations for PHP",
-        "homepage": "http://blog.mindplay.dk/",
-        "keywords": [
-            "annotations",
-            "framework"
-        ]
-    },
-    {
-        "name": "phpmailer/phpmailer",
-        "version": "v6.1.8",
-        "version_normalized": "6.1.8.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/PHPMailer/PHPMailer.git",
-            "reference": "917ab212fa00dc6eacbb26e8bc387ebe40993bc1"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/917ab212fa00dc6eacbb26e8bc387ebe40993bc1",
-            "reference": "917ab212fa00dc6eacbb26e8bc387ebe40993bc1",
-            "shasum": ""
-        },
-        "require": {
-            "ext-ctype": "*",
-            "ext-filter": "*",
-            "ext-hash": "*",
-            "php": ">=5.5.0"
-        },
-        "require-dev": {
-            "doctrine/annotations": "^1.2",
-            "friendsofphp/php-cs-fixer": "^2.2",
-            "phpunit/phpunit": "^4.8 || ^5.7"
-        },
-        "suggest": {
-            "ext-mbstring": "Needed to send email in multibyte encoding charset",
-            "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
-            "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
-            "psr/log": "For optional PSR-3 debug logging",
-            "stevenmaguire/oauth2-microsoft": "Needed for Microsoft XOAUTH2 authentication",
-            "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
-        },
-        "time": "2020-10-09T14:55:58+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "PHPMailer\\PHPMailer\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "LGPL-2.1-only"
-        ],
-        "authors": [
-            {
-                "name": "Marcus Bointon",
-                "email": "phpmailer@synchromedia.co.uk"
-            },
-            {
-                "name": "Jim Jagielski",
-                "email": "jimjag@gmail.com"
-            },
-            {
-                "name": "Andy Prevost",
-                "email": "codeworxtech@users.sourceforge.net"
-            },
-            {
-                "name": "Brent R. Matzelle"
-            }
-        ],
-        "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-        "funding": [
-            {
-                "url": "https://github.com/synchro",
-                "type": "github"
-            }
-        ]
-    },
-    {
-        "name": "thinkcmf/cmf",
-        "version": "v5.1.11",
-        "version_normalized": "5.1.11.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/thinkcmf/cmf-core.git",
-            "reference": "f9e726abc3b6412bdce8b5d1e426e40bb2932380"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/f9e726abc3b6412bdce8b5d1e426e40bb2932380",
-            "reference": "f9e726abc3b6412bdce8b5d1e426e40bb2932380",
-            "shasum": ""
-        },
-        "require": {
-            "electrolinux/phpquery": "^0.9.6",
-            "ezyang/htmlpurifier": "^4.9",
-            "mindplay/annotations": "^1.3",
-            "phpmailer/phpmailer": "~6.0",
-            "thinkcmf/cmf-extend": "~5.1.0",
-            "topthink/framework": "~5.1.0",
-            "topthink/think-captcha": "^2.0"
-        },
-        "time": "2019-12-16T09:51:55+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "cmf\\": "src"
-            },
-            "files": [
-                "src/common.php"
+            "authors": [
+                {
+                    "name": "Tobiasz Cudnik",
+                    "email": "tobiasz.cudnik@gmail.com",
+                    "homepage": "https://github.com/TobiaszCudnik",
+                    "role": "Developer"
+                },
+                {
+                    "name": "didier Belot",
+                    "role": "Packager"
+                }
             ],
-            "classmap": [
-                "src/App.php",
-                "src/Log.php",
-                "src/route/dispatch/Module.php",
-                "src/facade/Db.php"
-            ]
+            "description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library",
+            "homepage": "http://code.google.com/p/phpquery/",
+            "install-path": "../electrolinux/phpquery"
         },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "catman",
-                "email": "catman@thinkcmf.com"
-            }
-        ],
-        "description": "The ThinkCMF Core Package"
-    },
-    {
-        "name": "thinkcmf/cmf-api",
-        "version": "v5.1.6",
-        "version_normalized": "5.1.6.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/thinkcmf/cmf-api.git",
-            "reference": "a7d9edecc8c44aec6395dac8678a2577127f776d"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/a7d9edecc8c44aec6395dac8678a2577127f776d",
-            "reference": "a7d9edecc8c44aec6395dac8678a2577127f776d",
-            "shasum": ""
-        },
-        "require": {
-            "thinkcmf/cmf": "~5.1.0"
-        },
-        "time": "2019-07-23T23:29:11+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "api\\": "src"
+        {
+            "name": "ezyang/htmlpurifier",
+            "version": "v4.13.0",
+            "version_normalized": "4.13.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ezyang/htmlpurifier.git",
+                "reference": "08e27c97e4c6ed02f37c5b2b20488046c8d90d75"
             },
-            "files": []
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "catman",
-                "email": "catman@thinkcmf.com"
-            }
-        ],
-        "description": "The ThinkCMF 5.1 Core Api Package"
-    },
-    {
-        "name": "thinkcmf/cmf-app",
-        "version": "v5.1.6",
-        "version_normalized": "5.1.6.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/thinkcmf/cmf-app.git",
-            "reference": "dd02fc871dcfccc59ac21750ce6ddec359e79e7d"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/dd02fc871dcfccc59ac21750ce6ddec359e79e7d",
-            "reference": "dd02fc871dcfccc59ac21750ce6ddec359e79e7d",
-            "shasum": ""
-        },
-        "require": {
-            "thinkcmf/cmf": "~5.1.0"
-        },
-        "time": "2019-09-06T03:58:33+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "app\\": "src"
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/08e27c97e4c6ed02f37c5b2b20488046c8d90d75",
+                "reference": "08e27c97e4c6ed02f37c5b2b20488046c8d90d75",
+                "shasum": ""
             },
-            "files": []
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "catman",
-                "email": "catman@thinkcmf.com"
-            }
-        ],
-        "description": "The ThinkCMF App Package"
-    },
-    {
-        "name": "thinkcmf/cmf-extend",
-        "version": "v5.1.0",
-        "version_normalized": "5.1.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/thinkcmf/cmf-extend.git",
-            "reference": "39cbfdc69980a4f4b98ee82fa16c605004f26f5f"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-extend/zipball/39cbfdc69980a4f4b98ee82fa16c605004f26f5f",
-            "reference": "39cbfdc69980a4f4b98ee82fa16c605004f26f5f",
-            "shasum": ""
-        },
-        "time": "2019-03-04T05:15:23+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "dir\\": "src/dir",
-                "tree\\": "src/tree",
-                "wxapp\\": "src/wxapp"
+            "require": {
+                "php": ">=5.2"
             },
-            "files": []
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "catman",
-                "email": "catman@thinkcmf.com"
-            }
-        ],
-        "description": "The ThinkCMF extend Package"
-    },
-    {
-        "name": "thinkcmf/cmf-install",
-        "version": "v5.1.4",
-        "version_normalized": "5.1.4.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/thinkcmf/cmf-install.git",
-            "reference": "651f7ff4d4413e2bcf98823853144bb2b67f671a"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/651f7ff4d4413e2bcf98823853144bb2b67f671a",
-            "reference": "651f7ff4d4413e2bcf98823853144bb2b67f671a",
-            "shasum": ""
-        },
-        "time": "2019-07-23T23:26:40+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "app\\install\\": "src"
+            "require-dev": {
+                "simpletest/simpletest": "dev-master#72de02a7b80c6bb8864ef9bf66d41d2f58f826bd"
             },
-            "files": []
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "catman",
-                "email": "catman@thinkcmf.com"
-            }
-        ],
-        "description": "The ThinkCMF Install Package"
-    },
-    {
-        "name": "topthink/framework",
-        "version": "v5.1.40",
-        "version_normalized": "5.1.40.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/framework.git",
-            "reference": "df0f92d58c70207c9ce9526fa7743eeff0831328"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/top-think/framework/zipball/df0f92d58c70207c9ce9526fa7743eeff0831328",
-            "reference": "df0f92d58c70207c9ce9526fa7743eeff0831328",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.6.0",
-            "topthink/think-installer": "2.*"
-        },
-        "require-dev": {
-            "johnkary/phpunit-speedtrap": "^1.0",
-            "mikey179/vfsstream": "~1.6",
-            "phpdocumentor/reflection-docblock": "^2.0",
-            "phploc/phploc": "2.*",
-            "phpunit/phpunit": "^5.0|^6.0",
-            "sebastian/phpcpd": "2.*",
-            "squizlabs/php_codesniffer": "2.*"
-        },
-        "time": "2020-10-09T07:36:44+00:00",
-        "type": "think-framework",
-        "installation-source": "dist",
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "liu21st",
-                "email": "liu21st@gmail.com"
+            "time": "2020-06-29T00:56:53+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-0": {
+                    "HTMLPurifier": "library/"
+                },
+                "files": [
+                    "library/HTMLPurifier.composer.php"
+                ],
+                "exclude-from-classmap": [
+                    "/library/HTMLPurifier/Language/"
+                ]
             },
-            {
-                "name": "yunwuxin",
-                "email": "448901948@qq.com"
-            }
-        ],
-        "description": "the new thinkphp framework",
-        "homepage": "http://thinkphp.cn/",
-        "keywords": [
-            "framework",
-            "orm",
-            "thinkphp"
-        ]
-    },
-    {
-        "name": "topthink/think-captcha",
-        "version": "v2.0.2",
-        "version_normalized": "2.0.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/think-captcha.git",
-            "reference": "54c8a51552f99ff9ea89ea9c272383a8f738ceee"
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Edward Z. Yang",
+                    "email": "admin@htmlpurifier.org",
+                    "homepage": "http://ezyang.com"
+                }
+            ],
+            "description": "Standards compliant HTML filter written in PHP",
+            "homepage": "http://htmlpurifier.org/",
+            "keywords": [
+                "html"
+            ],
+            "install-path": "../ezyang/htmlpurifier"
         },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/top-think/think-captcha/zipball/54c8a51552f99ff9ea89ea9c272383a8f738ceee",
-            "reference": "54c8a51552f99ff9ea89ea9c272383a8f738ceee",
-            "shasum": ""
-        },
-        "require": {
-            "topthink/framework": "5.1.*"
-        },
-        "time": "2017-12-31T16:37:49+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "think\\captcha\\": "src/"
+        {
+            "name": "mindplay/annotations",
+            "version": "1.3.2",
+            "version_normalized": "1.3.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-annotations/php-annotations.git",
+                "reference": "7e1547259a6aa7e3abc3832207499943614e9d13"
             },
-            "files": [
-                "src/helper.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "yunwuxin",
-                "email": "448901948@qq.com"
-            }
-        ],
-        "description": "captcha package for thinkphp5"
-    },
-    {
-        "name": "topthink/think-helper",
-        "version": "v1.0.7",
-        "version_normalized": "1.0.7.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/think-helper.git",
-            "reference": "5f92178606c8ce131d36b37a57c58eb71e55f019"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/top-think/think-helper/zipball/5f92178606c8ce131d36b37a57c58eb71e55f019",
-            "reference": "5f92178606c8ce131d36b37a57c58eb71e55f019",
-            "shasum": ""
-        },
-        "time": "2018-10-05T00:43:21+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "think\\helper\\": "src"
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-annotations/php-annotations/zipball/7e1547259a6aa7e3abc3832207499943614e9d13",
+                "reference": "7e1547259a6aa7e3abc3832207499943614e9d13",
+                "shasum": ""
             },
-            "files": [
-                "src/helper.php"
-            ]
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/php-code-coverage": "~1.2.1",
+                "phpunit/php-file-iterator": ">=1.3.0@stable"
+            },
+            "time": "2021-01-21T11:42:37+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "mindplay\\annotations\\": "src\\annotations"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Rasmus Schultz",
+                    "email": "rasmus@mindplay.dk"
+                }
+            ],
+            "description": "Industrial-strength annotations for PHP",
+            "homepage": "http://blog.mindplay.dk/",
+            "keywords": [
+                "annotations",
+                "framework"
+            ],
+            "support": {
+                "issues": "https://github.com/php-annotations/php-annotations/issues",
+                "source": "https://github.com/php-annotations/php-annotations/tree/1.3.2"
+            },
+            "install-path": "../mindplay/annotations"
         },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "yunwuxin",
-                "email": "448901948@qq.com"
-            }
-        ],
-        "description": "The ThinkPHP5 Helper Package"
-    },
-    {
-        "name": "topthink/think-image",
-        "version": "v1.0.7",
-        "version_normalized": "1.0.7.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/think-image.git",
-            "reference": "8586cf47f117481c6d415b20f7dedf62e79d5512"
+        {
+            "name": "phpmailer/phpmailer",
+            "version": "v6.2.0",
+            "version_normalized": "6.2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPMailer/PHPMailer.git",
+                "reference": "e38888a75c070304ca5514197d4847a59a5c853f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/e38888a75c070304ca5514197d4847a59a5c853f",
+                "reference": "e38888a75c070304ca5514197d4847a59a5c853f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-filter": "*",
+                "ext-hash": "*",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+                "doctrine/annotations": "^1.2",
+                "phpcompatibility/php-compatibility": "^9.3.5",
+                "roave/security-advisories": "dev-latest",
+                "squizlabs/php_codesniffer": "^3.5.6",
+                "yoast/phpunit-polyfills": "^0.2.0"
+            },
+            "suggest": {
+                "ext-mbstring": "Needed to send email in multibyte encoding charset",
+                "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
+                "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
+                "psr/log": "For optional PSR-3 debug logging",
+                "stevenmaguire/oauth2-microsoft": "Needed for Microsoft XOAUTH2 authentication",
+                "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
+            },
+            "time": "2020-11-25T15:24:57+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "PHPMailer\\PHPMailer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1-only"
+            ],
+            "authors": [
+                {
+                    "name": "Marcus Bointon",
+                    "email": "phpmailer@synchromedia.co.uk"
+                },
+                {
+                    "name": "Jim Jagielski",
+                    "email": "jimjag@gmail.com"
+                },
+                {
+                    "name": "Andy Prevost",
+                    "email": "codeworxtech@users.sourceforge.net"
+                },
+                {
+                    "name": "Brent R. Matzelle"
+                }
+            ],
+            "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+            "support": {
+                "issues": "https://github.com/PHPMailer/PHPMailer/issues",
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Synchro",
+                    "type": "github"
+                }
+            ],
+            "install-path": "../phpmailer/phpmailer"
         },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/top-think/think-image/zipball/8586cf47f117481c6d415b20f7dedf62e79d5512",
-            "reference": "8586cf47f117481c6d415b20f7dedf62e79d5512",
-            "shasum": ""
+        {
+            "name": "thinkcmf/cmf",
+            "version": "v5.1.11",
+            "version_normalized": "5.1.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thinkcmf/cmf-core.git",
+                "reference": "f9e726abc3b6412bdce8b5d1e426e40bb2932380"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/f9e726abc3b6412bdce8b5d1e426e40bb2932380",
+                "reference": "f9e726abc3b6412bdce8b5d1e426e40bb2932380",
+                "shasum": ""
+            },
+            "require": {
+                "electrolinux/phpquery": "^0.9.6",
+                "ezyang/htmlpurifier": "^4.9",
+                "mindplay/annotations": "^1.3",
+                "phpmailer/phpmailer": "~6.0",
+                "thinkcmf/cmf-extend": "~5.1.0",
+                "topthink/framework": "~5.1.0",
+                "topthink/think-captcha": "^2.0"
+            },
+            "time": "2019-12-16T09:51:55+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "cmf\\": "src"
+                },
+                "files": [
+                    "src/common.php"
+                ],
+                "classmap": [
+                    "src/App.php",
+                    "src/Log.php",
+                    "src/route/dispatch/Module.php",
+                    "src/facade/Db.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "catman",
+                    "email": "catman@thinkcmf.com"
+                }
+            ],
+            "description": "The ThinkCMF Core Package",
+            "install-path": "../thinkcmf/cmf"
         },
-        "require": {
-            "ext-gd": "*"
+        {
+            "name": "thinkcmf/cmf-api",
+            "version": "v5.1.6",
+            "version_normalized": "5.1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thinkcmf/cmf-api.git",
+                "reference": "a7d9edecc8c44aec6395dac8678a2577127f776d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/a7d9edecc8c44aec6395dac8678a2577127f776d",
+                "reference": "a7d9edecc8c44aec6395dac8678a2577127f776d",
+                "shasum": ""
+            },
+            "require": {
+                "thinkcmf/cmf": "~5.1.0"
+            },
+            "time": "2019-07-23T23:29:11+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "api\\": "src"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "catman",
+                    "email": "catman@thinkcmf.com"
+                }
+            ],
+            "description": "The ThinkCMF 5.1 Core Api Package",
+            "install-path": "../thinkcmf/cmf-api"
         },
-        "require-dev": {
-            "phpunit/phpunit": "4.8.*",
-            "topthink/framework": "^5.0"
+        {
+            "name": "thinkcmf/cmf-app",
+            "version": "v5.1.6",
+            "version_normalized": "5.1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thinkcmf/cmf-app.git",
+                "reference": "dd02fc871dcfccc59ac21750ce6ddec359e79e7d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/dd02fc871dcfccc59ac21750ce6ddec359e79e7d",
+                "reference": "dd02fc871dcfccc59ac21750ce6ddec359e79e7d",
+                "shasum": ""
+            },
+            "require": {
+                "thinkcmf/cmf": "~5.1.0"
+            },
+            "time": "2019-09-06T03:58:33+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "app\\": "src"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "catman",
+                    "email": "catman@thinkcmf.com"
+                }
+            ],
+            "description": "The ThinkCMF App Package",
+            "install-path": "../thinkcmf/cmf-app"
         },
-        "time": "2016-09-29T06:05:43+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "think\\": "src"
-            }
+        {
+            "name": "thinkcmf/cmf-extend",
+            "version": "v5.1.0",
+            "version_normalized": "5.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thinkcmf/cmf-extend.git",
+                "reference": "39cbfdc69980a4f4b98ee82fa16c605004f26f5f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-extend/zipball/39cbfdc69980a4f4b98ee82fa16c605004f26f5f",
+                "reference": "39cbfdc69980a4f4b98ee82fa16c605004f26f5f",
+                "shasum": ""
+            },
+            "time": "2019-03-04T05:15:23+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "dir\\": "src/dir",
+                    "tree\\": "src/tree",
+                    "wxapp\\": "src/wxapp"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "catman",
+                    "email": "catman@thinkcmf.com"
+                }
+            ],
+            "description": "The ThinkCMF extend Package",
+            "install-path": "../thinkcmf/cmf-extend"
         },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "yunwuxin",
-                "email": "448901948@qq.com"
-            }
-        ],
-        "description": "The ThinkPHP5 Image Package"
-    },
-    {
-        "name": "topthink/think-installer",
-        "version": "v2.0.0",
-        "version_normalized": "2.0.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/think-installer.git",
-            "reference": "f5400a12c60e513911aef41fe443fa6920952675"
+        {
+            "name": "thinkcmf/cmf-install",
+            "version": "v5.1.4",
+            "version_normalized": "5.1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thinkcmf/cmf-install.git",
+                "reference": "651f7ff4d4413e2bcf98823853144bb2b67f671a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/651f7ff4d4413e2bcf98823853144bb2b67f671a",
+                "reference": "651f7ff4d4413e2bcf98823853144bb2b67f671a",
+                "shasum": ""
+            },
+            "time": "2019-07-23T23:26:40+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "app\\install\\": "src"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "catman",
+                    "email": "catman@thinkcmf.com"
+                }
+            ],
+            "description": "The ThinkCMF Install Package",
+            "install-path": "../thinkcmf/cmf-install"
         },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/top-think/think-installer/zipball/f5400a12c60e513911aef41fe443fa6920952675",
-            "reference": "f5400a12c60e513911aef41fe443fa6920952675",
-            "shasum": ""
+        {
+            "name": "topthink/framework",
+            "version": "v5.1.41",
+            "version_normalized": "5.1.41.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/framework.git",
+                "reference": "7137741a323a4a60cfca334507cd1812fac91bb2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/7137741a323a4a60cfca334507cd1812fac91bb2",
+                "reference": "7137741a323a4a60cfca334507cd1812fac91bb2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0",
+                "topthink/think-installer": "2.*"
+            },
+            "require-dev": {
+                "johnkary/phpunit-speedtrap": "^1.0",
+                "mikey179/vfsstream": "~1.6",
+                "phpdocumentor/reflection-docblock": "^2.0",
+                "phploc/phploc": "2.*",
+                "phpunit/phpunit": "^5.0|^6.0",
+                "sebastian/phpcpd": "2.*",
+                "squizlabs/php_codesniffer": "2.*"
+            },
+            "time": "2021-01-11T02:51:29+00:00",
+            "type": "think-framework",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                },
+                {
+                    "name": "yunwuxin",
+                    "email": "448901948@qq.com"
+                }
+            ],
+            "description": "the new thinkphp framework",
+            "homepage": "http://thinkphp.cn/",
+            "keywords": [
+                "framework",
+                "orm",
+                "thinkphp"
+            ],
+            "support": {
+                "issues": "https://github.com/top-think/framework/issues",
+                "source": "https://github.com/top-think/framework/tree/v5.1.41"
+            },
+            "install-path": "../thinkphp"
         },
-        "require": {
-            "composer-plugin-api": "^1.0"
+        {
+            "name": "topthink/think-captcha",
+            "version": "v2.0.2",
+            "version_normalized": "2.0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-captcha.git",
+                "reference": "54c8a51552f99ff9ea89ea9c272383a8f738ceee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-captcha/zipball/54c8a51552f99ff9ea89ea9c272383a8f738ceee",
+                "reference": "54c8a51552f99ff9ea89ea9c272383a8f738ceee",
+                "shasum": ""
+            },
+            "require": {
+                "topthink/framework": "5.1.*"
+            },
+            "time": "2017-12-31T16:37:49+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "think\\captcha\\": "src/"
+                },
+                "files": [
+                    "src/helper.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "yunwuxin",
+                    "email": "448901948@qq.com"
+                }
+            ],
+            "description": "captcha package for thinkphp5",
+            "install-path": "../topthink/think-captcha"
         },
-        "require-dev": {
-            "composer/composer": "1.0.*@dev"
+        {
+            "name": "topthink/think-helper",
+            "version": "v1.0.7",
+            "version_normalized": "1.0.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-helper.git",
+                "reference": "5f92178606c8ce131d36b37a57c58eb71e55f019"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-helper/zipball/5f92178606c8ce131d36b37a57c58eb71e55f019",
+                "reference": "5f92178606c8ce131d36b37a57c58eb71e55f019",
+                "shasum": ""
+            },
+            "time": "2018-10-05T00:43:21+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "think\\helper\\": "src"
+                },
+                "files": [
+                    "src/helper.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "yunwuxin",
+                    "email": "448901948@qq.com"
+                }
+            ],
+            "description": "The ThinkPHP5 Helper Package",
+            "install-path": "../topthink/think-helper"
         },
-        "time": "2018-05-11T06:45:42+00:00",
-        "type": "composer-plugin",
-        "extra": {
-            "class": "think\\composer\\Plugin"
+        {
+            "name": "topthink/think-image",
+            "version": "v1.0.7",
+            "version_normalized": "1.0.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-image.git",
+                "reference": "8586cf47f117481c6d415b20f7dedf62e79d5512"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-image/zipball/8586cf47f117481c6d415b20f7dedf62e79d5512",
+                "reference": "8586cf47f117481c6d415b20f7dedf62e79d5512",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.8.*",
+                "topthink/framework": "^5.0"
+            },
+            "time": "2016-09-29T06:05:43+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "think\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "yunwuxin",
+                    "email": "448901948@qq.com"
+                }
+            ],
+            "description": "The ThinkPHP5 Image Package",
+            "install-path": "../topthink/think-image"
         },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "think\\composer\\": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "yunwuxin",
-                "email": "448901948@qq.com"
-            }
-        ]
-    }
-]
+        {
+            "name": "topthink/think-installer",
+            "version": "v2.0.5",
+            "version_normalized": "2.0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-installer.git",
+                "reference": "38ba647706e35d6704b5d370c06f8a160b635f88"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-installer/zipball/38ba647706e35d6704b5d370c06f8a160b635f88",
+                "reference": "38ba647706e35d6704b5d370c06f8a160b635f88",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0||^2.0"
+            },
+            "require-dev": {
+                "composer/composer": "^1.0||^2.0"
+            },
+            "time": "2021-01-14T12:12:14+00:00",
+            "type": "composer-plugin",
+            "extra": {
+                "class": "think\\composer\\Plugin"
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "think\\composer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "yunwuxin",
+                    "email": "448901948@qq.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/top-think/think-installer/issues",
+                "source": "https://github.com/top-think/think-installer/tree/v2.0.5"
+            },
+            "install-path": "../topthink/think-installer"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}
