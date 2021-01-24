@@ -45,7 +45,14 @@
             color: red;
         }
     </style>
-    <php>$_app=app()->http->getName();</php>
+    <php>
+        $cmf_version=cmf_version();
+        if (strpos(cmf_version(), '6.') === 0) {
+            $_app=app()->http->getName();
+        }else{
+            $_app=request()->module();
+        }
+    </php>
     <script type="text/javascript">
         //全局变量
         var GV = {
