@@ -123,7 +123,7 @@ class Upload
             $userId = Db::name('user_token')->where('token', $this->request->header('XX-Token'))->field('user_id,token')->value('user_id');
         }
         $targetDir = Env::get('runtime_path') . "upload" . DIRECTORY_SEPARATOR . $userId . DIRECTORY_SEPARATOR; // 断点续传 need
-        if (!file_exists($targetDir)) {
+        if (!is_dir($targetDir)) {
             mkdir($targetDir, 0777, true);
         }
 
