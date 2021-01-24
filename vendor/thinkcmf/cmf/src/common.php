@@ -2171,7 +2171,7 @@ function cmf_version()
     try {
         $version = trim(file_get_contents(CMF_ROOT . 'version'));
     } catch (\Exception $e) {
-        $version = '0.0.0';
+        $version = '5.1.0-unknown';
     }
     return $version;
 }
