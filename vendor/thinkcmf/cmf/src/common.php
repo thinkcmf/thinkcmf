@@ -386,7 +386,7 @@ function cmf_clear_cache()
             }
         }
     }
-    $dirTool = new Dir("");
+    $dirTool = new Dir($runtimePath);
     foreach ($dirs as $dir) {
         $dirTool->delDir($dir);
     }
