@@ -458,17 +458,16 @@
         });
     }
 
-    if ($('a.js-ajax-btn').length) {
-        Wind.use('noty', function () {
-            $('.js-ajax-btn').on('click', function (e) {
-                e.preventDefault();
-                var $_this = this,
-                    $this  = $($_this),
-                    href   = $this.data('href'),
-                    msg    = $this.data('msg');
-                refresh    = $this.data('refresh');
-                href       = href ? href : $this.attr('href');
-                refresh    = refresh == undefined ? 1 : refresh;
+    Wind.use('noty', function () {
+        $('body').on('click', '.js-ajax-btn', function (e) {
+            e.preventDefault();
+            var $_this = this,
+                $this = $($_this),
+                href = $this.data('href'),
+                msg = $this.data('msg');
+            refresh = $this.data('refresh');
+            href = href ? href : $this.attr('href');
+            refresh = refresh == undefined ? 1 : refresh;
 
 
                 $.ajax({
@@ -511,10 +510,9 @@
                     }
                 });
 
-            });
-
         });
-    }
+
+    });
 
     //所有的请求刷新操作
     var ajax_refresh = $('a.js-ajax-refresh'),
