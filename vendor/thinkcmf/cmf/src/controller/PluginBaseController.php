@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
+use app\admin\model\PluginModel;
 use think\Container;
 use think\exception\ValidateException;
 use think\facade\Config;
@@ -58,9 +59,23 @@ class PluginBaseController extends BaseController
     {
 
         if (is_null($this->plugin)) {
-            $pluginName   = $this->request->param('_plugin');
-            $pluginName   = cmf_parse_name($pluginName, 1);
-            $class        = cmf_get_plugin_class($pluginName);
+            $pluginName = $this->request->param('_plugin');
+            $pluginName = cmf_parse_name($pluginName, 1);
+            $class      = cmf_get_plugin_class($pluginName);
+
+
+            //检查是否启用。非启用则禁止访问。
+            $pluginModel = new PluginModel();
+            $findPlugin  = $pluginModel->where('name', '=', $pluginName)->find();
+            if (empty($findPlugin)) {
+                $this->error('插件未安装!');
+            }
+
+            if ($findPlugin['status'] != 1) {
+                $this->error('插件未启用!');
+            }
+
+
             $this->plugin = new $class;
         }
 
