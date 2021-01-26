@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'b94dc71d48077cb1e249d85ca1e94ce19c3e4314',
+    'reference' => '8c9fad921debae02d57f0711f6fe7355b5c27778',
     'name' => 'thinkcmf/thinkcmf',
   ),
   'versions' => 
@@ -302,7 +302,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'b94dc71d48077cb1e249d85ca1e94ce19c3e4314',
+      'reference' => '8c9fad921debae02d57f0711f6fe7355b5c27778',
     ),
     'topthink/framework' => 
     array (
