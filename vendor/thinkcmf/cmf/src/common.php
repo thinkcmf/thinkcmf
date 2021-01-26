@@ -20,6 +20,11 @@ use think\facade\Hook;
 
 // 应用公共文件
 
+//php8.0
+if (!defined('T_NAME_RELATIVE')) {
+    define('T_NAME_RELATIVE', 313);
+}
+
 /**
  * Url生成
  * @param string      $url    路由地址
