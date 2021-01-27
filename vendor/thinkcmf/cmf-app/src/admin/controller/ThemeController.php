@@ -947,9 +947,9 @@ class ThemeController extends AdminBaseController
      */
     public function design()
     {
+        $theme = $this->request->param('theme');
+        cookie('cmf_design_theme', $theme, 3);
         if ($this->request->isAjax()) {
-            $theme = $this->request->param('theme');
-            cookie('cmf_design_theme', $theme, 3);
             $this->success('success');
         } else {
             $content = hook_one('admin_theme_design_view');
