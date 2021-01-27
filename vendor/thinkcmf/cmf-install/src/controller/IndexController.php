@@ -29,6 +29,7 @@ class IndexController extends BaseController
         }
 
         if (!is_writable(CMF_DATA)) {
+            echo '目录' . realpath(CMF_ROOT . 'data') . '无法写入！';
             abort(500, '目录' . realpath(CMF_ROOT . 'data') . '无法写入！');
         }
 
