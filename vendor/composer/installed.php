@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '91927a3fcfc3581f08fb7c759ef20442419ae1df',
+    'reference' => '8c9fad921debae02d57f0711f6fe7355b5c27778',
     'name' => 'thinkcmf/thinkcmf',
   ),
   'versions' => 
@@ -279,16 +279,16 @@
       'aliases' => 
       array (
       ),
-      'reference' => '91927a3fcfc3581f08fb7c759ef20442419ae1df',
+      'reference' => '8c9fad921debae02d57f0711f6fe7355b5c27778',
     ),
     'topthink/framework' => 
     array (
-      'pretty_version' => 'v6.0.6',
-      'version' => '6.0.6.0',
+      'pretty_version' => 'v6.0.7',
+      'version' => '6.0.7.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'dd265d9e962da2c033a45190b839d5538770a760',
+      'reference' => 'db8fe22520a9660dd5e4c87e304034ac49e39270',
     ),
     'topthink/think-captcha' => 
     array (
