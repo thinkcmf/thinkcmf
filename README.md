@@ -1,4 +1,4 @@
-ThinkCMF 6.0.0 让你更自由地飞
+ThinkCMF 6.0.1 让你更自由地飞
 ===============
 欢迎入坑，有问题请及时提交issue!
 
@@ -93,6 +93,18 @@ enjoy your cmf~!
 - [ ] 移动Model的逻辑方法到Service里
 
 ### 更新日志
+#### 6.0.1
+* 兼容php8.0
+* 升级到`tp6.0.7`
+* 增加插件后台基类`admin_init`钩子
+* 优化cmf版本获取
+* 优化`cmf_clear_cache()`函数
+* 修复上传报错
+* 修复`demo应用 page/nav`数据源演示报错
+* 修复导入后台菜单报错
+* 修复url美化问题
+
+
 #### 6.0.0
 * 升级到ThinkPHP6.0
 * API增加Swagger支持
