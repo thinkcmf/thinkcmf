@@ -3,10 +3,10 @@
 <body>
 <div class="wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('mailer/index')}">{:lang('ADMIN_MAILER_INDEX')}</a></li>
-        <li><a href="{:url('mailer/template')}?template_key=verification_code">数字验证码邮件模板</a></li>
+        <li class="active"><a href="{:url('Mailer/index')}">{:lang('ADMIN_MAILER_INDEX')}</a></li>
+        <li><a href="{:url('Mailer/template')}?template_key=verification_code">数字验证码邮件模板</a></li>
     </ul>
-    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Admin/mailer/indexPost')}">
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Mailer/indexPost')}">
         <div class="form-group">
             <label for="input-from_name" class="col-sm-2 control-label">
                 <span class="form-required">*</span>
@@ -80,7 +80,7 @@
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
                 <a class="btn btn-warning"
-                   href="javascript:parent.openIframeDialog('{:url('mailer/test')}','发送测试邮件',{width:'600px',height:'400px'});">测试邮件</a>
+                   href="javascript:parent.openIframeDialog('{:url('Mailer/test')}','发送测试邮件',{width:'600px',height:'400px'});">测试邮件</a>
             </div>
         </div>
     </form>

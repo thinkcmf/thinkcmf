@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '20e222036bdd6ac5533bd3d5119fde51106e14c4',
+    'reference' => '97e88d225faeebf591addc602d433c84fffd39c6',
     'name' => 'thinkcmf/thinkcmf',
   ),
   'versions' => 
@@ -99,7 +99,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '20e222036bdd6ac5533bd3d5119fde51106e14c4',
+      'reference' => '97e88d225faeebf591addc602d433c84fffd39c6',
     ),
     'topthink/framework' => 
     array (
