@@ -611,7 +611,13 @@ class Finder implements \IteratorAggregate, \Countable
         }
 
         if (1 === \count($this->dirs) && 0 === \count($this->iterators)) {
-            return $this->searchInDirectory($this->dirs[0]);
+            $iterator = $this->searchInDirectory($this->dirs[0]);
+
+            if ($this->sort || $this->reverseSorting) {
+                $iterator = (new Iterator\SortableIterator($iterator, $this->sort, $this->reverseSorting))->getIterator();
+            }
+
+            return $iterator;
         }
 
         $iterator = new \AppendIterator();
@@ -621,6 +627,10 @@ class Finder implements \IteratorAggregate, \Countable
 
         foreach ($this->iterators as $it) {
             $iterator->append($it);
+        }
+
+        if ($this->sort || $this->reverseSorting) {
+            $iterator = (new Iterator\SortableIterator($iterator, $this->sort, $this->reverseSorting))->getIterator();
         }
 
         return $iterator;
@@ -644,7 +654,8 @@ class Finder implements \IteratorAggregate, \Countable
         } elseif ($iterator instanceof \Traversable || \is_array($iterator)) {
             $it = new \ArrayIterator();
             foreach ($iterator as $file) {
-                $it->append($file instanceof \SplFileInfo ? $file : new \SplFileInfo($file));
+                $file = $file instanceof \SplFileInfo ? $file : new \SplFileInfo($file);
+                $it[$file->getPathname()] = $file;
             }
             $this->iterators[] = $it;
         } else {
@@ -765,11 +776,6 @@ class Finder implements \IteratorAggregate, \Countable
 
         if ($this->paths || $notPaths) {
             $iterator = new Iterator\PathFilterIterator($iterator, $this->paths, $notPaths);
-        }
-
-        if ($this->sort || $this->reverseSorting) {
-            $iteratorAggregate = new Iterator\SortableIterator($iterator, $this->sort, $this->reverseSorting);
-            $iterator = $iteratorAggregate->getIterator();
         }
 
         return $iterator;

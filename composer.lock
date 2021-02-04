@@ -862,16 +862,16 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v5.2.1",
+            "version": "v5.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "0b9231a5922fd7287ba5b411893c0ecd2733e5ba"
+                "reference": "4adc8d172d602008c204c2e16956f99257248e03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/0b9231a5922fd7287ba5b411893c0ecd2733e5ba",
-                "reference": "0b9231a5922fd7287ba5b411893c0ecd2733e5ba",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/4adc8d172d602008c204c2e16956f99257248e03",
+                "reference": "4adc8d172d602008c204c2e16956f99257248e03",
                 "shasum": ""
             },
             "require": {
@@ -900,10 +900,10 @@
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Symfony Finder Component",
+            "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/v5.2.1"
+                "source": "https://github.com/symfony/finder/tree/v5.2.3"
             },
             "funding": [
                 {
@@ -919,7 +919,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-08T17:02:38+00:00"
+            "time": "2021-01-28T22:06:19+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -1002,16 +1002,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v5.2.1",
+            "version": "v5.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "290ea5e03b8cf9b42c783163123f54441fb06939"
+                "reference": "338cddc6d74929f6adf19ca5682ac4b8e109cdb0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/290ea5e03b8cf9b42c783163123f54441fb06939",
-                "reference": "290ea5e03b8cf9b42c783163123f54441fb06939",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/338cddc6d74929f6adf19ca5682ac4b8e109cdb0",
+                "reference": "338cddc6d74929f6adf19ca5682ac4b8e109cdb0",
                 "shasum": ""
             },
             "require": {
@@ -1054,10 +1054,10 @@
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Symfony Yaml Component",
+            "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v5.2.1"
+                "source": "https://github.com/symfony/yaml/tree/v5.2.3"
             },
             "funding": [
                 {
@@ -1073,7 +1073,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-08T17:02:38+00:00"
+            "time": "2021-02-03T04:42:09+00:00"
         },
         {
             "name": "thinkcmf/cmf",
@@ -1955,16 +1955,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.4.18",
+            "version": "v4.4.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "4f31364bbc8177f2a6dbc125ac3851634ebe2a03"
+                "reference": "a1eab2f69906dc83c5ddba4632180260d0ab4f7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/4f31364bbc8177f2a6dbc125ac3851634ebe2a03",
-                "reference": "4f31364bbc8177f2a6dbc125ac3851634ebe2a03",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/a1eab2f69906dc83c5ddba4632180260d0ab4f7f",
+                "reference": "a1eab2f69906dc83c5ddba4632180260d0ab4f7f",
                 "shasum": ""
             },
             "require": {
@@ -1981,7 +1981,7 @@
                 "ext-iconv": "*",
                 "symfony/console": "^3.4|^4.0|^5.0",
                 "symfony/process": "^4.4|^5.0",
-                "twig/twig": "^1.34|^2.4|^3.0"
+                "twig/twig": "^1.43|^2.13|^3.0.4"
             },
             "suggest": {
                 "ext-iconv": "To convert non-UTF-8 strings to UTF-8 (or symfony/polyfill-iconv in case ext-iconv cannot be used).",
@@ -2017,14 +2017,14 @@
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Symfony mechanism for exploring and dumping PHP variables",
+            "description": "Provides mechanisms for walking through any arbitrary PHP variable",
             "homepage": "https://symfony.com",
             "keywords": [
                 "debug",
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v4.4.18"
+                "source": "https://github.com/symfony/var-dumper/tree/v4.4.19"
             },
             "funding": [
                 {
@@ -2040,7 +2040,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-08T16:59:59+00:00"
+            "time": "2021-01-27T09:09:26+00:00"
         },
         {
             "name": "topthink/think-trace",
