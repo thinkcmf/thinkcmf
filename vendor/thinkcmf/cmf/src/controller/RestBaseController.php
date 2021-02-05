@@ -93,7 +93,10 @@ class RestBaseController
 
     private function _initUser()
     {
-        $token      = $this->request->header('XX-Token');
+        $token = $this->request->header('Authorization');
+        if (empty($token)) {
+            $token = $this->request->header('XX-Token');
+        }
         $deviceType = $this->request->header('XX-Device-Type');
 
         if (empty($deviceType)) {
@@ -248,7 +251,7 @@ class RestBaseController
 
         $type                                   = $this->getResponseType();
         $header['Access-Control-Allow-Origin']  = '*';
-        $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,XX-Device-Type,XX-Token,XX-Api-Version,XX-Wxapp-AppId';
+        $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,XX-Device-Type,XX-Token,Authorization,XX-Api-Version,XX-Wxapp-AppId';
         $header['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS';
         $response                               = Response::create($result, $type)->header($header);
         throw new HttpResponseException($response);
@@ -277,7 +280,7 @@ class RestBaseController
 
         $type                                   = $this->getResponseType();
         $header['Access-Control-Allow-Origin']  = '*';
-        $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,XX-Device-Type,XX-Token,XX-Api-Version,XX-Wxapp-AppId';
+        $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,XX-Device-Type,XX-Token,Authorization,XX-Api-Version,XX-Wxapp-AppId';
         $header['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS';
         $response                               = Response::create($result, $type)->header($header);
         throw new HttpResponseException($response);
