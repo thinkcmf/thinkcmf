@@ -99,6 +99,7 @@ enjoy your cmf~!
 * 增加插件后台基类`admin_init`钩子
 * 优化cmf版本获取
 * 优化`cmf_clear_cache()`函数
+* 修复插件URL美化报错
 * 修复上传报错
 * 修复`demo应用 page/nav`数据源演示报错
 * 修复导入后台菜单报错

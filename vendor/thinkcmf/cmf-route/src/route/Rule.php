@@ -98,7 +98,7 @@ abstract class Rule
     /**
      * 设置路由参数
      * @access public
-     * @param  array $option 参数
+     * @param array $option 参数
      * @return $this
      */
     public function option(array $option)
@@ -664,7 +664,18 @@ abstract class Rule
         $route  = str_replace('/', '@', implode('/', $path));
         $method = strpos($route, '@') ? explode('@', $route) : $route;
 
-        return new CallbackDispatch($request, $this, $method, $this->vars);
+        $params = $this->vars;
+        if (!empty($method[1])) {
+            $method1Arr = parse_url($method[1]);
+            $method[1]  = $method1Arr['path'];
+            if (!empty($method1Arr['query'])) {
+                parse_str($method1Arr['query'], $params);
+                if (!empty($this->vars)) {
+                    $params = array_merge($this->vars, $params);
+                }
+            }
+        }
+        return new CallbackDispatch($request, $this, $method, $params);
     }
 
     /**
