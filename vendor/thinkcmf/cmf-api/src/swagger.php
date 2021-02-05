@@ -7,7 +7,7 @@ use OpenApi\Annotations as OA;
 /**
  * @OA\Info(
  *     title="ThinkCMF API",
- *     version="1.0.1",
+ *     version="1.1.0",
  *     description="ThinkCMF API doc",
  *     @OA\Contact(
  *         email="catman@thinkcmf.com"
