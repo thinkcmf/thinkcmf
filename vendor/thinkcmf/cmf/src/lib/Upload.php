@@ -120,7 +120,13 @@ class Upload
         $userId  = cmf_get_current_user_id();
         $userId  = empty($adminId) ? $userId : $adminId;
         if (empty($userId)) {
-            $userId = Db::name('user_token')->where('token', $this->request->header('XX-Token'))->field('user_id,token')->value('user_id');
+
+            $token = $this->request->header('Authorization');
+            if (empty($token)) {
+                $token = $this->request->header('XX-Token');
+            }
+            
+            $userId = Db::name('user_token')->where('token', $token)->field('user_id,token')->value('user_id');
         }
         $targetDir = Env::get('runtime_path') . "upload" . DIRECTORY_SEPARATOR . $userId . DIRECTORY_SEPARATOR; // 断点续传 need
         if (!is_dir($targetDir)) {

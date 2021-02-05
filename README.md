@@ -142,6 +142,21 @@ http://www.thinkcmf.com/topic/index/index/cat/11.html
 https://github.com/thinkcmf/thinkcmf/issues
 
 ### 更新日志
+#### 5.1.7
+* 重构回收站代码，添加全部删除、一键清空和全部还原功能
+* 增加插件url美化
+* 增加默认过滤器
+* 增加插件未安装、未启用时禁止访问
+* 增加`think\facade\Db`类
+* 优化语言包加载顺序
+* 优化前端组件
+* 优化cmf版本获取
+* 优化`cmf_clear_cache()`函数
+* 修复用户行为产生积分或金币为空还有日志问题
+* 修复管理员编辑报错
+* 规范所有数据库操作用法
+
+
 #### 5.1.6
 * 修复插件后台权限认证问题
 * 升级到tp5.1.40
