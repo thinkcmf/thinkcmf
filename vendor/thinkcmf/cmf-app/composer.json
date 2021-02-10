@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "thinkcmf/cmf": "6.0.x-dev"
+        "thinkcmf/cmf": "^6.0.0"
     },
     "autoload": {
         "psr-4": {
