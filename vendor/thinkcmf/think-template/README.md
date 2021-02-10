@@ -68,3 +68,7 @@ Template::display($content,['name' => 'think']);
 ~~~
 
 详细用法参考[开发手册](https://www.kancloud.cn/manual/think-template/content)
+
+## 更新日志
+### v2.0.9
+* 暂时性增加think-image

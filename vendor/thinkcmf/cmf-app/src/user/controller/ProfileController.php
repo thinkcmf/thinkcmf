@@ -159,7 +159,16 @@ class ProfileController extends UserBaseController
         $validator = validate(['file' => 'fileExt:jpg,jpeg,png']);
 
         if (!$validator->check(['file' => $file])) {
-            $this->error($validator->getError());
+            if ($this->request->isAjax()) {
+                $this->error($validator->getError());
+            } else {
+                return json_encode([
+                    'code' => 0,
+                    "msg"  => $validator->getError(),
+                    "data" => "",
+                    "url"  => ''
+                ]);
+            }
         }
 
         $fileMd5 = $file->md5();
@@ -176,7 +185,6 @@ class ProfileController extends UserBaseController
         session('avatar', $avatar);
 
         if ($this->request->isAjax()) {
-
             $avatarPath = $avatarDir . $fileName;
             $storage    = new Storage();
             $result     = $storage->upload($avatar, $avatarPath, 'image');
