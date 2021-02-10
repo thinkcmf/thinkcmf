@@ -22,7 +22,7 @@ use think\facade\Hook;
 
 //php8.0
 if (!defined('T_NAME_RELATIVE')) {
-    define('T_NAME_RELATIVE', 313);
+    define('T_NAME_RELATIVE', T_NS_SEPARATOR);
 }
 
 /**

@@ -1077,16 +1077,16 @@
         },
         {
             "name": "thinkcmf/cmf",
-            "version": "v6.0.1",
+            "version": "v6.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-core.git",
-                "reference": "6945f5af765b792d86e51857f5a1c34ddf7f5f1d"
+                "reference": "77c00a551a251fbccc427d43ec169cd2d14988ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/6945f5af765b792d86e51857f5a1c34ddf7f5f1d",
-                "reference": "6945f5af765b792d86e51857f5a1c34ddf7f5f1d",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/77c00a551a251fbccc427d43ec169cd2d14988ff",
+                "reference": "77c00a551a251fbccc427d43ec169cd2d14988ff",
                 "shasum": ""
             },
             "require": {
@@ -1132,9 +1132,9 @@
             "description": "The ThinkCMF Core Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-core/issues",
-                "source": "https://github.com/thinkcmf/cmf-core/tree/v6.0.1"
+                "source": "https://github.com/thinkcmf/cmf-core/tree/v6.0.2"
             },
-            "time": "2021-02-08T11:21:21+00:00"
+            "time": "2021-02-10T13:19:22+00:00"
         },
         {
             "name": "thinkcmf/cmf-api",

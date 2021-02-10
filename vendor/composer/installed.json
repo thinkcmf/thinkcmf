@@ -72,6 +72,10 @@
                 "docblock",
                 "parser"
             ],
+            "support": {
+                "issues": "https://github.com/doctrine/annotations/issues",
+                "source": "https://github.com/doctrine/annotations/tree/1.11.1"
+            },
             "install-path": "../doctrine/annotations"
         },
         {
@@ -137,6 +141,10 @@
                 "parser",
                 "php"
             ],
+            "support": {
+                "issues": "https://github.com/doctrine/lexer/issues",
+                "source": "https://github.com/doctrine/lexer/tree/1.2.1"
+            },
             "funding": [
                 {
                     "url": "https://www.doctrine-project.org/sponsorship.html",
@@ -194,6 +202,9 @@
             ],
             "description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library",
             "homepage": "http://code.google.com/p/phpquery/",
+            "support": {
+                "source": "https://github.com/electrolinux/phpquery/tree/0.9.6"
+            },
             "install-path": "../electrolinux/phpquery"
         },
         {
@@ -247,6 +258,10 @@
             "keywords": [
                 "html"
             ],
+            "support": {
+                "issues": "https://github.com/ezyang/htmlpurifier/issues",
+                "source": "https://github.com/ezyang/htmlpurifier/tree/master"
+            },
             "install-path": "../ezyang/htmlpurifier"
         },
         {
@@ -335,6 +350,10 @@
                 "sftp",
                 "storage"
             ],
+            "support": {
+                "issues": "https://github.com/thephpleague/flysystem/issues",
+                "source": "https://github.com/thephpleague/flysystem/tree/1.x"
+            },
             "funding": [
                 {
                     "url": "https://offset.earth/frankdejonge",
@@ -391,6 +410,10 @@
                 }
             ],
             "description": "An adapter decorator to enable meta-data caching.",
+            "support": {
+                "issues": "https://github.com/thephpleague/flysystem-cached-adapter/issues",
+                "source": "https://github.com/thephpleague/flysystem-cached-adapter/tree/master"
+            },
             "install-path": "../league/flysystem-cached-adapter"
         },
         {
@@ -436,6 +459,10 @@
                 }
             ],
             "description": "Mime-type detection for Flysystem",
+            "support": {
+                "issues": "https://github.com/thephpleague/mime-type-detection/issues",
+                "source": "https://github.com/thephpleague/mime-type-detection/tree/1.7.0"
+            },
             "funding": [
                 {
                     "url": "https://github.com/frankdejonge",
@@ -499,6 +526,10 @@
                 "annotations",
                 "framework"
             ],
+            "support": {
+                "issues": "https://github.com/php-annotations/php-annotations/issues",
+                "source": "https://github.com/php-annotations/php-annotations/tree/1.3.2"
+            },
             "install-path": "../mindplay/annotations"
         },
         {
@@ -568,6 +599,10 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+            "support": {
+                "issues": "https://github.com/PHPMailer/PHPMailer/issues",
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.2.0"
+            },
             "funding": [
                 {
                     "url": "https://github.com/Synchro",
@@ -623,6 +658,9 @@
                 "psr",
                 "psr-6"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/cache/tree/master"
+            },
             "install-path": "../psr/cache"
         },
         {
@@ -675,6 +713,10 @@
                 "container-interop",
                 "psr"
             ],
+            "support": {
+                "issues": "https://github.com/php-fig/container/issues",
+                "source": "https://github.com/php-fig/container/tree/master"
+            },
             "install-path": "../psr/container"
         },
         {
@@ -725,6 +767,9 @@
                 "psr",
                 "psr-3"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/log/tree/1.1.3"
+            },
             "install-path": "../psr/log"
         },
         {
@@ -776,6 +821,9 @@
                 "psr-16",
                 "simple-cache"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/simple-cache/tree/master"
+            },
             "install-path": "../psr/simple-cache"
         },
         {
@@ -829,6 +877,9 @@
             ],
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/deprecation-contracts/tree/master"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -972,6 +1023,9 @@
                 "polyfill",
                 "portable"
             ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.22.0"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -1052,6 +1106,9 @@
                 "portable",
                 "shim"
             ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.22.0"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -1128,6 +1185,9 @@
                 "portable",
                 "shim"
             ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-php72/tree/v1.22.0"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -1211,6 +1271,9 @@
                 "portable",
                 "shim"
             ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-php80/tree/v1.22.0"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -1399,17 +1462,17 @@
         },
         {
             "name": "thinkcmf/cmf",
-            "version": "6.0.x-dev",
-            "version_normalized": "6.0.9999999.9999999-dev",
+            "version": "v6.0.2",
+            "version_normalized": "6.0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-core.git",
-                "reference": "46a3ccbb658b5e5ff24731fd5f263d590c9365cf"
+                "reference": "77c00a551a251fbccc427d43ec169cd2d14988ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/46a3ccbb658b5e5ff24731fd5f263d590c9365cf",
-                "reference": "46a3ccbb658b5e5ff24731fd5f263d590c9365cf",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/77c00a551a251fbccc427d43ec169cd2d14988ff",
+                "reference": "77c00a551a251fbccc427d43ec169cd2d14988ff",
                 "shasum": ""
             },
             "require": {
@@ -1421,7 +1484,7 @@
                 "topthink/framework": "~6.0.0",
                 "topthink/think-captcha": "~3.0.0"
             },
-            "time": "2020-12-30T16:13:06+00:00",
+            "time": "2021-02-10T13:19:22+00:00",
             "type": "library",
             "extra": {
                 "think": {
@@ -1455,27 +1518,31 @@
                 }
             ],
             "description": "The ThinkCMF Core Package",
+            "support": {
+                "issues": "https://github.com/thinkcmf/cmf-core/issues",
+                "source": "https://github.com/thinkcmf/cmf-core/tree/v6.0.2"
+            },
             "install-path": "../thinkcmf/cmf"
         },
         {
             "name": "thinkcmf/cmf-api",
-            "version": "v6.0.0",
-            "version_normalized": "6.0.0.0",
+            "version": "v6.0.2",
+            "version_normalized": "6.0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-api.git",
-                "reference": "be11b45c32c24b0a9468fad56934ab00bb4cc269"
+                "reference": "092e0b8005e287a65bfb3327787d593f745880cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/be11b45c32c24b0a9468fad56934ab00bb4cc269",
-                "reference": "be11b45c32c24b0a9468fad56934ab00bb4cc269",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/092e0b8005e287a65bfb3327787d593f745880cd",
+                "reference": "092e0b8005e287a65bfb3327787d593f745880cd",
                 "shasum": ""
             },
             "require": {
-                "thinkcmf/cmf": "6.0.x-dev"
+                "thinkcmf/cmf": "^6.0.0"
             },
-            "time": "2020-12-30T16:15:24+00:00",
+            "time": "2021-02-10T06:40:24+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1495,27 +1562,31 @@
                 }
             ],
             "description": "The ThinkCMF 5.1 Core Api Package",
+            "support": {
+                "issues": "https://github.com/thinkcmf/cmf-api/issues",
+                "source": "https://github.com/thinkcmf/cmf-api/tree/v6.0.2"
+            },
             "install-path": "../thinkcmf/cmf-api"
         },
         {
             "name": "thinkcmf/cmf-app",
-            "version": "v6.0.0",
-            "version_normalized": "6.0.0.0",
+            "version": "v6.0.2",
+            "version_normalized": "6.0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-app.git",
-                "reference": "7222c71c4fdf0a114c786e284d3e71e907b0c1cd"
+                "reference": "e9fb6740cb8c404064757d18b030ef2986846ca3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/7222c71c4fdf0a114c786e284d3e71e907b0c1cd",
-                "reference": "7222c71c4fdf0a114c786e284d3e71e907b0c1cd",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/e9fb6740cb8c404064757d18b030ef2986846ca3",
+                "reference": "e9fb6740cb8c404064757d18b030ef2986846ca3",
                 "shasum": ""
             },
             "require": {
-                "thinkcmf/cmf": "6.0.x-dev"
+                "thinkcmf/cmf": "^6.0.0"
             },
-            "time": "2020-12-30T16:15:47+00:00",
+            "time": "2021-02-10T06:40:52+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1535,24 +1606,28 @@
                 }
             ],
             "description": "The ThinkCMF App Package",
+            "support": {
+                "issues": "https://github.com/thinkcmf/cmf-app/issues",
+                "source": "https://github.com/thinkcmf/cmf-app/tree/v6.0.2"
+            },
             "install-path": "../thinkcmf/cmf-app"
         },
         {
             "name": "thinkcmf/cmf-extend",
-            "version": "v5.1.0",
-            "version_normalized": "5.1.0.0",
+            "version": "v5.1.1",
+            "version_normalized": "5.1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-extend.git",
-                "reference": "39cbfdc69980a4f4b98ee82fa16c605004f26f5f"
+                "reference": "500ac89f30b9352dbac4f3f13c88212d8b2a9618"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-extend/zipball/39cbfdc69980a4f4b98ee82fa16c605004f26f5f",
-                "reference": "39cbfdc69980a4f4b98ee82fa16c605004f26f5f",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-extend/zipball/500ac89f30b9352dbac4f3f13c88212d8b2a9618",
+                "reference": "500ac89f30b9352dbac4f3f13c88212d8b2a9618",
                 "shasum": ""
             },
-            "time": "2019-03-04T05:15:23+00:00",
+            "time": "2021-02-10T07:02:12+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1574,24 +1649,28 @@
                 }
             ],
             "description": "The ThinkCMF extend Package",
+            "support": {
+                "issues": "https://github.com/thinkcmf/cmf-extend/issues",
+                "source": "https://github.com/thinkcmf/cmf-extend/tree/v5.1.1"
+            },
             "install-path": "../thinkcmf/cmf-extend"
         },
         {
             "name": "thinkcmf/cmf-install",
-            "version": "v6.0.0",
-            "version_normalized": "6.0.0.0",
+            "version": "v6.0.1",
+            "version_normalized": "6.0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-install.git",
-                "reference": "eb797bf54a570c387e7933e637f7bb0f2a64e9c7"
+                "reference": "3ac4433bca382ec1e39c829d8fec3df63ee023b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/eb797bf54a570c387e7933e637f7bb0f2a64e9c7",
-                "reference": "eb797bf54a570c387e7933e637f7bb0f2a64e9c7",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/3ac4433bca382ec1e39c829d8fec3df63ee023b6",
+                "reference": "3ac4433bca382ec1e39c829d8fec3df63ee023b6",
                 "shasum": ""
             },
-            "time": "2020-12-30T16:16:17+00:00",
+            "time": "2021-02-08T11:53:31+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1611,27 +1690,31 @@
                 }
             ],
             "description": "The ThinkCMF Install Package",
+            "support": {
+                "issues": "https://github.com/thinkcmf/cmf-install/issues",
+                "source": "https://github.com/thinkcmf/cmf-install/tree/v6.0.1"
+            },
             "install-path": "../thinkcmf/cmf-install"
         },
         {
             "name": "thinkcmf/cmf-route",
-            "version": "v6.0.1",
-            "version_normalized": "6.0.1.0",
+            "version": "v6.0.2",
+            "version_normalized": "6.0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-route.git",
-                "reference": "12c87794d76c86ece58f4db04f08be33e0689c78"
+                "reference": "1743944054432a470f8941b68c96634ee24f37e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-route/zipball/12c87794d76c86ece58f4db04f08be33e0689c78",
-                "reference": "12c87794d76c86ece58f4db04f08be33e0689c78",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-route/zipball/1743944054432a470f8941b68c96634ee24f37e4",
+                "reference": "1743944054432a470f8941b68c96634ee24f37e4",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1.0"
             },
-            "time": "2020-12-31T05:26:19+00:00",
+            "time": "2021-02-10T06:09:16+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1662,28 +1745,32 @@
                 }
             ],
             "description": "thinkcmf6 route",
+            "support": {
+                "issues": "https://github.com/thinkcmf/cmf-route/issues",
+                "source": "https://github.com/thinkcmf/cmf-route/tree/v6.0.2"
+            },
             "install-path": "../thinkcmf/cmf-route"
         },
         {
             "name": "thinkcmf/think-template",
-            "version": "v2.0.8",
-            "version_normalized": "2.0.8.0",
+            "version": "v2.0.9",
+            "version_normalized": "2.0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/think-template.git",
-                "reference": "d2366cb13e5568cd5b3c85527b9faad1afb6f23d"
+                "reference": "9d52df5f7ab5e1904b3dfa42b6ad49f5ea398c01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/think-template/zipball/d2366cb13e5568cd5b3c85527b9faad1afb6f23d",
-                "reference": "d2366cb13e5568cd5b3c85527b9faad1afb6f23d",
+                "url": "https://api.github.com/repos/thinkcmf/think-template/zipball/9d52df5f7ab5e1904b3dfa42b6ad49f5ea398c01",
+                "reference": "9d52df5f7ab5e1904b3dfa42b6ad49f5ea398c01",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1.0",
                 "psr/simple-cache": "^1.0"
             },
-            "time": "2020-12-30T16:17:12+00:00",
+            "time": "2021-02-10T06:11:43+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1705,6 +1792,9 @@
                 }
             ],
             "description": "the php template engine",
+            "support": {
+                "source": "https://github.com/thinkcmf/think-template/tree/v2.0.9"
+            },
             "install-path": "../thinkcmf/think-template"
         },
         {
@@ -1745,6 +1835,9 @@
                 }
             ],
             "description": "thinkphp template driver",
+            "support": {
+                "source": "https://github.com/thinkcmf/think-view/tree/v1.0.15"
+            },
             "install-path": "../thinkcmf/think-view"
         },
         {
@@ -1865,6 +1958,10 @@
                 }
             ],
             "description": "captcha package for thinkphp",
+            "support": {
+                "issues": "https://github.com/top-think/think-captcha/issues",
+                "source": "https://github.com/top-think/think-captcha/tree/v3.0.3"
+            },
             "install-path": "../topthink/think-captcha"
         },
         {
@@ -1907,6 +2004,10 @@
                 }
             ],
             "description": "The ThinkPHP6 Helper Package",
+            "support": {
+                "issues": "https://github.com/top-think/think-helper/issues",
+                "source": "https://github.com/top-think/think-helper/tree/3.0"
+            },
             "install-path": "../topthink/think-helper"
         },
         {
@@ -1955,6 +2056,10 @@
                 "database",
                 "orm"
             ],
+            "support": {
+                "issues": "https://github.com/top-think/think-orm/issues",
+                "source": "https://github.com/top-think/think-orm/tree/v2.0.36"
+            },
             "install-path": "../topthink/think-orm"
         },
         {
@@ -2005,6 +2110,10 @@
                 }
             ],
             "description": "thinkphp debug trace",
+            "support": {
+                "issues": "https://github.com/top-think/think-trace/issues",
+                "source": "https://github.com/top-think/think-trace/tree/v1.4"
+            },
             "install-path": "../topthink/think-trace"
         },
         {
@@ -2075,6 +2184,10 @@
                 "rest",
                 "service discovery"
             ],
+            "support": {
+                "issues": "https://github.com/zircote/swagger-php/issues",
+                "source": "https://github.com/zircote/swagger-php/tree/3.1.0"
+            },
             "install-path": "../zircote/swagger-php"
         }
     ],
