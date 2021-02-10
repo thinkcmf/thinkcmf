@@ -21,18 +21,11 @@ class SwaggerController
 {
     public function index()
     {
-        return view(__DIR__ . '/../tpl/swagger.tpl');
+        if (is_dir(WEB_ROOT . 'plugins/swagger')) {
+            return redirect(cmf_plugin_url('Swagger://Index/index'));
+        } else {
+            return "please install swagger plugin!";
+        }
     }
 
-    public function config()
-    {
-        header('Content-Type: application/json');
-        $api    = \OpenApi\scan([
-            CMF_ROOT . 'api',
-            CMF_ROOT . 'vendor/thinkcmf/cmf-api'
-        ]);
-
-        $response = Response::create(json_decode($api->toJson(),true),'json');
-        throw new HttpResponseException($response);
-    }
 }

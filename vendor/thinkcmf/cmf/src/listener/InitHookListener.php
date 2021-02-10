@@ -27,7 +27,6 @@ class InitHookListener
         Route::get('new_captcha', "\\cmf\\controller\\CaptchaController@index");
         if (APP_DEBUG) {
             Route::get('swagger', "\\cmf\\controller\\SwaggerController@index");
-            Route::get('swagger.json', "\\cmf\\controller\\SwaggerController@config");
         }
 
         if (!cmf_is_installed()) {
