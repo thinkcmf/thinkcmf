@@ -1,7 +1,7 @@
-ThinkCMF 5.1.6 让你更自由地飞
+ThinkCMF 5.1.7 让你更自由地飞
 ===============
 
-### ThinkCMF 6.0.0已发布，推荐所有用户使用
+### ThinkCMF 6.0已发布，推荐所有用户使用
 仓库地址如下：
 1. https://github.com/thinkcmf/thinkcmf/tree/6.0 主要仓库
 2. https://gitee.com/thinkcmf/ThinkCMF/tree/6.0 中国镜像
@@ -48,9 +48,9 @@ http://www.kancloud.cn/thinkcmf/doc5_1
 2. https://gitee.com/thinkcmf/demos 中国镜像
 
 ### 环境推荐
-> php7.1
+> php7.3
 
-> mysql 5.6+
+> mysql 5.7+
 
 > 打开rewrite
 
