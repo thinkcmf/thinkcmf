@@ -371,16 +371,16 @@
         },
         {
             "name": "thinkcmf/cmf-extend",
-            "version": "v5.1.0",
+            "version": "v5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-extend.git",
-                "reference": "39cbfdc69980a4f4b98ee82fa16c605004f26f5f"
+                "reference": "500ac89f30b9352dbac4f3f13c88212d8b2a9618"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-extend/zipball/39cbfdc69980a4f4b98ee82fa16c605004f26f5f",
-                "reference": "39cbfdc69980a4f4b98ee82fa16c605004f26f5f",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-extend/zipball/500ac89f30b9352dbac4f3f13c88212d8b2a9618",
+                "reference": "500ac89f30b9352dbac4f3f13c88212d8b2a9618",
                 "shasum": ""
             },
             "type": "library",
@@ -405,9 +405,9 @@
             "description": "The ThinkCMF extend Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-extend/issues",
-                "source": "https://github.com/thinkcmf/cmf-extend/tree/master"
+                "source": "https://github.com/thinkcmf/cmf-extend/tree/v5.1.1"
             },
-            "time": "2019-03-04T05:15:23+00:00"
+            "time": "2021-02-10T07:02:12+00:00"
         },
         {
             "name": "thinkcmf/cmf-install",

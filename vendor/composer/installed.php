@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '97e88d225faeebf591addc602d433c84fffd39c6',
+    'reference' => '9ce8da1848b13de619b5e6800d9edebb2c6e6cd4',
     'name' => 'thinkcmf/thinkcmf',
   ),
   'versions' => 
@@ -76,12 +76,12 @@
     ),
     'thinkcmf/cmf-extend' => 
     array (
-      'pretty_version' => 'v5.1.0',
-      'version' => '5.1.0.0',
+      'pretty_version' => 'v5.1.1',
+      'version' => '5.1.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '39cbfdc69980a4f4b98ee82fa16c605004f26f5f',
+      'reference' => '500ac89f30b9352dbac4f3f13c88212d8b2a9618',
     ),
     'thinkcmf/cmf-install' => 
     array (
@@ -99,7 +99,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '97e88d225faeebf591addc602d433c84fffd39c6',
+      'reference' => '9ce8da1848b13de619b5e6800d9edebb2c6e6cd4',
     ),
     'topthink/framework' => 
     array (
