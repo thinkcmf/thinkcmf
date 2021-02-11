@@ -234,17 +234,17 @@
         },
         {
             "name": "thinkcmf/cmf",
-            "version": "v5.1.11",
-            "version_normalized": "5.1.11.0",
+            "version": "v5.1.12",
+            "version_normalized": "5.1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-core.git",
-                "reference": "f9e726abc3b6412bdce8b5d1e426e40bb2932380"
+                "reference": "93fbca5a895bb5d59e18afc4b12831b9c55c0978"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/f9e726abc3b6412bdce8b5d1e426e40bb2932380",
-                "reference": "f9e726abc3b6412bdce8b5d1e426e40bb2932380",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/93fbca5a895bb5d59e18afc4b12831b9c55c0978",
+                "reference": "93fbca5a895bb5d59e18afc4b12831b9c55c0978",
                 "shasum": ""
             },
             "require": {
@@ -256,7 +256,7 @@
                 "topthink/framework": "~5.1.0",
                 "topthink/think-captcha": "^2.0"
             },
-            "time": "2019-12-16T09:51:55+00:00",
+            "time": "2021-02-11T04:34:43+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -284,27 +284,31 @@
                 }
             ],
             "description": "The ThinkCMF Core Package",
+            "support": {
+                "issues": "https://github.com/thinkcmf/cmf-core/issues",
+                "source": "https://github.com/thinkcmf/cmf-core/tree/v5.1.12"
+            },
             "install-path": "../thinkcmf/cmf"
         },
         {
             "name": "thinkcmf/cmf-api",
-            "version": "v5.1.6",
-            "version_normalized": "5.1.6.0",
+            "version": "v5.1.7",
+            "version_normalized": "5.1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-api.git",
-                "reference": "a7d9edecc8c44aec6395dac8678a2577127f776d"
+                "reference": "40ee22857e2092d66e655c8890e330440b475875"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/a7d9edecc8c44aec6395dac8678a2577127f776d",
-                "reference": "a7d9edecc8c44aec6395dac8678a2577127f776d",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/40ee22857e2092d66e655c8890e330440b475875",
+                "reference": "40ee22857e2092d66e655c8890e330440b475875",
                 "shasum": ""
             },
             "require": {
                 "thinkcmf/cmf": "~5.1.0"
             },
-            "time": "2019-07-23T23:29:11+00:00",
+            "time": "2021-02-11T04:39:11+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -324,27 +328,31 @@
                 }
             ],
             "description": "The ThinkCMF 5.1 Core Api Package",
+            "support": {
+                "issues": "https://github.com/thinkcmf/cmf-api/issues",
+                "source": "https://github.com/thinkcmf/cmf-api/tree/v5.1.7"
+            },
             "install-path": "../thinkcmf/cmf-api"
         },
         {
             "name": "thinkcmf/cmf-app",
-            "version": "v5.1.6",
-            "version_normalized": "5.1.6.0",
+            "version": "v5.1.7",
+            "version_normalized": "5.1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-app.git",
-                "reference": "dd02fc871dcfccc59ac21750ce6ddec359e79e7d"
+                "reference": "bed179952b7554761348286e95cdabe1ad8c8ad9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/dd02fc871dcfccc59ac21750ce6ddec359e79e7d",
-                "reference": "dd02fc871dcfccc59ac21750ce6ddec359e79e7d",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/bed179952b7554761348286e95cdabe1ad8c8ad9",
+                "reference": "bed179952b7554761348286e95cdabe1ad8c8ad9",
                 "shasum": ""
             },
             "require": {
                 "thinkcmf/cmf": "~5.1.0"
             },
-            "time": "2019-09-06T03:58:33+00:00",
+            "time": "2021-02-11T04:42:32+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -364,6 +372,10 @@
                 }
             ],
             "description": "The ThinkCMF App Package",
+            "support": {
+                "issues": "https://github.com/thinkcmf/cmf-app/issues",
+                "source": "https://github.com/thinkcmf/cmf-app/tree/v5.1.7"
+            },
             "install-path": "../thinkcmf/cmf-app"
         },
         {
@@ -411,20 +423,20 @@
         },
         {
             "name": "thinkcmf/cmf-install",
-            "version": "v5.1.4",
-            "version_normalized": "5.1.4.0",
+            "version": "v5.1.5",
+            "version_normalized": "5.1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-install.git",
-                "reference": "651f7ff4d4413e2bcf98823853144bb2b67f671a"
+                "reference": "4d0064bbaa7ab87e0b0e1edecffcac30f2b18c93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/651f7ff4d4413e2bcf98823853144bb2b67f671a",
-                "reference": "651f7ff4d4413e2bcf98823853144bb2b67f671a",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/4d0064bbaa7ab87e0b0e1edecffcac30f2b18c93",
+                "reference": "4d0064bbaa7ab87e0b0e1edecffcac30f2b18c93",
                 "shasum": ""
             },
-            "time": "2019-07-23T23:26:40+00:00",
+            "time": "2021-02-11T04:47:27+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -444,6 +456,10 @@
                 }
             ],
             "description": "The ThinkCMF Install Package",
+            "support": {
+                "issues": "https://github.com/thinkcmf/cmf-install/issues",
+                "source": "https://github.com/thinkcmf/cmf-install/tree/v5.1.5"
+            },
             "install-path": "../thinkcmf/cmf-install"
         },
         {
