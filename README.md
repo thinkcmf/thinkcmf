@@ -57,7 +57,7 @@ https://www.thinkcmf.com/docs/cmf6
 
 
 ### 环境推荐
-> php7.2
+> php7.3
 
 > mysql 5.7+
 
@@ -65,7 +65,7 @@ https://www.thinkcmf.com/docs/cmf6
 
 
 ### 最低环境要求
-> php7.1+
+> php7.2.5+
 
 > mysql 5.5+ (mysql5.1安装时选择utf8编码，不支持表情符)
 
@@ -93,6 +93,9 @@ enjoy your cmf~!
 - [ ] 移动Model的逻辑方法到Service里
 
 ### 更新日志
+#### 6.0.2
+* 移动swagger功能到插件
+
 #### 6.0.1
 * 兼容php8.0
 * 升级到`tp6.0.7`
