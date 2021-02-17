@@ -21,7 +21,7 @@ class DemoPlugin extends Plugin
         'description' => '插件演示',
         'status'      => 1,
         'author'      => 'ThinkCMF',
-        'version'     => '1.0',
+        'version'     => '1.0.2',
         'demo_url'    => 'http://demo.thinkcmf.com',
         'author_url'  => 'http://www.thinkcmf.com',
     ];
