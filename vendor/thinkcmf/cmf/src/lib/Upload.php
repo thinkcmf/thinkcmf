@@ -256,7 +256,7 @@ class Upload
          */
 
 
-        $fileValidator = validate(['file' => "fileSize:$fileUploadMaxFileSize"];
+        $fileValidator = validate(['file' => "fileSize:$fileUploadMaxFileSize"]);
         if (!$fileValidator->check(['file' => $fileImage])) {
             $error = $fileValidator->getError();
             unset($fileImage);
