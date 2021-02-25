@@ -2,7 +2,7 @@
 
 return [
     // 默认使用的数据库连接配置
-    'default'         => env('database.driver', 'mysql'),
+    'default'         => env('DATABASE_DRIVER', 'mysql'),
 
     // 自定义时间查询规则
     'time_query_rule' => [],
@@ -14,29 +14,29 @@ return [
 
     // 时间字段取出后的默认时间格式
     'datetime_format' => 'Y-m-d H:i:s',
-    'authcode'        => env('database.authcode', ''),
+    'authcode'        => env('DATABASE_AUTHCODE', ''),
 
     // 数据库连接配置信息
     'connections'     => [
         'mysql' => [
             // 数据库类型
-            'type'              => env('database.type', 'mysql'),
+            'type'              => env('DATABASE_TYPE', 'mysql'),
             // 服务器地址
-            'hostname'          => env('database.hostname', '127.0.0.1'),
+            'hostname'          => env('DATABASE_HOSTNAME', '127.0.0.1'),
             // 数据库名
-            'database'          => env('database.database', ''),
+            'database'          => env('DATABASE_DATABASE', ''),
             // 用户名
-            'username'          => env('database.username', 'root'),
+            'username'          => env('DATABASE_USERNAME', 'root'),
             // 密码
-            'password'          => env('database.password', ''),
+            'password'          => env('DATABASE_PASSWORD', ''),
             // 端口
-            'hostport'          => env('database.hostport', '3306'),
+            'hostport'          => env('DATABASE_HOSTPORT', '3306'),
             // 数据库连接参数
             'params'            => [],
             // 数据库编码默认采用utf8
-            'charset'           => env('database.charset', 'utf8mb4'),
+            'charset'           => env('DATABASE_CHARSET', 'utf8mb4'),
             // 数据库表前缀
-            'prefix'            => env('database.prefix', ''),
+            'prefix'            => env('DATABASE_PREFIX', ''),
 
             // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
             'deploy'            => 0,
@@ -51,7 +51,7 @@ return [
             // 是否需要断线重连
             'break_reconnect'   => false,
             // 监听SQL
-            'trigger_sql'       => env('app_debug', false),
+            'trigger_sql'       => env('APP_DEBUG', false),
             // 开启字段缓存
             'fields_cache'      => false,
             // 字段缓存路径
