@@ -29,9 +29,14 @@ use think\db\builder\Mongo as Builder;
 use think\db\Connection;
 use think\db\exception\DbException as Exception;
 use think\db\Mongo as Query;
+use function implode;
+use function is_array;
 
 /**
  * Mongo数据库驱动
+ * @property Manager[] $links
+ * @property Manager   $linkRead
+ * @property Manager   $linkWrite
  */
 class Mongo extends Connection
 {
@@ -969,11 +974,12 @@ class Mongo extends Connection
     /**
      * 得到某个列的数组
      * @access public
-     * @param  string $field 字段名 多个字段用逗号分隔
-     * @param  string $key 索引
+     * @param BaseQuery    $query
+     * @param string|array $field 字段名 多个字段用逗号分隔
+     * @param string       $key   索引
      * @return array
      */
-    public function column(BaseQuery $query, string $field, string $key = ''): array
+    public function column(BaseQuery $query, $field, string $key = ''): array
     {
         $options = $query->parseOptions();
 
@@ -981,6 +987,9 @@ class Mongo extends Connection
             $query->removeOption('projection');
         }
 
+        if (is_array($field)) {
+            $field = implode(',', $field);
+        }
         if ($key && '*' != $field) {
             $projection = $key . ',' . $field;
         } else {

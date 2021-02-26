@@ -1,6 +1,53 @@
 {
     "packages": [
         {
+            "name": "chamilo/pclzip",
+            "version": "v2.8.4",
+            "version_normalized": "2.8.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chamilo/pclzip.git",
+                "reference": "b94b7a190e186a31bd37f21be3a83a48c7d6b49a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chamilo/pclzip/zipball/b94b7a190e186a31bd37f21be3a83a48c7d6b49a",
+                "reference": "b94b7a190e186a31bd37f21be3a83a48c7d6b49a",
+                "shasum": ""
+            },
+            "replace": {
+                "pclzip/pclzip": "^2.8"
+            },
+            "time": "2017-11-28T22:14:11+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "classmap": [
+                    "pclzip.lib.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Blavet"
+                }
+            ],
+            "description": "A PHP library that offers compression and extraction functions for Zip formatted archives",
+            "homepage": "https://github.com/chamilo/pclzip",
+            "keywords": [
+                "php",
+                "zip"
+            ],
+            "support": {
+                "issues": "https://github.com/chamilo/pclzip/issues",
+                "source": "https://github.com/chamilo/pclzip/tree/v2.8.4"
+            },
+            "install-path": "../chamilo/pclzip"
+        },
+        {
             "name": "electrolinux/phpquery",
             "version": "0.9.6",
             "version_normalized": "0.9.6.0",
@@ -373,17 +420,17 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.2.0",
-            "version_normalized": "6.2.0.0",
+            "version": "v6.3.0",
+            "version_normalized": "6.3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "e38888a75c070304ca5514197d4847a59a5c853f"
+                "reference": "4a08cf4cdd2c38d12ee2b9fa69e5d235f37a6dcb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/e38888a75c070304ca5514197d4847a59a5c853f",
-                "reference": "e38888a75c070304ca5514197d4847a59a5c853f",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/4a08cf4cdd2c38d12ee2b9fa69e5d235f37a6dcb",
+                "reference": "4a08cf4cdd2c38d12ee2b9fa69e5d235f37a6dcb",
                 "shasum": ""
             },
             "require": {
@@ -408,7 +455,7 @@
                 "stevenmaguire/oauth2-microsoft": "Needed for Microsoft XOAUTH2 authentication",
                 "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
             },
-            "time": "2020-11-25T15:24:57+00:00",
+            "time": "2021-02-19T15:28:08+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -440,7 +487,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.2.0"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.3.0"
             },
             "funding": [
                 {
@@ -667,17 +714,17 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.22.0",
-            "version_normalized": "1.22.0.0",
+            "version": "v1.22.1",
+            "version_normalized": "1.22.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "f377a3dd1fde44d37b9831d68dc8dea3ffd28e13"
+                "reference": "5232de97ee3b75b0360528dae24e73db49566ab1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/f377a3dd1fde44d37b9831d68dc8dea3ffd28e13",
-                "reference": "f377a3dd1fde44d37b9831d68dc8dea3ffd28e13",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/5232de97ee3b75b0360528dae24e73db49566ab1",
+                "reference": "5232de97ee3b75b0360528dae24e73db49566ab1",
                 "shasum": ""
             },
             "require": {
@@ -686,7 +733,7 @@
             "suggest": {
                 "ext-mbstring": "For best performance"
             },
-            "time": "2021-01-07T16:49:33+00:00",
+            "time": "2021-01-22T09:19:47+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -730,7 +777,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.22.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.22.1"
             },
             "funding": [
                 {
@@ -750,8 +797,8 @@
         },
         {
             "name": "symfony/polyfill-php72",
-            "version": "v1.22.0",
-            "version_normalized": "1.22.0.0",
+            "version": "v1.22.1",
+            "version_normalized": "1.22.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php72.git",
@@ -809,7 +856,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php72/tree/v1.22.0"
+                "source": "https://github.com/symfony/polyfill-php72/tree/v1.22.1"
             },
             "funding": [
                 {
@@ -829,8 +876,8 @@
         },
         {
             "name": "symfony/polyfill-php80",
-            "version": "v1.22.0",
-            "version_normalized": "1.22.0.0",
+            "version": "v1.22.1",
+            "version_normalized": "1.22.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
@@ -895,7 +942,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php80/tree/v1.22.0"
+                "source": "https://github.com/symfony/polyfill-php80/tree/v1.22.1"
             },
             "funding": [
                 {
@@ -1007,17 +1054,17 @@
         },
         {
             "name": "thinkcmf/cmf",
-            "version": "v6.0.2",
-            "version_normalized": "6.0.2.0",
+            "version": "v6.0.3",
+            "version_normalized": "6.0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-core.git",
-                "reference": "77c00a551a251fbccc427d43ec169cd2d14988ff"
+                "reference": "0ecc01116a2ceaad299c9a58812148b21d101e87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/77c00a551a251fbccc427d43ec169cd2d14988ff",
-                "reference": "77c00a551a251fbccc427d43ec169cd2d14988ff",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/0ecc01116a2ceaad299c9a58812148b21d101e87",
+                "reference": "0ecc01116a2ceaad299c9a58812148b21d101e87",
                 "shasum": ""
             },
             "require": {
@@ -1029,7 +1076,7 @@
                 "topthink/framework": "~6.0.0",
                 "topthink/think-captcha": "~3.0.0"
             },
-            "time": "2021-02-10T13:19:22+00:00",
+            "time": "2021-02-19T05:46:01+00:00",
             "type": "library",
             "extra": {
                 "think": {
@@ -1065,7 +1112,7 @@
             "description": "The ThinkCMF Core Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-core/issues",
-                "source": "https://github.com/thinkcmf/cmf-core/tree/v6.0.2"
+                "source": "https://github.com/thinkcmf/cmf-core/tree/v6.0.3"
             },
             "install-path": "../thinkcmf/cmf"
         },
@@ -1156,6 +1203,50 @@
                 "source": "https://github.com/thinkcmf/cmf-app/tree/v6.0.2"
             },
             "install-path": "../thinkcmf/cmf-app"
+        },
+        {
+            "name": "thinkcmf/cmf-appstore",
+            "version": "v1.0.0",
+            "version_normalized": "1.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thinkcmf/cmf-appstore.git",
+                "reference": "99e7674948bc5c07e85e6104fad3e6fb587621a0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-appstore/zipball/99e7674948bc5c07e85e6104fad3e6fb587621a0",
+                "reference": "99e7674948bc5c07e85e6104fad3e6fb587621a0",
+                "shasum": ""
+            },
+            "require": {
+                "chamilo/pclzip": "^2.8"
+            },
+            "time": "2021-02-26T07:25:33+00:00",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-4": {
+                    "app\\admin\\": "src"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "catman",
+                    "email": "catman@thinkcmf.com"
+                }
+            ],
+            "description": "The ThinkCMF App Store Package",
+            "support": {
+                "issues": "https://github.com/thinkcmf/cmf-appstore/issues",
+                "source": "https://github.com/thinkcmf/cmf-appstore/tree/v1.0.0"
+            },
+            "install-path": "../thinkcmf/cmf-appstore"
         },
         {
             "name": "thinkcmf/cmf-extend",
@@ -1557,34 +1648,40 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v2.0.36",
-            "version_normalized": "2.0.36.0",
+            "version": "v2.0.38",
+            "version_normalized": "2.0.38.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "f48dc09050f25029d41a66bfc9c3c403e4f82024"
+                "reference": "48e01bd25fdd51afee95343a4381fabc5a9cb764"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/f48dc09050f25029d41a66bfc9c3c403e4f82024",
-                "reference": "f48dc09050f25029d41a66bfc9c3c403e4f82024",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/48e01bd25fdd51afee95343a4381fabc5a9cb764",
+                "reference": "48e01bd25fdd51afee95343a4381fabc5a9cb764",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
+                "ext-pdo": "*",
                 "php": ">=7.1.0",
                 "psr/log": "~1.0",
                 "psr/simple-cache": "^1.0",
                 "topthink/think-helper": "^3.1"
             },
-            "time": "2021-01-12T09:08:52+00:00",
+            "require-dev": {
+                "phpunit/phpunit": "^7|^8|^9.5"
+            },
+            "time": "2021-02-24T00:54:36+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "think\\": "src"
                 },
-                "files": []
+                "files": [
+                    "stubs/load_stubs.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1603,7 +1700,7 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/think-orm/issues",
-                "source": "https://github.com/top-think/think-orm/tree/v2.0.36"
+                "source": "https://github.com/top-think/think-orm/tree/v2.0.38"
             },
             "install-path": "../topthink/think-orm"
         },
