@@ -128,7 +128,7 @@ class AppStoreController extends AdminBaseController
         if (!empty($data['data']['access_token'])) {
             cmf_set_option('appstore_settings', $data['data']);
         }
-        
+
         $this->success('登录成功！');
 
     }
@@ -189,6 +189,8 @@ class AppStoreController extends AdminBaseController
             }
 
             unlink($tmpFile);
+
+            $pluginName = cmf_parse_name($pluginName, 1);
 
             if (empty($version)) {
                 $result = PluginLogic::install($pluginName);
