@@ -172,7 +172,7 @@ class SlideItemController extends AdminBaseController
 
             $slideItem = SlideItemModel::find($id);
 
-            $result = SlideItemModel::delete($id);
+            $result = SlideItemModel::destroy($id);
             if ($result) {
                 //删除图片。
 //            if (file_exists("./upload/".$slideItem['image'])){
