@@ -312,7 +312,7 @@ class UserController extends AdminBaseController
                 $this->error("最高管理员不能删除！");
             }
 
-            if (UserModel::delete($id) !== false) {
+            if (UserModel::destroy($id) !== false) {
                 RoleUserModel::where("user_id", $id)->delete();
                 $this->success("删除成功！");
             } else {
