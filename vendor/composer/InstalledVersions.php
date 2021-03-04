@@ -29,28 +29,19 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '8c9fad921debae02d57f0711f6fe7355b5c27778',
+    'reference' => '22f8b80c1f5d4c581d49b7ebb7c8c4ffe7ef6064',
     'name' => 'thinkcmf/thinkcmf',
   ),
   'versions' => 
   array (
-    'doctrine/annotations' => 
+    'chamilo/pclzip' => 
     array (
-      'pretty_version' => '1.11.1',
-      'version' => '1.11.1.0',
+      'pretty_version' => 'v2.8.4',
+      'version' => '2.8.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'ce77a7ba1770462cd705a91a151b6c3746f9c6ad',
-    ),
-    'doctrine/lexer' => 
-    array (
-      'pretty_version' => '1.2.1',
-      'version' => '1.2.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'e864bbf5904cb8f5bb334f99209b48018522f042',
+      'reference' => 'b94b7a190e186a31bd37f21be3a83a48c7d6b49a',
     ),
     'electrolinux/phpquery' => 
     array (
@@ -106,14 +97,21 @@ private static $installed = array (
       ),
       'reference' => '7e1547259a6aa7e3abc3832207499943614e9d13',
     ),
+    'pclzip/pclzip' => 
+    array (
+      'replaced' => 
+      array (
+        0 => '^2.8',
+      ),
+    ),
     'phpmailer/phpmailer' => 
     array (
-      'pretty_version' => 'v6.2.0',
-      'version' => '6.2.0.0',
+      'pretty_version' => 'v6.3.0',
+      'version' => '6.3.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'e38888a75c070304ca5514197d4847a59a5c853f',
+      'reference' => '4a08cf4cdd2c38d12ee2b9fa69e5d235f37a6dcb',
     ),
     'psr/cache' => 
     array (
@@ -151,46 +149,19 @@ private static $installed = array (
       ),
       'reference' => '408d5eafb83c57f6365a3ca330ff23aa4a5fa39b',
     ),
-    'symfony/deprecation-contracts' => 
-    array (
-      'pretty_version' => 'v2.2.0',
-      'version' => '2.2.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '5fa56b4074d1ae755beb55617ddafe6f5d78f665',
-    ),
-    'symfony/finder' => 
-    array (
-      'pretty_version' => 'v5.2.1',
-      'version' => '5.2.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '0b9231a5922fd7287ba5b411893c0ecd2733e5ba',
-    ),
-    'symfony/polyfill-ctype' => 
-    array (
-      'pretty_version' => 'v1.22.0',
-      'version' => '1.22.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'c6c942b1ac76c82448322025e084cadc56048b4e',
-    ),
     'symfony/polyfill-mbstring' => 
     array (
-      'pretty_version' => 'v1.22.0',
-      'version' => '1.22.0.0',
+      'pretty_version' => 'v1.22.1',
+      'version' => '1.22.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f377a3dd1fde44d37b9831d68dc8dea3ffd28e13',
+      'reference' => '5232de97ee3b75b0360528dae24e73db49566ab1',
     ),
     'symfony/polyfill-php72' => 
     array (
-      'pretty_version' => 'v1.22.0',
-      'version' => '1.22.0.0',
+      'pretty_version' => 'v1.22.1',
+      'version' => '1.22.1.0',
       'aliases' => 
       array (
       ),
@@ -198,8 +169,8 @@ private static $installed = array (
     ),
     'symfony/polyfill-php80' => 
     array (
-      'pretty_version' => 'v1.22.0',
-      'version' => '1.22.0.0',
+      'pretty_version' => 'v1.22.1',
+      'version' => '1.22.1.0',
       'aliases' => 
       array (
       ),
@@ -207,84 +178,84 @@ private static $installed = array (
     ),
     'symfony/var-dumper' => 
     array (
-      'pretty_version' => 'v4.4.18',
-      'version' => '4.4.18.0',
+      'pretty_version' => 'v4.4.19',
+      'version' => '4.4.19.0',
       'aliases' => 
       array (
       ),
-      'reference' => '4f31364bbc8177f2a6dbc125ac3851634ebe2a03',
-    ),
-    'symfony/yaml' => 
-    array (
-      'pretty_version' => 'v5.2.1',
-      'version' => '5.2.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '290ea5e03b8cf9b42c783163123f54441fb06939',
+      'reference' => 'a1eab2f69906dc83c5ddba4632180260d0ab4f7f',
     ),
     'thinkcmf/cmf' => 
     array (
-      'pretty_version' => '6.0.x-dev',
-      'version' => '6.0.9999999.9999999-dev',
+      'pretty_version' => 'v6.0.3',
+      'version' => '6.0.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => '46a3ccbb658b5e5ff24731fd5f263d590c9365cf',
+      'reference' => '0ecc01116a2ceaad299c9a58812148b21d101e87',
     ),
     'thinkcmf/cmf-api' => 
     array (
-      'pretty_version' => 'v6.0.0',
-      'version' => '6.0.0.0',
+      'pretty_version' => 'v6.0.2',
+      'version' => '6.0.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'be11b45c32c24b0a9468fad56934ab00bb4cc269',
+      'reference' => '092e0b8005e287a65bfb3327787d593f745880cd',
     ),
     'thinkcmf/cmf-app' => 
     array (
-      'pretty_version' => 'v6.0.0',
-      'version' => '6.0.0.0',
+      'pretty_version' => 'v6.0.2',
+      'version' => '6.0.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '7222c71c4fdf0a114c786e284d3e71e907b0c1cd',
+      'reference' => 'e9fb6740cb8c404064757d18b030ef2986846ca3',
+    ),
+    'thinkcmf/cmf-appstore' => 
+    array (
+      'pretty_version' => 'v1.0.0',
+      'version' => '1.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '99e7674948bc5c07e85e6104fad3e6fb587621a0',
     ),
     'thinkcmf/cmf-extend' => 
     array (
-      'pretty_version' => 'v5.1.0',
-      'version' => '5.1.0.0',
+      'pretty_version' => 'v5.1.1',
+      'version' => '5.1.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '39cbfdc69980a4f4b98ee82fa16c605004f26f5f',
+      'reference' => '500ac89f30b9352dbac4f3f13c88212d8b2a9618',
     ),
     'thinkcmf/cmf-install' => 
-    array (
-      'pretty_version' => 'v6.0.0',
-      'version' => '6.0.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'eb797bf54a570c387e7933e637f7bb0f2a64e9c7',
-    ),
-    'thinkcmf/cmf-route' => 
     array (
       'pretty_version' => 'v6.0.1',
       'version' => '6.0.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '12c87794d76c86ece58f4db04f08be33e0689c78',
+      'reference' => '3ac4433bca382ec1e39c829d8fec3df63ee023b6',
     ),
-    'thinkcmf/think-template' => 
+    'thinkcmf/cmf-route' => 
     array (
-      'pretty_version' => 'v2.0.8',
-      'version' => '2.0.8.0',
+      'pretty_version' => 'v6.0.2',
+      'version' => '6.0.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'd2366cb13e5568cd5b3c85527b9faad1afb6f23d',
+      'reference' => '1743944054432a470f8941b68c96634ee24f37e4',
+    ),
+    'thinkcmf/think-template' => 
+    array (
+      'pretty_version' => 'v2.0.9',
+      'version' => '2.0.9.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '9d52df5f7ab5e1904b3dfa42b6ad49f5ea398c01',
     ),
     'thinkcmf/think-view' => 
     array (
@@ -302,7 +273,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '8c9fad921debae02d57f0711f6fe7355b5c27778',
+      'reference' => '22f8b80c1f5d4c581d49b7ebb7c8c4ffe7ef6064',
     ),
     'topthink/framework' => 
     array (
@@ -333,12 +304,12 @@ private static $installed = array (
     ),
     'topthink/think-orm' => 
     array (
-      'pretty_version' => 'v2.0.36',
-      'version' => '2.0.36.0',
+      'pretty_version' => 'v2.0.39',
+      'version' => '2.0.39.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f48dc09050f25029d41a66bfc9c3c403e4f82024',
+      'reference' => '39a9d0a0e52d9b8bad9d98484d8484cdf5b683a7',
     ),
     'topthink/think-trace' => 
     array (
@@ -348,15 +319,6 @@ private static $installed = array (
       array (
       ),
       'reference' => '9a9fa8f767b6c66c5a133ad21ca1bc96ad329444',
-    ),
-    'zircote/swagger-php' => 
-    array (
-      'pretty_version' => '3.1.0',
-      'version' => '3.1.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '9d172471e56433b5c7061006b9a766f262a3edfd',
     ),
   ),
 );

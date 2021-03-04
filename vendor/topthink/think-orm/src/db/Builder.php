@@ -490,7 +490,7 @@ abstract class Builder
         // 字段分析
         $key = $field ? $this->parseKey($query, $field, true) : '';
 
-        list($exp, $value) = $val;
+        [$exp, $value] = $val;
 
         // 检测操作符
         if (!is_string($exp)) {
@@ -756,6 +756,9 @@ abstract class Builder
             $value = $this->parseRaw($query, $value);
         } else {
             $value = array_unique(is_array($value) ? $value : explode(',', $value));
+            if (count($value) === 0) {
+                return 'IN' == $exp ? '0 = 1' : '1 = 1';
+            }
             $array = [];
 
             foreach ($value as $v) {
@@ -766,8 +769,7 @@ abstract class Builder
             if (count($array) == 1) {
                 return $key . ('IN' == $exp ? ' = ' : ' <> ') . $array[0];
             } else {
-                $zone  = implode(',', $array);
-                $value = empty($zone) ? "''" : $zone;
+                $value = implode(',', $array);
             }
         }
 
@@ -898,7 +900,7 @@ abstract class Builder
                 $array[] = $this->parseRand($query);
             } elseif (is_string($val)) {
                 if (is_numeric($key)) {
-                    list($key, $sort) = explode(' ', strpos($val, ' ') ? $val : $val . ' ');
+                    [$key, $sort] = explode(' ', strpos($val, ' ') ? $val : $val . ' ');
                 } else {
                     $sort = $val;
                 }

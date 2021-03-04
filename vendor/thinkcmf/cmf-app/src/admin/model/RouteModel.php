@@ -141,8 +141,8 @@ class RouteModel extends Model
                     parse_str($routeUrlArr['query'], $query);
                 }
 
-                $routeCode = "Route::get('$rule', '$routeUrl')";
-                $routeCode .= "->name('$ruleName')";
+                $routeCode = "Route::get('$rule', '$ruleName')";
+//                $routeCode .= "->name('$ruleName')";
 
                 if (!empty($query)) {
                     $query     = var_export($query, true);

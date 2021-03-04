@@ -21,7 +21,7 @@ class PublicController extends HomeBaseController
     public function avatar()
     {
         $id   = $this->request->param("id", 0, "intval");
-        $user = UserModel::get($id);
+        $user = UserModel::find($id);
 
         $avatar = '';
         if (!empty($user)) {

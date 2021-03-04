@@ -24,7 +24,7 @@ class ReflectionCaster
 {
     public const UNSET_CLOSURE_FILE_INFO = ['Closure' => __CLASS__.'::unsetClosureFileInfo'];
 
-    private static $extraMap = [
+    private const EXTRA_MAP = [
         'docComment' => 'getDocComment',
         'extension' => 'getExtensionName',
         'isDisabled' => 'isDisabled',
@@ -114,7 +114,7 @@ class ReflectionCaster
         }
         $function = $c->getFunction();
         $frame = [
-            'class' => isset($function->class) ? $function->class : null,
+            'class' => $function->class ?? null,
             'type' => isset($function->class) ? ($function->isStatic() ? '::' : '->') : null,
             'function' => $function->name,
             'file' => $c->getExecutingFile(),
@@ -183,7 +183,7 @@ class ReflectionCaster
         if (isset($a[$prefix.'returnType'])) {
             $v = $a[$prefix.'returnType'];
             $v = $v instanceof \ReflectionNamedType ? $v->getName() : (string) $v;
-            $a[$prefix.'returnType'] = new ClassStub($a[$prefix.'returnType']->allowsNull() ? '?'.$v : $v, [class_exists($v, false) || interface_exists($v, false) || trait_exists($v, false) ? $v : '', '']);
+            $a[$prefix.'returnType'] = new ClassStub($a[$prefix.'returnType'] instanceof \ReflectionNamedType && $a[$prefix.'returnType']->allowsNull() && 'mixed' !== $v ? '?'.$v : $v, [class_exists($v, false) || interface_exists($v, false) || trait_exists($v, false) ? $v : '', '']);
         }
         if (isset($a[$prefix.'class'])) {
             $a[$prefix.'class'] = new ClassStub($a[$prefix.'class']);
@@ -323,7 +323,7 @@ class ReflectionCaster
                     if (!$type instanceof \ReflectionNamedType) {
                         $signature .= $type.' ';
                     } else {
-                        if (!$param->isOptional() && $param->allowsNull()) {
+                        if (!$param->isOptional() && $param->allowsNull() && 'mixed' !== $type->getName()) {
                             $signature .= '?';
                         }
                         $signature .= substr(strrchr('\\'.$type->getName(), '\\'), 1).' ';
@@ -370,7 +370,7 @@ class ReflectionCaster
             $x['line'] = $c->getStartLine().' to '.$c->getEndLine();
         }
 
-        self::addMap($x, $c, self::$extraMap, '');
+        self::addMap($x, $c, self::EXTRA_MAP, '');
 
         if ($x) {
             $a[Caster::PREFIX_VIRTUAL.'extra'] = new EnumStub($x);
