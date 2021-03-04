@@ -210,7 +210,7 @@ class RbacController extends AdminBaseController
             if ($count > 0) {
                 $this->error("该角色已经有用户！");
             } else {
-                $status = RoleModel::delete($id);
+                $status = RoleModel::destroy($id);
                 if (!empty($status)) {
                     $this->success("删除成功！", url('rbac/index'));
                 } else {
