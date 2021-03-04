@@ -910,6 +910,30 @@ function openUploadDialog(dialog_title, callback, extra_params, multi, filetype,
     filetype = filetype ? filetype : 'image';
     app = app ? app : GV.APP;
     var params = '&multi=' + multi + '&filetype=' + filetype + '&app=' + app;
+
+    openIframeLayer(GV.ROOT + 'user/Asset/webuploader?' + params, dialog_title, {
+        btn: ['确定'],
+        area: ['600px', '450px'],
+        yes: function (index, layero) {
+            if (typeof callback == 'function') {
+                var body = layer.getChildFrame('body', index);
+                //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                var iframeWin = window[layero.find('iframe')[0]['name']];
+                var files = iframeWin.get_selected_files();
+                console.log(files);
+                if (files && files.length > 0) {
+                    callback.apply(this, [this, files, extra_params]);
+                    layer.close(index);
+                } else {
+                    // return false;
+                }
+
+
+
+            }
+        }
+    })
+    return;
     Wind.use("artDialog", "iframeTools", function () {
         art.dialog.open(GV.ROOT + 'user/Asset/webuploader?' + params, {
             title: dialog_title,
