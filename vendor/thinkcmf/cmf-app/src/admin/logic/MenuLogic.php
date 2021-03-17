@@ -70,8 +70,7 @@ class MenuLogic
                 $controller      = preg_replace('/\.php$/', '', $controller);
                 $controllerName  = preg_replace("/Controller$/", '', $controller);
                 $controllerClass = "app\\$app\\controller\\$controller";
-                $manager         = new AnnotationManager();
-                $manager->resolveName('date');
+
                 $menuAnnotations = Annotations::ofClass($controllerClass, '@adminMenuRoot');
 
                 if (!empty($menuAnnotations)) {
