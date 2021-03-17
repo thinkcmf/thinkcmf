@@ -42,8 +42,6 @@ class MenuLogic
             }
         }
 
-        $annotationManager->registry['date'] = false;
-
         $newMenus = [];
         if ($app == 'admin') {
             $filePatten         = CMF_ROOT . "vendor/thinkcmf/cmf-app/src/{$app}/controller/*Controller.php";
