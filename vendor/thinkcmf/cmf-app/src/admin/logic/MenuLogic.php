@@ -35,6 +35,12 @@ class MenuLogic
         $annotationManager                            = Annotations::getManager();
         $annotationManager->registry['adminMenu']     = 'app\admin\annotation\AdminMenuAnnotation';
         $annotationManager->registry['adminMenuRoot'] = 'app\admin\annotation\AdminMenuRootAnnotation';
+        $registry                                     = config('registry');
+        if ($registry) {
+            foreach ($registry as $value) {
+                $annotationManager->registry[$value] = false;
+            }
+        }
 
         $newMenus = [];
         if ($app == 'admin') {
@@ -46,7 +52,7 @@ class MenuLogic
 
             $controllers = array_merge($coreAppControllers, $controllers);
         } else if ($app == 'user') {
-            $filePatten         = CMF_ROOT  . "vendor/thinkcmf/cmf-app/src/{$app}/controller/Admin*Controller.php";
+            $filePatten         = CMF_ROOT . "vendor/thinkcmf/cmf-app/src/{$app}/controller/Admin*Controller.php";
             $coreAppControllers = cmf_scan_dir($filePatten);
 
             $filePatten  = APP_PATH . $app . '/controller/Admin*Controller.php';
