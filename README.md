@@ -52,8 +52,9 @@ https://www.thinkcmf.com/docs/cmf6
 
 ### Git仓库
 
-1. GitHub:https://github.com/thinkcmf/thinkcmf/tree/6.0 主要仓库
-2. 码云:https://gitee.com/thinkcmf/ThinkCMF/tree/6.0 中国镜像
+1. 码云:https://gitee.com/thinkcmf/ThinkCMF/tree/6.0 主要仓库
+2. GitHub:https://github.com/thinkcmf/thinkcmf/tree/6.0 国际镜像
+
 
 
 ### 环境推荐
