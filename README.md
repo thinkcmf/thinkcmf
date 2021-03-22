@@ -3,8 +3,9 @@ ThinkCMF 5.1.7 让你更自由地飞
 
 ### ThinkCMF 6.0已发布，推荐所有用户使用
 仓库地址如下：
-1. https://github.com/thinkcmf/thinkcmf/tree/6.0 主要仓库
-2. https://gitee.com/thinkcmf/ThinkCMF/tree/6.0 中国镜像
+1. 码云:https://gitee.com/thinkcmf/ThinkCMF/tree/6.0 主要仓库
+2. GitHub:https://github.com/thinkcmf/thinkcmf/tree/6.0 国际镜像
+
 ### 如何保证代码同时兼容5.1和6.0?
 https://www.thinkcmf.com/topic/10455.html
 
@@ -39,8 +40,8 @@ http://www.kancloud.cn/thinkcmf/doc5_1
 
 ### Git仓库
 
-1. GitHub:https://github.com/thinkcmf/thinkcmf 主要仓库
-2. 码云:https://gitee.com/thinkcmf/ThinkCMF 中国镜像
+1. 码云:https://gitee.com/thinkcmf/ThinkCMF 主要仓库
+2. GitHub:https://github.com/thinkcmf/thinkcmf 国际镜像
 
 ### 演示仓库
 此仓库会放官方的一些演示应用，插件，模板，API等 
