@@ -109,7 +109,7 @@ class ComposerStaticInit228ce8e33a8a789d20396d90be99563e
         ),
         'themes\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/public/plugins',
+            0 => __DIR__ . '/../..' . '/public/themes',
         ),
         'plugins\\' => 
         array (

@@ -48,7 +48,7 @@
             "app\\": "app",
             "api\\": "api",
             "plugins\\": "public/plugins",
-            "themes\\": "public/plugins"
+            "themes\\": "public/themes"
         },
         "psr-0": {
             "": "extend/"
