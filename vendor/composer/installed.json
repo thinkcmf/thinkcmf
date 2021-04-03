@@ -1201,23 +1201,23 @@
         },
         {
             "name": "thinkcmf/cmf-appstore",
-            "version": "v1.0.2",
-            "version_normalized": "1.0.2.0",
+            "version": "v1.0.3",
+            "version_normalized": "1.0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-appstore.git",
-                "reference": "4b00e26fc49c3e5e307fc1a5821db84485345dcf"
+                "reference": "ecf3dc69561414ee0e4317719ae9c1c42939fe65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-appstore/zipball/4b00e26fc49c3e5e307fc1a5821db84485345dcf",
-                "reference": "4b00e26fc49c3e5e307fc1a5821db84485345dcf",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-appstore/zipball/ecf3dc69561414ee0e4317719ae9c1c42939fe65",
+                "reference": "ecf3dc69561414ee0e4317719ae9c1c42939fe65",
                 "shasum": ""
             },
             "require": {
                 "chamilo/pclzip": "^2.8"
             },
-            "time": "2021-04-03T08:36:00+00:00",
+            "time": "2021-04-03T09:18:36+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1239,7 +1239,7 @@
             "description": "The ThinkCMF App Store Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-appstore/issues",
-                "source": "https://github.com/thinkcmf/cmf-appstore/tree/v1.0.2"
+                "source": "https://github.com/thinkcmf/cmf-appstore/tree/v1.0.3"
             },
             "install-path": "../thinkcmf/cmf-appstore"
         },
