@@ -122,7 +122,7 @@ hello;
      * @param string $template 模板文件规则
      * @return string
      */
-    private function parseTemplate($template)
+    protected function parseTemplate($template)
     {
         $siteInfo = cmf_get_site_info();
         $this->view->assign('site_info', $siteInfo);
