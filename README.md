@@ -93,6 +93,12 @@ enjoy your cmf~!
 - [ ] 应用单独配置目录（待定）
 - [ ] 移动Model的逻辑方法到Service里
 
+### 升级指导
+#### 6.0.1升级到6.0.2
+1. composer.json文件里的`autoload.psr-4.themes\\`改为`public/themes`
+2. 安装应用市场包`composer require thinkcmf/cmf-appstore`
+3. 删除`public/themes/admin_simpleboot3/admin`目录下的`app_store`目录
+
 ### 更新日志
 #### 6.0.2
 * 增加插件市场
