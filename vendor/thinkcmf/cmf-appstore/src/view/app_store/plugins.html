@@ -46,7 +46,7 @@
                                 <else/>
                                 <empty name="vo.has_bought">
                                     <a class="btn btn-info btn-xs"
-                                       href="{$vo.buy_url}" target="_blank">购买</a>
+                                       href="javascript:;" onclick="doBuyPlugin('{$vo.buy_url}')">购买</a>
                                     <else/>
                                     <a class="btn btn-primary btn-xs js-ajax-dialog-btn"
                                        data-href="{:url('AppStore/installPlugin',['id'=>$vo.id])}"
@@ -81,6 +81,38 @@
             }
         });
     });
+
+    var buyPluginLayerIndex = '';
+
+    function doBuyPlugin(buyUrl) {
+        buyUrl = buyUrl + '?app_store_token={$appstore_settings.access_token}'
+        parent.openIframeLayer(buyUrl, '购买插件', {
+            area: ['95%', '90%'],
+            end: function () {
+            },
+            success: function (layero, index) {
+                buyPluginLayerIndex = index
+            }
+        });
+    }
+
+
+    window.parent.addEventListener('message', e => {
+        // e.data为子页面发送的数据
+        if (e.origin.match(/https?:\/\/www\.thinkcmf\.c(om|n)/)) {
+            console.log(e)
+            console.log(e.data)
+
+            switch (e.data.action) {
+                case "appstore/pay/complete":
+                    window.location.reload()
+                    parent.layer.close(buyPluginLayerIndex);
+                    break;
+            }
+        }
+
+
+    })
 </script>
 </body>
 </html>
