@@ -65,7 +65,7 @@ class AppStoreController extends AppStoreAdminBaseController
             $plugins = [];
         } else {
             $plugins   = $data['data']['plugins'];
-            $paginator = new Bootstrap([], 20, $currentPage, $data['data']['total'], false, ['path' => $this->request->baseUrl()]);
+            $paginator = new Bootstrap([], 10, $currentPage, $data['data']['total'], false, ['path' => $this->request->baseUrl()]);
             $page      = $paginator->render();
         }
 
