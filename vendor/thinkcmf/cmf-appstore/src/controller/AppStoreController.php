@@ -11,7 +11,6 @@
 namespace app\admin\controller;
 
 use app\admin\logic\PluginLogic;
-use cmf\controller\AdminBaseController;
 use app\admin\model\HookModel;
 use app\admin\model\PluginModel;
 use app\admin\model\HookPluginModel;
@@ -31,7 +30,7 @@ use think\facade\Db;
  *     'remark' =>'应用市场'
  * )
  */
-class AppStoreController extends AdminBaseController
+class AppStoreController extends AppStoreAdminBaseController
 {
 
     /**
