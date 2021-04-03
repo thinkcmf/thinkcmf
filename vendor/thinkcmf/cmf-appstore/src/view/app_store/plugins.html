@@ -85,7 +85,7 @@
     var buyPluginLayerIndex = '';
 
     function doBuyPlugin(buyUrl) {
-        buyUrl = buyUrl + '?app_store_token={$appstore_settings.access_token}'
+        buyUrl = buyUrl + "?app_store_token={$appstore_settings.access_token|default=''}"
         parent.openIframeLayer(buyUrl, '购买插件', {
             area: ['95%', '90%'],
             end: function () {
