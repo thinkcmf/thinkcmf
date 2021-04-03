@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '093fb4ced0cc6db7a6ef4d635c0cd3a7e007fd78',
+    'reference' => 'f999b5f7f5ed12f76a3947a5d9992afee09502f7',
     'name' => 'thinkcmf/thinkcmf',
   ),
   'versions' => 
@@ -164,12 +164,12 @@
     ),
     'thinkcmf/cmf' => 
     array (
-      'pretty_version' => 'v6.0.4',
-      'version' => '6.0.4.0',
+      'pretty_version' => 'v6.0.5',
+      'version' => '6.0.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => '87a7b56a424ce3b0f4a67e386caac78909ddf545',
+      'reference' => 'fabdda20014669571dc2b9741aa001c4e1739b57',
     ),
     'thinkcmf/cmf-api' => 
     array (
@@ -191,12 +191,12 @@
     ),
     'thinkcmf/cmf-appstore' => 
     array (
-      'pretty_version' => 'v1.0.1',
-      'version' => '1.0.1.0',
+      'pretty_version' => 'v1.0.2',
+      'version' => '1.0.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '94d020a0e2a292a3ebe10ffecf13229aa837adc3',
+      'reference' => '4b00e26fc49c3e5e307fc1a5821db84485345dcf',
     ),
     'thinkcmf/cmf-extend' => 
     array (
@@ -250,7 +250,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '093fb4ced0cc6db7a6ef4d635c0cd3a7e007fd78',
+      'reference' => 'f999b5f7f5ed12f76a3947a5d9992afee09502f7',
     ),
     'topthink/framework' => 
     array (
