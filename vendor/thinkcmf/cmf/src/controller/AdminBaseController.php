@@ -96,7 +96,7 @@ class AdminBaseController extends BaseController
     protected function fetch($template = '', $vars = [], $config = [])
     {
         $template = $this->parseTemplate($template);
-        $content = $this->view->fetch($template, $vars, $config);
+        $content  = $this->view->fetch($template, $vars, $config);
 
         return $content;
     }
@@ -107,7 +107,7 @@ class AdminBaseController extends BaseController
      * @param string $template 模板文件规则
      * @return string
      */
-    private function parseTemplate($template)
+    protected function parseTemplate($template)
     {
         // 分析模板文件规则
         $request = $this->request;

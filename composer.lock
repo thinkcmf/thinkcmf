@@ -405,16 +405,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.3.0",
+            "version": "v6.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "4a08cf4cdd2c38d12ee2b9fa69e5d235f37a6dcb"
+                "reference": "050d430203105c27c30efd1dce7aa421ad882d01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/4a08cf4cdd2c38d12ee2b9fa69e5d235f37a6dcb",
-                "reference": "4a08cf4cdd2c38d12ee2b9fa69e5d235f37a6dcb",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/050d430203105c27c30efd1dce7aa421ad882d01",
+                "reference": "050d430203105c27c30efd1dce7aa421ad882d01",
                 "shasum": ""
             },
             "require": {
@@ -432,7 +432,7 @@
                 "yoast/phpunit-polyfills": "^0.2.0"
             },
             "suggest": {
-                "ext-mbstring": "Needed to send email in multibyte encoding charset",
+                "ext-mbstring": "Needed to send email in multibyte encoding charset or decode encoded addresses",
                 "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
                 "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
                 "psr/log": "For optional PSR-3 debug logging",
@@ -469,7 +469,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.3.0"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.4.0"
             },
             "funding": [
                 {
@@ -477,7 +477,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-19T15:28:08+00:00"
+            "time": "2021-03-31T20:06:42+00:00"
         },
         {
             "name": "psr/cache",
@@ -530,27 +530,22 @@
         },
         {
             "name": "psr/container",
-            "version": "1.0.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/container.git",
-                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
+                "reference": "8622567409010282b7aeebe4bb841fe98b58dcaf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
-                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/8622567409010282b7aeebe4bb841fe98b58dcaf",
+                "reference": "8622567409010282b7aeebe4bb841fe98b58dcaf",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=7.2.0"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Psr\\Container\\": "src/"
@@ -563,7 +558,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common Container Interface (PHP FIG PSR-11)",
@@ -577,9 +572,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-fig/container/issues",
-                "source": "https://github.com/php-fig/container/tree/master"
+                "source": "https://github.com/php-fig/container/tree/1.1.1"
             },
-            "time": "2017-02-14T16:28:37+00:00"
+            "time": "2021-03-05T17:36:06+00:00"
         },
         {
             "name": "psr/log",
@@ -684,16 +679,16 @@
         },
         {
             "name": "thinkcmf/cmf",
-            "version": "v6.0.3",
+            "version": "v6.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-core.git",
-                "reference": "0ecc01116a2ceaad299c9a58812148b21d101e87"
+                "reference": "87a7b56a424ce3b0f4a67e386caac78909ddf545"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/0ecc01116a2ceaad299c9a58812148b21d101e87",
-                "reference": "0ecc01116a2ceaad299c9a58812148b21d101e87",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/87a7b56a424ce3b0f4a67e386caac78909ddf545",
+                "reference": "87a7b56a424ce3b0f4a67e386caac78909ddf545",
                 "shasum": ""
             },
             "require": {
@@ -739,9 +734,9 @@
             "description": "The ThinkCMF Core Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-core/issues",
-                "source": "https://github.com/thinkcmf/cmf-core/tree/v6.0.3"
+                "source": "https://github.com/thinkcmf/cmf-core/tree/v6.03"
             },
-            "time": "2021-02-19T05:46:01+00:00"
+            "time": "2021-03-22T10:08:52+00:00"
         },
         {
             "name": "thinkcmf/cmf-api",
@@ -786,16 +781,16 @@
         },
         {
             "name": "thinkcmf/cmf-app",
-            "version": "v6.0.2",
+            "version": "v6.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-app.git",
-                "reference": "e9fb6740cb8c404064757d18b030ef2986846ca3"
+                "reference": "77e50ad4213f952fdac738085ac8ccf6cc916041"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/e9fb6740cb8c404064757d18b030ef2986846ca3",
-                "reference": "e9fb6740cb8c404064757d18b030ef2986846ca3",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/77e50ad4213f952fdac738085ac8ccf6cc916041",
+                "reference": "77e50ad4213f952fdac738085ac8ccf6cc916041",
                 "shasum": ""
             },
             "require": {
@@ -821,22 +816,22 @@
             "description": "The ThinkCMF App Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-app/issues",
-                "source": "https://github.com/thinkcmf/cmf-app/tree/v6.0.2"
+                "source": "https://github.com/thinkcmf/cmf-app/tree/v6.0.3"
             },
-            "time": "2021-02-10T06:40:52+00:00"
+            "time": "2021-04-01T06:56:22+00:00"
         },
         {
             "name": "thinkcmf/cmf-appstore",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-appstore.git",
-                "reference": "99e7674948bc5c07e85e6104fad3e6fb587621a0"
+                "reference": "94d020a0e2a292a3ebe10ffecf13229aa837adc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-appstore/zipball/99e7674948bc5c07e85e6104fad3e6fb587621a0",
-                "reference": "99e7674948bc5c07e85e6104fad3e6fb587621a0",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-appstore/zipball/94d020a0e2a292a3ebe10ffecf13229aa837adc3",
+                "reference": "94d020a0e2a292a3ebe10ffecf13229aa837adc3",
                 "shasum": ""
             },
             "require": {
@@ -862,9 +857,9 @@
             "description": "The ThinkCMF App Store Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-appstore/issues",
-                "source": "https://github.com/thinkcmf/cmf-appstore/tree/v1.0.0"
+                "source": "https://github.com/thinkcmf/cmf-appstore/tree/v1.0.1"
             },
-            "time": "2021-02-26T07:25:33+00:00"
+            "time": "2021-03-22T10:30:24+00:00"
         },
         {
             "name": "thinkcmf/cmf-extend",
@@ -908,16 +903,16 @@
         },
         {
             "name": "thinkcmf/cmf-install",
-            "version": "v6.0.1",
+            "version": "v6.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-install.git",
-                "reference": "3ac4433bca382ec1e39c829d8fec3df63ee023b6"
+                "reference": "41e3227c6ff9a4cb9e0c580dfcf104b15113ba9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/3ac4433bca382ec1e39c829d8fec3df63ee023b6",
-                "reference": "3ac4433bca382ec1e39c829d8fec3df63ee023b6",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/41e3227c6ff9a4cb9e0c580dfcf104b15113ba9a",
+                "reference": "41e3227c6ff9a4cb9e0c580dfcf104b15113ba9a",
                 "shasum": ""
             },
             "type": "library",
@@ -940,22 +935,22 @@
             "description": "The ThinkCMF Install Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-install/issues",
-                "source": "https://github.com/thinkcmf/cmf-install/tree/v6.0.1"
+                "source": "https://github.com/thinkcmf/cmf-install/tree/v6.0.2"
             },
-            "time": "2021-02-08T11:53:31+00:00"
+            "time": "2021-03-22T10:31:37+00:00"
         },
         {
             "name": "thinkcmf/cmf-route",
-            "version": "v6.0.2",
+            "version": "v6.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-route.git",
-                "reference": "1743944054432a470f8941b68c96634ee24f37e4"
+                "reference": "706276d67a5a6ae68d6399107169d03e205aeaf1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-route/zipball/1743944054432a470f8941b68c96634ee24f37e4",
-                "reference": "1743944054432a470f8941b68c96634ee24f37e4",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-route/zipball/706276d67a5a6ae68d6399107169d03e205aeaf1",
+                "reference": "706276d67a5a6ae68d6399107169d03e205aeaf1",
                 "shasum": ""
             },
             "require": {
@@ -992,9 +987,9 @@
             "description": "thinkcmf6 route",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-route/issues",
-                "source": "https://github.com/thinkcmf/cmf-route/tree/v6.0.2"
+                "source": "https://github.com/thinkcmf/cmf-route/tree/v6.0.3"
             },
-            "time": "2021-02-10T06:09:16+00:00"
+            "time": "2021-03-22T10:33:16+00:00"
         },
         {
             "name": "thinkcmf/think-template",
@@ -1538,16 +1533,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.4.19",
+            "version": "v4.4.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "a1eab2f69906dc83c5ddba4632180260d0ab4f7f"
+                "reference": "0da0e174f728996f5d5072d6a9f0a42259dbc806"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/a1eab2f69906dc83c5ddba4632180260d0ab4f7f",
-                "reference": "a1eab2f69906dc83c5ddba4632180260d0ab4f7f",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/0da0e174f728996f5d5072d6a9f0a42259dbc806",
+                "reference": "0da0e174f728996f5d5072d6a9f0a42259dbc806",
                 "shasum": ""
             },
             "require": {
@@ -1607,7 +1602,7 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v4.4.19"
+                "source": "https://github.com/symfony/var-dumper/tree/v4.4.21"
             },
             "funding": [
                 {
@@ -1623,7 +1618,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-27T09:09:26+00:00"
+            "time": "2021-03-27T19:49:03+00:00"
         },
         {
             "name": "topthink/think-trace",

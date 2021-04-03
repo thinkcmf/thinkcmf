@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '22f8b80c1f5d4c581d49b7ebb7c8c4ffe7ef6064',
+    'reference' => '093fb4ced0cc6db7a6ef4d635c0cd3a7e007fd78',
     'name' => 'thinkcmf/thinkcmf',
   ),
   'versions' => 
@@ -83,12 +83,12 @@
     ),
     'phpmailer/phpmailer' => 
     array (
-      'pretty_version' => 'v6.3.0',
-      'version' => '6.3.0.0',
+      'pretty_version' => 'v6.4.0',
+      'version' => '6.4.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '4a08cf4cdd2c38d12ee2b9fa69e5d235f37a6dcb',
+      'reference' => '050d430203105c27c30efd1dce7aa421ad882d01',
     ),
     'psr/cache' => 
     array (
@@ -101,12 +101,12 @@
     ),
     'psr/container' => 
     array (
-      'pretty_version' => '1.0.0',
-      'version' => '1.0.0.0',
+      'pretty_version' => '1.1.1',
+      'version' => '1.1.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'b7ce3b176482dbbc1245ebf52b181af44c2cf55f',
+      'reference' => '8622567409010282b7aeebe4bb841fe98b58dcaf',
     ),
     'psr/log' => 
     array (
@@ -155,21 +155,21 @@
     ),
     'symfony/var-dumper' => 
     array (
-      'pretty_version' => 'v4.4.19',
-      'version' => '4.4.19.0',
+      'pretty_version' => 'v4.4.21',
+      'version' => '4.4.21.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'a1eab2f69906dc83c5ddba4632180260d0ab4f7f',
+      'reference' => '0da0e174f728996f5d5072d6a9f0a42259dbc806',
     ),
     'thinkcmf/cmf' => 
     array (
-      'pretty_version' => 'v6.0.3',
-      'version' => '6.0.3.0',
+      'pretty_version' => 'v6.0.4',
+      'version' => '6.0.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '0ecc01116a2ceaad299c9a58812148b21d101e87',
+      'reference' => '87a7b56a424ce3b0f4a67e386caac78909ddf545',
     ),
     'thinkcmf/cmf-api' => 
     array (
@@ -182,21 +182,21 @@
     ),
     'thinkcmf/cmf-app' => 
     array (
-      'pretty_version' => 'v6.0.2',
-      'version' => '6.0.2.0',
+      'pretty_version' => 'v6.0.3',
+      'version' => '6.0.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'e9fb6740cb8c404064757d18b030ef2986846ca3',
+      'reference' => '77e50ad4213f952fdac738085ac8ccf6cc916041',
     ),
     'thinkcmf/cmf-appstore' => 
     array (
-      'pretty_version' => 'v1.0.0',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'v1.0.1',
+      'version' => '1.0.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '99e7674948bc5c07e85e6104fad3e6fb587621a0',
+      'reference' => '94d020a0e2a292a3ebe10ffecf13229aa837adc3',
     ),
     'thinkcmf/cmf-extend' => 
     array (
@@ -209,21 +209,21 @@
     ),
     'thinkcmf/cmf-install' => 
     array (
-      'pretty_version' => 'v6.0.1',
-      'version' => '6.0.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '3ac4433bca382ec1e39c829d8fec3df63ee023b6',
-    ),
-    'thinkcmf/cmf-route' => 
-    array (
       'pretty_version' => 'v6.0.2',
       'version' => '6.0.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '1743944054432a470f8941b68c96634ee24f37e4',
+      'reference' => '41e3227c6ff9a4cb9e0c580dfcf104b15113ba9a',
+    ),
+    'thinkcmf/cmf-route' => 
+    array (
+      'pretty_version' => 'v6.0.3',
+      'version' => '6.0.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '706276d67a5a6ae68d6399107169d03e205aeaf1',
     ),
     'thinkcmf/think-template' => 
     array (
@@ -250,7 +250,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '22f8b80c1f5d4c581d49b7ebb7c8c4ffe7ef6064',
+      'reference' => '093fb4ced0cc6db7a6ef4d635c0cd3a7e007fd78',
     ),
     'topthink/framework' => 
     array (
