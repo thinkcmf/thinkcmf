@@ -50,7 +50,6 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         ),
         'a' => 
         array (
-            'app\\install\\' => 12,
             'app\\admin\\' => 10,
             'app\\' => 4,
             'api\\' => 4,
@@ -127,10 +126,6 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf/src',
         ),
-        'app\\install\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/thinkcmf/cmf-install/src',
-        ),
         'app\\admin\\' => 
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf-appstore/src',
@@ -139,6 +134,7 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         array (
             0 => __DIR__ . '/../..' . '/app',
             1 => __DIR__ . '/..' . '/thinkcmf/cmf-app/src',
+            2 => __DIR__ . '/..' . '/thinkcmf/cmf-install/src',
         ),
         'api\\' => 
         array (
