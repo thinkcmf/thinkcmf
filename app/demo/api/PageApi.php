@@ -18,7 +18,7 @@ class PageApi
      */
     public function nav()
     {
-        $return = [
+        return [
             'rule'  => [
                 'action' => 'demo/Index/index',
                 'param'  => [
@@ -28,8 +28,6 @@ class PageApi
                 ['id' => 1, 'name' => 'test']
             ] //每个子项item里必须包括id,name,如果想表示层级关系请加上 parent_id
         ];
-
-        return $return;
     }
 
 }
