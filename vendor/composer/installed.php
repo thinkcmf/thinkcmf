@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'd8249f913940c1ae926ac087af980ef47a28c631',
+    'reference' => '2d76218e7a03377d022257bfc6e296811e128657',
     'name' => 'thinkcmf/thinkcmf',
   ),
   'versions' => 
@@ -191,12 +191,12 @@
     ),
     'thinkcmf/cmf-appstore' => 
     array (
-      'pretty_version' => 'v1.0.3',
-      'version' => '1.0.3.0',
+      'pretty_version' => 'v1.0.4',
+      'version' => '1.0.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'ecf3dc69561414ee0e4317719ae9c1c42939fe65',
+      'reference' => '8becf22e6a2a87822f9aea5f59a6a7bebc52658f',
     ),
     'thinkcmf/cmf-extend' => 
     array (
@@ -209,12 +209,12 @@
     ),
     'thinkcmf/cmf-install' => 
     array (
-      'pretty_version' => 'v6.0.2',
-      'version' => '6.0.2.0',
+      'pretty_version' => 'v6.0.3',
+      'version' => '6.0.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => '41e3227c6ff9a4cb9e0c580dfcf104b15113ba9a',
+      'reference' => '7c12b4e87eb7585e74d3f0398b898bebb34e5ce5',
     ),
     'thinkcmf/cmf-route' => 
     array (
@@ -250,16 +250,16 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'd8249f913940c1ae926ac087af980ef47a28c631',
+      'reference' => '2d76218e7a03377d022257bfc6e296811e128657',
     ),
     'topthink/framework' => 
     array (
-      'pretty_version' => 'v6.0.7',
-      'version' => '6.0.7.0',
+      'pretty_version' => 'v6.0.8',
+      'version' => '6.0.8.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'db8fe22520a9660dd5e4c87e304034ac49e39270',
+      'reference' => '4789343672aef06d571d556da369c0e156609bce',
     ),
     'topthink/think-captcha' => 
     array (
@@ -281,12 +281,12 @@
     ),
     'topthink/think-orm' => 
     array (
-      'pretty_version' => 'v2.0.39',
-      'version' => '2.0.39.0',
+      'pretty_version' => 'v2.0.40',
+      'version' => '2.0.40.0',
       'aliases' => 
       array (
       ),
-      'reference' => '39a9d0a0e52d9b8bad9d98484d8484cdf5b683a7',
+      'reference' => '1119d979b850849f3725856460cf108eec1c3eb8',
     ),
     'topthink/think-trace' => 
     array (

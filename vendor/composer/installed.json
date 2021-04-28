@@ -1201,23 +1201,23 @@
         },
         {
             "name": "thinkcmf/cmf-appstore",
-            "version": "v1.0.3",
-            "version_normalized": "1.0.3.0",
+            "version": "v1.0.4",
+            "version_normalized": "1.0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-appstore.git",
-                "reference": "ecf3dc69561414ee0e4317719ae9c1c42939fe65"
+                "reference": "8becf22e6a2a87822f9aea5f59a6a7bebc52658f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-appstore/zipball/ecf3dc69561414ee0e4317719ae9c1c42939fe65",
-                "reference": "ecf3dc69561414ee0e4317719ae9c1c42939fe65",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-appstore/zipball/8becf22e6a2a87822f9aea5f59a6a7bebc52658f",
+                "reference": "8becf22e6a2a87822f9aea5f59a6a7bebc52658f",
                 "shasum": ""
             },
             "require": {
                 "chamilo/pclzip": "^2.8"
             },
-            "time": "2021-04-03T09:18:36+00:00",
+            "time": "2021-04-03T14:09:15+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1239,7 +1239,7 @@
             "description": "The ThinkCMF App Store Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-appstore/issues",
-                "source": "https://github.com/thinkcmf/cmf-appstore/tree/v1.0.3"
+                "source": "https://github.com/thinkcmf/cmf-appstore/tree/v1.0.4"
             },
             "install-path": "../thinkcmf/cmf-appstore"
         },
@@ -1288,20 +1288,20 @@
         },
         {
             "name": "thinkcmf/cmf-install",
-            "version": "v6.0.2",
-            "version_normalized": "6.0.2.0",
+            "version": "v6.0.3",
+            "version_normalized": "6.0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-install.git",
-                "reference": "41e3227c6ff9a4cb9e0c580dfcf104b15113ba9a"
+                "reference": "7c12b4e87eb7585e74d3f0398b898bebb34e5ce5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/41e3227c6ff9a4cb9e0c580dfcf104b15113ba9a",
-                "reference": "41e3227c6ff9a4cb9e0c580dfcf104b15113ba9a",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/7c12b4e87eb7585e74d3f0398b898bebb34e5ce5",
+                "reference": "7c12b4e87eb7585e74d3f0398b898bebb34e5ce5",
                 "shasum": ""
             },
-            "time": "2021-03-22T10:31:37+00:00",
+            "time": "2021-04-20T11:18:24+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1323,7 +1323,7 @@
             "description": "The ThinkCMF Install Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-install/issues",
-                "source": "https://github.com/thinkcmf/cmf-install/tree/v6.0.2"
+                "source": "https://github.com/thinkcmf/cmf-install/tree/v6.0.3"
             },
             "install-path": "../thinkcmf/cmf-install"
         },
@@ -1473,17 +1473,17 @@
         },
         {
             "name": "topthink/framework",
-            "version": "v6.0.7",
-            "version_normalized": "6.0.7.0",
+            "version": "v6.0.8",
+            "version_normalized": "6.0.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "db8fe22520a9660dd5e4c87e304034ac49e39270"
+                "reference": "4789343672aef06d571d556da369c0e156609bce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/db8fe22520a9660dd5e4c87e304034ac49e39270",
-                "reference": "db8fe22520a9660dd5e4c87e304034ac49e39270",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/4789343672aef06d571d556da369c0e156609bce",
+                "reference": "4789343672aef06d571d556da369c0e156609bce",
                 "shasum": ""
             },
             "require": {
@@ -1503,7 +1503,7 @@
                 "mockery/mockery": "^1.2",
                 "phpunit/phpunit": "^7.0"
             },
-            "time": "2021-01-25T14:48:29+00:00",
+            "time": "2021-04-27T00:41:08+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1535,7 +1535,7 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/framework/issues",
-                "source": "https://github.com/top-think/framework/tree/v6.0.7"
+                "source": "https://github.com/top-think/framework/tree/v6.0.8"
             },
             "install-path": "../topthink/framework"
         },
@@ -1643,17 +1643,17 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v2.0.39",
-            "version_normalized": "2.0.39.0",
+            "version": "v2.0.40",
+            "version_normalized": "2.0.40.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "39a9d0a0e52d9b8bad9d98484d8484cdf5b683a7"
+                "reference": "1119d979b850849f3725856460cf108eec1c3eb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/39a9d0a0e52d9b8bad9d98484d8484cdf5b683a7",
-                "reference": "39a9d0a0e52d9b8bad9d98484d8484cdf5b683a7",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/1119d979b850849f3725856460cf108eec1c3eb8",
+                "reference": "1119d979b850849f3725856460cf108eec1c3eb8",
                 "shasum": ""
             },
             "require": {
@@ -1667,7 +1667,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^7|^8|^9.5"
             },
-            "time": "2021-02-26T10:20:00+00:00",
+            "time": "2021-04-19T13:29:37+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1695,7 +1695,7 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/think-orm/issues",
-                "source": "https://github.com/top-think/think-orm/tree/v2.0.39"
+                "source": "https://github.com/top-think/think-orm/tree/v2.0.40"
             },
             "install-path": "../topthink/think-orm"
         },
