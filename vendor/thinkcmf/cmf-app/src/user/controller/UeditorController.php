@@ -147,7 +147,7 @@ class UeditorController extends HomeBaseController
         $uploadMaxFileSize = $uploadSetting["image"]['upload_max_filesize'];
         $uploadMaxFileSize = empty($uploadMaxFileSize) ? 2048 : $uploadMaxFileSize;//默认2M
         $allowedExts       = explode(',', $uploadSetting["image"]["extensions"]);
-        $strSavePath       = ROOT_PATH . 'public' . DIRECTORY_SEPARATOR . "ueditor" . DIRECTORY_SEPARATOR . $date . DIRECTORY_SEPARATOR;
+        $strSavePath       = CMF_ROOT . 'public' . DIRECTORY_SEPARATOR . "ueditor" . DIRECTORY_SEPARATOR . $date . DIRECTORY_SEPARATOR;
         //远程抓取图片配置
         $config = [
             "savePath"   => $strSavePath,            //保存路径
