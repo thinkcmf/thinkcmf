@@ -141,7 +141,8 @@ class MailerController extends AdminBaseController
     {
         if ($this->request->isPost()) {
 
-            $validate = new Validate([
+            $validate = new Validate();
+            $validate->rule([
                 'to'      => 'require|email',
                 'subject' => 'require',
                 'content' => 'require',
