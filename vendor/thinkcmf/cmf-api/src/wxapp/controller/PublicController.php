@@ -18,14 +18,14 @@ class PublicController extends RestBaseController
     // 微信小程序用户登录 TODO 增加最后登录信息记录,如 ip
     public function login()
     {
-        $validate = new Validate([
+        $validate = new Validate();
+        $validate->rule([
             'code'           => 'require',
             'encrypted_data' => 'require',
             'iv'             => 'require',
             'raw_data'       => 'require',
             'signature'      => 'require',
         ]);
-
         $validate->message([
             'code.require'           => '缺少参数code!',
             'encrypted_data.require' => '缺少参数encrypted_data!',

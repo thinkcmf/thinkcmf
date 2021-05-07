@@ -21,12 +21,12 @@ class ProfileController extends RestUserBaseController
      */
     public function changePassword()
     {
-        $validate = new Validate([
+        $validate = new Validate();
+        $validate->rule([
             'old_password'     => 'require',
             'password'         => 'require',
             'confirm_password' => 'require|confirm:password'
         ]);
-
         $validate->message([
             'old_password.require'     => '请输入您的旧密码!',
             'password.require'         => '请输入您的新密码!',
@@ -62,11 +62,11 @@ class ProfileController extends RestUserBaseController
      */
     public function bindingEmail()
     {
-        $validate = new Validate([
+        $validate = new Validate();
+        $validate->rule([
             'email'             => 'require|email|unique:user,user_email',
             'verification_code' => 'require'
         ]);
-
         $validate->message([
             'email.require'             => '请输入您的邮箱!',
             'email.email'               => '请输入正确的邮箱格式!',
@@ -106,11 +106,11 @@ class ProfileController extends RestUserBaseController
      */
     public function bindingMobile()
     {
-        $validate = new Validate([
+        $validate = new Validate();
+        $validate->rule([
             'mobile'            => 'require|unique:user,mobile',
             'verification_code' => 'require'
         ]);
-
         $validate->message([
             'mobile.require'            => '请输入您的手机号!',
             'mobile.unique'             => '手机号已经存在！',

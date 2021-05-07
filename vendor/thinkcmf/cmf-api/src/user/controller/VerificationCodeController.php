@@ -26,10 +26,10 @@ class VerificationCodeController extends RestBaseController
      */
     public function send()
     {
-        $validate = new \think\Validate([
+        $validate = new \think\Validate();
+        $validate->rule([
             'username' => 'require',
         ]);
-
         $validate->message([
             'username.require' => '请输入手机号或邮箱!',
         ]);
