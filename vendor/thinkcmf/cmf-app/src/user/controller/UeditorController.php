@@ -182,7 +182,7 @@ class UeditorController extends HomeBaseController
             // is_sae()
 
             if (!cmf_is_sae()) {//SAE下无效
-                $heads = get_headers($imgUrl);
+                $heads = get_headers($imgUrl,1);
                 //死链检测
                 if (!(stristr($heads[0], "200") && stristr($heads[0], "OK"))) {
                     $return_img['state'] = $this->stateMap['ERROR_DEAD_LINK'];
@@ -231,7 +231,7 @@ class UeditorController extends HomeBaseController
                 mkdir("$savePath", 0777, true);
             }
 
-            $file_write_result = cmf_file_write($tmpName, $img);
+            $file_write_result = file_put_contents($tmpName, $img);
 
             if ($file_write_result) {
                 if (config('FILE_UPLOAD_TYPE') == 'Qiniu') {
