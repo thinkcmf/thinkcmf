@@ -1633,34 +1633,30 @@ function cmf_is_ssl()
 }
 
 /**
+ *
  * 获取CMF系统的设置，此类设置用于全局
  * @param string $key 设置key，为空时返回所有配置信息
- * @return array|bool|mixed
- * @throws \think\db\exception\DataNotFoundException
- * @throws \think\db\exception\ModelNotFoundException
- * @throws \think\exception\DbException
+ * @return array
  */
 function cmf_get_cmf_settings($key = "")
 {
     $cmfSettings = cache("cmf_settings");
     if (empty($cmfSettings)) {
-        $objOptions = new \app\admin\model\OptionModel();
-        $objResult  = $objOptions->where("option_name", 'cmf_settings')->find();
-        $arrOption  = $objResult ? $objResult->toArray() : [];
+        $objOptions = new OptionModel();
+        $objResult  = $objOptions->column('option_name,option_value', 'option_name');
+        
+        $arrOption = $objResult ?: [];
         if ($arrOption) {
-            $cmfSettings = json_decode($arrOption['option_value'], true);
+            $cmfSettings = $arrOption;
         } else {
             $cmfSettings = [];
         }
+        
         cache("cmf_settings", $cmfSettings);
     }
-
-    if (!empty($key)) {
-        if (isset($cmfSettings[$key])) {
-            return $cmfSettings[$key];
-        } else {
-            return false;
-        }
+    
+    if (isset($cmfSettings[$key])) {
+        return json_decode($cmfSettings[$key],true);
     }
     return $cmfSettings;
 }
@@ -2276,4 +2272,43 @@ function str_to_arr($string)
 {
     $result = is_string($string) ? explode(',', $string) : $string;
     return $result;
+}
+
+/**
+ * 文件创建
+ * @param $filename
+ * @param $data
+ * @return mixed
+ * @author : 小夏
+ * @date   : 2021-08-08 19:08
+ */
+function cmf_file_write($filename, $data)
+{
+    file_put_contents($filename, $data);
+    return $filename;
+}
+/**
+ * 删除指定字符串后面的所有内容
+ * @param $string
+ * @param string $char
+ * @return false|string
+ * @author : 小夏
+ * @date   : 2021-08-07 22:55
+ */
+function del_as_str($string, $char = '?')
+{
+    return substr($string, 0, strpos($string, $char));
+}
+
+/**
+ * 删除图片格式的点
+ * @param $name
+ * @return mixed|string|null
+ * @author : 小夏
+ * @date   : 2021-08-07 23:05
+ */
+function del_dot($name)
+{
+    $array = explode('.', $name);
+    return array_pop($array);
 }
