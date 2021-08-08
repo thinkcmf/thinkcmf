@@ -20,11 +20,11 @@ class VerificationCodeController extends HomeBaseController
         if (!$this->request->isPost()) {
             $this->error('非法请求！');
         }
-        $validate = new \think\Validate([
+        $validate = new \think\Validate();
+        $validate->rule([
             'username' => 'require',
             'captcha'  => 'require',
         ]);
-
         $validate->message([
             'username.require' => '请输入手机号或邮箱!',
             'captcha.require'  => '图片验证码不能为空',

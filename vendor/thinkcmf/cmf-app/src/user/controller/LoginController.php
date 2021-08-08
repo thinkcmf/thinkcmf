@@ -47,7 +47,8 @@ class LoginController extends HomeBaseController
     public function doLogin()
     {
         if ($this->request->isPost()) {
-            $validate = new \think\Validate([
+            $validate = new \think\Validate();
+            $validate->rule([
                 'captcha'  => 'require',
                 'username' => 'require',
                 'password' => 'require|min:6|max:32',
@@ -120,7 +121,8 @@ class LoginController extends HomeBaseController
     {
 
         if ($this->request->isPost()) {
-            $validate = new \think\Validate([
+            $validate = new \think\Validate();
+            $validate->rule([
                 'captcha'           => 'require',
                 'verification_code' => 'require',
                 'password'          => 'require|min:6|max:32',

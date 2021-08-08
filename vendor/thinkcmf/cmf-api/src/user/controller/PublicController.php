@@ -25,12 +25,12 @@ class PublicController extends RestBaseController
      */
     public function register()
     {
-        $validate = new \think\Validate([
+        $validate = new \think\Validate();
+        $validate->rule([
             'username'          => 'require',
             'password'          => 'require',
             'verification_code' => 'require'
         ]);
-
         $validate->message([
             'username.require'          => '请输入手机号,邮箱!',
             'password.require'          => '请输入您的密码!',
@@ -93,11 +93,11 @@ class PublicController extends RestBaseController
      */
     public function verificationCodeLogin()
     {
-        $validate = new \think\Validate([
+        $validate = new \think\Validate();
+        $validate->rule([
             'username'          => 'require',
             'verification_code' => 'require'
         ]);
-
         $validate->message([
             'username.require'          => '请输入手机号,邮箱!',
             'verification_code.require' => '请输入数字验证码!'
@@ -202,7 +202,8 @@ class PublicController extends RestBaseController
     // TODO 增加最后登录信息记录,如 ip
     public function login()
     {
-        $validate = new \think\Validate([
+        $validate = new \think\Validate();
+        $validate->rule([
             'username' => 'require',
             'password' => 'require'
         ]);
@@ -316,12 +317,12 @@ class PublicController extends RestBaseController
      */
     public function passwordReset()
     {
-        $validate = new \think\Validate([
+        $validate = new \think\Validate();
+        $validate->rule([
             'username'          => 'require',
             'password'          => 'require',
             'verification_code' => 'require'
         ]);
-
         $validate->message([
             'username.require'          => '请输入手机号,邮箱!',
             'password.require'          => '请输入您的密码!',

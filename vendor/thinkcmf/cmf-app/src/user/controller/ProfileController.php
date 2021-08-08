@@ -51,7 +51,8 @@ class ProfileController extends UserBaseController
     public function editPost()
     {
         if ($this->request->isPost()) {
-            $validate = new Validate([
+            $validate = new Validate();
+            $validate->rule([
                 'user_nickname' => 'max:32',
                 'sex'           => 'between:0,2',
                 'birthday'      => 'dateFormat:Y-m-d|after:-88 year|before:-1 day',
@@ -100,7 +101,8 @@ class ProfileController extends UserBaseController
     public function passwordPost()
     {
         if ($this->request->isPost()) {
-            $validate = new Validate([
+            $validate = new Validate();
+            $validate->rule([
                 'old_password' => 'require|min:6|max:32',
                 'password'     => 'require|min:6|max:32',
                 'repassword'   => 'require|min:6|max:32',
@@ -251,7 +253,8 @@ class ProfileController extends UserBaseController
     public function bindingMobile()
     {
         if ($this->request->isPost()) {
-            $validate = new Validate([
+            $validate = new Validate();
+            $validate->rule([
                 'username'          => 'require|number|unique:user,mobile',
                 'verification_code' => 'require',
             ]);
@@ -290,7 +293,8 @@ class ProfileController extends UserBaseController
     public function bindingEmail()
     {
         if ($this->request->isPost()) {
-            $validate = new Validate([
+            $validate = new Validate();
+            $validate->rule([
                 'username'          => 'require|email|unique:user,user_email',
                 'verification_code' => 'require',
             ]);
