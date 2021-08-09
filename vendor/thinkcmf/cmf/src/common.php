@@ -1642,21 +1642,23 @@ function cmf_get_cmf_settings($key = "")
 {
     $cmfSettings = cache("cmf_settings");
     if (empty($cmfSettings)) {
-        $objOptions = new OptionModel();
-        $objResult  = $objOptions->column('option_name,option_value', 'option_name');
-        
-        $arrOption = $objResult ?: [];
+        $objOptions = new \app\admin\model\OptionModel();
+        $objResult  = $objOptions->where("option_name", 'cmf_settings')->find();
+        $arrOption  = $objResult ? $objResult->toArray() : [];
         if ($arrOption) {
-            $cmfSettings = $arrOption;
+            $cmfSettings = json_decode($arrOption['option_value'], true);
         } else {
             $cmfSettings = [];
         }
-        
         cache("cmf_settings", $cmfSettings);
     }
     
-    if (isset($cmfSettings[$key])) {
-        return json_decode($cmfSettings[$key],true);
+    if (!empty($key)) {
+        if (isset($cmfSettings[$key])) {
+            return $cmfSettings[$key];
+        } else {
+            return false;
+        }
     }
     return $cmfSettings;
 }
