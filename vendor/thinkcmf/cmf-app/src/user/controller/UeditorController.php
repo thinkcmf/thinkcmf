@@ -120,7 +120,7 @@ class UeditorController extends HomeBaseController
                 ]);
             }
         } else {
-            $response = Response::create(json_decode($result,true),'json');
+            $response = Response::create(json_decode($result, true), 'json');
             throw new HttpResponseException($response);
         }
     }
@@ -131,10 +131,10 @@ class UeditorController extends HomeBaseController
      */
     private function _get_remote_image()
     {
-        
+
         $source = $this->request->param('source/a');
-        
-        
+
+
         $item              = [
             "state"    => "",
             "url"      => "",
@@ -148,17 +148,17 @@ class UeditorController extends HomeBaseController
         $uploadMaxFileSize = $uploadSetting['file_types']["image"]['upload_max_filesize'];
         $uploadMaxFileSize = empty($uploadMaxFileSize) ? 2048 : $uploadMaxFileSize;//默认2M
         $allowedExits      = explode(',', $uploadSetting['file_types']["image"]["extensions"]);
-        $strSavePath       = ROOT_PATH . 'public' . DS . 'upload' . DS . "ueditor" . DS . $date . DS;
+        $strSavePath       = WEB_ROOT . 'upload' . DIRECTORY_SEPARATOR . "ueditor" . DIRECTORY_SEPARATOR . $date . DIRECTORY_SEPARATOR;
         //远程抓取图片配置
         $config = [
             "savePath"   => $strSavePath,            //保存路径
             "allowFiles" => $allowedExits,// [".gif", ".png", ".jpg", ".jpeg", ".bmp"], //文件允许格式
             "maxSize"    => $uploadMaxFileSize                    //文件大小限制，单位KB
         ];
-        
-        $storageSetting = cmf_get_cmf_settings('storage');
-        
-        
+
+        $storageSetting = cmf_get_option('storage');
+
+
         $list = [];
         foreach ($source as $imgUrl) {
             $return_img           = $item;
@@ -171,13 +171,13 @@ class UeditorController extends HomeBaseController
                 array_push($list, $return_img);
                 continue;
             }
-            
+
             //获取请求头
             // is_sae()
-            
+
             if (!cmf_is_sae()) {//SAE下无效
                 $heads = get_headers($imgUrl);
-                
+
                 //死链检测
                 if (!(stristr($heads[0], "200") && stristr($heads[0], "OK"))) {
                     $return_img['state'] = $this->stateMap['ERROR_DEAD_LINK'];
@@ -185,7 +185,7 @@ class UeditorController extends HomeBaseController
                     continue;
                 }
             }
-            
+
             //格式验证(扩展名验证和Content-Type验证)
             ///判断是否是从微信浏览器获取的图片
             $regx = '"https://mmbiz.qpic.cn/mmbiz_\S*(wx_co=1|wx_lazy=1)"';
@@ -200,21 +200,22 @@ class UeditorController extends HomeBaseController
                     $fileType = $fType;
                 }
             }
-            
+
+            print_r($heads);
             if (!in_array($fileType, $config['allowFiles']) || stristr($heads['Content-Type'], "image")) {
-                $return_img['state'] = $this->stateMap['ERROR_HTTP_CONTENTTYPE'];
-                array_push($list, $return_img);
-                continue;
+//                $return_img['state'] = $this->stateMap['ERROR_HTTP_CONTENTTYPE'];
+//                array_push($list, $return_img);
+//                continue;
             }
-            
+
             //打开输出缓冲区并获取远程图片
             ob_start();
             if ($wechatUrl) {
                 //$img = (save_wechat_pics(str_replace('"','',$wechatUrl),$fileType));
                 $img = file_get_contents($wechatUrl);
             } else {
-                
-                
+
+
                 $context = stream_context_create(
                     [
                         'http' => [
@@ -227,8 +228,8 @@ class UeditorController extends HomeBaseController
                 $img = ob_get_contents();
             }
             ob_end_clean();
-            
-            
+
+
             //大小验证
             $uriSize   = strlen($img); //得到图片大小
             $allowSize = 1024 * $config['maxSize'];
@@ -238,36 +239,36 @@ class UeditorController extends HomeBaseController
                 continue;
             }
             $savePath = $config['savePath'];
-            
+
             if ($wechatUrl) {
                 $file = md5($imgUrl) . "." . $fileType;
-                
+
             } else {
                 $file = uniqid() . del_as_str(strrchr($imgUrl, '.')) ?: strrchr($imgUrl, '.');
             }
-            
+
             $tmpName = $savePath . $file;
-            
-            
+
+
             //创建保存位置
             if (!file_exists($savePath)) {
                 mkdir("$savePath", 0777, true);
             }
-            
+
             $file_write_result = cmf_file_write($tmpName, $img);
-            
+
             if ($file_write_result) {
                 if ($storageSetting['type'] != 'Local') {
-                    
+
                     $storage             = new Storage();
                     $url                 = $storage->upload($file, $tmpName);
                     $return_img['state'] = 'SUCCESS';
                     $return_img['url']   = $url['url'];
                     array_push($list, $return_img);
                 } else {
-                    
+
                     $file = $strSavePath . $file;
-                    
+
                     $return_img['state'] = 'SUCCESS';
                     $return_img['url']   = $file;
                     array_push($list, $return_img);
@@ -277,11 +278,11 @@ class UeditorController extends HomeBaseController
             }
             array_push($list, $return_img);
         }
-        
+
         return json_encode([
             'state' => count($list) ? 'SUCCESS' : 'ERROR',
             'list'  => $list
-        ],JSON_UNESCAPED_SLASHES);
+        ], JSON_UNESCAPED_SLASHES);
     }
 
     /**
