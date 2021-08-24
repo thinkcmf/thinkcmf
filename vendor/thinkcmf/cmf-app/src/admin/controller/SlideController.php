@@ -176,7 +176,7 @@ class SlideController extends AdminBaseController
                 'object_id'   => $id,
                 'create_time' => time(),
                 'table_name'  => 'slide',
-                'name'        => $result['name']
+                'name'        => $slidePostModel['name']
             ];
 
             $resultSlide = $slidePostModel->save(['delete_time' => time()]);
