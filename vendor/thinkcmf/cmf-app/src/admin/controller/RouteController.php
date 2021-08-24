@@ -180,7 +180,7 @@ class RouteController extends AdminBaseController
             $data['id']     = $id;
             $routeModel     = new RouteModel();
 
-            $routeModel->save($data);
+            $routeModel->where('id', $data['id'])->update($data);
             $this->success("禁用成功！");
         }
     }
@@ -207,7 +207,7 @@ class RouteController extends AdminBaseController
             $data['id']     = $id;
             $routeModel     = new RouteModel();
 
-            $routeModel->save($data);
+            $routeModel->where('id', $data['id'])->update($data);
             $this->success("启用成功！");
         }
     }
