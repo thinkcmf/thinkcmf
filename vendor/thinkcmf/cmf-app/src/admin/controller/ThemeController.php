@@ -257,8 +257,10 @@ class ThemeController extends AdminBaseController
         $tab    = $this->request->param('tab', 'widget');
         $fileId = $this->request->param('file_id', 0, 'intval');
         if (empty($fileId)) {
-            $file  = $this->request->param('file');
+            $file = $this->request->param('file');
+            $this->assign('fileName', $file);
             $theme = $this->request->param('theme');
+            $this->assign('theme', $theme);
             $files = ThemeFileModel::where('theme', $theme)
                 ->where(function ($query) use ($file) {
                     $query->where('is_public', 1)->whereOr('file', $file);
@@ -278,35 +280,35 @@ class ThemeController extends AdminBaseController
         if (!empty($file)) {
             $hasFile = true;
             $fileId  = $file['id'];
-
-            $hasPublicVar = false;
-            $hasWidget    = false;
-            foreach ($files as $key => $mFile) {
-                if (!empty($mFile['is_public']) && !empty($mFile['more']['vars'])) {
-                    $hasPublicVar = true;
-                }
-
-                if (!empty($mFile['more']['widgets'])) {
-                    $hasWidget = true;
-                }
-
-                $files[$key] = $mFile;
-            }
-
-            $this->assign('tab', $tab);
-            $this->assign('files', $files);
-            $this->assign('file', $file);
-            $this->assign('file_id', $fileId);
-            $this->assign('has_public_var', $hasPublicVar);
-            $this->assign('has_widget', $hasWidget);
-
-            if ($tab == 'var') {
-                $tpl = 'file_var_setting';
-            } else if ($tab == 'public_var') {
-                $tpl = 'file_public_var_setting';
-            }
-
         }
+        $hasPublicVar = false;
+        $hasWidget    = false;
+        foreach ($files as $key => $mFile) {
+            $hasFile = true;
+            if (!empty($mFile['is_public']) && !empty($mFile['more']['vars'])) {
+                $hasPublicVar = true;
+            }
+
+            if (!empty($mFile['more']['widgets'])) {
+                $hasWidget = true;
+            }
+
+            $files[$key] = $mFile;
+        }
+
+        $this->assign('tab', $tab);
+        $this->assign('files', $files);
+        $this->assign('file', $file);
+        $this->assign('file_id', $fileId);
+        $this->assign('has_public_var', $hasPublicVar);
+        $this->assign('has_widget', $hasWidget);
+
+        if ($tab == 'var') {
+            $tpl = 'file_var_setting';
+        } else if ($tab == 'public_var') {
+            $tpl = 'file_public_var_setting';
+        }
+
         $this->assign('has_file', $hasFile);
         return $this->fetch($tpl);
     }
