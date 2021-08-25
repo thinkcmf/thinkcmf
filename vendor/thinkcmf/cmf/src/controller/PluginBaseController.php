@@ -15,7 +15,7 @@ use think\Container;
 use think\exception\ValidateException;
 use think\facade\Config;
 use think\Loader;
-use think\exception\TemplateNotFoundException;
+use think\template\exception\TemplateNotFoundException;
 use think\Validate;
 
 class PluginBaseController extends BaseController
