@@ -120,10 +120,16 @@ class Upload
         $userId  = cmf_get_current_user_id();
         $userId  = empty($adminId) ? $userId : $adminId;
         if (empty($userId)) {
-            $userId = Db::name('user_token')->where('token', $this->request->header('XX-Token'))->field('user_id,token')->value('user_id');
+
+            $token = $this->request->header('Authorization');
+            if (empty($token)) {
+                $token = $this->request->header('XX-Token');
+            }
+
+            $userId = Db::name('user_token')->where('token', $token)->field('user_id,token')->value('user_id');
         }
-        $targetDir = Env::get('runtime_path') . "upload" . DIRECTORY_SEPARATOR . $userId . DIRECTORY_SEPARATOR; // 断点续传 need
-        if (!file_exists($targetDir)) {
+        $targetDir = runtime_path() . "upload" . DIRECTORY_SEPARATOR . $userId . DIRECTORY_SEPARATOR; // 断点续传 need
+        if (!is_dir($targetDir)) {
             mkdir($targetDir, 0777, true);
         }
 
@@ -250,9 +256,9 @@ class Upload
          */
 
 
-        if (!validate(['file' => "fileSize:$fileUploadMaxFileSize"])
-            ->check(['file' => $fileImage])) {
-            $error = $fileImage->getError();
+        $fileValidator = validate(['file' => "fileSize:$fileUploadMaxFileSize"]);
+        if (!$fileValidator->check(['file' => $fileImage])) {
+            $error = $fileValidator->getError();
             unset($fileImage);
             unlink($strSaveFilePath);
             $this->error = $error;
@@ -261,7 +267,13 @@ class Upload
 
         //  $url=$first['url'];
         $storageSetting = cmf_get_cmf_settings('storage');
-        $qiniuSetting   = $storageSetting['Qiniu']['setting'];
+
+        if (is_array($storageSetting) && is_array($storageSetting['Qiniu']) && array_key_exists("setting", $storageSetting['Qiniu'])) {
+            $qiniuSetting = $storageSetting['Qiniu']['setting'];
+        } else {
+            $qiniuSetting = "";
+
+        }
         //$url=preg_replace('/^https/', $qiniu_setting['protocol'], $url);
         //$url=preg_replace('/^http/', $qiniu_setting['protocol'], $url);
 

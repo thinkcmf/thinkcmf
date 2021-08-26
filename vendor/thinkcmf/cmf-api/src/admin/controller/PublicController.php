@@ -18,7 +18,8 @@ class PublicController extends RestBaseController
     // 用户登录 TODO 增加最后登录信息记录,如 ip
     public function login()
     {
-        $validate = new \think\Validate([
+        $validate = new \think\Validate();
+        $validate->rule([
             'username' => 'require',
             'password' => 'require'
         ]);

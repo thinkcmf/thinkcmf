@@ -455,6 +455,7 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
         if ($this->exists) {
             $this->data   = $this->db()->find($this->getKey())->getData();
             $this->origin = $this->data;
+            $this->get    = [];
 
             if ($relation) {
                 $this->relation = [];
@@ -542,7 +543,7 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
 
         // 重新记录原始数据
         $this->origin   = $this->data;
-        $this->set      = [];
+        $this->get      = [];
         $this->lazySave = false;
 
         return true;
@@ -609,10 +610,10 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
             return true;
         }
 
-        if ($this->autoWriteTimestamp && $this->updateTime && !isset($data[$this->updateTime])) {
+        if ($this->autoWriteTimestamp && $this->updateTime) {
             // 自动写入更新时间
-            $data[$this->updateTime]       = $this->autoWriteTimestamp($this->updateTime);
-            $this->data[$this->updateTime] = $data[$this->updateTime];
+            $data[$this->updateTime]       = $this->autoWriteTimestamp();
+            $this->data[$this->updateTime] = $this->getTimestampValue($data[$this->updateTime]);
         }
 
         // 检查允许字段
@@ -666,40 +667,44 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
      */
     protected function insertData(string $sequence = null): bool
     {
-        // 时间戳自动写入
-        if ($this->autoWriteTimestamp) {
-            if ($this->createTime && !isset($this->data[$this->createTime])) {
-                $this->data[$this->createTime] = $this->autoWriteTimestamp($this->createTime);
-            }
-
-            if ($this->updateTime && !isset($this->data[$this->updateTime])) {
-                $this->data[$this->updateTime] = $this->autoWriteTimestamp($this->updateTime);
-            }
-        }
-
         if (false === $this->trigger('BeforeInsert')) {
             return false;
         }
 
         $this->checkData();
+        $data = $this->data;
+
+        // 时间戳自动写入
+        if ($this->autoWriteTimestamp) {
+            if ($this->createTime && !isset($data[$this->createTime])) {
+                $data[$this->createTime]       = $this->autoWriteTimestamp();
+                $this->data[$this->createTime] = $this->getTimestampValue($data[$this->createTime]);
+            }
+
+            if ($this->updateTime && !isset($data[$this->updateTime])) {
+                $data[$this->updateTime]       = $this->autoWriteTimestamp();
+                $this->data[$this->updateTime] = $this->getTimestampValue($data[$this->updateTime]);
+            }
+        }
 
         // 检查允许字段
         $allowFields = $this->checkAllowFields();
 
         $db = $this->db();
 
-        $db->transaction(function () use ($sequence, $allowFields, $db) {
+        $db->transaction(function () use ($data, $sequence, $allowFields, $db) {
             $result = $db->strict(false)
                 ->field($allowFields)
                 ->replace($this->replace)
                 ->sequence($sequence)
-                ->insert($this->data, true);
+                ->insert($data, true);
 
             // 获取自动增长主键
             if ($result) {
                 $pk = $this->getPk();
 
                 if (is_string($pk) && (!isset($this->data[$pk]) || '' == $this->data[$pk])) {
+                    unset($this->get[$pk]);
                     $this->data[$pk] = $result;
                 }
             }
@@ -712,6 +717,7 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
 
         // 标记数据已经存在
         $this->exists = true;
+        $this->origin = $this->data;
 
         // 新增回调
         $this->trigger('AfterInsert');
@@ -958,7 +964,9 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
      */
     public function __unset(string $name): void
     {
-        unset($this->data[$name], $this->relation[$name]);
+        unset($this->data[$name],
+            $this->get[$name],
+            $this->relation[$name]);
     }
 
     // ArrayAccess

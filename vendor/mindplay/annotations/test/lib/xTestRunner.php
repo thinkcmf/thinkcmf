@@ -27,6 +27,11 @@ class xTestRunner
      * @var ResultPrinter
      */
     protected $resultPrinter;
+    
+    /**
+     * @var boolean
+     */
+    protected $hasCoverage;
 
     /**
      * Creates result printer based on environment.
@@ -55,14 +60,17 @@ class xTestRunner
             throw new \Exception("{$rootPath} is not a directory");
         }
 
+        $this->hasCoverage = version_compare(PHP_VERSION, '8.0.0', '<');
+
         $this->rootPath = $rootPath;
         $this->resultPrinter = $resultPrinter;
-
-        try {
-            $this->coverage = new \PHP_CodeCoverage();
-            $this->coverage->filter()->addDirectoryToWhitelist($rootPath);
-        } catch (\PHP_CodeCoverage_Exception $e) {
-            // can't collect coverage
+        if ($this->hasCoverage) {
+            try {
+                $this->coverage = new \PHP_CodeCoverage();
+                $this->coverage->filter()->addDirectoryToWhitelist($rootPath);
+            } catch (\PHP_CodeCoverage_Exception $e) {
+                // can't collect coverage
+            }
         }
     }
 
@@ -134,8 +142,9 @@ class xTestRunner
         } else {
             restore_error_handler();
         }
-
-        $this->resultPrinter->createCodeCoverageReport($this->coverage);
+        if ($this->hasCoverage){
+            $this->resultPrinter->createCodeCoverageReport($this->coverage);
+        }
         $this->resultPrinter->suiteFooter($this);
 
         return $passed;

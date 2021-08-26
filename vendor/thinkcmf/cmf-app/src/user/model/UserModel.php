@@ -176,7 +176,7 @@ class UserModel extends Model
                 "user_type"       => 2,//会员
             ];
             $userId = UserModel::insertGetId($data);
-            $data   = UserModel::where('id', $userId)->find();
+            $data   = UserModel::where('id', $userId)->find()->toArray();
             cmf_update_current_user($data);
             $token = cmf_generate_user_token($userId, 'web');
             if (!empty($token)) {

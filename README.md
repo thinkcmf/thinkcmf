@@ -1,4 +1,4 @@
-ThinkCMF 6.0.0 让你更自由地飞
+ThinkCMF 6.0.2 让你更自由地飞
 ===============
 欢迎入坑，有问题请及时提交issue!
 
@@ -52,12 +52,13 @@ https://www.thinkcmf.com/docs/cmf6
 
 ### Git仓库
 
-1. GitHub:https://github.com/thinkcmf/thinkcmf/tree/6.0 主要仓库
-2. 码云:https://gitee.com/thinkcmf/ThinkCMF/tree/6.0 中国镜像
+1. 码云:https://gitee.com/thinkcmf/ThinkCMF/tree/6.0 主要仓库
+2. GitHub:https://github.com/thinkcmf/thinkcmf/tree/6.0 国际镜像
+
 
 
 ### 环境推荐
-> php7.2
+> php7.3
 
 > mysql 5.7+
 
@@ -65,7 +66,7 @@ https://www.thinkcmf.com/docs/cmf6
 
 
 ### 最低环境要求
-> php7.1+
+> php7.2.5+
 
 > mysql 5.5+ (mysql5.1安装时选择utf8编码，不支持表情符)
 
@@ -92,7 +93,42 @@ enjoy your cmf~!
 - [ ] 应用单独配置目录（待定）
 - [ ] 移动Model的逻辑方法到Service里
 
+### 升级指导
+#### 6.0.1升级到6.0.2
+1. composer.json文件里的`autoload.psr-4.themes\\`改为`public/themes`
+2. 安装应用市场包`composer require thinkcmf/cmf-appstore`
+3. 删除`public/themes/admin_simpleboot3/admin`目录下的`app_store`目录
+
 ### 更新日志
+#### 6.0.2
+* 增加插件市场支持插件在线安装
+* 增加后台不存在模板文件检测并切换到默认模板
+* 移动swagger功能到插件
+* 优化插件后台权限检查
+* 修复url美化报错
+* 规范env命名，方便编辑器跳转
+* 修正themes命名空间
+* 修复角色删除问题
+* 修复管理员删除问题
+* 修复幻灯片删除问题
+* 优化用户注册
+* 优化后台菜单导入
+
+
+#### 6.0.1
+* 兼容php8.0
+* 升级到`tp6.0.7`
+* 增加插件后台基类`admin_init`钩子
+* 优化cmf版本获取
+* 优化`cmf_clear_cache()`函数
+* 修复插件URL美化报错
+* 修复上传报错
+* 修复`demo应用 page/nav`数据源演示报错
+* 修复导入后台菜单报错
+* 修复url美化问题
+* 修复头像上传报错
+
+
 #### 6.0.0
 * 升级到ThinkPHP6.0
 * API增加Swagger支持

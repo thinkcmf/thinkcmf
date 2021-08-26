@@ -80,6 +80,12 @@ abstract class Relation
     protected $withField;
 
     /**
+     * 排除关联数据字段
+     * @var array
+     */
+    protected $withoutField;
+
+    /**
      * 获取关联的所属模型
      * @access public
      * @return Model
@@ -233,6 +239,22 @@ abstract class Relation
     public function withField(array $field)
     {
         $this->withField = $field;
+        return $this;
+    }
+
+    /**
+     * 排除关联数据的字段
+     * @access public
+     * @param  array|string $field 关联字段限制
+     * @return $this
+     */
+    public function withoutField($field)
+    {
+        if (is_string($field)) {
+            $field = array_map('trim', explode(',', $field));
+        }
+
+        $this->withoutField = $field;
         return $this;
     }
 

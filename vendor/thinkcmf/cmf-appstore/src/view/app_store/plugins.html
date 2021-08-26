@@ -1,0 +1,118 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('Plugin/index')}">{:lang('ADMIN_PLUGIN_INDEX')}</a></li>
+        <li class="active"><a href="{:url('AppStore/plugins')}">插件市场</a></li>
+        <li>
+            <a href="http://www.thinkcmf.com/faq.html?url=https://www.kancloud.cn/thinkcmf/faq/493510" target="_blank">插件离线安装<i
+                    class="fa fa-question-circle"></i></a>
+        </li>
+        <li><a href="http://www.thinkcmf.com/topic/index/index/cat/9.html" target="_blank">插件交流</a></li>
+        <li><a href="https://www.kancloud.cn/thinkcmf/doc5_1/957872" target="_blank">插件文档</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20">
+        <php>
+            $status=array("1"=>'开启',"0"=>'禁用',"3"=>'未安装');
+        </php>
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>插件名称</th>
+                <th>插件标识</th>
+                <th>描述</th>
+                <th>版本</th>
+                <!--                <th width="60">状态</th>-->
+                <th width="220">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="plugins" item="vo">
+                <tr>
+                    <td>
+                        <a href="https://www.thinkcmf.com/appstore/plugin/{$vo.id}.html" target="_blank">{$vo.title}</a>
+                    </td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.description}</td>
+                    <td><span class="label label-success">{$vo.version}</span></td>
+
+                    <!--                    <td>{$status[$vo['status']]}</td>-->
+                    <td>
+                        <empty name="vo.installed">
+                            <empty name="appstore_settings.access_token">
+                                <a class="btn btn-primary btn-xs js-install-plugin-btn"
+                                   data-href="{:url('AppStore/installPlugin',['id'=>$vo.id])}">安装</a>
+                                <else/>
+                                <empty name="vo.has_bought">
+                                    <a class="btn btn-info btn-xs"
+                                       href="javascript:;" onclick="doBuyPlugin('{$vo.buy_url}')">购买</a>
+                                    <else/>
+                                    <a class="btn btn-primary btn-xs js-ajax-dialog-btn"
+                                       data-href="{:url('AppStore/installPlugin',['id'=>$vo.id])}"
+                                       data-wait-msg="正在安装...">安装</a>
+                                </empty>
+                            </empty>
+                            <else/>
+                            <notempty name="vo.need_update">
+                                <a class="btn btn-success btn-xs js-ajax-dialog-btn"
+                                   data-href="{:url('AppStore/installPlugin',['id'=>$vo.id,'version'=>$vo.installed_plugin.version])}">升级</a>
+                            </notempty>
+                            <a class="btn btn-xs btn-danger js-ajax-dialog-btn"
+                               href="{:url('Plugin/uninstall',array('id'=>$vo.installed_plugin.id))}"
+                               data-msg="确定卸载该插件吗？">卸载</a>
+                        </empty>
+                        <!--<a target="_blank" href2="https://www.thinkcmf.com/appstore/login/index" class="btn btn-primary btn-xs js-install-plugin-btn" data-href="{:url('AppStore/installPlugin',['id'=>$vo.id])}">安装</a>-->
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <ul class="pagination">{$page}</ul>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    $('.js-install-plugin-btn').click(function () {
+        parent.openIframeLayer("{:url('admin/AppStore/login')}", '登录应用市场', {
+            area: ['600px', '450px'],
+            end: function () {
+                window.location.reload()
+            }
+        });
+    });
+
+    var buyPluginLayerIndex = '';
+
+    function doBuyPlugin(buyUrl) {
+        buyUrl = buyUrl + "?app_store_token={$appstore_settings.access_token|default=''}"
+        parent.openIframeLayer(buyUrl, '购买插件', {
+            area: ['95%', '90%'],
+            end: function () {
+            },
+            success: function (layero, index) {
+                buyPluginLayerIndex = index
+            }
+        });
+    }
+
+
+    window.parent.addEventListener('message', e => {
+        // e.data为子页面发送的数据
+        if (e.origin.match(/https?:\/\/www\.thinkcmf\.c(om|n)/)) {
+            console.log(e)
+            console.log(e.data)
+
+            switch (e.data.action) {
+                case "appstore/pay/complete":
+                    window.location.reload()
+                    parent.layer.close(buyPluginLayerIndex);
+                    break;
+            }
+        }
+
+
+    })
+</script>
+</body>
+</html>

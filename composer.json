@@ -37,7 +37,7 @@
         "topthink/think-captcha": "^3.0",
         "thinkcmf/cmf-install": "^6.0.0",
         "thinkcmf/cmf-api": "^6.0.0",
-        "zircote/swagger-php": "^3.1"
+        "thinkcmf/cmf-appstore": "^1.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
@@ -48,7 +48,7 @@
             "app\\": "app",
             "api\\": "api",
             "plugins\\": "public/plugins",
-            "themes\\": "public/plugins"
+            "themes\\": "public/themes"
         },
         "psr-0": {
             "": "extend/"

@@ -20,6 +20,11 @@ use think\facade\Hook;
 
 // 应用公共文件
 
+//php8.0
+if (!defined('T_NAME_RELATIVE')) {
+    define('T_NAME_RELATIVE', T_NS_SEPARATOR);
+}
+
 /**
  * Url生成
  * @param string      $url    路由地址
@@ -386,7 +391,7 @@ function cmf_clear_cache()
             }
         }
     }
-    $dirTool = new Dir("");
+    $dirTool = new Dir($runtimePath);
     foreach ($dirs as $dir) {
         $dirTool->delDir($dir);
     }
@@ -2193,7 +2198,7 @@ function cmf_version()
     try {
         $version = trim(file_get_contents(CMF_ROOT . 'version'));
     } catch (\Exception $e) {
-        $version = '0.0.0';
+        $version = '6.0.0-unknown';
     }
     return $version;
 }

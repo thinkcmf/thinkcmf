@@ -4,20 +4,18 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitd61b58c8781ebb98cf0216731fe95879
+class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
 {
     public static $files = array (
         '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
+        '35fab96057f1bf5e7aba31a8a6d5fdde' => __DIR__ . '/..' . '/topthink/think-orm/stubs/load_stubs.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
-        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
-        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '22ae91e0a0181f0ca9a02b9dde87e558' => __DIR__ . '/..' . '/thinkcmf/cmf/src/common.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
-        '0ccdf99b8f62f02c52cba55802e0c2e7' => __DIR__ . '/..' . '/zircote/swagger-php/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -52,7 +50,7 @@ class ComposerStaticInitd61b58c8781ebb98cf0216731fe95879
         ),
         'a' => 
         array (
-            'app\\install\\' => 12,
+            'app\\admin\\' => 10,
             'app\\' => 4,
             'api\\' => 4,
         ),
@@ -61,10 +59,7 @@ class ComposerStaticInitd61b58c8781ebb98cf0216731fe95879
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Php72\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
-            'Symfony\\Polyfill\\Ctype\\' => 23,
-            'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\VarDumper\\' => 28,
-            'Symfony\\Component\\Finder\\' => 25,
         ),
         'P' => 
         array (
@@ -74,20 +69,11 @@ class ComposerStaticInitd61b58c8781ebb98cf0216731fe95879
             'Psr\\Cache\\' => 10,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
-        'O' => 
-        array (
-            'OpenApi\\' => 8,
-        ),
         'L' => 
         array (
             'League\\MimeTypeDetection\\' => 25,
             'League\\Flysystem\\Cached\\' => 24,
             'League\\Flysystem\\' => 17,
-        ),
-        'D' => 
-        array (
-            'Doctrine\\Common\\Lexer\\' => 22,
-            'Doctrine\\Common\\Annotations\\' => 28,
         ),
     );
 
@@ -116,13 +102,13 @@ class ComposerStaticInitd61b58c8781ebb98cf0216731fe95879
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf-route/src',
             1 => __DIR__ . '/..' . '/thinkcmf/think-template/src',
-            2 => __DIR__ . '/..' . '/topthink/framework/src/think',
-            3 => __DIR__ . '/..' . '/topthink/think-helper/src',
-            4 => __DIR__ . '/..' . '/topthink/think-orm/src',
+            2 => __DIR__ . '/..' . '/topthink/think-helper/src',
+            3 => __DIR__ . '/..' . '/topthink/think-orm/src',
+            4 => __DIR__ . '/..' . '/topthink/framework/src/think',
         ),
         'themes\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/public/plugins',
+            0 => __DIR__ . '/../..' . '/public/themes',
         ),
         'plugins\\' => 
         array (
@@ -140,14 +126,15 @@ class ComposerStaticInitd61b58c8781ebb98cf0216731fe95879
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf/src',
         ),
-        'app\\install\\' => 
+        'app\\admin\\' => 
         array (
-            0 => __DIR__ . '/..' . '/thinkcmf/cmf-install/src',
+            0 => __DIR__ . '/..' . '/thinkcmf/cmf-appstore/src',
         ),
         'app\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
             1 => __DIR__ . '/..' . '/thinkcmf/cmf-app/src',
+            2 => __DIR__ . '/..' . '/thinkcmf/cmf-install/src',
         ),
         'api\\' => 
         array (
@@ -166,21 +153,9 @@ class ComposerStaticInitd61b58c8781ebb98cf0216731fe95879
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'Symfony\\Polyfill\\Ctype\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
-        ),
-        'Symfony\\Component\\Yaml\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/yaml',
-        ),
         'Symfony\\Component\\VarDumper\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
-        ),
-        'Symfony\\Component\\Finder\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/finder',
         ),
         'Psr\\SimpleCache\\' => 
         array (
@@ -202,10 +177,6 @@ class ComposerStaticInitd61b58c8781ebb98cf0216731fe95879
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
-        'OpenApi\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/zircote/swagger-php/src',
-        ),
         'League\\MimeTypeDetection\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/mime-type-detection/src',
@@ -217,14 +188,6 @@ class ComposerStaticInitd61b58c8781ebb98cf0216731fe95879
         'League\\Flysystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/flysystem/src',
-        ),
-        'Doctrine\\Common\\Lexer\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/doctrine/lexer/lib/Doctrine/Common/Lexer',
-        ),
-        'Doctrine\\Common\\Annotations\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
         ),
     );
 
@@ -250,9 +213,11 @@ class ComposerStaticInitd61b58c8781ebb98cf0216731fe95879
         'CallbackParameterToReference' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/Callback.php',
         'CallbackReturnReference' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/Callback.php',
         'CallbackReturnValue' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/Callback.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'DOMDocumentWrapper' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/DOMDocumentWrapper.php',
         'DOMEvent' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/DOMEvent.php',
         'ICallbackNamed' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/Callback.php',
+        'PclZip' => __DIR__ . '/..' . '/chamilo/pclzip/pclzip.lib.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
         'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
@@ -281,11 +246,11 @@ class ComposerStaticInitd61b58c8781ebb98cf0216731fe95879
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitd61b58c8781ebb98cf0216731fe95879::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitd61b58c8781ebb98cf0216731fe95879::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitd61b58c8781ebb98cf0216731fe95879::$prefixesPsr0;
-            $loader->fallbackDirsPsr0 = ComposerStaticInitd61b58c8781ebb98cf0216731fe95879::$fallbackDirsPsr0;
-            $loader->classMap = ComposerStaticInitd61b58c8781ebb98cf0216731fe95879::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f::$prefixesPsr0;
+            $loader->fallbackDirsPsr0 = ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f::$classMap;
 
         }, null, ClassLoader::class);
     }

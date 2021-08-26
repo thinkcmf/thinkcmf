@@ -169,7 +169,7 @@
 
     function simulatorRefresh() {
         if (simulatorNeedRefresh) {
-            $settingIframe.attr('src', "{:url('Theme/fileSetting')}?theme={:input('param.theme')}&file=" + simulator._themeFile);
+            $settingIframe.attr('src', "{:url('Theme/fileSetting')}?theme={:input('param.theme')}&file=" + encodeURIComponent(simulator._themeFile));
             $simulator.load(function () {
                 $(simulator.document).on('click', 'a', function () {
                     var target = $(this).attr('target');

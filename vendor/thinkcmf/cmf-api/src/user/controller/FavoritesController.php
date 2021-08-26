@@ -108,10 +108,12 @@ class FavoritesController extends RestBaseController
     {
         $input = $this->request->param();
 
-        $validate = new Validate([
+        $validate = new Validate();
+        $validate->rule([
             'object_id'  => 'require',
             'table_name' => 'require'
-        ], [
+        ]);
+        $validate->message([
             'object_id.require'  => '请输出内容ID',
             'table_name.require' => '请输出内容ID所在表名不带前缀'
         ]);

@@ -136,7 +136,7 @@ abstract class Builder
         }
 
         if (empty($fields)) {
-            if ('*' == $options['field']) {
+            if (empty($options['field']) || '*' == $options['field']) {
                 $fields = array_keys($bind);
             } else {
                 $fields = $options['field'];
@@ -490,7 +490,7 @@ abstract class Builder
         // 字段分析
         $key = $field ? $this->parseKey($query, $field, true) : '';
 
-        list($exp, $value) = $val;
+        [$exp, $value] = $val;
 
         // 检测操作符
         if (!is_string($exp)) {
@@ -756,6 +756,9 @@ abstract class Builder
             $value = $this->parseRaw($query, $value);
         } else {
             $value = array_unique(is_array($value) ? $value : explode(',', $value));
+            if (count($value) === 0) {
+                return 'IN' == $exp ? '0 = 1' : '1 = 1';
+            }
             $array = [];
 
             foreach ($value as $v) {
@@ -766,8 +769,7 @@ abstract class Builder
             if (count($array) == 1) {
                 return $key . ('IN' == $exp ? ' = ' : ' <> ') . $array[0];
             } else {
-                $zone  = implode(',', $array);
-                $value = empty($zone) ? "''" : $zone;
+                $value = implode(',', $array);
             }
         }
 
@@ -898,7 +900,7 @@ abstract class Builder
                 $array[] = $this->parseRand($query);
             } elseif (is_string($val)) {
                 if (is_numeric($key)) {
-                    list($key, $sort) = explode(' ', strpos($val, ' ') ? $val : $val . ' ');
+                    [$key, $sort] = explode(' ', strpos($val, ' ') ? $val : $val . ' ');
                 } else {
                     $sort = $val;
                 }
@@ -967,8 +969,8 @@ abstract class Builder
         $sort = in_array($sort, ['ASC', 'DESC'], true) ? ' ' . $sort : '';
         $bind = $query->getFieldsBindType();
 
-        foreach ($val as $item) {
-            $val[] = $this->parseDataBind($query, $key, $item, $bind);
+        foreach ($val as $k => $item) {
+            $val[$k] = $this->parseDataBind($query, $key, $item, $bind);
         }
 
         return 'field(' . $this->parseKey($query, $key, true) . ',' . implode(',', $val) . ')' . $sort;
@@ -1123,7 +1125,7 @@ abstract class Builder
                 $this->parseTable($query, $options['table']),
                 $this->parseDistinct($query, $options['distinct']),
                 $this->parseExtra($query, $options['extra']),
-                $this->parseField($query, $options['field']),
+                $this->parseField($query, $options['field'] ?? '*'),
                 $this->parseJoin($query, $options['join']),
                 $this->parseWhere($query, $options['where']),
                 $this->parseGroup($query, $options['group']),
@@ -1185,7 +1187,7 @@ abstract class Builder
         $bind = $query->getFieldsBindType();
 
         // 获取合法的字段
-        if ('*' == $options['field']) {
+        if (empty($options['field']) || '*' == $options['field']) {
             $allowFields = array_keys($bind);
         } else {
             $allowFields = $options['field'];

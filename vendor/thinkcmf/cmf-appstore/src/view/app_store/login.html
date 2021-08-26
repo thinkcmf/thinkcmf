@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>ThinkCMF {:lang('ADMIN_CENTER')}</title>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="robots" content="noindex,nofollow">
+    <!-- HTML5 shim for IE8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <![endif]-->
+    <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style()}/bootstrap.min.css" rel="stylesheet">
+    <link href="__STATIC__/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script>
+    </script>
+</head>
+<body>
+<div class="wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <h1 class="text-center">ThinkCMF</h1>
+                <form class="js-ajax-form-jsonp" action="https://www.thinkcmf.com/appstore/login/doLogin" method="post">
+                    <div class="form-group">
+                        <input type="text" id="input_username" class="form-control" name="username"
+                               placeholder="{:lang('USERNAME_OR_EMAIL')}" title="{:lang('USERNAME_OR_EMAIL')}"
+                               value="" data-rule-required="true" data-msg-required="">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" id="input_password" class="form-control" name="password"
+                               placeholder="{:lang('PASSWORD')}" title="{:lang('PASSWORD')}" data-rule-required="true"
+                               data-msg-required="">
+                    </div>
+
+<!--                    <div class="form-group">-->
+<!--                        <div style="position: relative;">-->
+<!--                            <input type="text" name="captcha" placeholder="验证码" class="form-control captcha">-->
+<!--                            <img src="https://www.thinkcmf.com/new_captcha.html?height=32&width=150&font_size=18"-->
+<!--                                 onclick="this.src='https://www.thinkcmf.com/new_captcha.html?height=32&width=150&font_size=18&time='+Math.random();"-->
+<!--                                 title="换一张"-->
+<!--                                 class="captcha captcha-img verify_img"-->
+<!--                                 style="cursor: pointer;position:absolute;right:1px;top:1px;">-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+                    <div class="form-group">
+                        <input type="hidden" name="redirect" value="">
+                        <a class="btn btn-primary btn-block js-ajax-submit" type="submit" style="margin-left: 0px"
+                           data-loadingmsg="{:lang('LOADING')}">
+                            {:lang('LOGIN')}
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    //全局变量
+    var GV = {
+        ROOT: "__ROOT__/",
+        WEB_ROOT: "__WEB_ROOT__/",
+        JS_ROOT: "static/js/",
+        APP: ''/*当前应用名*/
+    };
+</script>
+<script src="__TMPL__/public/assets/js/jquery-1.10.2.min.js"></script>
+<script src="__STATIC__/js/wind.js"></script>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    (function () {
+        document.getElementById('input_username').focus();
+    })();
+
+    Wind.use('noty');
+
+    $('.js-ajax-submit').click(function () {
+        $.ajax({
+            url: 'https://www.thinkcmf.com/appstore/login/doLogin',
+            'dataType': 'jsonp',
+            'type': 'get',
+            'data': $('.js-ajax-form-jsonp').serialize(),
+            success: function (data) {
+                if (data.code) {
+                    var $noty = noty({
+                        text: data.msg,
+                        type: 'success',
+                        layout: 'topCenter',
+                        modal: true,
+                        timeout: false,
+                        callback: {
+                            afterClose: function () {
+                            }
+                        }
+                    });
+
+                    $.ajax({
+                        url: '{:url("admin/AppStore/doLogin")}',
+                        'dataType': 'json',
+                        'type': 'post',
+                        'data': {access_token:data.data.access_token},
+                        success: function (data) {
+                            if(data.code){
+                                var index = parent.layer.getFrameIndex(window.name)
+                                parent.layer.close(index);
+                            }
+                        }
+                    });
+
+
+                } else {
+                    var $verify_img = $(".verify_img");
+                    if ($verify_img.length) {
+                        $verify_img.attr("src", $verify_img.attr("src") + "&refresh=" + Math.random());
+                    }
+
+                    noty({
+                        text: data.msg,
+                        type: 'error',
+                        layout: 'topCenter',
+                        modal: true,
+                        timeout: 800,
+                        callback: {
+                            afterClose: function () {
+                            }
+                        }
+                    })
+                }
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

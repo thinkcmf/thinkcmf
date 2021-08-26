@@ -51,7 +51,8 @@ class ProfileController extends UserBaseController
     public function editPost()
     {
         if ($this->request->isPost()) {
-            $validate = new Validate([
+            $validate = new Validate();
+            $validate->rule([
                 'user_nickname' => 'max:32',
                 'sex'           => 'between:0,2',
                 'birthday'      => 'dateFormat:Y-m-d|after:-88 year|before:-1 day',
@@ -100,7 +101,8 @@ class ProfileController extends UserBaseController
     public function passwordPost()
     {
         if ($this->request->isPost()) {
-            $validate = new Validate([
+            $validate = new Validate();
+            $validate->rule([
                 'old_password' => 'require|min:6|max:32',
                 'password'     => 'require|min:6|max:32',
                 'repassword'   => 'require|min:6|max:32',
@@ -148,34 +150,57 @@ class ProfileController extends UserBaseController
     {
         $user = cmf_get_current_user();
         $this->assign($user);
-        return $this->fetch();
+        return $this->fetch('avatar');
     }
 
     // 用户头像上传
     public function avatarUpload()
     {
-        $file   = $this->request->file('file');
-        $result = $file->validate([
-            'ext'  => 'jpg,jpeg,png',
-            'size' => 1024 * 1024
-        ])->move(WEB_ROOT . 'upload' . DIRECTORY_SEPARATOR . 'avatar' . DIRECTORY_SEPARATOR);
+        $file = $this->request->file('file');
 
-        if ($result) {
-            $avatarSaveName = str_replace('//', '/', str_replace('\\', '/', $result->getSaveName()));
-            $avatar         = 'avatar/' . $avatarSaveName;
-            session('avatar', $avatar);
+        $validator = validate(['file' => 'fileExt:jpg,jpeg,png']);
 
+        if (!$validator->check(['file' => $file])) {
+            if ($this->request->isAjax()) {
+                $this->error($validator->getError());
+            } else {
+                return json_encode([
+                    'code' => 0,
+                    "msg"  => $validator->getError(),
+                    "data" => "",
+                    "url"  => ''
+                ]);
+            }
+        }
+
+        $fileMd5 = $file->md5();
+        $fileExt = $file->getOriginalExtension();
+
+        $fileName = $fileMd5 . '.' . $fileExt;
+        $date     = date('Ymd');
+
+        $avatarDir = WEB_ROOT . 'upload' . DIRECTORY_SEPARATOR . 'avatar' . DIRECTORY_SEPARATOR . $date . DIRECTORY_SEPARATOR;
+
+        $file->move($avatarDir, $fileMd5 . '.' . $fileExt);
+
+        $avatar = 'avatar/' . $date . '/' . $fileName;
+        session('avatar', $avatar);
+
+        if ($this->request->isAjax()) {
+            $avatarPath = $avatarDir . $fileName;
+            $storage    = new Storage();
+            $result     = $storage->upload($avatar, $avatarPath, 'image');
+
+            $userId = cmf_get_current_user_id();
+            UserModel::where("id", $userId)->update(["avatar" => $avatar]);
+            session('user.avatar', $avatar);
+
+            $this->success("上传成功", null, ['file' => $avatar]);
+        } else {
             return json_encode([
                 'code' => 1,
                 "msg"  => "上传成功",
                 "data" => ['file' => $avatar],
-                "url"  => ''
-            ]);
-        } else {
-            return json_encode([
-                'code' => 0,
-                "msg"  => $file->getError(),
-                "data" => "",
                 "url"  => ''
             ]);
         }
@@ -228,7 +253,8 @@ class ProfileController extends UserBaseController
     public function bindingMobile()
     {
         if ($this->request->isPost()) {
-            $validate = new Validate([
+            $validate = new Validate();
+            $validate->rule([
                 'username'          => 'require|number|unique:user,mobile',
                 'verification_code' => 'require',
             ]);
@@ -267,7 +293,8 @@ class ProfileController extends UserBaseController
     public function bindingEmail()
     {
         if ($this->request->isPost()) {
-            $validate = new Validate([
+            $validate = new Validate();
+            $validate->rule([
                 'username'          => 'require|email|unique:user,user_email',
                 'verification_code' => 'require',
             ]);

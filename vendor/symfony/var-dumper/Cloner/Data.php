@@ -155,16 +155,25 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
         return $this->__isset($key);
     }
 
+    /**
+     * @return mixed
+     */
     public function offsetGet($key)
     {
         return $this->__get($key);
     }
 
+    /**
+     * @return void
+     */
     public function offsetSet($key, $value)
     {
         throw new \BadMethodCallException(self::class.' objects are immutable.');
     }
 
+    /**
+     * @return void
+     */
     public function offsetUnset($key)
     {
         throw new \BadMethodCallException(self::class.' objects are immutable.');
@@ -335,7 +344,7 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
                 }
                 $cursor->hardRefTo = $refs[$r];
                 $cursor->hardRefHandle = $this->useRefHandles & $item->handle;
-                $cursor->hardRefCount = $item->refCount;
+                $cursor->hardRefCount = 0 < $item->handle ? $item->refCount : 0;
             }
             $cursor->attr = $item->attr;
             $type = $item->class ?: \gettype($item->value);

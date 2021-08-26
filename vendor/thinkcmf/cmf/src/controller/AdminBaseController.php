@@ -39,8 +39,18 @@ class AdminBaseController extends BaseController
 
     public function _initializeView()
     {
-        $cmfAdminThemePath    = config('template.cmf_admin_theme_path');
-        $cmfAdminDefaultTheme = cmf_get_current_admin_theme();
+        $this->updateViewConfig();
+    }
+
+    private function updateViewConfig($defaultTheme = '', $viewBase = '')
+    {
+        $cmfAdminThemePath = config('template.cmf_admin_theme_path');
+
+        if (empty($defaultTheme)) {
+            $cmfAdminDefaultTheme = cmf_get_current_admin_theme();
+        } else {
+            $cmfAdminDefaultTheme = $defaultTheme;
+        }
 
         $themePath = "{$cmfAdminThemePath}{$cmfAdminDefaultTheme}";
 
@@ -65,11 +75,14 @@ class AdminBaseController extends BaseController
             ];
         }
 
+        if (empty($viewBase)) {
+            $viewBase = WEB_ROOT . $themePath . '/';
+        }
+
         $this->view->engine()->config([
-            'view_base'          => WEB_ROOT . $themePath . '/',
+            'view_base'          => $viewBase,
             'tpl_replace_string' => $viewReplaceStr
         ]);
-
     }
 
     /**
@@ -94,7 +107,7 @@ class AdminBaseController extends BaseController
      * @param string $template 模板文件规则
      * @return string
      */
-    private function parseTemplate($template)
+    protected function parseTemplate($template)
     {
         // 分析模板文件规则
         $request = $this->request;
@@ -110,7 +123,7 @@ class AdminBaseController extends BaseController
 
         // 基础视图目录
         $app = isset($app) ? $app : $this->app->http->getName();
-        $path   = $themePath . ($app ? $app . DIRECTORY_SEPARATOR : '');
+//        $path = $themePath . ($app ? $app . DIRECTORY_SEPARATOR : '');
 
         $depr = config('view.view_depr');
         if (0 !== strpos($template, '/')) {
@@ -128,7 +141,25 @@ class AdminBaseController extends BaseController
             $template = str_replace(['/', ':'], $depr, substr($template, 1));
         }
 
-        return $path . ltrim($template, '/') . '.' . ltrim(config('view.view_suffix'), '.');
+        $file = $themePath . ($app ? $app . DIRECTORY_SEPARATOR : '') . ltrim($template, '/') . '.' . ltrim(config('view.view_suffix'), '.');
+
+        if (!is_file($file)) {
+
+            $adminDefaultTheme = 'admin_simpleboot3';
+
+            $cmfAdminThemePath = config('template.cmf_admin_theme_path');
+            $themePath         = "{$cmfAdminThemePath}{$adminDefaultTheme}";
+            $viewBase          = WEB_ROOT . $themePath . '/';
+
+            $defaultFile = $viewBase . ($app ? $app . DIRECTORY_SEPARATOR : '') . ltrim($template, '/') . '.' . ltrim(config('view.view_suffix'), '.');
+
+            if (is_file($defaultFile)) {
+                $file = $defaultFile;
+                $this->updateViewConfig($adminDefaultTheme);
+            }
+        }
+
+        return $file;
     }
 
     /**

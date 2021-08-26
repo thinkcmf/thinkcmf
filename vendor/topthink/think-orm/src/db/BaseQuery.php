@@ -266,11 +266,11 @@ abstract class BaseQuery
     /**
      * 得到某个列的数组
      * @access public
-     * @param string $field 字段名 多个字段用逗号分隔
+     * @param string|array $field 字段名 多个字段用逗号分隔
      * @param string $key   索引
      * @return array
      */
-    public function column(string $field, string $key = ''): array
+    public function column($field, string $key = ''): array
     {
         return $this->connection->column($this, $field, $key);
     }
@@ -621,7 +621,7 @@ abstract class BaseQuery
 
             $bind    = $this->bind;
             $total   = $this->count();
-            $results = $this->options($options)->bind($bind)->page($page, $listRows)->select();
+            $results = $total > 0 ? $this->options($options)->bind($bind)->page($page, $listRows)->select() : [];
         } elseif ($simple) {
             $results = $this->limit(($page - 1) * $listRows, $listRows + 1)->select();
             $total   = null;
@@ -1075,7 +1075,7 @@ abstract class BaseQuery
      * 查找记录
      * @access public
      * @param mixed $data 数据
-     * @return Collection
+     * @return Collection|array|static[]
      * @throws Exception
      * @throws ModelNotFoundException
      * @throws DataNotFoundException
@@ -1109,7 +1109,7 @@ abstract class BaseQuery
      * 查找单条记录
      * @access public
      * @param mixed $data 查询数据
-     * @return array|Model|null
+     * @return array|Model|null|static
      * @throws Exception
      * @throws ModelNotFoundException
      * @throws DataNotFoundException
@@ -1161,10 +1161,6 @@ abstract class BaseQuery
         } elseif (isset($options['view'])) {
             // 视图查询条件处理
             $this->parseView($options);
-        }
-
-        if (!isset($options['field'])) {
-            $options['field'] = '*';
         }
 
         foreach (['data', 'order', 'join', 'union'] as $name) {

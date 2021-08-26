@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -328,7 +328,7 @@ class Url
 
             foreach ($pattern as $key => $val) {
                 if (isset($vars[$key])) {
-                    $url    = str_replace(['[:' . $key . ']', '<' . $key . '?>', ':' . $key, '<' . $key . '>'], $type ? $vars[$key] : urlencode((string) $vars[$key]), $url);
+                    $url    = str_replace(['[:' . $key . ']', '<' . $key . '?>', ':' . $key, '<' . $key . '>'], $type ? (string) $vars[$key] : urlencode((string) $vars[$key]), $url);
                     $keys[] = $key;
                     $url    = str_replace(['/?', '-?'], ['/', '-'], $url);
                     $result = [rtrim($url, '?/-'), $domain, $suffix];
@@ -353,6 +353,11 @@ class Url
         return [];
     }
 
+    /**
+     * 生成URL地址
+     * @access public
+     * @return string
+     */
     public function build()
     {
         // 解析URL
@@ -473,7 +478,7 @@ class Url
             // 添加参数
             if ($this->route->config('url_common_param')) {
                 $vars = http_build_query($vars);
-                $url .= $suffix . '?' . $vars . $anchor;
+                $url .= $suffix . ($vars ? '?' . $vars : '') . $anchor;
             } else {
                 foreach ($vars as $var => $val) {
                     $val = (string) $val;

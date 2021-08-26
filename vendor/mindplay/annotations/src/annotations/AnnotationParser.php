@@ -55,6 +55,8 @@ class AnnotationParser
      * @var AnnotationManager Internal reference to the AnnotationManager associated with this parser.
      */
     protected $manager;
+    
+    protected $isNamespaceCallable;
 
     /**
      * Creates a new instance of the annotation parser.
@@ -64,6 +66,15 @@ class AnnotationParser
     public function __construct(AnnotationManager $manager)
     {
         $this->manager = $manager;
+        if (defined('T_NAME_QUALIFIED')) {
+            $this->isNamespaceCallable = function($type) {
+                return $type == T_STRING || $type == T_NAME_QUALIFIED || $type == T_NAME_FULLY_QUALIFIED || $type == T_NAME_RELATIVE;
+            };
+        } else {
+            $this->isNamespaceCallable = function($type) {
+                return $type == T_STRING || $type == T_NS_SEPARATOR;
+            };
+        }
     }
 
     /**
@@ -94,6 +105,8 @@ class AnnotationParser
         if ($this->debug) {
             echo '<table><tr><th>Line</th><th>Type</th><th>String</th><th>State</th><th>Nesting</th></tr>';
         }
+        
+        $isNamespace=$this->isNamespaceCallable;
 
         foreach (\token_get_all($source) as $token) {
             list($type, $str, $line) = \is_array($token) ? $token : array(self::CHAR, $token, $line);
@@ -114,7 +127,7 @@ class AnnotationParser
                     break;
 
                 case self::NAMESPACE_NAME:
-                    if ($type == T_STRING || $type == T_NS_SEPARATOR) {
+                    if ($isNamespace($type)) {
                         $namespace .= $str;
                     } else {
                         if ($str == ';') {
@@ -127,7 +140,7 @@ class AnnotationParser
                     if ($type == T_AS) {
                         $use_as = '';
                         $state = self::USE_CLAUSE_AS;
-                    } elseif ($type == T_STRING || $type == T_NS_SEPARATOR) {
+                    } elseif ($isNamespace($type)) {
                         $use .= $str;
                     } elseif ($type === self::CHAR) {
                         if ($str === ',' || $str === ';') {
@@ -149,7 +162,7 @@ class AnnotationParser
                     break;
 
                 case self::USE_CLAUSE_AS:
-                    if ($type === T_STRING || $type === T_NS_SEPARATOR) {
+                    if ($isNamespace($type)) {
                         $use_as .= $str;
                     } elseif ($type === self::CHAR) {
                         if ($str === ',' || $str === ';') {
@@ -200,7 +213,7 @@ class AnnotationParser
                     break;
 
                 case self::TRAIT_USE_BLOCK:
-                    if ($type == T_STRING || $type == T_NS_SEPARATOR || $type == T_DOUBLE_COLON) {
+                    if ($isNamespace($type) || $type == T_DOUBLE_COLON) {
                         $use .= $str;
                     } elseif ($type === T_INSTEADOF) {
                         $state = self::TRAIT_USE_INSTEADOF;
