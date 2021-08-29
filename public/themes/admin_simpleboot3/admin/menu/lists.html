@@ -3,25 +3,26 @@
 <body>
 	<div class="wrap js-check-wrap">
 		<ul class="nav nav-tabs">
-			<li><a href="{:url('Menu/index')}">后台菜单</a></li>
-			<li><a href="{:url('Menu/add')}">添加菜单</a></li>
-			<li class="active"><a href="{:url('Menu/lists')}">所有菜单</a></li>
+			<li><a href="{:url('Menu/index')}">{:lang('ADMIN_BACKSTAGE_MENU')}</a></li>
+			<li><a href="{:url('Menu/add')}">{:lang('ADMIN_MENU_ADD')}</a></li>
+			<li class="active"><a href="{:url('Menu/lists')}">{:lang('ADMIN_MENU_LISTS')}</a></li>
 		</ul>
 		<form class="form-horizontal js-ajax-form" action="{:url('menu/listorders')}" method="post">
 			<div class="table-actions">
-				<a class="btn btn-primary btn-sm js-ajax-dialog-btn" href="{:url('menu/exportMenuLang')}" data-msg="您确定生成菜单多语言包吗？请确保应用目录下lang目录可写！">生成菜单多语言包</a>
-				<a class="btn btn-warning btn-sm" href="{:url('menu/getactions')}">导入新菜单</a>
+				<a class="btn btn-primary btn-sm js-ajax-dialog-btn" href="{:url('menu/exportMenuLang')}"
+                   data-msg="{:lang('ADMIN_MENU_EXPORT_TIP')}">{:lang('ADMIN_MENU_LANGUAGE')}</a>
+				<a class="btn btn-warning btn-sm" href="{:url('menu/getactions')}">{:lang('ADMIN_MENU_GETACTIONS')}</a>
 			</div>
 			<div class="alert alert-warning" style="margin: 0 0 5px 0;">
-				 请在开发人员指导下进行以上操作！
+				 {:lang('ADMIN_MENU_NOTICE')}
 			</div>
 			<table class="table table-hover table-bordered table-list">
 				<thead>
 					<tr>
 						<th width="50">ID</th>
-						<th>菜单英文名称</th>
-						<th width="50">状态</th>
-						<th width="100">管理操作</th>
+						<th>{:lang('MENU')} {:lang('NAME')}</th>
+						<th width="50">{:lang('STATUS')}</th>
+						<th width="150">{:lang('ACTIONS')}</th>
 					</tr>
 				</thead>
 				<foreach name="menus" item="vo">
@@ -30,27 +31,23 @@
 					<td>{$vo.name}:{$vo.app}/{$vo.controller}/{$vo.action}</td>
 					<td>
 						<empty name="vo.status">
-                            <span class="label label-warning">
-                                隐藏
-                            </span>
+                            <span class="label label-warning">{:lang('HIDE')}</span>
 							<else/>
-							<span class="label label-success">
-                                显示
-                            </span>
+							<span class="label label-success">{:lang('DISPLAY')}</span>
 						</empty>
 					</td>
 					<td>
-						<a class="btn btn-xs btn-primary" href="{:url('menu/edit',array('id'=>$vo['id']))}">编辑</a>
-						<a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('menu/delete',array('id'=>$vo['id']))}">删除</a>
+						<a class="btn btn-xs btn-primary" href="{:url('menu/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+						<a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('menu/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
 					</td>
 				</tr>
 				</foreach>
 				<tfoot>
 					<tr>
-						<th width="50">ID</th>
-						<th>菜单英文名称</th>
-						<th width="50">状态</th>
-						<th width="100">管理操作</th>
+                        <th width="50">ID</th>
+                        <th>{:lang('MENU')} {:lang('NAME')}</th>
+                        <th width="50">{:lang('STATUS')}</th>
+                        <th width="150">{:lang('ACTIONS')}</th>
 					</tr>
 				</tfoot>
 			</table>

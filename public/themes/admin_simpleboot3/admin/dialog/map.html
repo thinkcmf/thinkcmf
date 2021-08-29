@@ -28,7 +28,7 @@
         }
     </style>
     <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=KxkuAcGBup6sD1XxaDW85KBG"></script>
-    <title>点击地图获取当前经纬度</title>
+    <title>{:lang('ADMIN_MAP_TIP')}</title>
 </head>
 <body>
 <input id="lng_input" type="hidden" value="{$lng}"/>
@@ -38,7 +38,7 @@
 <input id="province_input" type="hidden"/>
 <input id="district_input" type="hidden"/>
 
-<input id="suggestId" type="text" placeholder="请输入地址"/>
+<input id="suggestId" type="text" placeholder="{:lang('ADMIN_MAP_ENTER_ADDR')}"/>
 <div id="allmap"></div>
 <script type="text/javascript">
 
@@ -86,7 +86,7 @@
         enableMessage: false,//设置允许信息窗发送短息
 
     };
-    var infoWindow = new BMap.InfoWindow("拖动我设置你的位置", opts);  // 创建信息窗口对象
+    var infoWindow = new BMap.InfoWindow("{:lang('ADMIN_MAP_POSITION')}", opts);  // 创建信息窗口对象
     marker.openInfoWindow(infoWindow);
 
     var gc = new BMap.Geocoder();

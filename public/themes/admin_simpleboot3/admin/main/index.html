@@ -6,15 +6,15 @@
     <case value="CmfHub">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">交流方式</h3>
+                <h3 class="panel-title">{:lang('CONTACT')}</h3>
             </div>
             <div class="panel-body home-info">
                 <ul class="list-unstyled">
                     <li>
-                        <em>官网</em> <span><a href="http://www.thinkcmf.com" target="_blank">www.thinkcmf.com</a></span>
+                        <em>{:lang('OFFICAL_WEBSITE')}</em> <span><a href="http://www.thinkcmf.com" target="_blank">www.thinkcmf.com</a></span>
                     </li>
-                    <li><em>QQ 群</em> <span>100828313,316669417</span></li>
-                    <li><em>联系邮箱</em> <span>catman@thinkcmf.com</span></li>
+                    <li><em>{:lang('QQ_GROUP')}</em> <span>100828313, 316669417</span></li>
+                    <li><em>{:lang('CONTACT_EMAIL')}</em> <span>catman@thinkcmf.com</span></li>
                 </ul>
             </div>
         </div>
@@ -22,36 +22,36 @@
     <case value="CmfDocuments">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">开发手册</h3>
+                <h3 class="panel-title">{:lang('MANUAL')}</h3>
             </div>
             <div class="panel-body home-info">
                 <ul class="list-unstyled">
                     <li>
-                        <em>完全开发手册</em>
+                        <em>{:lang('COMPLETE_MANUAL')} </em>
                         <span>
-                            <a class="label label-success" href="http://www.thinkcmf.com/doc.html"
-                               target="_blank">立即阅读</a>
+                            <a class="label label-success" href="https://www.thinkcmf.com/docs/cmf6/"
+                               target="_blank">{:lang('READ_NOW')}</a>
                         </span>
                     </li>
                     <li>
-                        <em>常见问题手册</em>
+                        <em>{:lang('FAQ_MANUAL')} </em>
                         <span>
                             <a class="label label-success" href="http://www.thinkcmf.com/faq.html"
-                               target="_blank">立即阅读</a>
+                               target="_blank">{:lang('READ_NOW')}</a>
                         </span>
                     </li>
                     <li>
-                        <em>模板开发教程</em>
+                        <em>{:lang('TEMPLATE_TUTORIAL')} </em>
                         <span>
                             <a class="label label-success" href="http://www.thinkcmf.com/theme_tutorial.html"
-                               target="_blank">立即阅读</a>
+                               target="_blank">{:lang('READ_NOW')}</a>
                         </span>
                     </li>
                     <li>
-                        <em>API开发手册</em>
+                        <em>API {:lang('MANUAL')} </em>
                         <span>
                             <a class="label label-success" href="http://www.thinkcmf.com/cmf5api.html"
-                               target="_blank">立即阅读</a>
+                               target="_blank">{:lang('READ_NOW')}</a>
                         </span>
                     </li>
                 </ul>
@@ -61,7 +61,7 @@
     <case value="MainContributors">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">主要贡献者</h3>
+                <h3 class="panel-title">{:lang('MAJOR_CONTRIBUTORS')}</h3>
             </div>
             <div class="panel-body home-info">
                 <ul class="list-inline">
@@ -83,7 +83,7 @@
     <case value="Contributors">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">贡献者</h3>
+                <h3 class="panel-title">{:lang('CONTRIBUTORS')}</h3>
             </div>
             <div class="panel-body home-info">
                 <ul class="list-inline">
@@ -104,7 +104,7 @@
                     <li><a href="https://www.jianshu.com/u/9caeb6b5e1cd" target="_blank">北岸的云</a></li>
                     <li>pl125</li>
                     <li><a href="http://www.wuwuseo.com/" target="_blank">五五</a></li>
-                    <li><a href="https://www.qdcrazy.cc/" target="_blank">惠达浪</a></li>
+                    <li><a href="https://www.qdcrazy.cn/" target="_blank">惠达浪</a></li>
                 </ul>
             </div>
         </div>
@@ -119,7 +119,8 @@
 <style>
     .home-info li em {
         float: left;
-        width: 120px;
+        min-width: 120px;
+        margin-right: 2px;
         font-style: normal;
         font-weight: bold;
     }
@@ -159,9 +160,9 @@
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <strong>提示!</strong> 邮箱配置未完成,无法进行邮件发送!
+                <strong>{:lang('TIPS')}!</strong> {:lang('EMAIL_NOT_CONFIG_TIP')}
                 <a href="#" data-dismiss="alert" aria-label="Close"
-                   onclick="parent.openapp('{:url('Mailer/index')}','admin_mailer_index','邮箱配置');">现在设置</a>
+                   onclick="parent.openapp('{:url('Mailer/index')}','admin_mailer_index',`{:lang('ADMIN_MAILER_INDEX')}`);">{:lang('CONFIG_NOW')}</a>
             </div>
         </div>
     </empty>
@@ -172,7 +173,7 @@
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <strong>提示!</strong> php_fileinfo扩展没有开启，无法正常上传文件！
+                <strong>{:lang('TIPS')}!</strong> php_fileinfo {:lang('EXTENTION_NOT_ENABLE')}
             </div>
         </div>
     </if>
@@ -187,7 +188,7 @@
                     <ul id="thinkcmf-notices" class="list-unstyled">
                         <li>
                             <img src="__TMPL__/public/assets/images/loading.gif" style="vertical-align: middle;"/>
-                            <span style="display: inline-block; vertical-align: middle;">加载中...</span>
+                            <span style="display: inline-block; vertical-align: middle;">{:lang('LOADING')}...</span>
                         </li>
                     </ul>
                 </div>
@@ -210,9 +211,7 @@
                         <div class="dashboard-box">{$dashboard_widget_plugins[$vo.name]['view']}</div>
                     </div>
                 </present>
-
             </if>
-
         </foreach>
     </div>
 </div>

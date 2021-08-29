@@ -48,6 +48,7 @@
         .nav-list > li ul.submenu ul.submenu > li a > [class*="fa-"]:first-child {
             left: 30px;
         }
+
         /*----------------导航hack--------------------*/
     </style>
 
@@ -64,7 +65,7 @@
 
     <php>
         if (!function_exists('getsubmenu')) {
-            function getsubmenu($submenus){
+        function getsubmenu($submenus){
 
     </php>
     <notempty name="submenus">
@@ -85,7 +86,7 @@
                 <span class="menu-text normal"> {$menu_name} </span>
                 <b class="arrow fa fa-angle-right normal"></b>
                 <i class="fa fa-reply back"></i>
-                <span class="menu-text back">返回</span>
+                <span class="menu-text back">{:lang('BACK')}</span>
 
             </a>
 
@@ -99,13 +100,13 @@
         <php>}</php>
     </notempty>
     <php>
-            }
+        }
         }
     </php>
 
     <php>
         if (!function_exists('getsubmenu1')) {
-            function getsubmenu1($submenus){
+        function getsubmenu1($submenus){
     </php>
     <php>foreach($submenus as $menu){</php>
     <li>
@@ -116,16 +117,12 @@
         <php>if(empty($menu['items'])){</php>
         <a href="javascript:openapp('{$menu.url}','{$menu.id}','{$menu_name}',true);">
             <i class="fa fa-caret-right"></i>
-            <span class="menu-text">
-									{$menu_name}
-								</span>
+            <span class="menu-text">{$menu_name}</span>
         </a>
         <php>}else{</php>
         <a href="#" class="dropdown-toggle">
             <i class="fa fa-caret-right"></i>
-            <span class="menu-text">
-									{$menu_name}
-								</span>
+            <span class="menu-text">{$menu_name}</span>
             <b class="arrow fa fa-angle-right"></b>
         </a>
         <ul class="submenu">
@@ -137,12 +134,13 @@
 
     <php>}</php>
     <php>}
-    }
+        }
     </php>
 
     <php>
         if (!function_exists('getsubmenu2')) {
-            function getsubmenu2($submenus){</php>
+        function getsubmenu2($submenus){
+    </php>
     <php>foreach($submenus as $menu){</php>
     <li>
         <php>
@@ -152,15 +150,13 @@
 
         <a href="javascript:openapp('{$menu.url}','{$menu.id}','{$menu_name}',true);">
             &nbsp;<i class="fa fa-angle-double-right"></i>
-            <span class="menu-text">
-								{$menu_name}
-							</span>
+            <span class="menu-text">{$menu_name}</span>
         </a>
     </li>
 
     <php>}</php>
     <php>}
-    }
+        }
     </php>
 
 
@@ -180,7 +176,7 @@
 <div id="right-tools-wrapper">
     <!--<span id="right_tools_clearcache" title="清除缓存" onclick="javascript:openapp('{:url('admin/Setting/clearcache')}','right_tool_clearcache','清除缓存');"><i class="fa fa-trash-o right_tool_icon"></i></span>-->
     <!--<span id="refresh-wrapper" title="{:lang('REFRESH_CURRENT_PAGE')}"><i-->
-            <!--class="fa fa-refresh right_tool_icon"></i></span>-->
+    <!--class="fa fa-refresh right_tool_icon"></i></span>-->
 </div>
 <div class="navbar navbar-default">
     <div class="container-fluid">
@@ -199,7 +195,7 @@
                 <div id="task-content">
                     <ul class="nav navbar-nav cmf-component-tab" id="task-content-inner">
                         <li class="cmf-component-tabitem noclose" app-id="0" app-url="{:url('main/index')}"
-                            app-name="首页">
+                            app-name="{:lang('HOME')}">
                             <a class="cmf-tabs-item-text">{:lang('HOME')}</a>
                         </li>
                     </ul>
@@ -210,14 +206,27 @@
 
             <ul class="nav navbar-nav navbar-right simplewind-nav">
                 <li class="light-blue" style="border-left:none;display: none;" id="close-all-tabs-btn">
-                    <a id="close-wrapper" href="javascript:void(0);" title="{:lang('CLOSE_TOP_MENU')}" style="color:#fff;font-size: 16px">
+                    <a id="close-wrapper" href="javascript:void(0);" title="{:lang('CLOSE_TOP_MENU')}"
+                       style="color:#fff;font-size: 16px">
                         <i class="fa fa-times right_tool_icon"></i>
                     </a>
                 </li>
                 <li class="light-blue" style="border-left:none;">
-                    <a id="refresh-wrapper" href="javacript:void(0);" title="{:lang('REFRESH_CURRENT_PAGE')}" style="color:#fff;font-size: 16px">
+                    <a id="refresh-wrapper" href="javacript:void(0);" title="{:lang('REFRESH_CURRENT_PAGE')}"
+                       style="color:#fff;font-size: 16px">
                         <i class="fa fa-refresh right_tool_icon"></i>
                     </a>
+                </li>
+                <li class="dropdown" style="border-left:none;">
+                    <a data-toggle="dropdown" onclick="javascript:;" class="dropdown-toggle">
+                        <i class="fa fa-language" aria-hidden="true"></i>
+                        {:\\think\\facade\\Lang::getLangSet() == 'en-us' ? 'English' : '简体中文'}
+                        <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu" id="set_lang">
+                        <li><a data-value="zh-cn"><img src="__STATIC__/images/cn_icon.ico"> 中文</a></li>
+                        <li><a data-value="en-us"><img src="__STATIC__/images/us_icon.ico"> English</a></li>
+                    </ul>
                 </li>
                 <li class="light-blue dropdown" style="border-left:none;">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
@@ -229,25 +238,31 @@
                                  src="__TMPL__/public/assets/images/logo-18.png" alt="{$admin.user_login|default=''}">
                         </if>
                         <span class="user-info">
-								{:lang('WELCOME_USER',array('user_nickname' => empty($admin['user_nickname'] )? $admin['user_login'] : $admin['user_nickname']))}
-							</span>
+							{:lang('WELCOME_USER',array('user_nickname' => empty($admin['user_nickname'] )? $admin['user_login'] : $admin['user_nickname']))}
+						</span>
                         <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
                         <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/Setting/site')">
                             <li>
                                 <a href="javascript:openapp('{:url('setting/site')}','index_site','{:lang('ADMIN_SETTING_SITE')}');"><i
-                                        class="fa fa-cog"></i> {:lang('ADMIN_SETTING_SITE')}</a></li>
+                                        class="fa fa-cog"></i> {:lang('ADMIN_SETTING_SITE')}
+                                </a>
+                            </li>
                         </if>
                         <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/user/userinfo')">
                             <li>
                                 <a href="javascript:openapp('{:url('user/userinfo')}','index_userinfo','{:lang('ADMIN_USER_USERINFO')}');"><i
-                                        class="fa fa-user"></i> {:lang('ADMIN_USER_USERINFO')}</a></li>
+                                        class="fa fa-user"></i> {:lang('ADMIN_USER_USERINFO')}
+                                </a>
+                            </li>
                         </if>
                         <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/Setting/password')">
                             <li>
                                 <a href="javascript:openapp('{:url('setting/password')}','index_password','{:lang('ADMIN_SETTING_PASSWORD')}');"><i
-                                        class="fa fa-lock"></i> {:lang('ADMIN_SETTING_PASSWORD')}</a></li>
+                                        class="fa fa-lock"></i> {:lang('ADMIN_SETTING_PASSWORD')}
+                                </a>
+                            </li>
                         </if>
                         <li><a href="{:url('Public/logout')}"><i class="fa fa-sign-out"></i> {:lang('LOGOUT')}</a></li>
                     </ul>
@@ -349,26 +364,24 @@
             $(this).removeClass("open");
         });
 
-        var menus= {:$menus_js_var};
+        var menus = {$menus_js_var};
         //读取url参数。尝试执行菜单功能。
-        if(typeof(menus) != "undefined"){
+        if (typeof (menus) != "undefined") {
 
             var tw = window.top;
-            var twa =tw.location.href.split("#");
+            var twa = tw.location.href.split("#");
             var url = twa[1];
             var urlTmp = url;
-            if (url !=null ){
+            if (url != null) {
                 //去掉/ 去掉_ 全部小写。
-                urlTmp = urlTmp.replace(/[\\/|_|]/g,"");
-                urlTmp = urlTmp.replace(".html","");
+                urlTmp = urlTmp.replace(/[\\/|_|]/g, "");
+                urlTmp = urlTmp.replace(".html", "");
                 var menu = menus[urlTmp];
-                if (menu){
-                    openapp(url,menu.id+menu.app,menu.name,true);
+                if (menu) {
+                    openapp(url, menu.id + menu.app, menu.name, true);
                 }
             }
         }
-
-
 
 
     });
@@ -407,8 +420,10 @@
         return false;
     });
 
-
-
+    $("#set_lang").on("click", "li a", function () {
+        setCookie("think_lang", this.dataset.value);
+        window.location.reload();
+    });
 </script>
 </body>
 </html>

@@ -3,8 +3,8 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('link/index')}">所有友情链接</a></li>
-        <li><a href="{:url('link/add')}">添加友情链接</a></li>
+        <li class="active"><a href="{:url('link/index')}">{:lang('ADMIN_LINK_INDEX')}</a></li>
+        <li><a href="{:url('link/add')}">{:lang('ADMIN_LINK_ADD')}</a></li>
     </ul>
     <form method="post" class="js-ajax-form margin-top-20" action="{:url('Link/listOrder')}">
         <div class="table-actions">
@@ -25,7 +25,7 @@
                 <th width="50">{:lang('SORT')}</th>
                 <th width="50">ID</th>
                 <th>{:lang('NAME')}</th>
-                <th>链接地址</th>
+                <th>{:lang('ADMIN_LINKS_ADDR')}</th>
                 <th width="50">{:lang('STATUS')}</th>
                 <th width="120">{:lang('ACTIONS')}</th>
             </tr>
@@ -70,7 +70,7 @@
                 <th width="50">{:lang('SORT')}</th>
                 <th width="50">ID</th>
                 <th>{:lang('NAME')}</th>
-                <th>链接地址</th>
+                <th>{:lang('ADMIN_LINKS_ADDR')}</th>
                 <th width="50">{:lang('STATUS')}</th>
                 <th width="120">{:lang('ACTIONS')}</th>
             </tr>

@@ -5,31 +5,32 @@
     <ul class="nav nav-tabs">
         <li class="active"><a href="{:url('Plugin/index')}">{:lang('ADMIN_PLUGIN_INDEX')}</a></li>
         <if condition="class_exists('\app\admin\controller\AppStoreController')">
-            <li><a href="{:url('AppStore/plugins')}">插件市场</a></li>
+            <li><a href="{:url('AppStore/plugins')}">{:lang('ADMIN_PLUGIN_MARKET')}</a></li>
             <else/>
-            <li><a href="http://www.thinkcmf.com/appstore/plugin.html" target="_blank">插件市场</a></li>
+            <li><a href="http://www.thinkcmf.com/appstore/plugin.html" target="_blank">{:lang('ADMIN_PLUGIN_MARKET')}</a></li>
         </if>
         <li>
-            <a href="http://www.thinkcmf.com/faq.html?url=https://www.kancloud.cn/thinkcmf/faq/493510" target="_blank">插件离线安装<i
-                    class="fa fa-question-circle"></i></a>
+            <a href="http://www.thinkcmf.com/faq.html?url=https://www.kancloud.cn/thinkcmf/faq/493510" target="_blank">
+                {:lang('ADMIN_PLUGIN_OFFLINE')} <i class="fa fa-question-circle"></i>
+            </a>
         </li>
-        <li><a href="http://www.thinkcmf.com/topic/index/index/cat/9.html" target="_blank">插件交流</a></li>
-        <li><a href="https://www.kancloud.cn/thinkcmf/doc5_1/957872" target="_blank">插件文档</a></li>
+        <li><a href="http://www.thinkcmf.com/topic/index/index/cat/9.html" target="_blank">{:lang('ADMIN_PLUGIN_EXCHANGE')}</a></li>
+        <li><a href="https://www.kancloud.cn/thinkcmf/doc5_1/957872" target="_blank">{:lang('ADMIN_PLUGIN_DOC')}</a></li>
     </ul>
     <form method="post" class="js-ajax-form margin-top-20">
         <php>
-            $status=array("1"=>'开启',"0"=>'禁用',"3"=>'未安装');
+            $status=array("1"=>lang('ENABLE'),"0"=>lang('DISABLE'),"3"=>lang('ADMIN_PLUGIN_NOT_INSTALL'));
         </php>
         <table class="table table-hover table-bordered">
             <thead>
             <tr>
-                <th>插件名称</th>
-                <th>插件标识</th>
-                <th>描述</th>
-                <th>作者</th>
-                <th>版本号</th>
-                <th width="60">状态</th>
-                <th width="220">操作</th>
+                <th>{:lang('ADMIN_PLUGIN_NAME')}</th>
+                <th>{:lang('ADMIN_PLUGIN_KEY')}</th>
+                <th>{:lang('DESCRIPTION')}</th>
+                <th>{:lang('AUTHOR')}</th>
+                <th>{:lang('VERSION')}</th>
+                <th width="80">{:lang('STATUS')}</th>
+                <th width="220">{:lang('ACTION')}</th>
             </tr>
             </thead>
             <tbody>
@@ -45,45 +46,45 @@
                         <if condition="$vo['status']==3">
                             <a class="btn btn-xs btn-primary js-ajax-dialog-btn"
                                href="{:url('plugin/install',array('name'=>$vo['name']))}"
-                               data-msg="确定安装该插件吗？">安装</a>
+                               data-msg="{:lang('ADMIN_INSTALL_PLUGIN_TIP')}">{:lang('INSTALL')}</a>
                             <else/>
                             <php>$config=json_decode($vo['config'],true);</php>
                             <if condition="!empty($config)">
                                 <empty name="config.custom_config">
                                     <a class="btn btn-xs btn-primary"
-                                       href="{:url('plugin/setting',array('id'=>$vo['id']))}">设置</a>
+                                       href="{:url('plugin/setting',array('id'=>$vo['id']))}">{:lang('SETTING')}</a>
                                     <else/>
                                     <a class="btn btn-xs btn-primary"
-                                       href="{:cmf_plugin_url($vo['name'].'://AdminIndex/setting')}">设置</a>
+                                       href="{:cmf_plugin_url($vo['name'].'://AdminIndex/setting')}">{:lang('SETTING')}</a>
                                 </empty>
                                 <else/>
-                                <a class="btn btn-xs btn-primary disabled" href="javascript:;">设置</a>
+                                <a class="btn btn-xs btn-primary disabled" href="javascript:;">{:lang('SETTING')}</a>
                             </if>
 
                             <if condition="!empty($vo['has_admin'])">
                                 <a class="btn btn-xs btn-info"
-                                   href="javascript:parent.openapp('{:cmf_plugin_url($vo['name'].'://AdminIndex/index')}','plugin_{$vo.name}','{$vo.title}')">管理</a>
+                                   href="javascript:parent.openapp(`{:cmf_plugin_url($vo['name'].'://AdminIndex/index')}`,'plugin_{$vo.name}','{$vo.title}')">{:lang('MANAGE')}</a>
                                 <else/>
-                                <a class="btn btn-xs btn-info disabled" href="javascript:;">管理</a>
+                                <a class="btn btn-xs btn-info disabled" href="javascript:;">{:lang('MANAGE')}</a>
                             </if>
 
                             <a class="btn btn-xs btn-success js-ajax-dialog-btn"
                                href="{:url('plugin/update',array('name'=>$vo['name']))}"
-                               data-msg="确定更新该插件吗？">更新</a>
+                               data-msg="{:lang('ADMIN_PLUGIN_UPDATE_TIP')}">{:lang('UPDATE')}</a>
 
                             <if condition="$vo['status']==0">
                                 <a class="btn btn-xs btn-success js-ajax-dialog-btn"
                                    href="{:url('plugin/toggle',array('id'=>$vo['id'],'enable'=>1))}"
-                                   data-msg="确定启用该插件吗？">启用</a>
+                                   data-msg="{:lang('ADMIN_PLUGIN_ENABLE_TIP')}">{:lang('ENABLE')}</a>
                                 <else/>
                                 <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
                                    href="{:url('plugin/toggle',array('id'=>$vo['id'],'disable'=>1))}"
-                                   data-msg="确定禁用该插件吗？">禁用</a>
+                                   data-msg="{:lang('ADMIN_PLUGIN_DISABLE_TIP')}">{:lang('DISABLE')}</a>
                             </if>
 
                             <a class="btn btn-xs btn-danger js-ajax-dialog-btn"
                                href="{:url('plugin/uninstall',array('id'=>$vo['id']))}"
-                               data-msg="确定卸载该插件吗？">卸载</a>
+                               data-msg="{:lang('ADMIN_PLUGIN_UNINSTALL_TIP')}">{:lang('UNINSTALL')}</a>
                         </if>
                     </td>
                 </tr>

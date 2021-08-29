@@ -55,12 +55,12 @@ class MailerController extends AdminBaseController
             $post = array_map('trim', $this->request->param());
 
             if (in_array('', $post) && !empty($post['smtpsecure'])) {
-                $this->error("不能留空！");
+                $this->error(lang('ADMIN_SMTP_EMPTY'));
             }
 
             cmf_set_option('smtp_setting', $post);
 
-            $this->success("保存成功！");
+            $this->success(lang('EDIT_SUCCESS'));
         }
     }
 
@@ -80,10 +80,10 @@ class MailerController extends AdminBaseController
     public function template()
     {
         $allowedTemplateKeys = ['verification_code'];
-        $templateKey         = $this->request->param('template_key');
+        $templateKey = $this->request->param('template_key');
 
         if (empty($templateKey) || !in_array($templateKey, $allowedTemplateKeys)) {
-            $this->error('非法请求！');
+            $this->error(lang('ILLEGAL_REQUEST'));
         }
 
         $template = cmf_get_option('email_template_' . $templateKey);
@@ -108,10 +108,10 @@ class MailerController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             $allowedTemplateKeys = ['verification_code'];
-            $templateKey         = $this->request->param('template_key');
+            $templateKey = $this->request->param('template_key');
 
             if (empty($templateKey) || !in_array($templateKey, $allowedTemplateKeys)) {
-                $this->error('非法请求！');
+                $this->error(lang('ILLEGAL_REQUEST'));
             }
 
             $data = $this->request->param();
@@ -120,7 +120,7 @@ class MailerController extends AdminBaseController
 
             cmf_set_option('email_template_' . $templateKey, $data);
 
-            $this->success("保存成功！");
+            $this->success(lang('EDIT_SUCCESS'));
         }
     }
 
@@ -148,10 +148,10 @@ class MailerController extends AdminBaseController
                 'content' => 'require',
             ]);
             $validate->message([
-                'to.require'      => '收件箱不能为空！',
-                'to.email'        => '收件箱格式不正确！',
-                'subject.require' => '标题不能为空！',
-                'content.require' => '内容不能为空！',
+                'to.require'      => lang('ADMIN_SENDER_EMPTY'),
+                'to.email'        => lang('ADMIN_SENDER_FORMAT'),
+                'subject.require' => lang('ADMIN_SENDER_SUBJECT'),
+                'content.require' => lang('ADMIN_SENDER_CONTENT'),
             ]);
 
             $data = $this->request->param();
@@ -161,9 +161,9 @@ class MailerController extends AdminBaseController
 
             $result = cmf_send_email($data['to'], $data['subject'], $data['content']);
             if ($result && empty($result['error'])) {
-                $this->success('发送成功！');
+                $this->success(lang('ADMIN_SEND_SUCCESS'));
             } else {
-                $this->error('发送失败：' . $result['message']);
+                $this->error(lang('ADMIN_SEND_FAIL') . ': ' . $result['message']);
             }
 
         } else {

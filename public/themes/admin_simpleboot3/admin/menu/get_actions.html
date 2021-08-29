@@ -3,7 +3,7 @@
 <body>
 	<div class="wrap">
 		<div id="error_tips">
-			<h2>应用{$app}菜单导入成功！</h2>
+			<h2>{:lang('ADMIN_APP')} {$app} {:lang('ADMIN_MENU_IMPORT_SUCCESS')}</h2>
 			<div class="error_cont">
 				<ul>
 					<if condition="!empty($new_menus)">
@@ -11,7 +11,7 @@
 						<li>{$vo}</li>
 						</foreach>
 					<else />
-						<li>应用{$app}没有新菜单导入！</li>
+						<li>{:lang('ADMIN_APP')} {$app} {:lang('ADMIN_MENU_IMPORT_FAIL')}</li>
 					</if>
 				</ul>
 				<if condition="!empty($next_app)">
@@ -21,13 +21,13 @@
 						}, 1000);
 					</script>
 					<div class="error_return">
-						<a href="{:url('admin/menu/getActions',array('app'=>$next_app))}" class="btn btn-primary">下一个应用</a>
-						<a href="{:url('admin/menu/index')}" class="btn btn-default" style="margin-left: 10px;">返回</a>
+						<a href="{:url('admin/menu/getActions',array('app'=>$next_app))}" class="btn btn-primary">{:lang('ADMIN_MENU_NEXT_APP')}</a>
+						<a href="{:url('admin/menu/index')}" class="btn btn-default" style="margin-left: 10px;">{:lang('BACK')}</a>
 					</div>
 				<else />
-					<div>全部导入成功！</div>
+					<div>{:lang('ADMIN_MENU_IMPORT_ALL')}</div>
 					<div class="error_return">
-						<a href="{:url('menu/index')}" class="btn btn-default">返回</a>
+						<a href="{:url('menu/index')}" class="btn btn-default">{:lang('BACK')}</a>
 					</div>
 				</if>
 			</div>

@@ -12,11 +12,10 @@ namespace app\admin\controller;
 
 use cmf\controller\AdminBaseController;
 use app\admin\model\LinkModel;
+use think\facade\Lang;
 
 class LinkController extends AdminBaseController
 {
-    protected $targets = ["_blank" => "新标签页打开", "_self" => "本窗口打开"];
-
     /**
      * 友情链接管理
      * @adminMenu(
@@ -43,7 +42,7 @@ class LinkController extends AdminBaseController
         }
 
         $linkModel = new LinkModel();
-        $links     = $linkModel->select();
+        $links = $linkModel->select();
         $this->assign('links', $links);
 
         return $this->fetch();
@@ -64,7 +63,8 @@ class LinkController extends AdminBaseController
      */
     public function add()
     {
-        $this->assign('targets', $this->targets);
+        $targets = ["_blank" => Lang::get('ADMIN_OPEN_MODE_1'), "_self" => Lang::get('ADMIN_OPEN_MODE_2')];
+        $this->assign('targets', $targets);
         return $this->fetch();
     }
 
@@ -84,9 +84,9 @@ class LinkController extends AdminBaseController
     public function addPost()
     {
         if ($this->request->isPost()) {
-            $data      = $this->request->param();
+            $data = $this->request->param();
             $linkModel = new LinkModel();
-            $result    = $this->validate($data, 'Link');
+            $result = $this->validate($data, 'Link');
             if ($result !== true) {
                 $this->error($result);
             }
@@ -113,10 +113,11 @@ class LinkController extends AdminBaseController
      */
     public function edit()
     {
-        $id        = $this->request->param('id', 0, 'intval');
+        $targets = ["_blank" => Lang::get('ADMIN_OPEN_MODE_1'), "_self" => Lang::get('ADMIN_OPEN_MODE_2')];
+        $id = $this->request->param('id', 0, 'intval');
         $linkModel = new LinkModel();
-        $link      = $linkModel->find($id);
-        $this->assign('targets', $this->targets);
+        $link = $linkModel->find($id);
+        $this->assign('targets', $targets);
         $this->assign('link', $link);
         return $this->fetch();
     }
@@ -137,7 +138,7 @@ class LinkController extends AdminBaseController
     public function editPost()
     {
         if ($this->request->isPost()) {
-            $data   = $this->request->param();
+            $data = $this->request->param();
             $result = $this->validate($data, 'Link');
             if ($result !== true) {
                 $this->error($result);
@@ -207,7 +208,7 @@ class LinkController extends AdminBaseController
     public function toggle()
     {
         if ($this->request->isPost()) {
-            $data      = $this->request->param();
+            $data = $this->request->param();
             $linkModel = new LinkModel();
 
             if (isset($data['ids']) && !empty($data["display"])) {

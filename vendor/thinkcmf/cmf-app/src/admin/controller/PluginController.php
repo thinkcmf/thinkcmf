@@ -78,15 +78,15 @@ class PluginController extends AdminBaseController
             $pluginModel = PluginModel::find($id);
 
             if (empty($pluginModel)) {
-                $this->error('插件不存在！');
+                $this->error(lang('ADMIN_PLUGIN_NOT_EXIST'));
             }
 
             $status         = 1;
-            $successMessage = "启用成功！";
+            $successMessage = lang('ENABLE_SUCCESS');
 
             if ($this->request->param('disable')) {
                 $status         = 0;
-                $successMessage = "禁用成功！";
+                $successMessage = lang('DISABLE_SUCCESS');
             }
 
             $pluginModel->startTrans();
@@ -104,7 +104,7 @@ class PluginController extends AdminBaseController
 
                 $pluginModel->rollback();
 
-                $this->error('操作失败！');
+                $this->error(lang('OPERATION_FAILED'));
 
             }
 
@@ -135,14 +135,14 @@ class PluginController extends AdminBaseController
         $plugin      = $pluginModel->find($id);
 
         if (empty($plugin)) {
-            $this->error('插件未安装!');
+            $this->error(lang('ADMIN_PLUGIN_NOT_INSTALL'));
         }
 
         $plugin = $plugin->toArray();
 
         $pluginClass = cmf_get_plugin_class($plugin['name']);
         if (!class_exists($pluginClass)) {
-            $this->error('插件不存在!');
+            $this->error(lang('ADMIN_PLUGIN_NOT_EXIST'));
         }
 
         $pluginObj = new $pluginClass;
@@ -202,12 +202,12 @@ class PluginController extends AdminBaseController
             $plugin      = $pluginModel->find($id)->toArray();
 
             if (!$plugin) {
-                $this->error('插件未安装!');
+                $this->error(lang('ADMIN_PLUGIN_NOT_INSTALL'));
             }
 
             $pluginClass = cmf_get_plugin_class($plugin['name']);
             if (!class_exists($pluginClass)) {
-                $this->error('插件不存在!');
+                $this->error(lang('ADMIN_PLUGIN_NOT_EXIST'));
             }
 
             $pluginObj = new $pluginClass;
@@ -258,7 +258,7 @@ class PluginController extends AdminBaseController
 
             $pluginModel = PluginModel::where('id', $id)->find();
             $pluginModel->save(['config' => json_encode($config)]);
-            $this->success('保存成功', '');
+            $this->success(lang('EDIT_SUCCESS'), '');
         }
     }
 
@@ -309,7 +309,7 @@ class PluginController extends AdminBaseController
                 $this->error($result);
             }
 
-            $this->success('安装成功!');
+            $this->success(lang('INSTALL_SUCCESS'));
         }
     }
 
@@ -335,7 +335,7 @@ class PluginController extends AdminBaseController
             if ($result !== true) {
                 $this->error($result);
             }
-            $this->success('更新成功!');
+            $this->success(lang('UPDATE_SUCCESS'));
         }
     }
 
@@ -361,13 +361,13 @@ class PluginController extends AdminBaseController
             $result = $pluginModel->uninstall($id);
 
             if ($result !== true) {
-                $this->error('卸载失败!');
+                $this->error(lang('UNINSTALL_FAILED'));
             }
 
             Cache::clear('init_hook_plugins');
             Cache::clear('admin_menus');// 删除后台菜单缓存
 
-            $this->success('卸载成功!');
+            $this->success(lang('UNINSTALL_SUCCESS'));
         }
     }
 

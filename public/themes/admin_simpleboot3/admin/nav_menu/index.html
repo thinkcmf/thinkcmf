@@ -3,21 +3,21 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">导航菜单</a></li>
-        <li><a href="{:url('NavMenu/add',['nav_id'=>$nav_id])}">添加菜单</a></li>
+        <li class="active"><a href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">{:lang('ADMIN_NAV_MENU')}</a></li>
+        <li><a href="{:url('NavMenu/add',['nav_id'=>$nav_id])}">{:lang('ADMIN_NAVMENU_ADD')}</a></li>
     </ul>
     <form class="js-ajax-form margin-top-20" action="{:url('NavMenu/listOrder')}" method="post">
         <div class="table-actions">
-            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">排序</button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">{:lang('SORT')}</button>
         </div>
         <table class="table table-hover table-bordered">
             <thead>
             <tr>
-                <th width="50">排序</th>
+                <th width="50">{:lang('SORT')}</th>
                 <th width="50">ID</th>
-                <th>菜单名称</th>
-                <th width="80">状态</th>
-                <th width="180">{:lang('ACTIONS')}</th>
+                <th>{:lang('NAME')}</th>
+                <th width="80">{:lang('STATUS')}</th>
+                <th width="240">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>

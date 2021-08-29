@@ -25,11 +25,11 @@
             <div class="col-md-6 col-sm-10">
                 <label class="radio-inline">
                     <php>$active_true_checked=($data['status']==1)?"checked":"";</php>
-                    <input type="radio" name="status" value="1" {$active_true_checked}> {:lang('ENABLED')}
+                    <input type="radio" name="status" value="1" {$active_true_checked}> {:lang('ENABLE')}
                 </label>
                 <label class="radio-inline">
                     <php>$active_false_checked=($data['status']==0)?"checked":"";</php>
-                    <input type="radio" name="status" value="0" {$active_false_checked}> {:lang('DISABLED')}
+                    <input type="radio" name="status" value="0" {$active_false_checked}> {:lang('DISABLE')}
                 </label>
             </div>
         </div>

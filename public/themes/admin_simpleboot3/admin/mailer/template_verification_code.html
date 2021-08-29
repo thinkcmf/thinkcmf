@@ -4,7 +4,7 @@
 <div class="wrap">
     <ul class="nav nav-tabs">
         <li><a href="{:url('mailer/index')}">{:lang('ADMIN_MAILER_INDEX')}</a></li>
-        <li class="active"><a href="#" data-toggle="tab">数字验证码邮件模板</a></li>
+        <li class="active"><a href="#" data-toggle="tab">{:lang('ADMIN_MAIL_TEMPLATE')}</a></li>
     </ul>
     <form method="post" class="form-horizontal js-ajax-form margin-top-20" role="form"
           action="{:url('admin/mailer/templatePost')}">
@@ -18,7 +18,7 @@
             <label for="input-title" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('EMAIL_TEMPLATE')}</label>
             <div class="col-md-6 col-sm-12">
                 <script type="text/plain" id="content" name="template">{$template|default=""|htmlspecialchars_decode}</script>
-                <literal><span style="color: #ffb752;">请用{$code}代替数字验证码<!--，{$username}代替用户名--></span></literal>
+                <span style="color: #ffb752;">{:lang('ADMIN_MAIL_TEMPLATE_TIP')}</span>
             </div>
         </div>
         <div class="form-group">
@@ -36,6 +36,14 @@
 </script>
 <script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+
+<!--加载语言包-->
+<php>
+    $current_lang = app()->lang->getLangSet();
+    $lang_pack = $current_lang == 'en-us' ? 'en' : $current_lang;
+</php>
+<script type="text/javascript" src="__STATIC__/js/ueditor/lang/{$lang_pack}/{$lang_pack}.js"></script>
+
 <script type="text/javascript">
     var editorcontent = new baidu.editor.ui.Editor();
     editorcontent.render('content');

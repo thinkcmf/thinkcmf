@@ -8,26 +8,26 @@
 		</ul>
 		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('link/addPost')}">
 			<div class="form-group">
-				<label for="input-name" class="col-sm-2 control-label">名称<span class="form-required">*</span></label>
+				<label for="input-name" class="col-sm-2 control-label">{:lang('NAME')}<span class="form-required">*</span></label>
 				<div class="col-md-6 col-sm-10">
 					<input type="text" class="form-control" id="input-name" name="name">
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="input-url" class="col-sm-2 control-label">链接地址<span class="form-required">*</span></label>
+				<label for="input-url" class="col-sm-2 control-label">{:lang('ADMIN_LINKS_ADDR')}<span class="form-required">*</span></label>
 				<div class="col-md-6 col-sm-10">
 					<input type="text" class="form-control" id="input-url" name="url">
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="input-image" class="col-sm-2 control-label">图标</label>
+				<label for="input-image" class="col-sm-2 control-label">{:lang('ADMIN_ICON')}</label>
 				<div class="col-md-6 col-sm-10">
 					<input type="text" class="form-control" id="input-image" name="image"> 
-					<a href="javascript:uploadOneImage('图片上传','#input-image');">上传图片</a>
+					<a href="javascript:uploadOneImage(`{:lang('UPLOAD_IMG')}`,'#input-image');">{:lang('UPLOAD_IMG')}</a>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="input-target" class="col-sm-2 control-label">打开方式</label>
+				<label for="input-target" class="col-sm-2 control-label">{:lang('ADMIN_OPEN_STYLE')}</label>
 				<div class="col-md-6 col-sm-10">
 					<select class="form-control" name="target" id="input-target">
 						<foreach name="targets" item="vo">
@@ -37,7 +37,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="input-description" class="col-sm-2 control-label">描述</label>
+				<label for="input-description" class="col-sm-2 control-label">{:lang('DESCRIPTION')}</label>
 				<div class="col-md-6 col-sm-10">
 					<textarea class="form-control" name="description" id="input-description" ></textarea>
 				</div>

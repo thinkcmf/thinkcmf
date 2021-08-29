@@ -4,8 +4,8 @@
 <div class="wrap js-check-wrap">
     <form action="{:url('hook/pluginListOrder')}" method="post" class="js-ajax-form">
         <php>
-            $types = ["1"=>'系统钩子','2'=>'应用钩子','3'=>'模板钩子','4'=>'后台模板钩子'];
-            $status=array("1"=>'开启',"0"=>'禁用',"3"=>'未安装');
+            $types = ["1"=>lang('ADMIN_HOOK_SYSTEM'),'2'=>lang('ADMIN_HOOK_APP'),'3'=>lang('ADMIN_HOOK_TEMPLATE'),'4'=>lang('ADMIN_HOOK_BACK_TEMPLATE')];
+            $status=array("1"=>lang('ENABLE'),"0"=>lang('DISABLE'),"3"=>lang('ADMIN_PLUGIN_NOT_INSTALL'));
         </php>
         <div class="table-actions">
             <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
@@ -13,13 +13,13 @@
         <table class="table table-hover table-bordered">
             <thead>
             <tr>
-                <th width="50">排序</th>
-                <th>插件名称</th>
-                <th>插件标识</th>
-                <th>钩子</th>
-                <th>描述</th>
-                <th>作者</th>
-                <th width="60">状态</th>
+                <th width="50">{:lang('SORT')}</th>
+                <th>{:lang('ADMIN_PLUGIN_NAME')}</th>
+                <th>{:lang('ADMIN_PLUGIN_KEY')}</th>
+                <th>{:lang('HOOK')}</th>
+                <th>{:lang('DESCRIPTION')}</th>
+                <th>{:lang('AUTHOR')}</th>
+                <th width="60">{:lang('STATUS')}</th>
                 <th width="150">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
@@ -37,19 +37,19 @@
                     <td>
                         <if condition="$vo['status']==3">
                             <a href="{:url('plugin/install',array('name'=>$vo['name']))}" class="btn btn-xs btn-primary js-ajax-dialog-btn"
-                               data-msg="确定安装该插件吗？">安装</a>
+                               data-msg="{:lang('ADMIN_INSTALL_PLUGIN_TIP')}">{:lang('INSTALL')}</a>
                             <else/>
                             <php>$config=json_decode($vo['config'],true);</php>
                             <if condition="!empty($config)">
-                                <a class="btn btn-xs btn-primary" href="{:url('plugin/setting',array('id'=>$vo['id']))}">设置</a>
+                                <a class="btn btn-xs btn-primary" href="{:url('plugin/setting',array('id'=>$vo['id']))}">{:lang('SETTING')}</a>
                                 <else/>
-                                <a class="btn btn-xs btn-primary disabled" href="javascript:;" style="color: #ccc;">设置</a>
+                                <a class="btn btn-xs btn-primary disabled" href="javascript:;" style="color: #ccc;">{:lang('SETTING')}</a>
                             </if>
 
                             <if condition="!empty($vo['has_admin'])">
-                                <a class="btn btn-xs btn-info" href="javascript:parent.openIframeLayer('{:cmf_plugin_url($vo['name'].'://AdminIndex/index')}','{$vo.title}')">管理</a>
+                                <a class="btn btn-xs btn-info" href="javascript:parent.openIframeLayer('{:cmf_plugin_url($vo['name'].'://AdminIndex/index')}','{$vo.title}')">{:lang('MANAGE')}</a>
                                 <else/>
-                                <a class="btn btn-xs btn-info disabled" href="javascript:;" style="color: #ccc;">管理</a>
+                                <a class="btn btn-xs btn-info disabled" href="javascript:;" style="color: #ccc;">{:lang('MANAGE')}</a>
                             </if>
 
                         </if>

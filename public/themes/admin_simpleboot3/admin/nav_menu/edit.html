@@ -3,7 +3,7 @@
 <body>
 <div class="wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">导航菜单</a></li>
+        <li><a href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">{:lang('ADMIN_NAV_MENU')}</a></li>
         <li><a href="{:url('NavMenu/add',['nav_id'=>$nav_id])}">{:lang('ADMIN_MENU_ADD')}</a>
         </li>
         <li class="active"><a>{:lang('ADMIN_MENU_EDIT')}</a></li>
@@ -11,7 +11,7 @@
     <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('NavMenu/editPost')}">
         <fieldset>
             <div class="form-group">
-                <label class="col-sm-2 control-label">上级:</label>
+                <label class="col-sm-2 control-label">{:lang('ADMIN_UPPER_LEVEL')}</label>
                 <div class="col-md-6 col-sm-10">
                     <select name="parent_id" class="form-control">
                         <option value="0">/</option>
@@ -20,13 +20,13 @@
                 </div>
             </div>
             <div class="form-group form-inline">
-                <label class="col-sm-2 control-label"><span class="form-required">*</span>地址:</label>
+                <label class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('ADDRESS')}</label>
                 <div class="col-md-6 col-sm-10">
                     <input type="radio" id="external-link-radio">
                     <input type="text" class="form-control" name="href" id="external-link-input">
                     <input type="radio" id="select-href-radio">
                     <select name="href" id="select-href" class="form-control">
-                        <option value="{:base64_encode('home')}" data-name="首页">首页</option>
+                        <option value="{:base64_encode('home')}" data-name="{:lang('HOME')}">{:lang('HOME')}</option>
                         <foreach name="navs" item="vo">
                             <optgroup label="{$vo.name}">
                                 {$vo.html}
@@ -36,33 +36,33 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label"><span class="form-required">*</span>菜单名称:</label>
+                <label class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('NAME')}</label>
                 <div class="col-md-6 col-sm-10">
                     <input type="text" class="form-control" name="name" id="name-input" value="{$name}">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">打开方式:</label>
+                <label class="col-sm-2 control-label">{:lang('ADMIN_OPEN_STYLE')}</label>
                 <div class="col-md-6 col-sm-10">
                     <select name="target" class="form-control">
-                        <option value="">默认方式</option>
-                        <option {$target=='_blank'?'selected':''} value="_blank">新窗口打开</option>
+                        <option value="">{:lang('DEFAULT')}</option>
+                        <option {$target=='_blank'?'selected':''} value="_blank">{:lang('ADMIN_NAV_NEWTAB')}</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">图标:</label>
+                <label class="col-sm-2 control-label">{:lang('ICON')}</label>
                 <div class="col-md-6 col-sm-10">
                     <input type="text" class="form-control" name="icon" value="{$icon}">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">显示:</label>
+                <label class="col-sm-2 control-label">{:lang('DISPLAY')}</label>
                 <div class="col-md-6 col-sm-10">
                     <select name="status" class="form-control">
-                        <option value="1">显示</option>
+                        <option value="1">{:lang('DISPLAY')}</option>
                         <php>$status_selected=empty($status)?"selected":"";</php>
-                        <option value="0" {$status_selected}>隐藏</option>
+                        <option value="0" {$status_selected}>{:lang('HIDE')}</option>
                     </select>
                 </div>
             </div>
@@ -72,7 +72,7 @@
             <input type="hidden" name="id" value="{$id}">
             <input type="hidden" name="nav_id" value="{$nav_id}">
             <button type="submit" class="btn btn-primary js-ajax-submit">{:lang("SAVE")}</button>
-            <a class="btn btn-default" href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">返回</a>
+            <a class="btn btn-default" href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">{:lang('BACK')}</a>
         </div>
     </form>
 

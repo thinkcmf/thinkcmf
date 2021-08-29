@@ -242,7 +242,7 @@
                     <input type="hidden" name="config[{$key}]" class="form-control"
                            value="{$form.value}" id="js-{$key}-input">
                     <div>
-                        <a href="javascript:uploadOneImage('图片上传','#js-{$key}-input');">
+                        <a href="javascript:uploadOneImage(`{:lang('UPLOAD_IMG')}`,'#js-{$key}-input');">
                             <if condition="empty($form['value'])">
                                 <img src="__TMPL__/public/assets/images/default-thumbnail.png"
                                      id="js-{$key}-input-preview"
@@ -271,8 +271,8 @@
                 <div class="col-md-6 col-sm-10">
                     <div>
                         <input class="form-control" id="js-{$key}-input" type="text" name="config[{$key}]" value="{$form['value']}"
-                               style="width: 300px;display: inline-block;" title="文件名称">
-                        <a href="javascript:uploadOne('文件上传','#js-{$key}-input','file');">上传文件</a>
+                               style="width: 300px;display: inline-block;" title="{:lang('FILENAME')}">
+                        <a href="javascript:uploadOne(`{:lang('UPLOAD_FILE')}`,'#js-{$key}-input','file');">{:lang('UPLOAD_FILE')}</a>
                     </div>
                     <present name="form.tip">
                         <p class="help-block">{$form.tip}</p>
@@ -291,7 +291,7 @@
                 <div class="col-md-6 col-sm-10">
                     <input class="form-control" name="config[{$key}]" id="{$key}" value="{$form.value}"
                            onclick="doSelectLocation(this)"
-                           data-title="请选择{$form.title|default=''}">
+                           data-title="{:lang('PLEASE_SELECT')} {$form.title|default=''}">
                     <present name="form.tip">
                         <p class="help-block">{$form.tip}</p>
                     </present>
