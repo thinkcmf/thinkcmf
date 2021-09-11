@@ -603,10 +603,10 @@ function cmf_get_upload_setting()
             'file_types' => [
                 'image' => [
                     'upload_max_filesize' => '10240',//单位KB
-                    'extensions'          => 'jpg,jpeg,png,gif,bmp4'
+                    'extensions'          => 'jpg,jpeg,png,gif,bmp'
                 ],
                 'video' => [
-                    'upload_max_filesize' => '10240',
+                    'upload_max_filesize' => '102400',
                     'extensions'          => 'mp4,avi,wmv,rm,rmvb,mkv'
                 ],
                 'audio' => [

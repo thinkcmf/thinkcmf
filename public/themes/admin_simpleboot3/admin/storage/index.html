@@ -8,7 +8,7 @@
     <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('storage/settingPost')}">
 
         <div class="form-group">
-            <label for="input-type" class="col-sm-2 control-label">存储类型</label>
+            <label for="input-type" class="col-sm-2 control-label">{:lang('STORAGE_TYPE')}</label>
             <div class="col-md-6 col-sm-10">
                 <select class="form-control" name="type" id="input-type">
                     <foreach name="storages" item="vo">

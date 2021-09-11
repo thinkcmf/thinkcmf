@@ -23,20 +23,20 @@
         <ul class="nav nav-tabs">
             <li class="active">
                 <a href="{:url('theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'widget'])}">
-                    组件
+                    {:lang('COMPONENT')}
                 </a>
             </li>
             <notempty name="file.more.vars">
                 <li>
                     <a href="{:url('theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'var'])}">
-                        设置
+                        {:lang('SETTING')}
                     </a>
                 </li>
             </notempty>
             <notempty name="has_public_var">
                 <li>
                     <a href="{:url('theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'public_var'])}">
-                        全局设置
+                        {:lang('GLOBAL_SETTING')}
                     </a>
                 </li>
             </notempty>
@@ -44,11 +44,11 @@
 
         <form method="post" class="js-ajax-form  margin-top-20" action="{:url('theme/settingPost')}">
             <div class="list-group">
-                <a href="javascript:parent.openIframeLayer('{:url('admin/Nav/index')}','导航管理')" class="list-group-item">导航管理</a>
-                <a href="javascript:parent.openIframeLayer('{:url('admin/Slide/index')}','幻灯片管理')"
-                   class="list-group-item">幻灯片管理</a>
-                <a href="javascript:parent.openIframeLayer('{:url('admin/Link/index')}','友情链接管理')"
-                   class="list-group-item">友情链接管理</a>
+                <a href="javascript:parent.openIframeLayer('{:url('admin/Nav/index')}','{:lang('ADMIN_NAV_INDEX')}')" class="list-group-item">{:lang('ADMIN_NAV_INDEX')}</a>
+                <a href="javascript:parent.openIframeLayer('{:url('admin/Slide/index')}','{:lang('ADMIN_SLIDE_INDEX')}')"
+                   class="list-group-item">{:lang('ADMIN_SLIDE_INDEX')}</a>
+                <a href="javascript:parent.openIframeLayer('{:url('admin/Link/index')}','{:lang('LINK_MANAGEMENT')}')"
+                   class="list-group-item">{:lang('LINK_MANAGEMENT')}</a>
             </div>
 
             <notempty name="has_widget">
@@ -70,15 +70,15 @@
                                                    name="files[{$file.id}][widget][{$widgetName}][display]"
                                                    value="1"
                                                    {$display_checked}>
-                                            显示
+                                            {:lang('DISPLAY')}
                                         </label>
                                     </div>
                                     <div id="collapse-{$widgetName}" class="panel-collapse collapse in" role="tabpanel">
                                         <div class="panel-body">
                                             {:_parse_vars($widget.vars,'files['.$file['id'].'][widget_vars]['.$widgetName.']',1,$widgetName,$file['id'])}
                                             <notempty name="file.is_public">
-                                                <span class="pull-right label label-success">公共组件</span>
-                                                <!--<a class="pull-right" title="公共组件" data-toggle="tooltip"><i class="fa fa-question-circle"></i></a>-->
+                                                <span class="pull-right label label-success">{:lang('PUBLIC_COMPONENT')}</span>
+                                                <!--<a class="pull-right" title="{:lang('PUBLIC_COMPONENT')}" data-toggle="tooltip"><i class="fa fa-question-circle"></i></a>-->
                                             </notempty>
                                         </div>
                                     </div>

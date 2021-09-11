@@ -298,9 +298,8 @@
 
             <if condition="cmf_auth_check(cmf_get_current_admin_id(),'user/AdminAsset/index')">
                 <a class="btn btn-sm btn-info"
-                   href="javascript:openapp('{:url('user/AdminAsset/index')}','userAdminAssetindex','资源管理',true);"
-                   title="资源管理"
-                   data-toggle="tooltip">
+                   href="javascript:openapp('{:url('user/AdminAsset/index')}','userAdminAssetindex','{:lang('ADMIN_RESOURCE_MANAGE')}',true);"
+                   title="{:lang('ADMIN_RESOURCE_MANAGE')}" data-toggle="tooltip">
                     <i class="fa fa-file"></i>
                 </a>
             </if>

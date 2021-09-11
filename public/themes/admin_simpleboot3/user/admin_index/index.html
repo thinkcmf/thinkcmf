@@ -6,14 +6,14 @@
         <li class="active"><a>{:lang('USER_INDEXADMIN_INDEX')}</a></li>
     </ul>
     <form class="well form-inline margin-top-20" method="post" action="{:url('user/adminIndex/index')}">
-        用户ID：
+        {:lang('USER')} ID
         <input class="form-control" type="text" name="uid" style="width: 200px;" value="{:input('request.uid')}"
-               placeholder="请输入用户ID">
-        关键字：
+               placeholder="{:lang('SEARCH_TIP_USER')}">&emsp;
+        {:lang('KEYWORD')}
         <input class="form-control" type="text" name="keyword" style="width: 200px;" value="{:input('request.keyword')}"
-               placeholder="用户名/昵称/邮箱/手机">
-        <input type="submit" class="btn btn-primary" value="搜索"/>
-        <a class="btn btn-danger" href="{:url('user/adminIndex/index')}">清空</a>
+               placeholder="{:lang('USERNAME')}/{:lang('NICKNAME')}/{:lang('EMAIL')}/{:lang('MOBILE')}">
+        <input type="submit" class="btn btn-primary" value="{:lang('SEARCH')}"/>
+        <a class="btn btn-danger" href="{:url('user/adminIndex/index')}">{:lang('EMPTY')}</a>
     </form>
     <form method="post" class="js-ajax-form">
         <table class="table table-hover table-bordered">
@@ -21,10 +21,10 @@
             <tr>
                 <th>ID</th>
                 <th>{:lang('USERNAME')}</th>
-                <th>{:lang('NICENAME')}</th>
+                <th>{:lang('NICKNAME')}</th>
                 <th>{:lang('AVATAR')}</th>
                 <th>{:lang('EMAIL')}</th>
-                <th>手机</th>
+                <th>{:lang('MOBILE')}</th>
                 <th>{:lang('REGISTRATION_TIME')}</th>
                 <th>{:lang('LAST_LOGIN_TIME')}</th>
                 <th>{:lang('LAST_LOGIN_IP')}</th>

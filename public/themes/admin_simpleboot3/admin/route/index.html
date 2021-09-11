@@ -3,23 +3,23 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('route/index')}">URL美化</a></li>
-        <li><a href="{:url('route/add')}">添加URL规则</a></li>
+        <li class="active"><a href="{:url('route/index')}">{:lang('URL_OPTIMIZATION')}</a></li>
+        <li><a href="{:url('route/add')}">{:lang('URL_ADD_RULE')}</a></li>
     </ul>
     <form class="js-ajax-form" action="{:url('route/listOrder')}" method="post">
         <div class="table-actions">
-            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">排序</button>
+            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
         </div>
         <table class="table table-hover table-bordered table-list">
             <thead>
             <tr>
-                <th width="50">排序</th>
+                <th width="50">{:lang('SORT')}</th>
                 <th width="50">ID</th>
-                <th>原始网址</th>
-                <th>显示网址</th>
-                <th>类型</th>
-                <th>状态</th>
-                <th width="140">操作</th>
+                <th>{:lang('URL_ORIGINAL_ADDR')}</th>
+                <th>{:lang('URL_SHOW_ADDR')}</th>
+                <th>{:lang('TYPE')}</th>
+                <th>{:lang('STATUS')}</th>
+                <th width="180">{:lang('ACTION')}</th>
             </tr>
             </thead>
             <php>
@@ -51,40 +51,40 @@
                     </td>
                     <td>
                         <eq name="vo.type" value="2">
-                            <span class="btn btn-xs btn-primary disabled">编辑</span>
-                            <span class="btn btn-xs btn-warning disabled">禁用</span>
-                            <span class="btn btn-xs btn-danger disabled">删除</span>
+                            <span class="btn btn-xs btn-primary disabled">{:lang('EDIT')}</span>
+                            <span class="btn btn-xs btn-warning disabled">{:lang('DISABLE')}</span>
+                            <span class="btn btn-xs btn-danger disabled">{:lang('DELETE')}</span>
                             <else/>
-                            <a class="btn btn-xs btn-primary" href="{:url('route/edit',array('id'=>$vo['id']))}">编辑</a>
+                            <a class="btn btn-xs btn-primary" href="{:url('route/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
                             <eq name="vo.status" value="1">
                                 <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
                                    href="{:url('route/ban',array('id'=>$vo['id']))}"
-                                   data-msg="确定禁用吗？">禁用</a>
+                                   data-msg="{:lang('CONFIRM_DISABLE')}">{:lang('DISABLE')}</a>
                                 <else/>
                                 <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
                                    href="{:url('route/open',array('id'=>$vo['id']))}"
-                                   data-msg="确定启用吗？">启用</a>
+                                   data-msg="{:lang('CONFIRM_ENABLE')}">{:lang('ENABLE')}</a>
                             </eq>
                             <a class="btn btn-xs btn-danger js-ajax-delete"
-                               href="{:url('route/delete',array('id'=>$vo['id']))}">删除</a>
+                               href="{:url('route/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
                         </eq>
                     </td>
                 </tr>
             </foreach>
             <tfoot>
             <tr>
-                <th width="50">排序</th>
-                <th width="50">ID</th>
-                <th>原始网址</th>
-                <th>显示网址</th>
-                <th>类型</th>
-                <th>状态</th>
-                <th width="130">操作</th>
+                <th>{:lang('SORT')}</th>
+                <th>ID</th>
+                <th>{:lang('URL_ORIGINAL_ADDR')}</th>
+                <th>{:lang('URL_SHOW_ADDR')}</th>
+                <th>{:lang('TYPE')}</th>
+                <th>{:lang('STATUS')}</th>
+                <th>{:lang('ACTION')}</th>
             </tr>
             </tfoot>
         </table>
         <div class="table-actions">
-            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">排序</button>
+            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
         </div>
     </form>
 </div>

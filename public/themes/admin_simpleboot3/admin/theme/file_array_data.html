@@ -3,8 +3,11 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a>所有数据</a></li>
-        <li><a href="{:url('theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget])}">添加数据</a>
+        <li class="active"><a>{:lang('TEMPLATE_ALL_DATA')}</a></li>
+        <li>
+            <a href="{:url('theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget])}">
+                {:lang('TEMPLATE_ADD_DATA')}
+            </a>
         </li>
     </ul>
     <form method="post" class="js-ajax-form margin-top-20">
@@ -35,9 +38,11 @@
                         </td>
                     </foreach>
                     <td>
-                        <a href="{:url('theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'item_index'=>$itemKey])}">编辑</a>
+                        <a href="{:url('theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'item_index'=>$itemKey])}">
+                            {:lang('EDIT')}
+                        </a>
                         <a href="{:url('theme/fileArrayDataDelete',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'item_index'=>$itemKey])}"
-                           class="js-ajax-delete">删除</a>
+                           class="js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>

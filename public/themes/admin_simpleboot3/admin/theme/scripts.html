@@ -25,7 +25,7 @@
         var title             = $obj.data('title');
         parent.openIframeLayer("{:url('theme/dataSource')}?ids=" + selectedObjectsId + '&data_source=' + dataSource, title, {
             area: ['95%', '90%'],
-            btn: ['确定', '取消'],
+            btn: ['{:lang('OK')}', '{:lang('CANCEL')}'],
             yes: function (index, layero) {
                 var iframeWin       = parent.window[layero.find('iframe')[0]['name']];
                 var selectedObjects = iframeWin.confirm();

@@ -25,14 +25,14 @@
 
 <div class="wrap " style="padding:5px;">
     <ul class="nav nav-tabs">
-        <li class="{$tab=='local'?'active':''}"><a href="#wrapper" data-toggle="tab">上传文件</a></li>
-        <li class="{$tab=='url'?'active':''}"><a href="#B" data-toggle="tab">网络文件</a></li>
+        <li class="{$tab=='local'?'active':''}"><a href="#wrapper" data-toggle="tab">{:lang('UPLOAD_FILE')}</a></li>
+        <li class="{$tab=='url'?'active':''}"><a href="#B" data-toggle="tab">{:lang('NETWORK_FILE')}</a></li>
         <notempty name="has_cloud_storage">
             <php>
                 $url_params=input('param.');
                 $url_params['tab']='cloud';
             </php>
-            <li><a href="{:url('user/Asset/webuploader',$url_params)}">上传到云存储</a></li>
+            <li><a href="{:url('user/Asset/webuploader',$url_params)}">{:lang('UPLOAD_CLOUD')}</a></li>
         </notempty>
         <!--<li class=""><a href="#explorer" data-toggle="tab">文件管理</a></li>-->
     </ul>
@@ -46,7 +46,7 @@
                         <div class="queueList">
                             <div id="dndArea" class="placeholder">
                                 <div id="filePicker"></div>
-                                <p>或将文件拖到这里，单次最多可选{$max_files}个文件</p>
+                                <p>{:lang('UPLOAD_TIP', ['max_files'=>$max_files])}</p>
                             </div>
                         </div>
                         <div class="statusBar" style="display:none;">
@@ -57,13 +57,13 @@
                             <div class="info"></div>
                             <div class="btns">
                                 <div id="filePicker2"></div>
-                                <div class="uploadBtn">开始上传</div>
+                                <div class="uploadBtn">{:lang('UPLOAD_START')}</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="tab-pane" id="B"> 请输入网络地址
+            <div class="tab-pane" id="B"> {:lang('UPLOAD_NETWORK_TIP')}
                 <div class="bk3"></div>
                 <input type="hidden" id="img_name" value="">
                 <input type="text" id="info" name="info[filename]" class="input form-control" value=""
@@ -71,9 +71,7 @@
             </div>
             <div class="tab-pane" id="explorer">
                 <div class="bk3"></div>
-
             </div>
-
         </div>
     </div>
 
@@ -162,7 +160,7 @@
                     var data    = new Image();
                     var support = true;
                     data.onload = data.onerror = function () {
-                        if (this.width != 1 || this.height != 1) {
+                        if (this.width !== 1 || this.height !== 1) {
                             support = false;
                         }
                     }
@@ -208,15 +206,15 @@
                         window['expressinstallcallback'] = function (state) {
                             switch (state) {
                                 case 'Download.Cancelled':
-                                    alert('您取消了更新！')
+                                    alert('{:lang('FLASH_CANCEL')}')
                                     break;
 
                                 case 'Download.Failed':
-                                    alert('安装失败')
+                                    alert('{:lang('FLASH_FAIL')}')
                                     break;
 
                                 default:
-                                    alert('安装已成功，请刷新！');
+                                    alert('{:lang('FLASH_SUCCESS')}');
                                     break;
                             }
                             delete window['expressinstallcallback'];
@@ -248,7 +246,7 @@
 
                 return;
             } else if (!WebUploader.Uploader.support()) {
-                alert('Web Uploader 不支持您的浏览器！');
+                alert('{:lang('WEB_LOADER_FAIL')}');
                 return;
             }
 
@@ -256,7 +254,7 @@
             uploader = WebUploader.create({
                 pick: {
                     id: '#filePicker',
-                    label: '点击选择文件',
+                    label: '{:lang("SELECT_FILE")}',
                     multiple: multi,
                 },
                 timeout: 0,
@@ -315,7 +313,7 @@
                 // 添加“添加文件”的按钮，
                 uploader.addButton({
                     id: '#filePicker2',
-                    label: '继续添加'
+                    label: '{:lang("KEEP_ADDING")}'
                 });
             }
             uploader.on('ready', function () {
@@ -331,25 +329,26 @@
                     '</li>'),
 
                     $btns     = $('<div class="file-panel">' +
-                        '<span class="cancel">删除</span>' +
-                        '<span class="rotateRight">向右旋转</span>' +
-                        '<span class="rotateLeft">向左旋转</span></div>').appendTo($li),
+                        '<span class="cancel">{:lang("DELETE")}</span>' +
+                        '<span class="rotateRight">{:lang("ROTATE_RIGHT")}</span>' +
+                        '<span class="rotateLeft">{:lang("ROTATE_LEFT")}</span></div>').appendTo($li),
                     $prgress  = $li.find('p.progress span'),
                     $wrap     = $li.find('p.imgWrap'),
                     $info     = $('<p class="error"></p>'),
 
                     showError = function (code) {
+                        let text = "";
                         switch (code) {
                             case 'exceed_size':
-                                text = '文件大小超出';
+                                text = '{:lang("FILE_EXCEED")}';
                                 break;
 
                             case 'interrupt':
-                                text = '上传暂停';
+                                text = '{:lang("UPLOAD_PAUSE")}';
                                 break;
 
                             default:
-                                text = '上传失败，请重试';
+                                text = '{:lang("UPLOAD_FAILED")}';
                                 break;
                         }
 
@@ -360,12 +359,12 @@
                     showError(file.statusText);
                 } else {
                     // @todo lazyload
-                    $wrap.text('预览中');
+                    $wrap.text('{:lang("PREVIEWING")}');
                     uploader.makeThumb(file, function (error, src) {
                         var img;
 
                         if (error) {
-                            $wrap.text('不能预览');
+                            $wrap.text('{:lang("CANNOT_PREVIEW")}');
                             return;
                         }
 
@@ -382,7 +381,7 @@
                                     img = $('<img src="' + response.result + '">');
                                     $wrap.empty().append(img);
                                 } else {
-                                    $wrap.text("预览出错");
+                                    $wrap.text("{:lang('PREVIEW_ERROR')}");
                                 }
                             });
                         }
@@ -510,29 +509,29 @@
                 var text = '', stats;
 
                 if (state === 'ready') {
-                    text = '选中' + fileCount + '个文件，共' +
-                        WebUploader.formatSize(fileSize) + '。';
+                    text = '{:lang("HAS_SELECT")} ' + fileCount + '{:lang("HAS_SELECT1")}' +
+                        WebUploader.formatSize(fileSize);
                 } else if (state === 'confirm') {
 
                     stats = uploader.getStats();
                     if (stats.uploadFailNum) {
-                        text = '已成功上传' + stats.successNum + '个文件，' +
-                            stats.uploadFailNum + '个文件上传失败，<a class="retry" href="#">重新上传</a>失败文件或<a class="ignore" href="#">忽略</a>'
+                        text = '{:lang("HAS_UPLOAD")}' + stats.successNum + '{:lang("HAS_UPLOAD1")}' +
+                            stats.uploadFailNum + '{:lang("HAS_UPLOAD2")}<a class="retry" href="#">{:lang("UPLOAD_AGAIN")}</a>{:lang("HAS_UPLOAD3")}<a class="ignore" href="#">{:lang("IGNORE")}</a>'
                     }
 
                 } else {
                     stats = uploader.getStats();
 
-                    text = '共' + fileCount + '个文件（' +
+                    text = '{:lang("TOTAL")}' + fileCount + '{:lang("HAS_UPLOAD1")}(' +
                         WebUploader.formatSize(fileSize) +
-                        '），已上传' + stats.successNum + '个';
+                        ') {:lang("HAS_UPLOADED")}' + stats.successNum + '{:lang("HAS_UPLOADED1")}';
 
                     if (stats.uploadFailNum) {
-                        text += '，失败' + stats.uploadFailNum + '个';
+                        text += '{:lang("FAILED")}' + stats.uploadFailNum + '{:lang("HAS_UPLOADED1")}';
                     }
 
                     if (stats.progressNum > 0) {
-                        text += '<br>上传期间请不要关闭对话框';
+                        text += '<br>{:lang("UPLOADING_TIP")}';
                     }
                 }
 
@@ -569,18 +568,18 @@
                     case 'uploading':
                         $('#filePicker2').addClass('element-invisible');
                         $progress.show();
-                        $upload.text('暂停上传');
+                        $upload.text('{:lang("PAUSE_UPLOAD")}');
                         break;
 
                     case 'paused':
                         $progress.show();
-                        $upload.text('继续上传');
+                        $upload.text('{:lang("CONTINUE_UPLOAD")}');
                         break;
 
                     case 'confirm':
                         $progress.hide();
                         $('#filePicker2').removeClass('element-invisible');
-                        $upload.text('开始上传');
+                        $upload.text('{:lang("UPLOAD_START")}');
 
                         stats = uploader.getStats();
                         if (stats.successNum && !stats.uploadFailNum) {
@@ -688,16 +687,16 @@
             uploader.onError = function (code) {
                 switch (code) {
                     case "Q_TYPE_DENIED":
-                        code = "文件类型错误！";
+                        code = "{:lang('FILE_TYPE_ERROR')}";
                         break;
                     case "Q_EXCEED_NUM_LIMIT":
-                        code = "最多只能上传" + maxFiles + '个文件';
+                        code = "{:lang('MAX_UPLOAD_1')}" + maxFiles + "{:lang('MAX_UPLOAD_2')}";
                         break;
                     case "F_DUPLICATE":
-                        code = "文件重复添加！";
+                        code = "{:lang('UPLOAD_DUPLICATED')}";
                         break;
                     case "F_EXCEED_SIZE":
-                        code = "您需要选择小于{$upload_max_filesize_mb}M的文件！";
+                        code = "{:lang('FILE_SIZE_TIP', ['filesize'=>$upload_max_filesize_mb])}";
                         break;
                 }
                 alert(code);

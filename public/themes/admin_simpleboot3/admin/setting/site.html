@@ -92,7 +92,7 @@
                         </div>
                         <if condition="APP_DEBUG && false">
                             <div class="form-group">
-                                <label for="input-default_app" class="col-sm-2 control-label">默认应用</label>
+                                <label for="input-default_app" class="col-sm-2 control-label">{:lang('DEFAULT_APP')}</label>
                                 <div class="col-md-6 col-sm-10">
                                     <php>
                                         $site_default_app=empty($cmf_settings['default_app'])?'demo':$cmf_settings['default_app'];

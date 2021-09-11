@@ -3,13 +3,13 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('theme/index')}">所有模板</a></li>
+        <li><a href="{:url('theme/index')}">{:lang('TEMPLATE_ALL')}</a></li>
         <li class="active">
-            <a>安装模板</a>
+            <a>{:lang('TEMPLATE_INSTALL')}</a>
         </li>
         <li>
             <a href="http://www.thinkcmf.com/faq.html?url=https://www.kancloud.cn/thinkcmf/faq/493511"
-               target="_blank">安装说明 <i class="fa fa-question-circle"></i></a>
+               target="_blank">{:lang('TEMPLATE_INSTALL_NOTES')} <i class="fa fa-question-circle"></i></a>
         </li>
     </ul>
     <form method="post" class="js-ajax-form margin-top-20">
@@ -17,11 +17,11 @@
         <table class="table table-hover table-bordered table-list">
             <thead>
             <tr>
-                <th>模板</th>
-                <th>模板名称</th>
-                <th>版本号</th>
-                <th>作者</th>
-                <th>模板描述</th>
+                <th>{:lang('TEMPLATE')}</th>
+                <th>{:lang('TEMPLATE_NAME')}</th>
+                <th>{:lang('VERSION')}</th>
+                <th>{:lang('AUTHOR')}</th>
+                <th>{:lang('TEMPLATE_DESCRIPTION')}</th>
                 <th width="120">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
@@ -34,18 +34,21 @@
                     <td>{$vo.author}</td>
                     <td>{$vo.description}</td>
                     <td>
-                        <a href="{:url('theme/installTheme',array('theme'=>$vo['theme']))}" class="btn btn-xs btn-primary js-ajax-dialog-btn js-ajax-dialog-btn">安装</a>
+                        <a href="{:url('theme/installTheme',array('theme'=>$vo['theme']))}"
+                           class="btn btn-xs btn-primary js-ajax-dialog-btn js-ajax-dialog-btn">
+                            {:lang('INSTALL')}
+                        </a>
                     </td>
                 </tr>
             </foreach>
             </tbody>
             <tfoot>
             <tr>
-                <th>模板</th>
-                <th>模板名称</th>
-                <th>版本号</th>
-                <th>作者</th>
-                <th>模板描述</th>
+                <th>{:lang('TEMPLATE')}</th>
+                <th>{:lang('TEMPLATE_NAME')}</th>
+                <th>{:lang('VERSION')}</th>
+                <th>{:lang('AUTHOR')}</th>
+                <th>{:lang('TEMPLATE_DESCRIPTION')}</th>
                 <th width="120">{:lang('ACTIONS')}</th>
             </tr>
             </tfoot>

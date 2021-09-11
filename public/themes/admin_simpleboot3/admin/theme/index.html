@@ -3,21 +3,21 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('theme/index')}">所有模板</a></li>
-        <li><a href="{:url('theme/install')}">安装模板</a></li>
+        <li class="active"><a href="{:url('theme/index')}">{:lang('TEMPLATE_ALL')}</a></li>
+        <li><a href="{:url('theme/install')}">{:lang('TEMPLATE_INSTALL')}</a></li>
     </ul>
     <form method="post" class="js-ajax-form margin-top-20">
         <php> $status=array("1"=>lang('DISPLAY'),"0"=>lang('HIDDEN'));</php>
         <table class="table table-hover table-bordered table-list">
             <thead>
             <tr>
-                <th>模板</th>
-                <th>模板名称</th>
-                <th>版本号</th>
-                <th>语言</th>
-                <th>作者</th>
-                <th>模板描述</th>
-                <th width="240">{:lang('ACTIONS')}</th>
+                <th>{:lang('TEMPLATE')}</th>
+                <th>{:lang('TEMPLATE_NAME')}</th>
+                <th>{:lang('VERSION')}</th>
+                <th>{:lang('LANGUAGE')}</th>
+                <th>{:lang('AUTHOR')}</th>
+                <th>{:lang('TEMPLATE_DESCRIPTION')}</th>
+                <th width="340">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -26,7 +26,7 @@
                     <td>
                         {$vo.theme}
                         <eq name="vo.theme" value="$default_theme">
-                            <span class="label label-success">当前启用</span>
+                            <span class="label label-success">{:lang('TEMPLATE_ENABLE')}</span>
                         </eq>
                     </td>
                     <td>{$vo.name}</td>
@@ -35,37 +35,36 @@
                     <td>{$vo.author}</td>
                     <td>{$vo.description}</td>
                     <td>
-                        <a class="btn btn-xs btn-primary" href="{:url('Theme/design',['theme'=>$vo.theme])}" target="_blank">设计</a>
-                        <a class="btn btn-xs btn-primary" href="javascript:parent.openIframeLayer('{:url('theme/files',array('theme'=>$vo['theme']))}','{$vo.name}文件列表',{});">文件列表</a>
+                        <a class="btn btn-xs btn-primary" href="{:url('Theme/design',['theme'=>$vo.theme])}" target="_blank">{:lang('DESIGN')}</a>
+                        <a class="btn btn-xs btn-primary" href="javascript:parent.openIframeLayer('{:url('theme/files',['theme'=>$vo['theme']])}','{$vo.name} {:lang('FILE_LIST')}',{});">{:lang('FILE_LIST')}</a>
                         <a class="btn btn-xs btn-success js-ajax-dialog-btn" href="{:url('theme/update',array('theme'=>$vo['theme']))}"
-                           data-msg="确定更新此模板吗？">更新</a>
+                           data-msg="{:lang('TEMPLATE_UPDATE_TIP')}">{:lang('UPDATE')}</a>
                         <if condition="$vo.theme == $default_theme">
-                            <span class="btn btn-xs btn-warning disabled" color="#cccccc">启用</span>
+                            <span class="btn btn-xs btn-warning disabled" color="#cccccc">{:lang('ENABLE')}</span>
                             <else/>
                             <a class="btn btn-xs btn-warning js-ajax-dialog-btn" href="{:url('theme/active',array('theme'=>$vo['theme']))}"
-                               data-msg="确定使用此模板吗？">启用</a>
+                               data-msg="{:lang('TEMPLATE_USE_TIP')}">{:lang('ENABLE')}</a>
                         </if>
 
                         <if condition="($vo.name == 'simpleboot3') OR ($vo.theme == $default_theme) ">
-                            <span class="btn btn-xs btn-danger disabled">卸载</span>
+                            <span class="btn btn-xs btn-danger disabled">{:lang('UNINSTALL')}</span>
                             <else/>
                             <a class="btn btn-xs btn-danger js-ajax-dialog-btn" href="{:url('theme/uninstall',array('theme'=>$vo['theme']))}"
-                               data-msg="您设置的模板数据将被删除，<br>确定卸载此模板吗？">卸载</a>
+                               data-msg="{:lang('TEMPLATE_UNINSTALL_TIP')}">{:lang('UNINSTALL')}</a>
                         </if>
-
                     </td>
                 </tr>
             </foreach>
             </tbody>
             <tfoot>
             <tr>
-                <th>模板</th>
-                <th>模板名称</th>
-                <th>版本号</th>
-                <th>语言</th>
-                <th>作者</th>
-                <th>模板描述</th>
-                <th width="180">{:lang('ACTIONS')}</th>
+                <th>{:lang('TEMPLATE')}</th>
+                <th>{:lang('TEMPLATE_NAME')}</th>
+                <th>{:lang('VERSION')}</th>
+                <th>{:lang('LANGUAGE')}</th>
+                <th>{:lang('AUTHOR')}</th>
+                <th>{:lang('TEMPLATE_DESCRIPTION')}</th>
+                <th>{:lang('ACTIONS')}</th>
             </tr>
             </tfoot>
         </table>

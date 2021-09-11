@@ -3,12 +3,12 @@
 <body>
 <div class="wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('slide/index')}">幻灯片列表</a></li>
-        <li class="active"><a href="{:url('slide/add')}">添加幻灯片</a></li>
+        <li><a href="{:url('slide/index')}">{:lang('SLIDE_LIST')}</a></li>
+        <li class="active"><a href="{:url('slide/add')}">{:lang('ADMIN_SLIDE_ADD')}</a></li>
     </ul>
     <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('slide/addPost')}">
         <div class="form-group">
-            <label for="input-name" class="col-sm-2 control-label">名称<span class="form-required">*</span></label>
+            <label for="input-name" class="col-sm-2 control-label">{:lang('NAME')}<span class="form-required">*</span></label>
             <div class="col-md-6 col-sm-10">
                 <input type="text" class="form-control" id="input-name" name="name">
             </div>

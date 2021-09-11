@@ -7,23 +7,23 @@
 			<li><a href="{:url('user/add')}">{:lang('ADMIN_USER_ADD')}</a></li>
 		</ul>
         <form class="well form-inline margin-top-20" method="get" action="{:url('User/index')}">
-            用户名:
-            <input type="text" class="form-control" name="user_login" style="width: 120px;" value="{:input('request.user_login/s','')}" placeholder="请输入{:lang('USERNAME')}">
-            邮箱:
-            <input type="text" class="form-control" name="user_email" style="width: 120px;" value="{:input('request.user_email/s','')}" placeholder="请输入{:lang('EMAIL')}">
-            <input type="submit" class="btn btn-primary" value="搜索" />
-            <a class="btn btn-danger" href="{:url('User/index')}">清空</a>
+            {:lang('USERNAME')}
+            <input type="text" class="form-control" name="user_login" style="width: 120px;" value="{:input('request.user_login/s','')}" placeholder="{:lang('ENTER')} {:lang('USERNAME')}">
+            {:lang('EMAIL')}
+            <input type="text" class="form-control" name="user_email" style="width: 120px;" value="{:input('request.user_email/s','')}" placeholder="{:lang('ENTER')} {:lang('EMAIL')}">
+            <input type="submit" class="btn btn-primary" value="{:lang('SEARCH')}" />
+            <a class="btn btn-danger" href="{:url('User/index')}">{:lang('EMPTY')}</a>
         </form>
 		<table class="table table-hover table-bordered">
 			<thead>
 				<tr>
-					<th width="50">ID</th>
+					<th style="width: 50px">ID</th>
 					<th>{:lang('USERNAME')}</th>
 					<th>{:lang('LAST_LOGIN_IP')}</th>
 					<th>{:lang('LAST_LOGIN_TIME')}</th>
 					<th>{:lang('EMAIL')}</th>
 					<th>{:lang('STATUS')}</th>
-					<th width="140">{:lang('ACTIONS')}</th>
+					<th style="width: 180px">{:lang('ACTIONS')}</th>
 				</tr>
 			</thead>
 			<tbody>

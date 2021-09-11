@@ -3,48 +3,48 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">幻灯片页面列表</a></li>
-        <li class="active"><a href="{:url('SlideItem/add',['slide_id'=>$slide_id])}">添加幻灯片页面</a></li>
+        <li><a href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">{:lang('SLIDE_PAGE_LIST')}</a></li>
+        <li class="active"><a href="{:url('SlideItem/add',['slide_id'=>$slide_id])}">{:lang('SLIDE_PAGE_ADD')}</a></li>
     </ul>
     <form action="{:url('SlideItem/addPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
         <div class="row">
             <div class="col-md-9">
                 <table class="table table-bordered">
                     <tr>
-                        <th>标题<span class="form-required">*</span></th>
+                        <th>{:lang('TITLE')}<span class="form-required">*</span></th>
                         <td>
                             <input class="form-control" type="text" style="width:400px;" name="post[title]" id="title"
-                                   required value="" placeholder="请输入标题"/>
+                                   required value="" placeholder="{:lang('SLIDE_TITLE_PLACEHOLDER')}"/>
                         </td>
                     </tr>
                     <tr>
-                        <th>链接</th>
+                        <th>{:lang('SLIDE_LINK')}</th>
                         <td>
                             <input class="form-control" type="text" name="post[url]" id="keywords" value=""
-                                   style="width: 400px" placeholder="请输入链接">
+                                   style="width: 400px" placeholder="{:lang('SLIDE_LINK_PLACEHOLDER')}">
                         </td>
                     </tr>
                     <tr>
-                        <th>打开方式</th>
+                        <th>{:lang('ADMIN_OPEN_STYLE')}</th>
                         <td>
                             <select class="form-control" name="post[target]" id="target" style="width: 400px">
-                                <option value="_blank" selected="selected">新窗口(_blank)</option>
-                                <option value="_self">当前窗口(_self)</option>
-                                <option value="_parent">父窗口(_parent)</option>
-                                <option value="_top">主窗口(_top)</option>
+                                <option value="_blank" selected="selected">{:lang('LINK_BLANK')} (_blank)</option>
+                                <option value="_self">{:lang('LINK_SELF')} (_self)</option>
+                                <option value="_parent">{:lang('LINK_PARENT')} (_parent)</option>
+                                <option value="_top">{:lang('LINK_TOP')} (_top)</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <th>描述</th>
+                        <th>{:lang('DESCRIPTION')}</th>
                         <td><input class="form-control" type="text" name="post[description]" id="source" value=""
-                                   style="width: 400px" placeholder="请输入描述"></td>
+                                   style="width: 400px" placeholder="{:lang('DESCRIPTION_PLACEHOLDER')}"></td>
                     </tr>
                     <tr>
-                        <th>幻灯片内容</th>
+                        <th>{:lang('SLIDE_CONTENT')}</th>
                         <td>
                             <textarea class="form-control" name="post[content]" id="description"
-                                      style="width: 47%; height: 100px;" placeholder="请填写幻灯片内容"></textarea>
+                                      style="width: 47%; height: 100px;" placeholder="{:lang('SLIDE_CONTENT_PLACEHOLDER')}"></textarea>
                         </td>
                     </tr>
                 </table>
@@ -52,19 +52,19 @@
             <div class="col-md-3">
                 <table class="table table-bordered">
                     <tr>
-                        <th><b>缩略图</b></th>
+                        <th><b>{:lang('THUMBNAIL')}</b></th>
                     </tr>
                     <tr>
                         <td>
                             <div style="text-align: center;">
                                 <input type="hidden" name="post[image]" id="thumb" value="">
-                                <a href="javascript:uploadOneImage('图片上传','#thumb');">
+                                <a href="javascript:uploadOneImage('{:lang('UPLOAD_IMAGE')}','#thumb');">
                                     <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumb-preview"
                                          width="135" style="cursor: hand"/>
                                 </a>
                                 <input type="button" class="btn btn-sm"
                                        onclick="$('#thumb-preview').attr('src','__TMPL__/public/assets/images/default-thumbnail.png');$('#thumb').val('');return false;"
-                                       value="取消图片">
+                                       value="{:lang('CANCEL_IMAGE')}">
                             </div>
                         </td>
                     </tr>

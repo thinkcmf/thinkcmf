@@ -20,14 +20,10 @@
 <div class="wrap">
     <ul class="nav nav-tabs">
         <li class="active">
-            <a href="{:url('theme/fileSetting',['file_id'=>$file_id,'tab'=>'widget'])}">
-                组件设置
-            </a>
+            <a href="{:url('theme/fileSetting',['file_id'=>$file_id,'tab'=>'widget'])}">{:lang('COMPONENT_SETTING')}</a>
         </li>
         <li>
-            <a href="{:url('theme/fileSetting',['file_id'=>$file_id,'tab'=>'var'])}">
-                变量设置
-            </a>
+            <a href="{:url('theme/fileSetting',['file_id'=>$file_id,'tab'=>'var'])}">{:lang('VARIABLE_SETTING')}</a>
         </li>
     </ul>
     <form method="post" class="js-ajax-form  margin-top-20" action="{:url('theme/settingPost')}">
@@ -44,9 +40,8 @@
                                    name="widget[{$widgetName}][title]">
                             <label class="checkbox-inline pull-right">
                                 <php>$display_checked=empty($widget['display'])?'':'checked';</php>
-                                <input type="checkbox" name="widget[{$widgetName}][display]" value="1"
-                                       {$display_checked}>
-                                显示
+                                <input type="checkbox" name="widget[{$widgetName}][display]" value="1" {$display_checked}>
+                                {:lang('DISPLAY')}
                             </label>
                         </div>
                         <div id="collapse-{$widgetName}" class="panel-collapse collapse in" role="tabpanel">
@@ -58,7 +53,7 @@
                 </foreach>
             </div>
             <else/>
-            <div>本页面没有设置任何组件</div>
+            <div>{:lang('DESIGN_TIP')}</div>
         </notempty>
         <div class="form-group" style="display:none;">
             <input type="hidden" name="id" value="{$file.id}">

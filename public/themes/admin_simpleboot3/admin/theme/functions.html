@@ -21,7 +21,7 @@
                             <input type="text" name="{$inputName}[{$varName}_text_]" class="form-control"
                                    onclick="doSelectData(this)"
                                    data-source="{:base64_encode(json_encode($var['dataSource']))}"
-                                   data-title="请选择{$var.title}"
+                                   data-title="{:lang('PLEASE_SELECT')} {$var.title}"
                                    value="{$vars[$varName]['valueText']|default=''}">
                             <input type="hidden" name="{$inputName}[{$varName}]" class="form-control"
                                    value="{$vars[$varName]['value']}">
@@ -66,7 +66,7 @@
                         <input type="hidden" name="{$inputName}[{$varName}]" class="form-control"
                                value="{$vars[$varName]['value']}" id="js-{$widget}{$varName}-input">
                         <div>
-                            <a href="javascript:doUploadOneImage('图片上传','#js-{$widget}{$varName}-input');">
+                            <a href="javascript:doUploadOneImage('{:lang('UPLOAD_IMAGE')}','#js-{$widget}{$varName}-input');">
                                 <if condition="empty($vars[$varName]['value'])">
                                     <img src="__TMPL__/public/assets/images/default-thumbnail.png"
                                          id="js-{$widget}{$varName}-input-preview"
@@ -79,7 +79,10 @@
                             </a>
                             <if condition="!empty($vars[$varName]['value'])">
                                 <br>
-                                <button id="js-{$widget}{$varName}-button-remove" defaultImage="__TMPL__/public/assets/images/default-thumbnail.png" class="removeImage btn btn-sm" type="button" onclick="removeImage('{$widget}{$varName}')">取消图片</button>
+                                <button id="js-{$widget}{$varName}-button-remove"
+                                        defaultImage="__TMPL__/public/assets/images/default-thumbnail.png"
+                                        class="removeImage btn btn-sm" type="button"
+                                        onclick="removeImage('{$widget}{$varName}')">{:lang('CANCEL_IMAGE')}</button>
                             </if>
                         </div>
                         <present name="var.tip">
@@ -100,7 +103,7 @@
                     <div class="controls">
                         <input type="text" name="{$inputName}[{$varName}_text_]" class="form-control"
                                onclick="doSelectLocation(this)"
-                               data-title="请选择{$var.title}"
+                               data-title="{:lang('PLEASE_SELECT')} {$var.title}"
                                value="{$vars[$varName]['valueText']|default=''}">
                         <input type="hidden" name="{$inputName}[{$varName}]" class="form-control"
                                value="{$vars[$varName]['value']}">
@@ -114,7 +117,7 @@
                         <div class="input-group">
                             <input type="text" name="{$inputName}[{$varName}]" class="form-control"
                                    value="{$vars[$varName]['value']}" id="js-{$widget}{$varName}-input-file">
-                            <span class="input-group-addon"> <a href="javascript:doUploadOne('图片上传','#js-{$widget}{$varName}-input-file','file');">上传</a></span>
+                            <span class="input-group-addon"> <a href="javascript:doUploadOne('{:lang('UPLOAD_IMAGE')}','#js-{$widget}{$varName}-input-file','file');">{:lang('UPLOAD')}</a></span>
                         </div>
                         <present name="var.tip">
                             <p class="help-block">{$var.tip}</p>
@@ -136,11 +139,11 @@
                         <php>
                             $arrayValueText=is_array($var['value'])&&count($var['value'])>0?count($var['value']).'条数据,点击添加更多...':'';
                         </php>
-                        <textarea class="form-control" placeholder="点击添加数据"
+                        <textarea class="form-control" placeholder="{:lang('CLICK_TO_ADD_DATA')}"
                                   onclick="doEditArrayData(this)"
                                   data-var="{$varName}"
                                   data-widget="{$widget}"
-                                  data-title="编辑{$var.title}"
+                                  data-title="{:lang('EDIT')} {$var.title}"
                                     data-file_id="{$file_id}">{$arrayValueText}</textarea>
                         <present name="var.tip">
                             <p class="help-block">{$var.tip}</p>

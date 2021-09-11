@@ -3,8 +3,8 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">幻灯片页面列表</a></li>
-        <li><a href="{:url('SlideItem/add',['slide_id'=>$slide_id])}">添加幻灯片页面</a></li>
+        <li class="active"><a href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">{:lang('SLIDE_PAGE_LIST')}</a></li>
+        <li><a href="{:url('SlideItem/add',['slide_id'=>$slide_id])}">{:lang('SLIDE_PAGE_ADD')}</a></li>
     </ul>
     <form method="post" class="js-ajax-form margin-top-20" action="{:url('SlideItem/listOrder')}">
         <div class="table-actions">
@@ -19,12 +19,12 @@
             <tr>
                 <th width="50">{:lang('SORT')}</th>
                 <th width="50">ID</th>
-                <th>幻灯片标题</th>
-                <th>描述</th>
-                <th>链接</th>
-                <th>打开方式</th>
-                <th>图片</th>
-                <th>状态</th>
+                <th>{:lang('SLIDE_TITLE')}</th>
+                <th>{:lang('DESCRIPTION')}</th>
+                <th>{:lang('SLIDE_LINK')}</th>
+                <th>{:lang('ADMIN_OPEN_STYLE')}</th>
+                <th>{:lang('IMAGE')}</th>
+                <th>{:lang('STATUS')}</th>
                 <th width="160">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
@@ -54,10 +54,10 @@
                            class="btn btn-xs btn-danger js-ajax-delete">{:lang('DELETE')}</a>
                         <if condition="empty($vo['status']) eq 1">
                             <a href="{:url('SlideItem/cancelban',array('id'=>$vo['id']))}" class="btn btn-xs btn-warning js-ajax-dialog-btn"
-                               data-msg="确定显示此幻灯片吗？">{:lang('DISPLAY')}</a>
+                               data-msg="{:lang('SLIDE_SHOW_TIP')}">{:lang('DISPLAY')}</a>
                             <else/>
                             <a href="{:url('SlideItem/ban',array('id'=>$vo['id']))}" class="btn btn-xs btn-warning js-ajax-dialog-btn"
-                               data-msg="确定隐藏此幻灯片吗？">{:lang('HIDE')}</a>
+                               data-msg="{:lang('SLIDE_HIDE_TIP')}">{:lang('HIDE')}</a>
                         </if>
                     </td>
                 </tr>

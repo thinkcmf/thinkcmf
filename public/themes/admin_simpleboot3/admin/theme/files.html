@@ -6,10 +6,10 @@
         <table class="table table-hover table-bordered table-list">
             <thead>
             <tr>
-                <th>文件名</th>
-                <th>操作名</th>
-                <th>文件路径</th>
-                <th>描述</th>
+                <th>{:lang('FILENAME')}</th>
+                <th>{:lang('ACTION_NAME')}</th>
+                <th>{:lang('FILE_PATH')}</th>
+                <th>{:lang('DESCRIPTION')}</th>
                 <th width="120">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
@@ -22,7 +22,7 @@
                     <td>{$vo.description}</td>
                     <td>
                         <a href="javascript:;" data-file="{$vo.id}" data-title="{$vo.name} {$vo.file}.html"
-                           onclick="openDesignDialog(this)">设计</a>
+                           onclick="openDesignDialog(this)">{:lang('DESIGN')}</a>
                     </td>
                 </tr>
             </foreach>

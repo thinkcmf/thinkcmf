@@ -3,18 +3,18 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="javascript:void(0)">回收站列表</a></li>
+        <li class="active"><a href="javascript:void(0)">{:lang('RECYCLE_LIST')}</a></li>
     </ul>
     <form class="js-ajax-form">
         <div class="table-actions margin-top-20">
             <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('RecycleBin/delete')}" data-subcheck="true">全部删除
+                    data-action="{:url('RecycleBin/delete')}" data-subcheck="true">{:lang('DELETE_ALL')}
             </button>
             <button class="btn btn-success btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('RecycleBin/restore')}" data-subcheck="true">全部还原
+                    data-action="{:url('RecycleBin/restore')}" data-subcheck="true">{:lang('RESTORE_ALL')}
             </button>
             <a class="btn btn-danger btn-sm js-ajax-dialog-btn" href="{:url('RecycleBin/clear')}"
-               data-msg="该操作不可恢复，确认要清空全部文件吗？">清空回收站 </a>
+               data-msg="{:lang('RECYCLE_DELETE_TIP')}">{:lang('EMPTY_RECYCLE')}</a>
         </div>
         <table class="table table-hover table-bordered table-list">
             <thead>
@@ -23,10 +23,10 @@
                     <label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"> </label>
                 </th>
                 <th style="width: 50px">ID</th>
-                <th>内容名称</th>
-                <th>内容类型</th>
-                <th>删除时间</th>
-                <th>操作人</th>
+                <th>{:lang('CONTENT_NAME')}</th>
+                <th>{:lang('CONTENT_TYPE')}</th>
+                <th>{:lang('DELETE_TIME')}</th>
+                <th>{:lang('OPERATOR')}</th>
                 <th width="130">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
@@ -46,7 +46,7 @@
                     <td> {:$vo.user.user_login}</td>
                     <td>
                         <a href="{:url('RecycleBin/restore', ['ids'=>$vo.id])}" class="btn btn-xs btn-success js-ajax-dialog-btn"
-                           data-msg="确定要还原吗？">还原</a>
+                           data-msg="{:lang('RECYCLE_RESTORE_TIP')}">{:lang('RESTORE')}</a>
                         <a href="{:url('RecycleBin/delete', ['ids'=>$vo.id])}" class="btn btn-xs btn-danger js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>
@@ -55,13 +55,13 @@
         </table>
         <div class="table-actions">
             <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('RecycleBin/delete')}" data-subcheck="true">全部删除
+                    data-action="{:url('RecycleBin/delete')}" data-subcheck="true">{:lang('DELETE_ALL')}
             </button>
             <button class="btn btn-success btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('RecycleBin/restore')}" data-subcheck="true">全部还原
+                    data-action="{:url('RecycleBin/restore')}" data-subcheck="true">{:lang('RESTORE_ALL')}
             </button>
             <a class="btn btn-danger btn-sm js-ajax-dialog-btn" href="{:url('RecycleBin/clear')}"
-               data-msg="该操作不可恢复，确认要清空全部文件吗？">清空回收站 </a>
+               data-msg="{:lang('RECYCLE_DELETE_TIP')}">{:lang('EMPTY_RECYCLE')}</a>
         </div>
         <div class="pagination">{$page}</div>
     </form>

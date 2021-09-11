@@ -15,7 +15,7 @@
                 <th>{:lang('NAME')}</th>
                 <th width="160">{:lang('ADMIN_NAV_MAIN')}</th>
                 <th>{:lang('DESCRIPTION')}</th>
-                <th width="240">{:lang('ACTIONS')}</th>
+                <th width="180">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -36,7 +36,7 @@
                     </td>
                     <td>{$vo.remark}</td>
                     <td>
-                        <a class="btn btn-xs btn-primary" href="javascript:parent.openIframeLayer('{:url('NavMenu/index',array('nav_id'=>$vo['id']))}',`{$vo.name} {:lang('ADMIN_MENU_DEFAULT')}`,{});">{:lang('ADMIN_MENU_DEFAULT')}</a>
+                        <a class="btn btn-xs btn-primary" href="javascript:parent.openIframeLayer('{:url('NavMenu/index',array('nav_id'=>$vo['id']))}',`{$vo.name} {:lang('ADMIN_MENU_DEFAULT')}`,{});">{:lang('MANAGE')}</a>
                         <a class="btn btn-xs btn-success"  href="{:url('nav/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
                         <a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('nav/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
                     </td>

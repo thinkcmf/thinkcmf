@@ -3,19 +3,19 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('AdminAsset/index')}">资源列表</a></li>
+        <li class="active"><a href="{:url('AdminAsset/index')}">{:lang('USER_ASSETS_LIST')}</a></li>
     </ul>
-    <php>$status=['不可用', '可用'];</php>
+    <php>$status=[lang('UNAVAILABLE'), lang('AVAILABLE')];</php>
     <table class="table table-hover table-bordered margin-top-20">
         <thead>
         <tr>
             <th width="50">ID</th>
-            <th>用户</th>
-            <th>文件大小</th>
-            <th>文件名</th>
-            <th>图像</th>
-            <th>文件路径</th>
-            <th>状态</th>
+            <th>{:lang('USER')}</th>
+            <th>{:lang('FILE_SIZE')}</th>
+            <th>{:lang('FILENAME')}</th>
+            <th>{:lang('IMAGE')}</th>
+            <th>{:lang('FILE_PATH')}</th>
+            <th>{:lang('STATUS')}</th>
             <th width="160">{:lang('ACTIONS')}</th>
         </tr>
         </thead>
@@ -27,7 +27,7 @@
             <tr>
                 <td>{$vo.id}</td>
                 <td>
-                    用户ID:{$vo.user_id} {$vo.user_login} {$vo.user_nickname}
+                    {:lang('USER')} ID:{$vo.user_id} {$vo.user_login} {$vo.user_nickname}
                 </td>
                 <td>{$vo.file_size/1024|round}KB</td>
                 <td>{$vo.filename}</td>
@@ -41,7 +41,7 @@
                 <td>
                     {$vo.file_path}
                     <if condition="!file_exists('upload/'.$vo['file_path'])">
-                        <span style='color:red;'>&nbsp;&nbsp(文件丢失)</span>
+                        <span style='color:red;'>&nbsp;&nbsp({:lang('FILE_LOST')})</span>
                     </if>
                 </td>
                 <td>{$status[$vo['status']]}</td>

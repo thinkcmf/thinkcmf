@@ -51,8 +51,8 @@
                 </foreach>
                 <div class="col-xs-3">
                     <input type="hidden" value="{$data_source}" name="data_source">
-                    <button type="submit" class="btn btn-primary">搜索</button>
-                    <a class="btn btn-danger" href="{:url('theme/dataSource')}?data_source={$data_source}">清空</a>
+                    <button type="submit" class="btn btn-primary">{:lang('SEARCH')}</button>
+                    <a class="btn btn-danger" href="{:url('theme/dataSource')}?data_source={$data_source}">{:lang('EMPTY')}</a>
                 </div>
             </div>
             <!--<div class="form-group">-->
@@ -78,7 +78,7 @@
                     </if>
                 </th>
                 <th width="50">ID</th>
-                <th>名称</th>
+                <th>{:lang('NAME')}</th>
             </tr>
             </thead>
             <tbody>

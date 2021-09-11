@@ -4,14 +4,20 @@
 <body>
 <div class="wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('theme/fileArrayData',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget])}">所有数据</a></li>
+        <li>
+            <a href="{:url('theme/fileArrayData',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget])}">
+                {:lang('TEMPLATE_ALL_DATA')}
+            </a>
+        </li>
         <heq name="item_index" value="">
-            <li class="active"><a>添加数据</a></li>
+            <li class="active"><a>{:lang('TEMPLATE_ADD_DATA')}</a></li>
             <else/>
             <li>
-                <a href="{:url('theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget])}">添加数据</a>
+                <a href="{:url('theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget])}">
+                    {:lang('TEMPLATE_ADD_DATA')}
+                </a>
             </li>
-            <li class="active"><a>编辑数据</a></li>
+            <li class="active"><a>{:lang('TEMPLATE_EDIT_DATA')}</a></li>
         </heq>
 
     </ul>
@@ -20,7 +26,7 @@
         {:_parse_vars($array_item,'item',2)}
         <div class="form-group" style="display: none;">
             <input type="hidden" name="item_index" value="{$item_index}">
-            <button type="submit" class="btn btn-primary js-ajax-submit" id="submit-btn">保存</button>
+            <button type="submit" class="btn btn-primary js-ajax-submit" id="submit-btn">{:lang('SAVE')}</button>
         </div>
     </form>
 </div>

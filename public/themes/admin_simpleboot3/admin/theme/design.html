@@ -108,15 +108,15 @@
 </script>
 </head>
 <body>
-<a id="show-setting-panel" title="编辑当前页" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
-<a id="update-theme-btn" title="刷新当前页" data-toggle="tooltip"><i class="fa fa-refresh"></i></a>
+<a id="show-setting-panel" title="{:lang('TEMPLATE_EDIT_CURRENT')}" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
+<a id="update-theme-btn" title="{:lang('TEMPLATE_REFRESH_CURRENT')}" data-toggle="tooltip"><i class="fa fa-refresh"></i></a>
 <div class="setting-panel-wrap">
     <a href="javascript:;" id="close-setting-panel"><i class="fa fa-close"></i></a>
     <div id="setting-iframe-wrap">
         <iframe frameborder="0" id="setting-iframe"></iframe>
     </div>
     <div class="footer text-center">
-        <a id="save-btn" class="btn btn-primary">保存</a>
+        <a id="save-btn" class="btn btn-primary">{:lang('SAVE')}</a>
     </div>
 </div>
 <iframe src="__ROOT__/?_design_theme={:input('param.theme')}" frameborder="0" id="simulator"></iframe>

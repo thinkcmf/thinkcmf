@@ -121,7 +121,16 @@ return [
     // user
     'ROLE_NAME'                          => 'Role name',
     'ROLE_DESCRIPTION'                   => 'Role description',
-    'ROLE_SETTING'                       => 'Permission setting',
+    'ROLE_SETTING'                       => 'Permission',
+    'USERNAME_OR_EMAIL'                  => 'Username or Email',
+    'PASSWORD'                           => 'Password',
+    'LOGIN'                              => 'Login',
+    'CAPTCHA'                            => 'Verification code',
+    'CAPTCHA_NOT_RIGHT'                  => 'Verification code error!',
+    'PASSWORD_NOT_RIGHT'                 => 'Password Error!',
+    'USERNAME_NOT_EXIST'                 => 'Username does not exist!',
+    'USE_DISABLED'                       => 'This user has been disabled!',
+    'CAPTCHA_REQUIRED'                   => 'Verification code cannot be empty!',
     //后台菜单管理
     'MENU'                               => 'Menu',
     'APP'                                => 'Application',
