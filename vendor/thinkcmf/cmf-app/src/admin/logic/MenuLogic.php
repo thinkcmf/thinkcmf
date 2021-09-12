@@ -35,10 +35,17 @@ class MenuLogic
         $annotationManager                            = Annotations::getManager();
         $annotationManager->registry['adminMenu']     = 'app\admin\annotation\AdminMenuAnnotation';
         $annotationManager->registry['adminMenuRoot'] = 'app\admin\annotation\AdminMenuRootAnnotation';
-        $registry                                     = config('registry');
-        if ($registry) {
-            foreach ($registry as $value) {
+        $registry                                     = config('annotation.registry');
+
+        if (empty($registry)) {
+            $registry = ['date', 'email'];
+        }
+
+        foreach ($registry as $key => $value) {
+            if (is_numeric($key)) {
                 $annotationManager->registry[$value] = false;
+            } else {
+                $annotationManager->registry[$key] = $value;
             }
         }
 
