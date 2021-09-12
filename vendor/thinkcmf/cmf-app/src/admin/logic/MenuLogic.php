@@ -37,6 +37,13 @@ class MenuLogic
         $annotationManager->registry['adminMenuRoot'] = 'app\admin\annotation\AdminMenuRootAnnotation';
 
         $newMenus = [];
+        $registry                                     = config('registry');
+    
+        if ($registry) {
+            foreach ($registry as $value) {
+                $annotationManager->registry[$value] = false;
+            }
+        }
         if ($app == 'admin') {
             $filePatten         = CMF_ROOT . "vendor/thinkcmf/cmf-app/src/{$app}/controller/*Controller.php";
             $coreAppControllers = cmf_scan_dir($filePatten);
