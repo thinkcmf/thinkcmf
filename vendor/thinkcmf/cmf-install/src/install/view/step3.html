@@ -9,9 +9,9 @@
     <section class="section">
         <div class="step">
             <ul class="unstyled">
-                <li class="on"><em>1</em>检测环境</li>
-                <li class="current"><em>2</em>创建数据</li>
-                <li><em>3</em>完成安装</li>
+                <li class="on"><em>1</em>{:lang('ENVIRONMENT_DETECT')}</li>
+                <li class="current"><em>2</em>{:lang('CREATE_DATA')}</li>
+                <li><em>3</em>{:lang('INSTALL_FINISH')}</li>
             </ul>
         </div>
         <form id="js-install-form" action="{:url('index/step4')}" method="post">
@@ -19,37 +19,35 @@
             <div class="server">
                 <table width="100%">
                     <tr>
-                        <td class="td1" width="100">数据库信息</td>
-                        <td class="td1" width="200">&nbsp;</td>
-                        <td class="td1">&nbsp;</td>
+                        <td class="td1" colspan="3">{:lang('DATABASE_INFO')}</td>
                     </tr>
                     <tr>
-                        <td class="text-left">数据库服务器：</td>
+                        <td class="text-left" width="110">{:lang('DATABASE_SERVER')}</td>
                         <td><input type="text" name="dbhost" id="dbhost" value="127.0.0.1" class="input"></td>
                         <td>
                             <div id="js-install-tip-dbhost">
-                                <span class="gray">数据库服务器地址，一般为127.0.0.1或localhost</span>
+                                <span class="gray">{:lang('DATABASE_SERVER_TIP')}</span>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left">数据库端口：</td>
+                        <td class="text-left">{:lang('DATABASE_PORT')}</td>
                         <td><input type="text" name="dbport" id="dbport" value="3306" class="input"></td>
                         <td>
                             <div id="js-install-tip-dbport">
-                                <span class="gray">数据库服务器端口，一般为3306</span>
+                                <span class="gray">{:lang('DATABASE_PORT_TIP')}</span>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left">数据库用户名：</td>
+                        <td class="text-left">{:lang('DATABASE_USERNAME')}</td>
                         <td><input type="text" name="dbuser" id="dbuser" value="root" class="input"></td>
                         <td>
                             <div id="js-install-tip-dbuser"></div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left">数据库密码：</td>
+                        <td class="text-left">{:lang('DATABASE_PASSWORD')}</td>
                         <td>
                             <input type="password" name="dbpw" id="dbpw" value="" class="input" autoComplete="off"
                                    onblur="TestDbPwd()">
@@ -59,25 +57,25 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left">数据库名：</td>
+                        <td class="text-left">{:lang('DATABASE_NAME')}</td>
                         <td><input type="text" name="dbname" id="dbname" value="thinkcmf" class="input"></td>
                         <td>
                             <div id="js-install-tip-dbname">
-                                <span class="gray">最好小写字母</span>
+                                <span class="gray">{:lang('DATABASE_NAME_TIP')}</span>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left">数据库表前缀：</td>
+                        <td class="text-left">{:lang('TABLE_PREFIX')}</td>
                         <td><input type="text" name="dbprefix" id="dbprefix" value="cmf_" class="input"></td>
                         <td>
                             <div id="js-install-tip-dbprefix">
-                                <span class="gray">建议使用默认，同一数据库安装多个ThinkCMF时需修改</span>
+                                <span class="gray">{:lang('TABLE_PREFIX_TIP')}</span>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left">数据库编码：</td>
+                        <td class="text-left">{:lang('DATABASE_CHARSET')}</td>
                         <td>
                             <select type="text" name="dbcharset" id="dbcharset" value="" class="input">
                                 <option value="utf8mb4">utf8mb4</option>
@@ -86,29 +84,26 @@
                         </td>
                         <td>
                             <div id="js-install-tip-dbcharset">
-                                <span class="gray">如果您的服务器是虚拟空间不支持uft8mb4,请选择 utf8</span>
+                                <span class="gray">{:lang('DATABASE_CHARSET_TIP')}</span>
                             </div>
                         </td>
                     </tr>
                 </table>
                 <table width="100%">
                     <tr>
-                        <td class="td1" width="100">网站配置</td>
-                        <td class="td1" width="200">&nbsp;</td>
-                        <td class="td1">&nbsp;</td>
+                        <td class="td1" width="110" colspan="3">{:lang('WEBSITE_CONFIG')}</td>
                     </tr>
                     <tr>
-                        <td class="text-left">网站名称：</td>
-                        <td><input type="text" name="sitename" value="ThinkCMF内容管理框架" class="input"></td>
+                        <td class="text-left" width="110">{:lang('WEBSITE_NAME')}</td>
+                        <td><input type="text" name="sitename" value="{:lang('WEBSITE_NAME_TIP')}" class="input"></td>
                         <td>
                             <div id="js-install-tip-sitename"></div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left">关键词：</td>
+                        <td class="text-left">{:lang('WEBSITE_KEYWORD')}</td>
                         <td>
-                            <input type="text" name="sitekeywords"
-                                   value="ThinkCMF,php,内容管理框架,cmf,cms,简约风, simplewind,framework" class="input"
+                            <input type="text" name="sitekeywords" value="{:lang('WEBSITE_KEYWORD_TIP')}" class="input"
                                    autoComplete="off">
                         </td>
                         <td>
@@ -116,9 +111,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left">描述：</td>
+                        <td class="text-left">{:lang('SEO_DESCRIPTION')}</td>
                         <td>
-                            <input type="text" name="siteinfo" class="input" value="ThinkCMF是简约风网络科技发布的一款用于快速开发的内容管理框架">
+                            <input type="text" name="siteinfo" class="input" value="{:lang('SEO_DESCRIPTION_TIP')}">
                         </td>
                         <td>
                             <div id="js-install-tip-siteinfo"></div>
@@ -127,33 +122,28 @@
                 </table>
                 <table width="100%">
                     <tr>
-                        <td class="td1" width="100">创始人信息</td>
-                        <td class="td1" width="200">&nbsp;</td>
-                        <td class="td1">&nbsp;</td>
+                        <td class="td1" colspan="3">{:lang('ADMIN_INFO')}</td>
                     </tr>
                     <tr>
-                        <td class="text-left">管理员帐号：</td>
+                        <td class="text-left" width="110">{:lang('ADMIN_ACCOUNT')}</td>
                         <td><input type="text" name="manager" value="admin" class="input"></td>
                         <td>
                             <div id="js-install-tip-manager"></div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left">密码：</td>
+                        <td class="text-left">{:lang('PASSWORD')}</td>
                         <td>
-                            <input type="password" name="manager_pwd" id="js-manager-pwd" class="input"
-                                   autoComplete="off">
+                            <input type="password" name="manager_pwd" id="js-manager-pwd" class="input" autoComplete="off">
                         </td>
                         <td>
                             <div id="js-install-tip-manager_pwd">
-                                 <span class="gray">
-                                密码长度不低于6位,不高于32位。
-                                 </span>
+                                 <span class="gray">{:lang('PASSWORD_TIP')}</span>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left">重复密码：</td>
+                        <td class="text-left">{:lang('RE_PASSWORD')}</td>
                         <td>
                             <input type="password" name="manager_ckpwd" class="input" autoComplete="off">
                         </td>
@@ -172,8 +162,8 @@
                 <div id="js-response-tips" style="display: none;"></div>
             </div>
             <div class="bottom text-center">
-                <a href="{:url('index/step2')}" class="btn btn-primary">上一步</a>
-                <button type="submit" class="btn btn-primary">创建数据</button>
+                <a href="{:url('index/step2')}" class="btn btn-primary">{:lang('PREVIOUS')}</a>
+                <button type="submit" class="btn btn-primary">{:lang('CREATE_DATA')}</button>
             </div>
         </form>
     </section>
@@ -213,7 +203,7 @@
                 complete: function () {
                 },
                 error: function () {
-                    $('#js-install-tip-dbpw').html('<span for="dbname" generated="true" class="tips-error" style="">数据库链接配置失败</span>');
+                    $('#js-install-tip-dbpw').html('<span for="dbname" generated="true" class="tips-error" style="">{:lang("DATABASE_LINK_FAILED")}</span>');
                     $('#dbpw').val("");
                 }
             });
@@ -222,18 +212,18 @@
         $(function () {
             //聚焦时默认提示
             var focus_tips = {
-                dbhost: '数据库服务器地址，一般为127.0.0.1或localhost',
-                dbport: '数据库服务器端口，一般为3306',
+                dbhost: '{:lang("DATABASE_SERVER_TIP")}',
+                dbport: '{:lang("DATABASE_PORT_TIP")}',
                 dbuser: '',
                 dbpw: '',
                 dbname: '',
-                dbprefix: '建议使用默认，同一数据库安装多个ThinkCMF时需修改',
-                dbcharset: '如果您的服务器是虚拟空间不支持uft8mb4,请选择 utf8',
-                manager: '创始人帐号，拥有站点后台所有管理权限',
-                manager_pwd: '密码长度不低于6位,不高于32位',
+                dbprefix: '{:lang("TABLE_PREFIX_TIP")}',
+                dbcharset: '{:lang("DATABASE_CHARSET_TIP")}',
+                manager: '{:lang("ADMIN_ACCOUNT_TIP")}',
+                manager_pwd: '{:lang("PASSWORD_TIP")}',
                 manager_ckpwd: '',
                 sitename: '',
-                siteurl: '请以“/”结尾',
+                siteurl: '{:lang("URL_TIP")}',
                 sitekeywords: '',
                 siteinfo: '',
                 manager_email: ''
@@ -294,16 +284,16 @@
 
                 },
                 messages: {
-                    dbhost: {required: '数据库服务器地址不能为空'},
-                    dbport: {required: '数据库服务器端口不能为空'},
-                    dbuser: {required: '数据库用户名不能为空'},
-                    dbpw: {required: '数据库密码不能为空'},
-                    dbname: {required: '数据库名不能为空'},
-                    dbprefix: {required: '数据库表前缀不能为空'},
-                    manager: {required: '管理员帐号不能为空'},
-                    manager_pwd: {required: '密码不能为空', minlength: '密码长度不低于{0}位', maxlength: '密码长度不超过{0}位'},
-                    manager_ckpwd: {required: '重复密码不能为空', equalTo: '两次输入的密码不一致,请重新输入.'},
-                    manager_email: {required: 'Email不能为空', email: '请输入正确的电子邮箱地址'}
+                    dbhost: {required: '{:lang("DB_HOST_ERROR")}'},
+                    dbport: {required: '{:lang("DB_PORT_ERROR")}'},
+                    dbuser: {required: '{:lang("DB_USERNAME_ERROR")}'},
+                    dbpw: {required: '{:lang("DB_PASSWORD_ERROR")}'},
+                    dbname: {required: '{:lang("DB_NAME_ERROR")}'},
+                    dbprefix: {required: '{:lang("DB_PREFIX_ERROR")}'},
+                    manager: {required: '{:lang("DB_ADMIN_ERROR")}'},
+                    manager_pwd: {required: '{:lang("DB_PASSWORD_ERROR")}', minlength: '{:lang("DB_PASSWORD_ERROR1")}', maxlength: '{:lang("DB_PASSWORD_ERROR2")}'},
+                    manager_ckpwd: {required: '{:lang("RE_PASSWORD_ERROR")}', equalTo: '{:lang("RE_PASSWORD_ERROR1")}'},
+                    manager_email: {required: '{:lang("EMAIL_ERROR")}', email: '{:lang("EMAIL_ERROR1")}'}
                 },
                 submitHandler: function (form) {
                     form.submit();

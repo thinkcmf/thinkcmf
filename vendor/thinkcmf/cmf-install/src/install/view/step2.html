@@ -15,143 +15,140 @@
     <section class="section">
         <div class="step">
             <ul class="unstyled">
-                <li class="current"><em>1</em>检测环境</li>
-                <li><em>2</em>创建数据</li>
-                <li><em>3</em>完成安装</li>
+                <li class="current"><em>1</em>{:lang('ENVIRONMENT_DETECT')}</li>
+                <li><em>2</em>{:lang('CREATE_DATA')}</li>
+                <li><em>3</em>{:lang('INSTALL_FINISH')}</li>
             </ul>
         </div>
         <div class="server">
             <table width="100%">
                 <tr>
-                    <td class="td1">环境检测</td>
-                    <td class="td1" width="25%">推荐配置</td>
-                    <td class="td1" width="25%">当前状态</td>
-                    <td class="td1" width="25%">最低要求</td>
+                    <td class="td1">{:lang('ENVIRONMENT_DETECT')}</td>
+                    <td class="td1" width="25%">{:lang('RECOMMENDED_CONFIG')}</td>
+                    <td class="td1" width="25%">{:lang('CURRENT_STATE')}</td>
+                    <td class="td1" width="25%">{:lang('REQUIREMENTS')}</td>
                 </tr>
                 <tr>
-                    <td>操作系统</td>
-                    <td>类UNIX</td>
+                    <td>{:lang('OS')}</td>
+                    <td>{:lang('UNIX_LIKE')}</td>
                     <td><i class="fa fa-check correct"></i> {$os}</td>
-                    <td>不限制</td>
+                    <td>{:lang('UNLIMITED')}</td>
                 </tr>
                 <tr>
-                    <td>PHP版本</td>
+                    <td>{:lang('PHP_VERSION')}</td>
                     <td>>7.1.x</td>
                     <td><i class="fa fa-check correct"></i> {$phpversion}</td>
                     <td>7.1.0</td>
                 </tr>
                 <!-- 模块检测 -->
                 <tr>
-                    <td class="td1" colspan="4">
-                        模块检测
-                    </td>
+                    <td class="td1" colspan="4">{:lang('MODULE_DETECT')}</td>
                 </tr>
                 <tr>
-                    <td>session</td>
-                    <td>开启</td>
+                    <td>Session</td>
+                    <td>{:lang('ENABLE')}</td>
                     <td>
                         {$session}
                     </td>
-                    <td>开启</td>
+                    <td>{:lang('ENABLE')}</td>
                 </tr>
                 <tr>
                     <td>
                         PDO
-                        <a href="https://www.baidu.com/s?wd=开启PDO,PDO_MYSQL扩展" target="_blank">
+                        <a href="https://www.baidu.com/s?wd={:lang('OPEN_EXT', ['extension'=>'PDO,PDO_MYSQL'])}" target="_blank">
                             <i class="fa fa-question-circle question"></i>
                         </a>
                     </td>
-                    <td>开启</td>
+                    <td>{:lang('ENABLE')}</td>
                     <td>
                         {$pdo}
                     </td>
-                    <td>开启</td>
+                    <td>{:lang('ENABLE')}</td>
                 </tr>
                 <tr>
                     <td>
                         PDO_MySQL
-                        <a href="https://www.baidu.com/s?wd=开启PDO,PDO_MYSQL扩展" target="_blank">
+                        <a href="https://www.baidu.com/s?wd={:lang('OPEN_EXT', ['extension'=>'PDO,PDO_MYSQL'])}" target="_blank">
                             <i class="fa fa-question-circle question"></i>
                         </a>
                     </td>
-                    <td>开启</td>
+                    <td>{:lang('ENABLE')}</td>
                     <td>
                         {$pdo_mysql}
                     </td>
-                    <td>开启</td>
+                    <td>{:lang('ENABLE')}</td>
                 </tr>
                 <tr>
                     <td>
                         CURL
-                        <a href="https://www.baidu.com/s?wd=开启PHP CURL扩展" target="_blank">
+                        <a href="https://www.baidu.com/s?wd={:lang('OPEN_EXT', ['extension'=>'PHP CURL'])}" target="_blank">
                             <i class="fa fa-question-circle question"></i>
                         </a>
                     </td>
-                    <td>开启</td>
+                    <td>{:lang('ENABLE')}</td>
                     <td>
                         {$curl}
                     </td>
-                    <td>开启</td>
+                    <td>{:lang('ENABLE')}</td>
                 </tr>
                 <tr>
                     <td>
                         GD
-                        <a href="https://www.baidu.com/s?wd=开启PHP GD扩展" target="_blank">
+                        <a href="https://www.baidu.com/s?wd={:lang('OPEN_EXT', ['extension'=>'PHP GD'])}" target="_blank">
                             <i class="fa fa-question-circle question"></i>
                         </a>
                     </td>
-                    <td>开启</td>
+                    <td>{:lang('ENABLE')}</td>
                     <td>
                         {$gd}
                     </td>
-                    <td>开启</td>
+                    <td>{:lang('ENABLE')}</td>
                 </tr>
                 <tr>
                     <td>
                         MBstring
-                        <a href="https://www.baidu.com/s?wd=开启PHP MBstring扩展" target="_blank">
+                        <a href="https://www.baidu.com/s?wd={:lang('OPEN_EXT', ['extension'=>'PHP MBstring'])}" target="_blank">
                             <i class="fa fa-question-circle question"></i>
                         </a>
                     </td>
-                    <td>开启</td>
+                    <td>{:lang('ENABLE')}</td>
                     <td>
                         {$mbstring}
                     </td>
-                    <td>开启</td>
+                    <td>{:lang('ENABLE')}</td>
                 </tr>
                 <tr>
                     <td>
                         fileinfo
-                        <a href="https://www.baidu.com/s?wd=开启PHP fileinfo扩展" target="_blank">
+                        <a href="https://www.baidu.com/s?wd={:lang('OPEN_EXT', ['extension'=>'PHP fileinfo'])}" target="_blank">
                             <i class="fa fa-question-circle question"></i>
                         </a>
                     </td>
-                    <td>开启</td>
+                    <td>{:lang('ENABLE')}</td>
                     <td>
                         {$fileinfo}
                     </td>
-                    <td>开启</td>
+                    <td>{:lang('ENABLE')}</td>
                 </tr>
                 <notempty name="show_always_populate_raw_post_data_tip">
                     <tr>
                         <td>
-                            $HTTP_RAW_POST_DATA关闭检测
-                            <a href="https://www.baidu.com/s?wd=开启PHP fileinfo扩展" target="_blank">
+                            $HTTP_RAW_POST_DATA{:lang('RAW_POST_DATA')}
+                            <a href="https://www.baidu.com/s?wd={:lang('OPEN_EXT', ['extension'=>'$HTTP_RAW_POST_DATA'])}" target="_blank">
                                 <i class="fa fa-question-circle question"></i>
                             </a>
                         </td>
-                        <td>关闭</td>
+                        <td>{:lang('CLOSE')}</td>
                         <td>
                             {$always_populate_raw_post_data}
-
                         </td>
-                        <td>关闭</td>
+                        <td>{:lang('CLOSE')}</td>
                     </tr>
                     <tr>
-                        <td>$HTTP_RAW_POST_DATA未关闭解决</td>
+                        <td>$HTTP_RAW_POST_DATA{:lang('RAW_POST_SOLUTION')}</td>
                         <td colspan="3">
 							<pre>
-								;php.ini 找到 always_populate_raw_post_data设置如下:
+								;php.ini {:lang('RAW_POST_SOLUTION', ['item'=>'always_populate_raw_post_data'])}
 								always_populate_raw_post_data = -1
 							</pre>
                         </td>
@@ -159,45 +156,41 @@
                 </notempty>
                 <!-- rewrite检测 -->
                 <tr>
-                    <td class="td1" colspan="4">
-                        rewrite检测（开启rewrite更利于网站SEO优化）
-                    </td>
+                    <td class="td1" colspan="4">{:lang('REWRITE_DETECT')}</td>
                 </tr>
                 <tr>
                     <td>
-                        服务器rewrite
+                        {:lang('SERVER')} rewrite
                         <a href="https://www.kancloud.cn/thinkcmf/faq/493492" target="_blank">
                             <i class="fa fa-question-circle question"></i>
                         </a>
                     </td>
-                    <td>开启</td>
+                    <td>{:lang('ENABLE')}</td>
                     <td>
-                        <span class="rewrite-checking">正在检测...</span>
-                        <span class="rewrite-correct"><i class="fa fa-check correct"></i> 支持</span>
-                        <span class="rewrite-error"><i class="fa fa-remove error"></i> 不支持</span>
+                        <span class="rewrite-checking">{:lang('DETECTING')}...</span>
+                        <span class="rewrite-correct"><i class="fa fa-check correct"></i> {:lang('SUPPORT')}</span>
+                        <span class="rewrite-error"><i class="fa fa-remove error"></i> {:lang('NOT_SUPPORT')}</span>
                     </td>
-                    <td>开启</td>
+                    <td>{:lang('ENABLE')}</td>
                 </tr>
                 <!-- 大小限制检测 -->
                 <tr>
-                    <td class="td1" colspan="4">
-                        大小限制检测
-                    </td>
+                    <td class="td1" colspan="4">{:lang('SIZE_DETECT')}</td>
                 </tr>
                 <tr>
-                    <td>附件上传</td>
-                    <td>>2M</td>
+                    <td>{:lang('UPLOAD_FILES')}</td>
+                    <td>&gt;2M</td>
                     <td>
                         {$upload_size}
                     </td>
-                    <td>不限制</td>
+                    <td>{:lang('UNLIMITED')}</td>
                 </tr>
             </table>
             <table width="100%">
                 <tr>
-                    <td class="td1">目录、文件权限检查</td>
-                    <td class="td1" width="25%">写入</td>
-                    <td class="td1" width="25%">读取</td>
+                    <td class="td1">{:lang('DIR_PERMISSION')}</td>
+                    <td class="td1" width="25%">{:lang('WRITE')}</td>
+                    <td class="td1" width="25%">{:lang('READ')}</td>
                 </tr>
                 <foreach name="folders" item="vo" key="dir">
                     <tr>
@@ -206,16 +199,16 @@
                         </td>
                         <td>
                             <if condition="$vo['w']">
-                                <i class="fa fa-check correct"></i> 可写
+                                <i class="fa fa-check correct"></i> {:lang('WRITABLE')}
                                 <else/>
-                                <i class="fa fa-remove error"></i> 不可写
+                                <i class="fa fa-remove error"></i> {:lang('NOT_WRITABLE')}
                             </if>
                         </td>
                         <td>
                             <if condition="$vo['r']">
-                                <i class="fa fa-check correct"></i> 可读
+                                <i class="fa fa-check correct"></i> {:lang('READABLE')}
                                 <else/>
-                                <i class="fa fa-remove error"></i> 不可读
+                                <i class="fa fa-remove error"></i> {:lang('NOT_READABLE')}
                             </if>
                         </td>
                     </tr>
@@ -223,8 +216,8 @@
             </table>
         </div>
         <div class="bottom text-center">
-            <a href="__ROOT__/?s=install/index/step2" class="btn btn-primary">重新检测</a>
-            <a href="{:url('index/step3')}" class="btn btn-primary">下一步</a>
+            <a href="__ROOT__/?s=install/index/step2" class="btn btn-primary">{:lang('TEST_AGAIN')}</a>
+            <a href="{:url('index/step3')}" class="btn btn-primary">{:lang('NEXT')}</a>
         </div>
     </section>
 </div>

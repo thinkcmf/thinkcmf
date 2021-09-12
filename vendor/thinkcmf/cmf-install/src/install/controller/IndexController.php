@@ -25,12 +25,13 @@ class IndexController extends BaseController
     protected function initialize()
     {
         if (cmf_is_installed()) {
-            $this->error('网站已经安装', cmf_get_root() . '/');
+            $this->error(Lang::get('SITE_HAS_INSTALLED'), cmf_get_root() . '/');
         }
 
         if (!is_writable(CMF_DATA)) {
-            echo '目录' . realpath(CMF_ROOT . 'data') . '无法写入！';
-            abort(500, '目录' . realpath(CMF_ROOT . 'data') . '无法写入！');
+            $error_msg = Lang::get('DIRECTORY_CANNOT_WRITE', ['directory' => realpath(CMF_ROOT . 'data')]);
+            echo $error_msg;
+            abort(500, $error_msg);
         }
 
         $langSet = $this->app->lang->getLangSet();
@@ -43,10 +44,10 @@ class IndexController extends BaseController
 
     protected function _initializeView()
     {
-        $root           = cmf_get_root();
+        $root = cmf_get_root();
         $viewReplaceStr = [
             '__ROOT__'     => $root,
-//            '__TMPL__'     => "{$root}/{$themePath}",
+            //            '__TMPL__'     => "{$root}/{$themePath}",
             '__STATIC__'   => "{$root}/static",
             '__WEB_ROOT__' => $root
         ];
@@ -68,10 +69,10 @@ class IndexController extends BaseController
 //        if (file_exists_case('data/conf/config.php')) {
 //            @unlink('data/conf/config.php');
 //        }
-        $data               = [];
+        $data = [];
         $data['phpversion'] = @phpversion();
-        $data['os']         = PHP_OS;
-        $tmp                = function_exists('gd_info') ? gd_info() : [];
+        $data['os'] = PHP_OS;
+        $tmp = function_exists('gd_info') ? gd_info() : [];
 //        $server             = $_SERVER["SERVER_SOFTWARE"];
 //        $host               = $this->request->host();
 //        $name               = $_SERVER["SERVER_NAME"];
@@ -88,77 +89,81 @@ class IndexController extends BaseController
             $gd = '<font color=green>[√]On</font> ' . $tmp['GD Version'];
         }
 
+        $enabled = '<i class="fa fa-check correct"></i> ' . Lang::get('ENABLED');
+        $disabled = '<i class="fa fa-remove error"></i> ' . Lang::get('DISABLED');
+
         if (class_exists('pdo')) {
-            $data['pdo'] = '<i class="fa fa-check correct"></i> 已开启';
+            $data['pdo'] = $enabled;
         } else {
-            $data['pdo'] = '<i class="fa fa-remove error"></i> 未开启';
+            $data['pdo'] = $disabled;
             $err++;
         }
 
         if (extension_loaded('pdo_mysql')) {
-            $data['pdo_mysql'] = '<i class="fa fa-check correct"></i> 已开启';
+            $data['pdo_mysql'] = $enabled;
         } else {
-            $data['pdo_mysql'] = '<i class="fa fa-remove error"></i> 未开启';
+            $data['pdo_mysql'] = $disabled;
             $err++;
         }
 
         if (extension_loaded('curl')) {
-            $data['curl'] = '<i class="fa fa-check correct"></i> 已开启';
+            $data['curl'] = $enabled;
         } else {
-            $data['curl'] = '<i class="fa fa-remove error"></i> 未开启';
+            $data['curl'] = $disabled;
             $err++;
         }
 
+        $freetype_disabled = '<br><i class="fa fa-remove error"></i> FreeType Support ' . Lang::get('DISABLED');
         if (extension_loaded('gd')) {
-            $data['gd'] = '<i class="fa fa-check correct"></i> 已开启';
+            $data['gd'] = $enabled;
         } else {
-            $data['gd'] = '<i class="fa fa-remove error"></i> 未开启';
+            $data['gd'] = $disabled;
             if (function_exists('imagettftext')) {
-                $data['gd'] .= '<br><i class="fa fa-remove error"></i> FreeType Support未开启';
+                $data['gd'] .= $freetype_disabled;
             }
             $err++;
         }
 
         if (extension_loaded('mbstring')) {
-            $data['mbstring'] = '<i class="fa fa-check correct"></i> 已开启';
+            $data['mbstring'] = $enabled;
         } else {
-            $data['mbstring'] = '<i class="fa fa-remove error"></i> 未开启';
+            $data['mbstring'] = $disabled;
             if (function_exists('imagettftext')) {
-                $data['mbstring'] .= '<br><i class="fa fa-remove error"></i> FreeType Support未开启';
+                $data['mbstring'] .= $freetype_disabled;
             }
             $err++;
         }
 
         if (extension_loaded('fileinfo')) {
-            $data['fileinfo'] = '<i class="fa fa-check correct"></i> 已开启';
+            $data['fileinfo'] = $enabled;
         } else {
-            $data['fileinfo'] = '<i class="fa fa-remove error"></i> 未开启';
+            $data['fileinfo'] = $disabled;
             $err++;
         }
 
         if (ini_get('file_uploads')) {
             $data['upload_size'] = '<i class="fa fa-check correct"></i> ' . ini_get('upload_max_filesize');
         } else {
-            $data['upload_size'] = '<i class="fa fa-remove error"></i> 禁止上传';
+            $data['upload_size'] = '<i class="fa fa-remove error"></i> ' . Lang::getLangSet('UPLOAD_PROHIBITED');
         }
 
         if (function_exists('session_start')) {
-            $data['session'] = '<i class="fa fa-check correct"></i> 支持';
+            $data['session'] = '<i class="fa fa-check correct"></i> ' . Lang::get('SUPPORT');
         } else {
-            $data['session'] = '<i class="fa fa-remove error"></i> 不支持';
+            $data['session'] = '<i class="fa fa-remove error"></i> ' . Lang::get('NOT_SUPPORT');
             $err++;
         }
 
         if (version_compare(phpversion(), '5.6.0', '>=') && version_compare(phpversion(), '7.0.0', '<') && ini_get('always_populate_raw_post_data') != -1) {
-            $data['always_populate_raw_post_data']          = '<i class="fa fa-remove error"></i> 未关闭';
+            $data['always_populate_raw_post_data'] = '<i class="fa fa-remove error"></i> ' . Lang::get('NOT_CLOSED');
             $data['show_always_populate_raw_post_data_tip'] = true;
             $err++;
         } else {
 
-            $data['always_populate_raw_post_data'] = '<i class="fa fa-check correct"></i> 已关闭';
+            $data['always_populate_raw_post_data'] = '<i class="fa fa-check correct"></i> ' . Lang::get('CLOSED');
         }
 
-        $folders    = [
+        $folders = [
             realpath(CMF_ROOT . 'data') . DIRECTORY_SEPARATOR,
             realpath('./plugins') . DIRECTORY_SEPARATOR,
             realpath('./themes') . DIRECTORY_SEPARATOR,
@@ -198,26 +203,26 @@ class IndexController extends BaseController
         session(null);
         if ($this->request->isPost()) {
             //创建数据库
-            $dbConfig             = [];
-            $dbConfig['type']     = "mysql";
+            $dbConfig = [];
+            $dbConfig['type'] = "mysql";
             $dbConfig['hostname'] = $this->request->param('dbhost');
             $dbConfig['username'] = $this->request->param('dbuser');
             $dbConfig['password'] = $this->request->param('dbpw');
             $dbConfig['hostport'] = $this->request->param('dbport');
-            $dbConfig['charset']  = $this->request->param('dbcharset', 'utf8mb4');
+            $dbConfig['charset'] = $this->request->param('dbcharset', 'utf8mb4');
 
             $userLogin = $this->request->param('manager');
-            $userPass  = $this->request->param('manager_pwd');
+            $userPass = $this->request->param('manager_pwd');
             $userEmail = $this->request->param('manager_email');
             //检查密码。空 6-32字符。
-            empty($userPass) && $this->error("密码不可以为空");
-            strlen($userPass) < 6 && $this->error("密码长度最少6位");
-            strlen($userPass) > 32 && $this->error("密码长度最多32位");
+            empty($userPass) && $this->error(Lang::get('DB_PASSWORD_ERROR'));
+            strlen($userPass) < 6 && $this->error(Lang::get('PASSWORD_6'));
+            strlen($userPass) > 32 && $this->error(Lang::get('PASSWORD_32'));
 
             $this->updateDbConfig($dbConfig);
-            $db     = Db::connect('install_db');
+            $db = Db::connect('install_db');
             $dbName = $this->request->param('dbname');
-            $sql    = "CREATE DATABASE IF NOT EXISTS `{$dbName}` DEFAULT CHARACTER SET " . $dbConfig['charset'];
+            $sql = "CREATE DATABASE IF NOT EXISTS `{$dbName}` DEFAULT CHARACTER SET " . $dbConfig['charset'];
             $db->execute($sql) || $this->error($db->getError());
 
             $dbConfig['database'] = $dbName;
@@ -226,13 +231,13 @@ class IndexController extends BaseController
 
             session('install.db_config', $dbConfig);
 
-            $sql  = cmf_split_sql(dirname(__DIR__) . '/data/thinkcmf.sql', $dbConfig['prefix'], $dbConfig['charset']);
+            $sql = cmf_split_sql(dirname(__DIR__) . '/data/thinkcmf.sql', $dbConfig['prefix'], $dbConfig['charset']);
             $apps = cmf_scan_dir(CMF_ROOT . 'app/*', GLOB_ONLYDIR);
             foreach ($apps as $app) {
                 $appDbSqlFile = CMF_ROOT . "app/{$app}/data/{$app}.sql";
                 if (file_exists($appDbSqlFile)) {
                     $sqlList = cmf_split_sql($appDbSqlFile, $dbConfig['prefix'], $dbConfig['charset']);
-                    $sql     = array_merge($sql, $sqlList);
+                    $sql = array_merge($sql, $sqlList);
                 }
             }
 
@@ -242,9 +247,9 @@ class IndexController extends BaseController
 
             session('install.error', 0);
 
-            $siteName    = $this->request->param('sitename');
+            $siteName = $this->request->param('sitename');
             $seoKeywords = $this->request->param('sitekeywords');
-            $siteInfo    = $this->request->param('siteinfo');
+            $siteInfo = $this->request->param('siteinfo');
 
             session('install.site_info', [
                 'site_name'            => $siteName,
@@ -268,10 +273,10 @@ class IndexController extends BaseController
     public function install()
     {
         $dbConfig = session('install.db_config');
-        $sql      = session('install.sql');
+        $sql = session('install.sql');
 
         if (empty($dbConfig) || empty($sql)) {
-            $this->error("非法安装!");
+            $this->error(Lang::get('ILLEGAL_INSTALL'));
         }
 
         $sqlIndex = $this->request->param('sql_index', 0, 'intval');
@@ -281,7 +286,7 @@ class IndexController extends BaseController
 
         if ($sqlIndex >= count($sql)) {
             $installError = session('install.error');
-            $this->success("安装完成!", '', ['done' => 1, 'error' => $installError]);
+            $this->success(Lang::get('INSTALL_FINISHED'), '', ['done' => 1, 'error' => $installError]);
         }
 
         $sqlToExec = $sql[$sqlIndex] . ';';
@@ -314,9 +319,9 @@ class IndexController extends BaseController
         $result = sp_create_db_config($dbConfig);
 
         if ($result) {
-            $this->success("数据配置文件写入成功!");
+            $this->success(Lang::get('DB_CONFIG_WRITE_SUCCESS'));
         } else {
-            $this->error("数据配置文件写入失败!");
+            $this->error(Lang::get('DB_CONFIG_WRITE_FAILED'));
         }
     }
 
@@ -325,39 +330,39 @@ class IndexController extends BaseController
         $dbConfig = session('install.db_config');
 
         if (empty($dbConfig)) {
-            $this->error("非法安装!");
+            $this->error(Lang::get('ILLEGAL_INSTALL'));
         }
 
-        $siteInfo               = session('install.site_info');
-        $admin                  = session('install.admin_info');
-        $admin['id']            = 1;
-        $admin['user_pass']     = cmf_password($admin['user_pass']);
-        $admin['user_type']     = 1;
-        $admin['create_time']   = time();
-        $admin['user_status']   = 1;
+        $siteInfo = session('install.site_info');
+        $admin = session('install.admin_info');
+        $admin['id'] = 1;
+        $admin['user_pass'] = cmf_password($admin['user_pass']);
+        $admin['user_type'] = 1;
+        $admin['create_time'] = time();
+        $admin['user_status'] = 1;
         $admin['user_nickname'] = $admin['user_login'];
 
         try {
             cmf_set_option('site_info', $siteInfo);
             Db::name('user')->insert($admin);
         } catch (\Exception $e) {
-            $this->error("网站创建失败!" . $e->getMessage());
+            $this->error(Lang::get('SITE_CREATE_FAILED') . $e->getMessage());
         }
 
-        $this->success("网站创建完成!");
+        $this->success(Lang::get('SITE_CREATE_SUCCESS'));
 
     }
 
     public function installTheme()
     {
         $themeModel = new ThemeModel();
-        $result     = $themeModel->installTheme(config('template.cmf_default_theme'));
+        $result = $themeModel->installTheme(config('template.cmf_default_theme'));
         if ($result === false) {
-            $this->error('模板不存在!');
+            $this->error(Lang::get('TEMPLATE_NOT_EXIST'));
         }
 
 //        session("install.step", 4);
-        $this->success("模板安装成功");
+        $this->success(Lang::get('TEMPLATE_INSTALL_SUCCESS'));
     }
 
     public function installAppMenus()
@@ -368,7 +373,7 @@ class IndexController extends BaseController
             MenuLogic::importMenus($app);
         }
 
-        $this->success("应用后台菜单导入成功");
+        $this->success(Lang::get('MENU_IMPORT_SUCCESS'));
     }
 
     public function installAppHooks()
@@ -380,7 +385,7 @@ class IndexController extends BaseController
             HookLogic::importHooks($app);
         }
 
-        $this->success("应用钩子导入成功");
+        $this->success(Lang::get('HOOK_IMPORT_SUCCESS'));
     }
 
 
@@ -393,7 +398,7 @@ class IndexController extends BaseController
         }
 
         session("install.step", 4);
-        $this->success("应用用户行为成功");
+        $this->success(Lang::get('BEHAVIOR_IMPORT_SUCCESS'));
     }
 
     public function step5()
@@ -402,14 +407,14 @@ class IndexController extends BaseController
             @touch(CMF_DATA . 'install.lock');
             return $this->fetch(":step5");
         } else {
-            $this->error("非法安装！");
+            $this->error(Lang::get('ILLEGAL_INSTALL'));
         }
     }
 
     public function testDbPwd()
     {
         if ($this->request->isPost()) {
-            $dbConfig         = $this->request->param();
+            $dbConfig = $this->request->param();
             $dbConfig['type'] = "mysql";
 
             $this->updateDbConfig($dbConfig);
@@ -426,15 +431,15 @@ class IndexController extends BaseController
                     }
                 }
             } catch (\Exception $e) {
-                $this->error('数据库账号或密码不正确！' . $e->getMessage());
+                $this->error(Lang::get('DB_USER_PASS_ERROR') . $e->getMessage());
             }
             if ($supportInnoDb) {
-                $this->success('验证成功！');
+                $this->success(Lang::get('VERIFY_SUCCESS'));
             } else {
-                $this->error('数据库账号密码验证通过，但不支持InnoDb!');
+                $this->error(Lang::get('INNODB_ERROR'));
             }
         } else {
-            $this->error('非法请求方式！');
+            $this->error(Lang::get('REQUIRE_ILLEGAL'));
         }
 
     }
@@ -448,8 +453,8 @@ class IndexController extends BaseController
      * 加载模板输出
      * @access protected
      * @param string $template 模板文件名
-     * @param array  $vars     模板输出变量
-     * @param array  $config   模板参数
+     * @param array $vars 模板输出变量
+     * @param array $config 模板参数
      * @return mixed
      */
     protected function fetch($template = '', $vars = [], $config = [])
@@ -459,7 +464,7 @@ class IndexController extends BaseController
 
     private function updateDbConfig($dbConfig)
     {
-        $oldDbConfig                              = config('database');
+        $oldDbConfig = config('database');
         $oldDbConfig['connections']['install_db'] = $dbConfig;
         config($oldDbConfig, 'database');
     }

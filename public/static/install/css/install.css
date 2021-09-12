@@ -48,11 +48,10 @@ body {
 	overflow: hidden;
 	display: block;
 	overflow-y: scroll;
-	margin: 0 auto;
-	font-size: 12px;
+    font-size: 12px;
 	line-height: 1.5;
-	margin-bottom: 22px;
-	outline: none;
+    margin: 0 auto 22px;
+    outline: none;
 }
 
 pre {
@@ -108,7 +107,7 @@ pre {
 	display: inline-block;
 	font-size: 20px;
 	color: #fff;
-	font-family: Microsoft Yahei;
+    font-family: Microsoft Yahei, serif;
 	margin-right: 10px;
 	vertical-align: 0;
 	background-color: #ddd;
@@ -177,10 +176,9 @@ pre {
 	overflow: hidden;
 	display: block;
 	overflow-y: scroll;
-	margin: 25px auto;
-	font-size: 12px;
-	margin-bottom: 22px;
-	outline: none;
+    font-size: 12px;
+    margin: 25px auto 22px;
+    outline: none;
 }
 
 .install ul {
@@ -214,7 +212,7 @@ pre {
 
 .tips-error, .tips-success {
 	color: #cc3333;
-	padding-left: 0px;
+	padding-left: 0;
 	display: inline-block;
 	line-height: 18px;
 }
@@ -225,7 +223,6 @@ pre {
 }
 
 .tips-loading {
-	color: #cc3333;
 	color: #333333;
 	display: inline-block;
 	line-height: 20px;

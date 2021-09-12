@@ -138,6 +138,7 @@ return [
     'ADMIN_USER_ADD'              => 'Add administrator',
     'ADMIN_USER_DELETE'           => 'Delete administrator',
     'ADMIN_USER_EDIT'             => 'Edit administrator',
-    'ADMIN_RESOURCE_MANAGE'       => 'Resource management'
+    'ADMIN_RESOURCE_MANAGE'       => 'Resource management',
+    'ADMIN_HOOK_MANAGE'           => 'Hook management',
 ];
 
