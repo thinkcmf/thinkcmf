@@ -45,7 +45,7 @@ class Gif
                 $this->frames = $de->getFrames();
                 $this->delays = $de->getDelays();
             } catch (\Exception $e) {
-                throw new \Exception("解码GIF图片出错");
+                throw new \Exception('Error decoding GIF image');
             }
         }
     }

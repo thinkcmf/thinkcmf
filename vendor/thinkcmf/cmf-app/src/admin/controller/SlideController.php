@@ -91,7 +91,7 @@ class SlideController extends AdminBaseController
             }
             $slidePostModel->save($data);
 
-            $this->success("添加成功！", url("Slide/index"));
+            $this->success(lang('ADD_SUCCESS'), url("Slide/index"));
         }
     }
 
@@ -140,7 +140,7 @@ class SlideController extends AdminBaseController
             }
             $slidePostModel = SlideModel::find($data['id']);
             $slidePostModel->save($data);
-            $this->success("保存成功！", url("Slide/index"));
+            $this->success(lang('EDIT_SUCCESS'), url("Slide/index"));
         }
     }
 
@@ -163,13 +163,13 @@ class SlideController extends AdminBaseController
             $id             = $this->request->param('id', 0, 'intval');
             $slidePostModel = SlideModel::where('id', $id)->find();
             if (empty($slidePostModel)) {
-                $this->error('幻灯片不存在!');
+                $this->error(lang('SLIDE_NOT_EXIST'));
             }
 
             //如果存在页面。则不能删除。
             $slidePostCount = SlideItemModel::where('slide_id', $id)->count();
             if ($slidePostCount > 0) {
-                $this->error('此幻灯片有页面无法删除!');
+                $this->error(lang('SLIDE_CANNOT_DELETE'));
             }
 
             $data = [
@@ -183,7 +183,7 @@ class SlideController extends AdminBaseController
             if ($resultSlide) {
                 RecycleBinModel::insert($data);
             }
-            $this->success("删除成功！", url("Slide/index"));
+            $this->success(lang('DELETE_SUCCESS'), url("Slide/index"));
         }
     }
 }

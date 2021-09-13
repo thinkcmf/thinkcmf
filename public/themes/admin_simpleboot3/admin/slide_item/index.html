@@ -11,21 +11,21 @@
             <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">{:lang('SORT')}</button>
         </div>
         <php>
-			$status = ['隐藏', '开启'];
-			$target = ['_blank'=>'新窗口', '_self'=>'当前窗口', '_parent'=>'父窗口', '_top'=>'主窗口'];
+			$status = [lang('HIDDEN'), lang('ENABLE')];
+			$target = ['_blank'=>lang('LINK_BLANK'), '_self'=>lang('LINK_SELF'), '_parent'=>lang('LINK_PARENT'), '_top'=>lang('LINK_TOP')];
         </php>
         <table class="table table-hover table-bordered">
             <thead>
             <tr>
-                <th width="50">{:lang('SORT')}</th>
-                <th width="50">ID</th>
+                <th style="width: 50px">{:lang('SORT')}</th>
+                <th style="width: 50px">ID</th>
                 <th>{:lang('SLIDE_TITLE')}</th>
                 <th>{:lang('DESCRIPTION')}</th>
                 <th>{:lang('SLIDE_LINK')}</th>
                 <th>{:lang('ADMIN_OPEN_STYLE')}</th>
                 <th>{:lang('IMAGE')}</th>
                 <th>{:lang('STATUS')}</th>
-                <th width="160">{:lang('ACTIONS')}</th>
+                <th style="width: 180px">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>

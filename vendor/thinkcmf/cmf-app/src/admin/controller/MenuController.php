@@ -16,7 +16,6 @@ use app\admin\model\AuthRuleModel;
 use cmf\controller\AdminBaseController;
 use think\facade\Cache;
 use tree\Tree;
-use mindplay\annotations\Annotations;
 
 class MenuController extends AdminBaseController
 {
@@ -189,7 +188,7 @@ class MenuController extends AdminBaseController
                 $to                    = empty($sessionAdminMenuIndex) ? "Menu/index" : $sessionAdminMenuIndex;
                 $this->_exportAppMenuDefaultLang();
                 Cache::clear('admin_menus');// 删除后台菜单缓存
-                $this->success("添加成功！", url($to));
+                $this->success(lang('ADD_SUCCESS'), url($to));
             }
         }
     }
@@ -303,7 +302,7 @@ class MenuController extends AdminBaseController
                 }
                 $this->_exportAppMenuDefaultLang();
                 Cache::clear('admin_menus');// 删除后台菜单缓存
-                $this->success("保存成功！");
+                $this->success(lang('EDIT_SUCCESS'));
             }
         }
     }
@@ -329,12 +328,12 @@ class MenuController extends AdminBaseController
             $id    = $this->request->param("id", 0, 'intval');
             $count = AdminMenuModel::where("parent_id", $id)->count();
             if ($count > 0) {
-                $this->error("该菜单下还有子菜单，无法删除！");
+                $this->error(lang('ADMIN_SUBMENU_ERROR'));
             }
             if (AdminMenuModel::destroy($id) !== false) {
-                $this->success("删除菜单成功！");
+                $this->success(lang('ADMIN_MENU_DELETE_SUCCESS'));
             } else {
-                $this->error("删除失败！");
+                $this->error(lang('DELETE_FAILED'));
             }
         }
     }
@@ -356,7 +355,7 @@ class MenuController extends AdminBaseController
     {
         $adminMenuModel = new AdminMenuModel();
         parent::listOrders($adminMenuModel);
-        $this->success("排序更新成功！");
+        $this->success(lang('SORT_SUCCESS'));
     }
 
     /**
@@ -393,7 +392,7 @@ class MenuController extends AdminBaseController
         }
 
         if (!in_array($app, $apps)) {
-            $this->error('应用' . $app . '不存在!');
+            $this->error(lang('APP_NOT_EXIST', ['app' => $app]));
         }
 
         $newMenus  = MenuLogic::importMenus($app);

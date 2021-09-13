@@ -13,9 +13,9 @@ namespace app\admin\controller;
 use app\admin\model\RecycleBinModel;
 use app\admin\model\RouteModel;
 use cmf\controller\AdminBaseController;
-use think\facade\Db;
 use think\Exception;
 use think\exception\PDOException;
+use think\facade\Db;
 
 class RecycleBinController extends AdminBaseController
 {
@@ -70,7 +70,7 @@ class RecycleBinController extends AdminBaseController
                 $ids = $this->request->param('id');
             }
             $this->operate($ids, false);
-            $this->success('还原成功');
+            $this->success(lang('RESTORE_SUCCESS'));
         }
     }
 
@@ -95,7 +95,7 @@ class RecycleBinController extends AdminBaseController
                 $ids = $this->request->param('id');
             }
             $this->operate($ids);
-            $this->success('删除成功');
+            $this->success(lang('DELETE_SUCCESS'));
         }
     }
 
@@ -116,14 +116,14 @@ class RecycleBinController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             $this->operate(null);
-            $this->success('回收站已清空');
+            $this->success(lang('BIN_HAS_EMPTY'));
         }
     }
 
     /**
      * 统一处理删除、还原
-     * @param bool  $isDelete 是否是删除操作
-     * @param array $ids      处理的资源id集
+     * @param bool $isDelete 是否是删除操作
+     * @param array $ids 处理的资源id集
      */
     private function operate($ids, $isDelete = true)
     {
@@ -176,10 +176,11 @@ class RecycleBinController extends AdminBaseController
                 Db::commit();
             } catch (PDOException $e) {
                 Db::rollback();
-                $this->error('数据库错误', $e->getMessage());
+                $this->error(lang('DATABASE_ERROR'), $e->getMessage());
             } catch (Exception $e) {
                 Db::rollback();
-                $this->error($isDelete ? '删除' : '还原' . '失败', $e->getMessage());
+                $action = $isDelete ? lang('DELETE') : lang('RESTORE');
+                $this->error(lang('OPERATION_FAILED', ['oper' => $action]), $e->getMessage());
             }
         }
     }

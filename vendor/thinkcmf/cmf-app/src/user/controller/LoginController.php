@@ -13,6 +13,7 @@ namespace app\user\controller;
 use think\facade\Validate;
 use cmf\controller\HomeBaseController;
 use app\user\model\UserModel;
+use think\facade\Lang;
 
 class LoginController extends HomeBaseController
 {
@@ -87,7 +88,7 @@ class LoginController extends HomeBaseController
             switch ($log) {
                 case 0:
                     cmf_user_action('login');
-                    $this->success(lang('LOGIN_SUCCESS'), $redirect);
+                    $this->success(Lang::get('LOGIN_SUCCESS'), $redirect);
                     break;
                 case 1:
                     $this->error(lang('PASSWORD_NOT_RIGHT'));

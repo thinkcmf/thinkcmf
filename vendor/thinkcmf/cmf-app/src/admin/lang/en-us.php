@@ -131,6 +131,8 @@ return [
     'USERNAME_NOT_EXIST'                 => 'Username does not exist!',
     'USE_DISABLED'                       => 'This user has been disabled!',
     'CAPTCHA_REQUIRED'                   => 'Verification code cannot be empty!',
+    'ILLEGAL_LOGIN'                      => 'Illegal login!',
+    'PLUGIN_LOGIN'                       => 'You have customized the background login through the plug-in!',
     //后台菜单管理
     'MENU'                               => 'Menu',
     'APP'                                => 'Application',
@@ -158,7 +160,7 @@ return [
     'DEFAULT'                            => 'Default',
     'CONTENT'                            => 'Content',
     'SEND'                               => 'Send',
-    'SORT_SUCCESS'                       => 'Sorting update succeeded!',
+    'SORT_SUCCESS'                       => 'Sorting update successfully!',
     'SORT_FAIL'                          => 'Sorting update failed!',
     'ADDRESS'                            => 'Address',
     'FILENAME'                           => 'Filename',
@@ -171,8 +173,12 @@ return [
     'DISABLE_SUCCESS'                    => 'Disabled successfully!',
     'OPERATION_FAILED'                   => 'Operation failed!',
     'INSTALL_SUCCESS'                    => 'Installation succeeded!',
-    'UPDATE_SUCCESS'                     => 'Update succeeded!',
+    'UPDATE_SUCCESS'                     => 'Updated successfully!',
     'UNINSTALL_SUCCESS'                  => 'Uninstall succeeded!',
     'UNINSTALL_FAILED'                   => 'Uninstall failed!',
-    'ILLEGAL_REQUEST'                    => 'Illegal request!'
+    'ILLEGAL_REQUEST'                    => 'Illegal request!',
+    'FORMAT_INCORRECT'                   => 'Incorrect format!',
+    'HAS_IMPORT'                         => 'has been imported',
+    'HIERARCHY_UPDATED'                  => 'hierarchy has been updated',
+    'HAS_UPDATED'                        => 'has been updated',
 ];

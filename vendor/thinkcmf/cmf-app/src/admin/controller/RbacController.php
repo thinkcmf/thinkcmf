@@ -10,13 +10,13 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\model\AdminMenuModel;
 use app\admin\model\AuthAccessModel;
 use app\admin\model\RoleModel;
 use app\admin\model\RoleUserModel;
 use cmf\controller\AdminBaseController;
 use think\facade\Cache;
 use tree\Tree;
-use app\admin\model\AdminMenuModel;
 
 class RbacController extends AdminBaseController
 {
@@ -100,9 +100,9 @@ class RbacController extends AdminBaseController
             } else {
                 $result = RoleModel::insert($data);
                 if ($result) {
-                    $this->success("添加角色成功", url("rbac/index"));
+                    $this->success(lang('ADD_ROLE_SUCCESS'), url("rbac/index"));
                 } else {
-                    $this->error("添加角色失败");
+                    $this->error(lang('ADD_ROLE_FAIL'));
                 }
 
             }
@@ -136,11 +136,11 @@ class RbacController extends AdminBaseController
 
         $id = $this->request->param("id", 0, 'intval');
         if ($id == 1) {
-            $this->error("超级管理员角色不能被修改！");
+            $this->error(lang('ADMIN_CANNOT_MODIFY'));
         }
         $data = RoleModel::where("id", $id)->find();
         if (!$data) {
-            $this->error("该角色不存在！");
+            $this->error(lang('ROLE_NOT_EXIST'));
         }
         $this->assign("data", $data);
         return $this->fetch();
@@ -165,7 +165,7 @@ class RbacController extends AdminBaseController
     {
         $id = $this->request->param("id", 0, 'intval');
         if ($id == 1) {
-            $this->error("超级管理员角色不能被修改！");
+            $this->error(lang('ADMIN_CANNOT_MODIFY'));
         }
         if ($this->request->isPost()) {
             $data   = $this->request->param();
@@ -176,9 +176,9 @@ class RbacController extends AdminBaseController
 
             } else {
                 if (RoleModel::update($data) !== false) {
-                    $this->success("保存成功！", url('rbac/index'));
+                    $this->success(lang('EDIT_SUCCESS'), url('rbac/index'));
                 } else {
-                    $this->error("保存失败！");
+                    $this->error(lang('EDIT_FAILED'));
                 }
             }
         }
@@ -204,17 +204,17 @@ class RbacController extends AdminBaseController
         if ($this->request->isPost()) {
             $id = $this->request->param("id", 0, 'intval');
             if ($id == 1) {
-                $this->error("超级管理员角色不能被删除！");
+                $this->error(lang('ADMIN_CANNOT_DELETE'));
             }
             $count = RoleUserModel::where('role_id', $id)->count();
             if ($count > 0) {
-                $this->error("该角色已经有用户！");
+                $this->error(lang('ROLE_HAS_USER'));
             } else {
                 $status = RoleModel::destroy($id);
                 if (!empty($status)) {
-                    $this->success("删除成功！", url('rbac/index'));
+                    $this->success(lang('DELETE_SUCCESS'), url('rbac/index'));
                 } else {
-                    $this->error("删除失败！");
+                    $this->error(lang('DELETE_FAILED'));
                 }
             }
         }
@@ -246,7 +246,7 @@ class RbacController extends AdminBaseController
         //角色ID
         $roleId = $this->request->param("id", 0, 'intval');
         if (empty($roleId)) {
-            $this->error("参数错误！");
+            $this->error(lang('PARAMETER_ERROR'));
         }
 
         $tree       = new Tree();
@@ -304,7 +304,7 @@ class RbacController extends AdminBaseController
         if ($this->request->isPost()) {
             $roleId = $this->request->param("roleId", 0, 'intval');
             if (!$roleId) {
-                $this->error("需要授权的角色不存在！");
+                $this->error(lang('ROLE_AUTH_NOT_EXIST'));
             }
             $menuIds = $this->request->param('menuId/a');
             if (is_array($menuIds) && count($menuIds) > 0) {
@@ -323,11 +323,11 @@ class RbacController extends AdminBaseController
 
                 Cache::clear('admin_menus');// 删除后台菜单缓存
 
-                $this->success("授权成功！");
+                $this->success(lang('AUTH_SUCCESS'));
             } else {
                 //当没有数据时，清除当前角色授权
                 AuthAccessModel::where("role_id", $roleId)->delete();
-                $this->error("没有接收到数据，执行清除授权成功！");
+                $this->error(lang('AUTH_NOT_DATA'));
             }
         }
     }
@@ -360,7 +360,7 @@ class RbacController extends AdminBaseController
      * 获取菜单深度
      * @param       $id
      * @param array $array
-     * @param int   $i
+     * @param int $i
      * @return int
      */
     protected function _getLevel($id, $array = [], $i = 0)

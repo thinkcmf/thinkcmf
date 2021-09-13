@@ -10,8 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use cmf\controller\AdminBaseController;
 use app\admin\model\Menu;
+use cmf\controller\AdminBaseController;
 
 class MainController extends AdminBaseController
 {
@@ -94,7 +94,7 @@ class MainController extends AdminBaseController
 
         cmf_set_option('admin_dashboard_widgets', $dashboardWidgets, true);
 
-        $this->success('更新成功!');
+        $this->success(lang('UPDATE_SUCCESS'));
 
     }
 

@@ -131,6 +131,8 @@ return [
     'USERNAME_NOT_EXIST'                 => "用户名不存在！",
     'USE_DISABLED'                       => '此用户已被禁用！',
     'CAPTCHA_REQUIRED'                   => '验证码不能为空！',
+    'ILLEGAL_LOGIN'                      => '非法登录！',
+    'PLUGIN_LOGIN'                       => '您已经通过插件自定义后台登录！',
     //后台菜单管理
     'MENU'                               => '菜单',
     'APP'                                => '应用',
@@ -174,5 +176,9 @@ return [
     'UPDATE_SUCCESS'                     => '更新成功！',
     'UNINSTALL_SUCCESS'                  => '卸载成功！',
     'UNINSTALL_FAILED'                   => '卸载失败！',
-    'ILLEGAL_REQUEST'                    => '非法请求！'
+    'ILLEGAL_REQUEST'                    => '非法请求！',
+    'FORMAT_INCORRECT'                   => '格式不正确！',
+    'HAS_IMPORT'                         => '已导入',
+    'HIERARCHY_UPDATED'                  => '层级关系已更新',
+    'HAS_UPDATED'                        => '已更新',
 ];

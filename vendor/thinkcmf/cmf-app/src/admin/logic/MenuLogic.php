@@ -92,7 +92,7 @@ class MenuLogic
                             $parent      = explode('/', $menuAnnotation->parent);
                             $countParent = count($parent);
                             if ($countParent > 3) {
-                                throw new \Exception($controllerClass . ':' . $action . '  @adminMenuRoot parent格式不正确!');
+                                throw new \Exception($controllerClass . ':' . $action . '  @adminMenuRoot parent ' . lang('FORMAT_INCORRECT'));
                             }
 
                             $parentApp        = $app;
@@ -156,7 +156,7 @@ class MenuLogic
 
                             $menuName = $name;
 
-                            array_push($newMenus, "$app/$controllerName/$action 已导入");
+                            array_push($newMenus, "$app/$controllerName/$action " . lang('HAS_IMPORT'));
 
                         } else {
 
@@ -189,7 +189,7 @@ class MenuLogic
                                 $menuName = $findAdminMenu['name'];
                             }
 
-                            array_push($newMenus, "$app/$controllerName/$action 层级关系已更新");
+                            array_push($newMenus, "$app/$controllerName/$action " . lang('HIERARCHY_UPDATED'));
                         }
 
                         $authRuleName      = "{$app}/{$controllerName}/{$action}";
@@ -249,7 +249,7 @@ class MenuLogic
                                     $parent      = explode('/', $menuAnnotation->parent);
                                     $countParent = count($parent);
                                     if ($countParent > 3) {
-                                        throw new \Exception($controllerClass . ':' . $action . '  @menuRoot parent格式不正确!');
+                                        throw new \Exception($controllerClass . ':' . $action . '  @menuRoot parent ' . lang('FORMAT_INCORRECT'));
                                     }
 
                                     $parentApp        = $app;
@@ -313,7 +313,7 @@ class MenuLogic
 
                                     $menuName = $name;
 
-                                    array_push($newMenus, "$app/$controllerName/$action 已导入");
+                                    array_push($newMenus, "$app/$controllerName/$action " . lang('HAS_IMPORT'));
 
                                 } else {
                                     if ($findAdminMenu['name'] == '--new--') {
@@ -346,7 +346,7 @@ class MenuLogic
                                     }
 
 
-                                    array_push($newMenus, "$app/$controllerName/$action 已更新");
+                                    array_push($newMenus, "$app/$controllerName/$action " . lang('HAS_UPDATED'));
                                 }
 
                                 $authRuleName      = "{$app}/{$controllerName}/{$action}";

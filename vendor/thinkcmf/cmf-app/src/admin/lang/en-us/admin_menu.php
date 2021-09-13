@@ -67,7 +67,7 @@ return [
     'ADMIN_ROUTE_INDEX'           => 'URL optimization',
     'ADMIN_ROUTE_LISTORDERS'      => 'Routes sort',
     'ADMIN_ROUTE_OPEN'            => 'Enable route',
-    'ADMIN_SETTING_DEFAULT'       => 'SETTING',
+    'ADMIN_SETTING_DEFAULT'       => 'Setting',
     'ADMIN_SETTING_PASSWORD'      => 'Change password',
     'ADMIN_SETTING_PASSWORD_POST' => 'Submit edit',
     'ADMIN_SETTING_SITE'          => 'Website config',
@@ -140,5 +140,7 @@ return [
     'ADMIN_USER_EDIT'             => 'Edit administrator',
     'ADMIN_RESOURCE_MANAGE'       => 'Resource management',
     'ADMIN_HOOK_MANAGE'           => 'Hook management',
+    'ADMIN_MENU_DELETE_SUCCESS'   => 'Menu deleted successfully',
+    'APP_NOT_EXIST'               => '应用{:app}不存在！',
 ];
 

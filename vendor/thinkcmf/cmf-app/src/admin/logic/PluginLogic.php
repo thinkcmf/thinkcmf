@@ -27,25 +27,25 @@ class PluginLogic
     {
         $class = cmf_get_plugin_class($pluginName);
         if (!class_exists($class)) {
-            return '插件不存在!';
+            return lang('ADMIN_PLUGIN_NOT_EXIST');
         }
 
         $pluginModel = new PluginModel();
         $pluginCount = $pluginModel->where('name', $pluginName)->count();
 
         if ($pluginCount > 0) {
-            return '插件已安装!';
+            return lang('ADMIN_PLUGIN_INSTALLED');
         }
 
         $plugin = new $class;
         $info   = $plugin->info;
         if (!$info || !$plugin->checkInfo()) {//检测信息的正确性
-            return '插件信息缺失!';
+            return lang('ADMIN_PLUGIN_INFO_MISSING');
         }
 
         $installSuccess = $plugin->install();
         if (!$installSuccess) {
-            return '插件预安装失败!';
+            return lang('PLUGIN_PRE_INSTALL_FAILED');
         }
 
         $methods = get_class_methods($plugin);
@@ -87,19 +87,19 @@ class PluginLogic
     {
         $class = cmf_get_plugin_class($pluginName);
         if (!class_exists($class)) {
-            return '插件不存在!';
+            return lang('ADMIN_PLUGIN_NOT_EXIST');
         }
 
         $plugin = new $class;
         $info   = $plugin->info;
         if (!$info || !$plugin->checkInfo()) {//检测信息的正确性
-            return '插件信息缺失!';
+            return lang('ADMIN_PLUGIN_INFO_MISSING');
         }
 
         if (method_exists($plugin, 'update')) {
             $updateSuccess = $plugin->update();
             if (!$updateSuccess) {
-                return '插件预升级失败!';
+                return lang('PLUGIN_PRE_UPDATE_FAILED');
             }
         }
 
@@ -202,7 +202,7 @@ class PluginLogic
                             $parent      = explode('/', $menuAnnotation->parent);
                             $countParent = count($parent);
                             if ($countParent > 3) {
-                                throw new \Exception($controllerClass . ':' . $action . '  @adminMenuRoot parent格式不正确!');
+                                throw new \Exception($controllerClass . ':' . $action . '  @adminMenuRoot parent ' . lang('FORMAT_INCORRECT'));
                             }
 
                             $parentApp        = $app;
@@ -359,7 +359,7 @@ class PluginLogic
                                     $parent      = explode('/', $menuAnnotation->parent);
                                     $countParent = count($parent);
                                     if ($countParent > 3) {
-                                        throw new \Exception($controllerClass . ':' . $action . '  @menuRoot parent格式不正确!');
+                                        throw new \Exception($controllerClass . ':' . $action . '  @menuRoot parent ' . lang('FORMAT_INCORRECT'));
                                     }
 
                                     $parentApp        = $app;
@@ -492,7 +492,5 @@ class PluginLogic
 
             }
         }
-
-
     }
 }

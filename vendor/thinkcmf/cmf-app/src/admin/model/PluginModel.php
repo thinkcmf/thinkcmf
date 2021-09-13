@@ -28,7 +28,7 @@ class PluginModel extends Model
     {
         $dirs = array_map('basename', glob(WEB_ROOT . 'plugins/*', GLOB_ONLYDIR));
         if ($dirs === false) {
-            $this->error = '插件目录不可读';
+            $this->error = lang('PLUGIN_DIR_CANNOT_READ');
             return false;
         }
         $plugins = [];

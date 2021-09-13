@@ -140,5 +140,7 @@ return [
     'ADMIN_USER_EDIT'             => '管理员编辑',
     'ADMIN_RESOURCE_MANAGE'       => '资源管理',
     'ADMIN_HOOK_MANAGE'           => '钩子管理',
+    'ADMIN_MENU_DELETE_SUCCESS'   => '删除菜单成功',
+    'APP_NOT_EXIST'               => 'Application {:app} does not exist',
 ];
 

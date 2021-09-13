@@ -10,8 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use cmf\controller\AdminBaseController;
 use app\admin\model\SlideItemModel;
+use cmf\controller\AdminBaseController;
 
 class SlideItemController extends AdminBaseController
 {
@@ -93,7 +93,7 @@ class SlideItemController extends AdminBaseController
         if ($this->request->isPost()) {
             $data = $this->request->param();
             SlideItemModel::insert($data['post']);
-            $this->success("添加成功！", url("slideItem/index", ['slide_id' => $data['post']['slide_id']]));
+            $this->success(lang('ADD_SUCCESS'), url("slideItem/index", ['slide_id' => $data['post']['slide_id']]));
         }
     }
 
@@ -148,7 +148,7 @@ class SlideItemController extends AdminBaseController
 
             SlideItemModel::update($data['post']);
 
-            $this->success("保存成功！", url("SlideItem/index", ['slide_id' => $data['post']['slide_id']]));
+            $this->success(lang('EDIT_SUCCESS'), url("SlideItem/index", ['slide_id' => $data['post']['slide_id']]));
         }
     }
 
@@ -177,9 +177,9 @@ class SlideItemController extends AdminBaseController
                 //删除图片。
 //            if (file_exists("./upload/".$slideItem['image'])){
 //            }
-                $this->success("删除成功！", url("SlideItem/index", ["slide_id" => $slideItem['slide_id']]));
+                $this->success(lang('DELETE_SUCCESS'), url("SlideItem/index", ["slide_id" => $slideItem['slide_id']]));
             } else {
-                $this->error('删除失败！');
+                $this->error(lang('DELETE_FAILED'));
             }
         }
 
@@ -205,12 +205,12 @@ class SlideItemController extends AdminBaseController
             if ($id) {
                 $rst = SlideItemModel::where('id', $id)->update(['status' => 0]);
                 if ($rst) {
-                    $this->success("幻灯片隐藏成功！");
+                    $this->success(lang('SLIDE_HIDE_SUCCESS'));
                 } else {
-                    $this->error('幻灯片隐藏失败！');
+                    $this->error(lang('SLIDE_HIDE_FAILED'));
                 }
             } else {
-                $this->error('数据传入失败！');
+                $this->error(lang('DATA_TRANSFER_FAILED'));
             }
         }
     }
@@ -235,12 +235,12 @@ class SlideItemController extends AdminBaseController
             if ($id) {
                 $result = SlideItemModel::where('id', $id)->update(['status' => 1]);
                 if ($result) {
-                    $this->success("幻灯片启用成功！");
+                    $this->success(lang('SLIDE_ENABLE_SUCCESS'));
                 } else {
-                    $this->error('幻灯片启用失败！');
+                    $this->error(lang('SLIDE_ENABLE_FAILED'));
                 }
             } else {
-                $this->error('数据传入失败！');
+                $this->error(lang('DATA_TRANSFER_FAILED'));
             }
         }
     }
@@ -262,6 +262,6 @@ class SlideItemController extends AdminBaseController
     {
         $slideItemModel = new  SlideItemModel();
         parent::listOrders($slideItemModel);
-        $this->success("排序更新成功！");
+        $this->success(lang('SORT_SUCCESS'));
     }
 }

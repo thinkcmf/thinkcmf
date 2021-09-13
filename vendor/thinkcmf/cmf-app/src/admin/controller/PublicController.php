@@ -50,15 +50,15 @@ class PublicController extends AdminBaseController
     public function doLogin()
     {
         if (!$this->request->isPost()) {
-            $this->error('非法登录!');
+            $this->error(lang('ILLEGAL_LOGIN'));
         }
         if (hook_one('admin_custom_login_open')) {
-            $this->error('您已经通过插件自定义后台登录！');
+            $this->error(lang('PLUGIN_LOGIN'));
         }
 
         $loginAllowed = session("__LOGIN_BY_CMF_ADMIN_PW__");
         if (empty($loginAllowed)) {
-            $this->error('非法登录!', cmf_get_root() . '/');
+            $this->error(lang('ILLEGAL_LOGIN'), cmf_get_root() . '/');
         }
 
         $captcha = $this->request->param('captcha');
