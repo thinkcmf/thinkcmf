@@ -265,7 +265,7 @@ function cmf_get_theme_path($theme = null)
 function cmf_get_user_avatar_url($avatar)
 {
     if (!empty($avatar)) {
-        if (strpos($avatar, "http") === 0) {
+        if (strpos($avatar, "http") === 0 || strpos($avatar, "https") === 0) {
             return $avatar;
         } else {
             return cmf_get_image_url($avatar, 'avatar');
