@@ -680,16 +680,16 @@
         },
         {
             "name": "thinkcmf/cmf",
-            "version": "v6.0.6",
+            "version": "v6.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-core.git",
-                "reference": "3147506200015ea7434a85fb8d95031cc3fbab99"
+                "reference": "084e2fae6562484b205ceb4401320000df985b63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/3147506200015ea7434a85fb8d95031cc3fbab99",
-                "reference": "3147506200015ea7434a85fb8d95031cc3fbab99",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/084e2fae6562484b205ceb4401320000df985b63",
+                "reference": "084e2fae6562484b205ceb4401320000df985b63",
                 "shasum": ""
             },
             "require": {
@@ -735,9 +735,9 @@
             "description": "The ThinkCMF Core Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-core/issues",
-                "source": "https://github.com/thinkcmf/cmf-core/tree/v6.0.6"
+                "source": "https://github.com/thinkcmf/cmf-core/tree/v6.0.7"
             },
-            "time": "2021-09-12T20:27:58+00:00"
+            "time": "2021-09-17T22:40:18+00:00"
         },
         {
             "name": "thinkcmf/cmf-api",
@@ -782,16 +782,16 @@
         },
         {
             "name": "thinkcmf/cmf-app",
-            "version": "v6.0.4",
+            "version": "v6.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-app.git",
-                "reference": "027cc9938e650c54a81a30e3f27f12493ad3f79a"
+                "reference": "50048f2ffef66fdb3698662231e0f00392c5a021"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/027cc9938e650c54a81a30e3f27f12493ad3f79a",
-                "reference": "027cc9938e650c54a81a30e3f27f12493ad3f79a",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/50048f2ffef66fdb3698662231e0f00392c5a021",
+                "reference": "50048f2ffef66fdb3698662231e0f00392c5a021",
                 "shasum": ""
             },
             "require": {
@@ -817,9 +817,9 @@
             "description": "The ThinkCMF App Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-app/issues",
-                "source": "https://github.com/thinkcmf/cmf-app/tree/v6.0.4"
+                "source": "https://github.com/thinkcmf/cmf-app/tree/v6.0.5"
             },
-            "time": "2021-09-12T20:38:10+00:00"
+            "time": "2021-09-17T22:42:58+00:00"
         },
         {
             "name": "thinkcmf/cmf-appstore",
