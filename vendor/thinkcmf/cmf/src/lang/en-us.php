@@ -52,6 +52,5 @@ return [
     'EDIT_SUCCESS'            => 'Save success！',
     'EDIT_FAILED'             => 'Save failed！',
     'NO_DATA'                 => 'No data!',
-    'MOBILE'                  => 'Mobile',
-    'UPLOAD_FILE'             => 'Upload file',
+    'MOBILE'                  => 'Mobile'
 ];

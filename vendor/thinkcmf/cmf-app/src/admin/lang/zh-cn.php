@@ -133,6 +133,7 @@ return [
     'CAPTCHA_REQUIRED'                   => '验证码不能为空！',
     'ILLEGAL_LOGIN'                      => '非法登录！',
     'PLUGIN_LOGIN'                       => '您已经通过插件自定义后台登录！',
+    'LOGIN_SUCCESS'                      => '登录成功！',
     //后台菜单管理
     'MENU'                               => '菜单',
     'APP'                                => '应用',

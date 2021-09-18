@@ -19,16 +19,21 @@
 			<table class="table table-hover table-bordered table-list">
 				<thead>
 					<tr>
-						<th width="50">ID</th>
-						<th>{:lang('MENU')} {:lang('NAME')}</th>
-						<th width="50">{:lang('STATUS')}</th>
-						<th width="150">{:lang('ACTIONS')}</th>
+						<th style="width: 50px">ID</th>
+						<th>{:lang('MENU')}</th>
+                        <th>{:lang('NAME')}</th>
+						<th style="width: 50px">{:lang('STATUS')}</th>
+						<th style="width: 150px">{:lang('ACTIONS')}</th>
 					</tr>
 				</thead>
 				<foreach name="menus" item="vo">
+                    <php>
+                        $lang_name = strtoupper($vo['app'].'_'.$vo['controller'].'_'.$vo['action']);
+                    </php>
 				<tr>
 					<td>{$vo.id}</td>
-					<td>{$vo.name}:{$vo.app}/{$vo.controller}/{$vo.action}</td>
+                    <td>{:lang($lang_name)}</td>
+                    <td>{$vo.app}/{$vo.controller}/{$vo.action}</td>
 					<td>
 						<empty name="vo.status">
                             <span class="label label-warning">{:lang('HIDE')}</span>
@@ -44,10 +49,11 @@
 				</foreach>
 				<tfoot>
 					<tr>
-                        <th width="50">ID</th>
-                        <th>{:lang('MENU')} {:lang('NAME')}</th>
-                        <th width="50">{:lang('STATUS')}</th>
-                        <th width="150">{:lang('ACTIONS')}</th>
+                        <th>ID</th>
+                        <th>{:lang('MENU')}</th>
+                        <th>{:lang('NAME')}</th>
+                        <th>{:lang('STATUS')}</th>
+                        <th>{:lang('ACTIONS')}</th>
 					</tr>
 				</tfoot>
 			</table>

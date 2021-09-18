@@ -62,6 +62,7 @@ class MenuController extends AdminBaseController
                                                <a class="btn btn-xs btn-primary" href="' . url("Menu/edit", ["id" => $value['id'], "menu_id" => $this->request->param("menu_id")]) . '">' . lang('EDIT') . '</a>  
                                                <a class="btn btn-xs btn-danger js-ajax-delete" href="' . url("Menu/delete", ["id" => $value['id'], "menu_id" => $this->request->param("menu_id")]) . '">' . lang('DELETE') . '</a> ';
             $result[$key]['status']         = $value['status'] ? '<span class="label label-success">' . lang('DISPLAY') . '</span>' : '<span class="label label-warning">' . lang('HIDDEN') . '</span>';
+            $result[$key]['name_i18n']      = lang(strtoupper("{$value['app']}_{$value['controller']}_{$value['action']}"));
             if (APP_DEBUG) {
                 $result[$key]['app'] = $value['app'] . "/" . $value['controller'] . "/" . $value['action'];
             }
@@ -71,7 +72,7 @@ class MenuController extends AdminBaseController
         $str      = "<tr id='node-\$id' \$parent_id_node style='\$style'>
                         <td style='padding-left:20px;'><input name='list_orders[\$id]' type='text' size='3' value='\$list_order' class='input input-order'></td>
                         <td>\$id</td>
-                        <td>\$spacer\$name</td>
+                        <td>\$spacer\$name_i18n</td>
                         <td>\$app</td>
                         <td>\$status</td>
                         <td>\$str_manage</td>

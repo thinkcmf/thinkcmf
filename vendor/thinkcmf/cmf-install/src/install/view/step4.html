@@ -80,14 +80,14 @@
                             $installMsgPanel.append(tpl);
 
                         } else {
-                            $installMsgPanel.append('<li><i class="fa fa-check correct"></i>数据库安装完成!</li>');
+                            $installMsgPanel.append('<li><i class="fa fa-check correct"></i>{:lang("DATABASE_INSTALL_FINISHED")}</li>');
 
                             sqlExecResult = data.data;
 
                             if (data.data.error) {
                                 noty({
-                                    text: "安装过程,共" + data.data.error + "个SQL执行错误,可能您在此数据库下已经安装过 CMF,请查看问题后重新安装,或者<br>"
-                                    + '<a target="_blank" href="https://github.com/thinkcmf/thinkcmf/issues">反馈问题</a>',
+                                    text: "{:lang('INSTALL_ERROR_TIP1')}" + data.data.error + "{:lang('{:lang('INSTALL_ERROR_TIP1')}')}<br>"
+                                    + '<a target="_blank" href="https://github.com/thinkcmf/thinkcmf/issues">{:lang("FEEDBACK_PROBLEM")}</a>',
                                     type: 'confirm',
                                     layout: "center",
                                     timeout: false,
@@ -95,7 +95,7 @@
                                     buttons: [
                                         {
                                             addClass: 'btn btn-primary',
-                                            text: '确定',
+                                            text: '{:lang("OK")}',
                                             onClick: function ($noty) {
                                                 $noty.close();
 
@@ -105,7 +105,7 @@
                                         },
                                         {
                                             addClass: 'btn btn-danger',
-                                            text: '取消',
+                                            text: '{:lang("CANCEL")}',
                                             onClick: function ($noty) {
                                                 $noty.close();
 

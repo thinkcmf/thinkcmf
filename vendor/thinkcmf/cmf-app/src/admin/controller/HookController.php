@@ -25,13 +25,13 @@ class HookController extends AdminBaseController
     /**
      * 钩子管理
      * @adminMenu(
-     *     'name'   => lang('ADMIN_HOOK_MANAGE'),
+     *     'name'   => '钩子管理',
      *     'parent' => 'admin/Plugin/default',
      *     'display'=> true,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => lang('ADMIN_HOOK_MANAGE'),
+     *     'remark' => '钩子管理',
      *     'param'  => ''
      * )
      */

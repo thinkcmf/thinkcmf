@@ -51,7 +51,6 @@ return [
     'USER_INDEXADMIN_INDEX'         => 'Site Users',
     'USER_OAUTHADMIN_DELETE'        => 'Third party user unbinding',
     'USER_OAUTHADMIN_INDEX'         => 'Third Party Users',
-    'USER_INDEXADMIN_DEFAULT'       => 'Users',
 
     'NICKNAME_IS_TO0_LONG'  => 'Nickname is too lang!',
     'SEX_IS_INVALID'        => 'Sex is invalid!',
@@ -79,7 +78,7 @@ return [
 
     'USER_ACTION_MANAGE'       => 'User actions manage',
     'USER_ACTION_SYNC'         => 'Synchronize actions',
-    'USER_ACTION_SYNC_SUCCESS' => 'User operation synchronization is successful!',
+    'USER_ACTION_SYNC_SUCCESS' => 'User actions synchronization is successful!',
     'USER_ACTION_EDIT'         => 'Edit user actions',
     'USER_ACTION_SCORE'        => 'Scroe changed',
     'USER_ACTION_COIN'         => 'Coin changed',

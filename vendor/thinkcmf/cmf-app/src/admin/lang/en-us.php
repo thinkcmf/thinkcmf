@@ -133,6 +133,7 @@ return [
     'CAPTCHA_REQUIRED'                   => 'Verification code cannot be empty!',
     'ILLEGAL_LOGIN'                      => 'Illegal login!',
     'PLUGIN_LOGIN'                       => 'You have customized the background login through the plug-in!',
+    'LOGIN_SUCCESS'                      => 'Login success!',
     //后台菜单管理
     'MENU'                               => 'Menu',
     'APP'                                => 'Application',

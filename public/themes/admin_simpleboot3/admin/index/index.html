@@ -298,8 +298,8 @@
 
             <if condition="cmf_auth_check(cmf_get_current_admin_id(),'user/AdminAsset/index')">
                 <a class="btn btn-sm btn-info"
-                   href="javascript:openapp('{:url('user/AdminAsset/index')}','userAdminAssetindex','{:lang('ADMIN_RESOURCE_MANAGE')}',true);"
-                   title="{:lang('ADMIN_RESOURCE_MANAGE')}" data-toggle="tooltip">
+                   href="javascript:openapp('{:url('user/AdminAsset/index')}','userAdminAssetindex','{:lang('USER_ADMINASSET_INDEX')}',true);"
+                   title="{:lang('USER_ADMINASSET_INDEX')}" data-toggle="tooltip">
                     <i class="fa fa-file"></i>
                 </a>
             </if>
@@ -315,8 +315,8 @@
 
             <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/RecycleBin/index')">
                 <a class="btn btn-sm btn-danger"
-                   href="javascript:openapp('{:url('admin/RecycleBin/index')}','index_recycle','回收站',true);"
-                   title="回收站"
+                   href="javascript:openapp('{:url('admin/RecycleBin/index')}','index_recycle','{:lang('ADMIN_RECYCLEBIN_INDEX')}',true);"
+                   title="{:lang('ADMIN_RECYCLEBIN_INDEX')}"
                    data-toggle="tooltip">
                     <i class="fa fa-recycle"></i>
                 </a>

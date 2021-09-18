@@ -51,7 +51,6 @@ return [
     'USER_INDEXADMIN_INDEX'         => '本站用户',
     'USER_OAUTHADMIN_DELETE'        => '第三方用户解绑',
     'USER_OAUTHADMIN_INDEX'         => '第三方用户',
-    'USER_INDEXADMIN_DEFAULT'       => '用户管理',
 
     'NICKNAME_IS_TO0_LONG'  => '昵称最大长度为32个字符!',
     'SEX_IS_INVALID'        => '无效的性别选项!',

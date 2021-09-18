@@ -4,7 +4,7 @@
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
         <li class="active"><a>{:lang('ADMIN_ALL_HOOKS')}</a></li>
-        <li><a href="{:url('Hook/sync')}">{:lang('ADMIN_SYNC_HOOK')}</a></li>
+        <li><a href="{:url('Hook/sync')}">{:lang('ADMIN_HOOK_SYNC')}</a></li>
     </ul>
     <form action="" method="post" class="margin-top-20">
         <php>
@@ -13,23 +13,25 @@
         <table class="table table-hover table-bordered">
             <thead>
             <tr>
-                <th width="40">ID</th>
+                <th style="width: 40px">ID</th>
                 <th>{:lang('NAME')}</th>
+                <th>{:lang('HOOK')}</th>
                 <th>{:lang('TYPE')}</th>
                 <th>{:lang('DESCRIPTION')}</th>
-                <th width="150">{:lang('ACTIONS')}</th>
+                <th style="width: 150px">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
             <foreach name="hooks" item="vo">
                 <tr>
                     <td>{$vo.id}</td>
-                    <td>{$vo.name}:{$vo.hook}</td>
+                    <td>{$vo.hook|strtoupper|lang}</td>
+                    <td>{$vo.hook}</td>
                     <td>{$types[$vo.type]}</td>
                     <td>{$vo.description}</td>
                     <td>
                         <a class="btn btn-xs btn-primary"
-                           href="javascript:parent.openIframeLayer(`{:url('Hook/plugins',['hook'=>$vo['hook']])}`,`{:lang('HOOK')} {$vo.name} {:lang('ADMIN_MANAGE_PLUGIN')}`,{});">{:lang('ADMIN_HOOK_MANAGE')}</a>
+                           href="javascript:parent.openIframeLayer(`{:url('Hook/plugins',['hook'=>$vo['hook']])}`,`{:lang('HOOK')} {$vo.name} {:lang('ADMIN_MANAGE_PLUGIN')}`,{});">{:lang('ADMIN_HOOK_INDEX')}</a>
                     </td>
                 </tr>
             </foreach>
