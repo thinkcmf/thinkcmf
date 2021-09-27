@@ -214,7 +214,7 @@ pre {
 
 .tips-error, .tips-success {
 	color: #cc3333;
-	padding-left: 0px;
+	padding-left: 0;
 	display: inline-block;
 	line-height: 18px;
 }
@@ -225,7 +225,6 @@ pre {
 }
 
 .tips-loading {
-	color: #cc3333;
 	color: #333333;
 	display: inline-block;
 	line-height: 20px;
