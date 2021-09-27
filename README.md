@@ -99,6 +99,7 @@ enjoy your cmf~!
 2. 安装应用市场包`composer require thinkcmf/cmf-appstore`
 3. `public/themes`,`public/static`静态文件也有更新
 4. 删除`public/themes/admin_simpleboot3/admin`目录下的`app_store`目录
+5. `composer update`
 
 ### 更新日志
 #### 6.0.3
