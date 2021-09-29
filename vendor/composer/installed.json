@@ -1329,6 +1329,55 @@
             "install-path": "../thinkcmf/cmf-install"
         },
         {
+            "name": "thinkcmf/cmf-root",
+            "version": "v1.0.2",
+            "version_normalized": "1.0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thinkcmf/cmf-root.git",
+                "reference": "070f83e79273697e58b283c7a95bdc66eb583e75"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-root/zipball/070f83e79273697e58b283c7a95bdc66eb583e75",
+                "reference": "070f83e79273697e58b283c7a95bdc66eb583e75",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0||^2.0"
+            },
+            "require-dev": {
+                "composer/composer": "^1.0||^2.0"
+            },
+            "time": "2021-09-29T00:17:19+00:00",
+            "type": "composer-plugin",
+            "extra": {
+                "class": "cmf\\composer\\RootDirPlugin"
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "cmf\\composer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "catman",
+                    "email": "catman@thinkcmf.com"
+                }
+            ],
+            "description": "The files in ThinkCMF root dir",
+            "support": {
+                "issues": "https://github.com/thinkcmf/cmf-root/issues",
+                "source": "https://github.com/thinkcmf/cmf-root/tree/v1.0.2"
+            },
+            "install-path": "../thinkcmf/cmf-root"
+        },
+        {
             "name": "thinkcmf/cmf-route",
             "version": "v6.0.3",
             "version_normalized": "6.0.3.0",

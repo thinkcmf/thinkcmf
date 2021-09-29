@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'e4a56f40e5c0b9c84a746140c8d614110d9f65c6',
+    'reference' => '546a6c773860c6eba34caee10e486390717f384a',
     'name' => 'thinkcmf/thinkcmf',
   ),
   'versions' => 
@@ -216,6 +216,15 @@
       ),
       'reference' => '7c12b4e87eb7585e74d3f0398b898bebb34e5ce5',
     ),
+    'thinkcmf/cmf-root' => 
+    array (
+      'pretty_version' => 'v1.0.2',
+      'version' => '1.0.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '070f83e79273697e58b283c7a95bdc66eb583e75',
+    ),
     'thinkcmf/cmf-route' => 
     array (
       'pretty_version' => 'v6.0.3',
@@ -250,7 +259,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'e4a56f40e5c0b9c84a746140c8d614110d9f65c6',
+      'reference' => '546a6c773860c6eba34caee10e486390717f384a',
     ),
     'topthink/framework' => 
     array (

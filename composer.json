@@ -37,7 +37,8 @@
         "topthink/think-captcha": "^3.0",
         "thinkcmf/cmf-install": "^6.0.0",
         "thinkcmf/cmf-api": "^6.0.0",
-        "thinkcmf/cmf-appstore": "^1.0"
+        "thinkcmf/cmf-appstore": "^1.0",
+        "thinkcmf/cmf-root": "^1.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",

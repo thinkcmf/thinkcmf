@@ -1,0 +1,26 @@
+{
+    "name": "thinkcmf/cmf-root",
+    "type": "composer-plugin",
+    "require": {
+        "composer-plugin-api": "^1.0||^2.0"
+    },
+    "require-dev": {
+        "composer/composer": "^1.0||^2.0"
+    },
+    "license": "Apache-2.0",
+    "description": "The files in ThinkCMF root dir",
+    "authors": [
+        {
+            "name": "catman",
+            "email": "catman@thinkcmf.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "cmf\\composer\\": "src"
+        }
+    },
+    "extra": {
+        "class": "cmf\\composer\\RootDirPlugin"
+    }
+}

@@ -16,6 +16,7 @@ return array(
     'plugins\\' => array($baseDir . '/public/plugins'),
     'mindplay\\annotations\\' => array($vendorDir . '/mindplay/annotations/src/annotations'),
     'dir\\' => array($vendorDir . '/thinkcmf/cmf-extend/src/dir'),
+    'cmf\\composer\\' => array($vendorDir . '/thinkcmf/cmf-root/src'),
     'cmf\\' => array($vendorDir . '/thinkcmf/cmf/src'),
     'app\\admin\\' => array($vendorDir . '/thinkcmf/cmf-appstore/src'),
     'app\\' => array($baseDir . '/app', $vendorDir . '/thinkcmf/cmf-app/src', $vendorDir . '/thinkcmf/cmf-install/src'),

@@ -46,6 +46,7 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         ),
         'c' => 
         array (
+            'cmf\\composer\\' => 13,
             'cmf\\' => 4,
         ),
         'a' => 
@@ -121,6 +122,10 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         'dir\\' => 
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf-extend/src/dir',
+        ),
+        'cmf\\composer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/thinkcmf/cmf-root/src',
         ),
         'cmf\\' => 
         array (

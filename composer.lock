@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "08417d98ee69b2670eb7046c0d91c2f7",
+    "content-hash": "59184daa1ad25d00ea33dc617ac9d2d5",
     "packages": [
         {
             "name": "chamilo/pclzip",
@@ -939,6 +939,52 @@
                 "source": "https://github.com/thinkcmf/cmf-install/tree/v6.0.3"
             },
             "time": "2021-04-20T11:18:24+00:00"
+        },
+        {
+            "name": "thinkcmf/cmf-root",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thinkcmf/cmf-root.git",
+                "reference": "070f83e79273697e58b283c7a95bdc66eb583e75"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-root/zipball/070f83e79273697e58b283c7a95bdc66eb583e75",
+                "reference": "070f83e79273697e58b283c7a95bdc66eb583e75",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0||^2.0"
+            },
+            "require-dev": {
+                "composer/composer": "^1.0||^2.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "cmf\\composer\\RootDirPlugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "cmf\\composer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "catman",
+                    "email": "catman@thinkcmf.com"
+                }
+            ],
+            "description": "The files in ThinkCMF root dir",
+            "support": {
+                "issues": "https://github.com/thinkcmf/cmf-root/issues",
+                "source": "https://github.com/thinkcmf/cmf-root/tree/v1.0.2"
+            },
+            "time": "2021-09-29T00:17:19+00:00"
         },
         {
             "name": "thinkcmf/cmf-route",
