@@ -928,7 +928,7 @@
     //地址联动
     var $js_address_select = $('.js-address-select');
     if ($js_address_select.length > 0) {
-        $('.js-address-province-select,.js-address-city-select').change(function () {
+        $('.js-address-province-select,.js-address-city-select,.js-address-district-select').change(function () {
             var $this                   = $(this);
             var id                      = $this.val();
             var $child_area_select;
@@ -936,8 +936,11 @@
             if ($this.is('.js-address-province-select')) {
                 $child_area_select = $this_js_address_select.find('.js-address-city-select');
                 $this_js_address_select.find('.js-address-district-select').hide();
-            } else {
+            } else if($this.is('.js-address-city-select')){
                 $child_area_select = $this_js_address_select.find('.js-address-district-select');
+                $this_js_address_select.find('.js-address-town-select').hide();
+            } else {
+                $child_area_select = $this_js_address_select.find('.js-address-town-select');
             }
 
             var empty_option = '<option class="js-address-empty-option" value="">' + $child_area_select.find('.js-address-empty-option').text() + '</option>';

@@ -1,6 +1,7 @@
-ThinkCMF 6.0.2 让你更自由地飞
+ThinkCMF 6.0.4开发版
 ===============
-欢迎入坑，有问题请及时提交issue!
+**开发版，请不要用于正式环境！实际项目请下载正式版**
+
 
 ### ThinkCMF6.0主要特性
 * 框架协议依旧为`MIT`,让你更自由地飞
@@ -94,12 +95,22 @@ enjoy your cmf~!
 - [ ] 移动Model的逻辑方法到Service里
 
 ### 升级指导
-#### 6.0.1升级到6.0.2
+#### 6.0.1升级到6.0.3
 1. composer.json文件里的`autoload.psr-4.themes\\`改为`public/themes`
 2. 安装应用市场包`composer require thinkcmf/cmf-appstore`
-3. 删除`public/themes/admin_simpleboot3/admin`目录下的`app_store`目录
+3. `public/themes`,`public/static`静态文件也有更新
+4. 删除`public/themes/admin_simpleboot3/admin`目录下的`app_store`目录
+5. `composer update`
 
 ### 更新日志
+#### 6.0.3
+* 自定义分页类
+* 优化后台模板设计
+* 优化后台菜单导入
+* 修复验证器使用错误
+* 修复路由禁用报错
+* 修复插件模板异常类引入错误
+
 #### 6.0.2
 * 增加插件市场支持插件在线安装
 * 增加后台不存在模板文件检测并切换到默认模板

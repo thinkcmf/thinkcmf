@@ -273,6 +273,8 @@ class ThemeController extends AdminBaseController
                 ->where(function ($query) use ($fileId) {
                     $query->where('id', $fileId)->whereOr('is_public', 1);
                 })->order('list_order ASC')->select();
+            $this->assign('fileName', $file['file']);
+            $this->assign('theme', $file['theme']);
         }
 
         $tpl     = 'file_widget_setting';
