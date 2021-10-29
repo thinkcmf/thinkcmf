@@ -39,7 +39,7 @@ class RestBaseController
     //用户类型
     protected $userType;
 
-    protected $allowedDeviceTypes = ['mobile', 'android', 'iphone', 'ipad', 'web', 'pc', 'mac', 'wxapp'];
+    protected $allowedDeviceTypes = ['mobile', 'android', 'iphone', 'ipad', 'web', 'pc', 'mac', 'wxapp','ios'];
 
     /**
      * @var \think\Request Request实例
