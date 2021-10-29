@@ -231,14 +231,20 @@ hello;
         return ['vars' => $vars, 'widgets' => $widgets, 'file' => $themeFile];
     }
 
-    public function checkUserLogin()
+    public function checkUserLogin($isreurl=false)
     {
+        $refer = $this->request->server('HTTP_REFERER');
         $userId = cmf_get_current_user_id();
         if (empty($userId)) {
+            if($isreurl !== false){
+                $tourl = cmf_url("user/Login/index",['redirect'=>$refer]);
+            }else{
+                $tourl = cmf_url("user/Login/index");
+            }
             if ($this->request->isAjax()) {
-                $this->error("您尚未登录", cmf_url("user/Login/index"));
+                $this->error("您尚未登录", $tourl);
             } else {
-                $this->redirect(cmf_url("user/Login/index"));
+                $this->redirect($tourl);
             }
         }
     }
