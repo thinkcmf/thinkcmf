@@ -1,0 +1,28 @@
+{
+  "name": "xia/migration",
+  "description": "适用thinkphp6.0版本,迁移数据库:phinx原生",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "小夏",
+      "email": "yyw168@vip.qq.com"
+    }
+  ],
+  "require": {
+    "topthink/framework": "^6.0.0",
+    "topthink/think-helper": "^3.0.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Phinx\\": "phinx/src/Phinx",
+      "think\\migration\\": "src"
+    }
+  },
+  "extra": {
+    "think": {
+      "services": [
+        "think\\migration\\Service"
+      ]
+    }
+  }
+}
