@@ -1107,6 +1107,19 @@ function hook_one($hook, $params = null)
 }
 
 /**
+ * 获取应用类名，
+ * @param $name      纯字母应用名，如:portal
+ * @return string
+ */
+function cmf_get_app_class($name)
+{
+    $name        = strtolower($name);
+    $classPrefix = ucwords($name);
+    $class       = "app\\{$name}\\{$classPrefix}App";
+    return $class;
+}
+
+/**
  * 获取插件类名
  * @param string $name 插件名
  * @return string

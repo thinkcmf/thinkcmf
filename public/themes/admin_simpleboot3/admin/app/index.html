@@ -1,0 +1,58 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('admin/App/index')}">应用管理</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20">
+        <php>
+            $status=array("1"=>'开启',"0"=>'禁用',"3"=>'未安装');
+        </php>
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>名称</th>
+                <th>标识</th>
+                <th>描述</th>
+                <th>作者</th>
+                <th>版本号</th>
+                <th width="60">状态</th>
+                <th width="220">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="apps" item="vo">
+                <tr>
+                    <td>{$vo.title}</td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.description}</td>
+                    <td>{$vo.author}</td>
+                    <td><span class="label label-success">{$vo.version}</span></td>
+                    <td>
+                        <empty name="vo.installed">
+                            <span class="label label-warning">未安装</span>
+                            <else/>
+                            <span class="label label-success">已安装</span>
+                        </empty>
+                    </td>
+                    <td>
+                        <empty name="vo.installed">
+                            <a class="btn btn-xs btn-primary js-ajax-dialog-btn"
+                               href="{:url('App/install',array('name'=>$vo['name']))}"
+                               data-msg="确定安装该应用吗？">安装</a>
+                            <else/>
+                            <a class="btn btn-xs btn-success js-ajax-dialog-btn"
+                               href="{:url('App/update',array('name'=>$vo['name']))}"
+                               data-msg="确定更新该应用吗？">更新</a>
+                        </empty>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

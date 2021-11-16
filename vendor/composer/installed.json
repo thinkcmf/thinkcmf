@@ -1802,6 +1802,58 @@
                 "source": "https://github.com/top-think/think-trace/tree/v1.4"
             },
             "install-path": "../topthink/think-trace"
+        },
+        {
+            "name": "xia/migration",
+            "version": "v6.0.0",
+            "version_normalized": "6.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/449134904/artisan.git",
+                "reference": "dfc2a5ed596a1f88758919756776fd6a7b15e029"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/449134904/artisan/zipball/dfc2a5ed596a1f88758919756776fd6a7b15e029",
+                "reference": "dfc2a5ed596a1f88758919756776fd6a7b15e029",
+                "shasum": ""
+            },
+            "require": {
+                "topthink/framework": "^6.0.0",
+                "topthink/think-helper": "^3.0.3"
+            },
+            "time": "2021-09-30T04:32:23+00:00",
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [
+                        "think\\migration\\Service"
+                    ]
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Phinx\\": "phinx/src/Phinx",
+                    "think\\migration\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "小夏",
+                    "email": "yyw168@vip.qq.com"
+                }
+            ],
+            "description": "适用thinkphp6.0版本,迁移数据库:phinx原生",
+            "support": {
+                "issues": "https://github.com/449134904/artisan/issues",
+                "source": "https://github.com/449134904/artisan/tree/v6.0.0"
+            },
+            "install-path": "../xia/migration"
         }
     ],
     "dev": true,

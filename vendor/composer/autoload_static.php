@@ -28,6 +28,7 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
             'tree\\' => 5,
             'think\\view\\driver\\' => 18,
             'think\\trace\\' => 12,
+            'think\\migration\\' => 16,
             'think\\captcha\\' => 14,
             'think\\' => 6,
             'themes\\' => 7,
@@ -68,6 +69,7 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
             'Psr\\Log\\' => 8,
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
+            'Phinx\\' => 6,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
         'L' => 
@@ -94,6 +96,10 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         'think\\trace\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-trace/src',
+        ),
+        'think\\migration\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/xia/migration/src',
         ),
         'think\\captcha\\' => 
         array (
@@ -177,6 +183,10 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         'Psr\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
+        'Phinx\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/xia/migration/phinx/src/Phinx',
         ),
         'PHPMailer\\PHPMailer\\' => 
         array (

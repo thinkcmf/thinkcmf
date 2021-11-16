@@ -363,6 +363,8 @@ class IndexController extends BaseController
     public function installAppMenus()
     {
         $apps = cmf_scan_dir(CMF_ROOT . 'app/*', GLOB_ONLYDIR);
+        array_push($apps, 'admin', 'user');
+        $apps = array_unique($apps);
         foreach ($apps as $app) {
             // 导入后台菜单
             MenuLogic::importMenus($app);

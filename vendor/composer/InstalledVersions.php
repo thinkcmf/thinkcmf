@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '546a6c773860c6eba34caee10e486390717f384a',
+    'reference' => '285010d705d25a3020589ac3a7db329411ad4e97',
     'name' => 'thinkcmf/thinkcmf',
   ),
   'versions' => 
@@ -282,7 +282,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '546a6c773860c6eba34caee10e486390717f384a',
+      'reference' => '285010d705d25a3020589ac3a7db329411ad4e97',
     ),
     'topthink/framework' => 
     array (
@@ -328,6 +328,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '9a9fa8f767b6c66c5a133ad21ca1bc96ad329444',
+    ),
+    'xia/migration' => 
+    array (
+      'pretty_version' => 'v6.0.0',
+      'version' => '6.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'dfc2a5ed596a1f88758919756776fd6a7b15e029',
     ),
   ),
 );

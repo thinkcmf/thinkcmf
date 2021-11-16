@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `cmf_admin_menu` (
 --
 
 INSERT INTO `cmf_admin_menu` (`id`, `parent_id`, `type`, `status`, `list_order`, `app`, `controller`, `action`, `param`, `name`, `icon`, `remark`) VALUES
-(1, 0, 0, 1, 20, 'admin', 'Plugin', 'default', '', '插件中心', 'cloud', '插件中心'),
+(1, 0, 0, 1, 20, 'admin', 'Plugin', 'default', '', '应用中心', 'cloud', '应用中心'),
 (2, 1, 1, 1, 10000, 'admin', 'Hook', 'index', '', '钩子管理', '', '钩子管理'),
 (3, 2, 1, 0, 10000, 'admin', 'Hook', 'plugins', '', '钩子插件管理', '', '钩子插件管理'),
 (4, 2, 2, 0, 10000, 'admin', 'Hook', 'pluginListOrder', '', '钩子插件排序', '', '钩子插件排序'),
@@ -67,7 +67,7 @@ INSERT INTO `cmf_admin_menu` (`id`, `parent_id`, `type`, `status`, `list_order`,
 (39, 35, 2, 0, 10000, 'admin', 'NavMenu', 'editPost', '', '编辑导航菜单提交保存', '', '编辑导航菜单提交保存'),
 (40, 35, 2, 0, 10000, 'admin', 'NavMenu', 'delete', '', '删除导航菜单', '', '删除导航菜单'),
 (41, 35, 2, 0, 10000, 'admin', 'NavMenu', 'listOrder', '', '导航菜单排序', '', '导航菜单排序'),
-(42, 1, 1, 1, 10000, 'admin', 'Plugin', 'index', '', '插件列表', '', '插件列表'),
+(42, 1, 1, 1, 10000, 'admin', 'Plugin', 'index', '', '插件管理', '', '插件管理'),
 (43, 42, 2, 0, 10000, 'admin', 'Plugin', 'toggle', '', '插件启用禁用', '', '插件启用禁用'),
 (44, 42, 1, 0, 10000, 'admin', 'Plugin', 'setting', '', '插件设置', '', '插件设置'),
 (45, 42, 2, 0, 10000, 'admin', 'Plugin', 'settingPost', '', '插件设置提交', '', '插件设置提交'),
@@ -262,8 +262,8 @@ INSERT INTO `cmf_auth_rule` (`id`, `status`, `app`, `type`, `name`, `param`, `ti
 (37, 1, 'admin', 'admin_url', 'admin/NavMenu/editPost', '', '编辑导航菜单提交保存', ''),
 (38, 1, 'admin', 'admin_url', 'admin/NavMenu/delete', '', '删除导航菜单', ''),
 (39, 1, 'admin', 'admin_url', 'admin/NavMenu/listOrder', '', '导航菜单排序', ''),
-(40, 1, 'admin', 'admin_url', 'admin/Plugin/default', '', '插件中心', ''),
-(41, 1, 'admin', 'admin_url', 'admin/Plugin/index', '', '插件列表', ''),
+(40, 1, 'admin', 'admin_url', 'admin/Plugin/default', '', '应用中心', ''),
+(41, 1, 'admin', 'admin_url', 'admin/Plugin/index', '', '插件管理', ''),
 (42, 1, 'admin', 'admin_url', 'admin/Plugin/toggle', '', '插件启用禁用', ''),
 (43, 1, 'admin', 'admin_url', 'admin/Plugin/setting', '', '插件设置', ''),
 (44, 1, 'admin', 'admin_url', 'admin/Plugin/settingPost', '', '插件设置提交', ''),

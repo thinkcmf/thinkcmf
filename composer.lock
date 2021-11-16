@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59184daa1ad25d00ea33dc617ac9d2d5",
+    "content-hash": "f1f41573496feb9d03b7cf2b168de2fa",
     "packages": [
         {
             "name": "chamilo/pclzip",
@@ -1336,6 +1336,55 @@
                 "source": "https://github.com/top-think/think-orm/tree/v2.0.44"
             },
             "time": "2021-07-21T02:22:31+00:00"
+        },
+        {
+            "name": "xia/migration",
+            "version": "v6.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/449134904/artisan.git",
+                "reference": "dfc2a5ed596a1f88758919756776fd6a7b15e029"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/449134904/artisan/zipball/dfc2a5ed596a1f88758919756776fd6a7b15e029",
+                "reference": "dfc2a5ed596a1f88758919756776fd6a7b15e029",
+                "shasum": ""
+            },
+            "require": {
+                "topthink/framework": "^6.0.0",
+                "topthink/think-helper": "^3.0.3"
+            },
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [
+                        "think\\migration\\Service"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Phinx\\": "phinx/src/Phinx",
+                    "think\\migration\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "小夏",
+                    "email": "yyw168@vip.qq.com"
+                }
+            ],
+            "description": "适用thinkphp6.0版本,迁移数据库:phinx原生",
+            "support": {
+                "issues": "https://github.com/449134904/artisan/issues",
+                "source": "https://github.com/449134904/artisan/tree/v6.0.0"
+            },
+            "time": "2021-09-30T04:32:23+00:00"
         }
     ],
     "packages-dev": [

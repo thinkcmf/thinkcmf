@@ -18,27 +18,34 @@ use cmf\paginator\Bootstrap;
 use Composer\Semver\VersionParser;
 use think\facade\Db;
 
-/**
- * 应用市场
- * @adminMenuRoot(
- *     'name'   =>'应用中心',
- *     'action' =>'default',
- *     'parent' =>'',
- *     'display'=> true,
- *     'order'  => 20,
- *     'icon'   =>'cloud-download',
- *     'remark' =>'应用市场'
- * )
- */
+
 class AppStoreController extends AppStoreAdminBaseController
 {
+
+    /**
+     * 应用市场
+     * @adminMenu(
+     *     'name'   => '应用市场',
+     *     'parent' => 'admin/Plugin/default',
+     *     'display'=> true,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '应用市场',
+     *     'param'  => ''
+     * )
+     */
+    public function apps()
+    {
+
+    }
 
     /**
      * 插件市场
      * @adminMenu(
      *     'name'   => '插件市场',
-     *     'parent' => 'default',
-     *     'display'=> true,
+     *     'parent' => 'admin/Plugin/default',
+     *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
@@ -208,6 +215,7 @@ class AppStoreController extends AppStoreAdminBaseController
             $this->success('升级成功！');
         }
     }
+
 
 //    public function test()
 //    {

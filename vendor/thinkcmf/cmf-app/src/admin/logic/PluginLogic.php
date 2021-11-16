@@ -21,7 +21,7 @@ use think\facade\Cache;
 class PluginLogic
 {
     /**
-     * 安装应用
+     * 安装插件
      */
     public static function install($pluginName)
     {
