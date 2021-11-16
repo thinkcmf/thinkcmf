@@ -1,0 +1,12 @@
+{
+    "title":"演示应用",
+    "name": "demo",
+    "version": "1.0.1",
+    "demo_url": "http://demo.thinkcmf.com",
+    "author": "ThinkCMF",
+    "author_url": "http://www.thinkcmf.com",
+    "keywords": "ThinkCMF 演示应用",
+    "description": "ThinkCMF 演示应用",
+    "/*config_url": "controller/action,如:AdminIndex/setting,默认为空，表示没设置*/",
+    "config_url": ""
+}
