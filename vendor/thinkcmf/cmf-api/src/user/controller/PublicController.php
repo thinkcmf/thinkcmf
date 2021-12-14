@@ -127,7 +127,7 @@ class PublicController extends RestBaseController
             $this->error($errMsg);
         }
 
-        $findUser = UserModel::where($findUserWhere)->select();
+        $findUser = UserModel::where($findUserWhere)->find();
 
         if (empty($findUser)) {
             $user['create_time'] = time();
