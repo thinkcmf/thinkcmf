@@ -1,6 +1,5 @@
 {
   "name": "xia/migration",
-  "description": "适用thinkphp6.0版本,迁移数据库:phinx原生",
   "license": "Apache-2.0",
   "authors": [
     {
@@ -24,5 +23,6 @@
         "think\\migration\\Service"
       ]
     }
-  }
+  },
+  "minimum-stability": "dev"
 }
