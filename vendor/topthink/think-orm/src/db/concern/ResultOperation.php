@@ -75,9 +75,19 @@ trait ResultOperation
      */
     protected function result(array &$result): void
     {
+        // JSON数据处理
+        if (!empty($this->options['json'])) {
+            $this->jsonResult($result);
+        }
+
         // 查询数据处理
         foreach ($this->options['filter'] as $filter) {
             $result = call_user_func_array($filter, [$result, $this->options]);
+        }
+
+        // 获取器
+        if (!empty($this->options['with_attr'])) {
+            $this->getResultAttr($result, $this->options['with_attr']);
         }
     }
 
@@ -105,9 +115,9 @@ trait ResultOperation
      * @access protected
      * @param array $result   查询数据
      * @param array $withAttr 字段获取器
-     * @return array
+     * @return void
      */
-    protected function getResultAttr(array $result, array $withAttr = []): array
+    protected function getResultAttr(array &$result, array $withAttr = []): void
     {
         foreach ($withAttr as $name => $closure) {
             $name = Str::snake($name);
@@ -123,8 +133,6 @@ trait ResultOperation
                 $result[$name] = $closure($result[$name] ?? null, $result);
             }
         }
-
-        return $result;
     }
 
     /**
@@ -158,13 +166,12 @@ trait ResultOperation
     /**
      * JSON字段数据转换
      * @access protected
-     * @param array $result           查询数据
-     * @param array $json             JSON字段
+     * @param array $result 查询数据
      * @return void
      */
-    protected function jsonResult(array &$result, array $json = []): void
+    protected function jsonResult(array &$result): void
     {
-        foreach ($json as $name) {
+        foreach ($this->options['json'] as $name) {
             if (!isset($result[$name])) {
                 continue;
             }

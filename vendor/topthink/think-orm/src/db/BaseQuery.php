@@ -106,12 +106,6 @@ abstract class BaseQuery
             $name = Str::snake(substr($method, 5));
             array_unshift($args, $name);
             return call_user_func_array([$this, 'where'], $args);
-        } elseif ($this->model && in_array($method, ['hidden', 'visible', 'append'])) {
-            // 调用模型类方法
-            $this->model->filter(function ($model, $options) use ($method, $args) {
-                call_user_func_array([$model, $method], $args);
-            });
-            return $this;
         } elseif ($this->model && method_exists($this->model, 'scope' . $method)) {
             // 动态调用命名范围
             $method = 'scope' . $method;
@@ -269,14 +263,7 @@ abstract class BaseQuery
         $result = $this->connection->value($this, $field, $default);
 
         $array[$field] = $result;
-
-        if (!empty($this->options['json'])) {
-            $this->jsonResult($array, $this->options['json']);
-        }
-
-        if (!empty($this->options['with_attr'])) {
-            $array = $this->getResultAttr($array, $this->options['with_attr']);
-        }
+        $this->result($array);
 
         return $array[$field];
     }
@@ -293,15 +280,7 @@ abstract class BaseQuery
         $result = $this->connection->column($this, $field, $key);
 
         if (count($result) != count($result, 1)) {
-            foreach ($result as &$val) {
-                if (!empty($this->options['json'])) {
-                    $this->jsonResult($val, $this->options['json']);
-                }
-
-                if (!empty($this->options['with_attr'])) {
-                    $val = $this->getResultAttr($val, $this->options['with_attr']);
-                }
-            }
+            $this->resultSet($result, false);
         }
 
         return $result;
@@ -893,19 +872,7 @@ abstract class BaseQuery
         $this->options['json']       = $json;
         $this->options['json_assoc'] = $assoc;
 
-        if ($this->model) {
-            return $this->filter(function ($result) use ($json, $assoc) {
-                if (!empty($json)) {
-                    $this->jsonModelResult($result, $json, $assoc);
-                }
-            });
-        }
-
-        return $this->filter(function ($result) use ($json) {
-            if (!empty($json)) {
-                $this->jsonResult($result, $json);
-            }
-        });
+        return $this;
     }
 
     /**
@@ -1216,7 +1183,7 @@ abstract class BaseQuery
             $this->parseView($options);
         }
 
-        foreach (['data', 'order', 'join', 'union', 'filter', 'json', 'with_attr', 'with_relatioin_attr'] as $name) {
+        foreach (['data', 'order', 'join', 'union', 'filter', 'json', 'with_attr', 'with_relation_attr'] as $name) {
             if (!isset($options[$name])) {
                 $options[$name] = [];
             }

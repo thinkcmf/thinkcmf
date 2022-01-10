@@ -52,6 +52,45 @@ trait ModelRelationQuery
     }
 
     /**
+     * 设置需要隐藏的输出属性
+     * @access public
+     * @param  array $hidden   属性列表
+     * @return $this
+     */
+    public function hidden(array $hidden = [])
+    {
+        $this->options['hidden'] = $hidden;
+
+        return $this;
+    }
+
+    /**
+     * 设置需要输出的属性
+     * @access public
+     * @param  array $visible
+     * @return $this
+     */
+    public function visible(array $visible = [])
+    {
+        $this->options['visible'] = $visible;
+
+        return $this;
+    }
+
+    /**
+     * 设置需要附加的输出属性
+     * @access public
+     * @param  array $append   属性列表
+     * @return $this
+     */
+    public function append(array $append = [])
+    {
+        $this->options['append'] = $append;
+
+        return $this;
+    }
+
+    /**
      * 添加查询范围
      * @access public
      * @param array|string|Closure $scope 查询范围定义
@@ -98,9 +137,8 @@ trait ModelRelationQuery
             return $this;
         }
 
-        return $this->filter(function ($result, $options) use ($relation) {
-            $result->relationQuery($relation, $this->options['with_relatioin_attr']);
-        });
+        $this->options['relation'] = $relation;
+        return $this;
     }
 
     /**
@@ -162,20 +200,12 @@ trait ModelRelationQuery
             if (!empty($this->options['json']) && in_array($relation, $this->options['json'])) {
 
             } else {
-                $this->options['with_relatioin_attr'][$relation][$field] = $callback;
+                $this->options['with_relation_attr'][$relation][$field] = $callback;
                 unset($this->options['with_attr'][$name]);
             }
         }
 
-        if (empty($this->model)) {
-            return $this->filter(function ($result) {
-                return $this->getResultAttr($result, $this->options['with_attr']);
-            }, 'with_attr');
-        }
-
-        return $this->filter(function ($result) {
-            $result->withAttr($this->options['with_attr']);
-        }, 'with_attr');
+        return $this;
     }
 
     /**
@@ -190,14 +220,8 @@ trait ModelRelationQuery
             return $this;
         }
 
-        $with = (array) $with;
-
-        $this->options['with'] = $with;
-        return $this->filter(function ($result) use ($with) {
-            if (empty($this->options['is_resultSet'])) {
-                $result->eagerlyResult($with, $this->options['with_relatioin_attr'], false, $this->options['with_cache'] ?? false);
-            }
-        }, 'with');
+        $this->options['with'] = (array) $with;
+        return $this;
     }
 
     /**
@@ -243,12 +267,7 @@ trait ModelRelationQuery
         $this->via();
         $this->options['with_join'] = $with;
 
-        return $this->filter(function ($result) use ($with) {
-            // JOIN预载入查询
-            if (empty($this->options['is_resultSet'])) {
-                $result->eagerlyResult($with, $this->options['with_relatioin_attr'], true, $this->options['with_cache'] ?? false);
-            }
-        }, 'with_join');
+        return $this;
     }
 
     /**
@@ -267,12 +286,8 @@ trait ModelRelationQuery
         }
 
         if (!$subQuery) {
-            $this->options['with_aggregate'][] = [$relations, $aggregate, $field];
-            return $this->filter(function ($result) use ($withAggregate) {
-                foreach ($this->options['with_aggregate'] as $val) {
-                    $result->relationCount($this, (array) $val[0], $val[1], $val[2], false);
-                }
-            });
+            $this->options['with_aggregate'][] = [(array) $relations, $aggregate, $field];
+            return $this;
         }
 
         if (!isset($this->options['field'])) {
@@ -420,28 +435,26 @@ trait ModelRelationQuery
     /**
      * JSON字段数据转换
      * @access protected
-     * @param Model $result           查询数据
-     * @param array $json             JSON字段
-     * @param bool  $assoc            是否转换为数组
+     * @param array $result  查询数据
      * @return void
      */
-    protected function jsonModelResult(Model $result, array $json = [], bool $assoc = false): void
+    protected function jsonModelResult(array &$result): void
     {
-        $withRelationAttr = $this->options['with_attr'];
-        foreach ($json as $name) {
-            if (!isset($result->$name)) {
+        $withAttr = $this->options['with_attr'];
+        foreach ($this->options['json'] as $name) {
+            if (!isset($result[$name])) {
                 continue;
             }
 
-            $jsonData = json_decode($result->getData($name), true);
+            $jsonData = json_decode($result[$name], true);
 
-            if (isset($withRelationAttr[$name])) {
-                foreach ($withRelationAttr[$name] as $key => $closure) {
+            if (isset($withAttr[$name])) {
+                foreach ($withAttr[$name] as $key => $closure) {
                     $jsonData[$key] = $closure($jsonData[$key] ?? null, $jsonData);
                 }
             }
 
-            $result->set($name, !$assoc ? (object) $jsonData : $jsonData);
+            $result[$name] = !$this->options['json_assoc'] ? (object) $jsonData : $jsonData;
         }
     }
 
@@ -458,19 +471,23 @@ trait ModelRelationQuery
         }
 
         $this->options['is_resultSet'] = true;
+
         foreach ($resultSet as $key => &$result) {
             // 数据转换为模型对象
             $this->resultToModel($result);
         }
 
-        if (!empty($this->options['with'])) {
-            // 预载入
-            $result->eagerlyResultSet($resultSet, $this->options['with'], $this->options['with_relatioin_attr'], false, $this->options['with_cache'] ?? false);
-        }
-
-        if (!empty($this->options['with_join'])) {
-            // 预载入
-            $result->eagerlyResultSet($resultSet, $this->options['with_join'], $this->options['with_relatioin_attr'], true, $this->options['with_cache'] ?? false);
+        foreach (['with', 'with_join'] as $with) {
+            // 关联预载入
+            if (!empty($this->options[$with])) {
+                $result->eagerlyResultSet(
+                    $resultSet,
+                    $this->options[$with],
+                    $this->options['with_relation_attr'],
+                    'with_join' == $with ? true : false,
+                    $this->options['with_cache'] ?? false
+                );
+            }
         }
 
         // 模型数据集转换
@@ -485,13 +502,57 @@ trait ModelRelationQuery
      */
     protected function resultToModel(array &$result): void
     {
-        $options = $this->options;
+        // JSON数据处理
+        if (!empty($this->options['json'])) {
+            $this->jsonModelResult($result);
+        }
 
-        $result = $this->model->newInstance($result, !empty($options['is_resultSet']) ? null : $this->getModelUpdateCondition($options), $options);
+        $result = $this->model->newInstance(
+            $result,
+            !empty($this->options['is_resultSet']) ? null : $this->getModelUpdateCondition($this->options),
+            $this->options
+        );
 
         // 模型数据处理
         foreach ($this->options['filter'] as $filter) {
-            call_user_func_array($filter, [$result, $options]);
+            call_user_func_array($filter, [$result, $this->options]);
+        }
+
+        // 关联查询
+        if (!empty($this->options['relation'])) {
+            $result->relationQuery($this->options['relation'], $this->options['with_relation_attr']);
+        }
+
+        // 关联预载入查询
+        if (empty($this->options['is_resultSet'])) {
+            foreach (['with', 'with_join'] as $with) {
+                if (!empty($this->options[$with])) {
+                    $result->eagerlyResult(
+                        $this->options[$with],
+                        $this->options['with_relation_attr'],
+                        'with_join' == $with ? true : false,
+                        $this->options['with_cache'] ?? false
+                    );
+                }
+            }
+        }
+
+        // 关联统计查询
+        if (!empty($this->options['with_aggregate'])) {
+            foreach ($this->options['with_aggregate'] as $val) {
+                $result->relationCount($this, $val[0], $val[1], $val[2], false);
+            }
+        }
+
+        // 动态获取器
+        if (!empty($this->options['with_attr'])) {
+            $result->withAttr($this->options['with_attr']);
+        }
+
+        foreach (['hidden', 'visible', 'append'] as $name) {
+            if (!empty($this->options[$name])) {
+                $result->$name($this->options[$name]);
+            }
         }
 
         // 刷新原始数据

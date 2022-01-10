@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'd2e4c873cf6f1204a8088c2893367141cb2874d3',
+    'reference' => '9acd4bc3cca611cec1eb65de600226bb57311765',
     'name' => 'thinkcmf/thinkcmf',
   ),
   'versions' => 
@@ -291,7 +291,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'd2e4c873cf6f1204a8088c2893367141cb2874d3',
+      'reference' => '9acd4bc3cca611cec1eb65de600226bb57311765',
     ),
     'topthink/framework' => 
     array (
@@ -322,12 +322,12 @@ private static $installed = array (
     ),
     'topthink/think-orm' => 
     array (
-      'pretty_version' => 'v2.0.49',
-      'version' => '2.0.49.0',
+      'pretty_version' => 'v2.0.50',
+      'version' => '2.0.50.0',
       'aliases' => 
       array (
       ),
-      'reference' => '856649f1fad01a3cf227fec790f2fa1b63869ac7',
+      'reference' => '091ad5e023c15fcce4ceaea2f3814bdf71045cde',
     ),
     'topthink/think-trace' => 
     array (
