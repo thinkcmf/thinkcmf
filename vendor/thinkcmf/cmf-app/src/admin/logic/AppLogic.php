@@ -74,6 +74,10 @@ class AppLogic
             'option_name'  => $optionName,
             'option_value' => $manifest
         ]);
+
+        Cache::clear('init_hook_apps');
+        Cache::clear('admin_menus');// 删除后台菜单缓存
+        
         return true;
     }
 
@@ -128,6 +132,9 @@ class AppLogic
         // 导入应用用户行为
         UserActionLogic::importUserActions($appName);
         $findAppSetting->save(['option_value' => $manifest]);
+
+        Cache::clear('init_hook_apps');
+        Cache::clear('admin_menus');// 删除后台菜单缓存
         return true;
     }
 

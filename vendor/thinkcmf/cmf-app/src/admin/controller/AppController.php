@@ -26,7 +26,7 @@ class AppController extends AdminBaseController
      * 应用管理
      * @adminMenu(
      *     'name'   => '应用管理',
-     *     'parent' => 'admin/App/default',
+     *     'parent' => 'admin/Plugin/default',
      *     'display'=> true,
      *     'hasView'=> true,
      *     'order'  => 10000,
@@ -37,7 +37,6 @@ class AppController extends AdminBaseController
      */
     public function index()
     {
-
         $apps = AppLogic::getList();
         $this->assign("apps", $apps);
         return $this->fetch();
