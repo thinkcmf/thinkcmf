@@ -2302,3 +2302,12 @@ function str_to_arr($string)
     $result = is_string($string) ? explode(',', $string) : $string;
     return $result;
 }
+
+/**
+ * 检测是否是命令行
+ * @return bool
+ */
+function cmf_is_cli()
+{
+   return PHP_SAPI === 'cli' || defined('STDIN');
+}
