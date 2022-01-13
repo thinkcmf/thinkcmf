@@ -130,7 +130,7 @@ class RecycleBinController extends AdminBaseController
         if (!empty($ids) && !is_array($ids)) {
             $ids = [$ids];
         }
-        $records = RecycleBinModel::all($ids);
+        $records = RecycleBinModel::select($ids);
 
         if ($records) {
             try {
