@@ -43,7 +43,8 @@
                         {:lang('TABLE_'.strtoupper($vo['table_name']))}
                     </td>
                     <td> {:date('Y-m-d H:i:s',$vo['create_time'])}</td>
-                    <td> {:$vo.user.user_login}</td>
+                    
+                    <td> {$vo.user.user_login|default=''}</td>
                     <td>
                         <a href="{:url('RecycleBin/restore', ['ids'=>$vo.id])}" class="btn btn-xs btn-success js-ajax-dialog-btn"
                            data-msg="确定要还原吗？">还原</a>

@@ -268,13 +268,9 @@ class Http
         }
 
         if ($appRootNamespace == 'api') {
-            // 加载核心应用公共语言包
-            $coreApps = ['home', 'user'];
-            foreach ($coreApps as $app) {
-                $routeFile = "{$rootPath}vendor/thinkcmf/cmf-api/src/{$app}/route.php";
-                if (is_file($routeFile)) {
-                    include $routeFile;
-                }
+            $routeFile = "{$rootPath}vendor/thinkcmf/cmf-api/src/route.php";
+            if (is_file($routeFile)) {
+                include_once $routeFile;
             }
         }
 
