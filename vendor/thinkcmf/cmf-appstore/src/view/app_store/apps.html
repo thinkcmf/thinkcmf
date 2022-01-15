@@ -1,0 +1,107 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('Plugin/index')}">{:lang('ADMIN_APP_INDEX')}</a></li>
+        <li class="active"><a href="{:url('AppStore/apps')}">应用市场</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20">
+        <php>
+            $status=array("1"=>'开启',"0"=>'禁用',"3"=>'未安装');
+        </php>
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>应用名称</th>
+                <th>应用标识</th>
+                <th>描述</th>
+                <th>版本</th>
+                <!--                <th width="60">状态</th>-->
+                <th width="220">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="apps" item="vo">
+                <tr>
+                    <td>
+                        <a href="https://www.thinkcmf.com/appstore/plugin/{$vo.id}.html" target="_blank">{$vo.title}</a>
+                    </td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.description}</td>
+                    <td><span class="label label-success">{$vo.version}</span></td>
+                    <td>
+                        <empty name="vo.installed">
+                            <empty name="appstore_settings.access_token">
+                                <a class="btn btn-primary btn-xs js-install-plugin-btn"
+                                   data-href="{:url('AppStore/installApp',['id'=>$vo.id])}">安装</a>
+                                <else/>
+                                <empty name="vo.has_bought">
+                                    <a class="btn btn-info btn-xs"
+                                       href="javascript:;">购买</a>
+                                    <else/>
+                                    <a class="btn btn-primary btn-xs js-ajax-dialog-btn"
+                                       data-href="{:url('AppStore/installApp',['id'=>$vo.id])}"
+                                       data-wait-msg="正在安装...">安装</a>
+                                </empty>
+                            </empty>
+                            <else/>
+                            <notempty name="vo.need_update">
+                                <a class="btn btn-success btn-xs js-ajax-dialog-btn"
+                                   data-href="{:url('AppStore/installApp',['id'=>$vo.id,'version'=>$vo.installed_app.version])}">升级</a>
+                            </notempty>
+                        </empty>
+                        <!--<a target="_blank" href2="https://www.thinkcmf.com/appstore/login/index" class="btn btn-primary btn-xs js-install-plugin-btn" data-href="{:url('AppStore/installApp',['id'=>$vo.id])}">安装</a>-->
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <ul class="pagination">{$page}</ul>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    $('.js-install-plugin-btn').click(function () {
+        parent.openIframeLayer("{:url('admin/AppStore/login')}", '登录应用市场', {
+            area: ['600px', '450px'],
+            end: function () {
+                window.location.reload()
+            }
+        });
+    });
+
+    var buyPluginLayerIndex = '';
+
+    function doBuyPlugin(buyUrl) {
+        buyUrl = buyUrl + "?app_store_token={$appstore_settings.access_token|default=''}"
+        parent.openIframeLayer(buyUrl, '购买应用', {
+            area: ['95%', '90%'],
+            end: function () {
+            },
+            success: function (layero, index) {
+                buyPluginLayerIndex = index
+            }
+        });
+    }
+
+
+    window.parent.addEventListener('message', e => {
+        // e.data为子页面发送的数据
+        if (e.origin.match(/https?:\/\/www\.thinkcmf\.c(om|n)/)) {
+            console.log(e)
+            console.log(e.data)
+
+            switch (e.data.action) {
+                case "appstore/pay/complete":
+                    window.location.reload()
+                    parent.layer.close(buyPluginLayerIndex);
+                    break;
+            }
+        }
+
+
+    })
+</script>
+</body>
+</html>

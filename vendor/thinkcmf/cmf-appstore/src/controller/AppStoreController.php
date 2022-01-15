@@ -10,10 +10,12 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\logic\AppLogic;
 use app\admin\logic\PluginLogic;
 use app\admin\model\HookModel;
 use app\admin\model\PluginModel;
 use app\admin\model\HookPluginModel;
+use cmf\model\OptionModel;
 use cmf\paginator\Bootstrap;
 use Composer\Semver\VersionParser;
 use think\facade\Db;
@@ -37,7 +39,54 @@ class AppStoreController extends AppStoreAdminBaseController
      */
     public function apps()
     {
+        $appStoreSettings = cmf_get_option('appstore_settings');
+        $accessToken      = '';
+        if (!empty($appStoreSettings['access_token'])) {
+            $accessToken = $appStoreSettings['access_token'];
+        }
 
+        $currentPage = $this->request->param('page', 1, 'intval');
+        $url         = "https://www.thinkcmf.com/api/appstore/apps?token={$accessToken}&page=" . $currentPage;
+        $data        = cmf_curl_get($url);
+
+        $data = json_decode($data, true);
+        $page = '';
+
+        if (empty($data['code'])) {
+            $apps = [];
+        } else {
+            $apps      = $data['data']['apps'];
+            $paginator = new Bootstrap([], 10, $currentPage, $data['data']['total'], false, ['path' => $this->request->baseUrl()]);
+            $page      = $paginator->render();
+        }
+
+        $appstoreSettings = cmf_get_option('appstore_settings');
+
+
+        $newApps = [];
+        foreach ($apps as $mApp) {
+            $mApp['installed']   = 0;
+            $mApp['need_update'] = 0;
+            $appName             = $mApp['name'];
+            $optionName          = "app_manifest_" . $appName;
+            $findAppSetting      = OptionModel::where('option_name', "app_manifest_" . $appName)->find();
+
+            if (!empty($findAppSetting)) {
+                $installedApp          = $findAppSetting['option_value'];
+                $mApp['installed']     = 1;
+                $mApp['need_update']   = $installedApp['version'] == $mApp['version'] ? 0 : 1;
+                $mApp['installed_app'] = $installedApp;
+            }
+
+            $newApps[] = $mApp;
+        }
+
+        $this->assign('apps', $newApps);
+        $this->assign('appstore_settings', $appstoreSettings);
+
+
+        $this->assign('page', $page);
+        return $this->fetch();
     }
 
     /**
@@ -202,6 +251,77 @@ class AppStoreController extends AppStoreAdminBaseController
                 $result = PluginLogic::install($pluginName);
             } else {
                 $result = PluginLogic::update($pluginName);
+            }
+
+            if ($result !== true) {
+                $this->error($result);
+            }
+
+        }
+        if (empty($version)) {
+            $this->success('安装成功！');
+        } else {
+            $this->success('升级成功！');
+        }
+    }
+
+    public function installApp()
+    {
+        $appStoreSettings = cmf_get_option('appstore_settings');
+        $accessToken      = '';
+        if (!empty($appStoreSettings['access_token'])) {
+            $accessToken = $appStoreSettings['access_token'];
+        }
+        $id      = $this->request->param('id', 0, 'intval');
+        $version = $this->request->param('version', '', 'urlencode');
+        $data    = cmf_curl_get("https://www.thinkcmf.com/api/appstore/apps/{$id}?token=$accessToken&version=$version");
+        $data    = json_decode($data, true);
+
+        if (empty($data['code'])) {
+            if (!empty($data['data']['code']) && $data['data']['code'] == 10001) {
+                cmf_set_option('appstore_settings', ['access_token' => '']);
+                $this->error($data['msg'], null, ['code' => 10001]);
+            }
+
+            if (!empty($data['data']['code']) && $data['data']['code'] == 10002) {
+                $this->error($data['msg'], null, ['code' => 10002]);
+            }
+        } else {
+            $tmpFileName = "app{$id}_" . time() . microtime() . '.zip';
+
+            $tmpFileDir = CMF_DATA . 'download/';
+
+            if (!is_dir($tmpFileDir)) {
+                mkdir($tmpFileDir, 0777, true);
+            }
+
+            $tmpFile = $tmpFileDir . $tmpFileName;
+            $fp = fopen($tmpFile, 'wb') or $this->error('操作失败！'); //新建或打开文件,将curl下载的文件写入文件
+
+            $ch = curl_init($data['data']['app']['download_url']);
+            curl_setopt($ch, CURLOPT_FILE, $fp);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            $res = curl_exec($ch);
+            curl_close($ch);
+            fclose($fp);
+
+            $appName = $data['data']['app']['name'];
+
+            $archive = new \PclZip($tmpFile);
+
+            $files = $archive->listContent();
+
+            foreach ($files as $mFile) {
+                $result = $archive->extractByIndex($mFile['index'], PCLZIP_OPT_PATH, CMF_ROOT, PCLZIP_OPT_REMOVE_PATH, 'portal/');
+            }
+
+            unlink($tmpFile);
+
+            if (empty($version)) {
+                $result = AppLogic::install($appName);
+            } else {
+                $result = AppLogic::update($appName);
             }
 
             if ($result !== true) {
