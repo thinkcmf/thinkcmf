@@ -3,8 +3,8 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('Plugin/index')}">{:lang('ADMIN_APP_INDEX')}</a></li>
         <li class="active"><a href="{:url('AppStore/apps')}">应用市场</a></li>
+        <li><a href="{:url('AppStore/plugins')}">插件市场</a></li>
     </ul>
     <form method="post" class="js-ajax-form margin-top-20">
         <php>
@@ -25,7 +25,7 @@
             <foreach name="apps" item="vo">
                 <tr>
                     <td>
-                        <a href="https://www.thinkcmf.com/appstore/plugin/{$vo.id}.html" target="_blank">{$vo.title}</a>
+                        <a href="https://www.thinkcmf.com/appstore/app/{$vo.id}.html" target="_blank">{$vo.title}</a>
                     </td>
                     <td>{$vo.name}</td>
                     <td>{$vo.description}</td>
