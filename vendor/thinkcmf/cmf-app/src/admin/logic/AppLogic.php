@@ -163,6 +163,7 @@ class AppLogic
             $formatWrong = false;
             if (!file_exists($manifestFile)) {
                 $formatWrong = true;
+                continue;
             }
 
             $manifestContent = file_get_contents($manifestFile);
