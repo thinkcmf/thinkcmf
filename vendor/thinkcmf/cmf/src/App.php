@@ -39,13 +39,19 @@ use think\initializer\RegisterService;
  */
 class App extends Container
 {
-    const VERSION = '6.0.7';
+    const VERSION = '6.0.12LTS';
 
     /**
      * 应用调试模式
      * @var bool
      */
     protected $appDebug = false;
+
+    /**
+     * 环境变量标识
+     * @var string
+     */
+    protected $envName = '';
 
     /**
      * 应用开始时间
@@ -320,6 +326,18 @@ class App extends Container
     }
 
     /**
+     * 设置环境变量标识
+     * @access public
+     * @param string $name 环境标识
+     * @return $this
+     */
+    public function setEnvName(string $name)
+    {
+        $this->envName = $name;
+        return $this;
+    }
+
+    /**
      * 获取框架版本
      * @access public
      * @return string
@@ -442,6 +460,22 @@ class App extends Container
     }
 
     /**
+     * 加载环境变量定义
+     * @access public
+     * @param string $envName 环境标识
+     * @return void
+     */
+    public function loadEnv(string $envName = ''): void
+    {
+        // 加载环境变量
+        $envFile = $envName ? $this->rootPath . '.env.' . $envName : $this->rootPath . '.env';
+
+        if (is_file($envFile)) {
+            $this->env->load($envFile);
+        }
+    }
+
+    /**
      * 初始化应用
      * @access public
      * @return $this
@@ -454,9 +488,7 @@ class App extends Container
         $this->beginMem  = memory_get_usage();
 
         // 加载环境变量
-        if (is_file($this->rootPath . '.env')) {
-            $this->env->load($this->rootPath . '.env');
-        }
+        $this->loadEnv($this->envName);
 
         $this->configExt = $this->env->get('config_ext', '.php');
 
@@ -554,7 +586,7 @@ class App extends Container
         // 加载应用配置结束
 
         $configPath = $this->getConfigPath();
-
+        var_dump( $configPath);
         $files = [];
 
         if (is_dir($configPath)) {
