@@ -586,7 +586,7 @@ class App extends Container
         // 加载应用配置结束
 
         $configPath = $this->getConfigPath();
-        var_dump( $configPath);
+
         $files = [];
 
         if (is_dir($configPath)) {
