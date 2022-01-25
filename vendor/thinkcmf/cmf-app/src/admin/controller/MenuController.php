@@ -381,7 +381,7 @@ class MenuController extends AdminBaseController
      */
     public function getActions()
     {
-        $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
+        $apps = cmf_scan_dir($this->app->getAppPath() . '*', GLOB_ONLYDIR);
 
         array_push($apps, 'admin', 'user');
 

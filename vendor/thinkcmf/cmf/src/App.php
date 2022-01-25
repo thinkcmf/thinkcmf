@@ -201,9 +201,9 @@ class App extends Container
         }
 
         // 加载应用 provider
-        $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
+        $apps = cmf_scan_dir($this->appPath . '*', GLOB_ONLYDIR);
         foreach ($apps as $appName) {
-            $appProviderFile = APP_PATH . $appName . DIRECTORY_SEPARATOR . 'provider.php';
+            $appProviderFile = $this->appPath . $appName . DIRECTORY_SEPARATOR . 'provider.php';
             if (is_file($appProviderFile)) {
                 $this->bind(include $appProviderFile);
             }

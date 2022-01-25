@@ -108,7 +108,7 @@ class HookController extends AdminBaseController
     public function sync()
     {
 
-        $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
+        $apps = cmf_scan_dir($this->app->getAppPath() . '*', GLOB_ONLYDIR);
 
         array_push($apps, 'cmf', 'admin', 'user', 'swoole');
 

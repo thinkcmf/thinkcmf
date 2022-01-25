@@ -37,11 +37,11 @@ class InitAppHookListener
 
         // 加载应用语言包
         $this->app->lang->load([
-            APP_PATH . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . '.php',
+            $this->app->getAppPath() . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . '.php',
         ]);
 
         // 加载应用第三方库
-        $appAutoLoadFile = APP_PATH . $appName . '/vendor/autoload.php';
+        $appAutoLoadFile = $this->app->getAppPath() . $appName . '/vendor/autoload.php';
         if (file_exists($appAutoLoadFile)) {
             require_once $appAutoLoadFile;
         }
