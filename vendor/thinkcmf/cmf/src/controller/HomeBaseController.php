@@ -28,10 +28,8 @@ class HomeBaseController extends BaseController
     {
         $cmfThemePath    = config('template.cmf_theme_path');
         $cmfDefaultTheme = cmf_get_current_theme();
-
-        $themePath = "{$cmfThemePath}{$cmfDefaultTheme}";
-
         $root = cmf_get_root();
+        $themePath = "{$cmfThemePath}{$cmfDefaultTheme}";
         //使cdn设置生效
         $cdnSettings = cmf_get_option('cdn_settings');
         if (empty($cdnSettings['cdn_static_root'])) {
@@ -52,7 +50,7 @@ class HomeBaseController extends BaseController
         }
 
         $this->view->engine()->config([
-            'view_base'          => $themePath . '/',
+            'view_base'          => WEB_ROOT . $themePath . '/',
             'tpl_replace_string' => $viewReplaceStr
         ]);
 
@@ -137,7 +135,7 @@ hello;
 
         $cmfThemePath    = config('template.cmf_theme_path');
         $cmfDefaultTheme = cmf_get_current_theme();
-        $themePath       = "{$cmfThemePath}{$cmfDefaultTheme}/";
+        $themePath       = WEB_ROOT."{$cmfThemePath}{$cmfDefaultTheme}/";
 
         // 基础视图目录
         $module = isset($module) ? $module : $this->app->http->getName();
