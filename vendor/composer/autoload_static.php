@@ -256,7 +256,6 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         'think\\Route' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/Route.php',
         'think\\View' => __DIR__ . '/..' . '/thinkcmf/think-template/src/View.php',
         'think\\captcha\\Captcha' => __DIR__ . '/..' . '/thinkcmf/cmf/src/captcha/Captcha.php',
-        'think\\console\\command\\VendorPublish' => __DIR__ . '/..' . '/thinkcmf/cmf/src/console/command/VendorPublish.php',
         'think\\route\\Rule' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/route/Rule.php',
         'think\\route\\Url' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/route/Url.php',
         'think\\route\\dispatch\\Controller' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/route/dispatch/Controller.php',
