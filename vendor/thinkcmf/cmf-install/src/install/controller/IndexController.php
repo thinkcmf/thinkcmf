@@ -277,21 +277,18 @@ class IndexController extends BaseController
         $sqlIndex = $this->request->param('sql_index', 0, 'intval');
 
         $this->updateDbConfig($dbConfig);
-        $db = Db::connect('install_db');
-
+        $db = Db::connect('install_db',true);
         if ($sqlIndex >= count($sql)) {
             $installError = session('install.error');
             $this->success("安装完成!", '', ['done' => 1, 'error' => $installError]);
         }
 
         $sqlToExec = $sql[$sqlIndex] . ';';
-
         $result = sp_execute_sql($db, $sqlToExec);
 
         if (!empty($result['error'])) {
             $installError = session('install.error');
             $installError = empty($installError) ? 0 : $installError;
-
             session('install.error', $installError + 1);
             $this->error($result['message'], '', [
                 'sql'       => $sqlToExec,
