@@ -460,6 +460,9 @@ class IndexController extends BaseController
     {
         $oldDbConfig                              = config('database');
         $oldDbConfig['connections']['install_db'] = $dbConfig;
+        if(cmf_is_cli()) {
+            $oldDbConfig['connections']['install_db']['break_reconnect'] = true;
+        }
         config($oldDbConfig, 'database');
     }
 
