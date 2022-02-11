@@ -1155,7 +1155,7 @@ function cmf_get_plugin_config($name)
  * @param        $pattern
  * @return array
  */
-function cmf_scan_dir($pattern, $flags = null)
+function cmf_scan_dir($pattern, $flags = 0)
 {
     $files = glob($pattern, $flags);
     if (empty($files)) {
