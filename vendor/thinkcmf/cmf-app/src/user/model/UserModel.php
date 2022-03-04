@@ -235,7 +235,7 @@ class UserModel extends Model
 
         $field = 'user_nickname,sex,birthday,user_url,signature,more';
 
-        if ($this->where('id', $userId)->update($user)) {
+        if (self::update($user,['id'=>$userId])) {
             $userInfo = $this->where('id', $userId)->find();
             cmf_update_current_user($userInfo->toArray());
             return 1;
