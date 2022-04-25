@@ -36,7 +36,6 @@ return array(
     'think\\Route' => $vendorDir . '/thinkcmf/cmf-route/src/Route.php',
     'think\\View' => $vendorDir . '/thinkcmf/think-template/src/View.php',
     'think\\captcha\\Captcha' => $vendorDir . '/thinkcmf/cmf/src/captcha/Captcha.php',
-    'think\\console\\command\\VendorPublish' => $vendorDir . '/thinkcmf/cmf/src/console/command/VendorPublish.php',
     'think\\route\\Rule' => $vendorDir . '/thinkcmf/cmf-route/src/route/Rule.php',
     'think\\route\\Url' => $vendorDir . '/thinkcmf/cmf-route/src/route/Url.php',
     'think\\route\\dispatch\\Controller' => $vendorDir . '/thinkcmf/cmf-route/src/route/dispatch/Controller.php',

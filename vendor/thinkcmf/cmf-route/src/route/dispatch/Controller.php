@@ -80,7 +80,7 @@ class Controller extends Dispatch
         $this->app->event->trigger('ModuleInit');
 
         $appName = $this->app->http->getName();
-        $appPath = APP_PATH . $appName . DIRECTORY_SEPARATOR;
+        $appPath = $this->app->getAppPath() . $appName . DIRECTORY_SEPARATOR;
 
         // 加载应用event
         if (is_file($appPath . 'event.php')) {

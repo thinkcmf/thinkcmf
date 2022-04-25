@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '9acd4bc3cca611cec1eb65de600226bb57311765',
+    'reference' => '25508ab55cff70cfda2c80e1e5bd29f1c24ff136',
     'name' => 'thinkcmf/thinkcmf',
   ),
   'versions' => 
@@ -268,16 +268,16 @@
       'aliases' => 
       array (
       ),
-      'reference' => '9acd4bc3cca611cec1eb65de600226bb57311765',
+      'reference' => '25508ab55cff70cfda2c80e1e5bd29f1c24ff136',
     ),
     'topthink/framework' => 
     array (
-      'pretty_version' => 'v6.0.11',
-      'version' => '6.0.11.0',
+      'pretty_version' => 'v6.0.12',
+      'version' => '6.0.12.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'd9cadb6971ae92ff85ba5f2be77a40b0ad5718fb',
+      'reference' => 'e478316ac843c1a884a3b3a7a94db17c4001ff5c',
     ),
     'topthink/think-captcha' => 
     array (
@@ -299,12 +299,12 @@
     ),
     'topthink/think-orm' => 
     array (
-      'pretty_version' => 'v2.0.50',
-      'version' => '2.0.50.0',
+      'pretty_version' => 'v2.0.51',
+      'version' => '2.0.51.0',
       'aliases' => 
       array (
       ),
-      'reference' => '091ad5e023c15fcce4ceaea2f3814bdf71045cde',
+      'reference' => '149d266acdc4b2f07c6a94f1733b6b97d340e0e2',
     ),
     'topthink/think-trace' => 
     array (

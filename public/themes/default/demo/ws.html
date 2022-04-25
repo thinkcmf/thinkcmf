@@ -48,7 +48,7 @@
     });
 
 
-    client = WsClient({host: "{$_request->host(true)}", port: 9501, endpoint: ''});
+    client = WsClient({host: "{$_request->host(true)}", port: 9503, endpoint: ''});
     client.connect();
 
     client.on('demo/ws/index', function (data) {

@@ -30,10 +30,10 @@ class HomeLangListener
 
 
         // 加载应用前台语言包
-        $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
+        $apps = cmf_scan_dir($app->getAppPath() . '*', GLOB_ONLYDIR);
         foreach ($apps as $appName) {
             $app->lang->load([
-                APP_PATH . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'home.php',
+                $app->getAppPath() . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'home.php',
             ]);
         }
 

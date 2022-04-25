@@ -1155,7 +1155,7 @@ function cmf_get_plugin_config($name)
  * @param        $pattern
  * @return array
  */
-function cmf_scan_dir($pattern, $flags = null)
+function cmf_scan_dir($pattern, $flags = 0)
 {
     $files = glob($pattern, $flags);
     if (empty($files)) {
@@ -2239,7 +2239,7 @@ function cmf_get_app_config_file($app, $file)
             $configFile = CMF_ROOT . "vendor/thinkcmf/cmf-swoole/src/{$file}.php";
             break;
         default:
-            $configFile = APP_PATH . $app . "/{$file}.php";
+            $configFile = app_path() . $app . "/{$file}.php";
             if (!file_exists($configFile)) {
                 $configFile = CMF_ROOT . "vendor/thinkcmf/cmf-app/src/{$app}/{$file}.php";
             }

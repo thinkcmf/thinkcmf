@@ -56,7 +56,7 @@ class UserController extends AdminBaseController
 
         /**搜索条件**/
         $userLogin = $this->request->param('user_login');
-        $userEmail = trim($this->request->param('user_email'));
+        $userEmail = trim($this->request->param('user_email',''));
 
         $users = UserModel::where('user_type', 1)
             ->where(function (Query $query) use ($userLogin, $userEmail) {

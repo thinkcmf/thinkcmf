@@ -93,7 +93,7 @@ class Upload
          */
 
         $app = $this->request->param('app');
-        if (empty($app) || !file_exists(APP_PATH . $app)) {
+        if (empty($app) || !file_exists(app_path() . $app)) {
             $app = 'default';
         }
 

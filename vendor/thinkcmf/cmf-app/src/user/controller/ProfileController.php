@@ -75,7 +75,14 @@ class ProfileController extends UserBaseController
                 $this->error($validate->getError());
             }
             $editData = new UserModel();
-            if ($editData->editData($data)) {
+            if ($editData->editData($data,[
+                'user_nickname',
+                'sex',
+                'birthday',
+                'user_url',
+                'signature',
+                'more'
+            ])) {
                 $this->success(lang('EDIT_SUCCESS'), "user/profile/center");
             } else {
                 $this->error(lang('NO_NEW_INFORMATION'));
