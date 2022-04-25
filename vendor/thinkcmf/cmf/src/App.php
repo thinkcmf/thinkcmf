@@ -566,7 +566,7 @@ class App extends Container
         }
 
         // 动态配置
-        $runtimeConfigPath = $this->rootPath . 'data' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR;
+        $runtimeConfigPath = CMF_DATA . 'config' . DIRECTORY_SEPARATOR;
 
         $files = [];
 
