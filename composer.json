@@ -61,7 +61,10 @@
     },
     "config": {
         "preferred-install": "dist",
-        "vendor-dir": "vendor"
+        "vendor-dir": "vendor",
+        "allow-plugins": {
+            "thinkcmf/cmf-root": true
+        }
     },
     "scripts": {
         "post-autoload-dump": [

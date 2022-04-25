@@ -18,6 +18,11 @@ use think\Paginator;
 
 /**
  * 模型数据集类
+ *
+ * @template TKey of array-key
+ * @template TModel of \think\Model
+ *
+ * @extends BaseCollection<TKey, TModel>
  */
 class Collection extends BaseCollection
 {
@@ -184,8 +189,8 @@ class Collection extends BaseCollection
      * 按指定键整理数据
      *
      * @access public
-     * @param  mixed  $items    数据
-     * @param  string $indexKey 键名
+     * @param mixed       $items    数据
+     * @param string|null $indexKey 键名
      * @return array
      */
     public function dictionary($items = null, string &$indexKey = null)
@@ -211,8 +216,8 @@ class Collection extends BaseCollection
      * 比较数据集，返回差集
      *
      * @access public
-     * @param  mixed  $items    数据
-     * @param  string $indexKey 指定比较的键名
+     * @param mixed       $items    数据
+     * @param string|null $indexKey 指定比较的键名
      * @return static
      */
     public function diff($items, string $indexKey = null)
@@ -239,8 +244,8 @@ class Collection extends BaseCollection
      * 比较数据集，返回交集
      *
      * @access public
-     * @param  mixed  $items    数据
-     * @param  string $indexKey 指定比较的键名
+     * @param mixed       $items    数据
+     * @param string|null $indexKey 指定比较的键名
      * @return static
      */
     public function intersect($items, string $indexKey = null)

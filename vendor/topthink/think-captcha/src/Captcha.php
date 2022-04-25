@@ -178,7 +178,7 @@ class Captcha
         // 图片高(px)
         $this->imageH || $this->imageH = $this->fontSize * 2.5;
         // 建立一幅 $this->imageW x $this->imageH 的图像
-        $this->im = imagecreate($this->imageW, $this->imageH);
+        $this->im = imagecreate((int) $this->imageW, (int) $this->imageH);
         // 设置背景
         imagecolorallocate($this->im, $this->bg[0], $this->bg[1], $this->bg[2]);
 
@@ -192,7 +192,7 @@ class Captcha
             $dir  = dir($ttfPath);
             $ttfs = [];
             while (false !== ($file = $dir->read())) {
-                if ('.' != $file[0] && substr($file, -4) == '.ttf') {
+                if (substr($file, -4) == '.ttf' || substr($file, -4) == '.otf') {
                     $ttfs[] = $file;
                 }
             }
@@ -220,7 +220,7 @@ class Captcha
 
         foreach ($text as $index => $char) {
 
-            $x     = $this->fontSize * ($index + 1) * mt_rand(1.2, 1.6) * ($this->math ? 1 : 1.5);
+            $x     = $this->fontSize * ($index + 1) * ($this->math ? 1 : 1.5);
             $y     = $this->fontSize + mt_rand(10, 20);
             $angle = $this->math ? 0 : mt_rand(-40, 40);
 

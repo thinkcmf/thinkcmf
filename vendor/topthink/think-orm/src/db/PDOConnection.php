@@ -709,9 +709,10 @@ abstract class PDOConnection extends Connection
 
         $this->getPDOStatement($sql, $bind, $master, $procedure);
 
-        $resultSet = $this->getResult($procedure);
+        $resultSet    = $this->getResult($procedure);
+        $requireCache = $query->getOptions('cache_always') || !empty($resultSet);
 
-        if (isset($cacheItem) && $resultSet) {
+        if (isset($cacheItem) && $requireCache) {
             // 缓存数据集
             $cacheItem->set($resultSet);
             $this->cacheData($cacheItem);
