@@ -154,16 +154,17 @@ class IndexController extends BaseController
             $data['show_always_populate_raw_post_data_tip'] = true;
             $err++;
         } else {
-
             $data['always_populate_raw_post_data'] = '<i class="fa fa-check correct"></i> 已关闭';
         }
 
         $folders    = [
+            realpath(CMF_ROOT . 'api') . DIRECTORY_SEPARATOR,
+            realpath(CMF_ROOT . 'app') . DIRECTORY_SEPARATOR,
             realpath(CMF_ROOT . 'data') . DIRECTORY_SEPARATOR,
             realpath('./plugins') . DIRECTORY_SEPARATOR,
             realpath('./themes') . DIRECTORY_SEPARATOR,
+            realpath('./themes/admin_simpleboot3') . DIRECTORY_SEPARATOR,
             realpath('./upload') . DIRECTORY_SEPARATOR,
-
         ];
         $newFolders = [];
         foreach ($folders as $dir) {
