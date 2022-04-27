@@ -27,8 +27,8 @@ class SlidesController extends RestBaseController
      *     path="/home/slides/{id}",
      *     @OA\Parameter(
      *         name="id",
-     *         in="query",
-     *         description="slide item id",
+     *         in="path",
+     *         description="幻灯片分组 id",
      *         required=false,
      *         @OA\Schema(
      *             type="integer",
