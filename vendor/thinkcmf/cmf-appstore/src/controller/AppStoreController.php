@@ -332,9 +332,9 @@ class AppStoreController extends AppStoreAdminBaseController
 
         }
         if (empty($version)) {
-            $this->success('安装成功！');
+            $this->success('安装成功，请刷新网页！');
         } else {
-            $this->success('升级成功！');
+            $this->success('升级成功，请刷新网页！');
         }
     }
 

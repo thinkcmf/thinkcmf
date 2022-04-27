@@ -29,7 +29,12 @@
                     </td>
                     <td>{$vo.name}</td>
                     <td>{$vo.description}</td>
-                    <td><span class="label label-success">{$vo.version}</span></td>
+                    <td>
+                        <span class="label label-info">{$vo.installed_app.version|default='0.0.0'}</span>
+                        <notempty name="vo.need_update">
+                           -> <span class="label label-success">{$vo.version}</span>
+                        </notempty>
+                    </td>
                     <td>
                         <empty name="vo.installed">
                             <empty name="appstore_settings.access_token">
@@ -46,6 +51,7 @@
                                 </empty>
                             </empty>
                             <else/>
+                            <a class="btn btn-danger btn-xs disabled">卸载</a>
                             <notempty name="vo.need_update">
                                 <a class="btn btn-success btn-xs js-ajax-dialog-btn"
                                    data-href="{:url('AppStore/installApp',['id'=>$vo.id,'version'=>$vo.installed_app.version])}">升级</a>
