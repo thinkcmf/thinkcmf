@@ -226,6 +226,8 @@ class AppStoreController extends AppStoreAdminBaseController
             curl_setopt($ch, CURLOPT_FILE, $fp);
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 信任任何证书
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // 检查证书中是否设置域名
             $res = curl_exec($ch);
             curl_close($ch);
             fclose($fp);
