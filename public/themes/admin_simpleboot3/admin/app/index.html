@@ -4,6 +4,9 @@
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
         <li class="active"><a href="{:url('admin/App/index')}">应用管理</a></li>
+        <if condition="class_exists('\app\admin\controller\AppStoreController')">
+            <li><a href="{:url('AppStore/apps')}">应用市场</a></li>
+        </if>
     </ul>
     <form method="post" class="js-ajax-form margin-top-20">
         <php>
