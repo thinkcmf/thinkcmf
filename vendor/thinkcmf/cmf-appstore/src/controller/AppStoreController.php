@@ -274,6 +274,22 @@ class AppStoreController extends AppStoreAdminBaseController
         if (!empty($appStoreSettings['access_token'])) {
             $accessToken = $appStoreSettings['access_token'];
         }
+
+        $dirs = [
+            realpath(CMF_ROOT . 'api') . DIRECTORY_SEPARATOR,
+            realpath(CMF_ROOT . 'app') . DIRECTORY_SEPARATOR,
+            realpath(CMF_ROOT . 'data') . DIRECTORY_SEPARATOR,
+            realpath(WEB_ROOT . 'plugins') . DIRECTORY_SEPARATOR,
+            realpath(WEB_ROOT . 'themes') . DIRECTORY_SEPARATOR,
+            realpath(WEB_ROOT . 'themes/admin_simpleboot3') . DIRECTORY_SEPARATOR,
+        ];
+
+        foreach ($dirs as $dir) {
+            if (!is_writable($dir)) {
+                $this->error('目录不可写' . $dir);
+            }
+        }
+
         $id      = $this->request->param('id', 0, 'intval');
         $version = $this->request->param('version', '', 'urlencode');
         $data    = cmf_curl_get("https://www.thinkcmf.com/api/appstore/apps/{$id}?token=$accessToken&version=$version");
@@ -304,6 +320,8 @@ class AppStoreController extends AppStoreAdminBaseController
             curl_setopt($ch, CURLOPT_FILE, $fp);
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 信任任何证书
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // 检查证书中是否设置域名
             $res = curl_exec($ch);
             curl_close($ch);
             fclose($fp);
