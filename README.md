@@ -59,7 +59,7 @@ https://www.thinkcmf.com/docs/cmf6
 
 
 ### 环境推荐
-> php7.3
+> php7.4+
 
 > mysql 5.7+
 
@@ -67,7 +67,7 @@ https://www.thinkcmf.com/docs/cmf6
 
 
 ### 最低环境要求
-> php7.2.5+
+> php7.4.0
 
 > mysql 5.5+ (mysql5.1安装时选择utf8编码，不支持表情符)
 
