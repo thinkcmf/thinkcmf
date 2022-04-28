@@ -161,10 +161,10 @@ class IndexController extends BaseController
             realpath(CMF_ROOT . 'api') . DIRECTORY_SEPARATOR,
             realpath(CMF_ROOT . 'app') . DIRECTORY_SEPARATOR,
             realpath(CMF_ROOT . 'data') . DIRECTORY_SEPARATOR,
-            realpath('./plugins') . DIRECTORY_SEPARATOR,
-            realpath('./themes') . DIRECTORY_SEPARATOR,
-            realpath('./themes/admin_simpleboot3') . DIRECTORY_SEPARATOR,
-            realpath('./upload') . DIRECTORY_SEPARATOR,
+            realpath(WEB_ROOT . 'plugins') . DIRECTORY_SEPARATOR,
+            realpath(WEB_ROOT . 'themes') . DIRECTORY_SEPARATOR,
+            realpath(WEB_ROOT . 'themes/admin_simpleboot3') . DIRECTORY_SEPARATOR,
+            realpath(WEB_ROOT . 'upload') . DIRECTORY_SEPARATOR,
         ];
         $newFolders = [];
         foreach ($folders as $dir) {
@@ -278,14 +278,14 @@ class IndexController extends BaseController
         $sqlIndex = $this->request->param('sql_index', 0, 'intval');
 
         $this->updateDbConfig($dbConfig);
-        $db = Db::connect('install_db',true);
+        $db = Db::connect('install_db', true);
         if ($sqlIndex >= count($sql)) {
             $installError = session('install.error');
             $this->success("安装完成!", '', ['done' => 1, 'error' => $installError]);
         }
 
         $sqlToExec = $sql[$sqlIndex] . ';';
-        $result = sp_execute_sql($db, $sqlToExec);
+        $result    = sp_execute_sql($db, $sqlToExec);
 
         if (!empty($result['error'])) {
             $installError = session('install.error');
@@ -461,7 +461,7 @@ class IndexController extends BaseController
     {
         $oldDbConfig                              = config('database');
         $oldDbConfig['connections']['install_db'] = $dbConfig;
-        if(cmf_is_cli()) {
+        if (cmf_is_cli()) {
             $oldDbConfig['connections']['install_db']['break_reconnect'] = true;
         }
         config($oldDbConfig, 'database');
