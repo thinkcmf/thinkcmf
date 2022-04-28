@@ -2311,3 +2311,23 @@ function cmf_is_cli()
 {
    return PHP_SAPI === 'cli' || defined('STDIN');
 }
+
+/**
+ * 检查目录是否可写
+ * @param $d
+ * @return bool
+ */
+function cmf_test_write($d)
+{
+    $tfile = "_test_write.cmf";
+    $fp    = @fopen($d . "/" . $tfile, "w");
+    if (!$fp) {
+        return false;
+    }
+    fclose($fp);
+    $rs = @unlink($d . "/" . $tfile);
+    if ($rs) {
+        return true;
+    }
+    return false;
+}

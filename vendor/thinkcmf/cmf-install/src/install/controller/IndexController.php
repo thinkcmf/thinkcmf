@@ -170,7 +170,7 @@ class IndexController extends BaseController
         foreach ($folders as $dir) {
             $testDir = $dir;
             sp_dir_create($testDir);
-            if (sp_testwrite($testDir)) {
+            if (cmf_test_write($testDir)) {
                 $newFolders[$dir]['w'] = true;
             } else {
                 $newFolders[$dir]['w'] = false;
