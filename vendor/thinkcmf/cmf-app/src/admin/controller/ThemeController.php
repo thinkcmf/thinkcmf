@@ -61,7 +61,7 @@ class ThemeController extends AdminBaseController
      */
     public function install()
     {
-        $themesDirs = cmf_scan_dir(WEB_ROOT."themes/*", GLOB_ONLYDIR);
+        $themesDirs = cmf_scan_dir(WEB_ROOT . "themes/*", GLOB_ONLYDIR);
 
         $themeModel = new ThemeModel();
 
@@ -71,7 +71,7 @@ class ThemeController extends AdminBaseController
 
         $themes = [];
         foreach ($themesDirs as $dir) {
-            $manifest = WEB_ROOT."themes/$dir/manifest.json";
+            $manifest = WEB_ROOT . "themes/$dir/manifest.json";
             if (file_exists_case($manifest)) {
                 $manifest       = file_get_contents($manifest);
                 $theme          = json_decode($manifest, true);

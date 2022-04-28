@@ -28,8 +28,8 @@ class HomeBaseController extends BaseController
     {
         $cmfThemePath    = config('template.cmf_theme_path');
         $cmfDefaultTheme = cmf_get_current_theme();
-        $root = cmf_get_root();
-        $themePath = "{$cmfThemePath}{$cmfDefaultTheme}";
+        $root            = cmf_get_root();
+        $themePath       = "{$cmfThemePath}{$cmfDefaultTheme}";
         //使cdn设置生效
         $cdnSettings = cmf_get_option('cdn_settings');
         if (empty($cdnSettings['cdn_static_root'])) {
@@ -135,7 +135,7 @@ hello;
 
         $cmfThemePath    = config('template.cmf_theme_path');
         $cmfDefaultTheme = cmf_get_current_theme();
-        $themePath       = WEB_ROOT."{$cmfThemePath}{$cmfDefaultTheme}/";
+        $themePath       = WEB_ROOT . "{$cmfThemePath}{$cmfDefaultTheme}/";
 
         // 基础视图目录
         $module = isset($module) ? $module : $this->app->http->getName();
@@ -229,14 +229,14 @@ hello;
         return ['vars' => $vars, 'widgets' => $widgets, 'file' => $themeFile];
     }
 
-    public function checkUserLogin($isreurl=false)
+    public function checkUserLogin($isreurl = false)
     {
-        $refer = $this->request->server('HTTP_REFERER');
+        $refer  = $this->request->server('HTTP_REFERER');
         $userId = cmf_get_current_user_id();
         if (empty($userId)) {
-            if($isreurl !== false){
-                $tourl = cmf_url("user/Login/index",['redirect'=>$refer]);
-            }else{
+            if ($isreurl !== false) {
+                $tourl = cmf_url("user/Login/index", ['redirect' => $refer]);
+            } else {
                 $tourl = cmf_url("user/Login/index");
             }
             if ($this->request->isAjax()) {

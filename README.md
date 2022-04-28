@@ -103,6 +103,24 @@ enjoy your cmf~!
 5. `composer update`
 
 ### 更新日志
+#### 6.0.4
+* 调整PHP版本最低限制为`7.4.0`
+* 增加应用在线安装
+* 增加应用管理
+* 增加安装时更多目录可写检查
+* 增加`cmf_get_app_class`函数
+* 增加`cmf_is_cli`函数
+* 增加`cmf_test_write`函数
+* 优化用户资料编辑
+* 优化函数`cmf_scan_dir`
+* 优化安装时数据库连接处理
+* 修复`cmf_curl_get`不支持https
+* 修复`/home/slides/{id}`API注解错误
+* 修复验证码登录API报错
+* 修复回收站删除、还原报错
+* 修复API路由加载
+
+
 #### 6.0.3
 * 自定义分页类
 * 优化后台模板设计

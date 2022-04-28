@@ -1,6 +1,13 @@
 # ThinkCMF核心包
 
 ## 更新日志
+### v6.0.8
+* 增加`cmf_get_app_class`函数
+* 优化函数`cmf_scan_dir`
+* 修复`cmf_curl_get`不支持https
+* 增加`cmf_is_cli`函数
+* 增加`cmf_test_write`函数
+
 ### v6.0.7
 * 修复后台模板文件列表设计报错
 
