@@ -285,7 +285,7 @@ class AppStoreController extends AppStoreAdminBaseController
         ];
 
         foreach ($dirs as $dir) {
-            if (!is_writable($dir)) {
+            if (!cmf_test_write($dir)) {
                 $this->error('目录不可写' . $dir);
             }
         }
