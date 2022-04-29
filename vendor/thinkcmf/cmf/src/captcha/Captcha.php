@@ -18,7 +18,7 @@ use think\Session;
 
 class Captcha
 {
-    private $im = null; // 验证码图片实例
+    private $im    = null; // 验证码图片实例
     private $color = null; // 验证码字体颜色
 
     /**
@@ -178,7 +178,7 @@ class Captcha
         // 图片高(px)
         $this->imageH || $this->imageH = $this->fontSize * 2.5;
         // 建立一幅 $this->imageW x $this->imageH 的图像
-        $this->im = imagecreate($this->imageW, $this->imageH);
+        $this->im = imagecreate((int) $this->imageW, (int) $this->imageH);
         // 设置背景
         imagecolorallocate($this->im, $this->bg[0], $this->bg[1], $this->bg[2]);
 
@@ -220,12 +220,11 @@ class Captcha
 
         foreach ($text as $index => $char) {
 
-            $x = $this->fontSize * ($index + 1) * mt_rand(1.2, 1.6) * ($this->math ? 1 : 1.5);
-//            $y     = $this->fontSize + mt_rand(10, 20);
-            $y     = $this->fontSize * 1.6;
+            $x     = $this->fontSize * ($index + 1) * ($this->math ? 1 : 1.5);
+            $y     = $this->fontSize + mt_rand(10, 20);
             $angle = $this->math ? 0 : mt_rand(-40, 40);
 
-            imagettftext($this->im, $this->fontSize, $angle, $x, $y, $this->color, $fontttf, $char);
+            imagettftext($this->im, $this->fontSize, $angle, (int) $x, (int) $y, $this->color, $fontttf, $char);
         }
 
         ob_start();
@@ -266,9 +265,9 @@ class Captcha
         for ($px = $px1; $px <= $px2; $px = $px + 1) {
             if (0 != $w) {
                 $py = $A * sin($w * $px + $f) + $b + $this->imageH / 2; // y = Asin(ωx+φ) + b
-                $i  = (int)($this->fontSize / 5);
+                $i  = (int) ($this->fontSize / 5);
                 while ($i > 0) {
-                    imagesetpixel($this->im, $px + $i, $py + $i, $this->color); // 这里(while)循环画像素点比imagettftext和imagestring用字体大小一次画出（不用这while循环）性能要好很多
+                    imagesetpixel($this->im, (int)($px + $i), (int)($py + $i), $this->color); // 这里(while)循环画像素点比imagettftext和imagestring用字体大小一次画出（不用这while循环）性能要好很多
                     $i--;
                 }
             }
@@ -286,9 +285,9 @@ class Captcha
         for ($px = $px1; $px <= $px2; $px = $px + 1) {
             if (0 != $w) {
                 $py = $A * sin($w * $px + $f) + $b + $this->imageH / 2; // y = Asin(ωx+φ) + b
-                $i  = (int)($this->fontSize / 5);
+                $i  = (int) ($this->fontSize / 5);
                 while ($i > 0) {
-                    imagesetpixel($this->im, $px + $i, $py + $i, $this->color);
+                    imagesetpixel($this->im, (int)($px + $i), (int)($py + $i), $this->color);
                     $i--;
                 }
             }
