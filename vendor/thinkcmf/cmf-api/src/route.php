@@ -28,10 +28,10 @@ foreach ($coreApps as $app) {
     }
 }
 
-if (file_exists(CMF_DATA . "conf/route.php")) {
-    $runtimeRoutes = include CMF_DATA . "conf/route.php";
-} else {
-    $runtimeRoutes = [];
-}
+//if (file_exists(CMF_DATA . "conf/route.php")) {
+//    $runtimeRoutes = include CMF_DATA . "conf/route.php";
+//} else {
+//    $runtimeRoutes = [];
+//}
 
 return $runtimeRoutes;

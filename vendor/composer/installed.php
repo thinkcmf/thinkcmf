@@ -161,12 +161,12 @@
             'dev_requirement' => true,
         ),
         'symfony/var-dumper' => array(
-            'pretty_version' => 'v4.4.39',
-            'version' => '4.4.39.0',
+            'pretty_version' => 'v4.4.41',
+            'version' => '4.4.41.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/var-dumper',
             'aliases' => array(),
-            'reference' => '35237c5e5dcb6593a46a860ba5b29c1d4683d80e',
+            'reference' => '58eb36075c04aaf92a7a9f38ee9a8b97e24eb481',
             'dev_requirement' => true,
         ),
         'thinkcmf/cmf' => array(
