@@ -333,7 +333,7 @@ class AppStoreController extends AppStoreAdminBaseController
             $files = $archive->listContent();
 
             foreach ($files as $mFile) {
-                $result = $archive->extractByIndex($mFile['index'], PCLZIP_OPT_PATH, CMF_ROOT, PCLZIP_OPT_REMOVE_PATH, 'portal/');
+                $result = $archive->extractByIndex($mFile['index'], PCLZIP_OPT_PATH, CMF_ROOT, PCLZIP_OPT_REMOVE_PATH, "{$data['data']['app']['name']}/");
             }
 
             unlink($tmpFile);
