@@ -129,7 +129,7 @@ class IndexController extends BaseController
             $err++;
         }
 
-        if (extension_loaded('fileinfo')) {
+        if (class_exists('SplFileInfo')) {
             $data['fileinfo'] = '<i class="fa fa-check correct"></i> 已开启';
         } else {
             $data['fileinfo'] = '<i class="fa fa-remove error"></i> 未开启';
