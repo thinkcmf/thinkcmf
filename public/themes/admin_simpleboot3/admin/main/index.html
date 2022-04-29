@@ -166,7 +166,7 @@
         </div>
     </empty>
 
-    <if condition="!extension_loaded('fileinfo')">
+    <if condition="!class_exists('SplFileInfo')">
         <div class="grid-item col-md-12">
             <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-bottom: 0;">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
