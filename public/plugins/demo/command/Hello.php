@@ -20,10 +20,10 @@ class Hello extends Command
 
     protected function execute(Input $input, Output $output)
     {
-        $name = trim($input->getArgument('name'));
+        $name = $input->getArgument('name');
+        $name = $name ? $name : 'ThinkCMF';
         $city = $input->getOption('city');
         $city = $city ? $city : 'China';
-        $name = $name ? $name : 'ThinkCMF';
         $output->writeln("Hello, My name is " . $name . '! I\'m from ' . $city);
     }
 
