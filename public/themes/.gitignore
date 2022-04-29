@@ -1,0 +1,7 @@
+# 二次开发可以更新或删除此文件
+*
+!.gitignore
+!./admin_simpleboot3
+!./default
+!.htaccess
+!.htaccess_apache2.4
