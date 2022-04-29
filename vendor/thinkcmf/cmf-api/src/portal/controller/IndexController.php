@@ -12,7 +12,15 @@ use cmf\controller\RestBaseController;
 
 class IndexController extends RestBaseController
 {
-    // api 首页
+    /**
+     * API首页
+     * @OA\Get(
+     *     tags={"home"},
+     *     path="/",
+     *     @OA\Response(response="200", description="An example resource"),
+     *     @OA\Response(response="default", description="An example resource")
+     * )
+     */
     public function index()
     {
         $this->success("恭喜您,API访问成功!", [

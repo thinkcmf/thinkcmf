@@ -34,4 +34,4 @@ foreach ($coreApps as $app) {
 //    $runtimeRoutes = [];
 //}
 
-return $runtimeRoutes;
+//return $runtimeRoutes;
