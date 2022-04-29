@@ -26,10 +26,8 @@ class VendorPublish extends Command
 
     public function handle()
     {
-
         $force = $this->input->getOption('force');
 
-        echo $force . "force\n";
         if (is_file($path = $this->app->getRootPath() . 'vendor/composer/installed.json')) {
             $packages = json_decode(@file_get_contents($path), true);
             // Compatibility with Composer 2.0
