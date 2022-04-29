@@ -12,4 +12,4 @@ Vagrantfile
 .vagrant
 *.log
 .env
-./config
+/config
