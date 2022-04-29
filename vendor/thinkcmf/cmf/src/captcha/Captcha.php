@@ -192,7 +192,7 @@ class Captcha
             $dir  = dir($ttfPath);
             $ttfs = [];
             while (false !== ($file = $dir->read())) {
-                if ('.' != $file[0] && substr($file, -4) == '.ttf') {
+                if (substr($file, -4) == '.ttf' || substr($file, -4) == '.otf') {
                     $ttfs[] = $file;
                 }
             }
@@ -221,7 +221,7 @@ class Captcha
         foreach ($text as $index => $char) {
 
             $x     = $this->fontSize * ($index + 1) * ($this->math ? 1 : 1.5);
-            $y     = $this->fontSize + mt_rand(10, 20);
+            $y     = $this->fontSize + mt_rand(5, 15);
             $angle = $this->math ? 0 : mt_rand(-40, 40);
 
             imagettftext($this->im, $this->fontSize, $angle, (int) $x, (int) $y, $this->color, $fontttf, $char);
