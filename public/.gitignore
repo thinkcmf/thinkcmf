@@ -1,0 +1,12 @@
+# 二次开发可以更新或删除此文件
+*
+!.gitignore
+!/plugins
+!/static
+!/themes
+!/upload
+!.htaccess
+!api.php
+!index.php
+!robots.txt
+!router.php
