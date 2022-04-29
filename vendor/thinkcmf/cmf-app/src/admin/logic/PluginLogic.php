@@ -143,7 +143,6 @@ class PluginLogic
         $newHooks = array_diff($pluginHooks, $samePluginHooks);
 
         if (count($shouldDeleteHooks) > 0) {
-            
             $hookPluginModel->where('plugin', $pluginName)->where('hook', 'in', $shouldDeleteHooks)->delete();
         }
 
