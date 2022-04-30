@@ -996,16 +996,16 @@
         },
         {
             "name": "thinkcmf/cmf-root",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-root.git",
-                "reference": "070f83e79273697e58b283c7a95bdc66eb583e75"
+                "reference": "21e7a30c3560234526cfc74fe5e8b91bb68c3022"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-root/zipball/070f83e79273697e58b283c7a95bdc66eb583e75",
-                "reference": "070f83e79273697e58b283c7a95bdc66eb583e75",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-root/zipball/21e7a30c3560234526cfc74fe5e8b91bb68c3022",
+                "reference": "21e7a30c3560234526cfc74fe5e8b91bb68c3022",
                 "shasum": ""
             },
             "require": {
@@ -1036,9 +1036,9 @@
             "description": "The files in ThinkCMF root dir",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-root/issues",
-                "source": "https://github.com/thinkcmf/cmf-root/tree/v1.0.2"
+                "source": "https://github.com/thinkcmf/cmf-root/tree/v1.0.3"
             },
-            "time": "2021-09-29T00:17:19+00:00"
+            "time": "2022-04-30T13:00:51+00:00"
         },
         {
             "name": "thinkcmf/cmf-route",

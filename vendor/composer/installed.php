@@ -224,12 +224,12 @@
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-root' => array(
-            'pretty_version' => 'v1.0.2',
-            'version' => '1.0.2.0',
+            'pretty_version' => 'v1.0.3',
+            'version' => '1.0.3.0',
             'type' => 'composer-plugin',
             'install_path' => __DIR__ . '/../thinkcmf/cmf-root',
             'aliases' => array(),
-            'reference' => '070f83e79273697e58b283c7a95bdc66eb583e75',
+            'reference' => '21e7a30c3560234526cfc74fe5e8b91bb68c3022',
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-route' => array(
