@@ -1,6 +1,6 @@
 <php>
     if (!function_exists('_parse_vars')) {
-        function _parse_vars($vars,$inputName,$level=1,$widget='',$file_id=''){
+    function _parse_vars($vars,$inputName,$level=1,$widget='',$file_id=''){
 
 </php>
 <foreach name="vars" item="var" key="varName">
@@ -22,12 +22,14 @@
                                    onclick="doSelectData(this)"
                                    data-source="{:base64_encode(json_encode($var['dataSource']))}"
                                    data-title="请选择{$var.title}"
-                                   value="{$vars[$varName]['valueText']|default=''}">
+                                   value="{$vars[$varName]['valueText']|default=''}"
+                                   placeholder="{$var.placeholder|default=''}">
                             <input type="hidden" name="{$inputName}[{$varName}]" class="form-control"
                                    value="{$vars[$varName]['value']}">
                             <else/>
                             <input type="text" name="{$inputName}[{$varName}]" class="form-control"
-                                   value="{$vars[$varName]['value']}">
+                                   value="{$vars[$varName]['value']}"
+                                   placeholder="{$var.placeholder|default=''}">
                         </present>
                         <present name="var.tip">
                             <p class="help-block">{$var.tip}</p>
@@ -37,7 +39,8 @@
                 <case value="textarea">
                     <div class="controls">
                         <textarea name="{$inputName}[{$varName}]"
-                                  class="form-control">{$vars[$varName]['value']}</textarea>
+                                  class="form-control"
+                                  placeholder="{$var.placeholder|default=''}">{$vars[$varName]['value']}</textarea>
                         <present name="var.tip">
                             <p class="help-block">{$var.tip}</p>
                         </present>
@@ -46,7 +49,8 @@
                 <case value="date">
                     <div class="controls">
                         <input type="text" name="{$inputName}[{$varName}]" class="form-control js-bootstrap-date"
-                               value="{$vars[$varName]['value']}">
+                               value="{$vars[$varName]['value']}"
+                               placeholder="{$var.placeholder|default=''}">
                         <present name="var.tip">
                             <p class="help-block">{$var.tip}</p>
                         </present>
@@ -55,7 +59,8 @@
                 <case value="datetime">
                     <div class="controls">
                         <input type="text" name="{$inputName}[{$varName}]" class="form-control js-bootstrap-datetime"
-                               value="{$vars[$varName]['value']}">
+                               value="{$vars[$varName]['value']}"
+                               placeholder="{$var.placeholder|default=''}">
                         <present name="var.tip">
                             <p class="help-block">{$var.tip}</p>
                         </present>
@@ -79,7 +84,11 @@
                             </a>
                             <if condition="!empty($vars[$varName]['value'])">
                                 <br>
-                                <button id="js-{$widget}{$varName}-button-remove" defaultImage="__TMPL__/public/assets/images/default-thumbnail.png" class="removeImage btn btn-sm" type="button" onclick="removeImage('{$widget}{$varName}')">取消图片</button>
+                                <button id="js-{$widget}{$varName}-button-remove"
+                                        defaultImage="__TMPL__/public/assets/images/default-thumbnail.png"
+                                        class="removeImage btn btn-sm" type="button"
+                                        onclick="removeImage('{$widget}{$varName}')">取消图片
+                                </button>
                             </if>
                         </div>
                         <present name="var.tip">
@@ -90,7 +99,8 @@
                 <case value="number">
                     <div class="controls">
                         <input type="number" name="{$inputName}[{$varName}]" class="form-control"
-                               value="{$vars[$varName]['value']}">
+                               value="{$vars[$varName]['value']}"
+                               placeholder="{$var.placeholder|default=''}">
                         <present name="var.tip">
                             <p class="help-block">{$var.tip}</p>
                         </present>
@@ -101,7 +111,8 @@
                         <input type="text" name="{$inputName}[{$varName}_text_]" class="form-control"
                                onclick="doSelectLocation(this)"
                                data-title="请选择{$var.title}"
-                               value="{$vars[$varName]['valueText']|default=''}">
+                               value="{$vars[$varName]['valueText']|default=''}"
+                               placeholder="{$var.placeholder|default=''}">
                         <input type="hidden" name="{$inputName}[{$varName}]" class="form-control"
                                value="{$vars[$varName]['value']}">
                         <present name="var.tip">
@@ -113,8 +124,10 @@
                     <div class="controls">
                         <div class="input-group">
                             <input type="text" name="{$inputName}[{$varName}]" class="form-control"
-                                   value="{$vars[$varName]['value']}" id="js-{$widget}{$varName}-input-file">
-                            <span class="input-group-addon"> <a href="javascript:doUploadOne('图片上传','#js-{$widget}{$varName}-input-file','file');">上传</a></span>
+                                   value="{$vars[$varName]['value']}" id="js-{$widget}{$varName}-input-file"
+                                   placeholder="{$var.placeholder|default=''}">
+                            <span class="input-group-addon"> <a
+                                    href="javascript:doUploadOne('图片上传','#js-{$widget}{$varName}-input-file','file');">上传</a></span>
                         </div>
                         <present name="var.tip">
                             <p class="help-block">{$var.tip}</p>
@@ -124,7 +137,8 @@
                 <case value="color">
                     <div class="controls">
                         <input type="text" name="{$inputName}[{$varName}]" class="form-control js-color"
-                               value="{$vars[$varName]['value']}" id="js-color-{$widget}{$varName}">
+                               value="{$vars[$varName]['value']}" id="js-color-{$widget}{$varName}"
+                               placeholder="{$var.placeholder|default=''}">
                         <present name="var.tip">
                             <p class="help-block">{$var.tip}</p>
                         </present>
@@ -141,7 +155,7 @@
                                   data-var="{$varName}"
                                   data-widget="{$widget}"
                                   data-title="编辑{$var.title}"
-                                    data-file_id="{$file_id}">{$arrayValueText}</textarea>
+                                  data-file_id="{$file_id}">{$arrayValueText}</textarea>
                         <present name="var.tip">
                             <p class="help-block">{$var.tip}</p>
                         </present>
@@ -180,6 +194,6 @@
 </foreach>
 
 <php>
-        }
+    }
     }
 </php>
