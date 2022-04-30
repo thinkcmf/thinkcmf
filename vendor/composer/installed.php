@@ -170,12 +170,12 @@
             'dev_requirement' => true,
         ),
         'thinkcmf/cmf' => array(
-            'pretty_version' => 'v6.0.7',
-            'version' => '6.0.7.0',
+            'pretty_version' => 'v6.0.8',
+            'version' => '6.0.8.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../thinkcmf/cmf',
             'aliases' => array(),
-            'reference' => '084e2fae6562484b205ceb4401320000df985b63',
+            'reference' => '30ba807dc80bcd959f0db175924be2c7d3ea2868',
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-api' => array(

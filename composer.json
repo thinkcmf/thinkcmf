@@ -21,25 +21,18 @@
             "email": "449134904@qq.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
         "php": ">=7.1.0",
         "ext-json": "*",
         "ext-curl": "*",
         "ext-pdo": "*",
-        "thinkcmf/cmf": "^6.0.0",
         "thinkcmf/cmf-app": "^6.0.0",
-        "thinkcmf/cmf-route": "^6.0.0",
-        "thinkcmf/think-view": "~1.0.15",
-        "topthink/think-orm": "^2.0",
-        "topthink/think-captcha": "^3.0",
         "thinkcmf/cmf-install": "^6.0.0",
         "thinkcmf/cmf-api": "^6.0.0",
         "thinkcmf/cmf-appstore": "^1.0",
-        "thinkcmf/cmf-root": "^1.0",
-        "xia/migration": "^6.0",
-        "topthink/framework": "6.0.12"
+        "thinkcmf/cmf-root": "^1.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
