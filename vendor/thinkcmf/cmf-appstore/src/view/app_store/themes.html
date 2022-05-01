@@ -4,8 +4,8 @@
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
         <li><a href="{:url('AppStore/apps')}">应用市场</a></li>
-        <li class="active"><a href="{:url('AppStore/plugins')}">插件市场</a></li>
-        <li><a href="{:url('AppStore/themes')}">模板市场</a></li>
+        <li><a href="{:url('AppStore/plugins')}">插件市场</a></li>
+        <li class="active"><a href="{:url('AppStore/themes')}">模板市场</a></li>
     </ul>
     <form method="post" class="js-ajax-form margin-top-20">
         <php>
@@ -14,8 +14,8 @@
         <table class="table table-hover table-bordered">
             <thead>
             <tr>
-                <th>插件名称</th>
-                <th>插件标识</th>
+                <th>模板名称</th>
+                <th>模板标识</th>
                 <th>描述</th>
                 <th>版本</th>
                 <!--                <th width="60">状态</th>-->
@@ -23,41 +23,46 @@
             </tr>
             </thead>
             <tbody>
-            <foreach name="plugins" item="vo">
+            <foreach name="themes" item="vo">
                 <tr>
                     <td>
-                        <a href="https://www.thinkcmf.com/appstore/plugin/{$vo.id}.html" target="_blank">{$vo.title}</a>
+                        <a href="{$vo.buy_url}" target="_blank">{$vo.title}</a>
                     </td>
                     <td><span class="label label-info">{$vo.name}</span></td>
                     <td>{$vo.description}</td>
-                    <td><span class="label label-success">{$vo.version}</span></td>
-
-                    <!--                    <td>{$status[$vo['status']]}</td>-->
+                    <td>
+                        <empty name="vo.installed">
+                            <span class="label label-success">{$vo.version}</span>
+                            <else/>
+                            <span class="label label-info">{$vo.installed_theme.version|default='0.0.0'}</span>
+                            <notempty name="vo.need_update">
+                                -> <span class="label label-success">{$vo.version}</span>
+                            </notempty>
+                        </empty>
+                    </td>
                     <td>
                         <empty name="vo.installed">
                             <empty name="appstore_settings.access_token">
                                 <a class="btn btn-primary btn-xs js-install-plugin-btn"
-                                   data-href="{:url('AppStore/installPlugin',['id'=>$vo.id])}">安装</a>
+                                   data-href="{:url('AppStore/installTheme',['id'=>$vo.id])}">安装</a>
                                 <else/>
                                 <empty name="vo.has_bought">
                                     <a class="btn btn-info btn-xs"
-                                       href="javascript:;" onclick="doBuyPlugin('{$vo.buy_url}')">购买</a>
+                                       href="javascript:;" onclick="doBuyApp('{$vo.buy_url}')">购买</a>
                                     <else/>
                                     <a class="btn btn-primary btn-xs js-ajax-dialog-btn"
-                                       data-href="{:url('AppStore/installPlugin',['id'=>$vo.id])}"
+                                       data-href="{:url('AppStore/installTheme',['id'=>$vo.id])}"
                                        data-wait-msg="正在安装...">安装</a>
                                 </empty>
                             </empty>
                             <else/>
+                            <a class="btn btn-danger btn-xs disabled">卸载</a>
                             <notempty name="vo.need_update">
                                 <a class="btn btn-success btn-xs js-ajax-dialog-btn"
-                                   data-href="{:url('AppStore/installPlugin',['id'=>$vo.id,'version'=>$vo.installed_plugin.version])}">升级</a>
+                                   data-href="{:url('AppStore/installTheme',['id'=>$vo.id,'version'=>$vo.installed_app.version])}">升级</a>
                             </notempty>
-                            <a class="btn btn-xs btn-danger js-ajax-dialog-btn"
-                               href="{:url('Plugin/uninstall',array('id'=>$vo.installed_plugin.id))}"
-                               data-msg="确定卸载该插件吗？">卸载</a>
                         </empty>
-                        <!--<a target="_blank" href2="https://www.thinkcmf.com/appstore/login/index" class="btn btn-primary btn-xs js-install-plugin-btn" data-href="{:url('AppStore/installPlugin',['id'=>$vo.id])}">安装</a>-->
+                        <!--<a target="_blank" href2="https://www.thinkcmf.com/appstore/login/index" class="btn btn-primary btn-xs js-install-plugin-btn" data-href="{:url('AppStore/installApp',['id'=>$vo.id])}">安装</a>-->
                     </td>
                 </tr>
             </foreach>
@@ -77,16 +82,16 @@
         });
     });
 
-    var buyPluginLayerIndex = '';
+    var buyAppLayerIndex = '';
 
-    function doBuyPlugin(buyUrl) {
+    function doBuyApp(buyUrl) {
         buyUrl = buyUrl + "?app_store_token={$appstore_settings.access_token|default=''}"
-        parent.openIframeLayer(buyUrl, '购买插件', {
+        parent.openIframeLayer(buyUrl, '购买应用', {
             area: ['95%', '90%'],
             end: function () {
             },
             success: function (layero, index) {
-                buyPluginLayerIndex = index
+                buyAppLayerIndex = index
             }
         });
     }
@@ -101,7 +106,7 @@
             switch (e.data.action) {
                 case "appstore/pay/complete":
                     window.location.reload()
-                    parent.layer.close(buyPluginLayerIndex);
+                    parent.layer.close(buyAppLayerIndex);
                     break;
             }
         }
