@@ -198,6 +198,47 @@ class PublicController extends RestBaseController
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      * @throws \think\exception\PDOException
+     * @OA\Post(
+     *     tags={"user"},
+     *     path="/user/public/login",
+     *     @OA\Parameter(
+     *         in="header",
+     *         name="XX-Device-Type",
+     *         description="此处与表单 device_type 任选一 设备类型：mobile,android,iphone,ipad,web,pc,mac,wxapp,ios",
+     *         @OA\Schema(
+     *             type="string",
+     *             default="web"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         description="请求参数",
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="username",
+     *                     description="手机号，邮箱，账户",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="password",
+     *                     description="密码",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="device_type",
+     *                     description="此处与header XX-Device-Type 任选一 设备类型：mobile,android,iphone,ipad,web,pc,mac,wxapp,ios",
+     *                     type="string"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="An example resource",
+     *     ),
+     *     @OA\Response(response="default", description="An example resource")
+     * )
      */
     // TODO 增加最后登录信息记录,如 ip
     public function login()
@@ -287,7 +328,11 @@ class PublicController extends RestBaseController
             $this->error("登录失败!");
         }
 
-        $this->success("登录成功!", ['token' => $token, 'user' => $findUser]);
+        $this->success("登录成功!", ['token' => $token, 'user' => $findUser->hidden([
+            'user_pass',
+            'user_activation_key',
+            'more','user_type'
+        ])]);
     }
 
     /**
