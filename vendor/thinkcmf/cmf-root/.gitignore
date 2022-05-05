@@ -12,3 +12,5 @@ Vagrantfile
 .vagrant
 *.log
 .env
+/vendor
+composer.lock

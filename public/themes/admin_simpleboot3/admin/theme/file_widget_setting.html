@@ -91,7 +91,7 @@
                 <else/>
             </notempty>
             <div class="form-group text-center" style="display: none;">
-                <input type="hidden" name="id" value="{$file.id}">
+                <input type="hidden" name="id" value="{$file.id|default=''}">
                 <button type="submit" class="btn btn-primary js-ajax-submit" id="submit-btn"
                         data-success="successCallback">
                     {:lang('SAVE')}
