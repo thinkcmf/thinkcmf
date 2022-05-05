@@ -19,10 +19,22 @@ use OpenApi\Annotations as OA;
  * )
  *
  * @OA\SecurityScheme(
+ *     securityScheme="ApiToken-XX-Token",
  *     type="apiKey",
  *     in="header",
- *     securityScheme="api_key",
+ *     name="XX-Token"
+ * )
+ * @OA\SecurityScheme(
+ *     securityScheme="ApiToken-Authorization",
+ *     type="apiKey",
+ *     in="header",
  *     name="Authorization"
+ * )
+ * @OA\SecurityScheme(
+ *     securityScheme="ApiToken-AuthorizationBearer",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT"
  * )
  */
 class ApiInfo
