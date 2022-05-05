@@ -206,7 +206,8 @@ class PublicController extends RestBaseController
      *         name="XX-Device-Type",
      *         description="此处与表单 device_type 任选一 设备类型：mobile,android,iphone,ipad,web,pc,mac,wxapp,ios",
      *         @OA\Schema(
-     *             type="string"
+     *             type="string",
+     *             default="web"
      *         )
      *     ),
      *     @OA\RequestBody(
