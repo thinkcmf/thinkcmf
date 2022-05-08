@@ -15,7 +15,6 @@ use Phinx\Db\Adapter\AdapterFactory;
 
 abstract class Command extends \think\console\Command
 {
-
     public function getAdapter()
     {
         if (isset($this->adapter)) {
@@ -23,7 +22,6 @@ abstract class Command extends \think\console\Command
         }
 
         $options = $this->getDbConfig();
-
         $adapter = AdapterFactory::instance()->getAdapter($options['adapter'], $options);
 
         if ($adapter->hasOption('table_prefix') || $adapter->hasOption('table_suffix')) {
@@ -42,36 +40,35 @@ abstract class Command extends \think\console\Command
     protected function getDbConfig(): array
     {
         $default = $this->app->config->get('database.default');
-
-        $config = $this->app->config->get("database.connections.{$default}");
+        $config  = $this->app->config->get("database.connections.{$default}");
 
         if (0 == $config['deploy']) {
             $dbConfig = [
-                'adapter'      => $config['type'],
-                'host'         => $config['hostname'],
-                'name'         => $config['database'],
-                'user'         => $config['username'],
-                'pass'         => $config['password'],
-                'port'         => $config['hostport'],
-                'charset'      => $config['charset'],
-                'table_prefix' => $config['prefix'],
+                'adapter'       => $config['type'],
+                'host'          => $config['hostname'],
+                'name'          => $config['database'],
+                'user'          => $config['username'],
+                'pass'          => $config['password'],
+                'port'          => $config['hostport'],
+                'charset'       => $config['charset'],
+                'table_prefix'  => $config['prefix'],
                 'version_order' => $config['version_order'] ?? 'creation',
             ];
         } else {
             $dbConfig = [
-                'adapter'      => explode(',', $config['type'])[0],
-                'host'         => explode(',', $config['hostname'])[0],
-                'name'         => explode(',', $config['database'])[0],
-                'user'         => explode(',', $config['username'])[0],
-                'pass'         => explode(',', $config['password'])[0],
-                'port'         => explode(',', $config['hostport'])[0],
-                'charset'      => explode(',', $config['charset'])[0],
-                'table_prefix' => explode(',', $config['prefix'])[0],
+                'adapter'       => explode(',', $config['type'])[0],
+                'host'          => explode(',', $config['hostname'])[0],
+                'name'          => explode(',', $config['database'])[0],
+                'user'          => explode(',', $config['username'])[0],
+                'pass'          => explode(',', $config['password'])[0],
+                'port'          => explode(',', $config['hostport'])[0],
+                'charset'       => explode(',', $config['charset'])[0],
+                'table_prefix'  => explode(',', $config['prefix'])[0],
                 'version_order' => explode(',', $config['version_order'])[0] ?? 'creation',
             ];
         }
 
-        $table = $this->app->config->get('database.migration_table', 'migrations');
+        $table = $this->app->config->get('database.migration_table', 'migration');
 
         $dbConfig['default_migration_table'] = $dbConfig['table_prefix'] . $table;
 

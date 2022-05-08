@@ -17,9 +17,9 @@ class Creator
         $this->app = $app;
     }
 
-    public function create(string $className)
+    public function create(string $className, string $appName = '', string $pluginName = '')
     {
-        $path = $this->ensureDirectory();
+        $path = $this->ensureDirectory($appName, $pluginName);
 
         if (!Util::isValidPhinxClassName($className)) {
             throw new InvalidArgumentException(sprintf('The migration class name "%s" is invalid. Please use CamelCase format.', $className));
@@ -27,6 +27,14 @@ class Creator
 
         if (!Util::isUniqueMigrationClassName($className, $path)) {
             throw new InvalidArgumentException(sprintf('The migration class name "%s" already exists', $className));
+        }
+
+        if ($appName) {
+            $className = 'MigrationApp' . cmf_parse_name($appName, 1) . $className;
+        } elseif ($pluginName) {
+            $className = 'MigrationPlugin' . cmf_parse_name($pluginName, 1) . $className;
+        } else {
+            $className = 'MigrationCmf' . $className;
         }
 
         // Compute the file path
@@ -43,9 +51,10 @@ class Creator
         // Load the alternative template if it is defined.
         $contents = file_get_contents($this->getTemplate());
 
+
         // inject the class names appropriate to this migration
         $contents = strtr($contents, [
-            'MigratorClass' => $className,
+            '{%MigratorClass%}' => $className,
         ]);
 
         if (false === file_put_contents($filePath, $contents)) {
@@ -55,9 +64,15 @@ class Creator
         return $filePath;
     }
 
-    protected function ensureDirectory()
+    protected function ensureDirectory(string $appName = '', string $pluginName = '')
     {
-        $path = $this->app->getRootPath() . 'database' . DIRECTORY_SEPARATOR . 'migrations';
+        if ($appName) {
+            $path = $this->app->getAppPath() . $appName . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'migrations';
+        } elseif ($pluginName) {
+            $path = WEB_ROOT . 'plugins' . DIRECTORY_SEPARATOR . cmf_parse_name($pluginName) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'migrations';
+        } else {
+            $path = $this->app->getRootPath() . 'vendor/thinkcmf/cmf/src/data/migrations';
+        }
 
         if (!is_dir($path) && !mkdir($path, 0755, true)) {
             throw new InvalidArgumentException(sprintf('directory "%s" does not exist', $path));
