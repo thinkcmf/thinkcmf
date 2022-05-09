@@ -9,7 +9,6 @@ namespace Phinx\Db\Table;
 
 use Phinx\Db\Adapter\AdapterInterface;
 use RuntimeException;
-use UnexpectedValueException;
 
 /**
  * This object is based loosely on: http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/Table.html.
@@ -33,6 +32,8 @@ class Column
     public const TIMESTAMP = AdapterInterface::PHINX_TYPE_TIMESTAMP;
     public const UUID = AdapterInterface::PHINX_TYPE_UUID;
     public const BINARYUUID = AdapterInterface::PHINX_TYPE_BINARYUUID;
+    /** MySQL-only column type */
+    public const MEDIUMINTEGER = AdapterInterface::PHINX_TYPE_MEDIUM_INTEGER;
     /** MySQL-only column type */
     public const ENUM = AdapterInterface::PHINX_TYPE_ENUM;
     /** MySQL-only column type */
@@ -153,7 +154,6 @@ class Column
      * Sets the column name.
      *
      * @param string $name Name
-     *
      * @return $this
      */
     public function setName($name)
@@ -177,7 +177,6 @@ class Column
      * Sets the column type.
      *
      * @param string|\Phinx\Util\Literal $type Column type
-     *
      * @return $this
      */
     public function setType($type)
@@ -201,7 +200,6 @@ class Column
      * Sets the column limit.
      *
      * @param int $limit Limit
-     *
      * @return $this
      */
     public function setLimit($limit)
@@ -225,7 +223,6 @@ class Column
      * Sets whether the column allows nulls.
      *
      * @param bool $null Null
-     *
      * @return $this
      */
     public function setNull($null)
@@ -259,7 +256,6 @@ class Column
      * Sets the default column value.
      *
      * @param mixed $default Default
-     *
      * @return $this
      */
     public function setDefault($default)
@@ -283,7 +279,6 @@ class Column
      * Sets whether or not the column is an identity column.
      *
      * @param bool $identity Identity
-     *
      * @return $this
      */
     public function setIdentity($identity)
@@ -317,7 +312,6 @@ class Column
      * Sets the name of the column to add this column after.
      *
      * @param string $after After
-     *
      * @return $this
      */
     public function setAfter($after)
@@ -341,7 +335,6 @@ class Column
      * Sets the 'ON UPDATE' mysql column function.
      *
      * @param string $update On Update function
-     *
      * @return $this
      */
     public function setUpdate($update)
@@ -368,7 +361,6 @@ class Column
      * and the column could store value from -999.99 to 999.99.
      *
      * @param int $precision Number precision
-     *
      * @return $this
      */
     public function setPrecision($precision)
@@ -415,7 +407,6 @@ class Column
      * Sets the column identity seed.
      *
      * @param int $seed Number seed
-     *
      * @return $this
      */
     public function setSeed($seed)
@@ -429,7 +420,6 @@ class Column
      * Sets the column identity increment.
      *
      * @param int $increment Number increment
-     *
      * @return $this
      */
     public function setIncrement($increment)
@@ -446,7 +436,6 @@ class Column
      * and the column could store value from -999.99 to 999.99.
      *
      * @param int $scale Number scale
-     *
      * @return $this
      */
     public function setScale($scale)
@@ -477,7 +466,6 @@ class Column
      *
      * @param int $precision Number precision
      * @param int $scale Number scale
-     *
      * @return $this
      */
     public function setPrecisionAndScale($precision, $scale)
@@ -492,7 +480,6 @@ class Column
      * Sets the column comment.
      *
      * @param string $comment Comment
-     *
      * @return $this
      */
     public function setComment($comment)
@@ -516,7 +503,6 @@ class Column
      * Sets whether field should be signed.
      *
      * @param bool $signed Signed
-     *
      * @return $this
      */
     public function setSigned($signed)
@@ -551,7 +537,6 @@ class Column
      * Used for date/time columns only!
      *
      * @param bool $timezone Timezone
-     *
      * @return $this
      */
     public function setTimezone($timezone)
@@ -585,7 +570,6 @@ class Column
      * Sets field properties.
      *
      * @param array $properties Properties
-     *
      * @return $this
      */
     public function setProperties($properties)
@@ -609,7 +593,6 @@ class Column
      * Sets field values.
      *
      * @param string[]|string $values Value(s)
-     *
      * @return $this
      */
     public function setValues($values)
@@ -636,7 +619,6 @@ class Column
      * Sets the column collation.
      *
      * @param string $collation Collation
-     *
      * @return $this
      */
     public function setCollation($collation)
@@ -660,7 +642,6 @@ class Column
      * Sets the column character set.
      *
      * @param string $encoding Encoding
-     *
      * @return $this
      */
     public function setEncoding($encoding)
@@ -748,9 +729,7 @@ class Column
      * Utility method that maps an array of column options to this objects methods.
      *
      * @param array $options Options
-     *
      * @throws \RuntimeException
-     *
      * @return $this
      */
     public function setOptions($options)

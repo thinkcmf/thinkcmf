@@ -54,16 +54,17 @@ class PhinxApplication extends Application
      *
      * @param \Symfony\Component\Console\Input\InputInterface $input An Input instance
      * @param \Symfony\Component\Console\Output\OutputInterface $output An Output instance
-     *
      * @return int 0 if everything went fine, or an error code
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         // always show the version information except when the user invokes the help
         // command as that already does it
-        if (($input->hasParameterOption(['--help', '-h']) !== false) || ($input->getFirstArgument() !== null && $input->getFirstArgument() !== 'list')) {
-            $output->writeln($this->getLongVersion());
-            $output->writeln('');
+        if ($input->hasParameterOption('--no-info') === false) {
+            if (($input->hasParameterOption(['--help', '-h']) !== false) || ($input->getFirstArgument() !== null && $input->getFirstArgument() !== 'list')) {
+                $output->writeln($this->getLongVersion());
+                $output->writeln('');
+            }
         }
 
         return parent::doRun($input, $output);

@@ -41,7 +41,7 @@ class Config implements ConfigInterface, NamespaceAwareInterface
     protected $values = [];
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $configFilePath;
 
@@ -59,9 +59,7 @@ class Config implements ConfigInterface, NamespaceAwareInterface
      * Create a new instance of the config class using a Yaml file path.
      *
      * @param string $configFilePath Path to the Yaml File
-     *
      * @throws \RuntimeException
-     *
      * @return \Phinx\Config\Config
      */
     public static function fromYaml($configFilePath)
@@ -89,16 +87,14 @@ class Config implements ConfigInterface, NamespaceAwareInterface
      * Create a new instance of the config class using a JSON file path.
      *
      * @param string $configFilePath Path to the JSON File
-     *
      * @throws \RuntimeException
-     *
      * @return \Phinx\Config\Config
      */
     public static function fromJson($configFilePath)
     {
         if (!function_exists('json_decode')) {
             // @codeCoverageIgnoreStart
-            throw new RuntimeException("Need to install JSON PHP extension to use JSON config");
+            throw new RuntimeException('Need to install JSON PHP extension to use JSON config');
             // @codeCoverageIgnoreEnd
         }
 
@@ -117,16 +113,14 @@ class Config implements ConfigInterface, NamespaceAwareInterface
      * Create a new instance of the config class using a PHP file path.
      *
      * @param string $configFilePath Path to the PHP File
-     *
      * @throws \RuntimeException
-     *
      * @return \Phinx\Config\Config
      */
     public static function fromPhp($configFilePath)
     {
         ob_start();
         /** @noinspection PhpIncludeInspection */
-        $configArray = include($configFilePath);
+        $configArray = include $configFilePath;
 
         // Hide console output
         ob_end_clean();
@@ -192,7 +186,7 @@ class Config implements ConfigInterface, NamespaceAwareInterface
      */
     public function hasEnvironment($name)
     {
-        return ($this->getEnvironment($name) !== null);
+        return $this->getEnvironment($name) !== null;
     }
 
     /**
@@ -267,7 +261,6 @@ class Config implements ConfigInterface, NamespaceAwareInterface
 
     /**
      * @inheritDoc
-     *
      * @throws \UnexpectedValueException
      */
     public function getMigrationPaths()
@@ -287,7 +280,6 @@ class Config implements ConfigInterface, NamespaceAwareInterface
      * Gets the base class name for migrations.
      *
      * @param bool $dropNamespace Return the base migration class name without the namespace.
-     *
      * @return string
      */
     public function getMigrationBaseClassName($dropNamespace = true)
@@ -299,7 +291,6 @@ class Config implements ConfigInterface, NamespaceAwareInterface
 
     /**
      * @inheritDoc
-     *
      * @throws \UnexpectedValueException
      */
     public function getSeedPaths()
@@ -424,7 +415,6 @@ class Config implements ConfigInterface, NamespaceAwareInterface
      * Replace tokens in the specified array.
      *
      * @param array $arr Array to replace
-     *
      * @return array
      */
     protected function replaceTokens(array $arr)
@@ -442,7 +432,7 @@ class Config implements ConfigInterface, NamespaceAwareInterface
 
         // Phinx defined tokens (override env tokens)
         $tokens['%%PHINX_CONFIG_PATH%%'] = $this->getConfigFilePath();
-        $tokens['%%PHINX_CONFIG_DIR%%'] = dirname($this->getConfigFilePath());
+        $tokens['%%PHINX_CONFIG_DIR%%'] = $this->getConfigFilePath() !== null ? dirname($this->getConfigFilePath()) : '';
 
         // Recurse the array and replace tokens
         return $this->recurseArrayForTokens($arr, $tokens);
@@ -453,7 +443,6 @@ class Config implements ConfigInterface, NamespaceAwareInterface
      *
      * @param array $arr Array to recurse
      * @param string[] $tokens Array of tokens to search for
-     *
      * @return array
      */
     protected function recurseArrayForTokens($arr, $tokens)
@@ -466,7 +455,7 @@ class Config implements ConfigInterface, NamespaceAwareInterface
             }
             if (is_string($value)) {
                 foreach ($tokens as $token => $tval) {
-                    $value = str_replace($token, $tval, $value);
+                    $value = str_replace($token, $tval ?? '', $value);
                 }
                 $out[$name] = $value;
                 continue;
@@ -481,7 +470,6 @@ class Config implements ConfigInterface, NamespaceAwareInterface
      * Parse a database-agnostic DSN into individual options.
      *
      * @param array $options Options
-     *
      * @return array
      */
     protected function parseAgnosticDsn(array $options)
@@ -499,11 +487,11 @@ class Config implements ConfigInterface, NamespaceAwareInterface
     /**
      * {@inheritDoc}
      *
-     * @param mixed $id
-     * @param mixed $value
-     *
+     * @param mixed $id ID
+     * @param mixed $value Value
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($id, $value)
     {
         $this->values[$id] = $value;
@@ -512,12 +500,11 @@ class Config implements ConfigInterface, NamespaceAwareInterface
     /**
      * {@inheritDoc}
      *
-     * @param mixed $id
-     *
+     * @param mixed $id ID
      * @throws \InvalidArgumentException
-     *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($id)
     {
         if (!array_key_exists($id, $this->values)) {
@@ -530,10 +517,10 @@ class Config implements ConfigInterface, NamespaceAwareInterface
     /**
      * {@inheritDoc}
      *
-     * @param mixed $id
-     *
+     * @param mixed $id ID
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($id)
     {
         return isset($this->values[$id]);
@@ -542,10 +529,10 @@ class Config implements ConfigInterface, NamespaceAwareInterface
     /**
      * {@inheritDoc}
      *
-     * @param mixed $id
-     *
+     * @param mixed $id ID
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($id)
     {
         unset($this->values[$id]);
