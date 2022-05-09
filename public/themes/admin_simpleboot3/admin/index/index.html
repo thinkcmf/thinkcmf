@@ -237,19 +237,19 @@
                         <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/Setting/site')">
                             <li>
                                 <a href="javascript:openapp('{:url('setting/site')}','index_site','{:lang('ADMIN_SETTING_SITE')}');"><i
-                                        class="fa fa-cog"></i> {:lang('ADMIN_SETTING_SITE')}</a></li>
+                                        class="fa fa-cog fa-fw"></i> {:lang('ADMIN_SETTING_SITE')}</a></li>
                         </if>
                         <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/user/userinfo')">
                             <li>
                                 <a href="javascript:openapp('{:url('user/userinfo')}','index_userinfo','{:lang('ADMIN_USER_USERINFO')}');"><i
-                                        class="fa fa-user"></i> {:lang('ADMIN_USER_USERINFO')}</a></li>
+                                        class="fa fa-user fa-fw"></i> {:lang('ADMIN_USER_USERINFO')}</a></li>
                         </if>
                         <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/Setting/password')">
                             <li>
                                 <a href="javascript:openapp('{:url('setting/password')}','index_password','{:lang('ADMIN_SETTING_PASSWORD')}');"><i
-                                        class="fa fa-lock"></i> {:lang('ADMIN_SETTING_PASSWORD')}</a></li>
+                                        class="fa fa-lock fa-fw"></i> {:lang('ADMIN_SETTING_PASSWORD')}</a></li>
                         </if>
-                        <li><a href="{:url('Public/logout')}"><i class="fa fa-sign-out"></i> {:lang('LOGOUT')}</a></li>
+                        <li><a href="{:url('Public/logout')}"><i class="fa fa-sign-out fa-fw"></i> {:lang('LOGOUT')}</a></li>
                     </ul>
                 </li>
             </ul>
