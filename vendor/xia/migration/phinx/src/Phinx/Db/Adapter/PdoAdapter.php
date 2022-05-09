@@ -31,6 +31,7 @@ use Phinx\Db\Table\Index;
 use Phinx\Db\Table\Table;
 use Phinx\Db\Util\AlterInstructions;
 use Phinx\Migration\MigrationInterface;
+use Phinx\Util\Literal;
 use RuntimeException;
 use think\console\Output as OutputInterface;
 
@@ -50,7 +51,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      * Writes a message to stdout if verbose output is on
      *
      * @param string $message The message to show
-     *
      * @return void
      */
     protected function verboseLog($message)
@@ -120,7 +120,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      * Sets the database connection.
      *
      * @param \PDO $connection Connection
-     *
      * @return \Phinx\Db\Adapter\AdapterInterface
      */
     public function setConnection(PDO $connection)
@@ -214,7 +213,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      * Executes a query and returns PDOStatement.
      *
      * @param string $sql SQL
-     *
      * @return \PDOStatement
      */
     public function query($sql)
@@ -270,7 +268,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      * Quotes a database value.
      *
      * @param mixed $value The value to quote
-     *
      * @return mixed
      */
     protected function quoteValue($value)
@@ -290,7 +287,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      * Quotes a database string.
      *
      * @param string $value The string to quote
-     *
      * @return string
      */
     protected function quoteString($value)
@@ -484,7 +480,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      *
      * @param \Phinx\Migration\MigrationInterface $migration The migration target for the breakpoint
      * @param bool $state The required state of the breakpoint
-     *
      * @return \Phinx\Db\Adapter\AdapterInterface
      */
     protected function markBreakpoint(MigrationInterface $migration, $state)
@@ -508,7 +503,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      * {@inheritDoc}
      *
      * @throws \BadMethodCallException
-     *
      * @return void
      */
     public function createSchema($schemaName = 'public')
@@ -520,7 +514,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      * {@inheritDoc}
      *
      * @throws \BadMethodCallException
-     *
      * @return void
      */
     public function dropSchema($name)
@@ -574,9 +567,7 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      * Retrieve a database connection attribute
      *
      * @see http://php.net/manual/en/pdo.getattribute.php
-     *
      * @param int $attribute One of the PDO::ATTR_* constants
-     *
      * @return mixed
      */
     public function getAttribute($attribute)
@@ -589,13 +580,14 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      *
      * @param mixed $default Default value
      * @param string|null $columnType column type added
-     *
      * @return string
      */
     protected function getDefaultValueDefinition($default, $columnType = null)
     {
-        // Ensure a defaults of CURRENT_TIMESTAMP(3) is not quoted.
-        if (is_string($default) && strpos($default, 'CURRENT_TIMESTAMP') !== 0) {
+        if ($default instanceof Literal) {
+            $default = (string)$default;
+        } elseif (is_string($default) && strpos($default, 'CURRENT_TIMESTAMP') !== 0) {
+            // Ensure a defaults of CURRENT_TIMESTAMP(3) is not quoted.
             $default = $this->getConnection()->quote($default);
         } elseif (is_bool($default)) {
             $default = $this->castToBool($default);
@@ -611,7 +603,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      *
      * @param string $tableName The table name to use in the ALTER statement
      * @param \Phinx\Db\Util\AlterInstructions $instructions The object containing the alter sequence
-     *
      * @return void
      */
     protected function executeAlterSteps($tableName, AlterInstructions $instructions)
@@ -634,7 +625,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      *
      * @param \Phinx\Db\Table\Table $table Table
      * @param \Phinx\Db\Table\Column $column Column
-     *
      * @return \Phinx\Db\Util\AlterInstructions
      */
     abstract protected function getAddColumnInstructions(Table $table, Column $column);
@@ -654,7 +644,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      * @param string $tableName Table name
      * @param string $columnName Column Name
      * @param string $newColumnName New Column Name
-     *
      * @return \Phinx\Db\Util\AlterInstructions
      */
     abstract protected function getRenameColumnInstructions($tableName, $columnName, $newColumnName);
@@ -674,7 +663,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      * @param string $tableName Table name
      * @param string $columnName Column Name
      * @param \Phinx\Db\Table\Column $newColumn New Column
-     *
      * @return \Phinx\Db\Util\AlterInstructions
      */
     abstract protected function getChangeColumnInstructions($tableName, $columnName, Column $newColumn);
@@ -693,7 +681,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      *
      * @param string $tableName Table name
      * @param string $columnName Column Name
-     *
      * @return \Phinx\Db\Util\AlterInstructions
      */
     abstract protected function getDropColumnInstructions($tableName, $columnName);
@@ -712,7 +699,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      *
      * @param \Phinx\Db\Table\Table $table Table
      * @param \Phinx\Db\Table\Index $index Index
-     *
      * @return \Phinx\Db\Util\AlterInstructions
      */
     abstract protected function getAddIndexInstructions(Table $table, Index $index);
@@ -731,7 +717,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      *
      * @param string $tableName The name of of the table where the index is
      * @param mixed $columns Column(s)
-     *
      * @return \Phinx\Db\Util\AlterInstructions
      */
     abstract protected function getDropIndexByColumnsInstructions($tableName, $columns);
@@ -750,7 +735,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      *
      * @param string $tableName The table name whe the index is
      * @param string $indexName The name of the index
-     *
      * @return \Phinx\Db\Util\AlterInstructions
      */
     abstract protected function getDropIndexByNameInstructions($tableName, $indexName);
@@ -792,7 +776,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      *
      * @param string $tableName The table where the foreign key constraint is
      * @param string $constraint Constraint name
-     *
      * @return \Phinx\Db\Util\AlterInstructions
      */
     abstract protected function getDropForeignKeyInstructions($tableName, $constraint);
@@ -802,7 +785,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      *
      * @param string $tableName The table where the foreign key constraint is
      * @param string[] $columns The list of column names
-     *
      * @return \Phinx\Db\Util\AlterInstructions
      */
     abstract protected function getDropForeignKeyByColumnsInstructions($tableName, $columns);
@@ -820,7 +802,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      * Returns the instructions to drop the specified database table.
      *
      * @param string $tableName Table name
-     *
      * @return \Phinx\Db\Util\AlterInstructions
      */
     abstract protected function getDropTableInstructions($tableName);
@@ -839,7 +820,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      *
      * @param string $tableName Table name
      * @param string $newTableName New Name
-     *
      * @return \Phinx\Db\Util\AlterInstructions
      */
     abstract protected function getRenameTableInstructions($tableName, $newTableName);
@@ -858,7 +838,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      *
      * @param \Phinx\Db\Table\Table $table Table
      * @param string|string[]|null $newColumns Column name(s) to belong to the primary key, or null to drop the key
-     *
      * @return \Phinx\Db\Util\AlterInstructions
      */
     abstract protected function getChangePrimaryKeyInstructions(Table $table, $newColumns);
@@ -877,7 +856,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      *
      * @param \Phinx\Db\Table\Table $table Table
      * @param string|null $newComment New comment string, or null to drop the comment
-     *
      * @return \Phinx\Db\Util\AlterInstructions
      */
     abstract protected function getChangeCommentInstructions(Table $table, $newComment);
@@ -886,7 +864,6 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
      * {@inheritDoc}
      *
      * @throws \InvalidArgumentException
-     *
      * @return void
      */
     public function executeActions(Table $table, array $actions)
@@ -895,19 +872,19 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
 
         foreach ($actions as $action) {
             switch (true) {
-                case ($action instanceof AddColumn):
+                case $action instanceof AddColumn:
                     $instructions->merge($this->getAddColumnInstructions($table, $action->getColumn()));
                     break;
 
-                case ($action instanceof AddIndex):
+                case $action instanceof AddIndex:
                     $instructions->merge($this->getAddIndexInstructions($table, $action->getIndex()));
                     break;
 
-                case ($action instanceof AddForeignKey):
+                case $action instanceof AddForeignKey:
                     $instructions->merge($this->getAddForeignKeyInstructions($table, $action->getForeignKey()));
                     break;
 
-                case ($action instanceof ChangeColumn):
+                case $action instanceof ChangeColumn:
                     $instructions->merge($this->getChangeColumnInstructions(
                         $table->getName(),
                         $action->getColumnName(),
@@ -915,48 +892,48 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
                     ));
                     break;
 
-                case ($action instanceof DropForeignKey && !$action->getForeignKey()->getConstraint()):
+                case $action instanceof DropForeignKey && !$action->getForeignKey()->getConstraint():
                     $instructions->merge($this->getDropForeignKeyByColumnsInstructions(
                         $table->getName(),
                         $action->getForeignKey()->getColumns()
                     ));
                     break;
 
-                case ($action instanceof DropForeignKey && $action->getForeignKey()->getConstraint()):
+                case $action instanceof DropForeignKey && $action->getForeignKey()->getConstraint():
                     $instructions->merge($this->getDropForeignKeyInstructions(
                         $table->getName(),
                         $action->getForeignKey()->getConstraint()
                     ));
                     break;
 
-                case ($action instanceof DropIndex && $action->getIndex()->getName() !== null):
+                case $action instanceof DropIndex && $action->getIndex()->getName() !== null:
                     $instructions->merge($this->getDropIndexByNameInstructions(
                         $table->getName(),
                         $action->getIndex()->getName()
                     ));
                     break;
 
-                case ($action instanceof DropIndex && $action->getIndex()->getName() == null):
+                case $action instanceof DropIndex && $action->getIndex()->getName() == null:
                     $instructions->merge($this->getDropIndexByColumnsInstructions(
                         $table->getName(),
                         $action->getIndex()->getColumns()
                     ));
                     break;
 
-                case ($action instanceof DropTable):
+                case $action instanceof DropTable:
                     $instructions->merge($this->getDropTableInstructions(
                         $table->getName()
                     ));
                     break;
 
-                case ($action instanceof RemoveColumn):
+                case $action instanceof RemoveColumn:
                     $instructions->merge($this->getDropColumnInstructions(
                         $table->getName(),
                         $action->getColumn()->getName()
                     ));
                     break;
 
-                case ($action instanceof RenameColumn):
+                case $action instanceof RenameColumn:
                     $instructions->merge($this->getRenameColumnInstructions(
                         $table->getName(),
                         $action->getColumn()->getName(),
@@ -964,21 +941,21 @@ abstract class PdoAdapter extends AbstractAdapter implements DirectActionInterfa
                     ));
                     break;
 
-                case ($action instanceof RenameTable):
+                case $action instanceof RenameTable:
                     $instructions->merge($this->getRenameTableInstructions(
                         $table->getName(),
                         $action->getNewName()
                     ));
                     break;
 
-                case ($action instanceof ChangePrimaryKey):
+                case $action instanceof ChangePrimaryKey:
                     $instructions->merge($this->getChangePrimaryKeyInstructions(
                         $table,
                         $action->getNewColumns()
                     ));
                     break;
 
-                case ($action instanceof ChangeComment):
+                case $action instanceof ChangeComment:
                     $instructions->merge($this->getChangeCommentInstructions(
                         $table,
                         $action->getNewComment()

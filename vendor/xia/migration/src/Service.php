@@ -40,12 +40,12 @@ class Service extends \think\Service
         $this->commands([
             MigrateCreate::class,
             MigrateRun::class,
-            MigrateRollback::class,
-            MigrateBreakpoint::class,
-            MigrateStatus::class,
-            SeedCreate::class,
-            SeedRun::class,
-            FactoryCreate::class,
+//            MigrateRollback::class,
+//            MigrateBreakpoint::class,
+//            MigrateStatus::class,
+//            SeedCreate::class,
+//            SeedRun::class,
+//            FactoryCreate::class,
         ]);
     }
 }
