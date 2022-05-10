@@ -1,29 +1,71 @@
-version: "2"
-
+version: "3"
 services:
-  mysql:
-    image: mysql:8.0.13
+  nginx:
+    image: nginx:alpine
     restart: always
-    command: --default-authentication-plugin=mysql_native_password
-    container_name: thinkcmf-db
-    environment:
-      - MYSQL_ROOT_PASSWORD=Root@123
-      - MYSQL_USER=thinkcmf
-      - MYSQL_PASSWORD=Thinkcmf@123
-      - MYSQL_DATABASE=thinkcmf
-      - TZ=Asia/Shanghai
-    volumes:
-      - ./mysql:/var/lib/mysql
+    container_name: thinkcmf-nginx
     ports:
-      - "3306:3306"
       - "80:80"
-    expose:
-      - 80
-
-  thinkcmf:
-    build: .
-    network_mode: service:mysql
+    volumes:
+      - ./:/var/www/html/:rw
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/conf/default.conf:/etc/conf/default.conf:ro
+    networks:
+      - web
+  php-fpm:
+    build: ./docker/php-fpm
     restart: always
-    container_name: thinkcmf-web
+    container_name: thinkcmf-php-fpm
+    volumes:
+      - ./:/var/www/html/:rw
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
+    networks:
+      - web
+  mysql:
+    image: mysql:5.7 
+    restart: always
+    container_name: thinkcmf-mysql
+    volumes:
+      - ./docker/mysql/data/:/var/lib/mysql/
+    environment:
+      - MYSQL_ROOT_PASSWORD=thinkcmf
+    networks:
+      - web
+  redis:
+    image: redis:6.0.12-alpine
+    restart: always
+    container_name: thinkcmf-redis
+    volumes:
+      - ./docker/redis/data:/data
+    networks:
+      - web
+  adminer:
+    image: adminer
+    container_name: thinkcmf-mysql-manage
+    environment:
+      - ADMINER_DEFAULT_SERVER=mysql
+      - ADMINER_DEFAULT_USER=thinkcmf
+    ports:
+      - "1000:8080"
     depends_on:
       - mysql
+    networks:
+      - web
+    restart: always
+
+  phpredisadmin:
+    image: erikdubbelboer/phpredisadmin
+    container_name: thinkcmf-redis-manage
+    environment:
+      - TZ=Asia/Shanghai
+      - REDIS_1_HOST=redis
+      - REDIS_1_PORT=6379
+    ports:
+      - "2000:80"
+    depends_on:
+      - redis
+    networks:
+      - web
+    restart: always
+networks:
+  web:

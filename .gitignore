@@ -13,3 +13,5 @@ Vagrantfile
 *.log
 .env
 /config
+/docker/redis/data
+/docker/mysql/data
