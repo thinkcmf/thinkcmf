@@ -1151,6 +1151,7 @@
                 },
                 "classmap": [
                     "src/App.php",
+                    "src/Console.php",
                     "src/console/command/VendorPublish.php",
                     "src/captcha/Captcha.php"
                 ]

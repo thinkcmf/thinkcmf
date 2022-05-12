@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 declare (strict_types=1);
 
-namespace think\console\command;
+namespace cmf\console\command;
 
 use think\console\Command;
 use think\console\input\Option;
