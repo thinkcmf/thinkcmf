@@ -33,12 +33,5 @@
             "src/Console.php",
             "src/captcha/Captcha.php"
         ]
-    },
-    "extra": {
-        "think": {
-            "services": [
-                "think\\captcha\\CaptchaService"
-            ]
-        }
     }
 }

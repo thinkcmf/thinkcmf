@@ -1134,13 +1134,6 @@
             },
             "time": "2022-04-30T02:37:14+00:00",
             "type": "library",
-            "extra": {
-                "think": {
-                    "services": [
-                        "think\\captcha\\CaptchaService"
-                    ]
-                }
-            },
             "installation-source": "dist",
             "autoload": {
                 "files": [
