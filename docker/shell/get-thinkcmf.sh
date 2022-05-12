@@ -1,5 +1,5 @@
 #!/bin/bash
-if [[ -f "/var/www/html/public/api.php" ]]; then
+if [[ -f "/var/www/html/vendor/thinkcmf/cmf/composer.json" ]]; then
 say="服务启动成功"
 else
 git clone --depth 1 -b 6.0 https://gitee.com/thinkcmf/ThinkCMF thinkcmf && cp -r thinkcmf/* ./ && rm -rf thinkcmf
