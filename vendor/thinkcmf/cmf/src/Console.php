@@ -14,7 +14,7 @@ use Closure;
 use InvalidArgumentException;
 use LogicException;
 use think\console\Command;
-use think\console\command\Clear;
+use cmf\console\command\Clear;
 use think\console\command\Help;
 use think\console\command\Help as HelpCommand;
 use think\console\command\Lists;
@@ -72,11 +72,11 @@ class Console
 //        'make:listener'    => Listener::class,
 //        'make:service'     => Service::class,
 //        'make:subscribe'   => Subscribe::class,
-        'optimize:route'   => Route::class,
-        'optimize:schema'  => Schema::class,
+//        'optimize:route'   => Route::class,
+//        'optimize:schema'  => Schema::class,
         'run'              => RunServer::class,
         'version'          => Version::class,
-        'route:list'       => RouteList::class,
+//        'route:list'       => RouteList::class,
         'service:discover' => ServiceDiscover::class,
         'vendor:publish'   => VendorPublish::class,
     ];
@@ -374,7 +374,7 @@ class Console
     public function getLongVersion(): string
     {
         if ($this->app->version()) {
-            return sprintf('version <comment>%s</comment>', $this->app->version());
+            return sprintf('<comment>%s</comment>', 'ThinkPHP v' . $this->app->version() . ' & ThinkCMF v' . cmf_version());
         }
 
         return '<info>Console Tool</info>';
