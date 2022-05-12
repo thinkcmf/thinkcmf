@@ -1296,6 +1296,13 @@
                 "issues": "https://github.com/thinkcmf/cmf-appstore/issues",
                 "source": "https://github.com/thinkcmf/cmf-appstore/tree/v1.0.5"
             },
+            "extra": {
+                "think": {
+                    "services": [
+                        "app\\admin\\AppStoreService"
+                    ]
+                }
+            },
             "install-path": "../thinkcmf/cmf-appstore"
         },
         {

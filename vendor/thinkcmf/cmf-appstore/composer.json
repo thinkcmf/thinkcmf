@@ -11,6 +11,13 @@
     "require": {
         "chamilo/pclzip": "^2.8"
     },
+    "extra": {
+        "think": {
+            "services": [
+                "app\\admin\\AppStoreService"
+            ]
+        }
+    },
     "autoload": {
         "psr-4": {
             "app\\admin\\": "src"

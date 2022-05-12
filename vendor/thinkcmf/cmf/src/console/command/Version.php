@@ -22,7 +22,7 @@ class Version extends Command
     {
         // 指令配置
         $this->setName('version')
-            ->setDescription('show ThinkPHP & ThinkCMF version');
+            ->setDescription('Show ThinkPHP & ThinkCMF version');
     }
 
     protected function execute(Input $input, Output $output)
