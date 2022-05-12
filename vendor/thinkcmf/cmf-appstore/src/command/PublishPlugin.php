@@ -25,7 +25,8 @@ class PublishPlugin extends Command
         $pluginClass = cmf_get_plugin_class($name);
 
         if (!class_exists($pluginClass)) {
-            $output->writeln("<error>plugin  $name not exists!</error>");
+            $output->writeln("<error>plugin $name not exists!</error>");
+            return;
         }
 
         $nameC = cmf_parse_name($name);
@@ -35,8 +36,7 @@ class PublishPlugin extends Command
             mkdir($publishDir, '755');
         }
 
-        $microtime = microtime(true) * 10000;
-        $filename  = $publishDir . "plugin_{$nameC}_" . $microtime . '.zip';
+        $filename = $publishDir . "plugin_{$nameC}_" . date('Ymd_His') . '.zip';
         try {
             $zip = new \ZipArchive();
 
@@ -65,7 +65,7 @@ class PublishPlugin extends Command
             $output->writeln("You can publish it to https://www.thinkcmf.com now!");
 
         } catch (\Exception $e) {
-
+            $output->writeln("<error>{$e->getMessage()}</error>");
         }
 
 
