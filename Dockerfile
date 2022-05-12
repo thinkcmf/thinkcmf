@@ -1,4 +1,4 @@
-FROM php:fpm-alpine
+FROM php:8.0-fpm-alpine
 LABEL maintainer="ThinkCMF" version="1.0" license="MIT" app.name="ThinkCMF"
 ENV TZ "Asia/Shanghai"
 RUN sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" /etc/apk/repositories
