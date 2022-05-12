@@ -29,7 +29,7 @@ class Create extends Command
         $help = sprintf('%sCreates a new database migration%s', PHP_EOL, PHP_EOL);
         $this->setName('migrate:create')
             ->setDescription('Create a new migration')
-            ->addArgument('name', InputArgument::REQUIRED, 'What is the name of the migration?')
+            ->addArgument('name', InputArgument::REQUIRED, 'The migration class name')
             ->addOption('app', 'a', Option::VALUE_OPTIONAL, 'this is app name', '')
             ->addOption('plugin', 'p', Option::VALUE_OPTIONAL, 'this is plugin name', '')
             ->setHelp(<<<EOT

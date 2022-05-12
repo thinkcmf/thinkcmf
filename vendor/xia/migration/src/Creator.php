@@ -25,16 +25,16 @@ class Creator
             throw new InvalidArgumentException(sprintf('The migration class name "%s" is invalid. Please use CamelCase format.', $className));
         }
 
-        if (!Util::isUniqueMigrationClassName($className, $path)) {
-            throw new InvalidArgumentException(sprintf('The migration class name "%s" already exists', $className));
-        }
-
         if ($appName) {
             $className = 'MigrationApp' . cmf_parse_name($appName, 1) . $className;
         } elseif ($pluginName) {
             $className = 'MigrationPlugin' . cmf_parse_name($pluginName, 1) . $className;
         } else {
             $className = 'MigrationCmf' . $className;
+        }
+
+        if (!Util::isUniqueMigrationClassName($className, $path)) {
+            throw new InvalidArgumentException(sprintf('The migration class name "%s" already exists', $className));
         }
 
         // Compute the file path
