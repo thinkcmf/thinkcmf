@@ -146,10 +146,20 @@ function sp_create_db_config($config)
     if (is_array($config)) {
         //读取配置内容
         $conf = file_get_contents(__DIR__ . '/data/config.php');
-
+        $env = <<<EOF
+DATABASE_HOSTNAME = #hostname#
+DATABASE_DATABASE = #database#
+DATABASE_USERNAME = #username#
+DATABASE_PASSWORD = #password#
+DATABASE_HOSTPORT = #hostport#
+DATABASE_CHARSET  = #charset#
+DATABASE_PREFIX   = #prefix#
+DATABASE_AUTHCODE = #authcode#
+EOF;
         //替换配置项
         foreach ($config as $key => $value) {
             $conf = str_replace("#{$key}#", $value, $conf);
+            $env = str_replace("#{$key}#", $value, $env);
         }
 
         if (strpos(cmf_version(), '5.0.') === false) {
@@ -164,8 +174,9 @@ function sp_create_db_config($config)
                 mkdir($confDir, 0777, true);
             }
             file_put_contents($confDir . 'database.php', $conf);
+            file_put_contents(root_path().'.env', $env);
         } catch (\Exception $e) {
-
+            \think\facade\Log::error('install file put'.$e->getMessage());
             return false;
 
         }

@@ -25,7 +25,7 @@
                     </tr>
                     <tr>
                         <td class="text-left">数据库服务器：</td>
-                        <td><input type="text" name="dbhost" id="dbhost" value="127.0.0.1" class="input"></td>
+                        <td><input type="text" name="dbhost" id="dbhost" value="{:env('DATABASE_HOSTNAME', '127.0.0.1')}" class="input"></td>
                         <td>
                             <div id="js-install-tip-dbhost">
                                 <span class="gray">数据库服务器地址，一般为127.0.0.1或localhost</span>
@@ -34,7 +34,7 @@
                     </tr>
                     <tr>
                         <td class="text-left">数据库端口：</td>
-                        <td><input type="text" name="dbport" id="dbport" value="3306" class="input"></td>
+                        <td><input type="text" name="dbport" id="dbport" value="{:env('DATABASE_HOSTPORT', '3306')}" class="input"></td>
                         <td>
                             <div id="js-install-tip-dbport">
                                 <span class="gray">数据库服务器端口，一般为3306</span>
@@ -43,7 +43,7 @@
                     </tr>
                     <tr>
                         <td class="text-left">数据库用户名：</td>
-                        <td><input type="text" name="dbuser" id="dbuser" value="root" class="input"></td>
+                        <td><input type="text" name="dbuser" id="dbuser" value="{:env('DATABASE_USERNAME', 'root')}" class="input"></td>
                         <td>
                             <div id="js-install-tip-dbuser"></div>
                         </td>
@@ -51,7 +51,7 @@
                     <tr>
                         <td class="text-left">数据库密码：</td>
                         <td>
-                            <input type="password" name="dbpw" id="dbpw" value="" class="input" autoComplete="off"
+                            <input type="password" name="dbpw" id="dbpw" value="{:env('DATABASE_PASSWORD', '')}" class="input" autoComplete="off"
                                    onblur="TestDbPwd()">
                         </td>
                         <td>
@@ -60,7 +60,7 @@
                     </tr>
                     <tr>
                         <td class="text-left">数据库名：</td>
-                        <td><input type="text" name="dbname" id="dbname" value="thinkcmf" class="input"></td>
+                        <td><input type="text" name="dbname" id="dbname" value="{:env('DATABASE_DATABASE', 'thinkcmf')}" class="input"></td>
                         <td>
                             <div id="js-install-tip-dbname">
                                 <span class="gray">最好小写字母</span>
@@ -69,7 +69,7 @@
                     </tr>
                     <tr>
                         <td class="text-left">数据库表前缀：</td>
-                        <td><input type="text" name="dbprefix" id="dbprefix" value="cmf_" class="input"></td>
+                        <td><input type="text" name="dbprefix" id="dbprefix" value="{:env('DATABASE_PREFIX', 'cmf_')}" class="input"></td>
                         <td>
                             <div id="js-install-tip-dbprefix">
                                 <span class="gray">建议使用默认，同一数据库安装多个ThinkCMF时需修改</span>

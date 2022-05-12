@@ -8,17 +8,22 @@ services:
       - "80:80"
     volumes:
       - ./:/var/www/html/:rw
-      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./docker/nginx/conf/default.conf:/etc/conf/default.conf:ro
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/conf/default.conf:/etc/conf/default.conf
     networks:
       - web
   php-fpm:
-    build: ./docker/php-fpm
+    image: thinkcmfpro/thinkcmf:latest
     restart: always
     container_name: thinkcmf-php-fpm
     volumes:
       - ./:/var/www/html/:rw
-      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+    environment:
+      - DATABASE_HOSTNAME=mysql
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=thinkcmf
+      - DATABASE_DATABASE=thinkcmf
     networks:
       - web
   mysql:
@@ -60,6 +65,8 @@ services:
       - TZ=Asia/Shanghai
       - REDIS_1_HOST=redis
       - REDIS_1_PORT=6379
+      - ADMIN_USER=thinkcmf
+      - ADMIN_PASS=thinkcmf
     ports:
       - "2000:80"
     depends_on:
