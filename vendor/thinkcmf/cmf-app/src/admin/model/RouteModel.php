@@ -178,7 +178,7 @@ class RouteModel extends Model
      */
     public function getAppUrls()
     {
-        $apps = cmf_scan_dir(app_path() . '*', GLOB_ONLYDIR);
+        $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
 
         array_push($apps, 'admin', 'user');
 

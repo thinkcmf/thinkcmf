@@ -131,14 +131,14 @@ class NavMenuModel extends Model
      */
     private function getNavData()
     {
-        $apps = cmf_scan_dir(app_path() . "*");
+        $apps = cmf_scan_dir(APP_PATH . "*");
 
         array_push($apps, 'admin', 'user');
 
         $navs = [];
         foreach ($apps as $app) {
 
-            if (is_dir(app_path() . $app)) {
+            if (is_dir(APP_PATH . $app)) {
                 if (!(strpos($app, ".") === 0)) {
                     $navConfigFile = cmf_get_app_config_file($app, 'nav');
                     if (file_exists($navConfigFile)) {

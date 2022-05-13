@@ -11,10 +11,10 @@ if (PHP_SAPI == 'cli') {
         'cli' => \cmf\console\command\Cli::class
     ];
 
-    $apps     = cmf_scan_dir(app_path() . '*', GLOB_ONLYDIR);
+    $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
 
     foreach ($apps as $app) {
-        $commandFile = app_path() . $app . '/command.php';
+        $commandFile = APP_PATH . $app . '/command.php';
 
         if (file_exists($commandFile)) {
             $mCommands = include $commandFile;
