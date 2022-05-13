@@ -259,7 +259,7 @@ abstract class Plugin
             }
         }
 
-        $config = Db::name('plugin')->where('name', $name)->value('config');
+        $config = Db::name('plugin')->cache('cmf_'.$name.'_plugin_config',mt_rand(600,6000))->where('name', $name)->value('config');
 
         if (!empty($config) && $config != "null") {
             $config = json_decode($config, true);
