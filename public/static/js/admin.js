@@ -715,16 +715,22 @@
     //地址联动
     var $js_address_select = $('.js-address-select');
     if ($js_address_select.length > 0) {
-        $('.js-address-province-select,.js-address-city-select').change(function () {
+        $('.js-address-country-select,.js-address-province-select,.js-address-city-select,.js-address-district-select').change(function () {
             var $this = $(this);
             var id = $this.val();
             var $child_area_select;
             var $this_js_address_select = $this.parents('.js-address-select');
-            if ($this.is('.js-address-province-select')) {
+            if ($this.is('.js-address-country-select')) {
+                $child_area_select = $this_js_address_select.find('.js-address-province-select');
+                $this_js_address_select.find('.js-address-city-select').hide();
+            } else if ($this.is('.js-address-province-select')) {
                 $child_area_select = $this_js_address_select.find('.js-address-city-select');
                 $this_js_address_select.find('.js-address-district-select').hide();
-            } else {
+            } else if ($this.is('.js-address-city-select')) {
                 $child_area_select = $this_js_address_select.find('.js-address-district-select');
+                $this_js_address_select.find('.js-address-town-select').hide();
+            } else {
+                $child_area_select = $this_js_address_select.find('.js-address-town-select');
             }
 
             var empty_option = '<option class="js-address-empty-option" value="">' + $child_area_select.find('.js-address-empty-option').text() + '</option>';
@@ -737,11 +743,16 @@
                 return;
             }
 
+            var isCountry = 0;
+            if ($this.is('.js-address-country-select')) {
+                isCountry = 1;
+            }
+
             $.ajax({
                 url: $this_js_address_select.data('url'),
                 type: 'POST',
                 dataType: 'JSON',
-                data: {id: id},
+                data: {id: id, is_country: isCountry},
                 success: function (data) {
                     if (data.code == 1) {
                         if (data.data.areas.length > 0) {
@@ -749,8 +760,8 @@
 
                             $.each(data.data.areas, function (i, area) {
                                 var area_html = '<option value="[id]">[name]</option>';
-                                area_html = area_html.replace('[name]', area.name);
-                                area_html = area_html.replace('[id]', area.id);
+                                area_html     = area_html.replace('[name]', area.name);
+                                area_html     = area_html.replace('[id]', area.id);
                                 html.push(area_html);
                             });
                             html = html.join('', html);
@@ -929,7 +940,6 @@ function openUploadDialog(dialog_title, callback, extra_params, multi, filetype,
                 }
 
 
-
             }
         }
     })
@@ -1105,6 +1115,11 @@ function artdialogAlert(msg) {
 
 function openIframeLayer(url, title, options) {
 
+    if (GV.IS_MOBILE) {
+        options.area = ['100%', '100%'];
+        options.offset = ['0px', '0px'];
+    }
+
     var params = {
         type: 2,
         title: title,
@@ -1113,7 +1128,8 @@ function openIframeLayer(url, title, options) {
         anim: -1,
         shade: [0.001, '#000000'],
         shadeClose: true,
-        area: ['95%', '90%'],
+        area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '90%'],
+        offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
         move: false,
         content: url,
         yes: function (index, layero) {

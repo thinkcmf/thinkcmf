@@ -560,12 +560,18 @@
                 var $form           = $this.parents('form');
                 var $captchaInput   = $("input[name='captcha']", $form);
                 var $captchaIdInput = $("input[name='_captcha_id']", $form);
+                var $thirdPartyCaptchaInput = $("input[name='_third_party_captcha_params']", $form);
                 var captcha         = $captchaInput.val();
                 var captchaId       = $captchaIdInput.val();
 
-                if (!captcha) {
+                if ($captchaInput.length > 0 && !captcha) {
                     $captchaInput.focus();
                     return;
+                }
+
+                var thirdPartyCaptchaParams = '';
+                if ($thirdPartyCaptchaInput.length > 0) {
+                    thirdPartyCaptchaParams = $thirdPartyCaptchaInput.val();
                 }
 
 
@@ -584,7 +590,14 @@
                     url: url,
                     type: 'POST',
                     dataType: 'json',
-                    data: {username: mobile, captcha: captcha, captcha_id: captchaId, type: codeType},
+                    data: {
+                        username: mobile,
+                        captcha: captcha,
+                        captcha_id: captchaId,
+                        _captcha_id: captchaId,
+                        type: codeType,
+                        _third_party_captcha_params: thirdPartyCaptchaParams
+                    },
                     success: function (data) {
                         if (data.code == 1) {
                             noty({
@@ -618,13 +631,26 @@
                                 layout: 'center'
                             });
                             $this.data('sending', false);
+
+                            var callback = $this.data('error-callback');
+                            if (callback) {
+                                window[callback]();
+                            }
                         }
                     },
                     error: function () {
                         $this.data('sending', false);
+                        var callback = $this.data('error-callback');
+                        if (callback) {
+                            window[callback]();
+                        }
                     },
                     complete: function () {
                         $this.data('loading', false);
+                        var completeCallback = $this.data('complete-callback');
+                        if (completeCallback) {
+                            window[completeCallback]();
+                        }
                     }
                 });
             });
@@ -648,15 +674,21 @@
                     return;
                 }
 
-                var $form           = $this.parents('form');
-                var $captchaInput   = $("input[name='captcha']", $form);
+                var $form = $this.parents('form');
+                var $captchaInput = $("input[name='captcha']", $form);
                 var $captchaIdInput = $("input[name='_captcha_id']", $form);
-                var captcha         = $captchaInput.val();
-                var captchaId       = $captchaIdInput.val();
+                var $thirdPartyCaptchaInput = $("input[name='_third_party_captcha_params']", $form);
+                var captcha = $captchaInput.val();
+                var captchaId = $captchaIdInput.val();
 
-                if (!captcha) {
+                if ($captchaInput.length > 0 && !captcha) {
                     $captchaInput.focus();
                     return;
+                }
+
+                var thirdPartyCaptchaParams = '';
+                if ($thirdPartyCaptchaInput.length > 0) {
+                    thirdPartyCaptchaParams = $thirdPartyCaptchaInput.val();
                 }
 
                 $this.data('loading', true);
@@ -674,7 +706,14 @@
                     url: url,
                     type: 'POST',
                     dataType: 'json',
-                    data: {username: email, captcha: captcha, captcha_id: captchaId, type: codeType},
+                    data: {
+                        username: email,
+                        captcha: captcha,
+                        captcha_id: captchaId,
+                        _captcha_id: captchaId,
+                        type: codeType,
+                        _third_party_captcha_params: thirdPartyCaptchaParams
+                    },
                     success: function (data) {
                         if (data.code == 1) {
                             noty({
@@ -709,13 +748,26 @@
                                 layout: 'center'
                             });
                             $this.data('sending', false);
+
+                            var callback = $this.data('error-callback');
+                            if (callback) {
+                                window[callback]();
+                            }
                         }
                     },
                     error: function () {
                         $this.data('sending', false);
+                        var callback = $this.data('error-callback');
+                        if (callback) {
+                            window[callback]();
+                        }
                     },
                     complete: function () {
                         $this.data('loading', false);
+                        var completeCallback = $this.data('complete-callback');
+                        if (completeCallback) {
+                            window[completeCallback]();
+                        }
                     }
                 });
             });
@@ -928,19 +980,25 @@
     //地址联动
     var $js_address_select = $('.js-address-select');
     if ($js_address_select.length > 0) {
-        $('.js-address-province-select,.js-address-city-select,.js-address-district-select').change(function () {
-            var $this                   = $(this);
-            var id                      = $this.val();
+        $('.js-address-country-select,.js-address-province-select,.js-address-city-select,.js-address-district-select').change(function () {
+            var $this = $(this);
+            var id = $this.val();
             var $child_area_select;
             var $this_js_address_select = $this.parents('.js-address-select');
-            if ($this.is('.js-address-province-select')) {
-                $child_area_select = $this_js_address_select.find('.js-address-city-select');
-                $this_js_address_select.find('.js-address-district-select').hide();
-            } else if($this.is('.js-address-city-select')){
-                $child_area_select = $this_js_address_select.find('.js-address-district-select');
-                $this_js_address_select.find('.js-address-town-select').hide();
+            if ($this.is('.js-address-country-select')) {
+                $child_area_select = $this_js_address_select.find('.js-address-province-select').hide().val('');
+                $this_js_address_select.find('.js-address-city-select').hide().val('');
+                $this_js_address_select.find('.js-address-district-select').hide().val('');
+                $this_js_address_select.find('.js-address-town-select').hide().val('');
+            } else if ($this.is('.js-address-province-select')) {
+                $child_area_select = $this_js_address_select.find('.js-address-city-select').hide().val('');
+                $this_js_address_select.find('.js-address-district-select').hide().val('');
+                $this_js_address_select.find('.js-address-town-select').hide().val('');
+            } else if ($this.is('.js-address-city-select')) {
+                $child_area_select = $this_js_address_select.find('.js-address-district-select').hide().val('');
+                $this_js_address_select.find('.js-address-town-select').hide().val('');
             } else {
-                $child_area_select = $this_js_address_select.find('.js-address-town-select');
+                $child_area_select = $this_js_address_select.find('.js-address-town-select').hide().val('');
             }
 
             var empty_option = '<option class="js-address-empty-option" value="">' + $child_area_select.find('.js-address-empty-option').text() + '</option>';
@@ -953,11 +1011,20 @@
                 return;
             }
 
+            if(!id){
+                return;
+            }
+
+            var isCountry = 0;
+            if ($this.is('.js-address-country-select')) {
+                isCountry = 1;
+            }
+
             $.ajax({
                 url: $this_js_address_select.data('url'),
                 type: 'POST',
                 dataType: 'JSON',
-                data: {id: id},
+                data: {id: id, is_country: isCountry},
                 success: function (data) {
                     if (data.code == 1) {
                         if (data.data.areas.length > 0) {
@@ -1277,8 +1344,6 @@ function uploadOne(dialog_title, input_selector, filetype, extra_params, app) {
 
         $(input_selector + '-name').val(files[0].name);
         $(input_selector + '-name-text').text(files[0].name);
-
-
     }, extra_params, 0, filetype, app);
 }
 
