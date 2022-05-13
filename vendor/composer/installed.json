@@ -1274,6 +1274,13 @@
             },
             "time": "2022-04-30T12:39:11+00:00",
             "type": "library",
+            "extra": {
+                "think": {
+                    "services": [
+                        "app\\admin\\AppStoreService"
+                    ]
+                }
+            },
             "installation-source": "dist",
             "autoload": {
                 "files": [],
@@ -1295,13 +1302,6 @@
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-appstore/issues",
                 "source": "https://github.com/thinkcmf/cmf-appstore/tree/v1.0.5"
-            },
-            "extra": {
-                "think": {
-                    "services": [
-                        "app\\admin\\AppStoreService"
-                    ]
-                }
             },
             "install-path": "../thinkcmf/cmf-appstore"
         },
