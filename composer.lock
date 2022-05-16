@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dfd7b5f332887b4896a6bfb9afb1bcac",
+    "content-hash": "5fcda5c5c3a83e4c306bbea9427b6ddb",
     "packages": [
         {
             "name": "chamilo/pclzip",
@@ -1835,7 +1835,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.1.0",
+        "php": ">=7.4.0",
         "ext-json": "*",
         "ext-curl": "*",
         "ext-pdo": "*"

@@ -161,7 +161,7 @@ class AppStoreController extends AppStoreAdminBaseController
      *     'name'   => '模板市场',
      *     'parent' => 'admin/Plugin/default',
      *     'display'=> true,
-     *     'hasView'=> true,
+     *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
      *     'remark' => '模板市场',
