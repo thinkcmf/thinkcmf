@@ -86,33 +86,32 @@ EOT;
 
         $urlArr   = explode(':', $url);
         $countUrl = count($urlArr);
-        if ($countUrl != 3) {
-            $output->error('action url format is not right!');
+
+        if ($countUrl > 3) {
+            $output->error('cli format is not right!');
             return;
         }
 
-        $controller = cmf_parse_name($urlArr[1], 1);
-        $action     = $urlArr[2];
-        $class      = "app\\{$urlArr[0]}\\cli\\{$controller}Cli";
+        if ($countUrl == 3) {
+            $controller = cmf_parse_name($urlArr[1], 1);
+            $action     = $urlArr[2];
+            $class      = "app\\{$urlArr[0]}\\cli\\{$controller}Cli";
 
-        if (class_exists($class)) {
-            if (method_exists($class, $action)) {
-                $object = new $class();
-
-                if ($isHelp) {
-                    $this->describeCliHelp($url, $class, $action);
-                } else {
-                    $object->$action($input, $output);
+            if (class_exists($class)) {
+                if (method_exists($class, $action)) {
+                    $object = new $class();
+                    if ($isHelp) {
+                        $this->describeCliHelp($url, $class, $action);
+                    } else {
+                        $object->$action($input, $output);
+                    }
+                    return;
                 }
-
-
-            } else {
-                $output->error('cli not exist!');
             }
-        } else {
-            $output->error('cli not exist!');
         }
 
+        $this->discoverCliGroups();
+        $this->describeCliSearch();
     }
 
     protected function discoverCliGroups()
@@ -130,37 +129,39 @@ EOT;
                     $reflect = new \ReflectionClass($class);
                     $methods = $reflect->getMethods(\ReflectionMethod::IS_PUBLIC);
 
+
                     foreach ($methods as $method) {
-                        $attrs      = $method->getAttributes(\cmf\console\Cli::class);
+
                         $methodName = $method->getName();
-                        foreach ($attrs as $attr) {
-                            if (empty($cliGroups[$app])) {
-                                $cliGroups[$app] = [];
+                        if ($method->isPublic()) {
+                            $groupName = "{$app}[{$cliControllerName}]";
+                            if (empty($cliGroups[$groupName])) {
+                                $cliGroups[$groupName] = [];
                             }
 
-                            /**
-                             * @var \cmf\console\Cli $mCli
-                             */
-                            $mCli           = $attr->newInstance();
-                            $mCliName       = "$app:$cliControllerName:$methodName";
-                            $mCliDescrition = $mCli->getDescription();
-                            $mCli->setName($mCliName);
+                            try {
+                                $attrs = $method->getAttributes(\cmf\console\Cli::class);
+                                /* @var \cmf\console\Cli $mCli */
+                                $mCli = $attrs[0]->newInstance();
+                            } catch (\Exception $e) {
+                                $mCli = new \cmf\console\Cli('');
+                            }
 
+                            $mCliName = "$app:$cliControllerName:$methodName";
+                            $mCli->setName($mCliName);
                             $mCliNameLength = strlen($mCliName);
-                            if ($mCliNameLength > $this->maxNameLength) ;
-                            {
+                            if ($mCliNameLength > $this->maxNameLength) {
                                 $this->maxNameLength = $mCliNameLength;
                             }
-
-                            $cliGroups[$app][] = $mCli;
+                            $cliGroups[$groupName][] = $mCli;
                         }
                     }
+
                 }
             }
         }
 
         $this->groups = $cliGroups;
-
     }
 
     protected function describeCliHelp($cliName, $cliClass, $action)
@@ -208,8 +209,8 @@ EOT;
         $this->output->writeln('<comment>Usage:</comment>');
         $this->output->writeln(" help  [<cli_name>]");
         $this->output->writeln('');
-        if($this->maxNameLength<9){
-            $this->maxNameLength=9;
+        if ($this->maxNameLength < 9) {
+            $this->maxNameLength = 9;
         }
 
         $this->output->writeln('<comment>Arguments:</comment>');
@@ -217,7 +218,7 @@ EOT;
         $this->output->writeln("<info>cli_name</info>$space  The cli name e.g. <warning>demo:hello:hello</warning>");
         $this->output->writeln('');
 
-        if(!empty($this->groups)){
+        if (!empty($this->groups)) {
             $this->output->writeln('<comment>Examples:</comment>');
             foreach ($this->groups as $groupName => $clis) {
                 /**
@@ -245,6 +246,34 @@ EOT;
                 $cliDescription = $cli->getDescription();
                 $space          = str_repeat(' ', $this->maxNameLength - strlen($cliName));
                 $this->output->writeln(" <info>$cliName</info>$space   $cliDescription");
+            }
+        }
+    }
+
+    protected function describeCliSearch()
+    {
+        $keyword = $this->input->getArgument('name');
+        $this->output->writeln('<comment>Search Result:</comment>');
+        foreach ($this->groups as $groupName => $clis) {
+            $groupNameShowed = false;
+            /**
+             * @var \cmf\console\Cli $cli
+             */
+            foreach ($clis as $cli) {
+                $cliName        = $cli->getName();
+                $cliDescription = $cli->getDescription();
+
+                if (strpos($cliName, $keyword) !== false || strpos($cliDescription, $keyword) !== false) {
+                    if (!$groupNameShowed) {
+                        $this->output->writeln("<comment>$groupName:</comment>");
+                        $groupNameShowed = true;
+                    }
+                    $space = str_repeat(' ', $this->maxNameLength - strlen($cliName));
+
+                    $cliName        = str_replace($keyword, "<error>$keyword</error>", $cliName);
+                    $cliDescription = str_replace($keyword, "<error>$keyword</error>", $cliDescription);
+                    $this->output->writeln(" <info>$cliName</info>$space   $cliDescription");
+                }
             }
         }
     }
