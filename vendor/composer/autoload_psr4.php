@@ -11,7 +11,7 @@ return array(
     'think\\view\\driver\\' => array($vendorDir . '/thinkcmf/think-view/src'),
     'think\\trace\\' => array($vendorDir . '/topthink/think-trace/src'),
     'think\\migration\\' => array($vendorDir . '/xia/migration/src'),
-    'think\\captcha\\' => array($vendorDir . '/topthink/think-captcha/src', $vendorDir . '/thinkcmf/cmf-captcha/src'),
+    'think\\captcha\\' => array($vendorDir . '/thinkcmf/cmf-captcha/src'),
     'think\\' => array($vendorDir . '/thinkcmf/cmf-route/src', $vendorDir . '/thinkcmf/think-template/src', $vendorDir . '/topthink/framework/src/think', $vendorDir . '/topthink/think-helper/src', $vendorDir . '/topthink/think-orm/src'),
     'themes\\' => array($baseDir . '/public/themes'),
     'plugins\\' => array($baseDir . '/public/plugins'),

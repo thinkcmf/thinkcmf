@@ -11,7 +11,6 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         '35fab96057f1bf5e7aba31a8a6d5fdde' => __DIR__ . '/..' . '/topthink/think-orm/stubs/load_stubs.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         '22ae91e0a0181f0ca9a02b9dde87e558' => __DIR__ . '/..' . '/thinkcmf/cmf/src/common.php',
-        '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -93,8 +92,7 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         ),
         'think\\captcha\\' => 
         array (
-            0 => __DIR__ . '/..' . '/topthink/think-captcha/src',
-            1 => __DIR__ . '/..' . '/thinkcmf/cmf-captcha/src',
+            0 => __DIR__ . '/..' . '/thinkcmf/cmf-captcha/src',
         ),
         'think\\' => 
         array (

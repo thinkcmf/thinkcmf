@@ -10,5 +10,4 @@ return array(
     '35fab96057f1bf5e7aba31a8a6d5fdde' => $vendorDir . '/topthink/think-orm/stubs/load_stubs.php',
     '2cffec82183ee1cea088009cef9a6fc3' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
     '22ae91e0a0181f0ca9a02b9dde87e558' => $vendorDir . '/thinkcmf/cmf/src/common.php',
-    '1cfd2761b63b0a29ed23657ea394cb2d' => $vendorDir . '/topthink/think-captcha/src/helper.php',
 );

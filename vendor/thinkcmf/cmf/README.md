@@ -1,6 +1,12 @@
 # ThinkCMF核心包
 
 ## 更新日志
+### v6.0.9
+* 增加轻量级命令行工具`php think cli`
+* 修复命令行下常量`APP_PATH`缺失
+* 优化语言包加载
+* 优化命令行程序
+
 ### v6.0.8
 * 增加`cmf_get_app_class`函数
 * 优化函数`cmf_scan_dir`

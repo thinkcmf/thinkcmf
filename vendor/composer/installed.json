@@ -763,17 +763,17 @@
         },
         {
             "name": "thinkcmf/cmf",
-            "version": "v6.0.8",
-            "version_normalized": "6.0.8.0",
+            "version": "v6.0.9",
+            "version_normalized": "6.0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-core.git",
-                "reference": "30ba807dc80bcd959f0db175924be2c7d3ea2868"
+                "reference": "9a1d5f917a9013e977d267fb787a11d5744d586f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/30ba807dc80bcd959f0db175924be2c7d3ea2868",
-                "reference": "30ba807dc80bcd959f0db175924be2c7d3ea2868",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/9a1d5f917a9013e977d267fb787a11d5744d586f",
+                "reference": "9a1d5f917a9013e977d267fb787a11d5744d586f",
                 "shasum": ""
             },
             "require": {
@@ -789,7 +789,7 @@
                 "topthink/think-orm": "^2.0",
                 "xia/migration": "^6.0"
             },
-            "time": "2022-04-30T02:37:14+00:00",
+            "time": "2022-05-20T11:47:58+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -817,7 +817,7 @@
             "description": "The ThinkCMF Core Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-core/issues",
-                "source": "https://github.com/thinkcmf/cmf-core/tree/v6.0.8"
+                "source": "https://github.com/thinkcmf/cmf-core/tree/v6.0.9"
             },
             "install-path": "../thinkcmf/cmf"
         },
@@ -1348,62 +1348,6 @@
                 "source": "https://github.com/top-think/framework/tree/v6.0.12"
             },
             "install-path": "../topthink/framework"
-        },
-        {
-            "name": "topthink/think-captcha",
-            "version": "v3.0.6",
-            "version_normalized": "3.0.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/top-think/think-captcha.git",
-                "reference": "3b60feb4d484381ff7ddda4af7582a6b9be5dacf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-captcha/zipball/3b60feb4d484381ff7ddda4af7582a6b9be5dacf",
-                "reference": "3b60feb4d484381ff7ddda4af7582a6b9be5dacf",
-                "shasum": ""
-            },
-            "require": {
-                "topthink/framework": "^6.0.0"
-            },
-            "time": "2022-03-18T09:11:51+00:00",
-            "type": "library",
-            "extra": {
-                "think": {
-                    "services": [
-                        "think\\captcha\\CaptchaService"
-                    ],
-                    "config": {
-                        "captcha": "src/config.php"
-                    }
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "files": [
-                    "src/helper.php"
-                ],
-                "psr-4": {
-                    "think\\captcha\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "yunwuxin",
-                    "email": "448901948@qq.com"
-                }
-            ],
-            "description": "captcha package for thinkphp",
-            "support": {
-                "issues": "https://github.com/top-think/think-captcha/issues",
-                "source": "https://github.com/top-think/think-captcha/tree/v3.0.6"
-            },
-            "install-path": "../topthink/think-captcha"
         },
         {
             "name": "topthink/think-helper",

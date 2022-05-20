@@ -134,12 +134,12 @@
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf' => array(
-            'pretty_version' => 'v6.0.8',
-            'version' => '6.0.8.0',
+            'pretty_version' => 'v6.0.9',
+            'version' => '6.0.9.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../thinkcmf/cmf',
             'aliases' => array(),
-            'reference' => '30ba807dc80bcd959f0db175924be2c7d3ea2868',
+            'reference' => '9a1d5f917a9013e977d267fb787a11d5744d586f',
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-api' => array(
@@ -248,15 +248,6 @@
             'install_path' => __DIR__ . '/../topthink/framework',
             'aliases' => array(),
             'reference' => 'e478316ac843c1a884a3b3a7a94db17c4001ff5c',
-            'dev_requirement' => false,
-        ),
-        'topthink/think-captcha' => array(
-            'pretty_version' => 'v3.0.6',
-            'version' => '3.0.6.0',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../topthink/think-captcha',
-            'aliases' => array(),
-            'reference' => '3b60feb4d484381ff7ddda4af7582a6b9be5dacf',
             'dev_requirement' => false,
         ),
         'topthink/think-helper' => array(
