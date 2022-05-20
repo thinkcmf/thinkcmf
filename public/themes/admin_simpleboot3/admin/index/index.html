@@ -50,14 +50,18 @@
         }
         /*----------------导航hack--------------------*/
     </style>
-
+    <php>
+        $is_mobile=cmf_is_mobile();
+        $_static_version='1.0.0';
+    </php>
     <script>
         //全局变量
         var GV = {
             HOST: "{$_SERVER['HTTP_HOST']|default=''}",
             ROOT: "__ROOT__/",
             WEB_ROOT: "__WEB_ROOT__/",
-            JS_ROOT: "static/js/"
+            JS_ROOT: "static/js/",
+            IS_MOBILE: {$is_mobile? 'true' : 'false'}
         };
     </script>
     <php>$submenus=$menus;</php>
@@ -142,7 +146,8 @@
 
     <php>
         if (!function_exists('getsubmenu2')) {
-            function getsubmenu2($submenus){</php>
+        function getsubmenu2($submenus){
+    </php>
     <php>foreach($submenus as $menu){</php>
     <li>
         <php>
@@ -174,8 +179,8 @@
     </if>
 
 </head>
-
-<body style="min-width:900px;overflow: hidden;">
+<php>$is_mobile=cmf_is_mobile();</php>
+<body style="min-width:{$is_mobile?'auto':'900px'};overflow: hidden;">
 <div id="loading"><i class="loadingicon"></i><span>{:lang('LOADING')}</span></div>
 <div id="right-tools-wrapper">
     <!--<span id="right_tools_clearcache" title="清除缓存" onclick="javascript:openapp('{:url('admin/Setting/clearcache')}','right_tool_clearcache','清除缓存');"><i class="fa fa-trash-o right_tool_icon"></i></span>-->
@@ -185,7 +190,7 @@
 <div class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href="{:url('admin/index/index')}" class="navbar-brand" style="min-width: 200px;text-align: center;">ThinkCMF</a>
+            <a href="{:url('admin/Index/index')}" class="navbar-brand" style="min-width: 200px;text-align: center;">ThinkCMF</a>
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -337,12 +342,12 @@
 <script src="__TMPL__/public/assets/js/jquery-1.10.2.min.js"></script>
 <script src="__STATIC__/js/wind.js"></script>
 <script src="__TMPL__/public/assets/js/bootstrap.min.js"></script>
-<script src="__STATIC__/js/admin.js"></script>
-<script src="__TMPL__/public/assets/simpleboot3/js/adminindex.js"></script>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script src="__TMPL__/public/assets/simpleboot3/js/adminindex.js?v={$_static_version}"></script>
 <script>
     Wind.css('artDialog');
     $(function () {
-        $("[data-toggle='tooltip']").tooltip();
+        $("[data-toggle='tooltip']").tooltip({container: 'body'});
         $("li.dropdown").hover(function () {
             $(this).addClass("open");
         }, function () {

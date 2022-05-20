@@ -1,4 +1,4 @@
-<script src="__STATIC__/js/admin.js"></script>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
 <script>
 
     Wind.use('colorpicker', function () {
@@ -24,7 +24,8 @@
         var dataSource        = $obj.data('source');
         var title             = $obj.data('title');
         parent.openIframeLayer("{:url('theme/dataSource')}?ids=" + selectedObjectsId + '&data_source=' + dataSource, title, {
-            area: ['95%', '90%'],
+            area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '90%'],
+            offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
             btn: ['确定', '取消'],
             yes: function (index, layero) {
                 var iframeWin       = parent.window[layero.find('iframe')[0]['name']];
@@ -55,7 +56,8 @@
             "{:url('theme/fileArrayData')}?tab={$tab}&file_id="+fileId+"&" + 'var=' + mVar + widget,
             title,
             {
-                area: ['95%', '90%'],
+                area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '90%'],
+                offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
                     var iframeWin = parent.window[layero.find('iframe')[0]['name']];
@@ -80,7 +82,8 @@
             "{:url('dialog/map')}?location=" + location,
             title,
             {
-                area: ['95%', '90%'],
+                area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '90%'],
+                offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
                     var iframeWin = parent.window[layero.find('iframe')[0]['name']];

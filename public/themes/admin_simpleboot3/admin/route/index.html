@@ -22,6 +22,7 @@
                 <th width="140">操作</th>
             </tr>
             </thead>
+            <tbody>
             <php>
                 $statuses=array('0'=>"已禁用","1"=>"已启用");
                 $types=array('1'=>"自定义","2"=>"别名定义");
@@ -71,6 +72,7 @@
                     </td>
                 </tr>
             </foreach>
+            </tbody>
             <tfoot>
             <tr>
                 <th width="50">排序</th>
@@ -88,6 +90,6 @@
         </div>
     </form>
 </div>
-<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript" src="__STATIC__/js/admin.js?v={$_static_version}"></script>
 </body>
 </html>

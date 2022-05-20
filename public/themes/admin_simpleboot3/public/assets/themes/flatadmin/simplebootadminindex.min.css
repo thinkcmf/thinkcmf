@@ -473,6 +473,7 @@ ul, ol {
 
 .cmf-component-tab {
     white-space: nowrap;
+    font-size: 0;
 }
 
 .cmf-component-tabitem {
@@ -483,6 +484,7 @@ ul, ol {
     text-align: center;
     cursor: pointer;
     vertical-align: top;
+    font-size: 14px;
 }
 
 .cmf-component-tabclose {

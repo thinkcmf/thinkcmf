@@ -127,6 +127,10 @@ var task_item_tpl = '<li class="cmf-component-tabitem">' +
 var appiframe_tpl = '<iframe style="width:100%;height: 100%;" frameborder="0" class="appiframe"></iframe>';
 
 function openapp(url, appId, appname, refresh) {
+    if (GV.IS_MOBILE) {
+        window.location.href = url;
+        return;
+    }
     var $app = $("#task-content-inner li[app-id='" + appId + "']");
     $("#task-content-inner .active").removeClass("active");
     if ($app.length == 0) {

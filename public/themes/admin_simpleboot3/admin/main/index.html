@@ -166,7 +166,7 @@
         </div>
     </empty>
 
-    <if condition="!class_exists('SplFileInfo')">
+    <if condition="!function_exists('finfo_open')">
         <div class="grid-item col-md-12">
             <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-bottom: 0;">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -216,7 +216,7 @@
         </foreach>
     </div>
 </div>
-<script src="__STATIC__/js/admin.js"></script>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
 <php>
     $lang_set=defined('LANG_SET')?LANG_SET:'';
     $thinkcmf_version=cmf_version();

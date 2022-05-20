@@ -44,8 +44,23 @@
         .form-required {
             color: red;
         }
+
+        .td-actions .btn {
+            margin-bottom: 2px;
+            min-width: 96px;
+            text-align: center;
+        }
+
+        .td-actions .btn:last-child {
+            margin-bottom: 0;
+        }
+        a:hover, a:focus{
+            text-decoration: none;
+        }
     </style>
     <php>
+		$is_mobile=cmf_is_mobile();
+        $_static_version='1.0.2';
         $cmf_version=cmf_version();
         if (strpos(cmf_version(), '6.') === 0) {
             $_app=app()->http->getName();
@@ -59,7 +74,8 @@
             ROOT: "__ROOT__/",
             WEB_ROOT: "__WEB_ROOT__/",
             JS_ROOT: "static/js/",
-            APP: '{$_app}'/*当前应用名*/
+            APP: '{$_app}'/*当前应用名*/,
+            IS_MOBILE: {$is_mobile? 'true' : 'false'}
         };
     </script>
     <script src="__TMPL__/public/assets/js/jquery-1.10.2.min.js"></script>

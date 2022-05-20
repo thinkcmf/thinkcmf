@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge"/>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta name="robots" content="noindex,nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <!-- HTML5 shim for IE8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -67,6 +68,7 @@
 
     </div>
 </div>
+<php>$_static_version='1.0.3';</php>
 <script type="text/javascript">
     //全局变量
     var GV = {
@@ -76,9 +78,9 @@
         APP: ''/*当前应用名*/
     };
 </script>
-<script src="__TMPL__/public/assets/js/jquery-1.10.2.min.js"></script>
-<script src="__STATIC__/js/wind.js"></script>
-<script src="__STATIC__/js/admin.js"></script>
+<script src="__TMPL__/public/assets/js/jquery-1.10.2.min.js?v={$_static_version}"></script>
+<script src="__STATIC__/js/wind.js?v={$_static_version}"></script>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
 <script>
     (function () {
         document.getElementById('input_username').focus();

@@ -8,6 +8,10 @@
 	padding: 20px 20px 70px;
 }
 
+.margin-top-3 {
+	margin-top: 3px !important;
+}
+
 .margin-top-10 {
 	margin-top: 10px !important;
 }

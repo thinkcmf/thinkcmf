@@ -37,13 +37,14 @@
         </div>
     </form>
 </div>
-<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript" src="__STATIC__/js/admin.js?v={$_static_version}"></script>
 
 <script>
     function doSelectUrl() {
         var selectedCategoriesId = $('#js-categories-id-input').val();
         openIframeLayer("{:url('Route/select')}?ids=" + selectedCategoriesId, '请选择URL', {
-            area: ['95%', '90%'],
+            area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '90%'],
+            offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
             btn: ['确定', '取消'],
             yes: function (index, layero) {
 

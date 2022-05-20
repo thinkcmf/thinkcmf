@@ -79,7 +79,7 @@
 
 </div>
 
-<script src="__ROOT__/static/js/admin.js"></script>
+<script src="__ROOT__/static/js/admin.js?v={$_static_version}"></script>
 <script src="__ROOT__/static/js/webuploader/webuploader.min.js"></script>
 
 
@@ -663,6 +663,9 @@
 
                     case 'stopUpload':
                         setState('paused');
+                        break;
+                    case 'uploadComplete':
+
                         break;
 
                 }
