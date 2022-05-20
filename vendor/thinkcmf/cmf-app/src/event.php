@@ -3,24 +3,21 @@
 // 事件定义文件
 return [
     'bind' => [
-
     ],
 
     'listen' => [
         'AppInit'    => [
-            '\cmf\listener\LangListener',
             '\cmf\listener\InitHookListener'
         ],
         'ModuleInit' => [
-            '\cmf\listener\InitAppHookListener'
+            '\cmf\listener\ModuleInitListener',
         ],
         'HttpRun'    => [],
         'HttpEnd'    => [],
         'LogLevel'   => [],
         'LogWrite'   => [],
         'AdminInit'  => [
-            '\cmf\listener\AdminMenuLangListener',
-            '\cmf\listener\AdminLangListener'
+            '\cmf\listener\AdminInitListener',
         ],
         'HomeInit'   => [
             '\cmf\listener\HomeLangListener'

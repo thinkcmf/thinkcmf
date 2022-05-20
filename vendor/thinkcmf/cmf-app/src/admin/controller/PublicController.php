@@ -93,7 +93,7 @@ class PublicController extends AdminBaseController
                     ->where(["user_id" => $result["id"], "status" => 1])
                     ->value("role_id");
                 if ($result["id"] != 1 && (empty($groups) || empty($result['user_status']))) {
-                    $this->error(lang('USE_DISABLED'));
+                    $this->error(lang('USER_DISABLED'));
                 }
                 //登入成功页面跳转
                 session('ADMIN_ID', $result["id"]);

@@ -10,12 +10,8 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
         '35fab96057f1bf5e7aba31a8a6d5fdde' => __DIR__ . '/..' . '/topthink/think-orm/stubs/load_stubs.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
-        '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
         '22ae91e0a0181f0ca9a02b9dde87e558' => __DIR__ . '/..' . '/thinkcmf/cmf/src/common.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
-        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+        '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -55,13 +51,6 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
             'app\\admin\\' => 10,
             'app\\' => 4,
             'api\\' => 4,
-        ),
-        'S' => 
-        array (
-            'Symfony\\Polyfill\\Php80\\' => 23,
-            'Symfony\\Polyfill\\Php72\\' => 23,
-            'Symfony\\Polyfill\\Mbstring\\' => 26,
-            'Symfony\\Component\\VarDumper\\' => 28,
         ),
         'P' => 
         array (
@@ -105,6 +94,7 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         'think\\captcha\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-captcha/src',
+            1 => __DIR__ . '/..' . '/thinkcmf/cmf-captcha/src',
         ),
         'think\\' => 
         array (
@@ -152,22 +142,6 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         array (
             0 => __DIR__ . '/../..' . '/api',
             1 => __DIR__ . '/..' . '/thinkcmf/cmf-api/src',
-        ),
-        'Symfony\\Polyfill\\Php80\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
-        ),
-        'Symfony\\Polyfill\\Php72\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php72',
-        ),
-        'Symfony\\Polyfill\\Mbstring\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
-        ),
-        'Symfony\\Component\\VarDumper\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
         'Psr\\SimpleCache\\' => 
         array (
@@ -226,7 +200,6 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
     );
 
     public static $classMap = array (
-        'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Callback' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/Callback.php',
         'CallbackBody' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/Callback.php',
         'CallbackParam' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/Callback.php',
@@ -238,11 +211,6 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         'DOMEvent' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/DOMEvent.php',
         'ICallbackNamed' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/Callback.php',
         'PclZip' => __DIR__ . '/..' . '/chamilo/pclzip/pclzip.lib.php',
-        'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
-        'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
-        'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
-        'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
-        'cmf\\console\\command\\VendorPublish' => __DIR__ . '/..' . '/thinkcmf/cmf/src/console/command/VendorPublish.php',
         'phpQuery' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery.php',
         'phpQueryEvents' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/phpQueryEvents.php',
         'phpQueryObject' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/phpQueryObject.php',
@@ -258,7 +226,6 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         'think\\Http' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/Http.php',
         'think\\Route' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/Route.php',
         'think\\View' => __DIR__ . '/..' . '/thinkcmf/think-template/src/View.php',
-        'think\\captcha\\Captcha' => __DIR__ . '/..' . '/thinkcmf/cmf/src/captcha/Captcha.php',
         'think\\route\\Rule' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/route/Rule.php',
         'think\\route\\Url' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/route/Url.php',
         'think\\route\\dispatch\\Controller' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/route/dispatch/Controller.php',
