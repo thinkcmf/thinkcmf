@@ -17,9 +17,7 @@
         "thinkcmf/cmf-extend": "~5.1.0",
         "topthink/think-orm": "^2.0",
         "xia/migration": "^6.0",
-        "thinkcmf/cmf-captcha": "^3.0",
-        "thinkcmf/think-view": "~1.0.15",
-        "thinkcmf/cmf-route": "^6.0.0"
+        "thinkcmf/cmf-captcha": "^3.0"
     },
     "autoload": {
         "psr-4": {

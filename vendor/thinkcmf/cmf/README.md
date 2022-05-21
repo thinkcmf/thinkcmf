@@ -1,6 +1,10 @@
 # ThinkCMF核心包
 
 ## 更新日志
+### v6.0.10
+* 增加`session`更新
+* 合并`cmf-route`,`think-template`,`think-view`包
+
 ### v6.0.9
 * 增加轻量级命令行工具`php think cli`
 * 修复命令行下常量`APP_PATH`缺失
