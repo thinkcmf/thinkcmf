@@ -21,7 +21,6 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         't' => 
         array (
             'tree\\' => 5,
-            'think\\view\\driver\\' => 18,
             'think\\trace\\' => 12,
             'think\\migration\\' => 16,
             'think\\captcha\\' => 14,
@@ -78,10 +77,6 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         array (
             0 => __DIR__ . '/..' . '/thinkcmf/cmf-extend/src/tree',
         ),
-        'think\\view\\driver\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/thinkcmf/think-view/src',
-        ),
         'think\\trace\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-trace/src',
@@ -96,11 +91,10 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         ),
         'think\\' => 
         array (
-            0 => __DIR__ . '/..' . '/thinkcmf/cmf-route/src',
-            1 => __DIR__ . '/..' . '/thinkcmf/think-template/src',
-            2 => __DIR__ . '/..' . '/topthink/framework/src/think',
-            3 => __DIR__ . '/..' . '/topthink/think-helper/src',
-            4 => __DIR__ . '/..' . '/topthink/think-orm/src',
+            0 => __DIR__ . '/..' . '/thinkcmf/cmf/think',
+            1 => __DIR__ . '/..' . '/topthink/framework/src/think',
+            2 => __DIR__ . '/..' . '/topthink/think-helper/src',
+            3 => __DIR__ . '/..' . '/topthink/think-orm/src',
         ),
         'themes\\' => 
         array (
@@ -219,15 +213,15 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         'phpQueryPlugin_WebBrowser' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/plugins/WebBrowser.php',
         'phpQueryPlugin_example' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery/plugins/example.php',
         'phpQueryPlugins' => __DIR__ . '/..' . '/electrolinux/phpquery/phpQuery/phpQuery.php',
-        'think\\App' => __DIR__ . '/..' . '/thinkcmf/cmf/src/App.php',
-        'think\\Console' => __DIR__ . '/..' . '/thinkcmf/cmf/src/Console.php',
-        'think\\Http' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/Http.php',
-        'think\\Route' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/Route.php',
-        'think\\View' => __DIR__ . '/..' . '/thinkcmf/think-template/src/View.php',
-        'think\\route\\Rule' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/route/Rule.php',
-        'think\\route\\Url' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/route/Url.php',
-        'think\\route\\dispatch\\Controller' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/route/dispatch/Controller.php',
-        'think\\route\\dispatch\\Url' => __DIR__ . '/..' . '/thinkcmf/cmf-route/src/route/dispatch/Url.php',
+        'think\\App' => __DIR__ . '/..' . '/thinkcmf/cmf/think/App.php',
+        'think\\Console' => __DIR__ . '/..' . '/thinkcmf/cmf/think/Console.php',
+        'think\\Http' => __DIR__ . '/..' . '/thinkcmf/cmf/think/Http.php',
+        'think\\Route' => __DIR__ . '/..' . '/thinkcmf/cmf/think/Route.php',
+        'think\\View' => __DIR__ . '/..' . '/thinkcmf/cmf/think/View.php',
+        'think\\route\\Rule' => __DIR__ . '/..' . '/thinkcmf/cmf/think/route/Rule.php',
+        'think\\route\\Url' => __DIR__ . '/..' . '/thinkcmf/cmf/think/route/Url.php',
+        'think\\route\\dispatch\\Controller' => __DIR__ . '/..' . '/thinkcmf/cmf/think/route/dispatch/Controller.php',
+        'think\\route\\dispatch\\Url' => __DIR__ . '/..' . '/thinkcmf/cmf/think/route/dispatch/Url.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

@@ -578,7 +578,7 @@ class App extends Container
         include_once $this->thinkPath . 'helper.php';
 
         // 加载应用配置
-        $appConfigFiles = glob(__DIR__ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . '*.php');
+        $appConfigFiles = glob(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . '*.php');
 
         foreach ($appConfigFiles as $file) {
             $this->config->load($file, pathinfo($file, PATHINFO_FILENAME));

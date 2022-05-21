@@ -81,7 +81,11 @@ class BaseController
                 $this->beforeAction($options) :
                 $this->beforeAction($method, $options);
         }
-
+        $lastTime    = session('last_time');
+        $currentTime = time();
+        if (empty($lastTime) || $lastTime + 60 < $currentTime) {
+            session('last_time', $currentTime);
+        }
     }
 
     // 初始化

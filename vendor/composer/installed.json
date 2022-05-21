@@ -797,11 +797,19 @@
                     "src/common.php"
                 ],
                 "psr-4": {
-                    "cmf\\": "src"
+                    "cmf\\": "src",
+                    "think\\": "think"
                 },
                 "classmap": [
-                    "src/App.php",
-                    "src/Console.php"
+                    "think/App.php",
+                    "think/Console.php",
+                    "think/View.php",
+                    "think/Route.php",
+                    "think/Http.php",
+                    "think/route/Rule.php",
+                    "think/route/Url.php",
+                    "think/route/dispatch/Controller.php",
+                    "think/route/dispatch/Url.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
