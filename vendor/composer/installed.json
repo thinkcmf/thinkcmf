@@ -1378,24 +1378,24 @@
         },
         {
             "name": "xia/migration",
-            "version": "v6.0.0",
-            "version_normalized": "6.0.0.0",
+            "version": "v6.0.1",
+            "version_normalized": "6.0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/449134904/artisan.git",
-                "reference": "7c9dd1fced5b43a590cebbbb965b22f14d7befd9"
+                "reference": "368961c71db0612105104fba11765d788a04e5c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/449134904/artisan/zipball/7c9dd1fced5b43a590cebbbb965b22f14d7befd9",
-                "reference": "7c9dd1fced5b43a590cebbbb965b22f14d7befd9",
+                "url": "https://api.github.com/repos/449134904/artisan/zipball/368961c71db0612105104fba11765d788a04e5c6",
+                "reference": "368961c71db0612105104fba11765d788a04e5c6",
                 "shasum": ""
             },
             "require": {
                 "topthink/framework": "^6.0.0",
                 "topthink/think-helper": "^3.0.3"
             },
-            "time": "2021-09-30T09:53:18+00:00",
+            "time": "2022-05-21T10:52:59+00:00",
             "type": "library",
             "extra": {
                 "think": {
@@ -1423,7 +1423,7 @@
             ],
             "support": {
                 "issues": "https://github.com/449134904/artisan/issues",
-                "source": "https://github.com/449134904/artisan/tree/v6.0.0"
+                "source": "https://github.com/449134904/artisan/tree/v6.0.1"
             },
             "install-path": "../xia/migration"
         }
