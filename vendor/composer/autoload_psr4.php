@@ -19,7 +19,7 @@ return array(
     'cmf\\composer\\' => array($vendorDir . '/thinkcmf/cmf-root/src'),
     'cmf\\' => array($vendorDir . '/thinkcmf/cmf/src'),
     'app\\admin\\' => array($vendorDir . '/thinkcmf/cmf-appstore/src'),
-    'app\\' => array($baseDir . '/app', $vendorDir . '/thinkcmf/cmf-app/src', $vendorDir . '/thinkcmf/cmf-install/src'),
+    'app\\' => array($baseDir . '/app', $vendorDir . '/thinkcmf/cmf-install/src', $vendorDir . '/thinkcmf/cmf-app/src'),
     'api\\' => array($baseDir . '/api', $vendorDir . '/thinkcmf/cmf-api/src'),
     'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),

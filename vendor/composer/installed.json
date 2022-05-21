@@ -877,23 +877,23 @@
         },
         {
             "name": "thinkcmf/cmf-app",
-            "version": "v6.0.7",
-            "version_normalized": "6.0.7.0",
+            "version": "v6.0.8",
+            "version_normalized": "6.0.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-app.git",
-                "reference": "d56dd17898e799d3d502f7cb3d7a79475c5a2b08"
+                "reference": "9eabd86c7fbdb07de69e0259050b4c90c321d58a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/d56dd17898e799d3d502f7cb3d7a79475c5a2b08",
-                "reference": "d56dd17898e799d3d502f7cb3d7a79475c5a2b08",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/9eabd86c7fbdb07de69e0259050b4c90c321d58a",
+                "reference": "9eabd86c7fbdb07de69e0259050b4c90c321d58a",
                 "shasum": ""
             },
             "require": {
                 "thinkcmf/cmf": "^6.0.0"
             },
-            "time": "2022-05-21T08:41:24+00:00",
+            "time": "2022-05-21T11:06:24+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -915,7 +915,7 @@
             "description": "The ThinkCMF App Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-app/issues",
-                "source": "https://github.com/thinkcmf/cmf-app/tree/v6.0.7"
+                "source": "https://github.com/thinkcmf/cmf-app/tree/v6.0.8"
             },
             "install-path": "../thinkcmf/cmf-app"
         },

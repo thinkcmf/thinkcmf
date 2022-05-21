@@ -17,6 +17,7 @@ use app\admin\model\HookPluginModel;
 use app\admin\model\PluginModel;
 use mindplay\annotations\Annotations;
 use think\facade\Cache;
+use think\migration\Migrate;
 
 class PluginLogic
 {
@@ -47,6 +48,9 @@ class PluginLogic
         if (!$installSuccess) {
             return '插件预安装失败!';
         }
+
+        $migrate = new Migrate('', $pluginName);
+        $migrate->migrate();
 
         $methods = get_class_methods($plugin);
 
@@ -103,6 +107,9 @@ class PluginLogic
             }
         }
 
+        $migrate = new Migrate('', $pluginName);
+        $migrate->migrate();
+
         $methods = get_class_methods($plugin);
 
         foreach ($methods as $methodKey => $method) {
@@ -138,7 +145,7 @@ class PluginLogic
 
         $samePluginHooks = array_intersect($pluginHooks, $pluginHooksInDb);
 
-        $shouldDeleteHooks = array_diff($pluginHooksInDb,$pluginHooks);
+        $shouldDeleteHooks = array_diff($pluginHooksInDb, $pluginHooks);
 
         $newHooks = array_diff($pluginHooks, $samePluginHooks);
 

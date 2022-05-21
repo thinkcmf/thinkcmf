@@ -19,6 +19,7 @@ use app\admin\model\PluginModel;
 use app\user\logic\UserActionLogic;
 use mindplay\annotations\Annotations;
 use think\facade\Cache;
+use think\migration\Migrate;
 
 class AppLogic
 {
@@ -62,6 +63,9 @@ class AppLogic
             return '应用预安装失败!';
         }
 
+        $migrate = new Migrate($appName);
+        $migrate->migrate();
+
         // 导入后台菜单
         MenuLogic::importMenus($appName);
         // 导入应用钩子
@@ -77,7 +81,7 @@ class AppLogic
 
         Cache::clear('init_hook_apps');
         Cache::clear('admin_menus');// 删除后台菜单缓存
-        
+
         return true;
     }
 
@@ -124,6 +128,9 @@ class AppLogic
                 return '应用预升级失败!';
             }
         }
+
+        $migrate = new Migrate($appName);
+        $migrate->migrate();
 
         // 导入后台菜单
         MenuLogic::importMenus($appName);
