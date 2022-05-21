@@ -170,12 +170,12 @@
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-captcha' => array(
-            'pretty_version' => 'v3.0.7',
-            'version' => '3.0.7.0',
+            'pretty_version' => 'v3.0.8',
+            'version' => '3.0.8.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../thinkcmf/cmf-captcha',
             'aliases' => array(),
-            'reference' => '9cd76ffa1d14a624d730e4e2a9031649be1446ba',
+            'reference' => 'cfd5dee667b3659fd49d6f6ba1fcd55dc52fe28c',
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-extend' => array(

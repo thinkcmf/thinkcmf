@@ -18,7 +18,7 @@ use think\Session;
 
 class Captcha
 {
-    private $im = null; // 验证码图片实例
+    private $im    = null; // 验证码图片实例
     private $color = null; // 验证码字体颜色
 
     /**
