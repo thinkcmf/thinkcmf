@@ -1,11 +1,11 @@
-ThinkCMF 6.0.5 开发版
+ThinkCMF 6.0.5 让你更自由地飞
 ===============
-**开发版，请不要用于正式环境！实际项目请下载正式版**
+欢迎入坑，有问题请及时提交issue!
 
 ### ThinkCMF6.0主要特性
 * 框架协议依旧为`MIT`,让你更自由地飞
 * 基于`ThinkPHP 6.0`重构，核心代码兼容5.1版本，保证老用户最小升级成本
-* API增加Swagger支持
+* `API`增加`Swagger`支持
 * 增加`.env`环境配置支持
 
 ### 功能列表
@@ -42,8 +42,8 @@ ThinkCMF 6.0.5 开发版
 - [x] 邮件发送
 - [x] Docker容器
 - [x] API支持`Swagger`
-- [x] Swagger规范
-- [x] URL美化
+- [x] `Swagger`规范
+- [x] `URL`美化
 - [x] 应用导航共享
 - [x] 应用后台菜单注解
 - [x] 应用钩子配置
@@ -51,11 +51,11 @@ ThinkCMF 6.0.5 开发版
 - [x] URL规则配置
 - [x] 网站安装功能
 - [x] 会员管理
-- [x] 默认过滤器htmlspecialchars
+- [x] 默认过滤器`htmlspecialchars`
 - [x] 文件上传
 - [x] 验证码优化
 - [x] 强制所有创建，更新，删除操作为POST请求
-- [x] 基础控制器validateFailError()方法
+- [x] 基础控制器`validateFailError()`方法
 
 ### 开发手册
 https://www.thinkcmf.com/docs/cmf6
@@ -93,6 +93,10 @@ enjoy your cmf~!
 **Swagger-PHP** (https://zircote.github.io/swagger-php/)
 
 ### 升级指导
+#### 6.0.4升级到6.0.5
+1. 根目录`composer.json`的`require-dev`属性值请更新
+2. `composer update`
+
 #### 6.0.3升级到6.0.4
 1. 安装静态资源包`composer require thinkcmf/cmf-root`
 2. 根目录`composer.json`的`minimum-stability`,`require`,`config`属性值请更新
