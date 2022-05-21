@@ -1044,16 +1044,16 @@
         },
         {
             "name": "thinkcmf/cmf-root",
-            "version": "v1.0.4",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-root.git",
-                "reference": "04e343ea2efaa9bdad4c53efaa9efbf6046df687"
+                "reference": "4d57146904c83a8feca9ba38b1b3807cf7d3011d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-root/zipball/04e343ea2efaa9bdad4c53efaa9efbf6046df687",
-                "reference": "04e343ea2efaa9bdad4c53efaa9efbf6046df687",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-root/zipball/4d57146904c83a8feca9ba38b1b3807cf7d3011d",
+                "reference": "4d57146904c83a8feca9ba38b1b3807cf7d3011d",
                 "shasum": ""
             },
             "require": {
@@ -1084,9 +1084,9 @@
             "description": "The files in ThinkCMF root dir",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-root/issues",
-                "source": "https://github.com/thinkcmf/cmf-root/tree/v1.0.4"
+                "source": "https://github.com/thinkcmf/cmf-root/tree/v1.0.5"
             },
-            "time": "2022-04-30T14:36:07+00:00"
+            "time": "2022-05-21T11:15:23+00:00"
         },
         {
             "name": "topthink/framework",

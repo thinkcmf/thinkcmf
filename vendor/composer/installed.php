@@ -197,12 +197,12 @@
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-root' => array(
-            'pretty_version' => 'v1.0.4',
-            'version' => '1.0.4.0',
+            'pretty_version' => 'v1.0.5',
+            'version' => '1.0.5.0',
             'type' => 'composer-plugin',
             'install_path' => __DIR__ . '/../thinkcmf/cmf-root',
             'aliases' => array(),
-            'reference' => '04e343ea2efaa9bdad4c53efaa9efbf6046df687',
+            'reference' => '4d57146904c83a8feca9ba38b1b3807cf7d3011d',
             'dev_requirement' => false,
         ),
         'thinkcmf/thinkcmf' => array(
