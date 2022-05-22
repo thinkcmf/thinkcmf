@@ -1,4 +1,0 @@
-# Created by .ignore support plugin (hsz.mobi)
-.git*
-*
-!docker/shell/get-thinkcmf.sh
