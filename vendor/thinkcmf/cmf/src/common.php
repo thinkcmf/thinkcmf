@@ -11,12 +11,9 @@
 use think\facade\Db;
 use cmf\model\OptionModel;
 use think\facade\Env;
-use think\facade\Url;
 use dir\Dir;
 use think\facade\Route;
-use think\Loader;
 use cmf\lib\Storage;
-use think\facade\Hook;
 
 // 应用公共文件
 
