@@ -66,14 +66,14 @@ https://www.thinkcmf.com/docs/cmf6
 2. GitHub:https://github.com/thinkcmf/thinkcmf/tree/6.0 国际镜像
 
 ### 环境推荐
->* php8.0  
->* mysql 5.7+  
->* 打开rewrite
+>php8.0  
+>mysql 5.7+  
+>打开rewrite
 
 ### 最低环境要求
->* php7.4.0  
->* mysql 5.5+ (mysql5.1安装时选择utf8编码，不支持表情符)  
->* 打开rewrite
+>php7.4.0  
+>mysql 5.5+ (mysql5.1安装时选择utf8编码，不支持表情符)  
+>打开rewrite
 
 ### 安装程序
 1. public目录做为网站根目录,入口文件在 public/index.php
