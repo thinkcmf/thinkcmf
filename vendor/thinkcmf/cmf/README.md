@@ -1,6 +1,12 @@
 # ThinkCMF核心包
 
 ## 更新日志
+### v6.0.12
+* 删除`commmon.php`无效应用
+
+### v6.0.11
+* 删除`cmf-route`,`think-template`,`think-view`包
+
 ### v6.0.10
 * 增加`session`更新
 * 合并`cmf-route`,`think-template`,`think-view`包

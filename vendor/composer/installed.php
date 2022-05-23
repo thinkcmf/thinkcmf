@@ -134,12 +134,12 @@
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf' => array(
-            'pretty_version' => 'v6.0.11',
-            'version' => '6.0.11.0',
+            'pretty_version' => 'v6.0.12',
+            'version' => '6.0.12.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../thinkcmf/cmf',
             'aliases' => array(),
-            'reference' => '088c6c7da96456c66197c1b80f336867374cc731',
+            'reference' => '8862346cc67dee09fc2385df07e40bbe989136cd',
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-api' => array(
@@ -188,12 +188,12 @@
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-install' => array(
-            'pretty_version' => 'v6.0.4',
-            'version' => '6.0.4.0',
+            'pretty_version' => 'v6.0.5',
+            'version' => '6.0.5.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../thinkcmf/cmf-install',
             'aliases' => array(),
-            'reference' => '3da59c433913d117498d7e99869d6903e27188e2',
+            'reference' => '6ab2a9b2ec28d735bec56fbbf7012ba45939d853',
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-root' => array(
