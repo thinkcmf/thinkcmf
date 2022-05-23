@@ -119,9 +119,9 @@ https://gitee.com/thinkcmf/docker
 * 增加插件发布打包工具
 * 增加模板发布打包工具
 * 优化命令行程序
-* 优化`Dockerfile`
-* 优化`docker-compose.yml`
 * 修复命令行下常量`APP_PATH`缺失
+* 独立`Docker`容器为单独仓库
+
 
 
 #### 6.0.4
