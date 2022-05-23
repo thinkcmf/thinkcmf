@@ -92,6 +92,10 @@ enjoy your cmf~!
 **OpenAPI** (https://www.openapis.org)  
 **Swagger-PHP** (https://zircote.github.io/swagger-php/)
 
+### Docker
+如果需要`docker`下运行`ThinkCMF`,可以使用下面的仓库  
+https://gitee.com/thinkcmf/docker
+
 ### 升级指导
 #### 6.0.4升级到6.0.5
 1. 根目录`composer.json`的`require-dev`属性值请更新
