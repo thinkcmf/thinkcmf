@@ -103,7 +103,10 @@ https://gitee.com/thinkcmf/docker
 2. 根目录`composer.json`的`minimum-stability`,`require`,`config`属性值请更新
 3. `composer update`
 
-#### 6.0.1升级到6.0.3
+#### 6.0.2升级到6.0.3
+1. `composer update`
+
+#### 6.0.1升级到6.0.2
 1. composer.json文件里的`autoload.psr-4.themes\\`改为`public/themes`
 2. 安装应用市场包`composer require thinkcmf/cmf-appstore`
 3. `public/themes`,`public/static`静态文件也有更新
