@@ -3,10 +3,10 @@
 <body>
 	<div class="wrap">
 		<ul class="nav nav-tabs">
-			<li><a href="{:url('link/index')}">{:lang('ADMIN_LINK_INDEX')}</a></li>
-			<li class="active"><a href="{:url('link/add')}">{:lang('ADMIN_LINK_ADD')}</a></li>
+			<li><a href="{:url('Link/index')}">{:lang('ADMIN_LINK_INDEX')}</a></li>
+			<li class="active"><a href="{:url('Link/add')}">{:lang('ADMIN_LINK_ADD')}</a></li>
 		</ul>
-		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('link/addPost')}">
+		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Link/addPost')}">
 			<div class="form-group">
 				<label for="input-name" class="col-sm-2 control-label">名称<span class="form-required">*</span></label>
 				<div class="col-md-6 col-sm-10">
@@ -22,7 +22,7 @@
 			<div class="form-group">
 				<label for="input-image" class="col-sm-2 control-label">图标</label>
 				<div class="col-md-6 col-sm-10">
-					<input type="text" class="form-control" id="input-image" name="image"> 
+					<input type="text" class="form-control" id="input-image" name="image">
 					<a href="javascript:uploadOneImage('图片上传','#input-image');">上传图片</a>
 				</div>
 			</div>

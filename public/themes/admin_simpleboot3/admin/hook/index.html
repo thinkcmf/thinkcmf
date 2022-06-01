@@ -3,8 +3,8 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a>所有钩子</a></li>
-        <li><a href="{:url('Hook/sync')}">同步钩子</a></li>
+        <li class="active"><a>{:lang('ADMIN_HOOK_INDEX')}</a></li>
+        <li><a href="{:url('Hook/sync')}">{:lang('ADMIN_HOOK_SYNC')}</a></li>
     </ul>
     <form action="" method="post" class="margin-top-20">
         <php>
@@ -14,9 +14,9 @@
             <thead>
             <tr>
                 <th width="40">ID</th>
-                <th>名称</th>
-                <th>类型</th>
-                <th>描述</th>
+                <th>{:lang('NAME')}</th>
+                <th>{:lang('Type')}</th>
+                <th>{:lang('Description')}</th>
                 <th width="150">{:lang('ACTIONS')}</th>
             </tr>
             </thead>

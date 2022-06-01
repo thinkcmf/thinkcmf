@@ -96,6 +96,12 @@ return [
     'EMAIL_ACTIVATION'                   => '邮箱激活',
     'EMAIL_SUBJECT'                      => '邮件标题',
     'EMAIL_TEMPLATE'                     => '邮件模版',
-    'EMAIL_TEMPLATE_HELP_TEXT'           => '请用{$link}代替激活链接，{$username}代替用户名'
+    'EMAIL_TEMPLATE_HELP_TEXT'           => '请用{$link}代替激活链接，{$username}代替用户名',
+    'Install'                            => '安装',
+    'Update'                             => '更新',
+    'Not Installed'                      => '未安装',
+    'Installed'                          => '已安装',
+    'APP_CONTROLLER_ACTION'              => '操作',
+    ''
 ];
 

@@ -3,9 +3,9 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('admin/App/index')}">应用管理</a></li>
+        <li class="active"><a href="{:url('admin/App/index')}">{:lang('ADMIN_APP_INDEX')}</a></li>
         <if condition="class_exists('\app\admin\controller\AppStoreController')">
-            <li><a href="{:url('AppStore/apps')}">应用市场</a></li>
+            <li><a href="{:url('AppStore/apps')}">{:lang('ADMIN_APPSTORE_APPS')}</a></li>
         </if>
     </ul>
     <form method="post" class="js-ajax-form margin-top-20">
@@ -15,13 +15,13 @@
         <table class="table table-hover table-bordered">
             <thead>
             <tr>
-                <th>名称</th>
+                <th>{:lang('NAME')}</th>
                 <th>标识</th>
-                <th>描述</th>
-                <th>作者</th>
-                <th>版本号</th>
-                <th width="60">状态</th>
-                <th width="220">操作</th>
+                <th>{:lang('Description')}</th>
+                <th>{:lang('Author')}</th>
+                <th>{:lang('Version')}</th>
+                <th width="60">{:lang('STATUS')}</th>
+                <th width="220">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -34,20 +34,20 @@
                     <td><span class="label label-success">{$vo.version}</span></td>
                     <td>
                         <empty name="vo.installed">
-                            <span class="label label-warning">未安装</span>
+                            <span class="label label-warning">{:lang('Not Installed')}</span>
                             <else/>
-                            <span class="label label-success">已安装</span>
+                            <span class="label label-success">{:lang('Installed')}</span>
                         </empty>
                     </td>
                     <td>
                         <empty name="vo.installed">
                             <a class="btn btn-xs btn-primary js-ajax-dialog-btn"
                                href="{:url('App/install',array('name'=>$vo['name']))}"
-                               data-msg="确定安装该应用吗？">安装</a>
+                               data-msg="确定安装该应用吗？">{:lang('Install')}</a>
                             <else/>
                             <a class="btn btn-xs btn-success js-ajax-dialog-btn"
                                href="{:url('App/update',array('name'=>$vo['name']))}"
-                               data-msg="确定更新该应用吗？">更新</a>
+                               data-msg="确定更新该应用吗？">{:lang('Update')}</a>
                         </empty>
                     </td>
                 </tr>
