@@ -5,9 +5,15 @@
         height: 100%;
         margin: 0;
         overflow: hidden;
+        background: #eee;
     }
 
-    #simulator, #setting-iframe {
+    #simulator {
+        margin: 0 auto;
+        display: block;
+    }
+
+    #setting-iframe {
         width: 100%;
         height: 100%;
     }
@@ -21,6 +27,7 @@
         border-right: 1px solid #eee;
         display: none;
         background: #fff;
+        z-index: 999;
     }
 
     #setting-iframe-wrap {
@@ -52,33 +59,13 @@
     }
 
     #show-setting-panel {
-        position: fixed;
         top: 30px;
         left: 30px;
-        z-index: 99;
-        font-size: 20px;
-        line-height: 50px;
-        width: 50px;
-        border: 1px solid #eee;
-        text-align: center;
-        border-radius: 50%;
-        cursor: pointer;
-        background: #fff;
     }
 
     #update-theme-btn {
-        position: fixed;
         top: 30px;
         right: 30px;
-        z-index: 99;
-        font-size: 20px;
-        line-height: 50px;
-        width: 50px;
-        border: 1px solid #eee;
-        text-align: center;
-        border-radius: 50%;
-        cursor: pointer;
-        background: #fff;
     }
 
     #update-theme-btn:focus {
@@ -97,6 +84,55 @@
     #think_page_trace_open {
         display: none !important;
     }
+
+    .simulator-pc {
+        width: 100%;
+        height: 100%;
+    }
+
+    .simulator-pad {
+        width: 1180px;
+        height: 820px;
+        transform: scale(0.7);
+        border: 1px solid #aaa;
+    }
+
+    .simulator-mobile {
+        width: 375px;
+        height: 667px;
+        transform: scale(0.8);
+        border: 1px solid #aaa;
+    }
+
+    .design-btn {
+        position: fixed;
+        z-index: 99;
+        font-size: 20px;
+        line-height: 50px;
+        width: 50px;
+        border: 1px solid #eee;
+        text-align: center;
+        border-radius: 50%;
+        cursor: pointer;
+        background: #fff;
+    }
+
+    #simulator-pc-btn {
+        top: 100px;
+        right: 30px;
+    }
+
+    #simulator-pad-btn {
+        top: 170px;
+        right: 30px;
+    }
+
+    #simulator-mobile-btn {
+        top: 240px;
+        right: 30px;
+    }
+
+
 </style>
 <script>
     setInterval(function () {
@@ -104,12 +140,16 @@
             url: "{:url('Theme/design')}?theme={:input('param.theme')}&status=1",
             type: 'post'
         });
-    },2000);
+    }, 2000);
 </script>
 </head>
 <body>
-<a id="show-setting-panel" title="编辑当前页" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
-<a id="update-theme-btn" title="刷新当前页" data-toggle="tooltip"><i class="fa fa-refresh"></i></a>
+<a class="design-btn" id="show-setting-panel" title="编辑当前页" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
+<a class="design-btn" id="update-theme-btn" title="刷新当前页" data-toggle="tooltip"><i class="fa fa-refresh"></i></a>
+<a class="design-btn" id="simulator-mobile-btn" title="手机" data-toggle="tooltip"><i class="fa fa-mobile"></i></a>
+<a class="design-btn" id="simulator-pad-btn" title="Pad" data-toggle="tooltip"><i class="fa fa-tablet"></i></a>
+<a class="design-btn" id="simulator-pc-btn" title="PC" data-toggle="tooltip"><i class="fa fa-desktop"></i></a>
+
 <div class="setting-panel-wrap">
     <a href="javascript:;" id="close-setting-panel"><i class="fa fa-close"></i></a>
     <div id="setting-iframe-wrap">
@@ -119,18 +159,30 @@
         <a id="save-btn" class="btn btn-primary">保存</a>
     </div>
 </div>
-<iframe src="__ROOT__/?_design_theme={:input('param.theme')}" frameborder="0" id="simulator"></iframe>
+<iframe src="__ROOT__/?_design_theme={:input('param.theme')}" frameborder="0" id="simulator" class="simulator-pc"></iframe>
 <script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
 <script>
-    var simulator            = $('#simulator').get(0).contentWindow;
-    var $simulator           = $(simulator);
-    var $settingIframe       = $('#setting-iframe');
+    var simulator = $('#simulator').get(0).contentWindow;
+    var $simulator = $(simulator);
+    var $settingIframe = $('#setting-iframe');
     var simulatorNeedRefresh = true;
 
     $('#update-theme-btn').click(function () {
         simulator.location.reload(true);
     });
 
+    $('#simulator-pc-btn').click(function () {
+        $('#simulator').attr('class', '').addClass('simulator-pc');
+    });
+
+    $('#simulator-pad-btn').click(function () {
+        $('#simulator').attr('class', '').addClass('simulator-pad');
+    });
+
+    $('#simulator-mobile-btn').click(function () {
+        $('#simulator').attr('class', '');
+        $('#simulator').addClass('simulator-mobile');
+    });
 
     $('#save-btn').click(function () {
         $settingIframe.get(0).contentWindow.confirm();
@@ -173,7 +225,7 @@
             $simulator.load(function () {
                 $(simulator.document).on('click', 'a', function () {
                     var target = $(this).attr('target');
-                    var href   = $(this).attr('href');
+                    var href = $(this).attr('href');
                     if (target == '_blank' && href.indexOf('http') < 0) {
                         simulator.location.href = href;
                         return false;
