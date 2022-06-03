@@ -32,7 +32,7 @@
                 $url_params=input('param.');
                 $url_params['tab']='cloud';
             </php>
-            <li><a href="{:url('user/Asset/webuploader',$url_params)}">上传到云存储</a></li>
+            <li><a href="{:url('User/Asset/webuploader',$url_params)}">上传到云存储</a></li>
         </notempty>
         <!--<li class=""><a href="#explorer" data-toggle="tab">文件管理</a></li>-->
     </ul>
@@ -274,7 +274,7 @@
                 auto: true,
                 chunkSize: {$chunk_size} * 1024,// 单位B
                 compress: false,
-                server: "{:url('user/asset/webuploader')}?_ajax=1",
+                server: "{:url('User/asset/webuploader')}?_ajax=1",
                 // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
                 disableGlobalDnd: true,
                 fileNumLimit: maxFiles,

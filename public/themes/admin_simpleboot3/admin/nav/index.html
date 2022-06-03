@@ -3,18 +3,18 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('nav/index')}">所有导航</a></li>
-        <li><a href="{:url('nav/add')}">添加导航</a></li>
+        <li class="active"><a href="{:url('Nav/index')}">{:lang('ADMIN_NAV_INDEX')}</a></li>
+        <li><a href="{:url('Nav/add')}">{:lang('ADMIN_NAV_ADD')}</a></li>
     </ul>
     <form action="{:url('Rbac/listorders')}" method="post" class="margin-top-20">
-        <php> $is_main=array("1"=>'是',"0"=>'否');</php>
+        <php> $is_main=array("1"=>lang('YES'),"0"=>lang('NO'));</php>
         <table class="table table-hover table-bordered">
             <thead>
             <tr>
                 <th width="40">ID</th>
-                <th>名称</th>
+                <th>{:lang('Name')}</th>
                 <th width="80">主导航</th>
-                <th>描述</th>
+                <th>{:lang('Description')}</th>
                 <th width="160">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
@@ -37,8 +37,8 @@
                     <td>{$vo.remark}</td>
                     <td>
                         <a class="btn btn-xs btn-primary" href="javascript:parent.openIframeLayer('{:url('NavMenu/index',array('nav_id'=>$vo['id']))}','{$vo.name}菜单管理',{});">菜单管理</a>
-                        <a class="btn btn-xs btn-success"  href="{:url('nav/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
-                        <a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('nav/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+                        <a class="btn btn-xs btn-success"  href="{:url('Nav/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                        <a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('Nav/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>

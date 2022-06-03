@@ -3,11 +3,11 @@
 <body>
 	<div class="wrap">
 		<ul class="nav nav-tabs">
-			<li><a href="{:url('Menu/index')}">后台菜单</a></li>
-			<li class="active"><a href="{:url('Menu/add')}">添加菜单</a></li>
-			<li><a href="{:url('Menu/lists')}">所有菜单</a></li>
+			<li><a href="{:url('Menu/index')}">{:lang('ADMIN_MENU_INDEX')}</a></li>
+			<li class="active"><a href="{:url('Menu/add')}">{:lang('ADMIN_MENU_ADD')}</a></li>
+			<li><a href="{:url('Menu/lists')}">{:lang('ADMIN_MENU_LISTS')}</a></li>
 		</ul>
-		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('menu/addPost')}">
+		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Menu/addPost')}">
 			<div class="form-group">
 				<label for="input-parent_id" class="col-sm-2 control-label"><span class="form-required">*</span>上级</label>
 				<div class="col-md-6 col-sm-10">
@@ -17,7 +17,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="input-name" class="col-sm-2 control-label"><span class="form-required">*</span>名称</label>
+				<label for="input-name" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('Name')}</label>
 				<div class="col-md-6 col-sm-10">
 					<input type="text" class="form-control" id="input-name" name="name">
 				</div>
@@ -57,13 +57,13 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="input-remark" class="col-sm-2 control-label">备注</label>
+				<label for="input-remark" class="col-sm-2 control-label">{:lang('Remark')}</label>
 				<div class="col-md-6 col-sm-10">
 					<textarea class="form-control" id="input-remark" name="remark"></textarea>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="input-status" class="col-sm-2 control-label">状态</label>
+				<label for="input-status" class="col-sm-2 control-label">{:lang('Status')}</label>
 				<div class="col-md-6 col-sm-10" id="input-status">
 					<select class="form-control" name="status">
 						<option value="1">在左侧菜单显示</option>
@@ -72,7 +72,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="input-type" class="col-sm-2 control-label">类型</label>
+				<label for="input-type" class="col-sm-2 control-label">{:lang('Type')}</label>
 				<div class="col-md-6 col-sm-10">
 					<select class="form-control" name="type" id="input-type">
 						<option value="1">有界面可访问菜单</option>

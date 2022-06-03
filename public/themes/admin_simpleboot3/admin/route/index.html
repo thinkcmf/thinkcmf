@@ -3,10 +3,10 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('route/index')}">URL美化</a></li>
-        <li><a href="{:url('route/add')}">添加URL规则</a></li>
+        <li class="active"><a href="{:url('Route/index')}">URL美化</a></li>
+        <li><a href="{:url('Route/add')}">添加URL规则</a></li>
     </ul>
-    <form class="js-ajax-form" action="{:url('route/listOrder')}" method="post">
+    <form class="js-ajax-form" action="{:url('Route/listOrder')}" method="post">
         <div class="table-actions">
             <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">排序</button>
         </div>
@@ -56,18 +56,18 @@
                             <span class="btn btn-xs btn-warning disabled">禁用</span>
                             <span class="btn btn-xs btn-danger disabled">删除</span>
                             <else/>
-                            <a class="btn btn-xs btn-primary" href="{:url('route/edit',array('id'=>$vo['id']))}">编辑</a>
+                            <a class="btn btn-xs btn-primary" href="{:url('Route/edit',array('id'=>$vo['id']))}">编辑</a>
                             <eq name="vo.status" value="1">
                                 <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
-                                   href="{:url('route/ban',array('id'=>$vo['id']))}"
+                                   href="{:url('Route/ban',array('id'=>$vo['id']))}"
                                    data-msg="确定禁用吗？">禁用</a>
                                 <else/>
                                 <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
-                                   href="{:url('route/open',array('id'=>$vo['id']))}"
+                                   href="{:url('Route/open',array('id'=>$vo['id']))}"
                                    data-msg="确定启用吗？">启用</a>
                             </eq>
                             <a class="btn btn-xs btn-danger js-ajax-delete"
-                               href="{:url('route/delete',array('id'=>$vo['id']))}">删除</a>
+                               href="{:url('Route/delete',array('id'=>$vo['id']))}">删除</a>
                         </eq>
                     </td>
                 </tr>

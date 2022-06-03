@@ -61,4 +61,11 @@ return [
     'Version'                 => '版本',
     'Type'                    => '类型',
     'Default'                 => '默认',
+    'Language'                => '语言',
+    'Key'                     => '标识',
+    'Enable'                  => '启用',
+    'Disable'                 => '禁用',
+    'Enabled'                 => '已启用',
+    'Disabled'                => '已禁用',
+    'Remark'                  => '备注'
 ];

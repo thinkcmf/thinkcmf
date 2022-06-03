@@ -3,8 +3,8 @@
 <body>
 	<div class="wrap js-check-wrap">
 		<ul class="nav nav-tabs">
-			<li class="active"><a href="{:url('user/index')}">{:lang('ADMIN_USER_INDEX')}</a></li>
-			<li><a href="{:url('user/add')}">{:lang('ADMIN_USER_ADD')}</a></li>
+			<li class="active"><a href="{:url('User/index')}">{:lang('ADMIN_USER_INDEX')}</a></li>
+			<li><a href="{:url('User/add')}">{:lang('ADMIN_USER_ADD')}</a></li>
 		</ul>
         <form class="well form-inline margin-top-20" method="get" action="{:url('User/index')}">
             用户名:
@@ -65,11 +65,11 @@
 							</if>
 						<else />
 							<a class="btn btn-xs btn-primary" href='{:url("user/edit",array("id"=>$vo["id"]))}'>{:lang('EDIT')}</a>
-							<a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('user/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+							<a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('User/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
 							<if condition="$vo['user_status'] eq 1">
-								<a class="btn btn-xs btn-danger js-ajax-dialog-btn" href="{:url('user/ban',array('id'=>$vo['id']))}" data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}">{:lang('BLOCK_USER')}</a>
+								<a class="btn btn-xs btn-danger js-ajax-dialog-btn" href="{:url('User/ban',array('id'=>$vo['id']))}" data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}">{:lang('BLOCK_USER')}</a>
 							<else />
-								<a class="btn btn-xs btn-warning js-ajax-dialog-btn" href="{:url('user/cancelban',array('id'=>$vo['id']))}" data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}">{:lang('ACTIVATE_USER')}</a>
+								<a class="btn btn-xs btn-warning js-ajax-dialog-btn" href="{:url('User/cancelban',array('id'=>$vo['id']))}" data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}">{:lang('ACTIVATE_USER')}</a>
 							</if>
 						</if>
 					</td>

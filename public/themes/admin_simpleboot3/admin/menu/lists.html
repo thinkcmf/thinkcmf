@@ -7,10 +7,10 @@
 			<li><a href="{:url('Menu/add')}">添加菜单</a></li>
 			<li class="active"><a href="{:url('Menu/lists')}">所有菜单</a></li>
 		</ul>
-		<form class="form-horizontal js-ajax-form" action="{:url('menu/listorders')}" method="post">
+		<form class="form-horizontal js-ajax-form" action="{:url('Menu/listorders')}" method="post">
 			<div class="table-actions">
-				<a class="btn btn-primary btn-sm js-ajax-dialog-btn" href="{:url('menu/exportMenuLang')}" data-msg="您确定生成菜单多语言包吗？请确保应用目录下lang目录可写！">生成菜单多语言包</a>
-				<a class="btn btn-warning btn-sm" href="{:url('menu/getactions')}">导入新菜单</a>
+				<a class="btn btn-primary btn-sm js-ajax-dialog-btn" href="{:url('Menu/exportMenuLang')}" data-msg="您确定生成菜单多语言包吗？请确保应用目录下lang目录可写！">生成菜单多语言包</a>
+				<a class="btn btn-warning btn-sm" href="{:url('Menu/getactions')}">导入新菜单</a>
 			</div>
 			<div class="alert alert-warning" style="margin: 0 0 5px 0;">
 				 请在开发人员指导下进行以上操作！
@@ -40,8 +40,8 @@
 						</empty>
 					</td>
 					<td>
-						<a class="btn btn-xs btn-primary" href="{:url('menu/edit',array('id'=>$vo['id']))}">编辑</a>
-						<a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('menu/delete',array('id'=>$vo['id']))}">删除</a>
+						<a class="btn btn-xs btn-primary" href="{:url('Menu/edit',array('id'=>$vo['id']))}">编辑</a>
+						<a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('Menu/delete',array('id'=>$vo['id']))}">删除</a>
 					</td>
 				</tr>
 				</foreach>

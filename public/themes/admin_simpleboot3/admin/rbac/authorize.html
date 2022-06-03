@@ -4,11 +4,11 @@
 <body>
 	<div class="wrap js-check-wrap">
 		<ul class="nav nav-tabs">
-			<li><a href="{:url('rbac/index')}">{:lang('ADMIN_RBAC_INDEX')}</a></li>
-			<li><a href="{:url('rbac/roleAdd')}">{:lang('ADMIN_RBAC_ROLEADD')}</a></li>
+			<li><a href="{:url('Rbac/index')}">{:lang('ADMIN_RBAC_INDEX')}</a></li>
+			<li><a href="{:url('Rbac/roleAdd')}">{:lang('ADMIN_RBAC_ROLEADD')}</a></li>
 			<li class="active"><a href="javascript:;">{:lang('ADMIN_RBAC_AUTHORIZE')}</a></li>
 		</ul>
-		<form class="js-ajax-form margin-top-20"  action="{:url('rbac/authorizePost')}" method="post">
+		<form class="js-ajax-form margin-top-20"  action="{:url('Rbac/authorizePost')}" method="post">
 			<div class="table_full">
 				<table class="table table-bordered" id="authrule-tree">
 					<tbody>

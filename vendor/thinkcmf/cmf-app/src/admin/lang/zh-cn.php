@@ -113,5 +113,9 @@ return [
     'Admin URL Password'                 => '后台加密码',
     'User Register Verify'               => '用户注册验证',
     'CDN Root'                           => '静态资源cdn地址',
+    'Design'                             => '设计',
+    'File List'                          => '文件列表',
+    'Hook'                               => '钩子',
+    'Sync Hook'                          => '同步钩子',
 ];
 

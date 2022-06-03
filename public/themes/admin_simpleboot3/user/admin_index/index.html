@@ -5,7 +5,7 @@
     <ul class="nav nav-tabs">
         <li class="active"><a>{:lang('USER_INDEXADMIN_INDEX')}</a></li>
     </ul>
-    <form class="well form-inline margin-top-20" method="post" action="{:url('user/adminIndex/index')}">
+    <form class="well form-inline margin-top-20" method="post" action="{:url('User/adminIndex/index')}">
         用户ID：
         <input class="form-control" type="text" name="uid" style="width: 200px;" value="{:input('request.uid')}"
                placeholder="请输入用户ID">
@@ -13,7 +13,7 @@
         <input class="form-control" type="text" name="keyword" style="width: 200px;" value="{:input('request.keyword')}"
                placeholder="用户名/昵称/邮箱/手机">
         <input type="submit" class="btn btn-primary" value="搜索"/>
-        <a class="btn btn-danger" href="{:url('user/adminIndex/index')}">清空</a>
+        <a class="btn btn-danger" href="{:url('User/adminIndex/index')}">清空</a>
     </form>
     <form method="post" class="js-ajax-form">
         <table class="table table-hover table-bordered">
@@ -42,7 +42,7 @@
                     <td>{$vo['user_login']?$vo['user_login']:($vo['mobile']?$vo['mobile']:lang('THIRD_PARTY_USER'))}
                     </td>
                     <td>{$vo['user_nickname']?$vo['user_nickname']:lang('NOT_FILLED')}</td>
-                    <td><img width="25" height="25" src="{:url('user/public/avatar',array('id'=>$vo['id']))}"/></td>
+                    <td><img width="25" height="25" src="{:url('User/public/avatar',array('id'=>$vo['id']))}"/></td>
                     <td>{$vo.user_email}</td>
                     <td>{$vo.mobile}</td>
                     <td>{:date('Y-m-d H:i:s',$vo['create_time'])}</td>
