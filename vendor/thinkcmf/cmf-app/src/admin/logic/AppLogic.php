@@ -116,6 +116,10 @@ class AppLogic
 
         $findAppSetting = OptionModel::where('option_name', "app_manifest_$appName")->find();
 
+        if (empty($findAppSetting)) {
+            return '应用未安装！';
+        }
+
         if (!empty($findAppSetting)) {
             cmf_set_option("app_manifest_$appName", $manifest);
         }
