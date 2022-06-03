@@ -16,5 +16,6 @@ return [
     'USER_INDEXADMIN_INDEX'     => '本站用户',
     'USER_OAUTHADMIN_DELETE'    => '第三方用户解绑',
     'USER_OAUTHADMIN_INDEX'     => '第三方用户',
-    'USER_INDEXADMIN_DEFAULT'   => '用户管理'
+    'USER_INDEXADMIN_DEFAULT'   => '用户管理',
+    'USER_ADMINASSET_INDEX'     => '资源管理',
 ];

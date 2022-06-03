@@ -9,7 +9,7 @@
                 <th>文件名</th>
                 <th>操作名</th>
                 <th>文件路径</th>
-                <th>描述</th>
+                <th>{:lang('Description')}</th>
                 <th width="120">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
@@ -21,7 +21,10 @@
                     <td>{$vo.file}.html</td>
                     <td>{$vo.description}</td>
                     <td>
-                        <a href="javascript:;" data-file="{$vo.id}" data-title="{$vo.name} {$vo.file}.html"
+                        <a class="btn btn-xs btn-primary"
+                           href="javascript:;"
+                           data-file="{$vo.id}"
+                           data-title="{$vo.name} {$vo.file}.html"
                            onclick="openDesignDialog(this)">设计</a>
                     </td>
                 </tr>
@@ -33,9 +36,9 @@
 <script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
 <script>
     function openDesignDialog(obj) {
-        var $obj   = $(obj);
+        var $obj = $(obj);
         var fileId = $obj.data('file');
-        var title  = $obj.data('title');
+        var title = $obj.data('title');
         parent.openIframeLayer("{:url('theme/fileSetting')}?file_id=" + fileId, title, {
             area: GV.IS_MOBILE ? ['100%', '100%'] : ['700px', '90%'],
             offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',

@@ -203,7 +203,7 @@
                 <a id="task-pre" class="task-changebt"><i class="fa fa-chevron-left"></i></a>
                 <div id="task-content">
                     <ul class="nav navbar-nav cmf-component-tab" id="task-content-inner">
-                        <li class="cmf-component-tabitem noclose" app-id="0" app-url="{:url('main/index')}"
+                        <li class="cmf-component-tabitem noclose" app-id="0" app-url="{:url('Main/index')}"
                             app-name="首页">
                             <a class="cmf-tabs-item-text">{:lang('HOME')}</a>
                         </li>
@@ -241,17 +241,17 @@
                     <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
                         <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/Setting/site')">
                             <li>
-                                <a href="javascript:openapp('{:url('setting/site')}','index_site','{:lang('ADMIN_SETTING_SITE')}');"><i
+                                <a href="javascript:openapp('{:url('Setting/site')}','index_site','{:lang('ADMIN_SETTING_SITE')}');"><i
                                         class="fa fa-cog fa-fw"></i> {:lang('ADMIN_SETTING_SITE')}</a></li>
                         </if>
                         <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/user/userinfo')">
                             <li>
-                                <a href="javascript:openapp('{:url('user/userinfo')}','index_userinfo','{:lang('ADMIN_USER_USERINFO')}');"><i
+                                <a href="javascript:openapp('{:url('User/userinfo')}','index_userinfo','{:lang('ADMIN_USER_USERINFO')}');"><i
                                         class="fa fa-user fa-fw"></i> {:lang('ADMIN_USER_USERINFO')}</a></li>
                         </if>
                         <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/Setting/password')">
                             <li>
-                                <a href="javascript:openapp('{:url('setting/password')}','index_password','{:lang('ADMIN_SETTING_PASSWORD')}');"><i
+                                <a href="javascript:openapp('{:url('Setting/password')}','index_password','{:lang('ADMIN_SETTING_PASSWORD')}');"><i
                                         class="fa fa-lock fa-fw"></i> {:lang('ADMIN_SETTING_PASSWORD')}</a></li>
                         </if>
                         <li><a href="{:url('Public/logout')}"><i class="fa fa-sign-out fa-fw"></i> {:lang('LOGOUT')}</a></li>
@@ -288,8 +288,8 @@
 
             <if condition="cmf_auth_check(cmf_get_current_admin_id(),'user/AdminAsset/index')">
                 <a class="btn btn-sm btn-info"
-                   href="javascript:openapp('{:url('user/AdminAsset/index')}','userAdminAssetindex','资源管理',true);"
-                   title="资源管理"
+                   href="javascript:openapp('{:url('user/AdminAsset/index')}','userAdminAssetindex','{:lang('USER_ADMINASSET_INDEX')}',true);"
+                   title="{:lang('USER_ADMINASSET_INDEX')}"
                    data-toggle="tooltip">
                     <i class="fa fa-file"></i>
                 </a>
@@ -306,8 +306,8 @@
 
             <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/RecycleBin/index')">
                 <a class="btn btn-sm btn-danger"
-                   href="javascript:openapp('{:url('admin/RecycleBin/index')}','index_recycle','回收站',true);"
-                   title="回收站"
+                   href="javascript:openapp('{:url('admin/RecycleBin/index')}','index_recycle','{:lang('ADMIN_RECYCLEBIN_INDEX')}',true);"
+                   title="{:lang('ADMIN_RECYCLEBIN_INDEX')}"
                    data-toggle="tooltip">
                     <i class="fa fa-recycle"></i>
                 </a>

@@ -7,8 +7,8 @@
         <li><a href="#B" data-toggle="tab">{:lang('SEO_SETTING')}</a></li>
         <!--<li><a href="#C" data-toggle="tab">{:lang('URL_SETTING')}</a></li>-->
         <!--<li><a href="#E" data-toggle="tab">{:lang('COMMENT_SETTING')}</a></li>-->
-        <li><a href="#F" data-toggle="tab">用户注册设置</a></li>
-        <li><a href="#G" data-toggle="tab">CDN设置</a></li>
+        <li><a href="#F" data-toggle="tab">{:lang('User Register Setting')}</a></li>
+        <li><a href="#G" data-toggle="tab">{:lang('CDN Setting')}</a></li>
     </ul>
     <form class="form-horizontal js-ajax-form margin-top-20" role="form" action="{:url('setting/sitePost')}"
           method="post">
@@ -26,7 +26,7 @@
                         </div>
                         <div class="form-group">
                             <label for="input-admin_url_password" class="col-sm-2 control-label">
-                                后台加密码
+                                {:lang('Admin URL Password')}
                                 <a href="http://www.thinkcmf.com/faq.html?url=https://www.kancloud.cn/thinkcmf/faq/493509"
                                    title="查看帮助手册"
                                    data-toggle="tooltip"

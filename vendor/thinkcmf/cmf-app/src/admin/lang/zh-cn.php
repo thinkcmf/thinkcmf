@@ -98,10 +98,14 @@ return [
     'EMAIL_TEMPLATE'                     => '邮件模版',
     'EMAIL_TEMPLATE_HELP_TEXT'           => '请用{$link}代替激活链接，{$username}代替用户名',
     'Install'                            => '安装',
+    'Uninstall'                          => '卸载',
     'Update'                             => '更新',
     'Not Installed'                      => '未安装',
     'Installed'                          => '已安装',
     'APP_CONTROLLER_ACTION'              => '操作',
-    ''
+    'Captcha'                            => '验证码',
+    'User Register Setting'              => '用户注册设置',
+    'CDN Setting'                        => 'CDN设置',
+    'Admin URL Password'                 => '后台加密码'
 ];
 

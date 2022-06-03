@@ -17,7 +17,7 @@
                 <th>语言</th>
                 <th>作者</th>
                 <th>模板描述</th>
-                <th width="240">{:lang('ACTIONS')}</th>
+                <th>{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -38,7 +38,7 @@
                         <a class="btn btn-xs btn-primary" href="{:url('Theme/design',['theme'=>$vo.theme])}" target="_blank">设计</a>
                         <a class="btn btn-xs btn-primary" href="javascript:parent.openIframeLayer('{:url('theme/files',array('theme'=>$vo['theme']))}','{$vo.name}文件列表',{});">文件列表</a>
                         <a class="btn btn-xs btn-success js-ajax-dialog-btn" href="{:url('theme/update',array('theme'=>$vo['theme']))}"
-                           data-msg="确定更新此模板吗？">更新</a>
+                           data-msg="确定更新此模板吗？">{:lang('Update')}</a>
                         <if condition="$vo.theme == $default_theme">
                             <span class="btn btn-xs btn-warning disabled" color="#cccccc">启用</span>
                             <else/>
@@ -47,10 +47,10 @@
                         </if>
 
                         <if condition="($vo.name == 'simpleboot3') OR ($vo.theme == $default_theme) ">
-                            <span class="btn btn-xs btn-danger disabled">卸载</span>
+                            <span class="btn btn-xs btn-danger disabled">{:lang('Uninstall')}</span>
                             <else/>
                             <a class="btn btn-xs btn-danger js-ajax-dialog-btn" href="{:url('theme/uninstall',array('theme'=>$vo['theme']))}"
-                               data-msg="您设置的模板数据将被删除，<br>确定卸载此模板吗？">卸载</a>
+                               data-msg="您设置的模板数据将被删除，<br>确定卸载此模板吗？">{:lang('Uninstall')}</a>
                         </if>
 
                     </td>
@@ -65,7 +65,7 @@
                 <th>语言</th>
                 <th>作者</th>
                 <th>模板描述</th>
-                <th width="180">{:lang('ACTIONS')}</th>
+                <th>{:lang('ACTIONS')}</th>
             </tr>
             </tfoot>
         </table>
