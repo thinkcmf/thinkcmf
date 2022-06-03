@@ -124,10 +124,14 @@ return [
     'Icon'                               => '图标',
     'Upload Image'                       => '上传图片',
     'Url Target'                         => '打开方式',
-    'Main Navigation'=>'主菜单',
-    'Sub Navigations'=>'菜单管理',
-    'Parent'=>'上级',
-    
+    'Main Navigation'                    => '主菜单',
+    'Sub Navigations'                    => '菜单管理',
+    'Parent'                             => '上级',
+    'Full Url'                           => '原始网址',
+    'Short Url'                          => '原始网址',
+    'SHORT_URL_HELP_BLOCK_TEXT'          => 'url格式一般为list/:param1/:param2或 list-&lt;param1&gt;-&lt;param2&gt;',
+    'Image'                              => '图片'
+
 
 ];
 

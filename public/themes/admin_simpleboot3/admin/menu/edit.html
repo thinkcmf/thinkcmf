@@ -3,14 +3,14 @@
 <body>
 	<div class="wrap">
 		<ul class="nav nav-tabs">
-			<li><a href="{:url('Menu/index')}">后台菜单</a></li>
-			<li><a href="{:url('Menu/add')}">添加菜单</a></li>
-			<li><a href="{:url('Menu/lists')}">所有菜单</a></li>
-			<li class="active"><a>编辑菜单</a></li>
+			<li><a href="{:url('Menu/index')}">{:lang('ADMIN_MENU_INDEX')}</a></li>
+			<li><a href="{:url('Menu/add')}">{:lang('ADMIN_MENU_ADD')}</a></li>
+			<li><a href="{:url('Menu/lists')}">{:lang('ADMIN_MENU_LISTS')}</a></li>
+			<li class="active"><a>{:lang('ADMIN_MENU_EDIT')}</a></li>
 		</ul>
 		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Menu/editPost')}">
 			<div class="form-group">
-				<label for="input-parent_id" class="col-sm-2 control-label"><span class="form-required">*</span>上级</label>
+				<label for="input-parent_id" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('Parent')}</label>
 				<div class="col-md-6 col-sm-10">
 					<select class="form-control" name="parent_id" id="input-parent_id">
 						<option value="0">作为一级菜单</option>{$select_category}
@@ -49,7 +49,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="input-icon" class="col-sm-2 control-label">图标</label>
+				<label for="input-icon" class="col-sm-2 control-label">{:lang('Icon')}</label>
 				<div class="col-md-6 col-sm-10">
 					<input type="text" class="form-control" id="input-icon" name="icon" value="{$data.icon}">
 					<p class="help-block">

@@ -11,7 +11,7 @@
             <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">{:lang('SORT')}</button>
         </div>
         <php>
-			$status = ['隐藏', '开启'];
+			$status = [lang('HIDDEN'), lang('DISPLAY')];
 			$target = ['_blank'=>'新窗口', '_self'=>'当前窗口', '_parent'=>'父窗口', '_top'=>'主窗口'];
         </php>
         <table class="table table-hover table-bordered">
@@ -19,12 +19,12 @@
             <tr>
                 <th width="50">{:lang('SORT')}</th>
                 <th width="50">ID</th>
-                <th>幻灯片标题</th>
-                <th>描述</th>
-                <th>链接</th>
-                <th>打开方式</th>
-                <th>图片</th>
-                <th>状态</th>
+                <th>{:lang('Title')}</th>
+                <th>{:lang('Description')}</th>
+                <th>{:lang('Url')}</th>
+                <th>{:lang('Url Target')}</th>
+                <th>{:lang('Image')}</th>
+                <th>{:lang('Status')}</th>
                 <th width="160">{:lang('ACTIONS')}</th>
             </tr>
             </thead>

@@ -9,7 +9,7 @@
 		</ul>
 		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Menu/addPost')}">
 			<div class="form-group">
-				<label for="input-parent_id" class="col-sm-2 control-label"><span class="form-required">*</span>上级</label>
+				<label for="input-parent_id" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('Parent')}</label>
 				<div class="col-md-6 col-sm-10">
 					<select class="form-control" name="parent_id" id="input-parent_id">
 						<option value="0">作为一级菜单</option>{$select_category}
@@ -48,7 +48,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="input-icon" class="col-sm-2 control-label">图标</label>
+				<label for="input-icon" class="col-sm-2 control-label">{:lang('Icon')}</label>
 				<div class="col-md-6 col-sm-10">
 					<input type="text" class="form-control" id="input-icon" name="icon">
 					<p class="help-block">

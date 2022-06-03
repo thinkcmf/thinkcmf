@@ -61,5 +61,6 @@ return [
     'change_success'                => '修改成功！',
     'password_repeat_wrong'         => '密码输入不一致!',
     'old_password_is_wrong'         => '原始密码不正确！',
+    'User ID'=>'用户ID'
 
 ];

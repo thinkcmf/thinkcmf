@@ -18,27 +18,27 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>链接</th>
+                        <th>{:lang('Url')}</th>
                         <td>
                             <input class="form-control" type="text" name="post[url]" id="keywords" value=""
                                    style="width: 400px" placeholder="请输入链接">
                         </td>
                     </tr>
                     <tr>
-                        <th>打开方式</th>
+                        <th>{:lang('Url Target')}</th>
                         <td>
                             <select class="form-control" name="post[target]" id="target" style="width: 400px">
-                                <option value="_blank" selected="selected">新窗口(_blank)</option>
-                                <option value="_self">当前窗口(_self)</option>
-                                <option value="_parent">父窗口(_parent)</option>
-                                <option value="_top">主窗口(_top)</option>
+                                <option value="_blank" selected="selected">_blank</option>
+                                <option value="_self">_self</option>
+                                <option value="_parent">_parent</option>
+                                <option value="_top">_top</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th>{:lang('Description')}</th>
                         <td><input class="form-control" type="text" name="post[description]" id="source" value=""
-                                   style="width: 400px" placeholder="请输入描述"></td>
+                                   style="width: 400px" placeholder="{:lang('Description')}"></td>
                     </tr>
                     <tr>
                         <th>幻灯片内容</th>

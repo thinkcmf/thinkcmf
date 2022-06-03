@@ -67,5 +67,9 @@ return [
     'Disable'                 => '禁用',
     'Enabled'                 => '已启用',
     'Disabled'                => '已禁用',
-    'Remark'                  => '备注'
+    'Remark'                  => '备注',
+    'Keyword'                 => '关键字',
+    'Search'=>'搜索',
+    'Clear'=>'清空',
+    'Title'=>'标题'
 ];

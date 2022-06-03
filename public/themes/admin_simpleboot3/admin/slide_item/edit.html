@@ -5,41 +5,41 @@
     <ul class="nav nav-tabs">
         <li><a href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_INDEX')}</a></li>
         <li><a href="{:url('SlideItem/add',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_ADD')}</a></li>
-        <li class="active"><a>编辑幻灯片页面</a></li>
+        <li class="active"><a>{:lang('ADMIN_SLIDEITEM_EDIT')}</a></li>
     </ul>
     <form action="{:url('SlideItem/editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
         <div class="row">
             <div class="col-md-9">
                 <table class="table table-bordered">
                     <tr>
-                        <th><span class="form-required">*</span>标题</th>
+                        <th><span class="form-required">*</span>{:lang('Title')}</th>
                         <td>
                             <input class="form-control" type="text" style="width:400px;" name="post[title]" id="title"
-                                   required value="{$result.title}" placeholder="请输入标题"/>
+                                   required value="{$result.title}" placeholder="{:lang('Title')}"/>
                         </td>
                     </tr>
                     <tr>
-                        <th>链接</th>
+                        <th>{:lang('Url')}</th>
                         <td>
                             <input class="form-control" type="text" name="post[url]" id="keywords" value="{$result.url}"
-                                   style="width: 400px" placeholder="请输入链接">
+                                   style="width: 400px" placeholder="{:lang('Url')}">
                         </td>
                     </tr>
                     <tr>
-                        <th>打开方式</th>
+                        <th>{:lang('Url Target')}</th>
                         <td>
                             <select class="form-control" name="post[target]" id="target" style="width: 400px">
-                                <option value="_blank" {$result.target==='_blank'?'selected="selected"':''}>新窗口(_blank)</option>
-                                <option value="_self" {$result.target==='_self'?'selected="selected"':''}>当前窗口(_self)</option>
-                                <option value="_parent" {$result.target==='_parent'?'selected="selected"':''}>父窗口(_parent)</option>
-                                <option value="_top" {$result.target==='_top'?'selected="selected"':''}>主窗口(_top)</option>
+                                <option value="_blank" {$result.target==='_blank'?'selected="selected"':''}>_blank</option>
+                                <option value="_self" {$result.target==='_self'?'selected="selected"':''}>_self</option>
+                                <option value="_parent" {$result.target==='_parent'?'selected="selected"':''}>_parent</option>
+                                <option value="_top" {$result.target==='_top'?'selected="selected"':''}>_top</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th>{:lang('Description')}</th>
                         <td><input class="form-control" type="text" name="post[description]" id="source"
-                                   value="{$result.description}" style="width: 400px" placeholder="请输入描述"></td>
+                                   value="{$result.description}" style="width: 400px" placeholder="{:lang('Description')}"></td>
                     </tr>
                     <tr>
                         <th>幻灯片内容</th>
