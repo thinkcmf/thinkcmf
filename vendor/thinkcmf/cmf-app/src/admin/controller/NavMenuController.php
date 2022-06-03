@@ -51,9 +51,9 @@ class NavMenuController extends AdminBaseController
 
         $array = [];
         foreach ($arrResult as $r) {
-            $r['str_manage'] = '<a class="btn btn-xs btn-primary" href="' . url("NavMenu/add", ["parent_id" => $r['id'], "nav_id" => $r['nav_id']]) . '">添加子菜单</a>
-            <a class="btn btn-xs btn-primary" href="' . url("NavMenu/edit", ["id" => $r['id'], "parent_id" => $r['parent_id'], "nav_id" => $r['nav_id']]) . '">编辑</a> 
-            <a class="btn btn-xs btn-danger js-ajax-delete" href="' . url("NavMenu/delete", ["id" => $r['id'], 'nav_id' => $r['nav_id']]) . '">删除</a> ';
+            $r['str_manage'] = '<a class="btn btn-xs btn-primary" href="' . url("NavMenu/add", ["parent_id" => $r['id'], "nav_id" => $r['nav_id']]) . '">' . lang('ADD_SUB_MENU') . '</a>
+            <a class="btn btn-xs btn-primary" href="' . url("NavMenu/edit", ["id" => $r['id'], "parent_id" => $r['parent_id'], "nav_id" => $r['nav_id']]) . '">' . lang('EDIT') . '</a> 
+            <a class="btn btn-xs btn-danger js-ajax-delete" href="' . url("NavMenu/delete", ["id" => $r['id'], 'nav_id' => $r['nav_id']]) . '">' . lang('DELETE') . '</a> ';
             $r['status']     = $r['status'] ? "显示" : "隐藏";
             $array[]         = $r;
         }
@@ -91,9 +91,9 @@ class NavMenuController extends AdminBaseController
     public function add()
     {
         $navMenuModel = new NavMenuModel();
-        $intNavId     = $this->request->param("nav_id", 0, 'intval');
-        $intParentId  = $this->request->param("parent_id", 0, 'intval');
-        $objResult    = $navMenuModel->where("nav_id", $intNavId)->order(["list_order" => "ASC"])->select();
+        $intNavId     = $this->request->param('nav_id', 0, 'intval');
+        $intParentId  = $this->request->param('parent_id', 0, 'intval');
+        $objResult    = $navMenuModel->where('nav_id', $intNavId)->order(['list_order' => 'ASC'])->select();
         $arrResult    = $objResult ? $objResult->toArray() : [];
 
         $tree       = new Tree();
@@ -102,23 +102,23 @@ class NavMenuController extends AdminBaseController
         $array      = [];
 
         foreach ($arrResult as $r) {
-            $r['str_manage'] = '<a href="' . url("NavMenu/add", ["parent_id" => $r['id']]) . '">添加子菜单</a> | <a href="'
-                . url("NavMenu/edit", ["id" => $r['id']]) . '">编辑</a> | <a class="J_ajax_del" href="'
-                . url("NavMenu/delete", ["id" => $r['id']]) . '">删除</a> ';
-            $r['status']     = $r['status'] ? "显示" : "隐藏";
-            $r['selected']   = $r['id'] == $intParentId ? "selected" : "";
+            $r['str_manage'] = '<a href="' . url("NavMenu/add", ["parent_id" => $r['id']]) . '">' . lang('ADD_SUB_MENU') . '</a> | <a href="'
+                . url("NavMenu/edit", ["id" => $r['id']]) . '">' . lang('EDIT') . '</a> | <a class="J_ajax_del" href="'
+                . url("NavMenu/delete", ["id" => $r['id']]) . '">' . lang('DELETE') . '</a> ';
+            $r['status']     = $r['status'] ? lang('DISPLAY') : lang('HIDDEN');
+            $r['selected']   = $r['id'] == $intParentId ? 'selected' : '';
             $array[]         = $r;
         }
 
         $tree->init($array);
         $str      = "<option value='\$id' \$selected>\$spacer\$name</option>";
         $navTrees = $tree->getTree(0, $str);
-        $this->assign("nav_trees", $navTrees);
+        $this->assign('nav_trees', $navTrees);
 
         $navs = $navMenuModel->selectNavs();
         $this->assign('navs', $navs);
 
-        $this->assign("nav_id", $intNavId);
+        $this->assign('nav_id', $intNavId);
         return $this->fetch();
     }
 
@@ -152,7 +152,7 @@ class NavMenuController extends AdminBaseController
 
             $navMenuModel->save($arrData);
 
-            $this->success(lang('ADD_SUCCESS'), url("NavMenu/index", ['nav_id' => $arrData['nav_id']]));
+            $this->success(lang('ADD_SUCCESS'), url('NavMenu/index', ['nav_id' => $arrData['nav_id']]));
         }
     }
 
@@ -172,13 +172,13 @@ class NavMenuController extends AdminBaseController
     public function edit()
     {
         $navMenuModel = new NavMenuModel();
-        $intNavId     = $this->request->param("nav_id", 0, 'intval');
-        $intId        = $this->request->param("id", 0, 'intval');
-        $intParentId  = $this->request->param("parent_id", 0, 'intval');
+        $intNavId     = $this->request->param('nav_id', 0, 'intval');
+        $intId        = $this->request->param('id', 0, 'intval');
+        $intParentId  = $this->request->param('parent_id', 0, 'intval');
         $objResult    = $navMenuModel
-            ->where("nav_id", $intNavId)
-            ->where("id", "<>", $intId)
-            ->order(["list_order" => "ASC"])
+            ->where('nav_id', $intNavId)
+            ->where('id', "<>", $intId)
+            ->order(['list_order' => 'ASC'])
             ->select();
         $arrResult    = $objResult ? $objResult->toArray() : [];
 
@@ -187,25 +187,25 @@ class NavMenuController extends AdminBaseController
         $tree->nbsp = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
         $array      = [];
         foreach ($arrResult as $r) {
-            $r['str_manage'] = '<a href="' . url("NavMenu/add", ["parent_id" => $r['id'], "nav_id" => $intNavId]) . '">添加子菜单</a> | <a href="'
-                . url("NavMenu/edit", ["id" => $r['id'], "nav_id" => $intNavId]) . '">编辑</a> | <a class="js-ajax-delete" href="'
-                . url("NavMenu/delete", ["id" => $r['id'], "nav_id" => $intNavId]) . '">删除</a> ';
-            $r['status']     = $r['status'] ? "显示" : "隐藏";
-            $r['selected']   = $r['id'] == $intParentId ? "selected" : "";
+            $r['str_manage'] = '<a href="' . url("NavMenu/add", ["parent_id" => $r['id'], "nav_id" => $intNavId]) . '">' . lang('ADD_SUB_MENU') . '</a> | <a href="'
+                . url("NavMenu/edit", ["id" => $r['id'], "nav_id" => $intNavId]) . '">' . lang('EDIT') . '</a> | <a class="js-ajax-delete" href="'
+                . url("NavMenu/delete", ["id" => $r['id'], "nav_id" => $intNavId]) . '">' . lang('DELETE') . '</a> ';
+            $r['status']     = $r['status'] ? lang('DISPLAY') : lang('HIDDEN');
+            $r['selected']   = $r['id'] == $intParentId ? 'selected' : '';
             $array[]         = $r;
         }
 
         $tree->init($array);
         $str       = "<option value='\$id' \$selected>\$spacer\$name</option>";
         $nav_trees = $tree->getTree(0, $str);
-        $this->assign("nav_trees", $nav_trees);
+        $this->assign('nav_trees', $nav_trees);
 
-        $objNav = $navMenuModel->where("id", $intId)->find();
+        $objNav = $navMenuModel->where('id', $intId)->find();
         $arrNav = $objNav ? $objNav->toArray() : [];
 
         $arrNav['href_old'] = $arrNav['href'];
 
-        if (strpos($arrNav['href'], "{") === 0 || $arrNav['href'] == 'home') {
+        if (strpos($arrNav['href'], '{') === 0 || $arrNav['href'] == 'home') {
             $arrNav['href'] = base64_encode($arrNav['href']);
         }
 
@@ -214,8 +214,8 @@ class NavMenuController extends AdminBaseController
         $navs = $navMenuModel->selectNavs();
         $this->assign('navs', $navs);
 
-        $this->assign("nav_id", $intNavId);
-        $this->assign("parent_id", $intParentId);
+        $this->assign('nav_id', $intNavId);
+        $this->assign('parent_id', $intParentId);
 
         return $this->fetch();
     }
@@ -251,7 +251,7 @@ class NavMenuController extends AdminBaseController
 
             $navMenuModel->where('id', $intId)->update($arrData);
 
-            $this->success(lang("EDIT_SUCCESS"), url("NavMenu/index", ['nav_id' => $arrData['nav_id']]));
+            $this->success(lang('EDIT_SUCCESS'), url('NavMenu/index', ['nav_id' => $arrData['nav_id']]));
         }
     }
 
@@ -273,20 +273,20 @@ class NavMenuController extends AdminBaseController
         if ($this->request->isPost()) {
             $navMenuModel = new NavMenuModel();
 
-            $intId    = $this->request->param("id", 0, "intval");
-            $intNavId = $this->request->param("nav_id", 0, "intval");
+            $intId    = $this->request->param('id', 0, "intval");
+            $intNavId = $this->request->param('nav_id', 0, "intval");
 
             if (empty($intId)) {
-                $this->error(lang("NO_ID"));
+                $this->error(lang('NO_ID'));
             }
 
-            $count = $navMenuModel->where("parent_id", $intId)->count();
+            $count = $navMenuModel->where('parent_id', $intId)->count();
             if ($count > 0) {
-                $this->error("该菜单下还有子菜单，无法删除！");
+                $this->error('该菜单下还有子菜单，无法删除！');
             }
 
-            $navMenuModel->where("id", $intId)->delete();
-            $this->success(lang("DELETE_SUCCESS"), url("NavMenu/index", ['nav_id' => $intNavId]));
+            $navMenuModel->where('id', $intId)->delete();
+            $this->success(lang('DELETE_SUCCESS'), url('NavMenu/index', ['nav_id' => $intNavId]));
         }
     }
 
@@ -308,9 +308,9 @@ class NavMenuController extends AdminBaseController
         $navMenuModel = new NavMenuModel();
         $status       = parent::listOrders($navMenuModel);
         if ($status) {
-            $this->success("排序更新成功！");
+            $this->success(lang('Sort update successful'));
         } else {
-            $this->error("排序更新失败！");
+            $this->error(lang('Sort update faild'));
         }
     }
 

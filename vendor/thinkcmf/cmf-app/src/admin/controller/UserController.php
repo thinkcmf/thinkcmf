@@ -313,7 +313,7 @@ class UserController extends AdminBaseController
             }
 
             if (UserModel::destroy($id) !== false) {
-                RoleUserModel::where("user_id", $id)->delete();
+                RoleUserModel::where('user_id', $id)->delete();
                 $this->success(lang('DELETE_SUCCESS'));
             } else {
                 $this->error(lang('DELETE_FAILED'));
@@ -339,9 +339,9 @@ class UserController extends AdminBaseController
         if ($this->request->isPost()) {
             $id = $this->request->param('id', 0, 'intval');
             if (!empty($id)) {
-                $result = UserModel::where(["id" => $id, "user_type" => 1])->update(['user_status' => '0']);
+                $result = UserModel::where(['id' => $id, 'user_type' => 1])->update(['user_status' => '0']);
                 if ($result !== false) {
-                    $this->success("管理员停用成功！", url("User/index"));
+                    $this->success('管理员停用成功！', url('User/index'));
                 } else {
                     $this->error('管理员停用失败！');
                 }
@@ -369,9 +369,9 @@ class UserController extends AdminBaseController
         if ($this->request->isPost()) {
             $id = $this->request->param('id', 0, 'intval');
             if (!empty($id)) {
-                $result = UserModel::where(["id" => $id, "user_type" => 1])->update(['user_status' => '1']);
+                $result = UserModel::where(['id' => $id, 'user_type' => 1])->update(['user_status' => '1']);
                 if ($result !== false) {
-                    $this->success("管理员启用成功！", url("User/index"));
+                    $this->success('管理员启用成功！', url('User/index'));
                 } else {
                     $this->error('管理员启用失败！');
                 }

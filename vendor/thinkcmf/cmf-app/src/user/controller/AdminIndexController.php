@@ -99,7 +99,7 @@ class AdminIndexController extends AdminBaseController
      */
     public function ban()
     {
-        $id = input('param.id', 0, 'intval');
+        $id = $this->request->param('id', 0, 'intval');
         if ($id) {
             $result = UserModel::where(["id" => $id, "user_type" => 2])->update(['user_status' => 0]);
             if ($result) {
@@ -127,7 +127,7 @@ class AdminIndexController extends AdminBaseController
      */
     public function cancelBan()
     {
-        $id = input('param.id', 0, 'intval');
+        $id = $this->request->param('id', 0, 'intval');
         if ($id) {
             UserModel::where(["id" => $id, "user_type" => 2])->update(['user_status' => 1]);
             $this->success("会员启用成功！", '');

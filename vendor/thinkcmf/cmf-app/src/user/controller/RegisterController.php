@@ -110,7 +110,7 @@ class RegisterController extends HomeBaseController
             }
 
         } else {
-            $this->error("请求错误");
+            $this->error(lang('illegal request'));
         }
 
     }

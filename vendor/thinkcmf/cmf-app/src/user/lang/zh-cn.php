@@ -61,6 +61,9 @@ return [
     'change_success'                => '修改成功！',
     'password_repeat_wrong'         => '密码输入不一致!',
     'old_password_is_wrong'         => '原始密码不正确！',
-    'User ID'=>'用户ID'
+    'User ID'                       => '用户ID',
+    'UPLOAD_TYPE_SETTING_ERROR'     => '上传文件类型配置错误！',
+    'Collection succeeded'          => '收藏成功！',
+    'No such user found'=>'查无此人！'
 
 ];

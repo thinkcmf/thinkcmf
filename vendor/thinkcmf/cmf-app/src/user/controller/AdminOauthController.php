@@ -70,7 +70,7 @@ class AdminOauthController extends AdminBaseController
         if ($this->request->isPost()) {
             $id = $this->request->param('id', 0, 'intval');
             if (empty($id)) {
-                $this->error('非法数据！');
+                $this->error(lang('illegal data'));
             }
 
             ThirdPartyUserModel::where("id", $id)->delete();

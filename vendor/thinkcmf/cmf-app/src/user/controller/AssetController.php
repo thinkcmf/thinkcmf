@@ -26,7 +26,7 @@ class AssetController extends AdminBaseController
         $adminId = cmf_get_current_admin_id();
         $userId  = cmf_get_current_user_id();
         if (empty($adminId) && empty($userId)) {
-            $this->error("非法上传！");
+            $this->error(lang('illegal request'));
         }
     }
 
@@ -44,7 +44,7 @@ class AssetController extends AdminBaseController
             if ($result === false) {
                 $this->error($uploader->getError());
             } else {
-                $this->success("上传成功!", '', $result);
+                $this->success(lang('Upload successful'), '', $result);
             }
 
         } else {
@@ -68,7 +68,7 @@ class AssetController extends AdminBaseController
                 $extensions                = $uploadSetting['file_types'][$arrData["filetype"]]['extensions'];
                 $fileTypeUploadMaxFileSize = $uploadSetting['file_types'][$fileType]['upload_max_filesize'];
             } else {
-                $this->error('上传文件类型配置错误！');
+                $this->error(lang('UPLOAD_TYPE_SETTING_ERROR'));
             }
 
 

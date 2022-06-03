@@ -134,8 +134,8 @@ return [
     'Installed successfully'             => '安装成功！',
     'Updated successfully'               => '更新成功！',
     'Uninstall successful'               => '卸载成功！',
-    'Uninstall failed'=>'卸载失败！',
-   
+    'Uninstall failed'                   => '卸载失败！',
+    'NOT_ALLOWED_UNINSTALL_THEME_ERROR'  => '当前使用中的模板不可以卸载！'
 
 
 ];

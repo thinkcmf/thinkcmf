@@ -309,7 +309,7 @@ class PluginController extends AdminBaseController
                 $this->error($result);
             }
 
-            $this->success('安装成功!');
+            $this->success(lang('Installed successfully'));
         }
     }
 
@@ -335,7 +335,7 @@ class PluginController extends AdminBaseController
             if ($result !== true) {
                 $this->error($result);
             }
-            $this->success('更新成功!');
+            $this->success(lang('Updated successfully'));
         }
     }
 
@@ -361,13 +361,13 @@ class PluginController extends AdminBaseController
             $result = $pluginModel->uninstall($id);
 
             if ($result !== true) {
-                $this->error('卸载失败!');
+                $this->error(lang('Uninstall failed'));
             }
 
             Cache::clear('init_hook_plugins');
             Cache::clear('admin_menus');// 删除后台菜单缓存
 
-            $this->success('卸载成功!');
+            $this->success(lang('Uninstall successful'));
         }
     }
 

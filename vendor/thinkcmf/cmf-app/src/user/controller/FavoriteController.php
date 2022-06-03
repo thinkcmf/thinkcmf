@@ -92,7 +92,7 @@ class FavoriteController extends UserBaseController
             'create_time' => time()
         ]);
 
-        $this->success('收藏成功');
+        $this->success(lang('Collection succeeded'));
 
     }
 }

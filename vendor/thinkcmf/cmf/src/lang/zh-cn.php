@@ -75,5 +75,8 @@ return [
     'no access'               => '您没有访问权限！',
     'You are not logged in'   => '您还没有登录！',
     'Sort update successful'  => '排序更新成功！',
+    'Sort update faild'       => '排序更新失败！',
     'illegal request'         => '非法请求！',
+    'illegal data'            => '非法数据！',
+    'Upload successful'       => '上传成功！'
 ];
