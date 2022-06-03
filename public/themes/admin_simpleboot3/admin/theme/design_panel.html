@@ -20,17 +20,17 @@
 <div class="wrap">
     <ul class="nav nav-tabs">
         <li class="active">
-            <a href="{:url('theme/fileSetting',['file_id'=>$file_id,'tab'=>'widget'])}">
+            <a href="{:url('Theme/fileSetting',['file_id'=>$file_id,'tab'=>'widget'])}">
                 组件设置
             </a>
         </li>
         <li>
-            <a href="{:url('theme/fileSetting',['file_id'=>$file_id,'tab'=>'var'])}">
+            <a href="{:url('Theme/fileSetting',['file_id'=>$file_id,'tab'=>'var'])}">
                 变量设置
             </a>
         </li>
     </ul>
-    <form method="post" class="js-ajax-form  margin-top-20" action="{:url('theme/settingPost')}">
+    <form method="post" class="js-ajax-form  margin-top-20" action="{:url('Theme/settingPost')}">
         <notempty name="file['more']['widgets']">
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 <foreach name="file['more']['widgets']" item="widget" key="widgetName" index="index">

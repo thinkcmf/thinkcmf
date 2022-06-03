@@ -5,27 +5,27 @@
 <div class="wrap">
     <ul class="nav nav-tabs">
         <li>
-            <a href="{:url('theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'widget'])}">
+            <a href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'widget'])}">
                 组件
             </a>
         </li>
         <notempty name="file.more.vars">
             <li class="active">
-                <a href="{:url('theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'var'])}">
+                <a href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'var'])}">
                     设置
                 </a>
             </li>
         </notempty>
         <notempty name="has_public_var">
             <li>
-                <a href="{:url('theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'public_var'])}">
+                <a href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'public_var'])}">
                     全局设置
                 </a>
             </li>
         </notempty>
     </ul>
 
-    <form method="post" class="js-ajax-form  margin-top-20" action="{:url('theme/settingPost')}">
+    <form method="post" class="js-ajax-form  margin-top-20" action="{:url('Theme/settingPost')}">
         <notempty name="file['more']['vars']">
             {:_parse_vars($file.more.vars,'files['.$file['id'].'][vars]')}
             <else/>

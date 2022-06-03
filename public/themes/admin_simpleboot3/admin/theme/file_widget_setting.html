@@ -22,27 +22,27 @@
 
         <ul class="nav nav-tabs">
             <li class="active">
-                <a href="{:url('theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'widget'])}">
+                <a href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'widget'])}">
                     组件
                 </a>
             </li>
             <notempty name="file.more.vars">
                 <li>
-                    <a href="{:url('theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'var'])}">
+                    <a href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'var'])}">
                         设置
                     </a>
                 </li>
             </notempty>
             <notempty name="has_public_var">
                 <li>
-                    <a href="{:url('theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'public_var'])}">
+                    <a href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'public_var'])}">
                         全局设置
                     </a>
                 </li>
             </notempty>
         </ul>
 
-        <form method="post" class="js-ajax-form  margin-top-20" action="{:url('theme/settingPost')}">
+        <form method="post" class="js-ajax-form  margin-top-20" action="{:url('Theme/settingPost')}">
             <div class="list-group">
                 <a href="javascript:parent.openIframeLayer('{:url('admin/Nav/index')}','导航管理')" class="list-group-item">导航管理</a>
                 <a href="javascript:parent.openIframeLayer('{:url('admin/Slide/index')}','幻灯片管理')"

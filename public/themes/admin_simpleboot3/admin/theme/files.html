@@ -39,7 +39,7 @@
         var $obj = $(obj);
         var fileId = $obj.data('file');
         var title = $obj.data('title');
-        parent.openIframeLayer("{:url('theme/fileSetting')}?file_id=" + fileId, title, {
+        parent.openIframeLayer("{:url('Theme/fileSetting')}?file_id=" + fileId, title, {
             area: GV.IS_MOBILE ? ['100%', '100%'] : ['700px', '90%'],
             offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
             btn: ['确定', '取消'],

@@ -3,7 +3,7 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('theme/index')}">所有模板</a></li>
+        <li><a href="{:url('Theme/index')}">所有模板</a></li>
         <li class="active">
             <a>安装模板</a>
         </li>
@@ -34,7 +34,8 @@
                     <td>{$vo.author}</td>
                     <td>{$vo.description}</td>
                     <td>
-                        <a href="{:url('theme/installTheme',array('theme'=>$vo['theme']))}" class="btn btn-xs btn-primary js-ajax-dialog-btn js-ajax-dialog-btn">安装</a>
+                        <a href="{:url('Theme/installTheme',array('theme'=>$vo['theme']))}"
+                           class="btn btn-xs btn-primary js-ajax-dialog-btn js-ajax-dialog-btn">安装</a>
                     </td>
                 </tr>
             </foreach>

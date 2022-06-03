@@ -23,7 +23,7 @@
         var selectedObjectsId = $realInput.val();
         var dataSource        = $obj.data('source');
         var title             = $obj.data('title');
-        parent.openIframeLayer("{:url('theme/dataSource')}?ids=" + selectedObjectsId + '&data_source=' + dataSource, title, {
+        parent.openIframeLayer("{:url('Theme/dataSource')}?ids=" + selectedObjectsId + '&data_source=' + dataSource, title, {
             area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '90%'],
             offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
             btn: ['确定', '取消'],
@@ -53,7 +53,7 @@
         }
 
         parent.openIframeLayer(
-            "{:url('theme/fileArrayData')}?tab={$tab}&file_id="+fileId+"&" + 'var=' + mVar + widget,
+            "{:url('Theme/fileArrayData')}?tab={$tab}&file_id="+fileId+"&" + 'var=' + mVar + widget,
             title,
             {
                 area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '90%'],
