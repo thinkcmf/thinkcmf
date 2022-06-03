@@ -235,12 +235,12 @@ class AppStoreController extends AppStoreAdminBaseController
     {
         $accessToken = $this->request->param('access_token');
         if (empty($accessToken)) {
-            $this->error('非法请求！');
+            $this->error(lang('illegal request'));
         }
 
         $httpReferer = $this->request->server('HTTP_REFERER');
         if (empty($httpReferer)) {
-            $this->error('非法请求！');
+            $this->error(lang('illegal request'));
         }
         $httpReferer = parse_url($httpReferer);
         $domain      = empty($httpReferer['host']) ? '' : $httpReferer['host'];

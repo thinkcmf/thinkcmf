@@ -143,7 +143,7 @@ class SettingController extends AdminBaseController
 
             cmf_set_option('admin_settings', $adminSettings);
 
-            $this->success("保存成功！", '');
+            $this->success(lang('EDIT_SUCCESS'), '');
 
         }
     }
@@ -258,7 +258,7 @@ class SettingController extends AdminBaseController
             $uploadSetting = $this->request->post();
 
             cmf_set_option('upload_setting', $uploadSetting);
-            $this->success('保存成功！');
+            $this->success(lang('EDIT_SUCCESS'));
         }
 
     }

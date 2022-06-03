@@ -93,7 +93,7 @@ class SlideItemController extends AdminBaseController
         if ($this->request->isPost()) {
             $data = $this->request->param();
             SlideItemModel::insert($data['post']);
-            $this->success("添加成功！", url("slideItem/index", ['slide_id' => $data['post']['slide_id']]));
+            $this->success(lang('ADD_SUCCESS'), url('SlideItem/index', ['slide_id' => $data['post']['slide_id']]));
         }
     }
 
@@ -148,7 +148,7 @@ class SlideItemController extends AdminBaseController
 
             SlideItemModel::update($data['post']);
 
-            $this->success("保存成功！", url("SlideItem/index", ['slide_id' => $data['post']['slide_id']]));
+            $this->success(lang('EDIT_SUCCESS'), url('SlideItem/index', ['slide_id' => $data['post']['slide_id']]));
         }
     }
 
@@ -177,9 +177,9 @@ class SlideItemController extends AdminBaseController
                 //删除图片。
 //            if (file_exists("./upload/".$slideItem['image'])){
 //            }
-                $this->success("删除成功！", url("SlideItem/index", ["slide_id" => $slideItem['slide_id']]));
+                $this->success(lang('DELETE_SUCCESS'), url('SlideItem/index', ["slide_id" => $slideItem['slide_id']]));
             } else {
-                $this->error('删除失败！');
+                $this->error(lang('DELETE_FAILED'));
             }
         }
 
@@ -262,6 +262,6 @@ class SlideItemController extends AdminBaseController
     {
         $slideItemModel = new  SlideItemModel();
         parent::listOrders($slideItemModel);
-        $this->success("排序更新成功！");
+        $this->success(lang('Sort update successful'));
     }
 }

@@ -145,9 +145,9 @@ class UserController extends AdminBaseController
                             }
                             RoleUserModel::insert(["role_id" => $roleId, "user_id" => $userId]);
                         }
-                        $this->success("添加成功！", url("User/index"));
+                        $this->success(lang('ADD_SUCCESS'), url('User/index'));
                     } else {
-                        $this->error("添加失败！");
+                        $this->error(lang('ADD_FAILED'));
                     }
                 }
             } else {
@@ -229,9 +229,9 @@ class UserController extends AdminBaseController
                             }
                             RoleUserModel::insert(["role_id" => $roleId, "user_id" => $userId]);
                         }
-                        $this->success("保存成功！");
+                        $this->success(lang('EDIT_SUCCESS'));
                     } else {
-                        $this->error("保存失败！");
+                        $this->error(lang('EDIT_FAILED'));
                     }
                 }
             } else {
@@ -284,9 +284,9 @@ class UserController extends AdminBaseController
             $data['id']       = cmf_get_current_admin_id();
             $create_result    = UserModel::update($data);;
             if ($create_result !== false) {
-                $this->success("保存成功！");
+                $this->success(lang('EDIT_SUCCESS'));
             } else {
-                $this->error("保存失败！");
+                $this->error(lang('EDIT_FAILED'));
             }
         }
     }
@@ -314,9 +314,9 @@ class UserController extends AdminBaseController
 
             if (UserModel::destroy($id) !== false) {
                 RoleUserModel::where("user_id", $id)->delete();
-                $this->success("删除成功！");
+                $this->success(lang('DELETE_SUCCESS'));
             } else {
-                $this->error("删除失败！");
+                $this->error(lang('DELETE_FAILED'));
             }
         }
     }

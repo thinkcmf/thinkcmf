@@ -68,13 +68,13 @@ class AdminOauthController extends AdminBaseController
     public function delete()
     {
         if ($this->request->isPost()) {
-            $id = input('param.id', 0, 'intval');
+            $id = $this->request->param('id', 0, 'intval');
             if (empty($id)) {
                 $this->error('非法数据！');
             }
 
             ThirdPartyUserModel::where("id", $id)->delete();
-            $this->success("删除成功！", url('AdminOauth/index'));
+            $this->success(lang('DELETE_SUCCESS'), url('AdminOauth/index'));
         }
     }
 

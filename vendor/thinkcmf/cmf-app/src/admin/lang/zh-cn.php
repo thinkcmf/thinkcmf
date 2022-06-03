@@ -130,7 +130,12 @@ return [
     'Full Url'                           => '原始网址',
     'Short Url'                          => '原始网址',
     'SHORT_URL_HELP_BLOCK_TEXT'          => 'url格式一般为list/:param1/:param2或 list-&lt;param1&gt;-&lt;param2&gt;',
-    'Image'                              => '图片'
+    'Image'                              => '图片',
+    'Installed successfully'             => '安装成功！',
+    'Updated successfully'               => '更新成功！',
+    'Uninstall successful'               => '卸载成功！',
+    'Uninstall failed'=>'卸载失败！',
+   
 
 
 ];

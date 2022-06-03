@@ -89,7 +89,7 @@ class HookController extends AdminBaseController
         $hookPluginModel = new HookPluginModel();
         parent::listOrders($hookPluginModel);
 
-        $this->success("排序更新成功！");
+        $this->success(lang('Sort update successful'));
     }
 
     /**

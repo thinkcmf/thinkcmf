@@ -189,7 +189,7 @@ class MenuController extends AdminBaseController
                 $to                    = empty($sessionAdminMenuIndex) ? "Menu/index" : $sessionAdminMenuIndex;
                 $this->_exportAppMenuDefaultLang();
                 Cache::clear('admin_menus');// 删除后台菜单缓存
-                $this->success("添加成功！", url($to));
+                $this->success(lang('ADD_SUCCESS'), url($to));
             }
         }
     }
@@ -303,7 +303,7 @@ class MenuController extends AdminBaseController
                 }
                 $this->_exportAppMenuDefaultLang();
                 Cache::clear('admin_menus');// 删除后台菜单缓存
-                $this->success("保存成功！");
+                $this->success(lang('EDIT_SUCCESS'));
             }
         }
     }
@@ -332,9 +332,9 @@ class MenuController extends AdminBaseController
                 $this->error("该菜单下还有子菜单，无法删除！");
             }
             if (AdminMenuModel::destroy($id) !== false) {
-                $this->success("删除菜单成功！");
+                $this->success(lang('DELETE_SUCCESS'));
             } else {
-                $this->error("删除失败！");
+                $this->error(lang('DELETE_FAILED'));
             }
         }
     }
@@ -356,7 +356,7 @@ class MenuController extends AdminBaseController
     {
         $adminMenuModel = new AdminMenuModel();
         parent::listOrders($adminMenuModel);
-        $this->success("排序更新成功！");
+        $this->success(lang('Sort update successful'));
     }
 
     /**

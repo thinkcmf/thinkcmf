@@ -18,7 +18,7 @@ class VerificationCodeController extends HomeBaseController
     public function send()
     {
         if (!$this->request->isPost()) {
-            $this->error('非法请求！');
+            $this->error(lang('illegal request'));
         }
         $validate = new \think\Validate();
         $validate->rule([

@@ -22,11 +22,11 @@ class PluginAdminBaseController extends PluginBaseController
         $adminId = cmf_get_current_admin_id();
         if (!empty($adminId)) {
             if (!$this->checkAccess($adminId)) {
-                $this->error("您没有访问权限！");
+                $this->error(lang('no access'));
             }
         } else {
             if ($this->request->isAjax()) {
-                $this->error("您还没有登录！", url("admin/Public/login"));
+                $this->error(lang('You are not logged in'), url("admin/Public/login"));
             } else {
                 header("Location:" . url("admin/Public/login"));
                 exit();

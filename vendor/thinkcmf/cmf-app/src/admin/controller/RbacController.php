@@ -100,9 +100,9 @@ class RbacController extends AdminBaseController
             } else {
                 $result = RoleModel::insert($data);
                 if ($result) {
-                    $this->success("添加角色成功", url("rbac/index"));
+                    $this->success(lang('ADD_SUCCESS'), url("rbac/index"));
                 } else {
-                    $this->error("添加角色失败");
+                    $this->error(lang('ADD_FAILED'));
                 }
 
             }
@@ -176,9 +176,9 @@ class RbacController extends AdminBaseController
 
             } else {
                 if (RoleModel::update($data) !== false) {
-                    $this->success("保存成功！", url('rbac/index'));
+                    $this->success(lang('EDIT_SUCCESS'), url('rbac/index'));
                 } else {
-                    $this->error("保存失败！");
+                    $this->error(lang('EDIT_FAILED'));
                 }
             }
         }
@@ -212,9 +212,9 @@ class RbacController extends AdminBaseController
             } else {
                 $status = RoleModel::destroy($id);
                 if (!empty($status)) {
-                    $this->success("删除成功！", url('rbac/index'));
+                    $this->success(lang('DELETE_SUCCESS'), url('rbac/index'));
                 } else {
-                    $this->error("删除失败！");
+                    $this->error(lang('DELETE_FAILED'));
                 }
             }
         }

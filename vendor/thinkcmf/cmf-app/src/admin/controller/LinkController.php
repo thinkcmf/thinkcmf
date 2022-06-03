@@ -92,7 +92,7 @@ class LinkController extends AdminBaseController
             }
             $linkModel->save($data);
 
-            $this->success("添加成功！", url("Link/index"));
+            $this->success(lang('ADD_SUCCESS'), url("Link/index"));
         }
     }
 
@@ -145,7 +145,7 @@ class LinkController extends AdminBaseController
             $linkModel = LinkModel::find($data['id']);
             $linkModel->save($data);
 
-            $this->success("保存成功！", url("Link/index"));
+            $this->success(lang('EDIT_SUCCESS'), url("Link/index"));
         }
     }
 
@@ -167,7 +167,7 @@ class LinkController extends AdminBaseController
         if ($this->request->isPost()) {
             $id = $this->request->param('id', 0, 'intval');
             LinkModel::destroy($id);
-            $this->success("删除成功！", url("Link/index"));
+            $this->success(lang('DELETE_SUCCESS'), url("Link/index"));
         }
     }
 
@@ -188,7 +188,7 @@ class LinkController extends AdminBaseController
     {
         $linkModel = new  LinkModel();
         parent::listOrders($linkModel);
-        $this->success("排序更新成功！");
+        $this->success(lang('Sort update successful'));
     }
 
     /**
@@ -213,13 +213,13 @@ class LinkController extends AdminBaseController
             if (isset($data['ids']) && !empty($data["display"])) {
                 $ids = $this->request->param('ids/a');
                 $linkModel->where('id', 'in', $ids)->update(['status' => 1]);
-                $this->success("更新成功！");
+                $this->success(lang('Updated successfully'));
             }
 
             if (isset($data['ids']) && !empty($data["hide"])) {
                 $ids = $this->request->param('ids/a');
                 $linkModel->where('id', 'in', $ids)->update(['status' => 0]);
-                $this->success("更新成功！");
+                $this->success(lang('Updated successfully'));
             }
         }
     }

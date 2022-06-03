@@ -95,7 +95,7 @@ class RecycleBinController extends AdminBaseController
                 $ids = $this->request->param('id');
             }
             $this->operate($ids);
-            $this->success('删除成功');
+            $this->success(lang('DELETE_SUCCESS'));
         }
     }
 

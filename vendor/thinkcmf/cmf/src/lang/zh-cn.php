@@ -69,7 +69,11 @@ return [
     'Disabled'                => '已禁用',
     'Remark'                  => '备注',
     'Keyword'                 => '关键字',
-    'Search'=>'搜索',
-    'Clear'=>'清空',
-    'Title'=>'标题'
+    'Search'                  => '搜索',
+    'Clear'                   => '清空',
+    'Title'                   => '标题',
+    'no access'               => '您没有访问权限！',
+    'You are not logged in'   => '您还没有登录！',
+    'Sort update successful'  => '排序更新成功！',
+    'illegal request'         => '非法请求！',
 ];

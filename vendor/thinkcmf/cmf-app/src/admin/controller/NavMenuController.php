@@ -152,7 +152,7 @@ class NavMenuController extends AdminBaseController
 
             $navMenuModel->save($arrData);
 
-            $this->success(lang("EDIT_SUCCESS"), url("NavMenu/index", ['nav_id' => $arrData['nav_id']]));
+            $this->success(lang('ADD_SUCCESS'), url("NavMenu/index", ['nav_id' => $arrData['nav_id']]));
         }
     }
 

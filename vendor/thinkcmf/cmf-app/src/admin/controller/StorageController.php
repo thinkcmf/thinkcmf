@@ -71,7 +71,7 @@ class StorageController extends AdminBaseController
 
             $storage['type'] = $post['type'];
             cmf_set_option('storage', $storage);
-            $this->success("设置成功！", '');
+            $this->success(lang('EDIT_SUCCESS'), '');
         }
 
     }
