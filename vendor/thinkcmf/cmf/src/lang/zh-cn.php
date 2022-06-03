@@ -60,4 +60,5 @@ return [
     'Author'                  => '作者',
     'Version'                 => '版本',
     'Type'                    => '类型',
+    'Default'                 => '默认',
 ];

@@ -18,6 +18,7 @@ return [
     'ADMIN_MAILER_ACTIVE_POST'    => '提交模板',
     'ADMIN_MAILER_DEFAULT'        => '邮箱配置',
     'ADMIN_MAILER_INDEX'          => '邮箱配置',
+    'ADMIN_MAILER_TEMPLATE'       => '邮箱数字验证码模板',
     'ADMIN_MAILER_INDEX_POST'     => '提交配置',
     'ADMIN_MAILER_TEST'           => '测试邮件',
     'ADMIN_MENU_ADD'              => '添加菜单',

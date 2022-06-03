@@ -39,23 +39,23 @@
         </div>
         <div class="form-group">
             <label for="js-smtpsecure" class="col-sm-2 control-label">
-                <span class="form-required">*</span>连接方式
+                <span class="form-required">*</span>{:lang('SMTP Secure Protocol')}
             </label>
             <div class="col-md-6 col-sm-10">
                 <select name="smtp_secure" id="js-smtpsecure" class="form-control">
-                    <option value="">默认</option>
-                    <option value="ssl">ssl</option>
-                    <option value="tls">tls</option>
+                    <option value="">{:lang('Default')}</option>
+                    <option value="ssl">SSL</option>
+                    <option value="tls">TLS</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
             <label for="input-port" class="col-sm-2 control-label">
-                <span class="form-required">*</span>SMTP服务器端口
+                <span class="form-required">*</span>{:lang('SMTP Server Port')}
             </label>
             <div class="col-md-6 col-sm-10">
                 <input type="text" class="form-control" id="input-port" name="port" value="{$port|default=''}"
-                       placeholder="默认为25">
+                       placeholder="25">
             </div>
         </div>
         <div class="form-group">
@@ -80,7 +80,9 @@
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
                 <a class="btn btn-warning"
-                   href="javascript:parent.openIframeDialog('{:url('Mailer/test')}','发送测试邮件',{width:'600px',height:'400px'});">测试邮件</a>
+                   href="javascript:parent.openIframeLayer('{:url('Mailer/test')}','{:lang('Send Test Email')}',{area:['600px','400px']});">
+                    {:lang('Send Test Email')}
+                </a>
             </div>
         </div>
     </form>

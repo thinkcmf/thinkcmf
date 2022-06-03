@@ -18,7 +18,7 @@
             <label for="input-title" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('EMAIL_TEMPLATE')}</label>
             <div class="col-md-6 col-sm-12">
                 <script type="text/plain" id="content" name="template">{$template|default=""|htmlspecialchars_decode}</script>
-                <literal><span style="color: #ffb752;">请用{$code}代替数字验证码<!--，{$username}代替用户名--></span></literal>
+                <span style="color: #ffb752;">{:lang('EMAIL_TEMPLATE_HELP_TEXT')}</span>
             </div>
         </div>
         <div class="form-group">

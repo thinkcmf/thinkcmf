@@ -61,7 +61,7 @@
                         </div>
                         -->
                         <div class="form-group">
-                            <label for="input-site_admin_theme" class="col-sm-2 control-label">后台模板</label>
+                            <label for="input-site_admin_theme" class="col-sm-2 control-label">{:lang('WEBSITE_ADMIN_THEME')}</label>
                             <div class="col-md-6 col-sm-10">
                                 <php>
                                     $site_admin_theme=empty($admin_settings['admin_theme'])?'':$admin_settings['admin_theme'];
@@ -76,7 +76,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="input-site_adminstyle" class="col-sm-2 control-label">{:lang('WEBSITE_ADMIN_THEME')}</label>
+                            <label for="input-site_adminstyle" class="col-sm-2 control-label">{:lang('WEBSITE_ADMIN_THEME_STYLE')}</label>
                             <div class="col-md-6 col-sm-10">
                                 <php>
                                     $site_admin_style=empty($admin_settings['admin_style'])?cmf_get_admin_style():$admin_settings['admin_style'];
@@ -194,14 +194,14 @@
                     </div>
                     <div class="tab-pane" id="F">
                         <div class="form-group">
-                            <label for="input-banned_usernames" class="col-sm-2 control-label">用户注册验证</label>
+                            <label for="input-banned_usernames" class="col-sm-2 control-label">{:lang('User Register Verify')}</label>
                             <div class="col-md-6 col-sm-10">
                                 <select class="form-control" name="cmf_settings[open_registration]">
-                                    <option value="0">是</option>
+                                    <option value="0">{:lang('YES')}</option>
                                     <php>
                                         $open_registration_selected = empty($cmf_settings['open_registration'])?'':'selected';
                                     </php>
-                                    <option value="1" {$open_registration_selected}>否</option>
+                                    <option value="1" {$open_registration_selected}>{:lang('NO')}</option>
                                 </select>
                             </div>
                         </div>
@@ -222,7 +222,7 @@
                     </div>
                     <div class="tab-pane" id="G">
                         <div class="form-group">
-                            <label for="input-cdn_static_root" class="col-sm-2 control-label">静态资源cdn地址</label>
+                            <label for="input-cdn_static_root" class="col-sm-2 control-label">{:lang('CDN Root')}</label>
                             <div class="col-md-6 col-sm-10">
                                 <input type="text" class="form-control" id="input-cdn_static_root"
                                        name="cdn_settings[cdn_static_root]"
