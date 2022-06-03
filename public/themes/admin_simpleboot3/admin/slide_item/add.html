@@ -3,8 +3,8 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">幻灯片页面列表</a></li>
-        <li class="active"><a href="{:url('SlideItem/add',['slide_id'=>$slide_id])}">添加幻灯片页面</a></li>
+        <li><a href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_INDEX')}</a></li>
+        <li class="active"><a href="{:url('SlideItem/add',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_ADD')}</a></li>
     </ul>
     <form action="{:url('SlideItem/addPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
         <div class="row">
@@ -36,7 +36,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>描述</th>
+                        <th>{:lang('Description')}</th>
                         <td><input class="form-control" type="text" name="post[description]" id="source" value=""
                                    style="width: 400px" placeholder="请输入描述"></td>
                     </tr>

@@ -3,8 +3,8 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">幻灯片页面列表</a></li>
-        <li><a href="{:url('SlideItem/add',['slide_id'=>$slide_id])}">添加幻灯片页面</a></li>
+        <li class="active"><a href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_INDEX')}</a></li>
+        <li><a href="{:url('SlideItem/add',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_ADD')}</a></li>
     </ul>
     <form method="post" class="js-ajax-form margin-top-20" action="{:url('SlideItem/listOrder')}">
         <div class="table-actions">

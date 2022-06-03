@@ -3,12 +3,12 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('storage/index')}">{:lang('ADMIN_STORAGE_INDEX')}</a></li>
+        <li class="active"><a href="{:url('Storage/index')}">{:lang('ADMIN_STORAGE_INDEX')}</a></li>
     </ul>
-    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('storage/settingPost')}">
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Storage/settingPost')}">
 
         <div class="form-group">
-            <label for="input-type" class="col-sm-2 control-label">存储类型</label>
+            <label for="input-type" class="col-sm-2 control-label">{:lang('Type')}</label>
             <div class="col-md-6 col-sm-10">
                 <select class="form-control" name="type" id="input-type">
                     <foreach name="storages" item="vo">

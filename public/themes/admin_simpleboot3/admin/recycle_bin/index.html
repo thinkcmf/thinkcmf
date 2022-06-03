@@ -3,7 +3,7 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="javascript:void(0)">回收站列表</a></li>
+        <li class="active"><a href="javascript:void(0)">{:lang('ADMIN_RECYCLEBIN_INDEX')}</a></li>
     </ul>
     <form class="js-ajax-form">
         <div class="table-actions margin-top-20">
@@ -43,7 +43,7 @@
                         {:lang('TABLE_'.strtoupper($vo['table_name']))}
                     </td>
                     <td> {:date('Y-m-d H:i:s',$vo['create_time'])}</td>
-                    
+
                     <td> {$vo.user.user_login|default=''}</td>
                     <td>
                         <a href="{:url('RecycleBin/restore', ['ids'=>$vo.id])}" class="btn btn-xs btn-success js-ajax-dialog-btn"

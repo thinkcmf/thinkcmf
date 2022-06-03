@@ -3,18 +3,18 @@
 <body>
 <div class="wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('slide/index')}">幻灯片列表</a></li>
-        <li class="active"><a href="{:url('slide/add')}">添加幻灯片</a></li>
+        <li><a href="{:url('Slide/index')}">{:lang('ADMIN_SLIDE_INDEX')}</a></li>
+        <li class="active"><a href="{:url('Slide/add')}">{:lang('ADMIN_SLIDE_ADD')}</a></li>
     </ul>
-    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('slide/addPost')}">
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Slide/addPost')}">
         <div class="form-group">
-            <label for="input-name" class="col-sm-2 control-label">名称<span class="form-required">*</span></label>
+            <label for="input-name" class="col-sm-2 control-label">{:lang('Name')}<span class="form-required">*</span></label>
             <div class="col-md-6 col-sm-10">
                 <input type="text" class="form-control" id="input-name" name="name">
             </div>
         </div>
         <div class="form-group">
-            <label for="input-remark" class="col-sm-2 control-label">{:lang('DESCRIPTION')}</label>
+            <label for="input-remark" class="col-sm-2 control-label">{:lang('Description')}</label>
             <div class="col-md-6 col-sm-10">
                 <textarea class="form-control" id="input-remark" name="remark"></textarea>
             </div>
@@ -22,7 +22,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
-                <a class="btn btn-default" href="{:url('slide/index')}">{:lang('BACK')}</a>
+                <a class="btn btn-default" href="{:url('Slide/index')}">{:lang('BACK')}</a>
             </div>
         </div>
     </form>

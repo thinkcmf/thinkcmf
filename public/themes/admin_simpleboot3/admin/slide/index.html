@@ -3,15 +3,15 @@
 <body>
 	<div class="wrap js-check-wrap">
 		<ul class="nav nav-tabs">
-			<li class="active"><a href="{:url('slide/index')}">幻灯片列表</a></li>
-			<li><a href="{:url('slide/add')}">添加幻灯片</a></li>
+			<li class="active"><a href="{:url('Slide/index')}">{:lang('ADMIN_SLIDE_INDEX')}</a></li>
+			<li><a href="{:url('Slide/add')}">{:lang('ADMIN_SLIDE_ADD')}</a></li>
 		</ul>
 		<table class="table table-hover table-bordered margin-top-20">
 			<thead>
 				<tr>
 					<th width="50">ID</th>
-					<th>幻灯片</th>
-					<th>备注</th>
+					<th>{:lang('Name')}</th>
+					<th>{:lang('Remark')}</th>
 					<th width="160">{:lang('ACTIONS')}</th>
 				</tr>
 			</thead>
@@ -27,9 +27,9 @@
 						{$vo.remark}
 					</td>
 					<td>
-                        <a class="btn btn-xs btn-primary" href="{:url('slide/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                        <a class="btn btn-xs btn-primary" href="{:url('Slide/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
 						<a class="btn btn-xs btn-primary" href="javascript:parent.openIframeLayer('{:url('slideItem/index',array('slide_id'=>$vo['id']))}','管理 {$vo.name} 页面',{});">管理页面</a>
-                        <a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('slide/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+                        <a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('Slide/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
                     </td>
 				</tr>
 				</foreach>

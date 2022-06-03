@@ -3,8 +3,8 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">导航菜单</a></li>
-        <li class="active"><a>{:lang('ADMIN_MENU_ADD')}</a></li>
+        <li><a href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">{:lang('ADMIN_NAVMENU_INDEX')}</a></li>
+        <li class="active"><a>{:lang('ADMIN_NAVMENU_ADD')}</a></li>
     </ul>
 
     <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('NavMenu/addPost')}">
