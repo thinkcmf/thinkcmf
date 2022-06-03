@@ -23,12 +23,12 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="input-status" class="col-sm-2 control-label">是否启用</label>
+            <label for="input-status" class="col-sm-2 control-label">{:lang('Status')}</label>
             <div class="col-md-6 col-sm-10">
                 <select class="form-control" name="status" id="input-status">
-                    <option value="1">启用</option>
+                    <option value="1">{:lang('Enable')}</option>
                     <php>$status_selected=$status?"":"selected";</php>
-                    <option value="0" {$status_selected}>禁用</option>
+                    <option value="0" {$status_selected}>{:lang('Diable')}</option>
                 </select>
             </div>
         </div>
@@ -36,7 +36,7 @@
             <div class="col-sm-offset-2 col-sm-10">
                 <input type="hidden" name="id" value="{$id}">
                 <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
-                <a class="btn btn-default" href="{:url('Route/index')}">返回</a>
+                <a class="btn btn-default" href="{:url('Route/index')}">{:lang('BACK')}</a>
             </div>
         </div>
     </form>

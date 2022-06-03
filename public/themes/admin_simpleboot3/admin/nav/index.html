@@ -13,7 +13,7 @@
             <tr>
                 <th width="40">ID</th>
                 <th>{:lang('Name')}</th>
-                <th width="80">主导航</th>
+                <th width="80">{:lang('Main Navigation')}</th>
                 <th>{:lang('Description')}</th>
                 <th width="160">{:lang('ACTIONS')}</th>
             </tr>
@@ -36,7 +36,7 @@
                     </td>
                     <td>{$vo.remark}</td>
                     <td>
-                        <a class="btn btn-xs btn-primary" href="javascript:parent.openIframeLayer('{:url('NavMenu/index',array('nav_id'=>$vo['id']))}','{$vo.name}菜单管理',{});">菜单管理</a>
+                        <a class="btn btn-xs btn-primary" href="javascript:parent.openIframeLayer('{:url('NavMenu/index',array('nav_id'=>$vo['id']))}','{$vo.name} {:lang('Sub Navigations')}',{});">{:lang('Sub Navigations')}</a>
                         <a class="btn btn-xs btn-success"  href="{:url('Nav/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
                         <a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('Nav/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
                     </td>

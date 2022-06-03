@@ -52,9 +52,9 @@
                     </td>
                     <td>
                         <eq name="vo.type" value="2">
-                            <span class="btn btn-xs btn-primary disabled">编辑</span>
-                            <span class="btn btn-xs btn-warning disabled">禁用</span>
-                            <span class="btn btn-xs btn-danger disabled">删除</span>
+                            <span class="btn btn-xs btn-primary disabled">{:lang('EDIT')}</span>
+                            <span class="btn btn-xs btn-warning disabled">{:lang('Disable')}</span>
+                            <span class="btn btn-xs btn-danger disabled">{:lang('DELETE')}</span>
                             <else/>
                             <a class="btn btn-xs btn-primary" href="{:url('Route/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
                             <eq name="vo.status" value="1">

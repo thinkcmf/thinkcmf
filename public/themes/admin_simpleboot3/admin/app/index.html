@@ -10,13 +10,13 @@
     </ul>
     <form method="post" class="js-ajax-form margin-top-20">
         <php>
-            $status=array("1"=>'开启',"0"=>'禁用',"3"=>'未安装');
+            $status=array("1"=>lang('Enabled'),"0"=>lang('Disabled'),"3"=>lang('Not Installed'));
         </php>
         <table class="table table-hover table-bordered">
             <thead>
             <tr>
                 <th>{:lang('NAME')}</th>
-                <th>标识</th>
+                <th>{:lang('Key')}</th>
                 <th>{:lang('Description')}</th>
                 <th>{:lang('Author')}</th>
                 <th>{:lang('Version')}</th>
@@ -43,11 +43,11 @@
                         <empty name="vo.installed">
                             <a class="btn btn-xs btn-primary js-ajax-dialog-btn"
                                href="{:url('App/install',array('name'=>$vo['name']))}"
-                               data-msg="确定安装该应用吗？">{:lang('Install')}</a>
+                               data-msg="{:lang('INSTALL_APP_CONFIRM_MSG')}">{:lang('Install')}</a>
                             <else/>
                             <a class="btn btn-xs btn-success js-ajax-dialog-btn"
                                href="{:url('App/update',array('name'=>$vo['name']))}"
-                               data-msg="确定更新该应用吗？">{:lang('Update')}</a>
+                               data-msg="{:lang('UPDATE_APP_CONFIRM_MSG')}">{:lang('Update')}</a>
                         </empty>
                     </td>
                 </tr>

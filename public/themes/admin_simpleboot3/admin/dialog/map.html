@@ -86,7 +86,7 @@
         enableMessage: false,//设置允许信息窗发送短息
 
     };
-    var infoWindow = new BMap.InfoWindow("拖动我设置你的位置", opts);  // 创建信息窗口对象
+    var infoWindow = new BMap.InfoWindow("{:lang('DRAG_MAP_TO_SET_LOCATION')}", opts);  // 创建信息窗口对象
     marker.openInfoWindow(infoWindow);
 
     var gc = new BMap.Geocoder();

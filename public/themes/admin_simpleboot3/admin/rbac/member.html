@@ -7,11 +7,11 @@
 				<thead>
 					<tr>
 						<th align="center">ID</th>
-						<th>用户名</th>
-						<th>昵称</th>
-						<th>E-mail</th>
-						<th>角色名称</th>
-						<th align='center'>操作</th>
+						<th>{:lang('USERNAME')}</th>
+						<th>{:lang('NICKNAME')}</th>
+						<th>Email</th>
+						<th>{:lang('ROLE_NAME')}</th>
+						<th align='center'>{:lang('ACTIONS')}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -24,7 +24,7 @@
 						<!-- <td>{:date('Y-m-d H:i:s', $vo['create_time'])}</td> -->
 						<td>{$vo.name}</td>
 						<td align="center">
-							<a href="{:U('user/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">删除</a>
+							<a href="{:U('user/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
 						</td>
 					</tr>
 					</foreach>

@@ -10,7 +10,7 @@
     <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('NavMenu/addPost')}">
         <fieldset>
             <div class="form-group">
-                <label class="col-sm-2 control-label">上级:</label>
+                <label class="col-sm-2 control-label">{:lang('Parent')}</label>
                 <div class="col-md-6 col-sm-10">
                     <select name="parent_id" class="form-control">
                         <option value="0">/</option>
@@ -19,13 +19,13 @@
                 </div>
             </div>
             <div class="form-group form-inline">
-                <label class="col-sm-2 control-label"><span class="form-required">*</span>地址:</label>
+                <label class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('Url')}</label>
                 <div class="col-md-6 col-sm-10">
                     <input type="radio" id="external-link-radio">
                     <input type="text" class="form-control" name="href" id="external-link-input">
                     <input type="radio" id="select-href-radio">
                     <select name="href" id="select-href" class="form-control">
-                        <option value="{:base64_encode('home')}" data-name="首页">首页</option>
+                        <option value="{:base64_encode('home')}" data-name="{:lang('HOME')}">{:lang('HOME')}</option>
                         <foreach name="navs" item="vo">
                             <optgroup label="{$vo.name}">
                                 {$vo.html}
@@ -35,32 +35,32 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label"><span class="form-required">*</span>菜单名称:</label>
+                <label class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('Name')}</label>
                 <div class="col-md-6 col-sm-10">
                     <input type="text" class="form-control" name="name" id="name-input">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">打开方式:</label>
+                <label class="col-sm-2 control-label">{:lang('Url Target')}</label>
                 <div class="col-md-6 col-sm-10">
                     <select class="form-control" name="target">
-                        <option value="">默认方式</option>
-                        <option value="_blank">新窗口打开</option>
+                        <option value="">{:lang('Default')}</option>
+                        <option value="_blank">_Blank</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">图标:</label>
+                <label class="col-sm-2 control-label">{:lang('Icon')}</label>
                 <div class="col-md-6 col-sm-10">
                     <input type="text" class="form-control" name="icon" value="">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">显示:</label>
+                <label class="col-sm-2 control-label">{:lang('Status')}</label>
                 <div class="col-md-6 col-sm-10">
                     <select name="status" class="form-control">
-                        <option value="1">显示</option>
-                        <option value="0">隐藏</option>
+                        <option value="1">{:lang('DISPLAY')}</option>
+                        <option value="0">{:lang('HIDDEN')}</option>
                     </select>
                 </div>
             </div>
@@ -69,7 +69,7 @@
         <div class="col-sm-offset-2 col-sm-10">
             <input type="hidden" name="nav_id" value="{$nav_id}"/>
             <button type="submit" class="btn btn-primary js-ajax-submit">{:lang("SAVE")}</button>
-            <a class="btn btn-default" href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">返回</a>
+            <a class="btn btn-default" href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">{:lang('BACK')}</a>
         </div>
     </form>
 
