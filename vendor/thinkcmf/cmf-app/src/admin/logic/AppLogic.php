@@ -19,6 +19,8 @@ use app\admin\model\PluginModel;
 use app\user\logic\UserActionLogic;
 use mindplay\annotations\Annotations;
 use think\facade\Cache;
+use think\facade\Config;
+use think\facade\Db;
 use think\migration\Migrate;
 
 class AppLogic
@@ -201,5 +203,62 @@ class AppLogic
 
         }
         return $apps;
+    }
+
+    public static function uninstall($appName)
+    {
+        $appName = strtolower($appName);
+        $class   = cmf_get_app_class($appName);
+        if (!class_exists($class)) {
+            return '应用不存在!';
+        }
+
+        $findAppSetting = OptionModel::where('option_name', "app_manifest_$appName")->find();
+
+        if (empty($findAppSetting)) {
+            return '应用未安装！';
+        }
+
+
+        $appPath        = app_path() . $appName . DIRECTORY_SEPARATOR;
+        $app = new $class;
+
+        Db::startTrans();
+        try {
+            OptionModel::where('option_name', "app_manifest_$appName")->delete();
+
+            if (method_exists($app, 'uninstall')) {
+                $updateSuccess = $app->uninstall();
+                if (!$updateSuccess) {
+                    throw new \Exception('应用卸载失败!');
+                }
+            }
+
+            // 删除后台菜单
+            AdminMenuModel::where([
+                'app' => $appName,
+            ])->delete();
+
+            // 删除权限规则
+            AuthRuleModel::where('app', $appName)->delete();
+
+            try {
+                $database = Config::get('database.connections.' . Config::get('database.default'));
+                $prefix   = $database['prefix'];
+                Db::name("{$appName}_migration")->whereRaw('1')->delete();
+                Db::execute("drop table {$prefix}{$appName}_migration");
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+            }
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            return false;
+        }
+
+        Cache::clear('init_hook_apps');
+        Cache::clear('admin_menus');// 删除后台菜单缓存
+        return true;
+
     }
 }

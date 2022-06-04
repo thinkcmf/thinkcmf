@@ -111,18 +111,18 @@ class AppController extends AdminBaseController
     public function uninstall()
     {
         if ($this->request->isPost()) {
-            $appName = $this->request->param('name', '', 'trim');
-
-            $result = AppLogic::uninstall($id);
-
-            if ($result !== true) {
-                $this->error(lang('Uninstall failed'));
-            }
-
-            Cache::clear('init_hook_apps');
-            Cache::clear('admin_menus');// 删除后台菜单缓存
-
-            $this->success(lang('Uninstall successful'));
+//            $appName = $this->request->param('name', '', 'trim');
+//
+//            $result = AppLogic::uninstall($id);
+//
+//            if ($result !== true) {
+//                $this->error(lang('Uninstall failed'));
+//            }
+//
+//            Cache::clear('init_hook_apps');
+//            Cache::clear('admin_menus');// 删除后台菜单缓存
+//
+//            $this->success(lang('Uninstall successful'));
         }
     }
 
