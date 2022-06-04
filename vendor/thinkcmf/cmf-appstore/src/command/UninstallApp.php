@@ -21,7 +21,15 @@ class UninstallApp extends Command
     protected function execute(Input $input, Output $output)
     {
         $name = $input->getArgument('name');
-        $output->confirm($input,'Are you sure to uninstall this app?');
+        $output->confirm($input, 'Are you sure to uninstall this app?');
+        $output->confirm($input, 'Are you really sure to uninstall this app?');
+
+        $answer = $output->ask($input, 'Please tell us the app name you want to uninstall?');
+
+        if ($answer != $name) {
+            $output->writeln("<error>error app name!</error>");
+            return;
+        }
         $result = AppLogic::uninstall($name);
 
         if ($result === true) {
