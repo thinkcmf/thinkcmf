@@ -11,6 +11,7 @@
 namespace app\admin\controller;
 
 use app\admin\logic\AppLogic;
+use app\admin\model\UserModel;
 use cmf\controller\AdminBaseController;
 use app\admin\model\AppModel;
 use app\admin\model\HookAppModel;
@@ -101,7 +102,7 @@ class AppController extends AdminBaseController
      *     'name'   => '卸载应用',
      *     'parent' => 'index',
      *     'display'=> false,
-     *     'hasView'=> false,
+     *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
      *     'remark' => '卸载应用',
@@ -110,19 +111,54 @@ class AppController extends AdminBaseController
      */
     public function uninstall()
     {
+        return $this->fetch();
+    }
+
+    /**
+     * 卸载应用提交
+     * @adminMenu(
+     *     'name'   => '卸载应用提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '卸载应用提交',
+     *     'param'  => ''
+     * )
+     */
+    public function uninstallPost()
+    {
         if ($this->request->isPost()) {
-//            $appName = $this->request->param('name', '', 'trim');
-//
-//            $result = AppLogic::uninstall($id);
-//
-//            if ($result !== true) {
-//                $this->error(lang('Uninstall failed'));
-//            }
-//
-//            Cache::clear('init_hook_apps');
-//            Cache::clear('admin_menus');// 删除后台菜单缓存
-//
-//            $this->success(lang('Uninstall successful'));
+            $appName     = $this->request->param('name', '', 'trim');
+            $allowedApps = ['demo', 'portal'];
+
+            if (empty($appName)) {
+                $this->error('请输入应用名！');
+            }
+
+            if (!in_array($appName, $allowedApps)) {
+                $this->error('此应用无法通过网页卸载，请使用命令行程序卸载！');
+            }
+
+            $password = $this->request->param('password', '', 'trim');
+            if (empty($password)) {
+                $this->error('请输入网站创始人后台登录密码！');
+            }
+
+            $passwordInDb = UserModel::where('id', 1)->value('user_pass');
+            if (!cmf_compare_password($password, $passwordInDb)) {
+                $this->error('网站创始人后台登录密码不正确！');
+            }
+
+            $result = AppLogic::uninstall($appName);
+            if ($result === true) {
+                $this->success(lang('Uninstall successful'));
+            } else if ($result === false) {
+                $this->error(lang('Uninstall failed'));
+            } else {
+                $this->error($result);
+            }
         }
     }
 

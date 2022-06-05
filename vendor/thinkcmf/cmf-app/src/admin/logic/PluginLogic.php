@@ -87,6 +87,44 @@ class PluginLogic
         return true;
     }
 
+    public static function uninstall($pluginName)
+    {
+        $class      = cmf_get_plugin_class($pluginName);
+        $pluginName = cmf_parse_name($pluginName);
+
+        HookPluginModel::startTrans();
+        try {
+            PluginModel::where('name', $pluginName)->delete();
+            HookPluginModel::where('plugin', $pluginName)->delete();
+
+            if (class_exists($class)) {
+                $plugin = new $class;
+
+                $uninstallSuccess = $plugin->uninstall();
+                if (!$uninstallSuccess) {
+                    HookPluginModel::rollback();
+                    return "插件卸载失败!";
+                }
+            }
+
+            // 删除后台菜单
+            AdminMenuModel::where([
+                'app' => "plugin/{$pluginName}",
+            ])->delete();
+
+            // 删除权限规则
+            AuthRuleModel::where('app', "plugin/{$pluginName}")->delete();
+
+            HookPluginModel::commit();
+        } catch (\Exception $e) {
+            HookPluginModel::rollback();
+            echo $e->getMessage();
+            return false;
+        }
+
+        return true;
+    }
+
     public static function update($pluginName)
     {
         $class = cmf_get_plugin_class($pluginName);

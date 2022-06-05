@@ -248,7 +248,7 @@ class AppLogic
                 Db::name("{$appName}_migration")->whereRaw('1')->delete();
                 Db::execute("drop table {$prefix}{$appName}_migration");
             } catch (\Exception $e) {
-                echo $e->getMessage();
+               // echo $e->getMessage();
             }
             Db::commit();
         } catch (\Exception $e) {

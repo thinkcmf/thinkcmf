@@ -48,6 +48,9 @@
                             <a class="btn btn-xs btn-success js-ajax-dialog-btn"
                                href="{:url('App/update',array('name'=>$vo['name']))}"
                                data-msg="{:lang('UPDATE_APP_CONFIRM_MSG')}">{:lang('Update')}</a>
+                            <a class="btn btn-xs btn-danger"
+                               href="javascript:doOpenUninstallAppDialog('{$vo.name}')"
+                               data-msg="{:lang('INSTALL_APP_CONFIRM_MSG')}">{:lang('Uninstall')}</a>
                         </empty>
                     </td>
                 </tr>
@@ -57,5 +60,15 @@
     </form>
 </div>
 <script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+    function doOpenUninstallAppDialog(name) {
+        parent.openIframeLayer("{:url('App/uninstall')}?name=" + name, '应用卸载', {
+            area: ['450px', '600px'],
+            end: function () {
+                window.location.reload();
+            }
+        })
+    }
+</script>
 </body>
 </html>
