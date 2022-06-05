@@ -56,7 +56,7 @@
                                 </empty>
                             </empty>
                             <else/>
-                            <a class="btn btn-danger btn-xs disabled">卸载</a>
+                            <a class="btn btn-danger btn-xs" href="javascript:doOpenUninstallAppDialog('{$vo.name}')">卸载</a>
                             <notempty name="vo.need_update">
                                 <a class="btn btn-success btn-xs js-ajax-dialog-btn"
                                    data-href="{:url('AppStore/installApp',['id'=>$vo.id,'version'=>$vo.installed_app.version])}">升级</a>
@@ -71,8 +71,17 @@
         <ul class="pagination">{$page}</ul>
     </form>
 </div>
-<script src="__STATIC__/js/admin.js"></script>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
 <script>
+    function doOpenUninstallAppDialog(name) {
+        parent.openIframeLayer("{:url('App/uninstall')}?name=" + name, '应用卸载', {
+            area: ['450px', '600px'],
+            end: function () {
+                window.location.reload();
+            }
+        })
+    }
+
     $('.js-install-plugin-btn').click(function () {
         parent.openIframeLayer("{:url('admin/AppStore/login')}", '登录应用市场', {
             area: ['600px', '450px'],
@@ -83,7 +92,6 @@
     });
 
     var buyAppLayerIndex = '';
-
     function doBuyApp(buyUrl) {
         buyUrl = buyUrl + "?app_store_token={$appstore_settings.access_token|default=''}"
         parent.openIframeLayer(buyUrl, '购买应用', {
@@ -95,7 +103,6 @@
             }
         });
     }
-
 
     window.parent.addEventListener('message', e => {
         // e.data为子页面发送的数据
@@ -110,8 +117,6 @@
                     break;
             }
         }
-
-
     })
 </script>
 </body>
