@@ -1,0 +1,51 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <php>$app_name=input('param.name');</php>
+    <if condition="in_array($app_name,['demo','portal'])">
+
+        <div class="alert alert-danger">
+            应用<code>{$app_name}</code>的所有数据都将被删除，且无法恢复！<br>
+        </div>
+        <div class="alert alert-danger">
+            您确定要卸载此应用<code>{$app_name}</code>吗？<br>
+        </div>
+        <div class="alert alert-danger">
+            如果您已经确定要卸载此应用<code>{$app_name}</code>，请填写如下信息：<br>
+        </div>
+        <form method="post" class="form-horizontal js-ajax-form" action="{:url('App/uninstallPost')}">
+            <div class="form-group">
+                <label for="input-name" class="col-sm-2 control-label">应用名称 <span class="form-required">*</span></label>
+                <div class="col-md-6 col-sm-10">
+                    <input type="text" class="form-control" id="input-name" name="name"
+                           placeholder="请输入应用的名称{$app_name}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input-url" class="col-sm-2 control-label">网站创始人后台登录密码<span
+                        class="form-required">*</span></label>
+                <div class="col-md-6 col-sm-10">
+                    <input type="password" class="form-control" id="input-url" name="password"
+                           placeholder="请输入您的后台登录密码">
+                    <p class="help-block">为了安全，我们需要再次验证您的登录密码！</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-danger js-ajax-submit btn-block"
+                            data-msg="您需要再次确认卸载应用{$app_name},并知晓严重性！">确认卸载应用{$app_name},并知晓严重性
+                    </button>
+                </div>
+            </div>
+        </form>
+        <else/>
+        <div>为了安全请在命令行执行下面命令：</div>
+        <div class="alert alert-danger">
+            php think uninstall:app {$app_name}
+        </div>
+    </if>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>
