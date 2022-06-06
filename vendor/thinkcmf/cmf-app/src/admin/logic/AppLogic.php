@@ -220,8 +220,8 @@ class AppLogic
         }
 
 
-        $appPath        = app_path() . $appName . DIRECTORY_SEPARATOR;
-        $app = new $class;
+        $appPath = app_path() . $appName . DIRECTORY_SEPARATOR;
+        $app     = new $class;
 
         Db::startTrans();
         try {
@@ -229,8 +229,9 @@ class AppLogic
 
             if (method_exists($app, 'uninstall')) {
                 $updateSuccess = $app->uninstall();
-                if (!$updateSuccess) {
-                    throw new \Exception('应用卸载失败!');
+                if ($updateSuccess !== true) {
+                    Db::rollback();
+                    return $updateSuccess;
                 }
             }
 
@@ -248,7 +249,7 @@ class AppLogic
                 Db::name("{$appName}_migration")->whereRaw('1')->delete();
                 Db::execute("drop table {$prefix}{$appName}_migration");
             } catch (\Exception $e) {
-               // echo $e->getMessage();
+                // echo $e->getMessage();
             }
             Db::commit();
         } catch (\Exception $e) {
