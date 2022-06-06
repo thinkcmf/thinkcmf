@@ -201,7 +201,7 @@ class AppStoreController extends AppStoreAdminBaseController
             if (strpos($themeName, 'admin_') !== 0) {
                 $findTheme = ThemeModel::where('theme', $themeName)->find();
                 if (!empty($findTheme)) {
-                    $mTheme['installed'] = 1;
+                    $mTheme['installed']       = 1;
                     $mTheme['need_update']     = $findTheme['version'] == $mTheme['version'] ? 0 : 1;
                     $mTheme['installed_theme'] = $findTheme;
                 }
@@ -314,7 +314,7 @@ class AppStoreController extends AppStoreAdminBaseController
 
             foreach ($files as $mFile) {
                 if (strpos($mFile['filename'], $pluginName) === 0) {
-                    $result = $archive->extractByIndex($mFile['index'], PCLZIP_OPT_PATH, WEB_ROOT . 'plugins/');
+                    $result = $archive->extractByIndex($mFile['index'], PCLZIP_OPT_PATH, WEB_ROOT . 'plugins/', PCLZIP_OPT_REPLACE_NEWER);
                 }
             }
 
@@ -406,7 +406,7 @@ class AppStoreController extends AppStoreAdminBaseController
             $files = $archive->listContent();
 
             foreach ($files as $mFile) {
-                $result = $archive->extractByIndex($mFile['index'], PCLZIP_OPT_PATH, CMF_ROOT, PCLZIP_OPT_REMOVE_PATH, "{$data['data']['app']['name']}/");
+                $result = $archive->extractByIndex($mFile['index'], PCLZIP_OPT_PATH, CMF_ROOT, PCLZIP_OPT_REMOVE_PATH, "{$data['data']['app']['name']}/", PCLZIP_OPT_REPLACE_NEWER);
             }
 
             unlink($tmpFile);
@@ -491,7 +491,7 @@ class AppStoreController extends AppStoreAdminBaseController
             $files = $archive->listContent();
 
             foreach ($files as $mFile) {
-                $result = $archive->extractByIndex($mFile['index'], PCLZIP_OPT_PATH, WEB_ROOT . 'themes/');
+                $result = $archive->extractByIndex($mFile['index'], PCLZIP_OPT_PATH, WEB_ROOT . 'themes/', PCLZIP_OPT_REPLACE_NEWER);
             }
 
             unlink($tmpFile);
