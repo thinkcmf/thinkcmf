@@ -14,7 +14,7 @@ class PublishApp extends Command
     {
         $this->setName('publish:app')
             ->addArgument('name', Argument::REQUIRED, "The app name")
-            ->addArgument('theme', Argument::REQUIRED, "The app's theme name")
+            ->addArgument('theme', Argument::OPTIONAL, "The app's theme name")
             ->setDescription('Publish a ThinkCMF app');
     }
 
@@ -28,11 +28,13 @@ class PublishApp extends Command
             return;
         }
 
-        $themeDir = WEB_ROOT . "themes/$theme/";
+        if (!empty($theme)) {
+            $themeDir = WEB_ROOT . "themes/$theme/";
 
-        if (!file_exists($themeDir)) {
-            $output->writeln("<error>app's theme $name not exists!</error>");
-            return;
+            if (!file_exists($themeDir)) {
+                $output->writeln("<error>app's theme $name not exists!</error>");
+                return;
+            }
         }
 
         $publishDir = CMF_DATA . "publish/";
@@ -55,46 +57,51 @@ class PublishApp extends Command
                 $subPath = $file->getSubPathname();
                 if ($file->isDir()) {
                     $subPath = rtrim($subPath, '/') . '/';
-                    $zip->addEmptyDir("app/$name/" . $subPath);
+                    $zip->addEmptyDir("$name/app/$name/" . $subPath);
                 } else {
-                    $zip->addFile($appDir . $subPath, "app/$name/" . $subPath);
+                    $zip->addFile($appDir . $subPath, "$name/app/$name/" . $subPath);
                 }
             }
 
             $apiDir = CMF_ROOT . "api/$name/";
 
-            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($apiDir, \RecursiveDirectoryIterator::UNIX_PATHS | \RecursiveDirectoryIterator::CURRENT_AS_SELF | \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST, \RecursiveIteratorIterator::CATCH_GET_CHILD);
-            foreach ($files as $file) {
-                $subPath = $file->getSubPathname();
-                if ($file->isDir()) {
-                    $subPath = rtrim($subPath, '/') . '/';
-                    $zip->addEmptyDir("api/$name/" . $subPath);
-                } else {
-                    $zip->addFile($apiDir . $subPath, "api/$name/" . $subPath);
+            if (file_exists($apiDir)) {
+                $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($apiDir, \RecursiveDirectoryIterator::UNIX_PATHS | \RecursiveDirectoryIterator::CURRENT_AS_SELF | \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST, \RecursiveIteratorIterator::CATCH_GET_CHILD);
+                foreach ($files as $file) {
+                    $subPath = $file->getSubPathname();
+                    if ($file->isDir()) {
+                        $subPath = rtrim($subPath, '/') . '/';
+                        $zip->addEmptyDir("$name/api/$name/" . $subPath);
+                    } else {
+                        $zip->addFile($apiDir . $subPath, "$name/api/$name/" . $subPath);
+                    }
                 }
             }
 
-            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($themeDir, \RecursiveDirectoryIterator::UNIX_PATHS | \RecursiveDirectoryIterator::CURRENT_AS_SELF | \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST, \RecursiveIteratorIterator::CATCH_GET_CHILD);
-            foreach ($files as $file) {
-                $subPath = $file->getSubPathname();
-                if ($file->isDir()) {
-                    $subPath = rtrim($subPath, '/') . '/';
-                    $zip->addEmptyDir("public/themes/$theme/" . $subPath);
-                } else {
-                    $zip->addFile($themeDir . $subPath, "public/themes/$theme/" . $subPath);
+            if (!empty($themeDir)) {
+                $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($themeDir, \RecursiveDirectoryIterator::UNIX_PATHS | \RecursiveDirectoryIterator::CURRENT_AS_SELF | \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST, \RecursiveIteratorIterator::CATCH_GET_CHILD);
+                foreach ($files as $file) {
+                    $subPath = $file->getSubPathname();
+                    if ($file->isDir()) {
+                        $subPath = rtrim($subPath, '/') . '/';
+                        $zip->addEmptyDir("$name/public/themes/$theme/" . $subPath);
+                    } else {
+                        $zip->addFile($themeDir . $subPath, "$name/public/themes/$theme/" . $subPath);
+                    }
                 }
             }
 
             $adminThemeDir = WEB_ROOT . "themes/admin_simpleboot3/$name/";
-
-            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($adminThemeDir, \RecursiveDirectoryIterator::UNIX_PATHS | \RecursiveDirectoryIterator::CURRENT_AS_SELF | \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST, \RecursiveIteratorIterator::CATCH_GET_CHILD);
-            foreach ($files as $file) {
-                $subPath = $file->getSubPathname();
-                if ($file->isDir()) {
-                    $subPath = rtrim($subPath, '/') . '/';
-                    $zip->addEmptyDir("public/themes/admin_simpleboot3/$name/" . $subPath);
-                } else {
-                    $zip->addFile($adminThemeDir . $subPath, "public/themes/admin_simpleboot3/$name/" . $subPath);
+            if (file_exists($adminThemeDir)) {
+                $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($adminThemeDir, \RecursiveDirectoryIterator::UNIX_PATHS | \RecursiveDirectoryIterator::CURRENT_AS_SELF | \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST, \RecursiveIteratorIterator::CATCH_GET_CHILD);
+                foreach ($files as $file) {
+                    $subPath = $file->getSubPathname();
+                    if ($file->isDir()) {
+                        $subPath = rtrim($subPath, '/') . '/';
+                        $zip->addEmptyDir("$name/public/themes/admin_simpleboot3/$name/" . $subPath);
+                    } else {
+                        $zip->addFile($adminThemeDir . $subPath, "$name/public/themes/admin_simpleboot3/$name/" . $subPath);
+                    }
                 }
             }
 
