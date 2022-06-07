@@ -17,9 +17,9 @@ class Tree
      * 生成树型结构所需修饰符号，可以换成图片
      * @var array
      */
-    public $icon = ['│', '├', '└'];
-    public $nbsp = "&nbsp;";
-    private $str = '';
+    public  $icon = ['│', '├', '└'];
+    public  $nbsp = "&nbsp;";
+    private $str  = '';
     /**
      * @access private
      */
@@ -140,10 +140,16 @@ class Tree
                 $id       = 0;
                 $nstr     = '';
                 $parentId = $value['parent_id'];
-                @extract($value);
 
+                $value['spacer']   = $spacer;
+                $value['selected'] = $selected;
+                $id                = $value['id'];
 
-                $parentId == 0 && $str_group ? eval("\$nstr = \"$str_group\";") : eval("\$nstr = \"$str\";");
+                if ($parentId == 0 && $str_group) {
+                    $nstr = $this->parseTemplate($str_group, $value);
+                } else {
+                    $nstr = $this->parseTemplate($str, $value);
+                }
 
                 $this->ret .= $nstr;
                 $nbsp      = $this->nbsp;
@@ -152,6 +158,17 @@ class Tree
             }
         }
         return $this->ret;
+    }
+
+    private function parseTemplate($tmpl, $data)
+    {
+        $tmpl = preg_replace('/(\$[a-zA-Z_][a-zA-Z_0-9]{0,})/', '{${1}}', $tmpl);
+
+        foreach ($data as $key => $value) {
+            $tmpl = str_replace("{\$$key}", $value, $tmpl);
+        }
+
+        return $tmpl;
     }
 
     /**
@@ -185,7 +202,7 @@ class Tree
     }
 
     //TODO 优化
-    private function createTree($list, $index = 'id', $pidField = 'parent_id', $childField = "child")
+    private function createTree($list, $index = 'id', $pidField = 'parent_id', $childField = "children")
     {
         $tree = [];
         $list = array_column($list, null, $index);
@@ -219,8 +236,17 @@ class Tree
                 $spacer = $adds ? $adds . $j : '';
 
                 $selected = $this->have($sid, $id) ? 'selected' : '';
-                @extract($a);
-                eval("\$nstr = \"$str\";");
+
+                /*
+//                @extract($a);
+//                eval("\$nstr = \"$str\";");
+                //*/
+                $id            = $a['id'];
+                $a['selected'] = $selected;
+                $a['spacer']   = $spacer;
+                $nstr          = $this->parseTemplate($str, $a);
+                //替换结束
+
                 $this->ret .= $nstr;
                 $this->getTreeMulti($id, $str, $sid, $adds . $k . '&nbsp;');
                 $number++;
@@ -331,7 +357,6 @@ class Tree
      * @param $recursion    递归使用 外部调用时为FALSE
      * @param $dropdown     有子元素时li的class
      */
-
     function getTreeViewMenu($myId, $effected_id = 'example', $str = "<span class='file'>\$name</span>", $str2 = "<span class='folder'>\$name</span>", $showlevel = 0, $ul_class = "", $li_class = "", $style = 'filetree ', $currentlevel = 1, $recursion = FALSE, $dropdown = 'hasChild')
     {
         $child = $this->getChild($myId);
