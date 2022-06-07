@@ -49,7 +49,7 @@ class Clear extends Command
         $path= CMF_DATA . 'runtime_cli' . DIRECTORY_SEPARATOR;
         $this->clear(rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR, true, false);
 
-        $output->writeln("<info>Clear Successed</info>");
+        $output->writeln('<info>Clear Successed</info>');
     }
 
     protected function clear(string $path, bool $rmdir, bool $cacheExpire): void

@@ -216,7 +216,7 @@ class BaseController
             }
 
             $pk  = Db::name($modelName)->getPk(); //获取主键名称
-            $ids = $this->request->post("list_orders/a");
+            $ids = $this->request->post('list_orders/a');
 
             if (!empty($ids)) {
                 foreach ($ids as $key => $r) {
@@ -245,8 +245,8 @@ class BaseController
     {
         $type = $this->getResponseType();
         if (is_null($url)) {
-            if (isset($_SERVER["HTTP_REFERER"])) {
-                $url = $_SERVER["HTTP_REFERER"];
+            if (isset($_SERVER['HTTP_REFERER'])) {
+                $url = $_SERVER['HTTP_REFERER'];
             } else {
                 if ($type == 'html') {
                     $url = 'javascript:history.back(-1);';

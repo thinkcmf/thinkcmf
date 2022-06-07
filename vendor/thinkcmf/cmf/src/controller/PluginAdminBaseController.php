@@ -26,10 +26,9 @@ class PluginAdminBaseController extends PluginBaseController
             }
         } else {
             if ($this->request->isAjax()) {
-                $this->error(lang('You are not logged in'), url("admin/Public/login"));
+                $this->error(lang('You are not logged in'), url('admin/Public/login'));
             } else {
-                header("Location:" . url("admin/Public/login"));
-                exit();
+                $this->redirect(url('admin/Public/login'));
             }
         }
     }

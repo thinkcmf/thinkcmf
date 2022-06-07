@@ -166,7 +166,7 @@ hello;
      * @param string $theme
      * @return array
      */
-    private function getThemeFileMore($file, $theme = "")
+    private function getThemeFileMore($file, $theme = '')
     {
 
         //TODO 增加缓存
@@ -182,7 +182,7 @@ hello;
         $file      = str_replace('\\', '/', $file);
         $file      = str_replace('//', '/', $file);
         $webRoot   = str_replace('\\', '/', WEB_ROOT);
-        $themeFile = str_replace(['.html', '.php', $themePath . $theme . "/", $webRoot], '', $file);
+        $themeFile = str_replace(['.html', '.php', $themePath . $theme . '/', $webRoot], '', $file);
 
         $files = Db::name('theme_file')->field('more')->where('theme', $theme)
             ->where(function ($query) use ($themeFile) {
@@ -235,12 +235,12 @@ hello;
         $userId = cmf_get_current_user_id();
         if (empty($userId)) {
             if ($isreurl !== false) {
-                $tourl = cmf_url("user/Login/index", ['redirect' => $refer]);
+                $tourl = cmf_url('user/Login/index', ['redirect' => $refer]);
             } else {
-                $tourl = cmf_url("user/Login/index");
+                $tourl = cmf_url('user/Login/index');
             }
             if ($this->request->isAjax()) {
-                $this->error("您尚未登录", $tourl);
+                $this->error('您尚未登录', $tourl);
             } else {
                 $this->redirect($tourl);
             }

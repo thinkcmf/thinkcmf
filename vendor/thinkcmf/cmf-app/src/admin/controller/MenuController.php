@@ -59,9 +59,12 @@ class MenuController extends AdminBaseController
 
             $result[$key]['parent_id_node'] = ($value['parent_id']) ? ' class="child-of-node-' . $value['parent_id'] . '"' : '';
             $result[$key]['style']          = empty($value['parent_id']) ? '' : 'display:none;';
-            $result[$key]['str_manage']     = '<a class="btn btn-xs btn-primary" href="' . url("Menu/add", ["parent_id" => $value['id'], "menu_id" => $this->request->param("menu_id")]) . '">' . lang('ADD_SUB_MENU') . '</a> 
-                                               <a class="btn btn-xs btn-success" href="' . url("Menu/edit", ["id" => $value['id'], "menu_id" => $this->request->param("menu_id")]) . '">' . lang('EDIT') . '</a>  
-                                               <a class="btn btn-xs btn-danger js-ajax-delete" href="' . url("Menu/delete", ["id" => $value['id'], "menu_id" => $this->request->param("menu_id")]) . '">' . lang('DELETE') . '</a> ';
+            $result[$key]['str_manage']     = '<a class="btn btn-xs btn-primary" href="' . url("Menu/add", ["parent_id" => $value['id'],
+                                                                                                            "menu_id"   => $this->request->param("menu_id")]) . '">' . lang('ADD_SUB_MENU') . '</a> 
+                                               <a class="btn btn-xs btn-success" href="' . url("Menu/edit", ["id"      => $value['id'],
+                                                                                                             "menu_id" => $this->request->param("menu_id")]) . '">' . lang('EDIT') . '</a>  
+                                               <a class="btn btn-xs btn-danger js-ajax-delete" href="' . url("Menu/delete", ["id"      => $value['id'],
+                                                                                                                             "menu_id" => $this->request->param("menu_id")]) . '">' . lang('DELETE') . '</a> ';
             $result[$key]['status']         = $value['status'] ? '<span class="label label-success">' . lang('DISPLAY') . '</span>' : '<span class="label label-warning">' . lang('HIDDEN') . '</span>';
             if (APP_DEBUG) {
                 $result[$key]['app'] = $value['app'] . "/" . $value['controller'] . "/" . $value['action'];
@@ -69,7 +72,7 @@ class MenuController extends AdminBaseController
         }
 
         $tree->init($result);
-        $str      = "<tr id='node-\$id' \$parent_id_node style='\$style'>
+        $str = "<tr id='node-\$id' \$parent_id_node style='\$style'>
                         <td style='padding-left:20px;'><input name='list_orders[\$id]' type='text' size='3' value='\$list_order' class='input input-order'></td>
                         <td>\$id</td>
                         <td>\$spacer\$name</td>

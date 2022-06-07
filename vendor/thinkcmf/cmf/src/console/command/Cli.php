@@ -16,8 +16,8 @@ class Cli extends Command
     protected function configure()
     {
         $this->setName('cli')
-            ->addArgument('name', Argument::OPTIONAL, "the cli name,  e.g. <warning>demo:hello:hello</warning>")
-            ->addArgument('params', Argument::OPTIONAL, "the cli params", '')
+            ->addArgument('name', Argument::OPTIONAL, 'the cli name,  e.g. <warning>demo:hello:hello</warning>')
+            ->addArgument('params', Argument::OPTIONAL, 'the cli params', '')
             ->setDescription('List lightweight CLI commands');
     }
 
@@ -40,7 +40,7 @@ class Cli extends Command
      */
     public function getSynopsis(bool $short = false): string
     {
-        return "";
+        return '';
     }
 
     protected function execute(Input $input, Output $output)
@@ -77,8 +77,8 @@ EOT;
                 }
             } else {
                 $this->discoverCliGroups();
-                $output->writeln("<comment>Available commands:</> ");
-                $output->writeln(" <info>help</info> ");
+                $output->writeln('<comment>Available commands:</> ');
+                $output->writeln(' <info>help</info> ');
                 $this->describeGroups();
                 return;
             }
@@ -191,7 +191,7 @@ EOT;
                     $this->output->writeln(" $mCliUsage");
                 }
             }
-            $this->output->writeln("");
+            $this->output->writeln('');
             $mCliExamples = $mCli->getExamples();
 
             if (!empty($mCliExamples)) {

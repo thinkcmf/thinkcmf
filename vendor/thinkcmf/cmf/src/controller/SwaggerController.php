@@ -24,7 +24,7 @@ class SwaggerController
         if (is_dir(WEB_ROOT . 'plugins/swagger')) {
             return redirect(cmf_plugin_url('Swagger://Index/index'));
         } else {
-            return "please install swagger plugin!";
+            return 'please install swagger plugin!';
         }
     }
 
