@@ -64,10 +64,10 @@ class Auth
         }
 
         $list   = []; //保存验证通过的规则名
-        $groups = RoleUserModel::alias("a")
+        $groups = RoleUserModel::alias('a')
             ->join('role r', 'a.role_id = r.id')
-            ->where(["a.user_id" => $uid, "r.status" => 1])
-            ->column("role_id");
+            ->where(['a.user_id' => $uid, 'r.status' => 1])
+            ->column('role_id');
 
         if (in_array(1, $groups)) {
             return true;
@@ -76,24 +76,13 @@ class Auth
         if (empty($groups)) {
             return false;
         }
-        $rules = AuthAccessModel::alias("a")
+        $rules = AuthAccessModel::alias('a')
             ->join('auth_rule b ', ' a.rule_name = b.name')
             ->where('a.role_id', 'in', $groups)
             ->where('b.name', 'in', $name)
             ->select();
         foreach ($rules as $rule) {
-            if (!empty($rule['condition'])) { //根据condition进行验证
-                $user = $this->getUserInfo($uid);//获取用户信息,一维数组
-
-                $command = preg_replace('/\{(\w*?)\}/', '$user[\'\\1\']', $rule['condition']);
-                //dump($command);//debug
-                @(eval('$condition=(' . $command . ');'));
-                if ($condition) {
-                    $list[] = strtolower($rule['name']);
-                }
-            } else {
-                $list[] = strtolower($rule['name']);
-            }
+            $list[] = strtolower($rule['name']);
         }
 
         if ($relation == 'or' and !empty($list)) {
