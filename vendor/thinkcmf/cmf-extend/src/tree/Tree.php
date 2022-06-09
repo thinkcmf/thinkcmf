@@ -18,7 +18,7 @@ class Tree
      * @var array
      */
     public  $icon = ['│', '├', '└'];
-    public  $nbsp = "&nbsp;";
+    public  $nbsp = "&nbsp;&nbsp;&nbsp;&nbsp;";
     private $str  = '';
     /**
      * @access private
@@ -201,6 +201,59 @@ class Tree
         return $returnArray;
     }
 
+    public function getTreeList($idField = 'id', $parentIdField = 'parent_id')
+    {
+        $childrenField = 'children';
+        $tree          = [];
+        $list          = array_column($this->arr, null, $idField);
+        $oldList       = $list;
+        foreach ($list as $v) {
+            $parentId                   = $v[$parentIdField];
+            $id                         = $v[$idField];
+            $list[$v[$idField]]['path'] = "$parentId-$id";
+
+            if (isset($list[$v[$parentIdField]])) {
+                $list[$v[$parentIdField]][$childrenField][] = &$list[$v[$idField]];
+                $list[$v[$idField]]['path']                 = $list[$v[$parentIdField]]['path'] . "-$id";
+            } else {
+                $tree[] =& $list[$v[$idField]];
+            }
+
+            $list[$v[$idField]]['_level']     = count(explode('-', $list[$v[$idField]]['path'])) - 1;
+            $oldList[$v[$idField]]['path']    = $list[$v[$idField]]['path'];
+            $oldList[$v[$idField]]['_level']  = $list[$v[$idField]]['_level'];
+            $oldList[$v[$idField]]['_spacer'] = str_repeat($this->nbsp, $list[$v[$idField]]['_level'] - 1);
+        }
+
+        $array = [];
+        foreach ($tree as $node) {
+            $stack = [];
+            array_push($stack, $node);
+            $tmpNode = [];
+            while (count($stack) > 0) {
+                $tmpNode = array_pop($stack);
+                if (!$tmpNode) return;
+                $array[] = $oldList[$tmpNode[$idField]];
+                if (!empty($tmpNode['children'])) {
+                    $childrenCount = count($tmpNode['children']);
+                    for ($i = $childrenCount - 1; $i >= 0; $i--) {
+                        if ($i == $childrenCount - 1) {
+                            $oldList[$tmpNode['children'][$i][$idField]]['_is_last'] = 1;
+                            $oldList[$tmpNode['children'][$i][$idField]]['_spacer']  = $oldList[$tmpNode['children'][$i][$idField]]['_spacer'] . $this->icon[2] . ' ';
+                        } else {
+                            $oldList[$tmpNode['children'][$i][$idField]]['_is_last'] = 0;
+                            $oldList[$tmpNode['children'][$i][$idField]]['_spacer']  = $oldList[$tmpNode['children'][$i][$idField]]['_spacer'] . $this->icon[1] . ' ';
+                        }
+                        array_push($stack, $tmpNode['children'][$i]);
+                    }
+                }
+            }
+        }
+
+        return $array;
+
+    }
+
     //TODO 优化
     private function createTree($list, $index = 'id', $pidField = 'parent_id', $childField = "children")
     {
@@ -253,182 +306,6 @@ class Tree
             }
         }
         return $this->ret;
-    }
-
-    /**
-     * @param integer $myId 要查询的ID
-     * @param string  $str  第一种HTML代码方式
-     * @param string  $str2 第二种HTML代码方式
-     * @param integer $sid  默认选中
-     * @param integer $adds 前缀
-     */
-    public function getTreeCategory($myId, $str, $str2, $sid = 0, $adds = '')
-    {
-        $number = 1;
-        $child  = $this->getChild($myId);
-        if (is_array($child)) {
-            $total = count($child);
-            foreach ($child as $id => $a) {
-                $j = $k = '';
-                if ($number == $total) {
-                    $j .= $this->icon[2];
-                } else {
-                    $j .= $this->icon[1];
-                    $k = $adds ? $this->icon[0] : '';
-                }
-                $spacer = $adds ? $adds . $j : '';
-
-                $selected = $this->have($sid, $id) ? 'selected' : '';
-                @extract($a);
-                if (empty($html_disabled)) {
-                    eval("\$nstr = \"$str\";");
-                } else {
-                    eval("\$nstr = \"$str2\";");
-                }
-                $this->ret .= $nstr;
-                $this->getTreeCategory($id, $str, $str2, $sid, $adds . $k . '&nbsp;');
-                $number++;
-            }
-        }
-        return $this->ret;
-    }
-
-    /**
-     * 同上一类方法，jquery treeview 风格，可伸缩样式（需要treeview插件支持）
-     * @param $myId         表示获得这个ID下的所有子级
-     * @param $effected_id  需要生成treeview目录数的id
-     * @param $str          末级样式
-     * @param $str2         目录级别样式
-     * @param $showlevel    直接显示层级数，其余为异步显示，0为全部限制
-     * @param $style        目录样式 默认 filetree 可增加其他样式如'filetree treeview-famfamfam'
-     * @param $currentlevel 计算当前层级，递归使用 适用改函数时不需要用该参数
-     * @param $recursion    递归使用 外部调用时为FALSE
-     * @return string
-     */
-    function getTreeView($myId, $effected_id = 'example', $str = "<span class='file'>\$name</span>", $str2 = "<span class='folder'>\$name</span>", $showlevel = 0, $style = 'filetree ', $currentlevel = 1, $recursion = FALSE)
-    {
-        $child = $this->getChild($myId);
-        if (!defined('EFFECTED_INIT')) {
-            $effected = ' id="' . $effected_id . '"';
-            define('EFFECTED_INIT', 1);
-        } else {
-            $effected = '';
-        }
-        $placeholder = '<ul><li><span class="placeholder"></span></li></ul>';
-        if (!$recursion)
-            $this->str .= '<ul' . $effected . '  class="' . $style . '">';
-        foreach ($child as $id => $a) {
-
-            @extract($a);
-            if ($showlevel > 0 && $showlevel == $currentlevel && $this->getChild($id))
-                $folder = 'hasChildren'; //如设置显示层级模式@2011.07.01
-            $floder_status = isset($folder) ? ' class="' . $folder . '"' : '';
-            $this->str     .= $recursion ? '<ul><li' . $floder_status . ' id=\'' . $id . '\'>' : '<li' . $floder_status . ' id=\'' . $id . '\'>';
-            $recursion     = FALSE;
-            //判断是否为终极栏目
-            if ($child == 1) {
-                eval("\$nstr = \"$str2\";");
-                $this->str .= $nstr;
-                if ($showlevel == 0 || ($showlevel > 0 && $showlevel > $currentlevel)) {
-                    $this->getTreeView($id, $effected_id, $str, $str2, $showlevel, $style, $currentlevel + 1, TRUE);
-                } elseif ($showlevel > 0 && $showlevel == $currentlevel) {
-                    $this->str .= $placeholder;
-                }
-            } else {
-                eval("\$nstr = \"$str\";");
-                $this->str .= $nstr;
-            }
-            $this->str .= $recursion ? '</li></ul>' : '</li>';
-        }
-        if (!$recursion)
-            $this->str .= '</ul>';
-        return $this->str;
-    }
-
-    /**
-     * 同上一类方法，jquery treeview 风格，可伸缩样式（需要treeview插件支持）
-     * @param $myId         表示获得这个ID下的所有子级
-     * @param $effected_id  需要生成treeview目录数的id
-     * @param $str          末级样式
-     * @param $str2         目录级别样式
-     * @param $showlevel    直接显示层级数，其余为异步显示，0为全部限制
-     * @param $style        目录样式 默认 filetree 可增加其他样式如'filetree treeview-famfamfam'
-     * @param $currentlevel 计算当前层级，递归使用 适用改函数时不需要用该参数
-     * @param $recursion    递归使用 外部调用时为FALSE
-     * @param $dropdown     有子元素时li的class
-     */
-    function getTreeViewMenu($myId, $effected_id = 'example', $str = "<span class='file'>\$name</span>", $str2 = "<span class='folder'>\$name</span>", $showlevel = 0, $ul_class = "", $li_class = "", $style = 'filetree ', $currentlevel = 1, $recursion = FALSE, $dropdown = 'hasChild')
-    {
-        $child = $this->getChild($myId);
-        if (!defined('EFFECTED_INIT')) {
-            $effected = ' id="' . $effected_id . '"';
-            define('EFFECTED_INIT', 1);
-        } else {
-            $effected = '';
-        }
-        $placeholder = '<ul><li><span class="placeholder"></span></li></ul>';
-        if (!$recursion) {
-            $this->str .= '<ul' . $effected . '  class="' . $style . '">';
-        }
-
-        foreach ($child as $id => $a) {
-
-            @extract($a);
-            if ($showlevel > 0 && is_array($this->getChild($a['id']))) {
-                $floder_status = " class='$dropdown $li_class'";
-            } else {
-                $floder_status = " class='$li_class'";;
-            }
-            $this->str .= $recursion ? "<ul class='$ul_class'><li  $floder_status id= 'menu-item-$id'>" : "<li  $floder_status   id= 'menu-item-$id'>";
-            $recursion = FALSE;
-            //判断是否为终极栏目
-            if ($this->getChild($a['id'])) {
-                eval("\$nstr = \"$str2\";");
-                $this->str .= $nstr;
-                if ($showlevel == 0 || ($showlevel > 0 && $showlevel > $currentlevel)) {
-                    $this->getTreeViewMenu($a['id'], $effected_id, $str, $str2, $showlevel, $ul_class, $li_class, $style, $currentlevel + 1, TRUE);
-                } elseif ($showlevel > 0 && $showlevel == $currentlevel) {
-                    //$this->str .= $placeholder;
-                }
-            } else {
-                eval("\$nstr = \"$str\";");
-                $this->str .= $nstr;
-            }
-            $this->str .= $recursion ? '</li></ul>' : '</li>';
-        }
-        if (!$recursion)
-            $this->str .= '</ul>';
-        return $this->str;
-    }
-
-    /**
-     * 获取子栏目json
-     * Enter description here ...
-     * @param unknown_type $myId
-     */
-    public function createSubJson($myId, $str = '')
-    {
-        $sub_cats = $this->getChild($myId);
-        $n        = 0;
-        if (is_array($sub_cats))
-            foreach ($sub_cats as $c) {
-                $data[$n]['id'] = iconv(CHARSET, 'utf-8', $c['catid']);
-                if ($this->getChild($c['catid'])) {
-                    $data[$n]['liclass']  = 'hasChildren';
-                    $data[$n]['children'] = [['text' => '&nbsp;', 'classes' => 'placeholder']];
-                    $data[$n]['classes']  = 'folder';
-                    $data[$n]['text']     = iconv(CHARSET, 'utf-8', $c['catname']);
-                } else {
-                    if ($str) {
-                        @extract(array_iconv($c, CHARSET, 'utf-8'));
-                        eval("\$data[$n]['text'] = \"$str\";");
-                    } else {
-                        $data[$n]['text'] = iconv(CHARSET, 'utf-8', $c['catname']);
-                    }
-                }
-                $n++;
-            }
-        return json_encode($data);
     }
 
     private function have($list, $item)

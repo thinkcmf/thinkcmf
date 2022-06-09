@@ -31,7 +31,8 @@ class Cmf extends TagLib
         'slides'              => ['attr' => 'id', 'close' => 1],//非必须属性item
         'noslides'            => ['attr' => 'id', 'close' => 1],
         'captcha'             => ['attr' => 'height,width', 'close' => 0],//非必须属性font-size,length,bg,id
-        'hook'                => ['attr' => 'name,param,once', 'close' => 0]
+        'hook'                => ['attr' => 'name,param,once', 'close' => 0],
+        'tree'                => ['attr' => 'name', 'close' => 1],
     ];
 
     /**
@@ -46,7 +47,10 @@ class Cmf extends TagLib
         $parse = <<<parse
 <?php
      echo empty({$name})?'':{$name};
+     
  ?>
+ dddd
+
 parse;
 
         return $parse;
@@ -101,7 +105,7 @@ parse;
         $root                    = isset($tag['root']) ? $tag['root'] : 'ul';
         $class                   = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
         $maxLevel                = isset($tag['max-level']) ? intval($tag['max-level']) : 0;
-        $parseNavigationFuncName = '__parse_navigation_' . md5($navId.$id.$class);
+        $parseNavigationFuncName = '__parse_navigation_' . md5($navId . $id . $class);
 
         if (strpos($navId, '$') === 0) {
             $this->autoBuildVar($navId);
@@ -211,7 +215,7 @@ parse;
         $root                       = isset($tag['root']) ? $tag['root'] : 'ul';
         $class                      = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
         $maxLevel                   = isset($tag['max-level']) ? intval($tag['max-level']) : 0;
-        $parseSubNavigationFuncName = '__parse_sub_navigation_' . md5($id.$class);
+        $parseSubNavigationFuncName = '__parse_sub_navigation_' . md5($id . $class);
 
         if (strpos($parent, '$') === 0) {
             $this->autoBuildVar($parent);
@@ -326,7 +330,7 @@ parse;
      */
     public function tagSlides($tag, $content)
     {
-        $id    = empty($tag['id']) ? '0' : $tag['id'];
+        $id = empty($tag['id']) ? '0' : $tag['id'];
         if (strpos($id, '$') === 0) {
             $this->autoBuildVar($id);
         }
@@ -349,7 +353,7 @@ parse;
      */
     public function tagNoSlides($tag, $content)
     {
-        $id    = empty($tag['id']) ? '0' : $tag['id'];
+        $id = empty($tag['id']) ? '0' : $tag['id'];
         if (strpos($id, '$') === 0) {
             $this->autoBuildVar($id);
         }
@@ -409,5 +413,23 @@ parse;
         return $parse;
     }
 
+    public function tagTree($tag, $content)
+    {
+        $name = isset($tag['name']) ? $tag['name'] : 'items';
+        $item = isset($tag['item']) ? $tag['item'] : 'vo';
+
+        $parse = <<<parse
+<php>
+\$tree= new \\tree\Tree();
+\$tree->init(\${$name});
+\${$name}=\$tree->getTreeList();
+</php>
+<foreach name="{$name}" item="{$item}">
+    {$content}
+</foreach>
+parse;
+
+        return $parse;
+    }
 
 }
