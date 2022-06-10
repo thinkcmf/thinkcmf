@@ -413,6 +413,7 @@ parse;
         return $parse;
     }
 
+
     public function tagTree($tag, $content)
     {
         $name = isset($tag['name']) ? $tag['name'] : 'items';
@@ -422,11 +423,31 @@ parse;
 <php>
 \$tree= new \\tree\Tree();
 \$tree->init(\${$name});
-\${$name}=\$tree->getTreeList();
+\${$name}=\$tree->createTree();
+foreach (\${$name} as \$node) {
+    \$stack = [];
+    array_push(\$stack, \$node);
+    \${$item} = [];
+    while (count(\$stack) > 0) {
+        \${$item} = array_pop(\$stack);
+        if (!\${$item}) return;
 </php>
-<foreach name="{$name}" item="{$item}">
-    {$content}
-</foreach>
+{$content}
+<php>
+        if (!empty(\${$item}['children'])) {
+            \$childrenCount = count(\${$item}['children']);
+            for (\$i = \$childrenCount - 1; \$i >= 0; \$i--) {
+                if (\$i == \$childrenCount - 1) {
+                    \${$item}['children'][\$i]['_is_last'] = 1;
+                } else {
+                    \${$item}['children'][\$i]['_is_last'] = 0;
+                }
+                array_push(\$stack, \${$item}['children'][\$i]);
+            }
+        }
+    }
+}
+</php>
 parse;
 
         return $parse;

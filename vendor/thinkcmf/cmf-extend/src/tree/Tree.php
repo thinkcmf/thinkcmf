@@ -254,8 +254,32 @@ class Tree
 
     }
 
+    public function createTree($idField = 'id', $parentIdField = 'parent_id', $childrenField = "children")
+    {
+        $tree          = [];
+        $list          = array_column($this->arr, null, $idField);
+        foreach ($list as $v) {
+            $parentId                   = $v[$parentIdField];
+            $id                         = $v[$idField];
+            $list[$v[$idField]]['_path'] = "$parentId-$id";
+
+            if (isset($list[$v[$parentIdField]])) {
+                $list[$v[$parentIdField]][$childrenField][] = &$list[$v[$idField]];
+                $list[$v[$idField]]['_path']                 = $list[$v[$parentIdField]]['_path'] . "-$id";
+            } else {
+                $tree[] =& $list[$v[$idField]];
+            }
+
+            $list[$v[$idField]]['_level']     = count(explode('-', $list[$v[$idField]]['_path'])) - 1;
+            $list[$v[$idField]]['_spacer'] = str_repeat($this->nbsp, $list[$v[$idField]]['_level'] - 1);
+
+        }
+
+        return $tree;
+    }
+
     //TODO 优化
-    private function createTree($list, $index = 'id', $pidField = 'parent_id', $childField = "children")
+    private function createTreeTest($list, $index = 'id', $pidField = 'parent_id', $childField = "children")
     {
         $tree = [];
         $list = array_column($list, null, $index);
