@@ -165,7 +165,11 @@ class Tree
         $tmpl = preg_replace('/(\$[a-zA-Z_][a-zA-Z_0-9]{0,})/', '{${1}}', $tmpl);
 
         foreach ($data as $key => $value) {
-            $tmpl = str_replace("{\$$key}", $value, $tmpl);
+            try {
+                $tmpl = str_replace("{\$$key}", $value, $tmpl);
+            } catch (\Exception $e) {
+
+            }
         }
 
         return $tmpl;
@@ -256,21 +260,21 @@ class Tree
 
     public function createTree($idField = 'id', $parentIdField = 'parent_id', $childrenField = "children")
     {
-        $tree          = [];
-        $list          = array_column($this->arr, null, $idField);
+        $tree = [];
+        $list = array_column($this->arr, null, $idField);
         foreach ($list as $v) {
-            $parentId                   = $v[$parentIdField];
-            $id                         = $v[$idField];
+            $parentId                    = $v[$parentIdField];
+            $id                          = $v[$idField];
             $list[$v[$idField]]['_path'] = "$parentId-$id";
 
             if (isset($list[$v[$parentIdField]])) {
                 $list[$v[$parentIdField]][$childrenField][] = &$list[$v[$idField]];
-                $list[$v[$idField]]['_path']                 = $list[$v[$parentIdField]]['_path'] . "-$id";
+                $list[$v[$idField]]['_path']                = $list[$v[$parentIdField]]['_path'] . "-$id";
             } else {
                 $tree[] =& $list[$v[$idField]];
             }
 
-            $list[$v[$idField]]['_level']     = count(explode('-', $list[$v[$idField]]['_path'])) - 1;
+            $list[$v[$idField]]['_level']  = count(explode('-', $list[$v[$idField]]['_path'])) - 1;
             $list[$v[$idField]]['_spacer'] = str_repeat($this->nbsp, $list[$v[$idField]]['_level'] - 1);
 
         }
