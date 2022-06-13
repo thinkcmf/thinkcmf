@@ -47,6 +47,9 @@ class MenuController extends AdminBaseController
 
         session('admin_menu_index', 'Menu/index');
         $result     = AdminMenuModel::order(["list_order" => "ASC"])->select()->toArray();
+        $this->assign('menus',$result);
+        
+        /*即将废弃start*/
         $tree       = new Tree();
         $tree->icon = ['&nbsp;&nbsp;&nbsp;│ ', '&nbsp;&nbsp;&nbsp;├─', '&nbsp;&nbsp;&nbsp;└─ '];
         $tree->nbsp = '&nbsp;&nbsp;&nbsp;';
@@ -82,6 +85,8 @@ class MenuController extends AdminBaseController
                     </tr>";
         $category = $tree->getTree(0, $str);
         $this->assign("category", $category);
+        /*即将废弃end*/
+        
         return $this->fetch();
     }
 

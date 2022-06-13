@@ -21,7 +21,19 @@
             </tr>
             </thead>
             <tbody>
-            {$categories}
+            <tree name="menus" item="menu">
+                <tr>
+                    <td><input name="list_orders[{$menu.id}]" type="text" size="3" value="{$menu.list_order}" class='input input-order'></td>
+                    <td>{$menu.id}</td>
+                    <td>{$menu._spacer}{$menu.name}</td>
+                    <td>{$menu.status ? lang('DISPLAY') : lang('HIDDEN')}</td>
+                    <td>
+                        <a class="btn btn-xs btn-primary" href="{:url('NavMenu/add', ['parent_id' =>$menu.id, 'nav_id'=> $menu.nav_id])}">{:lang('ADD_SUB_MENU')}</a>
+                        <a class="btn btn-xs btn-primary" href="{:url('NavMenu/edit', ['id' =>$menu.id, 'parent_id'=> $menu.parent_id])}">{:lang('EDIT')}</a>
+                        <a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('NavMenu/delete', ['id' =>$menu.id, 'nav_id'=> $menu.nav_id])}">{:lang('DELETE')}</a>
+                    </td>
+                </tr>
+            </tree>
             </tbody>
         </table>
     </form>
