@@ -421,28 +421,30 @@ parse;
 
         $parse = <<<parse
 <php>
-\$tree= new \\tree\Tree();
-\$tree->init(\${$name});
-\${$name}=\$tree->createTree();
-foreach (\${$name} as \$node) {
-    \$stack = [];
-    array_push(\$stack, \$node);
+\$___tree= new \\tree\Tree();
+\$___tree->init(\${$name});
+\${$name}=\$___tree->createTree();
+foreach (\${$name} as \$___node) {
+    \$___stack = [];
+    array_push(\$___stack, \$___node);
     \${$item} = [];
-    while (count(\$stack) > 0) {
-        \${$item} = array_pop(\$stack);
+    while (count(\$___stack) > 0) {
+        \${$item} = array_pop(\$___stack);
         if (!\${$item}) return;
 </php>
 {$content}
 <php>
         if (!empty(\${$item}['children'])) {
-            \$childrenCount = count(\${$item}['children']);
-            for (\$i = \$childrenCount - 1; \$i >= 0; \$i--) {
-                if (\$i == \$childrenCount - 1) {
+            \$___childrenCount = count(\${$item}['children']);
+            for (\$i = \$___childrenCount - 1; \$i >= 0; \$i--) {
+                if (\$i == \$___childrenCount - 1) {
                     \${$item}['children'][\$i]['_is_last'] = 1;
+                    \${$item}['children'][\$i]['_spacer'] = str_repeat(\$___tree->nbsp, \${$item}['children'][\$i]['_level'] - 1). \$___tree->icon[2] . ' ';
                 } else {
                     \${$item}['children'][\$i]['_is_last'] = 0;
+                    \${$item}['children'][\$i]['_spacer'] = str_repeat(\$___tree->nbsp, \${$item}['children'][\$i]['_level'] - 1). \$___tree->icon[1] . ' ';
                 }
-                array_push(\$stack, \${$item}['children'][\$i]);
+                array_push(\$___stack, \${$item}['children'][\$i]);
             }
         }
     }
