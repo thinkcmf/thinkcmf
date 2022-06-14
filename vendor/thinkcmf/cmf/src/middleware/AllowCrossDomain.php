@@ -28,7 +28,7 @@ class AllowCrossDomain
         'Access-Control-Allow-Credentials' => 'true',
         'Access-Control-Max-Age'           => 1800,
         'Access-Control-Allow-Methods'     => 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers'     => 'XX-Device-Type,XX-Token,XX-Api-Version,XX-Wxapp-AppId,Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-CSRF-TOKEN, X-Requested-With',
+        'Access-Control-Allow-Headers'     => 'XX-Device-Type, XX-Token, XX-Api-Version, XX-Wxapp-AppId, Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-CSRF-TOKEN, X-Requested-With',
     ];
 
     public function __construct(Config $config)
