@@ -39,7 +39,7 @@ class RestBaseController
     //用户类型
     protected $userType;
 
-    protected $allowedDeviceTypes = ['mobile', 'android', 'iphone', 'ipad', 'web', 'pc', 'mac', 'wxapp','ios'];
+    protected $allowedDeviceTypes = ['mobile', 'android', 'iphone', 'ipad', 'web', 'pc', 'mac', 'wxapp', 'ios'];
 
     /**
      * @var \think\Request Request实例
@@ -94,8 +94,8 @@ class RestBaseController
     private function _initUser()
     {
         $token = $this->request->header('Authorization');
-        if(substr($token,0,7) === 'Bearer '){
-            $token = substr($token,7);
+        if (substr($token, 0, 7) === 'Bearer ') {
+            $token = substr($token, 7);
         }
         if (empty($token)) {
             $token = $this->request->header('XX-Token');
@@ -252,11 +252,9 @@ class RestBaseController
             'data' => $data,
         ];
 
-        $type                                   = $this->getResponseType();
-        $header['Access-Control-Allow-Origin']  = '*';
-        $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,XX-Device-Type,XX-Token,Authorization,XX-Api-Version,XX-Wxapp-AppId';
-        $header['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS';
-        $response                               = Response::create($result, $type)->header($header);
+        $type     = $this->getResponseType();
+        $response = Response::create($result, $type)->header($header);
+
         throw new HttpResponseException($response);
     }
 
@@ -281,11 +279,9 @@ class RestBaseController
             'data' => $data,
         ];
 
-        $type                                   = $this->getResponseType();
-        $header['Access-Control-Allow-Origin']  = '*';
-        $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,XX-Device-Type,XX-Token,Authorization,XX-Api-Version,XX-Wxapp-AppId';
-        $header['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS';
-        $response                               = Response::create($result, $type)->header($header);
+        $type     = $this->getResponseType();
+        $response = Response::create($result, $type)->header($header);
+
         throw new HttpResponseException($response);
     }
 
