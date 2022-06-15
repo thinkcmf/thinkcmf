@@ -80,12 +80,12 @@
             ),
         ),
         'phpmailer/phpmailer' => array(
-            'pretty_version' => 'v6.6.0',
-            'version' => '6.6.0.0',
+            'pretty_version' => 'v6.6.2',
+            'version' => '6.6.2.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpmailer/phpmailer',
             'aliases' => array(),
-            'reference' => 'e43bac82edc26ca04b36143a48bde1c051cfd5b1',
+            'reference' => 'b52ed06864fdda81b82ec8bf564cf15d45ed4f95',
             'dev_requirement' => false,
         ),
         'psr/cache' => array(
