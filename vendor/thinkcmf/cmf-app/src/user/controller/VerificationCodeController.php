@@ -82,10 +82,10 @@ class VerificationCodeController extends HomeBaseController
 
             $emailTemplate = cmf_get_option('email_template_verification_code');
 
-            $user     = cmf_get_current_user();
-            if($user===false){
+            $user    = cmf_get_current_user();
+            if ($user === false) {
                 $username = $data['username'];
-            }else{
+            } else {
                 $username = empty($user['user_nickname']) ? $user['user_login'] : $user['user_nickname'];
             }
 
