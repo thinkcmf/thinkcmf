@@ -94,6 +94,9 @@ enjoy your cmf~!
 https://gitee.com/thinkcmf/docker
 
 ### 升级指导
+#### 6.0.5升级到6.0.6
+1. `composer update`
+
 #### 6.0.4升级到6.0.5
 1. 根目录`composer.json`的`require-dev`属性值请更新
 2. `composer update`
