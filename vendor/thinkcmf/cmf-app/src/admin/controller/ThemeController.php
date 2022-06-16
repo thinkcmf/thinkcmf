@@ -214,7 +214,7 @@ class ThemeController extends AdminBaseController
             }
             session('cmf_default_theme', $theme);
 
-            $this->success("模板启用成功", url('Theme/index'));
+            $this->success('模板启用成功', url('Theme/index'));
         }
     }
 

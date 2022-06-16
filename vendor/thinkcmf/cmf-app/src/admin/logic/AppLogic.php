@@ -36,7 +36,7 @@ class AppLogic
             return '应用不存在!';
         }
 
-        $appPath = app_path() . $appName . DIRECTORY_SEPARATOR;
+        $appPath = APP_PATH . $appName . DIRECTORY_SEPARATOR;
 
         $manifestFile = $appPath . 'manifest.json';
 
@@ -101,7 +101,7 @@ class AppLogic
             return '应用不存在!';
         }
 
-        $appPath = app_path() . $appName . DIRECTORY_SEPARATOR;
+        $appPath = APP_PATH . $appName . DIRECTORY_SEPARATOR;
 
         $manifestFile = $appPath . 'manifest.json';
 
@@ -153,7 +153,7 @@ class AppLogic
 
     public static function getList()
     {
-        $dirs = array_map('basename', glob(app_path() . '*', GLOB_ONLYDIR));
+        $dirs = array_map('basename', glob(APP_PATH . '*', GLOB_ONLYDIR));
         if ($dirs === false) {
             return '应用目录不可读';
         }
@@ -170,7 +170,7 @@ class AppLogic
 
 
         foreach ($dirs as $appName) {
-            $appPath      = app_path() . $appName . DIRECTORY_SEPARATOR;
+            $appPath      = APP_PATH . $appName . DIRECTORY_SEPARATOR;
             $manifestFile = $appPath . 'manifest.json';
 
             $formatWrong = false;
@@ -220,7 +220,7 @@ class AppLogic
         }
 
 
-        $appPath = app_path() . $appName . DIRECTORY_SEPARATOR;
+        $appPath = APP_PATH . $appName . DIRECTORY_SEPARATOR;
         $app     = new $class;
 
         Db::startTrans();

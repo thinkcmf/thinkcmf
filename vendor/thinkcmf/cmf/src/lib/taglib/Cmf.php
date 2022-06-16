@@ -47,10 +47,7 @@ class Cmf extends TagLib
         $parse = <<<parse
 <?php
      echo empty({$name})?'':{$name};
-     
  ?>
- dddd
-
 parse;
 
         return $parse;
