@@ -90,7 +90,7 @@ class PluginLogic
     public static function uninstall($pluginName)
     {
         $class      = cmf_get_plugin_class($pluginName);
-        $pluginName = cmf_parse_name($pluginName);
+        $pluginName = cmf_parse_name($pluginName,1);
 
         HookPluginModel::startTrans();
         try {
@@ -118,7 +118,6 @@ class PluginLogic
             HookPluginModel::commit();
         } catch (\Exception $e) {
             HookPluginModel::rollback();
-            echo $e->getMessage();
             return false;
         }
 
