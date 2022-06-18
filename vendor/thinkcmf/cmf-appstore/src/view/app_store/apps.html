@@ -3,9 +3,9 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('AppStore/apps')}">应用市场</a></li>
-        <li><a href="{:url('AppStore/plugins')}">插件市场</a></li>
-        <li><a href="{:url('AppStore/themes')}">模板市场</a></li>
+        <li class="active"><a href="{:url('AppStore/apps')}">{:lang('ADMIN_APPSTORE_APPS')}</a></li>
+        <li><a href="{:url('AppStore/plugins')}">{:lang('ADMIN_APPSTORE_PLUGINS')}</a></li>
+        <li><a href="{:url('AppStore/themes')}">{:lang('ADMIN_APPSTORE_THEMES')}</a></li>
     </ul>
     <form method="post" class="js-ajax-form margin-top-20">
         <php>
@@ -57,6 +57,7 @@
                             </empty>
                             <else/>
                             <a class="btn btn-danger btn-xs disabled">卸载</a>
+                            <a class="btn btn-danger btn-xs" href="javascript:doOpenUninstallAppDialog('{$vo.name}')">卸载</a>
                             <notempty name="vo.need_update">
                                 <a class="btn btn-success btn-xs js-ajax-dialog-btn"
                                    data-href="{:url('AppStore/installApp',['id'=>$vo.id,'version'=>$vo.installed_app.version])}">升级</a>
@@ -72,7 +73,17 @@
     </form>
 </div>
 <script src="__STATIC__/js/admin.js"></script>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
 <script>
+    function doOpenUninstallAppDialog(name) {
+        parent.openIframeLayer("{:url('App/uninstall')}?name=" + name, '应用卸载', {
+            area: ['450px', '600px'],
+            end: function () {
+                window.location.reload();
+            }
+        })
+    }
+
     $('.js-install-plugin-btn').click(function () {
         parent.openIframeLayer("{:url('admin/AppStore/login')}", '登录应用市场', {
             area: ['600px', '450px'],
