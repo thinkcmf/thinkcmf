@@ -71,7 +71,6 @@
         <ul class="pagination">{$page}</ul>
     </form>
 </div>
-<script src="__STATIC__/js/admin.js"></script>
 <script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
 <script>
     function doOpenUninstallAppDialog(name) {
@@ -93,7 +92,6 @@
     });
 
     var buyAppLayerIndex = '';
-
     function doBuyApp(buyUrl) {
         buyUrl = buyUrl + "?app_store_token={$appstore_settings.access_token|default=''}"
         parent.openIframeLayer(buyUrl, '购买应用', {
@@ -105,7 +103,6 @@
             }
         });
     }
-
 
     window.parent.addEventListener('message', e => {
         // e.data为子页面发送的数据
@@ -120,8 +117,6 @@
                     break;
             }
         }
-
-
     })
 </script>
 </body>
