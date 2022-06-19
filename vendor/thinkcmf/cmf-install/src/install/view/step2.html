@@ -4,7 +4,7 @@
     <include file="public/head"/>
     <script src="__STATIC__/js/jquery.js"></script>
     <style>
-        .rewrite-correct, .rewrite-error {
+        .rewrite-correct, .rewrite-error,.api-correct, .api-error {
             display: none;
         }
     </style>
@@ -143,7 +143,6 @@
                         <td>关闭</td>
                         <td>
                             {$always_populate_raw_post_data}
-
                         </td>
                         <td>关闭</td>
                     </tr>
@@ -177,6 +176,26 @@
                         <span class="rewrite-error"><i class="fa fa-remove error"></i> 不支持</span>
                     </td>
                     <td>开启</td>
+                </tr>
+                <tr>
+                    <td class="td1" colspan="4">
+                        API检测（如果需要API功能，请开启）
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        API rewrite
+                        <a href="https://www.thinkcmf.com/docs/cmf6/#/%E5%AE%89%E8%A3%85ThinkCMF?id=nginx%e9%85%8d%e7%bd%ae%e5%8f%82%e8%80%83" target="_blank">
+                            <i class="fa fa-question-circle question"></i>
+                        </a>
+                    </td>
+                    <td>开启</td>
+                    <td>
+                        <span class="api-checking">正在检测...</span>
+                        <span class="api-correct"><i class="fa fa-check correct"></i> 支持</span>
+                        <span class="api-error"><i class="fa fa-remove error"></i> 不支持</span>
+                    </td>
+                    <td>根据需求</td>
                 </tr>
                 <!-- 大小限制检测 -->
                 <tr>
@@ -243,6 +262,22 @@
         error: function () {
             $('.rewrite-error').show();
             $('.rewrite-checking').hide();
+        }
+    })
+
+    $.ajax({
+        url: "__ROOT__/api/",
+        type: 'POST',
+        dataType: 'JSON',
+        success: function (data) {
+            if (data.code) {
+                $('.api-correct').show();
+                $('.api-checking').hide();
+            }
+        },
+        error: function () {
+            $('.api-error').show();
+            $('.api-checking').hide();
         }
     })
 </script>
