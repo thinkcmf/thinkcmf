@@ -120,7 +120,8 @@ https://gitee.com/thinkcmf/docker
 #### 6.0.7 coding...
 * 增加安装时检查API配置
 * 增加前台模板自由控件功能
-* 增加`widgetsHead``widgetsBlock``widgetsScripts`标签
+* 增加`widgetsHead`,`widgetsBlock`,`widgetsScripts`标签
+
 
 #### 6.0.6
 * 后台模板设计增强，支持多终端
