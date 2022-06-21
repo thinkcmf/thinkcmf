@@ -596,22 +596,21 @@ hello;
             $widgetsBlocks = $this->get('theme_widgets_blocks');
 
             foreach ($matches as $match) {
-                $array = $this->parseAttr($match[0]);
-                $name  = $array['name'];
-
+                $array               = $this->parseAttr($match[0]);
+                $name                = $array['name'];
+                $widgetsBlockContent = '';
                 if (!empty($widgetsBlocks[$name]['widgets'])) {
                     $widgets = $widgetsBlocks[$name]['widgets'];
                     if (!empty($widgets)) {
-                        $widgetsBlockContent = '';
                         foreach ($widgets as $key => $widget) {
                             $widgetsBlockContent .= <<<hello
 <?php \$widget= \$theme_widgets_blocks['{$name}']['widgets'][{$key}];?>
 <include file="public@widgets/{$widget['name']}/widget"/>
 hello;
                         }
-                        $content = str_replace($match[0], $widgetsBlockContent, $content);
                     }
                 }
+                $content = str_replace($match[0], $widgetsBlockContent, $content);
             }
 
         }
