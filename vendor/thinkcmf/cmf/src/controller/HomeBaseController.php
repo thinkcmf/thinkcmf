@@ -95,7 +95,7 @@ var _themeTest="test";
 var _app='{$app}';
 var _controller='{$controller}';
 var _action='{$action}';
-var _themeFile='{$more['file']}';
+var _themeFile='{$more['_theme_file']}';
 if(parent && parent.simulatorRefresh){
   parent.simulatorRefresh();  
 }

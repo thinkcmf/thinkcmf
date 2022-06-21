@@ -122,7 +122,6 @@ https://gitee.com/thinkcmf/docker
 * 增加前台模板自由控件功能
 * 增加`widgetsHead`,`widgetsBlock`,`widgetsScript`标签
 
-
 #### 6.0.6
 * 后台模板设计增强，支持多终端
 * 增加命令行卸载应用
