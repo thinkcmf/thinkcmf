@@ -117,6 +117,11 @@ https://gitee.com/thinkcmf/docker
 5. `composer update`
 
 ### 更新日志
+#### 6.0.7 coding...
+* 增加安装时检查API配置
+* 增加前台模板自由控件功能
+* 增加`widgetsHead``widgetsBlock``widgetsScripts`标签
+
 #### 6.0.6
 * 后台模板设计增强，支持多终端
 * 增加命令行卸载应用
