@@ -84,6 +84,7 @@ EOT;
             }
         }
 
+        $url      = str_replace('/', ':', $url);
         $urlArr   = explode(':', $url);
         $countUrl = count($urlArr);
 
