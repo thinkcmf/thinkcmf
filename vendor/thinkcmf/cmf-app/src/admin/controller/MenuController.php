@@ -46,9 +46,9 @@ class MenuController extends AdminBaseController
         }
 
         session('admin_menu_index', 'Menu/index');
-        $result     = AdminMenuModel::order(["list_order" => "ASC"])->select()->toArray();
-        $this->assign('menus',$result);
-        
+        $result = AdminMenuModel::order(["list_order" => "ASC"])->select()->toArray();
+        $this->assign('menus', $result);
+
         /*即将废弃start*/
         $tree       = new Tree();
         $tree->icon = ['&nbsp;&nbsp;&nbsp;│ ', '&nbsp;&nbsp;&nbsp;├─', '&nbsp;&nbsp;&nbsp;└─ '];
@@ -75,7 +75,7 @@ class MenuController extends AdminBaseController
         }
 
         $tree->init($result);
-        $str = "<tr id='node-\$id' \$parent_id_node style='\$style'>
+        $str      = "<tr id='node-\$id' \$parent_id_node style='\$style'>
                         <td style='padding-left:20px;'><input name='list_orders[\$id]' type='text' size='3' value='\$list_order' class='input input-order'></td>
                         <td>\$id</td>
                         <td>\$spacer\$name</td>
@@ -86,7 +86,7 @@ class MenuController extends AdminBaseController
         $category = $tree->getTree(0, $str);
         $this->assign("category", $category);
         /*即将废弃end*/
-        
+
         return $this->fetch();
     }
 
@@ -137,14 +137,9 @@ class MenuController extends AdminBaseController
         $tree     = new Tree();
         $parentId = $this->request->param("parent_id", 0, 'intval');
         $result   = AdminMenuModel::order(["list_order" => "ASC"])->select()->toArray();
-        $array    = [];
-        foreach ($result as $r) {
-            $r['selected'] = $r['id'] == $parentId ? 'selected' : '';
-            $array[]       = $r;
-        }
-        $str = "<option value='\$id' \$selected>\$spacer \$name</option>";
-        $tree->init($array);
-        $selectCategory = $tree->getTree(0, $str);
+        $str      = "<option value='\$id' \$selected>\$spacer \$name</option>";
+        $tree->init($result);
+        $selectCategory = $tree->getTree(0, $str, $parentId);
         $this->assign("select_category", $selectCategory);
         return $this->fetch();
     }
@@ -225,14 +220,9 @@ class MenuController extends AdminBaseController
         $id        = $this->request->param("id", 0, 'intval');
         $adminMenu = AdminMenuModel::where("id", $id)->find();
         $result    = AdminMenuModel::order(["list_order" => "ASC"])->select()->toArray();
-        $array     = [];
-        foreach ($result as $r) {
-            $r['selected'] = $r['id'] == $adminMenu['parent_id'] ? 'selected' : '';
-            $array[]       = $r;
-        }
-        $str = "<option value='\$id' \$selected>\$spacer \$name</option>";
-        $tree->init($array);
-        $selectCategory = $tree->getTree(0, $str);
+        $str       = "<option value='\$id' \$selected>\$spacer \$name</option>";
+        $tree->init($result);
+        $selectCategory = $tree->getTree(0, $str, $adminMenu['parent_id']);
         $this->assign("data", $adminMenu);
         $this->assign("select_category", $selectCategory);
         return $this->fetch();

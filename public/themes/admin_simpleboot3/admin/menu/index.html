@@ -41,11 +41,11 @@
                     </td>
                     <td>
                         <a class="btn btn-xs btn-primary"
-                           href="{:url('Menu/add', ['parent_id' =>$menu.id,'menu_id'=>input('param.menu_id')])}">{:lang('ADD_SUB_MENU')}</a>
+                           href="{:url('Menu/add', ['parent_id' =>$menu.id])}">{:lang('ADD_SUB_MENU')}</a>
                         <a class="btn btn-xs btn-success"
-                           href="{:url('Menu/edit', ['parent_id' =>$menu.id,'menu_id'=>input('param.menu_id')])}">{:lang('EDIT')}</a>
+                           href="{:url('Menu/edit', ['id' =>$menu.id])}">{:lang('EDIT')}</a>
                         <a class="btn btn-xs btn-danger js-ajax-delete"
-                           href="{:url('Menu/delete', ['parent_id' =>$menu.id,'menu_id'=>input('param.menu_id')])}">{:lang('DELETE')}</a>
+                           href="{:url('Menu/delete', ['id' =>$menu.id])}">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </tree>
