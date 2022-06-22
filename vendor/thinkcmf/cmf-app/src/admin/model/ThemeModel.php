@@ -88,6 +88,7 @@ class ThemeModel extends Model
             $root_tpl_file_no_suffix = preg_replace("/\.$suffix$/", '', $root_tpl_file);
             if (is_file($root_tpl_file) && file_exists_case($configFile)) {
                 array_push($tplFiles, $root_tpl_file_no_suffix);
+
             }
         }
         $subDirs = cmf_sub_dirs($dir);
@@ -112,9 +113,7 @@ class ThemeModel extends Model
             $isPublic   = empty($config['is_public']) ? 0 : 1;
             $listOrder  = empty($config['order']) ? 0 : floatval($config['order']);
             $configMore = empty($config['more']) ? [] : $config['more'];
-            $more       = $this->loadWidgetDefaultValue($configMore, $themeDir);
-
-
+            $more       = $configMore;
 
             if (empty($findFile)) {
                 ThemeFileModel::insert([
@@ -130,7 +129,7 @@ class ThemeModel extends Model
                 ]);
             } else { // 更新文件
                 $moreInDb = $findFile['more'];
-                $more     = $this->updateThemeConfigMore($more, $moreInDb);
+                $more     = $this->updateThemeConfigMore($configMore, $moreInDb);
                 ThemeFileModel::where(['theme' => $theme, 'file' => $file])->update([
                     'theme'       => $theme,
                     'action'      => $config['action'],
@@ -156,51 +155,6 @@ class ThemeModel extends Model
             }
         }
     }
-
-    private function loadWidgetDefaultValue($more, $themeDir)
-    {
-        if (isset($more['widgetsBlocks'])) {
-            foreach ($more['widgetsBlocks'] as $widgetsBlockName => $widgetsBlock) {
-                if (!empty($widgetsBlock['widgets'])) {
-                    foreach ($widgetsBlock['widgets'] as $widgetIndex => $widget) {
-                        if (!empty($widget['name'])) {
-                            if (!isset($widget['display']) || !isset($widget['vars'])) {
-                                $widgetName   = $widget['name'];
-                                $widgetDir    = $themeDir . "/public/widgets/{$widget['name']}/";
-                                $manifestFile = $widgetDir . 'manifest.json';
-                                if (is_file($manifestFile)) {
-                                    $widgetInfo = json_decode(file_get_contents($manifestFile), true);
-                                    if (!empty($widgetInfo)) {
-                                        $widget      = [
-                                            'title'   => $widgetInfo['title'],
-                                            'name'    => $widgetInfo['name'],
-                                            'display' => $widgetInfo['display'],
-                                            'version' => $widgetInfo['version'],
-                                            'action'  => $widgetInfo['action'],
-                                        ];
-                                        $mWidgetVars = [];
-                                        if (!empty($widgetInfo['vars'])) {
-                                            foreach ($widgetInfo['vars'] as $widgetVarName => $widgetVar) {
-                                                $mWidgetVars[$widgetVarName] = $widgetVar['value'];
-                                            }
-                                        }
-                                        $widget['vars'] = $mWidgetVars;
-
-                                        $more['widgetsBlocks'][$widgetsBlockName]['widgets'][$widgetIndex] = $widget;
-                                    }
-                                }
-                            }
-                        } else {
-                            unset($more['widgetsBlocks'][$widgetsBlockName]['widgets'][$widgetIndex]);
-                        }
-                    }
-                }
-            }
-        }
-
-        return $more;
-    }
-
 
     private function updateThemeConfigMore($configMore, $moreInDb)
     {

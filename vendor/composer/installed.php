@@ -80,12 +80,12 @@
             ),
         ),
         'phpmailer/phpmailer' => array(
-            'pretty_version' => 'v6.6.2',
-            'version' => '6.6.2.0',
+            'pretty_version' => 'v6.6.3',
+            'version' => '6.6.3.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpmailer/phpmailer',
             'aliases' => array(),
-            'reference' => 'b52ed06864fdda81b82ec8bf564cf15d45ed4f95',
+            'reference' => '9400f305a898f194caff5521f64e5dfa926626f3',
             'dev_requirement' => false,
         ),
         'psr/cache' => array(
@@ -152,12 +152,12 @@
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-app' => array(
-            'pretty_version' => 'v6.0.10',
-            'version' => '6.0.10.0',
+            'pretty_version' => 'v6.0.11',
+            'version' => '6.0.11.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../thinkcmf/cmf-app',
             'aliases' => array(),
-            'reference' => '3b2d9ad68890b37979ec5f04d234359727d17a32',
+            'reference' => '333237bd71a8acf0c26e625228cc59953d64be33',
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-appstore' => array(
@@ -197,12 +197,12 @@
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-root' => array(
-            'pretty_version' => 'v1.0.6',
-            'version' => '1.0.6.0',
+            'pretty_version' => 'v1.0.7',
+            'version' => '1.0.7.0',
             'type' => 'composer-plugin',
             'install_path' => __DIR__ . '/../thinkcmf/cmf-root',
             'aliases' => array(),
-            'reference' => '5896e4155b9a7fb953b7d847d3783aa06390514f',
+            'reference' => '9564bfcb625251087fed5828aa4b69c156c8a53f',
             'dev_requirement' => false,
         ),
         'thinkcmf/thinkcmf' => array(

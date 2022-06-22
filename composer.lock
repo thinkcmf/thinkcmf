@@ -401,16 +401,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.6.2",
+            "version": "v6.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "b52ed06864fdda81b82ec8bf564cf15d45ed4f95"
+                "reference": "9400f305a898f194caff5521f64e5dfa926626f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/b52ed06864fdda81b82ec8bf564cf15d45ed4f95",
-                "reference": "b52ed06864fdda81b82ec8bf564cf15d45ed4f95",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/9400f305a898f194caff5521f64e5dfa926626f3",
+                "reference": "9400f305a898f194caff5521f64e5dfa926626f3",
                 "shasum": ""
             },
             "require": {
@@ -467,7 +467,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.6.2"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.6.3"
             },
             "funding": [
                 {
@@ -475,7 +475,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-06-14T09:27:21+00:00"
+            "time": "2022-06-20T09:21:02+00:00"
         },
         {
             "name": "psr/cache",
@@ -838,16 +838,16 @@
         },
         {
             "name": "thinkcmf/cmf-app",
-            "version": "v6.0.10",
+            "version": "v6.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-app.git",
-                "reference": "3b2d9ad68890b37979ec5f04d234359727d17a32"
+                "reference": "333237bd71a8acf0c26e625228cc59953d64be33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/3b2d9ad68890b37979ec5f04d234359727d17a32",
-                "reference": "3b2d9ad68890b37979ec5f04d234359727d17a32",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/333237bd71a8acf0c26e625228cc59953d64be33",
+                "reference": "333237bd71a8acf0c26e625228cc59953d64be33",
                 "shasum": ""
             },
             "require": {
@@ -873,9 +873,9 @@
             "description": "The ThinkCMF App Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-app/issues",
-                "source": "https://github.com/thinkcmf/cmf-app/tree/v6.0.10"
+                "source": "https://github.com/thinkcmf/cmf-app/tree/v6.0.11"
             },
-            "time": "2022-06-16T23:48:16+00:00"
+            "time": "2022-06-22T07:32:29+00:00"
         },
         {
             "name": "thinkcmf/cmf-appstore",
@@ -1044,16 +1044,16 @@
         },
         {
             "name": "thinkcmf/cmf-root",
-            "version": "v1.0.6",
+            "version": "v1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-root.git",
-                "reference": "5896e4155b9a7fb953b7d847d3783aa06390514f"
+                "reference": "9564bfcb625251087fed5828aa4b69c156c8a53f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-root/zipball/5896e4155b9a7fb953b7d847d3783aa06390514f",
-                "reference": "5896e4155b9a7fb953b7d847d3783aa06390514f",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-root/zipball/9564bfcb625251087fed5828aa4b69c156c8a53f",
+                "reference": "9564bfcb625251087fed5828aa4b69c156c8a53f",
                 "shasum": ""
             },
             "require": {
@@ -1084,9 +1084,9 @@
             "description": "The files in ThinkCMF root dir",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-root/issues",
-                "source": "https://github.com/thinkcmf/cmf-root/tree/v1.0.6"
+                "source": "https://github.com/thinkcmf/cmf-root/tree/v1.0.7"
             },
-            "time": "2022-06-16T23:14:35+00:00"
+            "time": "2022-06-22T07:28:39+00:00"
         },
         {
             "name": "topthink/framework",
