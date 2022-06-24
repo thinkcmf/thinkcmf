@@ -179,12 +179,12 @@
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-extend' => array(
-            'pretty_version' => 'v5.1.2',
-            'version' => '5.1.2.0',
+            'pretty_version' => 'v5.1.3',
+            'version' => '5.1.3.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../thinkcmf/cmf-extend',
             'aliases' => array(),
-            'reference' => '1d29160c030f2109281568bd459fffc51d719f2a',
+            'reference' => '18413b3113403c7e1186d1bb17d42e7dbe532419',
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-install' => array(
