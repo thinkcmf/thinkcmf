@@ -166,9 +166,8 @@ class Tree
 
         foreach ($data as $key => $value) {
             try {
-                $tmpl = str_replace("{\$$key}", $value, $tmpl);
+                $tmpl = str_replace(["{\$$key}"], [$value], $tmpl);
             } catch (\Exception $e) {
-
             }
         }
 
