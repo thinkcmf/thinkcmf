@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace cmf\lib\taglib;
 
+use app\admin\model\PluginModel;
 use think\template\TagLib;
 
 class Cmf extends TagLib
@@ -20,7 +21,7 @@ class Cmf extends TagLib
     protected $tags = [
         // 标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次
         'page'                => ['attr' => '', 'close' => 0],//非必须属性name
-        'widget'              => ['attr' => 'name', 'close' => 1],
+        'widget'              => ['attr' => '', 'close' => 1],
         'navigation'          => ['attr' => '', 'close' => 1],//非必须属性nav-id,root,id,class
         'navigationmenu'      => ['attr' => '', 'close' => 1],//root,class
         'navigationfolder'    => ['attr' => '', 'close' => 1],//root,class,dropdown,dropdown-class
@@ -61,30 +62,77 @@ parse;
     {
 
         if (empty($tag['name'])) {
-            return '';
-        }
+            $designingTheme = cookie('cmf_design_theme');
+            $name           = '';
+            $tagName        = '';
+            $attrsText      = '';
+            if (!empty($tag['tag'])) {
+                $tagName = $tag['tag'];
+                if (strpos($tagName, '$') === 0) {
+                    $this->autoBuildVar($tagName);
+                } else {
+                    $tagName = "{$tagName}";
+                }
 
-        $name = $tag['name'];
+                $attrsText = '';
 
-        if (strpos($name, '$') === 0) {
-            $this->autoBuildVar($name);
+                unset($tag['tag']);
+                unset($tag['name']);
+                $attrs = [];
+                if (!isset($tag['class']) && $designingTheme) {
+                    $attrs[] = 'class="__cmf_widget_in_block"';
+                }
+
+                foreach ($tag as $attrName => $attrValue) {
+                    if (strpos($attrValue, '$') === 0) {
+                        $this->autoBuildVar($attrValue);
+                        $attrValue = "<?php echo $attrValue ?>";
+                    } else {
+                        $attrValue = "{$attrValue}";
+                    }
+
+                    if ($attrName == 'class' && $designingTheme) {
+                        $attrValue = '__cmf_widget_in_block ' . $attrValue;
+                    }
+
+                    $attrs[] = $attrName . '="' . $attrValue . '"';
+                }
+
+                $attrsText = ' ' . join(' ', $attrs);
+
+            } else {
+                throw new \Exception('请给控件设置tag属性');
+            }
+
+
         } else {
-            $name = "'{$name}'";
+            $name = $tag['name'];
+            if (strpos($name, '$') === 0) {
+                $this->autoBuildVar($name);
+            } else {
+                $name = "'{$name}'";
+            }
         }
 
-        $parse = <<<parse
+
+        if (empty($name)) {
+            $parse = <<<parse
+<$tagName{$attrsText}>
+{$content}
+</$tagName>
+parse;
+        } else {
+            $parse = <<<parse
 <?php
-     if(isset(\$theme_widgets[{$name}]) && \$theme_widgets[{$name}]['display']){
+     if((isset(\$theme_widgets[{$name}]) && \$theme_widgets[{$name}]['display'])){
         \$widget=\$theme_widgets[{$name}];
-     
  ?>
 {$content}
 <?php
     }
  ?>
-
-
 parse;
+        }
 
         return $parse;
 

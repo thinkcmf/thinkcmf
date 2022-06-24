@@ -567,6 +567,7 @@ class Template
         $result = preg_match($regex, $content, $matches);
         // 读取模板中的布局标签
         if ($result) {
+
             $widgetsHeadContent = '';
             $widgets            = $this->get('_theme_widgets');
             if (!empty($widgets)) {
@@ -593,11 +594,38 @@ hello;
         // 读取模板中的布局标签
         if ($result) {
 
-            $widgetsBlocks = $this->get('theme_widgets_blocks');
+            $widgetsBlocks  = $this->get('theme_widgets_blocks');
+            $designingTheme = cookie('cmf_design_theme');
 
             foreach ($matches as $match) {
-                $array               = $this->parseAttr($match[0]);
-                $name                = $array['name'];
+                $array   = $this->parseAttr($match[0]);
+                $name    = $array['name'];
+                $tagName = $array['tag'];
+
+                $attrsText = '';
+                unset($array['tag']);
+                unset($array['name']);
+
+                $attrs = [];
+                if (!isset($array['class']) && $designingTheme) {
+                    $attrs[] = 'class="__cmf_widgets_block"';
+                }
+                foreach ($array as $attrName => $attrValue) {
+                    if (strpos($attrValue, '$') === 0) {
+                        $this->parseVar($attrValue);
+                        $attrValue = "<?php echo $attrValue ?>";
+                    } else {
+                        $attrValue = "{$attrValue}";
+                    }
+
+                    if ($attrName == 'class' && $designingTheme) {
+                        $attrValue = '__cmf_widgets_block ' . $attrValue;
+                    }
+
+                    $attrs[] = $attrName . '="' . $attrValue . '"';
+                }
+                $attrsText = ' ' . join(' ', $attrs);
+
                 $widgetsBlockContent = '';
                 if (!empty($widgetsBlocks[$name]['widgets'])) {
                     $widgets = $widgetsBlocks[$name]['widgets'];
@@ -609,8 +637,21 @@ hello;
 hello;
                         }
                     }
+
+                    $widgetsBlockContent = <<<hello
+<$tagName{$attrsText}>
+$widgetsBlockContent
+</$tagName>
+hello;
+                } else {
+                    if ($designingTheme) {
+                        $widgetsBlockContent = <<<hello
+<$tagName{$attrsText}></$tagName>
+hello;
+                    }
+
                 }
-                $content = str_replace($match[0], $widgetsBlockContent, $content);
+                $content = str_replace($match[0], "$widgetsBlockContent", $content);
             }
 
         }

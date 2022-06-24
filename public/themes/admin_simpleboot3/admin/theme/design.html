@@ -159,13 +159,33 @@
         <a id="save-btn" class="btn btn-primary">保存</a>
     </div>
 </div>
-<iframe src="__ROOT__/?_design_theme={:input('param.theme')}" frameborder="0" id="simulator" class="simulator-pc"></iframe>
+<script type="text/html" id="editing-style-tpl">
+    <style>
+        .__cmf_widget_in_block {
+            border: 2px dashed red !important;
+        }
+    </style>
+</script>
+<iframe src="__ROOT__/?_design_theme={:input('param.theme')}" frameborder="0" id="simulator"
+        class="simulator-pc"></iframe>
 <script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script src="__TMPL__/public/assets/js/jquery-ui.min.js?v={$_static_version}"></script>
 <script>
     var simulator = $('#simulator').get(0).contentWindow;
     var $simulator = $(simulator);
     var $settingIframe = $('#setting-iframe');
     var simulatorNeedRefresh = true;
+    $('#simulator').load(function () {
+        var iframeDocument = this.contentWindow.document;
+        var $iframeDocument = $(iframeDocument);
+        $iframeDocument.find('.__cmf_widgets_block').sortable({
+            items: "> .__cmf_widget_in_block",
+            cursor: "move",
+            opacity: 0.6,
+            forcePlaceholderSize: true,
+        });
+        $iframeDocument.find('head').append($('#editing-style-tpl').html());
+    });
 
     $('#update-theme-btn').click(function () {
         simulator.location.reload(true);
