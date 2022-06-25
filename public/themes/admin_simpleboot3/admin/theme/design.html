@@ -183,7 +183,10 @@
             cursor: "move",
             opacity: 0.6,
             forcePlaceholderSize: true,
-        });
+            scrollSensitivity: 100,
+            scrollSpeed: 50
+        })
+        ;
         $iframeDocument.find('head').append($('#editing-style-tpl').html());
     });
 
