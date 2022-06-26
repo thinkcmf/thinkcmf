@@ -1,5 +1,40 @@
 <script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script src="__TMPL__/public/assets/js/jquery-ui.min.js?v={$_static_version}"></script>
 <script>
+
+    $('.widgets-group').sortable({
+        connectWith: '.widgets-group',
+        items: "> li.widgets-group-item",
+        cursor: "move",
+        opacity: 0.8,
+        forcePlaceholderSize: true,
+        scrollSensitivity: 100,
+        scrollSpeed: 50,
+        tolerance: 'pointer',
+        receive: function (event, ui) {
+            console.log(ui.item.parent().html())
+        }
+    })
+
+    // $( "li", '.widgets-group' ).draggable({
+    //     // cancel: "a.ui-icon", // clicking an icon won't initiate dragging
+    //     revert: "invalid", // when not dropped, the item will revert back to its initial position
+    //     containment: "document",
+    //     cursor: "move"
+    // });
+
+    // $( '.widgets-group').droppable({
+    //     accept: ".widgets-group > li",
+    //     tolerance: 'pointer',
+    //     classes: {
+    //         "ui-droppable-active": "ui-state-active",
+    //         "ui-droppable-hover": "ui-state-hover"
+    //     },
+    //     drop: function( event, ui ) {
+    //         ui.draggable.appendTo($(this));
+    //     }
+    // });
+
 
     Wind.use('colorpicker', function () {
         $('.js-color').each(function () {
@@ -18,17 +53,17 @@
     });
 
     function doSelectData(obj) {
-        var $obj              = $(obj);
-        var $realInput        = $obj.next();
+        var $obj = $(obj);
+        var $realInput = $obj.next();
         var selectedObjectsId = $realInput.val();
-        var dataSource        = $obj.data('source');
-        var title             = $obj.data('title');
+        var dataSource = $obj.data('source');
+        var title = $obj.data('title');
         parent.openIframeLayer("{:url('Theme/dataSource')}?ids=" + selectedObjectsId + '&data_source=' + dataSource, title, {
             area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '90%'],
             offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
             btn: ['确定', '取消'],
             yes: function (index, layero) {
-                var iframeWin       = parent.window[layero.find('iframe')[0]['name']];
+                var iframeWin = parent.window[layero.find('iframe')[0]['name']];
                 var selectedObjects = iframeWin.confirm();
                 if (selectedObjects.selectedObjectsId.length == 0) {
                     layer.msg('您没有选择任何数据!');
@@ -42,18 +77,18 @@
     }
 
     function doEditArrayData(obj) {
-        var $obj   = $(obj);
-        var mVar   = $obj.data('var');
-        var title  = $obj.data('title');
+        var $obj = $(obj);
+        var mVar = $obj.data('var');
+        var title = $obj.data('title');
         var widget = $obj.data('widget');
-        widget     = widget ? '&widget=' + widget : '';
+        widget = widget ? '&widget=' + widget : '';
         var fileId = $obj.data('file_id');
         if (!fileId) {
             fileId = '{$file_id}';
         }
 
         parent.openIframeLayer(
-            "{:url('Theme/fileArrayData')}?tab={$tab}&file_id="+fileId+"&" + 'var=' + mVar + widget,
+            "{:url('Theme/fileArrayData')}?tab={$tab}&file_id=" + fileId + "&" + 'var=' + mVar + widget,
             title,
             {
                 area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '90%'],
@@ -61,7 +96,7 @@
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
                     var iframeWin = parent.window[layero.find('iframe')[0]['name']];
-                    var result    = iframeWin.confirm();
+                    var result = iframeWin.confirm();
 
                     if (result) {
                         parent.layer.close(index); //如果设定了yes回调，需进行手工关闭
@@ -73,10 +108,10 @@
     }
 
     function doSelectLocation(obj) {
-        var $obj       = $(obj);
-        var title      = $obj.data('title');
+        var $obj = $(obj);
+        var title = $obj.data('title');
         var $realInput = $obj.next();
-        var location   = $realInput.val();
+        var location = $realInput.val();
 
         parent.openIframeLayer(
             "{:url('dialog/map')}?location=" + location,
@@ -87,7 +122,7 @@
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
                     var iframeWin = parent.window[layero.find('iframe')[0]['name']];
-                    var location  = iframeWin.confirm();
+                    var location = iframeWin.confirm();
                     $realInput.val(location.lng + ',' + location.lat);
                     $obj.val(location.address);
                     parent.layer.close(index); //如果设定了yes回调，需进行手工关闭
