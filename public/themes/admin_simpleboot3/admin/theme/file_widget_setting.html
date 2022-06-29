@@ -27,6 +27,10 @@
         background: #f9f9f9;
         visibility: visible !important;
     }
+
+    .widgets-group .ui-sortable-placeholder.ui-sortable-placeholder-disabled {
+        background: red;
+    }
 </style>
 </head>
 <body>
@@ -72,10 +76,14 @@
                             <div class="panel-heading">
                                 {$widgetsBlock.title|default='无标题'}
                             </div>
-                            <ul class="list-group widgets-group">
+                            <ul class="list-group widgets-group"
+                                data-file_id="{$file.id}"
+                                data-block_name="{$widgetsBlockName}">
                                 <notempty name="widgetsBlock.widgets">
                                     <foreach name="widgetsBlock.widgets" item="widget">
-                                        <li class="list-group-item widgets-group-item">{$widget.title|default='无标题'}
+                                        <li class="list-group-item widgets-group-item"
+                                            data-file_id="{$file.id}"
+                                            data-id="{$key}">{$widget.title|default='无标题'}
                                         </li>
                                     </foreach>
                                     <else/>

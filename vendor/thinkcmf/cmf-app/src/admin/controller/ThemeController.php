@@ -964,4 +964,72 @@ class ThemeController extends AdminBaseController
         }
     }
 
+    /**
+     * 自由模板控件排序
+     * @adminMenu(
+     *     'name'   => '自由模板控件排序',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '自由模板控件排序',
+     *     'param'  => ''
+     * )
+     */
+    public function widgetsSort()
+    {
+        $files = $this->request->param();
+//        $this->success('', '', $files);
+        $widgets = [];
+
+        foreach ($files as $fileId => $widgetsBlocks) {
+            $fileId           = str_replace('file', '', $fileId);
+            $file             = ThemeFileModel::where('id', $fileId)->find();
+            $widgets[$fileId] = [];
+            $configMore       = $file['more'];
+            if (!empty($configMore['widgetsBlocks'])) {
+                foreach ($configMore['widgetsBlocks'] as $widgetsBlockName => $widgetsBlock) {
+                    if (!empty($configMore['widgetsBlocks'][$widgetsBlockName]['widgets'])) {
+                        foreach ($configMore['widgetsBlocks'][$widgetsBlockName]['widgets'] as $widgetId => $widget) {
+                            $widgets[$fileId][$widgetId] = $widget;
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach ($files as $fileId => $widgetsBlocks) {
+            $fileId     = str_replace('file', '', $fileId);
+            $file       = ThemeFileModel::where('id', $fileId)->find();
+            $configMore = $file['more'];
+
+            foreach ($widgetsBlocks as $widgetsBlockName => $widgetIds) {
+                $mWidgets = [];
+                foreach ($widgetIds as $widgetIdInfo) {
+                    $widgetId  = $widgetIdInfo['widget_id'];
+                    $oldFileId = $widgetIdInfo['file_id'];
+
+                    if (!empty($widgets[$oldFileId][$widgetId])) {
+                        $mWidgets[$widgetId] = $widgets[$oldFileId][$widgetId];
+                    }
+                }
+                $configMore['widgetsBlocks'][$widgetsBlockName]['widgets'] = $mWidgets;
+            }
+
+            if (!empty($configMore['widgetsBlocks'])) {
+                foreach ($configMore['widgetsBlocks'] as $widgetsBlockName => $widgetsBlock) {
+                    if (!isset($widgetsBlocks[$widgetsBlockName])) {
+                        $configMore['widgetsBlocks'][$widgetsBlockName]['widgets'] = [];
+                    }
+                }
+            }
+
+            $more = json_encode($configMore);
+            ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
+        }
+        cmf_clear_cache();
+        $this->success('', '', $configMore);
+    }
+
 }

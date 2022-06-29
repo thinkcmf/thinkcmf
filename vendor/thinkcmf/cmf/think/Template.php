@@ -632,7 +632,7 @@ hello;
                     if (!empty($widgets)) {
                         foreach ($widgets as $key => $widget) {
                             $widgetsBlockContent .= <<<hello
-<?php \$widget= \$theme_widgets_blocks['{$name}']['widgets'][{$key}];?>
+<?php \$widget= \$theme_widgets_blocks['{$name}']['widgets']['{$key}'];?>
 <include file="public@widgets/{$widget['name']}/widget"/>
 hello;
                         }

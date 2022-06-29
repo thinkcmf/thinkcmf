@@ -11,8 +11,43 @@
         scrollSensitivity: 100,
         scrollSpeed: 50,
         tolerance: 'pointer',
-        receive: function (event, ui) {
+        stop: function (event, ui) {
             console.log(ui.item.parent().html())
+            //$('.widgets-group').sortable('cancel')
+            var widgetIds = {};
+            $('.widgets-group').each(function () {
+                var blockName = $(this).data('block_name');
+                var fileId = 'file' + $(this).data('file_id');
+                $(this).find('li.widgets-group-item').each(function () {
+                    if (!widgetIds.hasOwnProperty(fileId)) {
+                        widgetIds[fileId] = {};
+                    }
+
+                    if (!widgetIds[fileId].hasOwnProperty(blockName)) {
+                        widgetIds[fileId][blockName] = [];
+                    }
+
+                    widgetIds[fileId][blockName].push({
+                        file_id: $(this).data('file_id'),
+                        widget_id: $(this).data('id')
+                    });
+                });
+
+            });
+
+            $.ajax({
+                url: "{:url('Theme/widgetsSort')}",
+                type: 'POST',
+                dataType: 'json',
+                data: widgetIds,
+                success: function (data) {
+                    console.log(data)
+                }
+            })
+            console.log(widgetIds);
+        },
+        over: function (event, ui) {
+            // ui.placeholder.addClass('ui-sortable-placeholder-disabled');
         }
     })
 

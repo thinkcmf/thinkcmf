@@ -112,11 +112,10 @@ class ThemeModel extends Model
             $isPublic   = empty($config['is_public']) ? 0 : 1;
             $listOrder  = empty($config['order']) ? 0 : floatval($config['order']);
             $configMore = empty($config['more']) ? [] : $config['more'];
-            $more       = $this->loadWidgetDefaultValue($configMore, $themeDir);
-
-
+            $more       = $configMore;
 
             if (empty($findFile)) {
+                $more = $this->loadWidgetDefaultValue($configMore, $themeDir);
                 ThemeFileModel::insert([
                     'theme'       => $theme,
                     'action'      => $config['action'],
@@ -131,6 +130,8 @@ class ThemeModel extends Model
             } else { // 更新文件
                 $moreInDb = $findFile['more'];
                 $more     = $this->updateThemeConfigMore($more, $moreInDb);
+                $more     = $this->loadWidgetDefaultValue($more, $themeDir);
+
                 ThemeFileModel::where(['theme' => $theme, 'file' => $file])->update([
                     'theme'       => $theme,
                     'action'      => $config['action'],
@@ -161,8 +162,9 @@ class ThemeModel extends Model
     {
         if (isset($more['widgetsBlocks'])) {
             foreach ($more['widgetsBlocks'] as $widgetsBlockName => $widgetsBlock) {
+                $widgets = [];
                 if (!empty($widgetsBlock['widgets'])) {
-                    foreach ($widgetsBlock['widgets'] as $widgetIndex => $widget) {
+                    foreach ($widgetsBlock['widgets'] as $widgetId => $widget) {
                         if (!empty($widget['name'])) {
                             if (!isset($widget['display']) || !isset($widget['vars'])) {
                                 $widgetName   = $widget['name'];
@@ -171,30 +173,36 @@ class ThemeModel extends Model
                                 if (is_file($manifestFile)) {
                                     $widgetInfo = json_decode(file_get_contents($manifestFile), true);
                                     if (!empty($widgetInfo)) {
-                                        $widget      = [
+                                        $widget = [
                                             'title'   => $widgetInfo['title'],
                                             'name'    => $widgetInfo['name'],
                                             'display' => $widgetInfo['display'],
                                             'version' => $widgetInfo['version'],
                                             'action'  => $widgetInfo['action'],
                                         ];
+
                                         $mWidgetVars = [];
                                         if (!empty($widgetInfo['vars'])) {
                                             foreach ($widgetInfo['vars'] as $widgetVarName => $widgetVar) {
                                                 $mWidgetVars[$widgetVarName] = $widgetVar['value'];
                                             }
                                         }
-                                        $widget['vars'] = $mWidgetVars;
 
-                                        $more['widgetsBlocks'][$widgetsBlockName]['widgets'][$widgetIndex] = $widget;
+                                        $widget['vars'] = $mWidgetVars;
+                                        if (is_int($widgetId)) {
+                                            $widgetId = uniqid($widgetsBlockName . $widgetInfo['name']) . $widgetId;
+                                        }
+
                                     }
                                 }
                             }
-                        } else {
-                            unset($more['widgetsBlocks'][$widgetsBlockName]['widgets'][$widgetIndex]);
+
+                            $widgets[$widgetId] = $widget;
                         }
                     }
                 }
+
+                $more['widgetsBlocks'][$widgetsBlockName]['widgets'] = $widgets;
             }
         }
 
@@ -242,6 +250,14 @@ class ThemeModel extends Model
                     }
                 }
 
+            }
+        }
+
+        if (!empty($configMore['widgetsBlocks'])) {
+            foreach ($configMore['widgetsBlocks'] as $widgetsBlockName => $widgetsBlock) {
+                if (isset($moreInDb['widgetsBlocks'][$widgetsBlockName]['widgets'])) {
+                    $configMore['widgetsBlocks'][$widgetsBlockName]['widgets'] = $moreInDb['widgetsBlocks'][$widgetsBlockName]['widgets'];
+                }
             }
         }
 
