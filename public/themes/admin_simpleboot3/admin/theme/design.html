@@ -178,16 +178,55 @@
     $('#simulator').load(function () {
         var iframeDocument = this.contentWindow.document;
         var $iframeDocument = $(iframeDocument);
+        $iframeDocument.find('head').append($('#editing-style-tpl').html());
         $iframeDocument.find('.__cmf_widgets_block').sortable({
+            connectWith: '.__cmf_widgets_block',
             items: "> .__cmf_widget_in_block",
             cursor: "move",
-            opacity: 0.6,
+            opacity: 0.8,
             forcePlaceholderSize: true,
             scrollSensitivity: 100,
-            scrollSpeed: 50
-        })
-        ;
-        $iframeDocument.find('head').append($('#editing-style-tpl').html());
+            scrollSpeed: 50,
+            tolerance: 'pointer',
+            stop: function (event, ui) {
+                // console.log(ui.item.parent().html())
+                var widgetIds = {};
+                $iframeDocument.find('.__cmf_widgets_block').each(function () {
+                    var blockName = $(this).data('cmf_widgets_block_name');
+                    console.log(blockName)
+                    var fileId = 'file' + $(this).data('cmf_theme_file_id');
+                    $(this).find('.__cmf_widget_in_block').each(function () {
+                        if (!widgetIds.hasOwnProperty(fileId)) {
+                            widgetIds[fileId] = {};
+                        }
+
+                        if (!widgetIds[fileId].hasOwnProperty(blockName)) {
+                            widgetIds[fileId][blockName] = [];
+                        }
+
+                        widgetIds[fileId][blockName].push({
+                            file_id: $(this).data('cmf_theme_file_id'),
+                            widget_id: $(this).data('cmf_widget_id')
+                        });
+                    });
+
+                });
+
+                $.ajax({
+                    url: "{:url('Theme/widgetsSort')}",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: widgetIds,
+                    success: function (data) {
+                        console.log(data)
+                        settingIframeRefresh();
+                    }
+                })
+                console.log(widgetIds);
+            },
+        });
+
+
     });
 
     $('#update-theme-btn').click(function () {
@@ -242,9 +281,14 @@
         $('#show-setting-panel').hide();
     }
 
+    function settingIframeRefresh() {
+        $settingIframe.attr('src', "{:url('Theme/fileSetting')}?theme={:input('param.theme')}&file=" + encodeURIComponent(simulator._themeFile));
+    }
+
+
     function simulatorRefresh() {
         if (simulatorNeedRefresh) {
-            $settingIframe.attr('src', "{:url('Theme/fileSetting')}?theme={:input('param.theme')}&file=" + encodeURIComponent(simulator._themeFile));
+            settingIframeRefresh();
             $simulator.load(function () {
                 $(simulator.document).on('click', 'a', function () {
                     var target = $(this).attr('target');

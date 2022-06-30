@@ -81,6 +81,8 @@ parse;
                 $attrs = [];
                 if (!isset($tag['class']) && $designingTheme) {
                     $attrs[] = 'class="__cmf_widget_in_block"';
+                    $attrs[] = 'data-cmf_theme_file_id="<?php echo $_theme_file_id;?>"';
+                    $attrs[] = 'data-cmf_widget_id="<?php echo $_widget_id;?>"';
                 }
 
                 foreach ($tag as $attrName => $attrValue) {

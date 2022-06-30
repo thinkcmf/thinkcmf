@@ -41,7 +41,7 @@
                 dataType: 'json',
                 data: widgetIds,
                 success: function (data) {
-                    console.log(data)
+                    parent.simulator.location.reload(true);
                 }
             })
             console.log(widgetIds);

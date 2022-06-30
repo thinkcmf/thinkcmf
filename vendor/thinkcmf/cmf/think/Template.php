@@ -609,7 +609,10 @@ hello;
                 $attrs = [];
                 if (!isset($array['class']) && $designingTheme) {
                     $attrs[] = 'class="__cmf_widgets_block"';
+                    $attrs[] = 'data-cmf_widgets_block_name="' . $name . '"';
+                    $attrs[] = 'data-cmf_theme_file_id="' . $widgetsBlocks[$name]['_file_id'] . '"';
                 }
+
                 foreach ($array as $attrName => $attrValue) {
                     if (strpos($attrValue, '$') === 0) {
                         $this->parseVar($attrValue);
@@ -632,7 +635,11 @@ hello;
                     if (!empty($widgets)) {
                         foreach ($widgets as $key => $widget) {
                             $widgetsBlockContent .= <<<hello
-<?php \$widget= \$theme_widgets_blocks['{$name}']['widgets']['{$key}'];?>
+<?php 
+\$widget= \$theme_widgets_blocks['{$name}']['widgets']['{$key}'];
+\$_theme_file_id='{$widgetsBlocks[$name]['_file_id']}';
+\$_widget_id='{$key}';
+?>
 <include file="public@widgets/{$widget['name']}/widget"/>
 hello;
                         }

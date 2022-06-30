@@ -182,14 +182,15 @@ hello;
         $webRoot   = str_replace('\\', '/', WEB_ROOT);
         $themeFile = str_replace(['.html', '.php', $themePath . $theme . '/', $webRoot], '', $file);
 
-        $files = Db::name('theme_file')->field('more,file')->where('theme', $theme)
+        $files = Db::name('theme_file')->field('more,file,id')->where('theme', $theme)
             ->where(function ($query) use ($themeFile) {
                 $query->where('is_public', 1)->whereOr('file', $themeFile);
-            })->select();
+            })->order('is_public desc')->select();
 
-        $vars          = [];
-        $widgets       = [];
-        $widgetsBlocks = [];
+        $vars           = [];
+        $widgets        = [];
+        $widgetsBlocks  = [];
+        $widgetsInBlock = [];
 
         foreach ($files as $file) {
             $oldMore = json_decode($file['more'], true);
@@ -226,22 +227,23 @@ hello;
             }
 
             if ($themeFile == $file['file'] && !empty($oldMore['widgetsBlocks'])) {
-                $widgetsBlocks = $oldMore['widgetsBlocks'];
-            }
-        }
 
-        $widgetsInBlock = [];
-        if (!empty($widgetsBlocks)) {
-            foreach ($widgetsBlocks as $widgetsBlock) {
-                if (!empty($widgetsBlock['widgets'])) {
-                    foreach ($widgetsBlock['widgets'] as $widget) {
-                        $widgetsInBlock[$widget['name']] = [
-                            'name' => $widget['name']
-                        ];
+                if (!empty($oldMore['widgetsBlocks'])) {
+                    foreach ($oldMore['widgetsBlocks'] as $widgetsBlockName => $widgetsBlock) {
+                        $widgetsBlock['_file_id']         = $file['id'];
+                        $widgetsBlocks[$widgetsBlockName] = $widgetsBlock;
+                        if (!empty($widgetsBlock['widgets'])) {
+                            foreach ($widgetsBlock['widgets'] as $widget) {
+                                $widgetsInBlock[$widget['name']] = [
+                                    'name' => $widget['name']
+                                ];
+                            }
+                        }
                     }
                 }
             }
         }
+
 
         return [
             'theme_vars'           => $vars,
