@@ -388,7 +388,7 @@ class ThemeController extends AdminBaseController
      *     'name'   => '模板文件数组数据添加编辑',
      *     'parent' => 'index',
      *     'display'=> false,
-     *     'hasView'=> false,
+     *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
      *     'remark' => '模板文件数组数据添加编辑',
@@ -984,15 +984,14 @@ class ThemeController extends AdminBaseController
         $widgets = [];
 
         foreach ($files as $fileId => $widgetsBlocks) {
-            $fileId           = str_replace('file', '', $fileId);
-            $file             = ThemeFileModel::where('id', $fileId)->find();
-            $widgets[$fileId] = [];
-            $configMore       = $file['more'];
+            $fileId     = str_replace('file', '', $fileId);
+            $file       = ThemeFileModel::where('id', $fileId)->find();
+            $configMore = $file['more'];
             if (!empty($configMore['widgetsBlocks'])) {
                 foreach ($configMore['widgetsBlocks'] as $widgetsBlockName => $widgetsBlock) {
                     if (!empty($configMore['widgetsBlocks'][$widgetsBlockName]['widgets'])) {
                         foreach ($configMore['widgetsBlocks'][$widgetsBlockName]['widgets'] as $widgetId => $widget) {
-                            $widgets[$fileId][$widgetId] = $widget;
+                            $widgets[$widgetId] = $widget;
                         }
                     }
                 }
@@ -1007,11 +1006,10 @@ class ThemeController extends AdminBaseController
             foreach ($widgetsBlocks as $widgetsBlockName => $widgetIds) {
                 $mWidgets = [];
                 foreach ($widgetIds as $widgetIdInfo) {
-                    $widgetId  = $widgetIdInfo['widget_id'];
-                    $oldFileId = $widgetIdInfo['file_id'];
+                    $widgetId = $widgetIdInfo['widget_id'];
 
-                    if (!empty($widgets[$oldFileId][$widgetId])) {
-                        $mWidgets[$widgetId] = $widgets[$oldFileId][$widgetId];
+                    if (!empty($widgets[$widgetId])) {
+                        $mWidgets[$widgetId] = $widgets[$widgetId];
                     }
                 }
                 $configMore['widgetsBlocks'][$widgetsBlockName]['widgets'] = $mWidgets;
@@ -1031,5 +1029,95 @@ class ThemeController extends AdminBaseController
         cmf_clear_cache();
         $this->success('', '', $configMore);
     }
+
+    /**
+     * 模板自由控件设置
+     * @adminMenu(
+     *     'name'   => '模板自由控件设置',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '模板自由控件设置',
+     *     'param'  => ''
+     * )
+     */
+    public function widgetSetting()
+    {
+        $widgetId  = $this->request->param('widget_id', '');
+        $blockName = $this->request->param('block_name', '');
+        $fileId    = $this->request->param('file_id', 0, 'intval');
+
+        $file = ThemeFileModel::where('id', $fileId)->find();
+
+        $oldMore = $file['more'];
+        $items   = [];
+        $item    = [];
+
+        $widgetWithValue = $oldMore['widgetsBlocks'][$blockName]['widgets'][$widgetId];
+        $theme           = $file['theme'];
+        $widgetManifest  = file_get_contents(WEB_ROOT . "themes/$theme/public/widgets/{$widgetWithValue['name']}/manifest.json");
+        $widget          = json_decode($widgetManifest, true);
+
+        foreach ($widgetWithValue as $key => $value) {
+            if ($key == 'vars') {
+                foreach ($value as $varName => $varValue) {
+                    if (isset($widget['vars'][$varName])) {
+                        $widget['vars'][$varName]['value'] = $varValue;
+                    }
+                }
+            } else {
+                $widget[$key] = $value;
+            }
+        }
+
+        $this->assign('widget_id', $widgetId);
+        $this->assign('file_id', $fileId);
+        $this->assign('block_name', $blockName);
+        $this->assign('widget', $widget);
+        $this->assign('tab', 'block_widget');
+
+        return $this->fetch();
+    }
+
+    /**
+     * 模板自由控件设置提交保存
+     * @adminMenu(
+     *     'name'   => '模板自由控件设置提交保存',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '模板自由控件设置提交保存',
+     *     'param'  => ''
+     * )
+     */
+    public function widgetSettingPost()
+    {
+        $widgetId  = $this->request->param('widget_id', '');
+        $blockName = $this->request->param('block_name', '');
+        $fileId    = $this->request->param('file_id', 0, 'intval');
+        $vars      = $this->request->param('vars/a');
+
+        $file    = ThemeFileModel::where('id', $fileId)->find();
+        $oldMore = $file['more'];
+        $items   = [];
+        $item    = [];
+        $widget  = $oldMore['widgetsBlocks'][$blockName]['widgets'][$widgetId];
+        foreach ($vars as $varName => $varValue) {
+            if (isset($widget['vars'][$varName])) {
+                $widget['vars'][$varName] = $varValue;
+            }
+        }
+
+        $oldMore['widgetsBlocks'][$blockName]['widgets'][$widgetId] = $widget;
+
+        $more = json_encode($oldMore);
+        ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
+        $this->success(lang('EDIT_SUCCESS'));
+    }
+
 
 }

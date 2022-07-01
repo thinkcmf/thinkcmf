@@ -58,16 +58,6 @@
         font-size: 18px;
     }
 
-    #show-setting-panel {
-        top: 30px;
-        left: 30px;
-    }
-
-    #update-theme-btn {
-        top: 30px;
-        right: 30px;
-    }
-
     #update-theme-btn:focus {
         outline: none;
     }
@@ -117,18 +107,28 @@
         background: #fff;
     }
 
-    #simulator-pc-btn {
+    #update-theme-btn {
+        top: 30px;
+        right: 30px;
+    }
+
+    #show-setting-panel {
         top: 100px;
         right: 30px;
     }
 
-    #simulator-pad-btn {
+    #simulator-pc-btn {
         top: 170px;
         right: 30px;
     }
 
-    #simulator-mobile-btn {
+    #simulator-pad-btn {
         top: 240px;
+        right: 30px;
+    }
+
+    #simulator-mobile-btn {
+        top: 310px;
         right: 30px;
     }
 
@@ -266,7 +266,7 @@
 
     function showSettingPanel() {
         $('.setting-panel-wrap').fadeIn();
-        $('#show-setting-panel').hide();
+       // $('#show-setting-panel').hide();
     }
 
     function showDesignBtn() {

@@ -83,7 +83,10 @@
                                     <foreach name="widgetsBlock.widgets" item="widget">
                                         <li class="list-group-item widgets-group-item"
                                             data-file_id="{$file.id}"
-                                            data-id="{$key}">{$widget.title|default='无标题'}
+                                            data-id="{$key}"
+                                            data-title="{$widget.title|default='无标题'}设置">
+                                            {$widget.title|default='无标题'}
+                                            <a class="pull-right" onclick="doWidgetSetting(this)" href="javascript:;"><i class="fa fa-cog"></i></a>
                                         </li>
                                     </foreach>
                                     <else/>

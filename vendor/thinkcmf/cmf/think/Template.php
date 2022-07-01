@@ -607,8 +607,10 @@ hello;
                 unset($array['name']);
 
                 $attrs = [];
-                if (!isset($array['class']) && $designingTheme) {
-                    $attrs[] = 'class="__cmf_widgets_block"';
+                if ($designingTheme) {
+                    if (!isset($array['class'])) {
+                        $attrs[] = 'class="__cmf_widgets_block"';
+                    }
                     $attrs[] = 'data-cmf_widgets_block_name="' . $name . '"';
                     $attrs[] = 'data-cmf_theme_file_id="' . $widgetsBlocks[$name]['_file_id'] . '"';
                 }
