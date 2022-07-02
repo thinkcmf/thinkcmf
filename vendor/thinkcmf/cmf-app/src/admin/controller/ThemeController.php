@@ -334,6 +334,8 @@ class ThemeController extends AdminBaseController
         $varName    = $this->request->param('var');
         $widgetName = $this->request->param('widget', '');
         $fileId     = $this->request->param('file_id', 0, 'intval');
+        $widgetId   = $this->request->param('widget_id', ''); //自由控件编辑
+        $blockName  = $this->request->param('block_name', '');//自由控件编辑
         $file       = ThemeFileModel::where('id', $fileId)->find();
         $oldMore    = $file['more'];
 
@@ -357,6 +359,23 @@ class ThemeController extends AdminBaseController
 
         if ($tab == 'widget' && !empty($oldMore['widgets'][$widgetName]) && is_array($oldMore['widgets'][$widgetName])) {
             $widget = $oldMore['widgets'][$widgetName];
+            if (!empty($widget['vars']) && is_array($widget['vars'])) {
+                foreach ($widget['vars'] as $mVarName => $mVar) {
+                    if ($mVarName == $varName) {
+                        if (is_array($mVar['value'])) {
+                            $items = $mVar['value'];
+                        }
+
+                        if (isset($mVar['item'])) {
+                            $item = $mVar['item'];
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($tab == 'block_widget' && isset( $oldMore['widgetsBlocks'][$blockName]['widgets'][$widgetId])) {
+            $widget =  $oldMore['widgetsBlocks'][$blockName]['widgets'][$widgetId];
             if (!empty($widget['vars']) && is_array($widget['vars'])) {
                 foreach ($widget['vars'] as $mVarName => $mVar) {
                     if ($mVarName == $varName) {
