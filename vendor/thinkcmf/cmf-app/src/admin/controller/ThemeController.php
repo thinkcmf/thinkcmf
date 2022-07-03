@@ -714,6 +714,8 @@ class ThemeController extends AdminBaseController
         $varName    = $this->request->param('var');
         $widgetName = $this->request->param('widget', '');
         $fileId     = $this->request->param('file_id', 0, 'intval');
+        $widgetId   = $this->request->param('widget_id', ''); //自由控件编辑
+        $blockName  = $this->request->param('block_name', '');//自由控件编辑
         $itemIndex  = $this->request->param('item_index', '');
 
         if ($itemIndex === '') {
@@ -757,10 +759,27 @@ class ThemeController extends AdminBaseController
             }
         }
 
+        if ($tab == 'block_widget') {
+            $widget = $file->fillBlockWidgetValue($blockName, $widgetId);
+            if (!empty($widget['vars']) && is_array($widget['vars'])) {
+                if (isset($widget['vars'][$varName])) {
+                    $widgetVar = $widget['vars'][$varName];
+                    if ($widgetVar['type'] == 'array') {
+                        if ($itemIndex !== '') {
+                            if (!empty($widgetVar['value']) && is_array($widgetVar['value']) && isset($widgetVar['value'][$itemIndex])) {
+                                array_splice($more['widgetsBlocks'][$blockName]['widgets'][$widgetId]['vars'][$varName], $itemIndex, 1);
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
         $more = json_encode($more);
         ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
 
-        $this->success(lang('DELETE_SUCCESS'), url('Theme/fileArrayData', ['tab' => $tab, 'var' => $varName, 'file_id' => $fileId, 'widget' => $widgetName]));
+        $this->success(lang('DELETE_SUCCESS'), url('Theme/fileArrayData', ['tab' => $tab, 'var' => $varName, 'file_id' => $fileId, 'widget' => $widgetName, 'widget_id' => $widgetId, 'block_name' => $blockName]));
     }
 
     /**
