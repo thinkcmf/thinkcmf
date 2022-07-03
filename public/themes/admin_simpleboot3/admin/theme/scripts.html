@@ -122,8 +122,13 @@
             fileId = '{$file_id}';
         }
 
+        var blockName = "{$block_name|default=''}";
+        blockName = blockName ? '&block_name=' + blockName : '';
+        var widgetId = "{$widget_id|default=''}";
+        widgetId = widgetId ? '&widget_id=' + widgetId : '';
+
         parent.openIframeLayer(
-            "{:url('Theme/fileArrayData')}?tab={$tab|default=''}&file_id=" + fileId + "&" + 'var=' + mVar + widget,
+            "{:url('Theme/fileArrayData')}?tab={$tab|default=''}&file_id=" + fileId + "&" + 'var=' + mVar + widget + blockName + widgetId,
             title,
             {
                 area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '90%'],

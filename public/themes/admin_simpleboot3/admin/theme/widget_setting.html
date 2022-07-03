@@ -1,0 +1,21 @@
+<include file="theme/functions"/>
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <form method="post" class="js-ajax-form"
+          action="{:url('Theme/widgetSettingPost')}">
+        {:_parse_vars($widget['vars'],'vars',2)}
+        <div class="form-group" style="display: none;">
+            <input type="hidden" name="file_id" value="{$file_id}"/>
+            <input type="hidden" name="widget_id" value="{$widget_id}"/>
+            <input type="hidden" name="block_name" value="{$block_name}"/>
+            <button type="submit" class="btn btn-primary js-ajax-submit" id="submit-btn">保存</button>
+        </div>
+
+    </form>
+
+</div>
+<include file="theme/scripts"/>
+</body>
+</html>
