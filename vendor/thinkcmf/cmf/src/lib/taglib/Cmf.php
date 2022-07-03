@@ -477,7 +477,9 @@ parse;
 \$___tree->init(\${$name});
 \${$name}=\$___tree->createTree();
 foreach (\${$name} as \$___node) {
-    \$___stack = [];
+    \$___stack           = [];
+    \$___node['_level']  = 1;
+    \$___node['_spacer'] = '';
     array_push(\$___stack, \$___node);
     \${$item} = [];
     while (count(\$___stack) > 0) {
@@ -489,6 +491,7 @@ foreach (\${$name} as \$___node) {
         if (!empty(\${$item}['children'])) {
             \$___childrenCount = count(\${$item}['children']);
             for (\$i = \$___childrenCount - 1; \$i >= 0; \$i--) {
+                \${$item}['children'][\$i]['_level'] = \${$item}['_level'] + 1;
                 if (\$i == \$___childrenCount - 1) {
                     \${$item}['children'][\$i]['_is_last'] = 1;
                     \${$item}['children'][\$i]['_spacer'] = str_repeat(\$___tree->nbsp, \${$item}['children'][\$i]['_level'] - 1). \$___tree->icon[2] . ' ';

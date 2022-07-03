@@ -17,9 +17,9 @@ class Tree
      * 生成树型结构所需修饰符号，可以换成图片
      * @var array
      */
-    public  $icon = ['│', '├', '└'];
-    public  $nbsp = "&nbsp;&nbsp;&nbsp;&nbsp;";
-    private $str  = '';
+    public $icon = ['│', '├', '└'];
+    public $nbsp = "&nbsp;&nbsp;&nbsp;&nbsp;";
+    private $str = '';
     /**
      * @access private
      */
@@ -211,26 +211,21 @@ class Tree
         $list          = array_column($this->arr, null, $idField);
         $oldList       = $list;
         foreach ($list as $v) {
-            $parentId                   = $v[$parentIdField];
-            $id                         = $v[$idField];
-            $list[$v[$idField]]['path'] = "$parentId-$id";
+            $parentId = $v[$parentIdField];
+            $id       = $v[$idField];
 
             if (isset($list[$v[$parentIdField]])) {
                 $list[$v[$parentIdField]][$childrenField][] = &$list[$v[$idField]];
-                $list[$v[$idField]]['path']                 = $list[$v[$parentIdField]]['path'] . "-$id";
             } else {
                 $tree[] =& $list[$v[$idField]];
             }
-
-            $list[$v[$idField]]['_level']     = count(explode('-', $list[$v[$idField]]['path'])) - 1;
-            $oldList[$v[$idField]]['path']    = $list[$v[$idField]]['path'];
-            $oldList[$v[$idField]]['_level']  = $list[$v[$idField]]['_level'];
-            $oldList[$v[$idField]]['_spacer'] = str_repeat($this->nbsp, $list[$v[$idField]]['_level'] - 1);
         }
 
         $array = [];
         foreach ($tree as $node) {
-            $stack = [];
+            $stack           = [];
+            $node['_level']  = 1;
+            $node['_spacer'] = '';
             array_push($stack, $node);
             $tmpNode = [];
             while (count($stack) > 0) {
@@ -240,12 +235,13 @@ class Tree
                 if (!empty($tmpNode['children'])) {
                     $childrenCount = count($tmpNode['children']);
                     for ($i = $childrenCount - 1; $i >= 0; $i--) {
+                        $tmpNode['children'][$i]['_level'] = $tmpNode['_level'] + 1;
                         if ($i == $childrenCount - 1) {
                             $oldList[$tmpNode['children'][$i][$idField]]['_is_last'] = 1;
-                            $oldList[$tmpNode['children'][$i][$idField]]['_spacer']  = $oldList[$tmpNode['children'][$i][$idField]]['_spacer'] . $this->icon[2] . ' ';
+                            $oldList[$tmpNode['children'][$i][$idField]]['_spacer']  = str_repeat($this->nbsp, $tmpNode['children'][$i]['_level'] - 1) . $this->icon[2] . ' ';
                         } else {
                             $oldList[$tmpNode['children'][$i][$idField]]['_is_last'] = 0;
-                            $oldList[$tmpNode['children'][$i][$idField]]['_spacer']  = $oldList[$tmpNode['children'][$i][$idField]]['_spacer'] . $this->icon[1] . ' ';
+                            $oldList[$tmpNode['children'][$i][$idField]]['_spacer']  = str_repeat($this->nbsp, $tmpNode['children'][$i]['_level'] - 1) . $this->icon[1] . ' ';
                         }
                         array_push($stack, $tmpNode['children'][$i]);
                     }
@@ -262,20 +258,14 @@ class Tree
         $tree = [];
         $list = array_column($this->arr, null, $idField);
         foreach ($list as $v) {
-            $parentId                    = $v[$parentIdField];
-            $id                          = $v[$idField];
-            $list[$v[$idField]]['_path'] = "$parentId-$id";
+            $parentId = $v[$parentIdField];
+            $id       = $v[$idField];
 
             if (isset($list[$v[$parentIdField]])) {
                 $list[$v[$parentIdField]][$childrenField][] = &$list[$v[$idField]];
-                $list[$v[$idField]]['_path']                = $list[$v[$parentIdField]]['_path'] . "-$id";
             } else {
                 $tree[] =& $list[$v[$idField]];
             }
-
-            $list[$v[$idField]]['_level']  = count(explode('-', $list[$v[$idField]]['_path'])) - 1;
-            $list[$v[$idField]]['_spacer'] = str_repeat($this->nbsp, $list[$v[$idField]]['_level'] - 1);
-
         }
 
         return $tree;
