@@ -374,7 +374,7 @@ class ThemeController extends AdminBaseController
             }
         }
 
-        if ($tab == 'block_widget' && isset($oldMore['widgetsBlocks'][$blockName]['widgets'][$widgetId])) {
+        if ($tab == 'block_widget' && isset($oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId])) {
             $widget = $file->fillBlockWidgetValue($blockName, $widgetId);
 
             if (!empty($widget['vars'][$varName])) {
@@ -477,7 +477,7 @@ class ThemeController extends AdminBaseController
             }
         }
 
-        if ($tab == 'block_widget' && isset($oldMore['widgetsBlocks'][$blockName]['widgets'][$widgetId])) {
+        if ($tab == 'block_widget' && isset($oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId])) {
             $widget = $file->fillBlockWidgetValue($blockName, $widgetId);
             if (!empty($widget['vars'][$varName])) {
                 $mVar = $widget['vars'][$varName];
@@ -668,13 +668,13 @@ class ThemeController extends AdminBaseController
 
                             if ($itemIndex === '') {
                                 if (!empty($widgetVar['value']) && is_array($widgetVar['value'])) {
-                                    array_push($more['widgetsBlocks'][$blockName]['widgets'][$widgetId]['vars'][$varName], $post['item']);
+                                    array_push($more['widgets_blocks'][$blockName]['widgets'][$widgetId]['vars'][$varName], $post['item']);
                                 } else {
-                                    $more['widgetsBlocks'][$blockName]['widgets'][$widgetId]['vars'][$varName] = [$post['item']];
+                                    $more['widgets_blocks'][$blockName]['widgets'][$widgetId]['vars'][$varName] = [$post['item']];
                                 }
                             } else {
                                 if (!empty($widgetVar['value']) && is_array($widgetVar['value']) && isset($widgetVar['value'][$itemIndex])) {
-                                    $more['widgetsBlocks'][$blockName]['widgets'][$widgetId]['vars'][$varName][$itemIndex] = $post['item'];
+                                    $more['widgets_blocks'][$blockName]['widgets'][$widgetId]['vars'][$varName][$itemIndex] = $post['item'];
                                 }
                             }
                         }
@@ -767,7 +767,7 @@ class ThemeController extends AdminBaseController
                     if ($widgetVar['type'] == 'array') {
                         if ($itemIndex !== '') {
                             if (!empty($widgetVar['value']) && is_array($widgetVar['value']) && isset($widgetVar['value'][$itemIndex])) {
-                                array_splice($more['widgetsBlocks'][$blockName]['widgets'][$widgetId]['vars'][$varName], $itemIndex, 1);
+                                array_splice($more['widgets_blocks'][$blockName]['widgets'][$widgetId]['vars'][$varName], $itemIndex, 1);
                             }
                         }
                     }
@@ -1090,10 +1090,10 @@ class ThemeController extends AdminBaseController
             $fileId     = str_replace('file', '', $fileId);
             $file       = ThemeFileModel::where('id', $fileId)->find();
             $configMore = $file['more'];
-            if (!empty($configMore['widgetsBlocks'])) {
-                foreach ($configMore['widgetsBlocks'] as $widgetsBlockName => $widgetsBlock) {
-                    if (!empty($configMore['widgetsBlocks'][$widgetsBlockName]['widgets'])) {
-                        foreach ($configMore['widgetsBlocks'][$widgetsBlockName]['widgets'] as $widgetId => $widget) {
+            if (!empty($configMore['widgets_blocks'])) {
+                foreach ($configMore['widgets_blocks'] as $widgetsBlockName => $widgetsBlock) {
+                    if (!empty($configMore['widgets_blocks'][$widgetsBlockName]['widgets'])) {
+                        foreach ($configMore['widgets_blocks'][$widgetsBlockName]['widgets'] as $widgetId => $widget) {
                             $widgets[$widgetId] = $widget;
                         }
                     }
@@ -1115,13 +1115,13 @@ class ThemeController extends AdminBaseController
                         $mWidgets[$widgetId] = $widgets[$widgetId];
                     }
                 }
-                $configMore['widgetsBlocks'][$widgetsBlockName]['widgets'] = $mWidgets;
+                $configMore['widgets_blocks'][$widgetsBlockName]['widgets'] = $mWidgets;
             }
 
-            if (!empty($configMore['widgetsBlocks'])) {
-                foreach ($configMore['widgetsBlocks'] as $widgetsBlockName => $widgetsBlock) {
+            if (!empty($configMore['widgets_blocks'])) {
+                foreach ($configMore['widgets_blocks'] as $widgetsBlockName => $widgetsBlock) {
                     if (!isset($widgetsBlocks[$widgetsBlockName])) {
-                        $configMore['widgetsBlocks'][$widgetsBlockName]['widgets'] = [];
+                        $configMore['widgets_blocks'][$widgetsBlockName]['widgets'] = [];
                     }
                 }
             }
@@ -1158,7 +1158,7 @@ class ThemeController extends AdminBaseController
         $items   = [];
         $item    = [];
 
-        $widgetWithValue = $oldMore['widgetsBlocks'][$blockName]['widgets'][$widgetId];
+        $widgetWithValue = $oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId];
         $theme           = $file['theme'];
         $widgetManifest  = file_get_contents(WEB_ROOT . "themes/$theme/public/widgets/{$widgetWithValue['name']}/manifest.json");
         $widget          = json_decode($widgetManifest, true);
@@ -1208,14 +1208,14 @@ class ThemeController extends AdminBaseController
         $oldMore = $file['more'];
         $items   = [];
         $item    = [];
-        $widget  = $oldMore['widgetsBlocks'][$blockName]['widgets'][$widgetId];
+        $widget  = $oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId];
         foreach ($vars as $varName => $varValue) {
             if (isset($widget['vars'][$varName])) {
                 $widget['vars'][$varName] = $varValue;
             }
         }
 
-        $oldMore['widgetsBlocks'][$blockName]['widgets'][$widgetId] = $widget;
+        $oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId] = $widget;
 
         $more = json_encode($oldMore);
         ThemeFileModel::where('id', $fileId)->update(['more' => $more]);

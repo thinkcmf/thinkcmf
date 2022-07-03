@@ -30,8 +30,8 @@ class ThemeFileModel extends Model
     {
         $oldMore = $this['more'];
         $widget  = [];
-        if (isset($oldMore['widgetsBlocks'][$blockName]['widgets'][$widgetId])) {
-            $widgetWithValue = $oldMore['widgetsBlocks'][$blockName]['widgets'][$widgetId];
+        if (isset($oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId])) {
+            $widgetWithValue = $oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId];
             $theme           = $this['theme'];
             $widgetManifest  = file_get_contents(WEB_ROOT . "themes/$theme/public/widgets/{$widgetWithValue['name']}/manifest.json");
             $widget          = json_decode($widgetManifest, true);

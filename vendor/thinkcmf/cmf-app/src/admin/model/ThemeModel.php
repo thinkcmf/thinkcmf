@@ -160,8 +160,8 @@ class ThemeModel extends Model
 
     private function loadWidgetDefaultValue($more, $themeDir)
     {
-        if (isset($more['widgetsBlocks'])) {
-            foreach ($more['widgetsBlocks'] as $widgetsBlockName => $widgetsBlock) {
+        if (isset($more['widgets_blocks'])) {
+            foreach ($more['widgets_blocks'] as $widgetsBlockName => $widgetsBlock) {
                 $widgets = [];
                 if (!empty($widgetsBlock['widgets'])) {
                     foreach ($widgetsBlock['widgets'] as $widgetId => $widget) {
@@ -202,7 +202,7 @@ class ThemeModel extends Model
                     }
                 }
 
-                $more['widgetsBlocks'][$widgetsBlockName]['widgets'] = $widgets;
+                $more['widgets_blocks'][$widgetsBlockName]['widgets'] = $widgets;
             }
         }
 
@@ -253,10 +253,10 @@ class ThemeModel extends Model
             }
         }
 
-        if (!empty($configMore['widgetsBlocks'])) {
-            foreach ($configMore['widgetsBlocks'] as $widgetsBlockName => $widgetsBlock) {
-                if (isset($moreInDb['widgetsBlocks'][$widgetsBlockName]['widgets'])) {
-                    $configMore['widgetsBlocks'][$widgetsBlockName]['widgets'] = $moreInDb['widgetsBlocks'][$widgetsBlockName]['widgets'];
+        if (!empty($configMore['widgets_blocks'])) {
+            foreach ($configMore['widgets_blocks'] as $widgetsBlockName => $widgetsBlock) {
+                if (isset($moreInDb['widgets_blocks'][$widgetsBlockName]['widgets'])) {
+                    $configMore['widgets_blocks'][$widgetsBlockName]['widgets'] = $moreInDb['widgets_blocks'][$widgetsBlockName]['widgets'];
                 }
             }
         }

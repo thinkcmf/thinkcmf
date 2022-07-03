@@ -226,10 +226,10 @@ hello;
                 }
             }
 
-            if ($themeFile == $file['file'] && !empty($oldMore['widgetsBlocks'])) {
+            if ($themeFile == $file['file'] && !empty($oldMore['widgets_blocks'])) {
 
-                if (!empty($oldMore['widgetsBlocks'])) {
-                    foreach ($oldMore['widgetsBlocks'] as $widgetsBlockName => $widgetsBlock) {
+                if (!empty($oldMore['widgets_blocks'])) {
+                    foreach ($oldMore['widgets_blocks'] as $widgetsBlockName => $widgetsBlock) {
                         $widgetsBlock['_file_id']         = $file['id'];
                         $widgetsBlocks[$widgetsBlockName] = $widgetsBlock;
                         if (!empty($widgetsBlock['widgets'])) {
