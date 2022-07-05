@@ -94,6 +94,9 @@ enjoy your cmf~!
 https://gitee.com/thinkcmf/docker
 
 ### 升级指导
+#### 6.0.6升级到6.0.7
+1. `composer update`
+
 #### 6.0.5升级到6.0.6
 1. `composer update`
 
