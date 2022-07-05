@@ -34,6 +34,8 @@ class Cmf extends TagLib
         'captcha'             => ['attr' => 'height,width', 'close' => 0],//非必须属性font-size,length,bg,id
         'hook'                => ['attr' => 'name,param,once', 'close' => 0],
         'tree'                => ['attr' => 'name', 'close' => 1],
+        'css'                 => ['attr' => '', 'close' => 0],//非必须属性name
+        'js'                  => ['attr' => '', 'close' => 0],//非必须属性name
     ];
 
     /**
@@ -508,6 +510,81 @@ foreach (\${$name} as \$___node) {
 parse;
 
         return $parse;
+    }
+
+    /**
+     * css标签
+     */
+    public function tagCss($tag, $content)
+    {
+        $href = isset($tag['href']) ? $tag['href'] : '';
+        if (strpos($href, '$') === 0) {
+            $this->autoBuildVar($href);
+        } else {
+            $href = "'{$href}'";
+        }
+
+        $parse = <<<parse
+<?php
+if(!isset(\$_theme_css_href_list)){
+    \$_theme_css_href_list=[];
+}
+if(!isset(\$_theme_css_href_list[{$href}])){
+    \$_theme_css_href_list[{$href}]={$href};
+?>
+<link href="<?php echo $href;?>" rel="stylesheet">
+<?php
+}
+?>
+parse;
+
+        return $parse;
+
+    }
+
+    /**
+     * js标签
+     */
+    public function tagJs($tag, $content)
+    {
+        $src = isset($tag['src']) ? $tag['src'] : $tag['file'];
+        if (strpos($src, '$') === 0) {
+            $this->autoBuildVar($src);
+        } else {
+            $src = "'{$src}'";
+        }
+
+        $type = isset($tag['type']) ? $tag['type'] : '';
+        if (strpos($type, '$') === 0) {
+            $this->autoBuildVar($type);
+            $type = <<<hello
+ type="<?php echo \$type;?>"
+hello;
+
+        } else {
+            if (!empty($type)) {
+                $type = <<<hello
+ type="{$type}"
+hello;
+            }
+        }
+
+        $parse = <<<parse
+<?php
+if(!isset(\$_theme_js_src_list)){
+    \$_theme_js_src_list=[];
+}
+if(!isset(\$_theme_js_src_list[{$src}])){
+    \$_theme_js_src_list[{$src}]={$src};
+?>
+<script src="<?php echo $src;?>"$type></script>
+<?php
+}
+?>
+parse;
+
+        return $parse;
+
     }
 
 }

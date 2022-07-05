@@ -6,10 +6,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <title>ThinkCMF {$site_info.site_name|default=''}</title>
     <meta name="description" content=""/>
-
-    <link href="__TMPL__/demo/public/assets/css/demo.css" rel="stylesheet"/>
-    <link href="__TMPL__/demo/public/assets/css/style.css" rel="stylesheet"/>
-
+    <css href="__TMPL__/demo/public/assets/css/demo.css"/>
+    <css href="__TMPL__/demo/public/assets/css/style.css"/>
 </head>
 <body>
 <!--<div class="fallback-message">-->
@@ -102,13 +100,13 @@
 <div class="hint">
     <p>请用键盘上的方向键或空格键导航</p>
 </div>
-<script>
+<script type="text/javascript">
     if ("ontouchstart" in document.documentElement) {
         document.querySelector(".hint").innerHTML = "<p>左右滑动</p>";
     }
 </script>
 
-<script src="__TMPL__/demo/public/assets/js/impress.js"></script>
+<js src="__TMPL__/demo/public/assets/js/impress.js"/>
 <script>impress().init();</script>
 
 
