@@ -117,10 +117,16 @@ https://gitee.com/thinkcmf/docker
 5. `composer update`
 
 ### 更新日志
-#### 6.0.7 coding...
+#### 6.0.7
 * 增加安装时检查API配置
 * 增加前台模板自由控件功能
 * 增加`widgetsHead`,`widgetsBlock`,`widgetsScript`标签
+* 增加`css`标签相同文件不重复引入功能
+* 增加`js`标签相同文件不重复引入功能
+* 修复后台菜单添加和编辑子菜单父级不选中
+* 修复后台菜单编辑删除报错
+* 增加`php think cli`支持`/`分隔符
+* 修复`tree类`相关bug
 
 #### 6.0.6
 * 后台模板设计增强，支持多终端
