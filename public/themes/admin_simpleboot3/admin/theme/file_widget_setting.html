@@ -36,7 +36,6 @@
 <body>
 <notempty name="has_file">
     <div class="wrap">
-
         <ul class="nav nav-tabs">
             <li class="active">
                 <a href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'widget'])}">
@@ -84,7 +83,7 @@
                                         <li class="list-group-item widgets-group-item"
                                             data-file_id="{$file.id}"
                                             data-id="{$key}"
-                                            data-title="{$widget.title|default='无标题'}设置">
+                                            data-title="设置">
                                             {$widget.title|default='无标题'}
                                             <a class="pull-right" onclick="doWidgetSetting(this)" href="javascript:;"><i class="fa fa-cog"></i></a>
                                         </li>
