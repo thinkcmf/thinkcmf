@@ -211,9 +211,6 @@ class Tree
         $list          = array_column($this->arr, null, $idField);
         $oldList       = $list;
         foreach ($list as $v) {
-            $parentId = $v[$parentIdField];
-            $id       = $v[$idField];
-
             if (isset($list[$v[$parentIdField]])) {
                 $list[$v[$parentIdField]][$childrenField][] = &$list[$v[$idField]];
             } else {
@@ -258,9 +255,6 @@ class Tree
         $tree = [];
         $list = array_column($this->arr, null, $idField);
         foreach ($list as $v) {
-            $parentId = $v[$parentIdField];
-            $id       = $v[$idField];
-
             if (isset($list[$v[$parentIdField]])) {
                 $list[$v[$parentIdField]][$childrenField][] = &$list[$v[$idField]];
             } else {

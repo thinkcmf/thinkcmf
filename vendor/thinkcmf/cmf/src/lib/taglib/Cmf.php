@@ -10,7 +10,6 @@
 // +----------------------------------------------------------------------
 namespace cmf\lib\taglib;
 
-use app\admin\model\PluginModel;
 use think\template\TagLib;
 
 class Cmf extends TagLib
