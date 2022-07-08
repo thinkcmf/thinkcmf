@@ -128,6 +128,7 @@ https://gitee.com/thinkcmf/docker
 * 增加`js`标签相同文件不重复引入功能
 * 修复后台菜单添加和编辑子菜单父级不选中
 * 修复后台菜单编辑删除报错
+* 修复应用市场模板升级报错
 * 增加`php think cli`支持`/`分隔符
 * 修复`tree类`相关bug
 
