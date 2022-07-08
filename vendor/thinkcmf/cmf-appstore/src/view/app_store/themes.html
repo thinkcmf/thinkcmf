@@ -59,7 +59,7 @@
                             <a class="btn btn-danger btn-xs disabled">卸载</a>
                             <notempty name="vo.need_update">
                                 <a class="btn btn-success btn-xs js-ajax-dialog-btn"
-                                   data-href="{:url('AppStore/installTheme',['id'=>$vo.id,'version'=>$vo.installed_app.version])}">升级</a>
+                                   data-href="{:url('AppStore/installTheme',['id'=>$vo.id,'version'=>$vo.installed_theme.version])}">升级</a>
                             </notempty>
                         </empty>
                         <!--<a target="_blank" href2="https://www.thinkcmf.com/appstore/login/index" class="btn btn-primary btn-xs js-install-plugin-btn" data-href="{:url('AppStore/installApp',['id'=>$vo.id])}">安装</a>-->
