@@ -1136,20 +1136,26 @@ class ThemeController extends AdminBaseController
         $widgetId  = $this->request->param('widget_id', '');
         $blockName = $this->request->param('block_name', '');
         $fileId    = $this->request->param('file_id', 0, 'intval');
-        $vars      = $this->request->param('vars/a');
+        $widget    = $this->request->param('widget/a');
+        $vars      = empty($widget['vars']) ? [] : $widget['vars'];
 
-        $file    = ThemeFileModel::where('id', $fileId)->find();
-        $oldMore = $file['more'];
-        $items   = [];
-        $item    = [];
-        $widget  = $oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId];
+        $file      = ThemeFileModel::where('id', $fileId)->find();
+        $oldMore   = $file['more'];
+        $items     = [];
+        $item      = [];
+        $oldWidget = $oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId];
         foreach ($vars as $varName => $varValue) {
-            if (isset($widget['vars'][$varName])) {
-                $widget['vars'][$varName] = $varValue;
+            if (isset($oldWidget['vars'][$varName])) {
+                $oldWidget['vars'][$varName] = $varValue;
             }
         }
 
-        $oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId] = $widget;
+        $oldWidget['display'] = isset($widget['display']) && !empty($widget['display']) ? 1 : 0;
+        if (isset($widget['title'])) {
+            $oldWidget['title'] = $widget['title'];
+        }
+
+        $oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId] = $oldWidget;
 
         $more = json_encode($oldMore);
         ThemeFileModel::where('id', $fileId)->update(['more' => $more]);

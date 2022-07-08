@@ -70,7 +70,9 @@
                     if (result) {
                         parent.layer.close(index); //如果设定了yes回调，需进行手工关闭
                     }
-
+                },
+                end: function () {
+                    window.location.reload();
                 }
             }
         );
