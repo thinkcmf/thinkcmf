@@ -161,12 +161,12 @@
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-appstore' => array(
-            'pretty_version' => 'v1.0.11',
-            'version' => '1.0.11.0',
+            'pretty_version' => 'v1.0.12',
+            'version' => '1.0.12.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../thinkcmf/cmf-appstore',
             'aliases' => array(),
-            'reference' => '8460e07e21b8fd2e8d5ff817aa888016ffbebdec',
+            'reference' => 'dcc3b18ef45444a3b82c32a49172ea0debafc668',
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-captcha' => array(
