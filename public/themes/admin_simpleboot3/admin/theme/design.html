@@ -162,12 +162,12 @@
 <iframe src="__ROOT__/?_design_theme={:input('param.theme')}" frameborder="0" id="simulator"
         class="simulator-pc"></iframe>
 <script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
-<script src="__TMPL__/public/assets/js/jquery-ui.min.js?v={$_static_version}"></script>
 <script>
     var simulator = $('#simulator').get(0).contentWindow;
     var $simulator = $(simulator);
     var $settingIframe = $('#setting-iframe');
     var simulatorNeedRefresh = true;
+
     $('#update-theme-btn').click(function () {
         simulator.location.reload(true);
     });
