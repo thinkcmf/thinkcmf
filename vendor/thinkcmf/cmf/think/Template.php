@@ -572,9 +572,17 @@ class Template
             $widgets            = $this->get('_theme_widgets');
             if (!empty($widgets)) {
                 foreach ($widgets as $widget) {
-                    $widgetsHeadContent .= <<<hello
-<include file="public@widgets/{$widget['name']}/head"/>
+                    if (empty($widget['display'])) {
+                        continue;
+                    }
+                    $template = "public@widgets/{$widget['name']}/head";
+                    try {
+                        $template = $this->parseTemplateFile($template);
+                        $widgetsHeadContent .= <<<hello
+<include file="$template"/>
 hello;
+                    } catch (\Exception $e) {
+                    }
                 }
                 $content = str_replace($matches[0], $widgetsHeadContent, $content);
             }
@@ -593,7 +601,6 @@ hello;
         $result = preg_match_all($regex, $content, $matches, PREG_SET_ORDER);
         // 读取模板中的布局标签
         if ($result) {
-
             $widgetsBlocks  = $this->get('theme_widgets_blocks');
             $designingTheme = cookie('cmf_design_theme');
 
@@ -636,6 +643,9 @@ hello;
                     $widgets = $widgetsBlocks[$name]['widgets'];
                     if (!empty($widgets)) {
                         foreach ($widgets as $key => $widget) {
+                            if (empty($widget['display'])) {
+                                continue;
+                            }
                             $widgetsBlockContent .= <<<hello
 <?php 
 \$widget= \$theme_widgets_blocks['{$name}']['widgets']['{$key}'];
@@ -682,9 +692,20 @@ hello;
             $widgets              = $this->get('_theme_widgets');
             if (!empty($widgets)) {
                 foreach ($widgets as $widget) {
-                    $widgetsScriptContent .= <<<hello
-<include file="public@widgets/{$widget['name']}/script"/>
+                    if (empty($widget['display'])) {
+                        continue;
+                    }
+                    $template = "public@widgets/{$widget['name']}/script";
+                    try {
+                        $template             = $this->parseTemplateFile($template);
+                        $widgetsScriptContent .= <<<hello
+<include file="$template"/>
 hello;
+                    } catch (\Exception $e) {
+
+                    }
+
+
                 }
                 $content = str_replace($matches[0], $widgetsScriptContent, $content);
             }

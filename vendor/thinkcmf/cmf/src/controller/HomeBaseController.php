@@ -235,7 +235,8 @@ hello;
                         if (!empty($widgetsBlock['widgets'])) {
                             foreach ($widgetsBlock['widgets'] as $widget) {
                                 $widgetsInBlock[$widget['name']] = [
-                                    'name' => $widget['name']
+                                    'name'    => $widget['name'],
+                                    'display' => $widget['display']
                                 ];
                             }
                         }
