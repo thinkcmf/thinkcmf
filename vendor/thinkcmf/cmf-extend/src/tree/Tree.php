@@ -162,7 +162,7 @@ class Tree
 
     private function parseTemplate($tmpl, $data)
     {
-        $tmpl = preg_replace('/(\$[a-zA-Z_][a-zA-Z_0-9]{0,})/', '${1}', $tmpl);
+        $tmpl = preg_replace('/(\$[a-zA-Z_][a-zA-Z_0-9]{0,})/', '{${1}}', $tmpl);
 
         foreach ($data as $key => $value) {
             try {
