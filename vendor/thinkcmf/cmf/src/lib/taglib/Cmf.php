@@ -516,7 +516,7 @@ parse;
      */
     public function tagCss($tag, $content)
     {
-        $href = isset($tag['href']) ? $tag['href'] : '';
+        $href = isset($tag['href']) ? $tag['href'] : $tag['file'];
         if (strpos($href, '$') === 0) {
             $this->autoBuildVar($href);
         } else {
