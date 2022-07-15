@@ -158,16 +158,19 @@ class IndexController extends BaseController
         }
 
         $folders    = [
-            realpath(CMF_ROOT . 'api') . DIRECTORY_SEPARATOR,
-            realpath(CMF_ROOT . 'app') . DIRECTORY_SEPARATOR,
-            realpath(CMF_ROOT . 'data') . DIRECTORY_SEPARATOR,
-            realpath(WEB_ROOT . 'plugins') . DIRECTORY_SEPARATOR,
-            realpath(WEB_ROOT . 'themes') . DIRECTORY_SEPARATOR,
-            realpath(WEB_ROOT . 'themes/admin_simpleboot3') . DIRECTORY_SEPARATOR,
-            realpath(WEB_ROOT . 'upload') . DIRECTORY_SEPARATOR,
+            CMF_ROOT . 'api' . DIRECTORY_SEPARATOR,
+            CMF_ROOT . 'app' . DIRECTORY_SEPARATOR,
+            CMF_ROOT . 'data' . DIRECTORY_SEPARATOR,
+            WEB_ROOT . 'plugins' . DIRECTORY_SEPARATOR,
+            WEB_ROOT . 'themes' . DIRECTORY_SEPARATOR,
+            WEB_ROOT . 'themes/admin_simpleboot3' . DIRECTORY_SEPARATOR,
+            WEB_ROOT . 'upload' . DIRECTORY_SEPARATOR,
         ];
         $newFolders = [];
         foreach ($folders as $dir) {
+            if (empty($dir)) {
+                continue;
+            }
             $testDir = $dir;
             sp_dir_create($testDir);
             if (cmf_test_write($testDir)) {
