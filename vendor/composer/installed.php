@@ -220,7 +220,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../topthink/framework',
             'aliases' => array(),
-            'reference' => '68cd1b0513889f92134d802a0349d029b9d638c4',
+            'reference' => '126d5b2cbacb73d6e2a85cbc7a2c6ee59d0b3fa6',
             'dev_requirement' => false,
         ),
         'topthink/think-helper' => array(
