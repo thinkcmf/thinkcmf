@@ -2328,3 +2328,8 @@ function cmf_test_write($d)
     }
     return false;
 }
+
+function cmf_mobile_mask($mobile)
+{
+    return substr($mobile, 0, 3) . '****' . substr($mobile, -4, 4);
+}
