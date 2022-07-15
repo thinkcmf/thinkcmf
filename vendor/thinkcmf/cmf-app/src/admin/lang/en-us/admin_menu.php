@@ -99,6 +99,7 @@ return [
     'ADMIN_LINK_ADD'                    => '添加友情链接',
     'ADMIN_LINK_DELETE'                 => '删除友情链接',
     'ADMIN_LINK_EDIT'                   => '编辑友情链接',
+    'ADMIN_NAVMENU_INDEX'               => '导航菜单',
     'ADMIN_NAVMENU_ADD'                 => '添加菜单',
     'ADMIN_NAVMENU_DELETE'              => '删除菜单',
     'ADMIN_NAVMENU_EDIT'                => '编辑菜单',

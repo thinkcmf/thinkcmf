@@ -99,6 +99,7 @@ return [
     'ADMIN_MENU_DELETE'                 => '删除菜单',
     'ADMIN_MENU_EXPORT_MENU'            => '菜单备份',
     'ADMIN_MENU_LISTS'                  => '所有菜单',
+    'ADMIN_NAVMENU_INDEX'=>'导航菜单',
     'ADMIN_NAVMENU_ADD'                 => '添加菜单',
     'ADMIN_NAVMENU_DELETE'              => '删除菜单',
     'ADMIN_NAVMENU_EDIT'                => '编辑菜单',
