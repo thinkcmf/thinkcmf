@@ -215,12 +215,12 @@
             'dev_requirement' => false,
         ),
         'topthink/framework' => array(
-            'pretty_version' => 'v6.0.12',
-            'version' => '6.0.12.0',
+            'pretty_version' => 'v6.0.13',
+            'version' => '6.0.13.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../topthink/framework',
             'aliases' => array(),
-            'reference' => 'e478316ac843c1a884a3b3a7a94db17c4001ff5c',
+            'reference' => '68cd1b0513889f92134d802a0349d029b9d638c4',
             'dev_requirement' => false,
         ),
         'topthink/think-helper' => array(
@@ -233,12 +233,12 @@
             'dev_requirement' => false,
         ),
         'topthink/think-orm' => array(
-            'pretty_version' => 'v2.0.53',
-            'version' => '2.0.53.0',
+            'pretty_version' => 'v2.0.54',
+            'version' => '2.0.54.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../topthink/think-orm',
             'aliases' => array(),
-            'reference' => '06783eda65547a70ea686360a897759e1f873fff',
+            'reference' => '97b061b47616301ff29fbd4c35ed9184e1162e4e',
             'dev_requirement' => false,
         ),
         'topthink/think-trace' => array(

@@ -628,7 +628,7 @@ abstract class BaseQuery
         if (!isset($total) && !$simple) {
             $options = $this->getOptions();
 
-            unset($this->options['order'], $this->options['limit'], $this->options['page'], $this->options['field']);
+            unset($this->options['order'], $this->options['cache'], $this->options['limit'], $this->options['page'], $this->options['field']);
 
             $bind  = $this->bind;
             $total = $this->count();
@@ -705,7 +705,7 @@ abstract class BaseQuery
             ->limit(1)
             ->find();
 
-        $result = $data[$key];
+        $result = $data[$key] ?? 0;
 
         if (is_numeric($result)) {
             $lastId = 'asc' == $sort ? ($result - 1) + ($page - 1) * $listRows : ($result + 1) - ($page - 1) * $listRows;

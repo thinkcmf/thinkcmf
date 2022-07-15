@@ -81,12 +81,13 @@ class Collection extends BaseCollection
      * 设置需要隐藏的输出属性
      * @access public
      * @param  array $hidden 属性列表
+     * @param  bool  $merge  是否合并
      * @return $this
      */
-    public function hidden(array $hidden)
+    public function hidden(array $hidden, bool $merge = false)
     {
-        $this->each(function (Model $model) use ($hidden) {
-            $model->hidden($hidden);
+        $this->each(function (Model $model) use ($hidden, $merge) {
+            $model->hidden($hidden, $merge);
         });
 
         return $this;
@@ -96,12 +97,13 @@ class Collection extends BaseCollection
      * 设置需要输出的属性
      * @access public
      * @param  array $visible
+     * @param  bool  $merge    是否合并
      * @return $this
      */
-    public function visible(array $visible)
+    public function visible(array $visible, bool $merge = false)
     {
-        $this->each(function (Model $model) use ($visible) {
-            $model->visible($visible);
+        $this->each(function (Model $model) use ($visible, $merge) {
+            $model->visible($visible, $merge);
         });
 
         return $this;
@@ -111,12 +113,13 @@ class Collection extends BaseCollection
      * 设置需要追加的输出属性
      * @access public
      * @param  array $append 属性列表
+     * @param  bool  $merge  是否合并
      * @return $this
      */
-    public function append(array $append)
+    public function append(array $append, bool $merge = false)
     {
-        $this->each(function (Model $model) use ($append) {
-            $model->append($append);
+        $this->each(function (Model $model) use ($append, $merge) {
+            $model->append($append, $merge);
         });
 
         return $this;
