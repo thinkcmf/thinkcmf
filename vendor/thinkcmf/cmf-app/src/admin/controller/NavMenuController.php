@@ -104,20 +104,10 @@ class NavMenuController extends AdminBaseController
         $tree       = new Tree();
         $tree->icon = ['&nbsp;│ ', '&nbsp;├─ ', '&nbsp;└─ '];
         $tree->nbsp = '&nbsp;';
-        $array      = [];
 
-        foreach ($arrResult as $r) {
-            $r['str_manage'] = '<a href="' . url("NavMenu/add", ["parent_id" => $r['id']]) . '">' . lang('ADD_SUB_MENU') . '</a> | <a href="'
-                . url("NavMenu/edit", ["id" => $r['id']]) . '">' . lang('EDIT') . '</a> | <a class="J_ajax_del" href="'
-                . url("NavMenu/delete", ["id" => $r['id']]) . '">' . lang('DELETE') . '</a> ';
-            $r['status']     = $r['status'] ? lang('DISPLAY') : lang('HIDDEN');
-            $r['selected']   = $r['id'] == $intParentId ? 'selected' : '';
-            $array[]         = $r;
-        }
-
-        $tree->init($array);
+        $tree->init($arrResult);
         $str      = "<option value='\$id' \$selected>\$spacer\$name</option>";
-        $navTrees = $tree->getTree(0, $str);
+        $navTrees = $tree->getTree(0, $str, $intParentId);
         $this->assign('nav_trees', $navTrees);
 
         $navs = $navMenuModel->selectNavs();
@@ -177,32 +167,28 @@ class NavMenuController extends AdminBaseController
     public function edit()
     {
         $navMenuModel = new NavMenuModel();
-        $intNavId     = $this->request->param('nav_id', 0, 'intval');
-        $intId        = $this->request->param('id', 0, 'intval');
-        $intParentId  = $this->request->param('parent_id', 0, 'intval');
-        $objResult    = $navMenuModel
+
+        $intId    = $this->request->param('id', 0, 'intval');
+        $objNav   = $navMenuModel->where('id', $intId)->find();
+        $arrNav   = $objNav ? $objNav->toArray() : [];
+        $intNavId = $objNav['nav_id'];
+
+        $objResult = $navMenuModel
             ->where('nav_id', $intNavId)
             ->where('id', "<>", $intId)
             ->order(['list_order' => 'ASC'])
             ->select();
-        $arrResult    = $objResult ? $objResult->toArray() : [];
+        $arrResult = $objResult ? $objResult->toArray() : [];
 
         $tree       = new Tree();
         $tree->icon = ['&nbsp;│ ', '&nbsp;├─ ', '&nbsp;└─ '];
         $tree->nbsp = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-        $array      = [];
-        foreach ($arrResult as $r) {
-            $r['selected'] = $r['id'] == $intParentId ? 'selected' : '';
-            $array[]       = $r;
-        }
 
-        $tree->init($array);
+
+        $tree->init($arrResult);
         $str       = "<option value='\$id' \$selected>\$spacer\$name</option>";
-        $nav_trees = $tree->getTree(0, $str);
+        $nav_trees = $tree->getTree(0, $str, $objNav['parent_id']);
         $this->assign('nav_trees', $nav_trees);
-
-        $objNav = $navMenuModel->where('id', $intId)->find();
-        $arrNav = $objNav ? $objNav->toArray() : [];
 
         $arrNav['href_old'] = $arrNav['href'];
 
@@ -216,7 +202,7 @@ class NavMenuController extends AdminBaseController
         $this->assign('navs', $navs);
 
         $this->assign('nav_id', $intNavId);
-        $this->assign('parent_id', $intParentId);
+        $this->assign('parent_id', $objNav['parent_id']);
 
         return $this->fetch();
     }
