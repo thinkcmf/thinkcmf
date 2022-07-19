@@ -121,6 +121,7 @@ https://gitee.com/thinkcmf/docker
 
 ### 更新日志
 #### 6.0.7
+* 升级到`tp6.0.13`
 * 增加安装时检查API配置
 * 增加前台模板自由控件功能
 * 增加`widgetsHead`,`widgetsBlock`,`widgetsScript`标签
