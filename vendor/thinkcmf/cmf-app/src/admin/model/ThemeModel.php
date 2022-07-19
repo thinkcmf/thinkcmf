@@ -256,7 +256,16 @@ class ThemeModel extends Model
         if (!empty($configMore['widgets_blocks'])) {
             foreach ($configMore['widgets_blocks'] as $widgetsBlockName => $widgetsBlock) {
                 if (isset($moreInDb['widgets_blocks'][$widgetsBlockName]['widgets'])) {
-                    $configMore['widgets_blocks'][$widgetsBlockName]['widgets'] = $moreInDb['widgets_blocks'][$widgetsBlockName]['widgets'];
+                    if (!empty($moreInDb['edited_by_designer'])) {
+                        // 以设计器编辑的数据为准
+                        $configMore['widgets_blocks'][$widgetsBlockName]['widgets'] = $moreInDb['widgets_blocks'][$widgetsBlockName]['widgets'];
+                    } else {
+                        foreach ($configMore['widgets_blocks'][$widgetsBlockName]['widgets'] as $widgetId => $configMoreBlockWidget) {
+                            if(!empty( $moreInDb['widgets_blocks'][$widgetsBlockName]['widgets'][$widgetId])){
+                                $configMore['widgets_blocks'][$widgetsBlockName]['widgets'][$widgetId] = $moreInDb['widgets_blocks'][$widgetsBlockName]['widgets'][$widgetId];
+                            }
+                        }
+                    }
                 }
             }
         }
