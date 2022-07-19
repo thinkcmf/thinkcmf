@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ...
 
+## [1.3.3] - 2022-07-16
+### Changed
+* Ignore static analysis annotations (phpstan, psalm, codeCoverage) by [@dimtrovich].
+
 ## [1.3.2] - 2020-12-12
 ### PHP 8 compatibility
 * Fix namespace parsing for annotations by [@jcheron] (see [namespaced names as single token RFC](https://wiki.php.net/rfc/namespaced_names_as_token)).

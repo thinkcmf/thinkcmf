@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+# Cancels all previous workflow runs for the same branch that have not yet completed.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  tests:
+    name: Tests (PHP ${{ matrix.php }})
+    runs-on: Ubuntu-20.04
+
+    strategy:
+      matrix:
+        php: [ '5.3', '5.4', '5.5', '5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0' ]
+      fail-fast: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: "xdebug"
+          php-version: "${{ matrix.php }}"
+          tools: composer
+
+      - name: Install dependencies
+        uses: "ramsey/composer-install@v1"
+        with:
+          dependency-versions: "highest"
+
+      - name: Run tests
+        run: |
+          php test/test.php
+
+      - name: Upload Coverage to CodeCov
+        uses: codecov/codecov-action@v2
+
+      - name: Upload Coverage to Scrutinizer CI (PHP < 8.0)
+        if: "${{ matrix.php < '8.0' }}"
+        run: |
+          wget https://scrutinizer-ci.com/ocular.phar
+          php ocular.phar code-coverage:upload --repository=g/php-annotations/php-annotations --format=php-clover coverage.clover
+
+      - name: Upload Coverage to Scrutinizer CI (PHP >= 8.0)
+        if: "${{ matrix.php >= '8.0' }}"
+        run: |
+           composer require scrutinizer/ocular
+           vendor/bin/ocular code-coverage:upload --repository=g/php-annotations/php-annotations --format=php-clover coverage.clover
