@@ -62,8 +62,8 @@ ThinkCMF 6.0.7 让你更自由地飞
 https://www.thinkcmf.com/docs/cmf6
 
 ### Git仓库
-1. 码云:https://gitee.com/thinkcmf/ThinkCMF/tree/6.0 主要仓库
-2. GitHub:https://github.com/thinkcmf/thinkcmf/tree/6.0 国际镜像
+1. 码云:https://gitee.com/thinkcmf/ThinkCMF 主要仓库
+2. GitHub:https://github.com/thinkcmf/thinkcmf 国际镜像
 
 ### 环境推荐
 >php8.0  
