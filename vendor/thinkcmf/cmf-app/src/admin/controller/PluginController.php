@@ -258,6 +258,7 @@ class PluginController extends AdminBaseController
 
             $pluginModel = PluginModel::where('id', $id)->find();
             $pluginModel->save(['config' => json_encode($config)]);
+            cmf_clear_cache();
             $this->success(lang('EDIT_SUCCESS'), '');
         }
     }
