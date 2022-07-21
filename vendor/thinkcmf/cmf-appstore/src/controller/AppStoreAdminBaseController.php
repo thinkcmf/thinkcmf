@@ -17,6 +17,7 @@ class AppStoreAdminBaseController extends AdminBaseController
     protected function fetch($template = '', $vars = [], $config = [])
     {
         $templateFile = $this->parseTemplate($template);
+
         if (!is_file($templateFile)) {
             $request = $this->request;
             $depr    = config('view.view_depr');
@@ -40,7 +41,7 @@ class AppStoreAdminBaseController extends AdminBaseController
             }
         }
 
-        return $this->view->fetch($template);
+        return $this->view->fetch($templateFile);
     }
 
 }
