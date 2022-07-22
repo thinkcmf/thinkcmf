@@ -1,6 +1,10 @@
 # ThinkCMF核心包
 
 ## 更新日志
+### v6.0.16
+* 修复qrcode库php8.0及以上报错
+* 优化语言包加载
+
 ### v6.0.15
 * `css`标签增加`file`属性
 * 增加`cmf_mobile_mask`函数
