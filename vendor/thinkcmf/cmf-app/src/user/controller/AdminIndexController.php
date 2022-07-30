@@ -129,8 +129,12 @@ class AdminIndexController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         if ($id) {
-            UserModel::where(["id" => $id, "user_type" => 2])->update(['user_status' => 1]);
-            $this->success("会员启用成功！", '');
+            $result = UserModel::where(["id" => $id, "user_type" => 2])->update(['user_status' => 1]);
+            if ($result) {
+                $this->success("会员启用成功！", "adminIndex/index");
+            } else {
+                $this->error('会员启用失败,会员不存在,或者是管理员！');
+            }
         } else {
             $this->error('数据传入失败！');
         }
