@@ -136,7 +136,9 @@ class UserController extends AdminBaseController
                 if ($result !== true) {
                     $this->error($result);
                 } else {
-                    $data['user_pass'] = cmf_password($data['user_pass']);
+                    $data['user_pass']       = cmf_password($data['user_pass']);
+                    $data['create_time']     = time();
+                    $data['last_login_time'] = $data['create_time'];
                     $userId            = UserModel::strict(false)->insertGetId($data);
                     if ($userId !== false) {
                         //$role_user_model=M("RoleUser");
@@ -226,7 +228,7 @@ class UserController extends AdminBaseController
                     $this->error($result);
                 } else {
                     $userId = $this->request->param('id', 0, 'intval');
-                    $result = UserModel::strict(false)->where('id', $userId)->update($data);
+                    $result = UserModel::strict(false)->where('id', $userId)->save($data);
                     if ($result !== false) {
                         RoleUserModel::where("user_id", $userId)->delete();
                         foreach ($roleIds as $roleId) {
