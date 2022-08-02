@@ -24,4 +24,5 @@ class UserModel extends Model
         'more' => 'array',
     ];
 
+    protected $autoWriteTimestamp = true;
 }
