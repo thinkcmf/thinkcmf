@@ -19,15 +19,6 @@
             'reference' => 'b94b7a190e186a31bd37f21be3a83a48c7d6b49a',
             'dev_requirement' => false,
         ),
-        'electrolinux/phpquery' => array(
-            'pretty_version' => '0.9.6',
-            'version' => '0.9.6.0',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../electrolinux/phpquery',
-            'aliases' => array(),
-            'reference' => '6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a',
-            'dev_requirement' => false,
-        ),
         'ezyang/htmlpurifier' => array(
             'pretty_version' => 'v4.14.0',
             'version' => '4.14.0.0',
@@ -71,6 +62,15 @@
             'install_path' => __DIR__ . '/../mindplay/annotations',
             'aliases' => array(),
             'reference' => 'd314832b338b88299c4108361c858b0590798d2c',
+            'dev_requirement' => false,
+        ),
+        'obsoletepackage/phpquery' => array(
+            'pretty_version' => '1.0.1',
+            'version' => '1.0.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../obsoletepackage/phpquery',
+            'aliases' => array(),
+            'reference' => 'de1935ee2cc26c4d61c53c916ee9a8ea697edd9c',
             'dev_requirement' => false,
         ),
         'pclzip/pclzip' => array(
@@ -134,12 +134,12 @@
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf' => array(
-            'pretty_version' => 'v6.0.16',
-            'version' => '6.0.16.0',
+            'pretty_version' => 'v6.0.17',
+            'version' => '6.0.17.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../thinkcmf/cmf',
             'aliases' => array(),
-            'reference' => 'bb02d518e7ee8c19442ddd88a45abcbc8cfb00a8',
+            'reference' => '97681cdb9a205ab6c4fca0cfcca1b26b1c185712',
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-api' => array(

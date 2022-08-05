@@ -502,7 +502,7 @@ class phpQueryObject
 	 * @todo maybe other name...
 	 */
 	public function getString($index = null, $callback1 = null, $callback2 = null, $callback3 = null) {
-		if ($index)
+		if (!is_null($index) && is_int($index))
 			$return = $this->eq($index)->text();
 		else {
 			$return = array();
@@ -529,7 +529,7 @@ class phpQueryObject
 	 * @todo maybe other name...
 	 */
 	public function getStrings($index = null, $callback1 = null, $callback2 = null, $callback3 = null) {
-		if ($index)
+		if (!is_null($index) && is_int($index))
 			$return = $this->eq($index)->text();
 		else {
 			$return = array();
@@ -587,7 +587,7 @@ class phpQueryObject
 		if ( mb_strpos($class, '.', 1)) {
 			$classes = explode('.', substr($class, 1));
 			$classesCount = count( $classes );
-			$nodeClasses = explode(' ', $node->getAttribute('class') );
+			$nodeClasses = preg_split("/[\s\t\r\n]+/", $node->getAttribute('class'),-1, PREG_SPLIT_NO_EMPTY);
 			$nodeClassesCount = count( $nodeClasses );
 			if ( $classesCount > $nodeClassesCount )
 				return false;
@@ -605,7 +605,7 @@ class phpQueryObject
 				// strip leading dot from class name
 				substr($class, 1),
 				// get classes for element as array
-				explode(' ', $node->getAttribute('class') )
+				preg_split("/[\s\t\r\n]+/", $node->getAttribute('class'),-1, PREG_SPLIT_NO_EMPTY)
 			);
 		}
 	}
@@ -967,16 +967,18 @@ class phpQueryObject
 			break;
 			case 'parent':
 				$this->elements = $this->map(
-					create_function('$node', '
+					function ($node) {
 						return $node instanceof DOMELEMENT && $node->childNodes->length
-							? $node : null;')
+							? $node : null;
+					}
 				)->elements;
 			break;
 			case 'empty':
 				$this->elements = $this->map(
-					create_function('$node', '
+					function ($node) {
 						return $node instanceof DOMELEMENT && $node->childNodes->length
-							? null : $node;')
+							? null : $node;
+					}
 				)->elements;
 			break;
 			case 'disabled':
@@ -989,19 +991,21 @@ class phpQueryObject
 			break;
 			case 'enabled':
 				$this->elements = $this->map(
-					create_function('$node', '
-						return pq($node)->not(":disabled") ? $node : null;')
+					function ($node) {
+						return pq($node)->not(":disabled") ? $node : null;
+					}
 				)->elements;
 			break;
 			case 'header':
 				$this->elements = $this->map(
-					create_function('$node',
-						'$isHeader = isset($node->tagName) && in_array($node->tagName, array(
+					function ($node) {
+						$isHeader = isset($node->tagName) && in_array($node->tagName, array(
 							"h1", "h2", "h3", "h4", "h5", "h6", "h7"
 						));
 						return $isHeader
 							? $node
-							: null;')
+							: null;
+					}
 				)->elements;
 //				$this->elements = $this->map(
 //					create_function('$node', '$node = pq($node);
@@ -1018,18 +1022,19 @@ class phpQueryObject
 			break;
 			case 'only-child':
 				$this->elements = $this->map(
-					create_function('$node',
-						'return pq($node)->siblings()->size() == 0 ? $node : null;')
+					function ($node) {
+						return pq($node)->siblings()->size() == 0 ? $node : null;
+					}
 				)->elements;
 			break;
 			case 'first-child':
 				$this->elements = $this->map(
-					create_function('$node', 'return pq($node)->prevAll()->size() == 0 ? $node : null;')
+					function ($node) { return pq($node)->prevAll()->size() == 0 ? $node : null; }
 				)->elements;
 			break;
 			case 'last-child':
 				$this->elements = $this->map(
-					create_function('$node', 'return pq($node)->nextAll()->size() == 0 ? $node : null;')
+					function ($node) { return pq($node)->nextAll()->size() == 0 ? $node : null; }
 				)->elements;
 			break;
 			case 'nth-child':
@@ -1037,33 +1042,36 @@ class phpQueryObject
 				if (! $param)
 					break;
 					// nth-child(n+b) to nth-child(1n+b)
-				if ($param[0] == 'n')
+				if (substr($param, 0, 1) == 'n')
 					$param = '1'.$param;
 				// :nth-child(index/even/odd/equation)
 				if ($param == 'even' || $param == 'odd')
 					$mapped = $this->map(
-						create_function('$node, $param',
-							'$index = pq($node)->prevAll()->size()+1;
+						function ($node, $param) {
+							$index = pq($node)->prevAll()->size()+1;
 							if ($param == "even" && ($index%2) == 0)
 								return $node;
 							else if ($param == "odd" && $index%2 == 1)
 								return $node;
 							else
-								return null;'),
+								return null;
+						},
 						new CallbackParam(), $param
 					);
-				else if (mb_strlen($param) > 1 && $param[1] == 'n')
+				else if (mb_strlen($param) > 1 && preg_match('/^(\d*)n([-+]?)(\d*)/', $param) === 1)
 					// an+b
 					$mapped = $this->map(
-						create_function('$node, $param',
-							'$prevs = pq($node)->prevAll()->size();
+						function ($node, $param) {
+							$prevs = pq($node)->prevAll()->size();
 							$index = 1+$prevs;
-							$b = mb_strlen($param) > 3
-								? $param{3}
-								: 0;
-							$a = $param{0};
-							if ($b && $param{2} == "-")
-								$b = -$b;
+
+							preg_match("/^(\d*)n([-+]?)(\d*)/", $param, $matches);
+							$a = intval($matches[1]);
+							$b = intval($matches[3]);
+							if( $matches[2] === "-" ) {
+							    $b = -$b;
+							}
+
 							if ($a > 0) {
 								return ($index-$b)%$a == 0
 									? $node
@@ -1089,20 +1097,21 @@ class phpQueryObject
 //								return ($index-$b)%$a == 0
 //									? $node
 //									: null;
-							'),
+							},
 						new CallbackParam(), $param
 					);
 				else
 					// index
 					$mapped = $this->map(
-						create_function('$node, $index',
-							'$prevs = pq($node)->prevAll()->size();
+						function ($node, $index) {
+							$prevs = pq($node)->prevAll()->size();
 							if ($prevs && $prevs == $index-1)
 								return $node;
 							else if (! $prevs && $index == 1)
 								return $node;
 							else
-								return null;'),
+								return null;
+						},
 						new CallbackParam(), $param
 					);
 				$this->elements = $mapped->elements;
@@ -1878,7 +1887,7 @@ class phpQueryObject
 	}
 	/**
 	 * Enter description here...
-	 * 
+	 *
 	 * @param $code
 	 * @return unknown_type
 	 */
@@ -1889,7 +1898,7 @@ class phpQueryObject
 	}
 	/**
 	 * Enter description here...
-	 * 
+	 *
 	 * @param $code
 	 * @return unknown_type
 	 */
@@ -2264,7 +2273,7 @@ class phpQueryObject
 		}
 		return $return;
 	}
-	
+
 	/**
 	 * @return The text content of each matching element, like
 	 * text() but returns an array with one entry per matched element.
@@ -2277,7 +2286,7 @@ class phpQueryObject
 		}
 		return $results;
 	}
-	
+
 	/**
 	 * Enter description here...
 	 *
@@ -2645,7 +2654,7 @@ class phpQueryObject
 		return is_null($value)
 			? '' : $this;
 	}
-	
+
 	/**
 	 * @return The same attribute of each matching element, like
 	 * attr() but returns an array with one entry per matched element.
@@ -2949,7 +2958,7 @@ class phpQueryObject
 	}
 	/**
 	 * Enter description here...
-	 * 
+	 *
 	 * @param <type> $key
 	 * @param <type> $value
 	 */
@@ -2966,7 +2975,7 @@ class phpQueryObject
 	}
 	/**
 	 * Enter description here...
-	 * 
+	 *
 	 * @param <type> $key
 	 */
 	public function removeData($key) {
@@ -3099,7 +3108,7 @@ class phpQueryObject
 					: "{$node->tagName}[{$i}]";
 				$node = $node->parentNode;
 			}
-			$xpath = join('/', array_reverse($xpath));
+			$xpath = implode('/', array_reverse($xpath));
 			$return[] = '/'.$xpath;
 		}
 		return $oneNode
@@ -3121,7 +3130,7 @@ class phpQueryObject
 					.($node->getAttribute('id')
 						? '#'.$node->getAttribute('id'):'')
 					.($node->getAttribute('class')
-						? '.'.join('.', split(' ', $node->getAttribute('class'))):'')
+						? '.'.implode('.', explode(' ', $node->getAttribute('class'))):'')
 					.($node->getAttribute('name')
 						? '[name="'.$node->getAttribute('name').'"]':'')
 					.($node->getAttribute('value') && strpos($node->getAttribute('value'), '<'.'?php') === false

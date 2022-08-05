@@ -1,8 +1,8 @@
 {
-    "name": "electrolinux/phpquery"
+    "name": "obsoletepackage/phpquery"
     ,"type": "library"
     ,"description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library"
-    ,"version": "0.9.6"
+    ,"version": "1.0.1"
     ,"keywords": []
     ,"homepage": "http://code.google.com/p/phpquery/"
     ,"license": "MIT"
@@ -16,6 +16,10 @@
         ,{
             "name": "didier Belot"
             ,"role": "Packager"
+        }
+        ,{
+            "name": "obsolete package"
+            ,"homepage": "https://github.com/ObsoletePackage"
         }
     ],
     "autoload": {

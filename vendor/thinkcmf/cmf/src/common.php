@@ -2306,7 +2306,7 @@ function str_to_arr($string)
  */
 function cmf_is_cli()
 {
-   return PHP_SAPI === 'cli' || defined('STDIN');
+    return PHP_SAPI === 'cli' || defined('STDIN');
 }
 
 /**
@@ -2332,4 +2332,14 @@ function cmf_test_write($d)
 function cmf_mobile_mask($mobile)
 {
     return substr($mobile, 0, 3) . '****' . substr($mobile, -4, 4);
+}
+
+/**
+ * 吾辈当自强
+ * @param string $dayDayUp
+ * @return string
+ */
+function cmf_together(string $dayDayUp = '2022-08-03 01:58')
+{
+    return "吾辈当自强!\n$dayDayUp";
 }
