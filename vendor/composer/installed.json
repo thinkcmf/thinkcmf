@@ -48,52 +48,6 @@
             "install-path": "../chamilo/pclzip"
         },
         {
-            "name": "electrolinux/phpquery",
-            "version": "0.9.6",
-            "version_normalized": "0.9.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/electrolinux/phpquery.git",
-                "reference": "6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/electrolinux/phpquery/zipball/6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a",
-                "reference": "6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a",
-                "shasum": ""
-            },
-            "time": "2013-03-21T12:39:33+00:00",
-            "type": "library",
-            "installation-source": "dist",
-            "autoload": {
-                "classmap": [
-                    "phpQuery/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Tobiasz Cudnik",
-                    "email": "tobiasz.cudnik@gmail.com",
-                    "homepage": "https://github.com/TobiaszCudnik",
-                    "role": "Developer"
-                },
-                {
-                    "name": "didier Belot",
-                    "role": "Packager"
-                }
-            ],
-            "description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library",
-            "homepage": "http://code.google.com/p/phpquery/",
-            "support": {
-                "source": "https://github.com/electrolinux/phpquery/tree/0.9.6"
-            },
-            "install-path": "../electrolinux/phpquery"
-        },
-        {
             "name": "ezyang/htmlpurifier",
             "version": "v4.14.0",
             "version_normalized": "4.14.0.0",
@@ -413,6 +367,56 @@
                 "source": "https://github.com/php-annotations/php-annotations/tree/1.3.3"
             },
             "install-path": "../mindplay/annotations"
+        },
+        {
+            "name": "obsoletepackage/phpquery",
+            "version": "1.0.1",
+            "version_normalized": "1.0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ObsoletePackage/phpquery.git",
+                "reference": "de1935ee2cc26c4d61c53c916ee9a8ea697edd9c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ObsoletePackage/phpquery/zipball/de1935ee2cc26c4d61c53c916ee9a8ea697edd9c",
+                "reference": "de1935ee2cc26c4d61c53c916ee9a8ea697edd9c",
+                "shasum": ""
+            },
+            "time": "2022-08-05T12:44:45+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "classmap": [
+                    "phpQuery/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobiasz Cudnik",
+                    "email": "tobiasz.cudnik@gmail.com",
+                    "homepage": "https://github.com/TobiaszCudnik",
+                    "role": "Developer"
+                },
+                {
+                    "name": "didier Belot",
+                    "role": "Packager"
+                },
+                {
+                    "name": "obsolete package",
+                    "homepage": "https://github.com/ObsoletePackage"
+                }
+            ],
+            "description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library",
+            "homepage": "http://code.google.com/p/phpquery/",
+            "support": {
+                "source": "https://github.com/ObsoletePackage/phpquery/tree/1.0.1"
+            },
+            "install-path": "../obsoletepackage/phpquery"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -763,23 +767,23 @@
         },
         {
             "name": "thinkcmf/cmf",
-            "version": "v6.0.16",
-            "version_normalized": "6.0.16.0",
+            "version": "v6.0.17",
+            "version_normalized": "6.0.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-core.git",
-                "reference": "bb02d518e7ee8c19442ddd88a45abcbc8cfb00a8"
+                "reference": "97681cdb9a205ab6c4fca0cfcca1b26b1c185712"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/bb02d518e7ee8c19442ddd88a45abcbc8cfb00a8",
-                "reference": "bb02d518e7ee8c19442ddd88a45abcbc8cfb00a8",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/97681cdb9a205ab6c4fca0cfcca1b26b1c185712",
+                "reference": "97681cdb9a205ab6c4fca0cfcca1b26b1c185712",
                 "shasum": ""
             },
             "require": {
-                "electrolinux/phpquery": "^0.9.6",
                 "ezyang/htmlpurifier": "^4.9",
                 "mindplay/annotations": "^1.3",
+                "obsoletepackage/phpquery": "^1.0.1",
                 "phpmailer/phpmailer": "~6.0",
                 "thinkcmf/cmf-captcha": "^3.0",
                 "thinkcmf/cmf-extend": "~5.1.0",
@@ -787,7 +791,7 @@
                 "topthink/think-orm": "^2.0",
                 "xia/migration": "^6.0"
             },
-            "time": "2022-07-22T02:27:15+00:00",
+            "time": "2022-08-05T14:59:02+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -823,7 +827,7 @@
             "description": "The ThinkCMF Core Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-core/issues",
-                "source": "https://github.com/thinkcmf/cmf-core/tree/v6.0.16"
+                "source": "https://github.com/thinkcmf/cmf-core/tree/v6.0.17"
             },
             "install-path": "../thinkcmf/cmf"
         },

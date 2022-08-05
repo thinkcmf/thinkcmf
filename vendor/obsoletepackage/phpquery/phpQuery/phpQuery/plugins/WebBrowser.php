@@ -84,8 +84,8 @@ class phpQueryObjectPlugin_WebBrowser {
 		}
 		return $return;
 	}
-        
-        
+
+
         public static function download($self, $url = null) {
             $xhr = isset($self->document->xhr)
 			? $self->document->xhr
@@ -266,7 +266,7 @@ class phpQueryPlugin_WebBrowser {
 		} else
 			return $pq;
 	}
-        
+
         /**
 	 * @param Zend_Http_Client $xhr
 	 */
@@ -278,7 +278,7 @@ class phpQueryPlugin_WebBrowser {
 		return $body;
 	}
 	/**
-	 * 
+	 *
 	 * @param $e
 	 * @param $callback
 	 * @return unknown_type
@@ -385,7 +385,7 @@ function resolve_url($base, $url) {
         // Step 3
         if (preg_match('!^[a-z]+:!i', $url)) return $url;
         $base = parse_url($base);
-        if ($url{0} == "#") {
+        if (substr($url, 0, 1) == "#") {
                 // Step 2 (fragment)
                 $base['fragment'] = substr($url, 1);
                 return unparse_url($base);
@@ -398,7 +398,7 @@ function resolve_url($base, $url) {
                         'scheme'=>$base['scheme'],
                         'path'=>substr($url,2),
                 ));
-        } else if ($url{0} == "/") {
+        } else if (substr($url, 0, 1) == "/") {
                 // Step 5
                 $base['path'] = $url;
         } else {
