@@ -93,7 +93,7 @@ class RestBaseController
 
     private function _initUser()
     {
-        $token = $this->request->header('Authorization');
+        $token = $this->request->header('Authorization','');
         if (substr($token, 0, 7) === 'Bearer ') {
             $token = substr($token, 7);
         }
