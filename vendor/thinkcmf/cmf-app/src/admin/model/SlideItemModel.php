@@ -19,4 +19,8 @@ class SlideItemModel extends Model
      * @var string
      */
     protected $name = 'slide_item';
+
+    protected $type = [
+        'more'        => 'array'
+    ];
 }
