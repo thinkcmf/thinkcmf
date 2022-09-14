@@ -11,12 +11,12 @@
     ),
     'versions' => array(
         'chamilo/pclzip' => array(
-            'pretty_version' => 'v2.8.4',
-            'version' => '2.8.4.0',
+            'pretty_version' => 'v2.8.5',
+            'version' => '2.8.5.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../chamilo/pclzip',
             'aliases' => array(),
-            'reference' => 'b94b7a190e186a31bd37f21be3a83a48c7d6b49a',
+            'reference' => 'af10d07a39922b0789bf761524a22ecefc01d405',
             'dev_requirement' => false,
         ),
         'ezyang/htmlpurifier' => array(
@@ -65,12 +65,12 @@
             'dev_requirement' => false,
         ),
         'obsoletepackage/phpquery' => array(
-            'pretty_version' => '1.0.1',
-            'version' => '1.0.1.0',
+            'pretty_version' => '1.0.2',
+            'version' => '1.0.2.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../obsoletepackage/phpquery',
             'aliases' => array(),
-            'reference' => 'de1935ee2cc26c4d61c53c916ee9a8ea697edd9c',
+            'reference' => 'ebe03fabd3286fdad18a0148a5f23f6dcc0443fb',
             'dev_requirement' => false,
         ),
         'pclzip/pclzip' => array(
@@ -80,12 +80,12 @@
             ),
         ),
         'phpmailer/phpmailer' => array(
-            'pretty_version' => 'v6.6.3',
-            'version' => '6.6.3.0',
+            'pretty_version' => 'v6.6.4',
+            'version' => '6.6.4.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpmailer/phpmailer',
             'aliases' => array(),
-            'reference' => '9400f305a898f194caff5521f64e5dfa926626f3',
+            'reference' => 'a94fdebaea6bd17f51be0c2373ab80d3d681269b',
             'dev_requirement' => false,
         ),
         'psr/cache' => array(

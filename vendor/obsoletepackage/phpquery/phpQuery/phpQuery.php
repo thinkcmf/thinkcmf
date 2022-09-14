@@ -647,7 +647,7 @@ abstract class phpQuery {
 	 * @todo still used ?
 	 */
 	public static function isMarkup($input) {
-		return ! is_array($input) && substr(trim($input), 0, 1) == '<';
+		return ! is_array($input) && substr(trim((string)$input), 0, 1) == '<';
 	}
 	public static function debug($text) {
 		if (self::$debug)
