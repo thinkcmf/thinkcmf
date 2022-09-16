@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "chamilo/pclzip",
-            "version": "v2.8.4",
+            "version": "v2.8.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/chamilo/pclzip.git",
-                "reference": "b94b7a190e186a31bd37f21be3a83a48c7d6b49a"
+                "reference": "af10d07a39922b0789bf761524a22ecefc01d405"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chamilo/pclzip/zipball/b94b7a190e186a31bd37f21be3a83a48c7d6b49a",
-                "reference": "b94b7a190e186a31bd37f21be3a83a48c7d6b49a",
+                "url": "https://api.github.com/repos/chamilo/pclzip/zipball/af10d07a39922b0789bf761524a22ecefc01d405",
+                "reference": "af10d07a39922b0789bf761524a22ecefc01d405",
                 "shasum": ""
             },
             "replace": {
@@ -46,9 +46,9 @@
             ],
             "support": {
                 "issues": "https://github.com/chamilo/pclzip/issues",
-                "source": "https://github.com/chamilo/pclzip/tree/v2.8.4"
+                "source": "https://github.com/chamilo/pclzip/tree/v2.8.5"
             },
-            "time": "2017-11-28T22:14:11+00:00"
+            "time": "2022-09-06T21:41:44+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -358,16 +358,16 @@
         },
         {
             "name": "obsoletepackage/phpquery",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ObsoletePackage/phpquery.git",
-                "reference": "de1935ee2cc26c4d61c53c916ee9a8ea697edd9c"
+                "reference": "ebe03fabd3286fdad18a0148a5f23f6dcc0443fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ObsoletePackage/phpquery/zipball/de1935ee2cc26c4d61c53c916ee9a8ea697edd9c",
-                "reference": "de1935ee2cc26c4d61c53c916ee9a8ea697edd9c",
+                "url": "https://api.github.com/repos/ObsoletePackage/phpquery/zipball/ebe03fabd3286fdad18a0148a5f23f6dcc0443fb",
+                "reference": "ebe03fabd3286fdad18a0148a5f23f6dcc0443fb",
                 "shasum": ""
             },
             "type": "library",
@@ -399,22 +399,22 @@
             "description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library",
             "homepage": "http://code.google.com/p/phpquery/",
             "support": {
-                "source": "https://github.com/ObsoletePackage/phpquery/tree/1.0.1"
+                "source": "https://github.com/ObsoletePackage/phpquery/tree/1.0.2"
             },
-            "time": "2022-08-05T12:44:45+00:00"
+            "time": "2022-08-21T10:51:36+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.6.3",
+            "version": "v6.6.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "9400f305a898f194caff5521f64e5dfa926626f3"
+                "reference": "a94fdebaea6bd17f51be0c2373ab80d3d681269b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/9400f305a898f194caff5521f64e5dfa926626f3",
-                "reference": "9400f305a898f194caff5521f64e5dfa926626f3",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/a94fdebaea6bd17f51be0c2373ab80d3d681269b",
+                "reference": "a94fdebaea6bd17f51be0c2373ab80d3d681269b",
                 "shasum": ""
             },
             "require": {
@@ -471,7 +471,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.6.3"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.6.4"
             },
             "funding": [
                 {
@@ -479,7 +479,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-06-20T09:21:02+00:00"
+            "time": "2022-08-22T09:22:00+00:00"
         },
         {
             "name": "psr/cache",

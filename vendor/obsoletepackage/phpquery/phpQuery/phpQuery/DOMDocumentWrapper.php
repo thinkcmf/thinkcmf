@@ -131,7 +131,7 @@ class DOMDocumentWrapper {
 		$this->document->formatOutput = true;
 		$this->document->preserveWhiteSpace = true;
 	}
-	protected function loadMarkupHTML($markup, $requestedCharset = null) {
+	protected function loadMarkupHTML($markup,$requestedCharset = '') {
 		if (phpQuery::$debug)
 			phpQuery::debug('Full markup load (HTML): '.substr($markup, 0, 250));
 		$this->loadMarkupReset();
@@ -157,7 +157,7 @@ class DOMDocumentWrapper {
 		}
 		// Should be careful here, still need 'magic encoding detection' since lots of pages have other 'default encoding'
 		// Worse, some pages can have mixed encodings... we'll try not to worry about that
-		$requestedCharset = strtoupper($requestedCharset);
+		$requestedCharset = strtoupper((string)$requestedCharset);
 		$documentCharset = strtoupper($documentCharset);
 		phpQuery::debug("DOC: $documentCharset REQ: $requestedCharset");
 		if ($requestedCharset && $documentCharset && $requestedCharset !== $documentCharset) {
@@ -322,7 +322,7 @@ class DOMDocumentWrapper {
 				? $matches[1][1]
 				: $matches[1][0];
 		} else
-			$matches[1] = null;
+			$matches[1] = '';
 		return $matches;
 	}
 	/**
@@ -510,7 +510,7 @@ class DOMDocumentWrapper {
 	 * @param $markup
 	 * @return $document
 	 */
-	private function documentFragmentLoadMarkup($fragment, $charset, $markup = null) {
+	private function documentFragmentLoadMarkup($fragment, $charset, $markup = '') {
 		// TODO error handling
 		// TODO copy doctype
 		// tempolary turn off
@@ -530,7 +530,7 @@ class DOMDocumentWrapper {
 		} else {
 			$markup2 = phpQuery::$defaultDoctype.'<html><head><meta http-equiv="Content-Type" content="text/html;charset='
 				.$charset.'"></head>';
-			$noBody = strpos($markup, '<body') === false;
+			$noBody = strpos((string)$markup, '<body') === false;
 			if ($noBody)
 				$markup2 .= '<body>';
 			$markup2 .= $markup;
