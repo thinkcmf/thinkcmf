@@ -11,21 +11,12 @@
     ),
     'versions' => array(
         'chamilo/pclzip' => array(
-            'pretty_version' => 'v2.8.4',
-            'version' => '2.8.4.0',
+            'pretty_version' => 'v2.8.5',
+            'version' => '2.8.5.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../chamilo/pclzip',
             'aliases' => array(),
-            'reference' => 'b94b7a190e186a31bd37f21be3a83a48c7d6b49a',
-            'dev_requirement' => false,
-        ),
-        'electrolinux/phpquery' => array(
-            'pretty_version' => '0.9.6',
-            'version' => '0.9.6.0',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../electrolinux/phpquery',
-            'aliases' => array(),
-            'reference' => '6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a',
+            'reference' => 'af10d07a39922b0789bf761524a22ecefc01d405',
             'dev_requirement' => false,
         ),
         'ezyang/htmlpurifier' => array(
@@ -73,6 +64,15 @@
             'reference' => 'd314832b338b88299c4108361c858b0590798d2c',
             'dev_requirement' => false,
         ),
+        'obsoletepackage/phpquery' => array(
+            'pretty_version' => '1.0.2',
+            'version' => '1.0.2.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../obsoletepackage/phpquery',
+            'aliases' => array(),
+            'reference' => 'ebe03fabd3286fdad18a0148a5f23f6dcc0443fb',
+            'dev_requirement' => false,
+        ),
         'pclzip/pclzip' => array(
             'dev_requirement' => false,
             'replaced' => array(
@@ -80,12 +80,12 @@
             ),
         ),
         'phpmailer/phpmailer' => array(
-            'pretty_version' => 'v6.6.3',
-            'version' => '6.6.3.0',
+            'pretty_version' => 'v6.6.4',
+            'version' => '6.6.4.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpmailer/phpmailer',
             'aliases' => array(),
-            'reference' => '9400f305a898f194caff5521f64e5dfa926626f3',
+            'reference' => 'a94fdebaea6bd17f51be0c2373ab80d3d681269b',
             'dev_requirement' => false,
         ),
         'psr/cache' => array(
@@ -134,12 +134,12 @@
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf' => array(
-            'pretty_version' => 'v6.0.16',
-            'version' => '6.0.16.0',
+            'pretty_version' => 'v6.0.17',
+            'version' => '6.0.17.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../thinkcmf/cmf',
             'aliases' => array(),
-            'reference' => 'bb02d518e7ee8c19442ddd88a45abcbc8cfb00a8',
+            'reference' => '97681cdb9a205ab6c4fca0cfcca1b26b1c185712',
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-api' => array(

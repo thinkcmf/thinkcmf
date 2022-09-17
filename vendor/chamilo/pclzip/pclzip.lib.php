@@ -1,6 +1,6 @@
 <?php
 // --------------------------------------------------------------------------------
-// PhpConcept Library - Zip Module 2.8.2
+// PhpConcept Library - Zip Module 2.8.4
 // --------------------------------------------------------------------------------
 // License GNU/LGPL - Vincent Blavet - August 2009
 // http://www.phpconcept.net
@@ -3511,6 +3511,12 @@ class PclZip
                 $p_entry['filename'] = substr($p_entry['filename'], $p_remove_path_size);
 
             }
+        }
+
+        // Patch for Zip Traversal vulnerability
+        if (strpos($p_entry['stored_filename'], '../') !== false || strpos($p_entry['stored_filename'], '..\\') !== false) {
+            $p_entry['stored_filename'] = basename($p_entry['stored_filename']);
+            $p_entry['filename'] = basename($p_entry['stored_filename']);
         }
 
         // ----- Add the path

@@ -83,7 +83,7 @@ class SlideController extends AdminBaseController
     public function addPost()
     {
         if ($this->request->isPost()) {
-            $data           = $this->request->param();
+            $data           = $this->request->param('',null,'strip_tags');
             $slidePostModel = new SlideModel();
             $result         = $this->validate($data, 'Slide');
             if ($result !== true) {
@@ -133,7 +133,7 @@ class SlideController extends AdminBaseController
     public function editPost()
     {
         if ($this->request->isPost()) {
-            $data   = $this->request->param();
+            $data   = $this->request->param('',null,'strip_tags');
             $result = $this->validate($data, 'Slide');
             if ($result !== true) {
                 $this->error($result);

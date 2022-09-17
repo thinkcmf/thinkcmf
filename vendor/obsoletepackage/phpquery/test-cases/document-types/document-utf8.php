@@ -8,6 +8,6 @@
 	<body>
 		<span>Hello World!</span>
 		<span>ąśżźć</span>
-		<a href='<?php foreach($foo as $bar} { print $foo['1'] } ?>'>Attr test</a>
+		<a href='<?php foreach($foo as $bar) { print $foo['1'] } ?>'>Attr test</a>
 	</body>
 </html>

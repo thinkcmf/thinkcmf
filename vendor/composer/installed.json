@@ -2,23 +2,23 @@
     "packages": [
         {
             "name": "chamilo/pclzip",
-            "version": "v2.8.4",
-            "version_normalized": "2.8.4.0",
+            "version": "v2.8.5",
+            "version_normalized": "2.8.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/chamilo/pclzip.git",
-                "reference": "b94b7a190e186a31bd37f21be3a83a48c7d6b49a"
+                "reference": "af10d07a39922b0789bf761524a22ecefc01d405"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chamilo/pclzip/zipball/b94b7a190e186a31bd37f21be3a83a48c7d6b49a",
-                "reference": "b94b7a190e186a31bd37f21be3a83a48c7d6b49a",
+                "url": "https://api.github.com/repos/chamilo/pclzip/zipball/af10d07a39922b0789bf761524a22ecefc01d405",
+                "reference": "af10d07a39922b0789bf761524a22ecefc01d405",
                 "shasum": ""
             },
             "replace": {
                 "pclzip/pclzip": "^2.8"
             },
-            "time": "2017-11-28T22:14:11+00:00",
+            "time": "2022-09-06T21:41:44+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -43,55 +43,9 @@
             ],
             "support": {
                 "issues": "https://github.com/chamilo/pclzip/issues",
-                "source": "https://github.com/chamilo/pclzip/tree/v2.8.4"
+                "source": "https://github.com/chamilo/pclzip/tree/v2.8.5"
             },
             "install-path": "../chamilo/pclzip"
-        },
-        {
-            "name": "electrolinux/phpquery",
-            "version": "0.9.6",
-            "version_normalized": "0.9.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/electrolinux/phpquery.git",
-                "reference": "6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/electrolinux/phpquery/zipball/6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a",
-                "reference": "6cb8afcfe8cd4ce45f2f8c27d561383037c27a3a",
-                "shasum": ""
-            },
-            "time": "2013-03-21T12:39:33+00:00",
-            "type": "library",
-            "installation-source": "dist",
-            "autoload": {
-                "classmap": [
-                    "phpQuery/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Tobiasz Cudnik",
-                    "email": "tobiasz.cudnik@gmail.com",
-                    "homepage": "https://github.com/TobiaszCudnik",
-                    "role": "Developer"
-                },
-                {
-                    "name": "didier Belot",
-                    "role": "Packager"
-                }
-            ],
-            "description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library",
-            "homepage": "http://code.google.com/p/phpquery/",
-            "support": {
-                "source": "https://github.com/electrolinux/phpquery/tree/0.9.6"
-            },
-            "install-path": "../electrolinux/phpquery"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -415,18 +369,68 @@
             "install-path": "../mindplay/annotations"
         },
         {
-            "name": "phpmailer/phpmailer",
-            "version": "v6.6.3",
-            "version_normalized": "6.6.3.0",
+            "name": "obsoletepackage/phpquery",
+            "version": "1.0.2",
+            "version_normalized": "1.0.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "9400f305a898f194caff5521f64e5dfa926626f3"
+                "url": "https://github.com/ObsoletePackage/phpquery.git",
+                "reference": "ebe03fabd3286fdad18a0148a5f23f6dcc0443fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/9400f305a898f194caff5521f64e5dfa926626f3",
-                "reference": "9400f305a898f194caff5521f64e5dfa926626f3",
+                "url": "https://api.github.com/repos/ObsoletePackage/phpquery/zipball/ebe03fabd3286fdad18a0148a5f23f6dcc0443fb",
+                "reference": "ebe03fabd3286fdad18a0148a5f23f6dcc0443fb",
+                "shasum": ""
+            },
+            "time": "2022-08-21T10:51:36+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "classmap": [
+                    "phpQuery/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobiasz Cudnik",
+                    "email": "tobiasz.cudnik@gmail.com",
+                    "homepage": "https://github.com/TobiaszCudnik",
+                    "role": "Developer"
+                },
+                {
+                    "name": "didier Belot",
+                    "role": "Packager"
+                },
+                {
+                    "name": "obsolete package",
+                    "homepage": "https://github.com/ObsoletePackage"
+                }
+            ],
+            "description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library",
+            "homepage": "http://code.google.com/p/phpquery/",
+            "support": {
+                "source": "https://github.com/ObsoletePackage/phpquery/tree/1.0.2"
+            },
+            "install-path": "../obsoletepackage/phpquery"
+        },
+        {
+            "name": "phpmailer/phpmailer",
+            "version": "v6.6.4",
+            "version_normalized": "6.6.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPMailer/PHPMailer.git",
+                "reference": "a94fdebaea6bd17f51be0c2373ab80d3d681269b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/a94fdebaea6bd17f51be0c2373ab80d3d681269b",
+                "reference": "a94fdebaea6bd17f51be0c2373ab80d3d681269b",
                 "shasum": ""
             },
             "require": {
@@ -453,7 +457,7 @@
                 "stevenmaguire/oauth2-microsoft": "Needed for Microsoft XOAUTH2 authentication",
                 "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
             },
-            "time": "2022-06-20T09:21:02+00:00",
+            "time": "2022-08-22T09:22:00+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -485,7 +489,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.6.3"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.6.4"
             },
             "funding": [
                 {
@@ -763,23 +767,23 @@
         },
         {
             "name": "thinkcmf/cmf",
-            "version": "v6.0.16",
-            "version_normalized": "6.0.16.0",
+            "version": "v6.0.17",
+            "version_normalized": "6.0.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-core.git",
-                "reference": "bb02d518e7ee8c19442ddd88a45abcbc8cfb00a8"
+                "reference": "97681cdb9a205ab6c4fca0cfcca1b26b1c185712"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/bb02d518e7ee8c19442ddd88a45abcbc8cfb00a8",
-                "reference": "bb02d518e7ee8c19442ddd88a45abcbc8cfb00a8",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/97681cdb9a205ab6c4fca0cfcca1b26b1c185712",
+                "reference": "97681cdb9a205ab6c4fca0cfcca1b26b1c185712",
                 "shasum": ""
             },
             "require": {
-                "electrolinux/phpquery": "^0.9.6",
                 "ezyang/htmlpurifier": "^4.9",
                 "mindplay/annotations": "^1.3",
+                "obsoletepackage/phpquery": "^1.0.1",
                 "phpmailer/phpmailer": "~6.0",
                 "thinkcmf/cmf-captcha": "^3.0",
                 "thinkcmf/cmf-extend": "~5.1.0",
@@ -787,7 +791,7 @@
                 "topthink/think-orm": "^2.0",
                 "xia/migration": "^6.0"
             },
-            "time": "2022-07-22T02:27:15+00:00",
+            "time": "2022-08-05T14:59:02+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -823,7 +827,7 @@
             "description": "The ThinkCMF Core Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-core/issues",
-                "source": "https://github.com/thinkcmf/cmf-core/tree/v6.0.16"
+                "source": "https://github.com/thinkcmf/cmf-core/tree/v6.0.17"
             },
             "install-path": "../thinkcmf/cmf"
         },
