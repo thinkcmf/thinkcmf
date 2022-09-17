@@ -91,7 +91,7 @@ class SlideItemController extends AdminBaseController
     public function addPost()
     {
         if ($this->request->isPost()) {
-            $data = $this->request->param();
+            $data = $this->request->param('',null,'strip_tags');
             SlideItemModel::insert($data['post']);
             $this->success(lang('ADD_SUCCESS'), url('SlideItem/index', ['slide_id' => $data['post']['slide_id']]));
         }
@@ -142,7 +142,7 @@ class SlideItemController extends AdminBaseController
     public function editPost()
     {
         if ($this->request->isPost()) {
-            $data = $this->request->param();
+            $data = $this->request->param('',null,'strip_tags');
 
             $data['post']['image'] = cmf_asset_relative_url($data['post']['image']);
 
