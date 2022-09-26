@@ -122,6 +122,9 @@ class Upload
         if (empty($userId)) {
 
             $token = $this->request->header('Authorization');
+            if (substr($token, 0, 7) === 'Bearer ') {
+                $token = substr($token, 7);
+            }
             if (empty($token)) {
                 $token = $this->request->header('XX-Token');
             }
