@@ -132,7 +132,7 @@ class UserController extends AdminBaseController
             $roleIds = $this->request->param('role_id/a');
             if (!empty($roleIds) && is_array($roleIds)) {
                 $data   = $this->request->param();
-                $result = $this->validate($data, 'User');
+                $result = $this->validate($data, 'User.add');
                 if ($result !== true) {
                     $this->error($result);
                 } else {
