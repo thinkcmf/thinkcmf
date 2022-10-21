@@ -1412,7 +1412,7 @@ hello;
                 $module = isset($module) ? $module : app()->http->getName();
                 $path   = $this->config['view_base'] . ($module ? $module . DIRECTORY_SEPARATOR : '');
             } else {
-                $path = isset($module) ? $this->app->getAppPath() . $module . DIRECTORY_SEPARATOR . basename($this->config['view_path']) . DIRECTORY_SEPARATOR : $this->config['view_path'];
+                $path = isset($module) ? app()->getAppPath() . $module . DIRECTORY_SEPARATOR . basename($this->config['view_path']) . DIRECTORY_SEPARATOR : $this->config['view_path'];
             }
             $template = $path . $template . '.' . ltrim($this->config['view_suffix'], '.');
         }
