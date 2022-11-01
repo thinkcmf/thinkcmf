@@ -70,15 +70,16 @@ class RegisterController extends HomeBaseController
                 $this->error($validate->getError());
             }
 
-            $captchaId = empty($data['_captcha_id']) ? '' : $data['_captcha_id'];
-            if (!cmf_captcha_check($data['captcha'], $captchaId)) {
-                $this->error('验证码错误');
-            }
 
             if (!$isOpenRegistration) {
                 $errMsg = cmf_check_verification_code($data['username'], $data['code']);
                 if (!empty($errMsg)) {
                     $this->error($errMsg);
+                }
+            }else{
+                $captchaId = empty($data['_captcha_id']) ? '' : $data['_captcha_id'];
+                if (!cmf_captcha_check($data['captcha'], $captchaId)) {
+                    $this->error('验证码错误');
                 }
             }
 
