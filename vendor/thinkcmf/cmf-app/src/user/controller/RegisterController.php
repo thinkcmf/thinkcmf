@@ -54,6 +54,8 @@ class RegisterController extends HomeBaseController
 
             if ($isOpenRegistration) {
                 unset($rules['code']);
+            } else {
+                $this->error('未开放注册功能！');
             }
 
             $validate = new \think\Validate($rules);
@@ -61,25 +63,17 @@ class RegisterController extends HomeBaseController
                 'code.require'     => '验证码不能为空',
                 'password.require' => '密码不能为空',
                 'password.max'     => '密码不能超过32个字符',
-                'password.min'     => '密码不能小于6个字符',
-                'captcha.require'  => '验证码不能为空',
+                'password.min'     => '密码不能小于6个字符'
             ]);
 
             $data = $this->request->post();
             if (!$validate->check($data)) {
                 $this->error($validate->getError());
             }
-
-            $captchaId = empty($data['_captcha_id']) ? '' : $data['_captcha_id'];
-            if (!cmf_captcha_check($data['captcha'], $captchaId)) {
-                $this->error('验证码错误');
-            }
-
-            if (!$isOpenRegistration) {
-                $errMsg = cmf_check_verification_code($data['username'], $data['code']);
-                if (!empty($errMsg)) {
-                    $this->error($errMsg);
-                }
+            // 手机或短信验证码
+            $errMsg = cmf_check_verification_code($data['username'], $data['code']);
+            if (!empty($errMsg)) {
+                $this->error($errMsg);
             }
 
             $register          = new UserModel();
