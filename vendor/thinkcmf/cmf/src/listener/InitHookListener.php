@@ -17,6 +17,7 @@ use think\facade\Db;
 use think\facade\Response;
 use think\facade\Route;
 
+#[\AllowDynamicProperties]
 class InitHookListener
 {
 

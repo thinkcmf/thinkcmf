@@ -15,6 +15,7 @@ namespace app\admin\service\impl;
 use app\admin\model\AdminMenuModel;
 use app\admin\service\AdminMenuService;
 
+#[\AllowDynamicProperties]
 class AdminMenuServiceImpl implements AdminMenuService
 {
     public function __construct(AdminMenuModel $model)
