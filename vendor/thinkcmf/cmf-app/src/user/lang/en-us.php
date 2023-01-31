@@ -36,6 +36,7 @@ return [
     'CAPTCHA_REQUIRED'              => '验证码不能为空！',
     'USERNAME_OR_EMAIL'             => '用户名或邮箱',
     'LOGIN_SUCCESS'                 => 'Login success!',
+    'SYNC_SUCCESS'                  => 'Sync success!',
     'PASSWORD_NOT_RIGHT'            => 'Your password is wrong!',
     'CAPTCHA_NOT_RIGHT'             => 'CAPTCHA is wrong!',
     'USERNAME_NOT_EXIST'            => '用户名不存在！',
