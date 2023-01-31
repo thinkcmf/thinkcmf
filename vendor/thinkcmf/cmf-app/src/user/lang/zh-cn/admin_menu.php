@@ -18,4 +18,6 @@ return [
     'USER_OAUTHADMIN_INDEX'     => '第三方用户',
     'USER_INDEXADMIN_DEFAULT'   => '用户管理',
     'USER_ADMINASSET_INDEX'     => '资源管理',
+    'USER_ADMINUSERACTION_INDEX' => '用户操作管理',
+    'USER_ADMINUSERACTION_SYNC'  => '用户操作同步'
 ];
