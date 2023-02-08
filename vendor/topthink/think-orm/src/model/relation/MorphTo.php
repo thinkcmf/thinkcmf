@@ -144,8 +144,9 @@ class MorphTo extends Relation
                 foreach ($types as $type) {
                     if ($type) {
                         $query->whereExists(function (Query $query) use ($type, $where, $alias) {
+                            $class = $this->parseModel($type);
                             /** @var Model $model */
-                            $model = new ($this->parseModel($type));
+                            $model = new $class();
 
                             $table = $model->getTable();
                             $query
@@ -309,11 +310,11 @@ class MorphTo extends Relation
     protected function eagerlyMorphToOne(string $model, string $relation, Model $result, array $subRelation = [], array $cache = []): void
     {
         // 预载入关联查询 支持嵌套预载入
-        $pk   = $this->parent->{$this->morphKey};
+        $pk = $this->parent->{$this->morphKey};
 
         $data = null;
 
-        if(\class_exists($model)){
+        if (\class_exists($model)) {
             $data = (new $model)->with($subRelation)
                 ->cache($cache[0] ?? false, $cache[1] ?? null, $cache[2] ?? null)
                 ->find($pk);
