@@ -14,7 +14,6 @@ namespace think\model\relation;
 use Closure;
 use think\db\BaseQuery as Query;
 use think\db\exception\DbException as Exception;
-use think\helper\Str;
 use think\Model;
 use think\model\Relation;
 
@@ -260,8 +259,8 @@ class MorphOne extends Relation
      */
     public function save($data, bool $replace = true)
     {
-        $model = $this->make();
-        return $model->replace($replace)->save($data) ? $model : false;
+        $model = $this->make($data);
+        return $model->replace($replace)->save() ? $model : false;
     }
 
     /**

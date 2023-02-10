@@ -158,7 +158,8 @@ abstract class Builder
             if (false !== strpos($key, '->')) {
                 [$key, $name]  = explode('->', $key, 2);
                 $item          = $this->parseKey($query, $key);
-                $result[$item] = 'json_set(' . $item . ', \'$.' . $name . '\', ' . $this->parseDataBind($query, $key . '->' . $name, $val, $bind) . ')';
+
+                $result[$item . '->' . $name] = 'json_set(' . $item . ', \'$.' . $name . '\', ' . $this->parseDataBind($query, $key . '->' . $name, $val, $bind) . ')';
             } elseif (false === strpos($key, '.') && !in_array($key, $fields, true)) {
                 if ($options['strict']) {
                     throw new Exception('fields not exists:[' . $key . ']');
@@ -176,7 +177,7 @@ abstract class Builder
                 }
             } elseif (is_scalar($val)) {
                 // 过滤非标量数据
-                $result[$item] = $this->parseDataBind($query, $key, $val, $bind);
+                $result[$item] = !$query->isAutoBind() ? $val : $this->parseDataBind($query, $key, $val, $bind);
             }
         }
 
@@ -761,18 +762,23 @@ abstract class Builder
             if (count($value) === 0) {
                 return 'IN' == $exp ? '0 = 1' : '1 = 1';
             }
-            $array = [];
 
-            foreach ($value as $v) {
-                $name    = $query->bindValue($v, $bindType);
-                $array[] = ':' . $name;
+            if ($query->isAutoBind()) {
+                $array = [];
+                foreach ($value as $v) {
+                    $name    = $query->bindValue($v, $bindType);
+                    $array[] = ':' . $name;
+                }
+            } else {
+                $array = $value;
             }
 
             if (count($array) == 1) {
                 return $key . ('IN' == $exp ? ' = ' : ' <> ') . $array[0];
-            } else {
-                $value = implode(',', $array);
             }
+
+            $value = implode(',', $array);
+            
         }
 
         return $key . ' ' . $exp . ' (' . $value . ')';
@@ -1139,7 +1145,8 @@ abstract class Builder
                 $this->parseComment($query, $options['comment']),
                 $this->parseForce($query, $options['force']),
             ],
-            $this->selectSql);
+            $this->selectSql
+        );
     }
 
     /**
@@ -1171,7 +1178,8 @@ abstract class Builder
                 implode(' , ', $values),
                 $this->parseComment($query, $options['comment']),
             ],
-            $this->insertSql);
+            $this->insertSql
+        );
     }
 
     /**
@@ -1222,7 +1230,8 @@ abstract class Builder
                 implode(' UNION ALL ', $values),
                 $this->parseComment($query, $options['comment']),
             ],
-            $this->insertAllSql);
+            $this->insertAllSql
+        );
     }
 
     /**
@@ -1276,7 +1285,8 @@ abstract class Builder
                 $this->parseLock($query, $options['lock']),
                 $this->parseComment($query, $options['comment']),
             ],
-            $this->updateSql);
+            $this->updateSql
+        );
     }
 
     /**
@@ -1302,6 +1312,7 @@ abstract class Builder
                 $this->parseLock($query, $options['lock']),
                 $this->parseComment($query, $options['comment']),
             ],
-            $this->deleteSql);
+            $this->deleteSql
+        );
     }
 }

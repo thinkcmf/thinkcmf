@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\db;
 
@@ -81,6 +81,8 @@ abstract class PDOConnection extends Connection
         'break_reconnect' => false,
         // 断线标识字符串
         'break_match_str' => [],
+        // 自动参数绑定
+        'auto_param_bind' => true,
     ];
 
     /**
@@ -1281,8 +1283,8 @@ abstract class PDOConnection extends Connection
 
             // 判断占位符
             $sql = is_numeric($key) ?
-            substr_replace($sql, $value, strpos($sql, '?'), 1) :
-            substr_replace($sql, $value, strpos($sql, ':' . $key), strlen(':' . $key));
+                substr_replace($sql, $value, strpos($sql, '?'), 1) :
+                substr_replace($sql, $value, strpos($sql, ':' . $key), strlen(':' . $key));
         }
 
         return rtrim($sql);
@@ -1759,6 +1761,17 @@ abstract class PDOConnection extends Connection
     }
 
     /**
+     * 获取数据库的唯一标识
+     * @access public
+     * @param string $suffix 标识后缀
+     * @return string
+     */
+    public function getUniqueXid(string $suffix = ''): string
+    {
+        return $this->config['hostname'] . '_' . $this->config['database'] . $suffix;
+    }
+
+    /**
      * 执行数据库Xa事务
      * @access public
      * @param  callable $callback 数据操作方法回调
@@ -1783,7 +1796,7 @@ abstract class PDOConnection extends Connection
                 $dbs[$key] = $db;
             }
 
-            $db->startTransXa($xid);
+            $db->startTransXa($db->getUniqueXid('_' . $xid) );
         }
 
         try {
@@ -1793,17 +1806,17 @@ abstract class PDOConnection extends Connection
             }
 
             foreach ($dbs as $db) {
-                $db->prepareXa($xid);
+                $db->prepareXa($db->getUniqueXid('_' . $xid));
             }
 
             foreach ($dbs as $db) {
-                $db->commitXa($xid);
+                $db->commitXa($db->getUniqueXid('_' . $xid) );
             }
 
             return $result;
         } catch (\Exception | \Throwable $e) {
             foreach ($dbs as $db) {
-                $db->rollbackXa($xid);
+                $db->rollbackXa($db->getUniqueXid('_' . $xid) );
             }
             throw $e;
         }
@@ -1816,7 +1829,8 @@ abstract class PDOConnection extends Connection
      * @return void
      */
     public function startTransXa(string $xid): void
-    {}
+    {
+    }
 
     /**
      * 预编译XA事务
@@ -1825,7 +1839,8 @@ abstract class PDOConnection extends Connection
      * @return void
      */
     public function prepareXa(string $xid): void
-    {}
+    {
+    }
 
     /**
      * 提交XA事务
@@ -1834,7 +1849,8 @@ abstract class PDOConnection extends Connection
      * @return void
      */
     public function commitXa(string $xid): void
-    {}
+    {
+    }
 
     /**
      * 回滚XA事务
@@ -1843,5 +1859,6 @@ abstract class PDOConnection extends Connection
      * @return void
      */
     public function rollbackXa(string $xid): void
-    {}
+    {
+    }
 }
