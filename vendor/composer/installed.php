@@ -233,12 +233,12 @@
             'dev_requirement' => false,
         ),
         'topthink/think-orm' => array(
-            'pretty_version' => 'v2.0.57',
-            'version' => '2.0.57.0',
+            'pretty_version' => 'v2.0.58',
+            'version' => '2.0.58.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../topthink/think-orm',
             'aliases' => array(),
-            'reference' => 'b68e3bb15322dc2d977ac62682d6df05c98bd23c',
+            'reference' => 'fae96ca60891ae82df5d8050af959711354898a5',
             'dev_requirement' => false,
         ),
         'topthink/think-trace' => array(

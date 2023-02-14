@@ -1187,13 +1187,13 @@ abstract class PDOConnection extends Connection
             $key = null;
         }
 
-        if (\is_string($column)) {
-            $column = \trim($column);
+        if (is_string($column)) {
+            $column = trim($column);
             if ('*' !== $column) {
-                $column = \array_map('\trim', \explode(',', $column));
+                $column = array_map('trim', explode(',', $column));
             }
-        } elseif (\is_array($column)) {
-            if (\in_array('*', $column)) {
+        } elseif (is_array($column)) {
+            if (in_array('*', $column)) {
                 $column = '*';
             }
         } else {
@@ -1201,7 +1201,7 @@ abstract class PDOConnection extends Connection
         }
 
         $field = $column;
-        if ('*' !== $column && $key && !\in_array($key, $column)) {
+        if ('*' !== $column && $key && !in_array($key, $column)) {
             $field[] = $key;
         }
 
@@ -1236,19 +1236,23 @@ abstract class PDOConnection extends Connection
 
         if (empty($resultSet)) {
             $result = [];
-        } elseif ('*' !== $column && \count($column) === 1) {
-            $column = \array_shift($column);
-            if (\strpos($column, ' ')) {
-                $column = \substr(\strrchr(\trim($column), ' '), 1);
+        } elseif ('*' !== $column && count($column) === 1) {
+            $column = array_shift($column);
+            if (strpos($column, ' ')) {
+                $column = substr(strrchr(trim($column), ' '), 1);
             }
 
-            if (\strpos($column, '.')) {
-                [$alias, $column] = \explode('.', $column);
+            if (strpos($column, '.')) {
+                [$alias, $column] = explode('.', $column);
             }
 
-            $result = \array_column($resultSet, $column, $key);
+            if (strpos($column, '->')) {
+                $column = $this->builder->parseKey($query, $column);
+            }
+
+            $result = array_column($resultSet, $column, $key);
         } elseif ($key) {
-            $result = \array_column($resultSet, null, $key);
+            $result = array_column($resultSet, null, $key);
         } else {
             $result = $resultSet;
         }

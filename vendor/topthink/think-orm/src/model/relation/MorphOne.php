@@ -259,8 +259,12 @@ class MorphOne extends Relation
      */
     public function save($data, bool $replace = true)
     {
-        $model = $this->make($data);
-        return $model->replace($replace)->save() ? $model : false;
+        if ($data instanceof Model) {
+            $data = $data->getData();
+        }
+
+        $model = $this->make();
+        return $model->replace($replace)->save($data) ? $model : false;
     }
 
     /**

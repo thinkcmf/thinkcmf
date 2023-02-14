@@ -201,9 +201,13 @@ abstract class OneToOne extends Relation
      */
     public function save($data, bool $replace = true)
     {
-        $model = $this->make($data);
+        if ($data instanceof Model) {
+            $data = $data->getData();
+        }
 
-        return $model->replace($replace)->save() ? $model : false;
+        $model = $this->make();
+
+        return $model->replace($replace)->save($data) ? $model : false;
     }
 
     /**

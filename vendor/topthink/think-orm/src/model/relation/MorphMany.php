@@ -289,6 +289,10 @@ class MorphMany extends Relation
      */
     public function save($data, bool $replace = true)
     {
+        if ($data instanceof Model) {
+            $data = $data->getData();
+        }
+                
         $model = $this->make();
 
         return $model->replace($replace)->save($data) ? $model : false;
