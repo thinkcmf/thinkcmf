@@ -17,16 +17,16 @@ use think\facade\Event;
 use think\facade\Response;
 use think\facade\Route;
 
-#[\AllowDynamicProperties]
 class ModuleInitListener
 {
+    private $app;
     // 行为扩展的执行入口必须是run
     public function handle($param)
     {
         /**--start InitAppHookListener--------------------------------------*/
         $this->app = app();
         $appName   = $this->app->http->getName();
-        
+
         if (!is_dir($this->app->getAppPath() . $appName) && !is_dir(root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}")) {
             return;
         }

@@ -17,10 +17,9 @@ use think\facade\Db;
 use think\facade\Response;
 use think\facade\Route;
 
-#[\AllowDynamicProperties]
 class InitHookListener
 {
-
+    private $app;
     // 行为扩展的执行入口必须是run
     public function handle($param)
     {

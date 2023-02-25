@@ -13,7 +13,6 @@
         <table class="table table-hover table-bordered">
             <thead>
             <tr>
-                <th width="40">ID</th>
                 <th>{:lang('NAME')}</th>
                 <th>{:lang('Type')}</th>
                 <th>{:lang('Description')}</th>
@@ -23,8 +22,7 @@
             <tbody>
             <foreach name="hooks" item="vo">
                 <tr>
-                    <td>{$vo.id}</td>
-                    <td>{$vo.name}:{$vo.hook}</td>
+                    <td><b>{$vo.name}</b>:<span class="label label-success">{$vo.hook}</span></td>
                     <td>{$types[$vo.type]}</td>
                     <td>{$vo.description}</td>
                     <td>
