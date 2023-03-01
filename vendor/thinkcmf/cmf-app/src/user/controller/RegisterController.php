@@ -44,7 +44,7 @@ class RegisterController extends HomeBaseController
     {
         if ($this->request->isPost()) {
             $rules = [
-                'captcha'  => 'require',
+//                'captcha'  => 'require',
                 'code'     => 'require',
                 'password' => 'require|min:6|max:32',
 
@@ -70,10 +70,32 @@ class RegisterController extends HomeBaseController
             if (!$validate->check($data)) {
                 $this->error($validate->getError());
             }
-            // 手机或短信验证码
-            $errMsg = cmf_check_verification_code($data['username'], $data['code']);
-            if (!empty($errMsg)) {
-                $this->error($errMsg);
+
+
+            if (!$isOpenRegistration) {
+
+                $result = hook_one("check_third_party_captcha");
+
+                if ($result) {
+                    if (is_string($result)) {
+                        $this->error($result);
+                    }
+                } else {
+                    if(empty($data['captcha'])){
+                        $this->error('验证码不能为空!');
+                    }
+                    $captchaId = empty($data['_captcha_id']) ? '' : $data['_captcha_id'];
+
+                    if (!cmf_captcha_check($data['captcha'], $captchaId)) {
+                        $this->error('验证码错误');
+                    }
+                }
+
+                $errMsg = cmf_check_verification_code($data['username'], $data['code']);
+                if (!empty($errMsg)) {
+                    $this->error($errMsg);
+                }
+
             }
 
             $register          = new UserModel();

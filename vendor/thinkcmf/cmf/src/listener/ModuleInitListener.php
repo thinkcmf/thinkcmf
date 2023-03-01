@@ -19,13 +19,19 @@ use think\facade\Route;
 
 class ModuleInitListener
 {
+    private $app;
     // 行为扩展的执行入口必须是run
     public function handle($param)
     {
         /**--start InitAppHookListener--------------------------------------*/
         $this->app = app();
         $appName   = $this->app->http->getName();
-        $langSet   = $this->app->lang->getLangSet();
+
+        if (!is_dir($this->app->getAppPath() . $appName) && !is_dir(root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}")) {
+            return;
+        }
+
+        $langSet = $this->app->lang->getLangSet();
 
         // 加载核心应用语言包
         $this->app->lang->load([

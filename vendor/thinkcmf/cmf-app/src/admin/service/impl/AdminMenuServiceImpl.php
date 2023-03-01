@@ -17,6 +17,8 @@ use app\admin\service\AdminMenuService;
 
 class AdminMenuServiceImpl implements AdminMenuService
 {
+    private $model;
+
     public function __construct(AdminMenuModel $model)
     {
         $this->model = $model;

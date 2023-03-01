@@ -49,7 +49,15 @@ class Controller extends Dispatch
         }
 
         // 获取应用名
-        $appName = $result[0] ?: config('app.default_app');
+        if (empty($result[0])) {
+            $appName = config('app.default_app');
+        } else {
+            if ($result[0] == 'index.php') {
+                $appName = config('app.default_app');
+            } else {
+                $appName = $result[0];
+            }
+        }
 
         // 获取控制器名
         $controller = strip_tags($result[1] ?: $this->rule->config('default_controller'));

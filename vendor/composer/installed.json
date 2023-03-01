@@ -430,17 +430,17 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.6.5",
-            "version_normalized": "6.6.5.0",
+            "version": "v6.7.1",
+            "version_normalized": "6.7.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "8b6386d7417526d1ea4da9edb70b8352f7543627"
+                "reference": "49cd7ea3d2563f028d7811f06864a53b1f15ff55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/8b6386d7417526d1ea4da9edb70b8352f7543627",
-                "reference": "8b6386d7417526d1ea4da9edb70b8352f7543627",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/49cd7ea3d2563f028d7811f06864a53b1f15ff55",
+                "reference": "49cd7ea3d2563f028d7811f06864a53b1f15ff55",
                 "shasum": ""
             },
             "require": {
@@ -450,24 +450,26 @@
                 "php": ">=5.5.0"
             },
             "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
-                "doctrine/annotations": "^1.2",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+                "doctrine/annotations": "^1.2.6 || ^1.13.3",
                 "php-parallel-lint/php-console-highlighter": "^1.0.0",
                 "php-parallel-lint/php-parallel-lint": "^1.3.2",
                 "phpcompatibility/php-compatibility": "^9.3.5",
                 "roave/security-advisories": "dev-latest",
-                "squizlabs/php_codesniffer": "^3.6.2",
-                "yoast/phpunit-polyfills": "^1.0.0"
+                "squizlabs/php_codesniffer": "^3.7.1",
+                "yoast/phpunit-polyfills": "^1.0.4"
             },
             "suggest": {
                 "ext-mbstring": "Needed to send email in multibyte encoding charset or decode encoded addresses",
+                "ext-openssl": "Needed for secure SMTP sending and DKIM signing",
+                "greew/oauth2-azure-provider": "Needed for Microsoft Azure XOAUTH2 authentication",
                 "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
                 "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
                 "psr/log": "For optional PSR-3 debug logging",
                 "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)",
                 "thenetworg/oauth2-azure": "Needed for Microsoft XOAUTH2 authentication"
             },
-            "time": "2022-10-07T12:23:10+00:00",
+            "time": "2022-12-08T13:30:06+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -499,7 +501,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.6.5"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.7.1"
             },
             "funding": [
                 {
@@ -1280,17 +1282,17 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v2.0.55",
-            "version_normalized": "2.0.55.0",
+            "version": "v2.0.58",
+            "version_normalized": "2.0.58.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "e1974a4c3b1b4c5b808fcc0863fc254e711dee13"
+                "reference": "fae96ca60891ae82df5d8050af959711354898a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/e1974a4c3b1b4c5b808fcc0863fc254e711dee13",
-                "reference": "e1974a4c3b1b4c5b808fcc0863fc254e711dee13",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/fae96ca60891ae82df5d8050af959711354898a5",
+                "reference": "fae96ca60891ae82df5d8050af959711354898a5",
                 "shasum": ""
             },
             "require": {
@@ -1304,7 +1306,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^7|^8|^9.5"
             },
-            "time": "2022-09-27T14:18:43+00:00",
+            "time": "2023-02-11T10:07:03+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1332,30 +1334,30 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/think-orm/issues",
-                "source": "https://github.com/top-think/think-orm/tree/v2.0.55"
+                "source": "https://github.com/top-think/think-orm/tree/v2.0.58"
             },
             "install-path": "../topthink/think-orm"
         },
         {
             "name": "topthink/think-trace",
-            "version": "v1.5",
-            "version_normalized": "1.5.0.0",
+            "version": "v1.6",
+            "version_normalized": "1.6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-trace.git",
-                "reference": "55027fd79abb744f32a3be8d9e1ccf873a3ca9b7"
+                "reference": "136cd5d97e8bdb780e4b5c1637c588ed7ca3e142"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-trace/zipball/55027fd79abb744f32a3be8d9e1ccf873a3ca9b7",
-                "reference": "55027fd79abb744f32a3be8d9e1ccf873a3ca9b7",
+                "url": "https://api.github.com/repos/top-think/think-trace/zipball/136cd5d97e8bdb780e4b5c1637c588ed7ca3e142",
+                "reference": "136cd5d97e8bdb780e4b5c1637c588ed7ca3e142",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1.0",
-                "topthink/framework": "^6.0"
+                "topthink/framework": "^6.0|^8.0"
             },
-            "time": "2022-10-26T07:56:45+00:00",
+            "time": "2023-02-07T08:36:32+00:00",
             "type": "library",
             "extra": {
                 "think": {
@@ -1386,7 +1388,7 @@
             "description": "thinkphp debug trace",
             "support": {
                 "issues": "https://github.com/top-think/think-trace/issues",
-                "source": "https://github.com/top-think/think-trace/tree/v1.5"
+                "source": "https://github.com/top-think/think-trace/tree/v1.6"
             },
             "install-path": "../topthink/think-trace"
         },

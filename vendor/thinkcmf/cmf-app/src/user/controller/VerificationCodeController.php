@@ -23,7 +23,7 @@ class VerificationCodeController extends HomeBaseController
         $validate = new \think\Validate();
         $validate->rule([
             'username' => 'require',
-            'captcha'  => 'require',
+//            'captcha'  => 'require',
         ]);
         $validate->message([
             'username.require' => '请输入手机号或邮箱!',
@@ -35,18 +35,29 @@ class VerificationCodeController extends HomeBaseController
             $this->error($validate->getError());
         }
 
-        $captchaId = empty($data['captcha_id']) ? '' : $data['captcha_id'];
-        if (!cmf_captcha_check($data['captcha'], $captchaId, false)) {
-            $this->error('图片验证码错误!');
-        }
+        $result = hook_one("check_third_party_captcha");
 
-        $registerCaptcha = session('register_captcha');
+        if ($result) {
+            if (is_string($result)) {
+                $this->error($result);
+            }
+        } else {
+            if (empty($data['captcha'])) {
+                $this->error('图片验证码不能为空!');
+            }
+            $captchaId = empty($data['captcha_id']) ? '' : $data['captcha_id'];
+            if (!cmf_captcha_check($data['captcha'], $captchaId, false)) {
+                $this->error('图片验证码错误!');
+            }
 
-        session('register_captcha', $data['captcha']);
+            $registerCaptcha = session('register_captcha');
 
-        if ($registerCaptcha == $data['captcha']) {
-            cmf_captcha_check($data['captcha'], $captchaId, true);
-            $this->error('请输入新图片验证码!');
+            session('register_captcha', $data['captcha']);
+
+            if ($registerCaptcha == $data['captcha']) {
+                cmf_captcha_check($data['captcha'], $captchaId, true);
+                $this->error('请输入新图片验证码!');
+            }
         }
 
         $accountType = '';

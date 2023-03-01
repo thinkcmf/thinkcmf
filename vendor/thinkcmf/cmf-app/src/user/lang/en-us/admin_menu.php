@@ -18,4 +18,6 @@ return [
     'USER_OAUTHADMIN_INDEX'     => 'Third Party Users',
     'USER_INDEXADMIN_DEFAULT'   => 'Users',
     'USER_ADMINASSET_INDEX'     => 'Assets',
+    'USER_ADMINUSERACTION_INDEX' => 'User Operation Management',
+    'USER_ADMINUSERACTION_SYNC'  => 'User Action Synchronization'
 ];

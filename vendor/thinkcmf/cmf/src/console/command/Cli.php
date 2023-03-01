@@ -96,9 +96,15 @@ EOT;
         if ($countUrl == 3) {
             $controller = cmf_parse_name($urlArr[1], 1);
             $action     = $urlArr[2];
-            $class      = "app\\{$urlArr[0]}\\cli\\{$controller}Cli";
+            $appName    = $urlArr[0];
+            $class      = "app\\{$appName}\\cli\\{$controller}Cli";
 
             if (class_exists($class)) {
+                // 加载应用第三方库
+                $appAutoLoadFile = $this->app->getAppPath() . $appName . '/vendor/autoload.php';
+                if (file_exists($appAutoLoadFile)) {
+                    require_once $appAutoLoadFile;
+                }
                 if (method_exists($class, $action)) {
                     $object = new $class();
                     if ($isHelp) {

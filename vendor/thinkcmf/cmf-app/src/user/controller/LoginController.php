@@ -122,7 +122,7 @@ class LoginController extends HomeBaseController
         if ($this->request->isPost()) {
             $validate = new \think\Validate();
             $validate->rule([
-                'captcha'           => 'require',
+                //'captcha'           => 'require',
                 'verification_code' => 'require',
                 'password'          => 'require|min:6|max:32',
             ]);
@@ -139,15 +139,27 @@ class LoginController extends HomeBaseController
                 $this->error($validate->getError());
             }
 
-            $captchaId = empty($data['_captcha_id']) ? '' : $data['_captcha_id'];
-            if (!cmf_captcha_check($data['captcha'], $captchaId)) {
-                $this->error('验证码错误');
+            $result = hook_one("check_third_party_captcha");
+
+            if ($result) {
+                if (is_string($result)) {
+                    $this->error($result);
+                }
+            } else {
+                if(empty($data['captcha'])){
+                    $this->error('验证码不能为空!');
+                }
+                $captchaId = empty($data['_captcha_id']) ? '' : $data['_captcha_id'];
+                if (!cmf_captcha_check($data['captcha'], $captchaId)) {
+                    $this->error('验证码错误');
+                }
+
+                $errMsg = cmf_check_verification_code($data['username'], $data['verification_code']);
+                if (!empty($errMsg)) {
+                    $this->error($errMsg);
+                }
             }
 
-            $errMsg = cmf_check_verification_code($data['username'], $data['verification_code']);
-            if (!empty($errMsg)) {
-                $this->error($errMsg);
-            }
 
             $userModel = new UserModel();
             if (Validate::is($data['username'], 'email')) {

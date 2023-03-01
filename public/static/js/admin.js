@@ -786,6 +786,28 @@
 
     }
     //地址联动end
+    Wind.css('artDialog');
+    Wind.use('artDialog', 'noty', function () {
+        $('body').on('click', '.js-click2call-btn', function (e) {
+            e.preventDefault();
+            var $_this = this,
+                $this = $($_this),
+                title = $this.data('title');
+                title = title ? title:'点击下面链接,直接拨打电话';
+            art.dialog({
+                title: title,
+                icon: 'question',
+                content: $this.next('.js-click2call-mobiles').html(),
+                follow: $_this,
+                close: function () {
+                    $_this.focus(); //关闭时让触发弹窗的元素获取焦点
+                    return true;
+                },
+                cancelVal: '关闭',
+                cancel: true
+            });
+        });
+    });
 
 })();
 
@@ -1148,7 +1170,7 @@ function openIframeLayer(url, title, options) {
         anim: -1,
         shade: [0.001, '#000000'],
         shadeClose: true,
-        area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '90%'],
+        area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '95%'],
         offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
         move: false,
         content: url,

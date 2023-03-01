@@ -36,6 +36,7 @@ return [
     'CAPTCHA_REQUIRED'              => '验证码不能为空！',
     'USERNAME_OR_EMAIL'             => '用户名或邮箱',
     'LOGIN_SUCCESS'                 => '登录成功！',
+    'SYNC_SUCCESS'                  => '同步成功！',
     'PASSWORD_NOT_RIGHT'            => '密码错误！',
     'CAPTCHA_NOT_RIGHT'             => '验证码错误！',
     'USERNAME_NOT_EXIST'            => '用户名不存在！',
@@ -64,6 +65,6 @@ return [
     'User ID'                       => '用户ID',
     'UPLOAD_TYPE_SETTING_ERROR'     => '上传文件类型配置错误！',
     'Collection succeeded'          => '收藏成功！',
-    'No such user found'=>'查无此人！'
+    'No such user found'            => '查无此人！'
 
 ];
