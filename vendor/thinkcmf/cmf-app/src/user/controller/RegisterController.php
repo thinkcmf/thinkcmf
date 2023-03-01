@@ -54,6 +54,8 @@ class RegisterController extends HomeBaseController
 
             if ($isOpenRegistration) {
                 unset($rules['code']);
+            } else {
+                $this->error('未开放注册功能！');
             }
 
             $validate = new \think\Validate($rules);
