@@ -1,0 +1,107 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('User/emailSetting')}">{:lang('ADMIN_MAILER_INDEX')}</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('User/emailSettingPost')}">
+        <div class="form-group">
+            <label for="input-from_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>
+                {:lang('SENDER_NAME')}
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" id="input-from_name" name="from_name"
+                       value="{$from_name|default=''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-from" class="col-sm-2 control-label">
+                <span class="form-required">*</span>{:lang('SENDER_EMAIL_ADDRESS')}
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" id="input-from" name="from" value="{$from|default=''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-host" class="col-sm-2 control-label">
+                <span class="form-required">*</span>{:lang('SENDER_SMTP_SERVER')}
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" id="input-host" name="host" value="{$host|default=''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="js-smtpsecure" class="col-sm-2 control-label">
+                <span class="form-required">*</span>连接方式
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <select name="smtp_secure" id="js-smtpsecure" class="form-control">
+                    <option value="">默认</option>
+                    <option value="ssl">ssl</option>
+                    <option value="tls">tls</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-port" class="col-sm-2 control-label">
+                <span class="form-required">*</span>SMTP服务器端口
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" id="input-port" name="port" value="{$port|default=''}"
+                       placeholder="默认为25">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-login_name" class="col-sm-2 control-label">
+                <span class="form-required">*</span>{:lang('SMTP_MAIL_ADDRESS')}
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" id="input-login_name" name="username"
+                       value="{$username|default=''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-password" class="col-sm-2 control-label">
+                <span class="form-required">*</span>{:lang('SMTP_MAIL_PASSWORD')}
+            </label>
+            <div class="col-md-6 col-sm-10">
+                <input type="password" class="form-control" id="input-password" name="password"
+                       value="{$password|default=''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-signature" class="col-sm-2 control-label"><span class="form-required">*</span>邮箱签名</label>
+            <div class="col-md-6 col-sm-12">
+                <script type="text/plain" id="signature" name="signature">{$signature|default=""|htmlspecialchars_decode}</script>
+                <literal><span style="color: #ffb752;"><!--，{$username}代替用户名--></span></literal>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                <a class="btn btn-warning"
+                   href="javascript:parent.openIframeDialog('{:url('User/emailSettingTest')}','发送测试邮件',{width:'600px',height:'400px'});">测试邮件</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    var editorcontent = new baidu.editor.ui.Editor();
+    editorcontent.render('signature');
+</script>
+<script>
+    $(function () {
+        $('#js-smtpsecure').val("{$smtp_secure|default=''}");
+    });
+</script>
+</body>
+</html>
