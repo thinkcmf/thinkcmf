@@ -117,6 +117,7 @@ return [
     'File List'                          => '文件列表',
     'Hook'                               => '钩子',
     'Sync Hook'                          => '同步钩子',
+    'Sync Hook Success'                  => '同步完成',
     'INSTALL_APP_CONFIRM_MSG'            => '确定安装该应用吗？',
     'UPDATE_APP_CONFIRM_MSG'             => '确定更新该应用吗？',
     'DRAG_MAP_TO_SET_LOCATION'           => '拖动我设置你的位置',
