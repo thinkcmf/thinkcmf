@@ -270,7 +270,7 @@ class RbacController extends AdminBaseController
         }
 
         $str = "<tr id='node-\$id'\$parentIdNode  style='\$style'>
-                   <td style='padding-left:30px;'>\$spacer<input type='checkbox' name='menuId[]' value='\$id' level='\$level' \$checked onclick='javascript:checknode(this);'> \$name</td>
+                   <td style='padding-left:30px;'>\$spacer<input type='checkbox' name='menuId[]' value='\$id' level='\$level' \$checked onclick='javascript:checknode(this);'> \$name \$app/\$controller/\$action</td>
     			</tr>";
         $tree->init($result);
 

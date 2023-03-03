@@ -223,7 +223,7 @@ class Http
     protected function loadMiddleware(): void
     {
         if (is_file($this->app->getBasePath() . 'middleware.php')) {
-            $this->app->middleware->import(include $this->app->getBasePath() . 'middleware.php');
+            $this->app->middleware->import(include_once $this->app->getBasePath() . 'middleware.php');
         }
 
         $appRootNamespace = $this->app->getRootNamespace();
@@ -231,7 +231,7 @@ class Http
 
         $vendorMiddlewareFile = "{$rootPath}vendor/thinkcmf/cmf-{$appRootNamespace}/src/middleware.php";
         if (is_file($vendorMiddlewareFile)) {
-            $this->app->middleware->import(include $vendorMiddlewareFile);
+            $this->app->middleware->import(include_once $vendorMiddlewareFile);
         }
 
     }
@@ -252,7 +252,7 @@ class Http
             if (is_dir($routePath)) {
                 $files = glob($routePath . '*.php');
                 foreach ($files as $file) {
-                    include $file;
+                    include_once $file;
                 }
             }
 
@@ -262,7 +262,7 @@ class Http
             if (is_dir($routePath)) {
                 $files = glob($routePath . '*.php');
                 foreach ($files as $file) {
-                    include $file;
+                    include_once $file;
                 }
             }
         }

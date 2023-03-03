@@ -11,7 +11,7 @@
         margin-bottom: 0;
     }
 
-    #uploader .statusBar{
+    #uploader .statusBar {
         padding: 0 15px;
     }
 
@@ -19,11 +19,15 @@
         line-height: 1.2 !important;
         vertical-align: middle;
     }
+
+    #info {
+        margin-top: 5px;
+    }
 </style>
 </head>
 <body class="body_none">
 
-<div class="wrap " style="padding:5px;">
+<div class="wrap " style="padding:10px;">
     <ul class="nav nav-tabs">
         <li class="{$tab=='local'?'active':''}"><a href="#wrapper" data-toggle="tab">上传文件</a></li>
         <li class="{$tab=='url'?'active':''}"><a href="#B" data-toggle="tab">网络文件</a></li>
@@ -38,7 +42,7 @@
     </ul>
     <div class="tabbable">
         <div class="tab-content ">
-            <div class="tab-pane active" id="wrapper">
+            <div class="tab-pane {$tab=='local'?'active':''}" id="wrapper">
 
                 <div id="container">
                     <!--头部，相册选择和格式选择-->
@@ -47,6 +51,7 @@
                             <div id="dndArea" class="placeholder">
                                 <div id="filePicker"></div>
                                 <p>或将文件拖到这里，单次最多可选{$max_files}个文件</p>
+                                <p>如果开启云存储后，大文件请在云存储里上传</p>
                             </div>
                         </div>
                         <div class="statusBar" style="display:none;">
@@ -63,11 +68,14 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane" id="B"> 请输入网络地址
-                <div class="bk3"></div>
-                <input type="hidden" id="img_name" value="">
-                <input type="text" id="info" name="info[filename]" class="input form-control" value=""
-                       placeholder="http://">
+            <div class="tab-pane {$tab=='url'?'active':''}" id="B">
+                <div style="padding: 10px 0;">
+                    <label>请输入网络地址:</label>
+                    <div class="bk3"></div>
+                    <input type="hidden" id="img_name" value="">
+                    <input type="text" id="info" name="info[filename]" class="input form-control" value=""
+                           placeholder="http://">
+                </div>
             </div>
             <div class="tab-pane" id="explorer">
                 <div class="bk3"></div>
@@ -93,24 +101,24 @@
         var idPre = 'id' + new Date().getTime();
 
         if (jQuery("#wrapper").is(":hidden")) {
-            var file         = new Object();
-            file.id          = idPre + '1';
-            file.filepath    = jQuery("#info").val();
+            var file = new Object();
+            file.id = idPre + '1';
+            file.filepath = jQuery("#info").val();
             file.preview_url = file.filepath;
-            file.url         = file.filepath;
-            file.name        = "";//jQuery(".filelist li .title").eq(i).html();
+            file.url = file.filepath;
+            file.name = "";//jQuery(".filelist li .title").eq(i).html();
             files.push(file);
         } else {
             var number = jQuery(".filelist li").size();
             for (var i = 0; i < number; i++) {
 
-                var file         = new Object();
-                var $file        = jQuery(".filelist li").eq(i);
-                file.id          = idPre + i;
-                file.filepath    = $file.data("filepath");
+                var file = new Object();
+                var $file = jQuery(".filelist li").eq(i);
+                file.id = idPre + i;
+                file.filepath = $file.data("filepath");
                 file.preview_url = $file.data("preview_url");//httpUrl+file.filepath;
-                file.url         = $file.data("url");
-                file.name        = $file.data("name");
+                file.url = $file.data("url");
+                file.name = $file.data("name");
                 if (file.url == undefined) {
                     continue;
                 } else {
@@ -123,7 +131,7 @@
         return files;
     }
 
-    var multi    = {$multi};//是否允许同时选多个文件
+    var multi = {$multi};//是否允许同时选多个文件
     var maxFiles = {$max_files};//允许上传多少文件
 
     var fileErrorMsg = {};
@@ -132,34 +140,34 @@
     (function ($) {
         // 当domReady的时候开始初始化
         $(function () {
-            var $wrap             = $('#uploader'),
+            var $wrap = $('#uploader'),
                 // 图片容器
-                $queue            = $('<ul class="filelist"></ul>').appendTo($wrap.find('.queueList')),
+                $queue = $('<ul class="filelist"></ul>').appendTo($wrap.find('.queueList')),
                 // 状态栏，包括进度和控制按钮
-                $statusBar        = $wrap.find('.statusBar'),
+                $statusBar = $wrap.find('.statusBar'),
                 // 文件总体选择信息。
-                $info             = $statusBar.find('.info'),
+                $info = $statusBar.find('.info'),
                 // 上传按钮
-                $upload           = $wrap.find('.uploadBtn').hide(),
+                $upload = $wrap.find('.uploadBtn').hide(),
                 // 没选择文件之前的内容。
-                $placeHolder      = $wrap.find('.placeholder'),
-                $progress         = $statusBar.find('.progress').hide(),
+                $placeHolder = $wrap.find('.placeholder'),
+                $progress = $statusBar.find('.progress').hide(),
                 // 添加的文件数量
-                fileCount         = 0,
+                fileCount = 0,
                 // 添加的文件总大小
-                fileSize          = 0,
+                fileSize = 0,
                 // 优化retina, 在retina下这个值是2
-                ratio             = window.devicePixelRatio || 1,
+                ratio = window.devicePixelRatio || 1,
                 // 缩略图大小
-                thumbnailWidth    = 110 * ratio,
-                thumbnailHeight   = 110 * ratio,
+                thumbnailWidth = 110 * ratio,
+                thumbnailHeight = 110 * ratio,
                 // 可能有pedding, ready, uploading, confirm, done.
-                state             = 'pedding',
+                state = 'pedding',
                 // 所有文件的进度信息，key为file id
-                percentages       = {},
+                percentages = {},
                 // 判断浏览器是否支持图片的base64
-                isSupportBase64   = (function () {
-                    var data    = new Image();
+                isSupportBase64 = (function () {
+                    var data = new Image();
                     var support = true;
                     data.onload = data.onerror = function () {
                         if (this.width != 1 || this.height != 1) {
@@ -170,7 +178,7 @@
                     return support;
                 })(),
                 // 检测是否已经安装flash，检测flash的版本
-                flashVersion      = (function () {
+                flashVersion = (function () {
                     var version;
                     try {
                         version = navigator.plugins['Shockwave Flash'];
@@ -193,7 +201,7 @@
                             'MozTransition' in s ||
                             'msTransition' in s ||
                             'OTransition' in s;
-                    s     = null;
+                    s = null;
                     return r;
                 })(),
 
@@ -222,7 +230,7 @@
                             delete window['expressinstallcallback'];
                         };
 
-                        var swf  = './expressInstall.swf';
+                        var swf = './expressInstall.swf';
                         // insert flash object
                         var html = '<object type="application/' +
                             'x-shockwave-flash" data="' + swf + '" ';
@@ -285,9 +293,9 @@
 
             // 拖拽时不接受 js, txt 文件。
             uploader.on('dndAccept', function (items) {
-                var denied    = false,
-                    len       = items.length,
-                    i         = 0,
+                var denied = false,
+                    len = items.length,
+                    i = 0,
                     // 修改js类型
                     unAllowed = 'text/plain;application/javascript ';
 
@@ -324,19 +332,19 @@
 
             // 当有文件添加进来时执行，负责view的创建
             function addFile(file) {
-                var $li       = $('<li id="' + file.id + '">' +
-                    '<p class="title">' + file.name + '</p>' +
-                    '<p class="imgWrap"></p>' +
-                    '<p class="progress"><span></span></p>' +
-                    '</li>'),
+                var $li = $('<li id="' + file.id + '">' +
+                        '<p class="title">' + file.name + '</p>' +
+                        '<p class="imgWrap"></p>' +
+                        '<p class="progress"><span></span></p>' +
+                        '</li>'),
 
-                    $btns     = $('<div class="file-panel">' +
+                    $btns = $('<div class="file-panel">' +
                         '<span class="cancel">删除</span>' +
                         '<span class="rotateRight">向右旋转</span>' +
                         '<span class="rotateLeft">向左旋转</span></div>').appendTo($li),
-                    $prgress  = $li.find('p.progress span'),
-                    $wrap     = $li.find('p.imgWrap'),
-                    $info     = $('<p class="error"></p>'),
+                    $prgress = $li.find('p.progress span'),
+                    $wrap = $li.find('p.imgWrap'),
+                    $info = $('<p class="error"></p>'),
 
                     showError = function (code) {
                         switch (code) {
@@ -389,7 +397,7 @@
                     }, thumbnailWidth, thumbnailHeight);
 
                     percentages[file.id] = [file.size, 0];
-                    file.rotation        = 0;
+                    file.rotation = 0;
                 }
 
                 file.on('statuschange', function (cur, prev) {
@@ -489,8 +497,8 @@
 
             function updateTotalProgress() {
                 var loaded = 0,
-                    total  = 0,
-                    spans  = $progress.children(),
+                    total = 0,
+                    spans = $progress.children(),
                     percent;
 
                 $.each(percentages, function (k, v) {
@@ -604,7 +612,7 @@
             }
 
             uploader.onUploadProgress = function (file, percentage) {
-                var $li      = $('#' + file.id),
+                var $li = $('#' + file.id),
                     $percent = $li.find('.progress span');
 
                 $percent.css('width', percentage * 100 + '%');

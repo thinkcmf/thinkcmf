@@ -366,6 +366,7 @@
                 //去掉/ 去掉_ 全部小写。
                 urlTmp = urlTmp.replace(/[\\/|_|]/g,"");
                 urlTmp = urlTmp.replace(".html","");
+                urlTmp = urlTmp.toLowerCase();
                 var menu = menus[urlTmp];
                 if (menu){
                     openapp(url,menu.id+menu.app,menu.name,true);

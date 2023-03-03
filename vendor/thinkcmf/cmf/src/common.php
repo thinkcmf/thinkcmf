@@ -14,6 +14,7 @@ use think\facade\Env;
 use dir\Dir;
 use think\facade\Route;
 use cmf\lib\Storage;
+use think\facade\Cache;
 
 // 应用公共文件
 
@@ -392,6 +393,8 @@ function cmf_clear_cache()
     foreach ($dirs as $dir) {
         $dirTool->delDir($dir);
     }
+    
+    Cache::clear();
 }
 
 /**

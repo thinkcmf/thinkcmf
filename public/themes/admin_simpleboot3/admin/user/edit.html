@@ -40,6 +40,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<input type="hidden" name="id" value="{$id}" />
+					<input type="hidden" name="__token__" value="{:token()}" />
 					<button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
 					<a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
 				</div>

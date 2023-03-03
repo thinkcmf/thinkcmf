@@ -15,7 +15,7 @@ use think\Validate;
 class UserValidate extends Validate
 {
     protected $rule = [
-        'user_login' => 'require|unique:user,user_login',
+        'user_login' => 'require|unique:user,user_login|token',
         'user_pass'  => 'require',
         'user_email' => 'require|email|unique:user,user_email',
     ];
