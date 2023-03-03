@@ -97,7 +97,7 @@ return [
     'SENDER_EMAIL_ADDRESS'               => 'Sender Email Address',
     'SENDER_SMTP_SERVER'                 => 'Sender SMTP Server',
     'SMTP_MAIL_ADDRESS'                  => 'Sender SMTP Email',
-    'SMTP_MAIL_PASSWORD'                 => 'Sender SMTP Password',
+    'SMTP_MAIL_PASSWORD'                 => 'Sender SMTP Authorization code',
     'SMTP Secure Protocol'               => 'SMTP Secure Protocol',
     'SMTP Server Port'                   => 'SMTP Server Port',
     'Send Test Email'                    => 'Send Test Email',

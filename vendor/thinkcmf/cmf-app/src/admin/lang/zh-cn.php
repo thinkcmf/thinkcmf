@@ -93,7 +93,7 @@ return [
     'SENDER_EMAIL_ADDRESS'               => '邮箱地址',
     'SENDER_SMTP_SERVER'                 => 'SMTP服务器',
     'SMTP_MAIL_ADDRESS'                  => '发件箱帐号',
-    'SMTP_MAIL_PASSWORD'                 => '发件箱密码',
+    'SMTP_MAIL_PASSWORD'                 => '发件箱授权码',
     'SMTP Secure Protocol'               => '连接方式',
     'SMTP Server Port'                   => 'SMTP服务器端口',
     'Send Test Email'                    => '发送测试邮件',
