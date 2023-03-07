@@ -3,11 +3,7 @@
 </head>
 <body>
 <div class="wrap">
-    <ul class="nav nav-tabs">
-        <li><a href="{:url('Plugin/index')}">{:lang('ADMIN_PLUGIN_INDEX')}</a></li>
-        <li class="active"><a>{:lang('ADMIN_PLUGIN_SETTING')}</a></li>
-    </ul>
-    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Plugin/settingPost')}">
+    <form method="post" class="form-horizontal js-ajax-form" action="{:url('Plugin/settingPost')}">
         <empty name="custom_config">
             {:_parse_plugin_config($data['config'])}
             <else/>
@@ -19,7 +15,6 @@
             <div class="col-sm-offset-2 col-sm-10">
                 <input type="hidden" name="id" value="{$id}" readonly>
                 <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">{:lang('SAVE')}</button>
-                <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
             </div>
         </div>
     </form>
