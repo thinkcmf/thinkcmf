@@ -71,12 +71,14 @@ class ThemeController extends AdminBaseController
 
         $themes = [];
         foreach ($themesDirs as $dir) {
-            $manifest = WEB_ROOT . "themes/$dir/manifest.json";
-            if (file_exists_case($manifest)) {
-                $manifest       = file_get_contents($manifest);
-                $theme          = json_decode($manifest, true);
-                $theme['theme'] = $dir;
-                array_push($themes, $theme);
+            if (!preg_match("/^admin_/", $dir)) {
+                $manifest = WEB_ROOT . "themes/$dir/manifest.json";
+                if (file_exists_case($manifest)) {
+                    $manifest       = file_get_contents($manifest);
+                    $theme          = json_decode($manifest, true);
+                    $theme['theme'] = $dir;
+                    array_push($themes, $theme);
+                }
             }
         }
         $this->assign('themes', $themes);
