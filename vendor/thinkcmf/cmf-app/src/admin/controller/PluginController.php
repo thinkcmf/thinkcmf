@@ -11,6 +11,7 @@
 namespace app\admin\controller;
 
 use app\admin\logic\PluginLogic;
+use app\admin\model\HookModel;
 use cmf\controller\AdminBaseController;
 use app\admin\model\PluginModel;
 use app\admin\model\HookPluginModel;
@@ -370,6 +371,38 @@ class PluginController extends AdminBaseController
 
             $this->success(lang('Uninstall successful'));
         }
+    }
+
+    /**
+     * 插件钩子
+     * @adminMenu(
+     *     'name'   => '插件钩子',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '插件钩子',
+     *     'param'  => ''
+     * )
+     */
+    public function hooks()
+    {
+        $id = $this->request->param('id', 0, 'intval');
+
+        $pluginModel = new PluginModel();
+        $plugin      = $pluginModel->find($id);
+
+        if (empty($plugin)) {
+            $this->error('插件未安装!');
+        }
+
+        $hooksArr = HookPluginModel::where('plugin', $plugin['name'])->column('hook');
+        $hooks    = HookModel::where('hook', 'in', $hooksArr)->select();
+
+        $this->assign('hooks', $hooks);
+
+        return $this->fetch();
     }
 
 

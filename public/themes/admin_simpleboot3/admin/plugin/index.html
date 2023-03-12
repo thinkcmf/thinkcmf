@@ -27,7 +27,7 @@
                 <th>{:lang('Author')}</th>
                 <th>{:lang('Version')}</th>
                 <th width="60">{:lang('Status')}</th>
-                <th width="220">{:lang('ACTIONS')}</th>
+                <th width="225">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -46,19 +46,32 @@
                                data-msg="确定安装该插件吗？">{:lang('Install')}</a>
                             <else/>
                             <php>$config=json_decode($vo['config'],true);</php>
-                            <if condition="!empty($config)">
-                                <empty name="config.custom_config">
-                                    <a class="btn btn-xs btn-primary"
-                                       data-href="{:url('Plugin/setting',array('id'=>$vo['id']))}" href="javascript:;"
-                                       onclick="openPluginSettingDialog(this)">设置</a>
-                                    <else/>
-                                    <a class="btn btn-xs btn-primary"
-                                       data-href="{:cmf_plugin_url($vo['name'].'://AdminIndex/setting')}"
-                                       href="javascript:;" onclick="openPluginSettingDialog(this)">设置</a>
-                                </empty>
-                                <else/>
-                                <a class="btn btn-xs btn-primary disabled" href="javascript:;">设置</a>
-                            </if>
+                            <!-- Single button -->
+                            <span class="dropdown">
+                                <span class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown"
+                                      aria-haspopup="true" aria-expanded="false">
+                                    设置<span class="caret"></span>
+                                </span>
+                                <ul class="dropdown-menu">
+                                    <if condition="!empty($config)">
+                                        <empty name="config.custom_config">
+                                            <li>
+                                                <a data-href="{:url('Plugin/setting',array('id'=>$vo['id']))}"
+                                                   href="javascript:;" onclick="openPluginSettingDialog(this)"><i class="fa fa-cog fa-fw"></i> 插件设置</a>
+                                            </li>
+                                            <else/>
+                                            <li>
+                                                <a data-href="{:cmf_plugin_url($vo['name'].'://AdminIndex/setting')}"
+                                                   href="javascript:;" onclick="openPluginSettingDialog(this)"><i class="fa fa-cog fa-fw"></i> 插件设置</a>
+                                            </li>
+                                        </empty>
+                                    </if>
+                                    <li>
+                                        <a data-href="{:url('admin/Plugin/hooks',['id'=>$vo.id])}"
+                                           href="javascript:;" onclick="openPluginHooksDialog(this)"><i class="fa fa-list-ol fa-fw"></i> 执行顺序</a>
+                                    </li>
+                                </ul>
+                            </span>
 
                             <if condition="!empty($vo['has_admin'])">
                                 <a class="btn btn-xs btn-info"
@@ -98,6 +111,24 @@
         var $obj = $(obj);
         var href = $obj.data('href');
         parent.openIframeLayer(href, '插件设置', {
+            area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '95%'],
+            offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
+            // btn: ['确定', '取消'],
+            yes: function (index, layero) {
+                console.log(layero);
+                var iframeWin = parent.window[layero.find('iframe')[0]['name']];
+                //iframeWin.confirm();
+                parent.layer.close(index); //如果设定了yes回调，需进行手工关闭
+            },
+            end: function () {
+            }
+        });
+    }
+
+    function openPluginHooksDialog(obj) {
+        var $obj = $(obj);
+        var href = $obj.data('href');
+        parent.openIframeLayer(href, '插件钩子', {
             area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '95%'],
             offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
             // btn: ['确定', '取消'],
