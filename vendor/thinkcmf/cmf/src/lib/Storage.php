@@ -23,7 +23,7 @@ class Storage
     /**
      * 构造方法，用于构造存储实例
      * @param string $driver 要使用的存储驱动 Qiniu-七牛存储驱动
-     * @param array $driverConfig
+     * @param array  $driverConfig
      * @throws \Exception
      */
     public function __construct($driver = null, $driverConfig = null)
@@ -59,10 +59,10 @@ class Storage
 
     /**
      * 文件上传
-     * @param string $file 上传文件路径
+     * @param string $file     上传文件路径
      * @param string $filePath 文件路径相对于upload目录
      * @param string $fileType 文件类型,image,video,audio,file
-     * @param array $param 额外参数
+     * @param array  $param    额外参数
      * @return mixed
      */
     public function upload($file, $filePath, $fileType = 'image', $param = null)
@@ -120,12 +120,24 @@ class Storage
     /**
      * 获取文件下载地址
      * @param string $file
-     * @param int $expires
+     * @param int    $expires
+     * @param bool   $force 是否直接下载
      * @return mixed
      */
-    public function getFileDownloadUrl($file, $expires = 3600)
+    public function getFileDownloadUrl($file, $expires = 3600, $force = true)
     {
-        return $this->driver->getFileDownloadUrl($file, $expires);
+        return $this->driver->getFileDownloadUrl($file, $expires, $force);
+    }
+
+    /**
+     * 获取文件访问链接
+     * @param string $file
+     * @param int    $expires
+     * @return mixed
+     */
+    public function getFileUrl($file, $expires = 3600)
+    {
+        return $this->driver->getFileDownloadUrl($file, $expires, false);
     }
 
     /**

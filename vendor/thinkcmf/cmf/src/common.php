@@ -393,7 +393,7 @@ function cmf_clear_cache()
     foreach ($dirs as $dir) {
         $dirTool->delDir($dir);
     }
-    
+
     Cache::clear();
 }
 
@@ -834,9 +834,10 @@ function cmf_get_image_preview_url($file, $style = 'watermark')
  * 获取文件下载链接
  * @param string $file    文件路径，数据库里保存的相对路径
  * @param int    $expires 过期时间，单位 s
+ * @param bool   $force   是否直接下载
  * @return string 文件链接
  */
-function cmf_get_file_download_url($file, $expires = 3600)
+function cmf_get_file_download_url($file, $expires = 3600, $force = true)
 {
     if (empty($file)) {
         return '';
@@ -852,6 +853,17 @@ function cmf_get_file_download_url($file, $expires = 3600)
         $storage = Storage::instance();
         return $storage->getFileDownloadUrl($file, $expires);
     }
+}
+
+/**
+ * 获取文件访问链接
+ * @param string $file    文件路径，数据库里保存的相对路径
+ * @param int    $expires 过期时间，单位 s
+ * @return string 文件链接
+ */
+function cmf_get_file_url($file, $expires = 3600, $force = true)
+{
+    return cmf_get_file_download_url($file, $expires, false);
 }
 
 /**
