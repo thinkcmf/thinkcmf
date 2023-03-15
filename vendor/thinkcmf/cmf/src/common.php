@@ -851,7 +851,7 @@ function cmf_get_file_download_url($file, $expires = 3600, $force = true)
         return $file;
     } else {
         $storage = Storage::instance();
-        return $storage->getFileDownloadUrl($file, $expires);
+        return $storage->getFileDownloadUrl($file, $expires, $force);
     }
 }
 
@@ -861,7 +861,7 @@ function cmf_get_file_download_url($file, $expires = 3600, $force = true)
  * @param int    $expires 过期时间，单位 s
  * @return string 文件链接
  */
-function cmf_get_file_url($file, $expires = 3600, $force = true)
+function cmf_get_file_url($file, $expires = 3600)
 {
     return cmf_get_file_download_url($file, $expires, false);
 }
