@@ -410,6 +410,12 @@ class MenuController extends AdminBaseController
 
     }
 
+    public function exportMenuLang()
+    {
+        $this->_exportAppMenuDefaultLang();
+        $this->success('操作成功');
+    }
+
     /**
      * 导出后台菜单语言包
      * @throws \think\db\exception\DataNotFoundException
