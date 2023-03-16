@@ -20,7 +20,6 @@
                 <th>{:lang('Description')}</th>
                 <th>{:lang('Author')}</th>
                 <th width="60">{:lang('Status')}</th>
-                <th width="150">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -34,26 +33,6 @@
                     <td>{$vo.description}</td>
                     <td>{$vo.author}</td>
                     <td>{$status[$vo['hook_plugin_status']]}</td>
-                    <td>
-                        <if condition="$vo['status']==3">
-                            <a href="{:url('plugin/install',array('name'=>$vo['name']))}" class="btn btn-xs btn-primary js-ajax-dialog-btn"
-                               data-msg="确定安装该插件吗？">安装</a>
-                            <else/>
-                            <php>$config=json_decode($vo['config'],true);</php>
-                            <if condition="!empty($config)">
-                                <a class="btn btn-xs btn-primary" href="{:url('plugin/setting',array('id'=>$vo['id']))}">设置</a>
-                                <else/>
-                                <a class="btn btn-xs btn-primary disabled" href="javascript:;" style="color: #ccc;">设置</a>
-                            </if>
-
-                            <if condition="!empty($vo['has_admin'])">
-                                <a class="btn btn-xs btn-info" href="javascript:parent.openIframeLayer('{:cmf_plugin_url($vo['name'].'://AdminIndex/index')}','{$vo.title}')">管理</a>
-                                <else/>
-                                <a class="btn btn-xs btn-info disabled" href="javascript:;" style="color: #ccc;">管理</a>
-                            </if>
-
-                        </if>
-                    </td>
                 </tr>
             </foreach>
             </tbody>
