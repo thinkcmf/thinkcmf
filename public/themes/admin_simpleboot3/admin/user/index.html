@@ -57,20 +57,21 @@
 					<td>
 						<if condition="$vo['id'] eq 1 || $vo['id'] eq cmf_get_current_admin_id()">
 							<span class="btn btn-xs btn-primary disabled">{:lang('EDIT')}</span>
-							<span class="btn btn-xs btn-danger disabled">{:lang('DELETE')}</span>
 							<if condition="$vo['user_status'] eq 1">
-								<span class="btn btn-xs btn-danger disabled">{:lang('BLOCK_USER')}</span>
+								<span class="btn btn-xs btn-warning disabled">{:lang('BLOCK_USER')}</span>
 							<else />
 								<span class="btn btn-xs btn-warning disabled">{:lang('ACTIVATE_USER')}</span>
 							</if>
+							<span class="btn btn-xs btn-danger disabled">{:lang('DELETE')}</span>
 						<else />
 							<a class="btn btn-xs btn-primary" href='{:url("user/edit",array("id"=>$vo["id"]))}'>{:lang('EDIT')}</a>
-							<a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('User/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
 							<if condition="$vo['user_status'] eq 1">
-								<a class="btn btn-xs btn-danger js-ajax-dialog-btn" href="{:url('User/ban',array('id'=>$vo['id']))}" data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}">{:lang('BLOCK_USER')}</a>
+								<a class="btn btn-xs btn-warning js-ajax-dialog-btn" href="{:url('User/ban',array('id'=>$vo['id']))}" data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}">{:lang('BLOCK_USER')}</a>
 							<else />
 								<a class="btn btn-xs btn-warning js-ajax-dialog-btn" href="{:url('User/cancelban',array('id'=>$vo['id']))}" data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}">{:lang('ACTIVATE_USER')}</a>
 							</if>
+							<a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('User/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+
 						</if>
 					</td>
 				</tr>

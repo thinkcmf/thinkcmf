@@ -19,7 +19,7 @@
                 <th>{:lang('Short Url')}</th>
                 <th>{:lang('Type')}</th>
                 <th>{:lang('Status')}</th>
-                <th width="130">{:lang('ACTIONS')}</th>
+                <th width="110">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -52,22 +52,39 @@
                     </td>
                     <td>
                         <eq name="vo.type" value="2">
-                            <span class="btn btn-xs btn-primary disabled">{:lang('EDIT')}</span>
-                            <span class="btn btn-xs btn-warning disabled">{:lang('Disable')}</span>
-                            <span class="btn btn-xs btn-danger disabled">{:lang('DELETE')}</span>
+                            <span class="btn btn-xs btn-primary disabled" title="{:lang('EDIT')}" data-toggle="tooltip">
+                                <i class="fa fa-edit fa-fw"></i></span>
+                            <span class="btn btn-xs btn-warning disabled" title="{:lang('Disable')}"
+                                  data-toggle="tooltip"><i class="fa fa-toggle-off fa-fw"></i></span>
+                            <span class="btn btn-xs btn-danger disabled" title="{:lang('DELETE')}"
+                                  data-toggle="tooltip"><i class="fa fa-trash fa-fw"></i></span>
                             <else/>
-                            <a class="btn btn-xs btn-primary" href="{:url('Route/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                            <a class="btn btn-xs btn-primary" href="{:url('Route/edit',array('id'=>$vo['id']))}"
+                               data-toggle="tooltip"
+                               title="{:lang('EDIT')}"><i class="fa fa-edit fa-fw"></i></a>
                             <eq name="vo.status" value="1">
                                 <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
                                    href="{:url('Route/ban',array('id'=>$vo['id']))}"
-                                   data-msg="确定禁用吗？">{:lang('Disable')}</a>
+                                   data-toggle="tooltip"
+                                   data-msg="确定禁用吗？" title="{:lang('Disable')}">
+                                    <i class="fa fa-toggle-off fa-fw"></i>
+                                </a>
                                 <else/>
-                                <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
+                                <a class="btn btn-xs btn-success js-ajax-dialog-btn"
                                    href="{:url('Route/open',array('id'=>$vo['id']))}"
-                                   data-msg="确定启用吗？">{:lang('Enable')}</a>
+                                   data-toggle="tooltip"
+                                   data-msg="确定启用吗？"
+                                   title="{:lang('Enable')}">
+                                    <i class="fa fa-toggle-on fa-fw"></i>
+                                </a>
                             </eq>
                             <a class="btn btn-xs btn-danger js-ajax-delete"
-                               href="{:url('Route/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+                               data-href="{:url('Route/delete',array('id'=>$vo['id']))}"
+                               href="javascript:;"
+                               title="{:lang('DELETE')}"
+                               data-toggle="tooltip">
+                                <i class="fa fa-trash fa-fw"></i>
+                            </a>
                         </eq>
                     </td>
                 </tr>
@@ -81,7 +98,7 @@
                 <th>{:lang('Short Url')}</th>
                 <th>{:lang('Type')}</th>
                 <th>{:lang('Status')}</th>
-                <th width="130">{:lang('ACTIONS')}</th>
+                <th width="110">{:lang('ACTIONS')}</th>
             </tr>
             </tfoot>
         </table>

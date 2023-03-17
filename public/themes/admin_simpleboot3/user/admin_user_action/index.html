@@ -33,7 +33,10 @@
 
                     </th>
                     <td>
-                        <a class="btn btn-xs btn-primary" href="{:url('AdminUserAction/edit')}?id={$vo.id}">编辑</a>
+                        <a class="btn btn-xs btn-primary" href="{:url('AdminUserAction/edit')}?id={$vo.id}" title="编辑"
+                           data-toggle="tooltip">
+                            <i class="fa fa-edit fa-fw"></i>
+                        </a>
                     </td>
                 </tr>
             </foreach>
