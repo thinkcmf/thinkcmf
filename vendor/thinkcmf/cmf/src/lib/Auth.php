@@ -10,6 +10,7 @@
 // +---------------------------------------------------------------------
 namespace cmf\lib;
 
+use app\admin\model\RoleModel;
 use cmf\model\AuthAccessModel;
 use cmf\model\AuthRuleModel;
 use cmf\model\RoleUserModel;
@@ -33,14 +34,15 @@ class Auth
      * @param $name     string|array  需要验证的规则列表,支持逗号分隔的权限规则或索引数组
      * @param $uid      int           认证用户的id
      * @param $relation string    如果为 'or' 表示满足任一条规则即通过验证;如果为 'and'则表示需满足所有规则才能通过验证
+     * @param $roleType string    角色类型
      * @return boolean           通过验证返回true;失败返回false
      */
-    public function check($uid, $name, $relation = 'or')
+    public function check($uid, $name, $relation = 'or', $roleType = 'admin')
     {
-
         if (empty($uid)) {
             return false;
         }
+
         if ($uid == 1) {
             return true;
         }
@@ -50,24 +52,19 @@ class Auth
             if (strpos($name, ',') !== false) {
                 $name = explode(',', $name);
             } else {
-
-                $findAuthRuleCount = AuthRuleModel::where([
-                    'name' => $name
-                ])->count();
-
-                if ($findAuthRuleCount == 0) {//没有规则时,不验证!
+                $findAuthRule = AuthRuleModel::where('name', $name)->field('id')->find();
+                if (empty($findAuthRule)) {//没有规则时,不验证!
                     return true;
                 }
-
                 $name = [$name];
             }
         }
 
-        $list   = []; //保存验证通过的规则名
-        $groups = RoleUserModel::alias('a')
-            ->join('role r', 'a.role_id = r.id')
-            ->where(['a.user_id' => $uid, 'r.status' => 1])
-            ->column('role_id');
+        $list    = []; //保存验证通过的规则名
+        $roleIds = RoleUserModel::where('user_id', $uid)->column('role_id');
+        $groups  = RoleModel::where(['type' => $roleType, 'status' => 1])
+            ->where('id', 'in', $roleIds)
+            ->column('id');
 
         if (in_array(1, $groups)) {
             return true;
@@ -76,20 +73,34 @@ class Auth
         if (empty($groups)) {
             return false;
         }
-        $rules = AuthAccessModel::alias('a')
-            ->join('auth_rule b ', ' a.rule_name = b.name')
-            ->where('a.role_id', 'in', $groups)
-            ->where('b.name', 'in', $name)
-            ->select();
-        foreach ($rules as $rule) {
-            $list[] = strtolower($rule['name']);
-        }
 
-        if ($relation == 'or' and !empty($list)) {
+        $ruleAccesses = AuthAccessModel::where(function ($query) use ($groups) {
+            if (count($groups) == 1) {
+                $query->where('role_id', $groups[0]);
+            } else {
+                $query->where('role_id', 'in', $groups);
+            }
+        })
+            ->where(function ($query) use ($name) {
+                if (count($name) == 1) {
+                    $query->where('rule_name', $name[0]);
+                } else {
+                    $query->where('rule_name', 'in', $name);
+                }
+            })
+            ->field('rule_name')
+            ->select();
+
+        if ($relation == 'or' && count($ruleAccesses) > 0) {
             return true;
         }
+
+        foreach ($ruleAccesses as $ruleAccess) {
+            $list[] = strtolower($ruleAccess['rule_name']);
+        }
+
         $diff = array_diff($name, $list);
-        if ($relation == 'and' and empty($diff)) {
+        if ($relation == 'and' && empty($diff)) {
             return true;
         }
         return false;
