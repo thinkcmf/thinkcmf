@@ -2351,6 +2351,15 @@ function cmf_mobile_mask($mobile)
 }
 
 /**
+ * UTF8 BOM，多用于CSV导出
+ * @return string
+ */
+function cmf_utf8_bom()
+{
+    return "\xEF\xBB\xBF";
+}
+
+/**
  * 吾辈当自强
  * @param string $dayDayUp
  * @return string
@@ -2359,3 +2368,5 @@ function cmf_together(string $dayDayUp = '2022-08-03 01:58')
 {
     return "吾辈当自强!\n$dayDayUp";
 }
+
+
