@@ -4,9 +4,8 @@
 <body>
 	<div class="wrap js-check-wrap">
 		<ul class="nav nav-tabs">
-			<li><a href="{:url('Rbac/index')}">{:lang('ADMIN_RBAC_INDEX')}</a></li>
-			<li><a href="{:url('Rbac/roleAdd')}">{:lang('ADMIN_RBAC_ROLEADD')}</a></li>
-			<li class="active"><a href="javascript:;">{:lang('ADMIN_RBAC_AUTHORIZE')}</a></li>
+			<li class="active"><a href="{:url('Rbac/authorize',['id'=>$role_id])}">后台界面授权</a></li>
+			<li><a href="{:url('Rbac/apiAuthorize',['id'=>$role_id])}">后台API授权</a></li>
 		</ul>
 		<form class="js-ajax-form margin-top-20"  action="{:url('Rbac/authorizePost')}" method="post">
 			<div class="table_full">
@@ -16,10 +15,9 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="form-actions">
+			<div class="form-actions text-center">
 				<input type="hidden" name="roleId" value="{$roleId}" />
 				<button class="btn btn-primary js-ajax-submit" type="submit">{:lang('SAVE')}</button>
-				<a class="btn btn-default" href="{:url('admin/rbac/index')}">{:lang('BACK')}</a>
 			</div>
 		</form>
 	</div>
