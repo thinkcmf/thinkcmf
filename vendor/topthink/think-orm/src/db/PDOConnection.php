@@ -354,15 +354,13 @@ abstract class PDOConnection extends Connection
         if (!isset($this->info[$schema]) || $force) {
             // 读取字段缓存
             $cacheKey   = $this->getSchemaCacheKey($schema);
-            $cacheField = $this->config['fields_cache'] && !empty($this->cache);
-
-            if ($cacheField && !$force) {
+            if ($this->config['fields_cache'] && !empty($this->cache) && !$force) {
                 $info = $this->cache->get($cacheKey);
             }
 
             if (empty($info)) {
                 $info = $this->getTableFieldsInfo($tableName);
-                if ($cacheField) {
+                if (!empty($this->cache) && ($this->config['fields_cache'] || $force)) {
                     $this->cache->set($cacheKey, $info);
                 }
             }
@@ -1650,7 +1648,7 @@ abstract class PDOConnection extends Connection
         $pk = $query->getAutoInc();
 
         if ($pk) {
-            $type = $this->getFieldBindType($pk);
+            $type = $this->getFieldsBind($query->getTable())[$pk];
 
             if (PDO::PARAM_INT == $type) {
                 $insertId = (int) $insertId;

@@ -112,6 +112,7 @@ class PublicController extends RestBaseController
             'device_type' => $this->deviceType
         ])->update(['token' => '']);
 
+        session('ADMIN_ID', null);
         $this->success("退出成功!");
     }
 

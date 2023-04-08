@@ -430,17 +430,17 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.7.1",
-            "version_normalized": "6.7.1.0",
+            "version": "v6.8.0",
+            "version_normalized": "6.8.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "49cd7ea3d2563f028d7811f06864a53b1f15ff55"
+                "reference": "df16b615e371d81fb79e506277faea67a1be18f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/49cd7ea3d2563f028d7811f06864a53b1f15ff55",
-                "reference": "49cd7ea3d2563f028d7811f06864a53b1f15ff55",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/df16b615e371d81fb79e506277faea67a1be18f1",
+                "reference": "df16b615e371d81fb79e506277faea67a1be18f1",
                 "shasum": ""
             },
             "require": {
@@ -469,7 +469,7 @@
                 "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)",
                 "thenetworg/oauth2-azure": "Needed for Microsoft XOAUTH2 authentication"
             },
-            "time": "2022-12-08T13:30:06+00:00",
+            "time": "2023-03-06T14:43:22+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -501,7 +501,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.7.1"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.8.0"
             },
             "funding": [
                 {
@@ -616,27 +616,27 @@
         },
         {
             "name": "psr/http-message",
-            "version": "1.0.1",
-            "version_normalized": "1.0.1.0",
+            "version": "1.1",
+            "version_normalized": "1.1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-message.git",
-                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
+                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
-                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
+                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": "^7.2 || ^8.0"
             },
-            "time": "2016-08-06T14:39:51+00:00",
+            "time": "2023-04-04T09:50:52+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.1.x-dev"
                 }
             },
             "installation-source": "dist",
@@ -666,7 +666,7 @@
                 "response"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-message/tree/master"
+                "source": "https://github.com/php-fig/http-message/tree/1.1"
             },
             "install-path": "../psr/http-message"
         },
@@ -779,17 +779,17 @@
         },
         {
             "name": "thinkcmf/cmf",
-            "version": "v6.0.17",
-            "version_normalized": "6.0.17.0",
+            "version": "v6.0.18",
+            "version_normalized": "6.0.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-core.git",
-                "reference": "97681cdb9a205ab6c4fca0cfcca1b26b1c185712"
+                "reference": "b8afb7754125fa0aed3078a352906b26affca758"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/97681cdb9a205ab6c4fca0cfcca1b26b1c185712",
-                "reference": "97681cdb9a205ab6c4fca0cfcca1b26b1c185712",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-core/zipball/b8afb7754125fa0aed3078a352906b26affca758",
+                "reference": "b8afb7754125fa0aed3078a352906b26affca758",
                 "shasum": ""
             },
             "require": {
@@ -803,7 +803,7 @@
                 "topthink/think-orm": "^2.0",
                 "xia/migration": "^6.0"
             },
-            "time": "2022-08-05T14:59:02+00:00",
+            "time": "2023-02-25T09:18:18+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -839,7 +839,7 @@
             "description": "The ThinkCMF Core Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-core/issues",
-                "source": "https://github.com/thinkcmf/cmf-core/tree/v6.0.17"
+                "source": "https://github.com/thinkcmf/cmf-core/tree/v6.0.18"
             },
             "install-path": "../thinkcmf/cmf"
         },
@@ -893,23 +893,23 @@
         },
         {
             "name": "thinkcmf/cmf-app",
-            "version": "v6.0.14",
-            "version_normalized": "6.0.14.0",
+            "version": "v6.0.15",
+            "version_normalized": "6.0.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-app.git",
-                "reference": "86d2536e4f5d0634ddec432161c94dfeaa0a65bf"
+                "reference": "4916faf59c7eec10882d619f050226880ac512f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/86d2536e4f5d0634ddec432161c94dfeaa0a65bf",
-                "reference": "86d2536e4f5d0634ddec432161c94dfeaa0a65bf",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-app/zipball/4916faf59c7eec10882d619f050226880ac512f3",
+                "reference": "4916faf59c7eec10882d619f050226880ac512f3",
                 "shasum": ""
             },
             "require": {
                 "thinkcmf/cmf": "^6.0.0"
             },
-            "time": "2022-07-22T02:29:32+00:00",
+            "time": "2023-02-28T15:54:23+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -931,7 +931,7 @@
             "description": "The ThinkCMF App Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-app/issues",
-                "source": "https://github.com/thinkcmf/cmf-app/tree/v6.0.14"
+                "source": "https://github.com/thinkcmf/cmf-app/tree/v6.0.15"
             },
             "install-path": "../thinkcmf/cmf-app"
         },
@@ -1114,17 +1114,17 @@
         },
         {
             "name": "thinkcmf/cmf-root",
-            "version": "v1.0.10",
-            "version_normalized": "1.0.10.0",
+            "version": "v1.0.11",
+            "version_normalized": "1.0.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-root.git",
-                "reference": "49b56d41d5a70de7feeff68742e61fcaa433fcac"
+                "reference": "6f474513b6c4433ca3eb46396c485dbe1085bc39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-root/zipball/49b56d41d5a70de7feeff68742e61fcaa433fcac",
-                "reference": "49b56d41d5a70de7feeff68742e61fcaa433fcac",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-root/zipball/6f474513b6c4433ca3eb46396c485dbe1085bc39",
+                "reference": "6f474513b6c4433ca3eb46396c485dbe1085bc39",
                 "shasum": ""
             },
             "require": {
@@ -1133,7 +1133,7 @@
             "require-dev": {
                 "composer/composer": "^1.0||^2.0"
             },
-            "time": "2022-07-19T17:00:41+00:00",
+            "time": "2023-02-28T15:52:29+00:00",
             "type": "composer-plugin",
             "extra": {
                 "class": "cmf\\composer\\RootDirPlugin"
@@ -1157,7 +1157,7 @@
             "description": "The files in ThinkCMF root dir",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-root/issues",
-                "source": "https://github.com/thinkcmf/cmf-root/tree/v1.0.10"
+                "source": "https://github.com/thinkcmf/cmf-root/tree/v1.0.11"
             },
             "install-path": "../thinkcmf/cmf-root"
         },
@@ -1282,17 +1282,17 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v2.0.58",
-            "version_normalized": "2.0.58.0",
+            "version": "v2.0.60",
+            "version_normalized": "2.0.60.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "fae96ca60891ae82df5d8050af959711354898a5"
+                "reference": "8bc34a4307fa27186c0e96a9b3de3cb23aa1ed46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/fae96ca60891ae82df5d8050af959711354898a5",
-                "reference": "fae96ca60891ae82df5d8050af959711354898a5",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/8bc34a4307fa27186c0e96a9b3de3cb23aa1ed46",
+                "reference": "8bc34a4307fa27186c0e96a9b3de3cb23aa1ed46",
                 "shasum": ""
             },
             "require": {
@@ -1306,7 +1306,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^7|^8|^9.5"
             },
-            "time": "2023-02-11T10:07:03+00:00",
+            "time": "2023-03-19T04:51:56+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1334,7 +1334,7 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/think-orm/issues",
-                "source": "https://github.com/top-think/think-orm/tree/v2.0.58"
+                "source": "https://github.com/top-think/think-orm/tree/v2.0.60"
             },
             "install-path": "../topthink/think-orm"
         },

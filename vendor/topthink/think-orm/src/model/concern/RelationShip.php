@@ -735,7 +735,9 @@ trait RelationShip
     protected function getRelationData(Relation $modelRelation)
     {
         if ($this->parent && !$modelRelation->isSelfRelation()
-            && get_class($this->parent) == get_class($modelRelation->getModel())) {
+            && get_class($this->parent) == get_class($modelRelation->getModel())
+            && $modelRelation instanceof OneToOne
+        ) {
             return $this->parent;
         }
 

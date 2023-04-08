@@ -91,10 +91,10 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         ),
         'think\\' => 
         array (
-            0 => __DIR__ . '/..' . '/thinkcmf/cmf/think',
+            0 => __DIR__ . '/..' . '/topthink/framework/src/think',
             1 => __DIR__ . '/..' . '/topthink/think-helper/src',
             2 => __DIR__ . '/..' . '/topthink/think-orm/src',
-            3 => __DIR__ . '/..' . '/topthink/framework/src/think',
+            3 => __DIR__ . '/..' . '/thinkcmf/cmf/think',
         ),
         'themes\\' => 
         array (
@@ -127,8 +127,8 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         'app\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
-            1 => __DIR__ . '/..' . '/thinkcmf/cmf-app/src',
-            2 => __DIR__ . '/..' . '/thinkcmf/cmf-install/src',
+            1 => __DIR__ . '/..' . '/thinkcmf/cmf-install/src',
+            2 => __DIR__ . '/..' . '/thinkcmf/cmf-app/src',
         ),
         'api\\' => 
         array (
