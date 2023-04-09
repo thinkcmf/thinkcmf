@@ -23,7 +23,7 @@ class SlideController extends AdminBaseController
      * @adminMenu(
      *     'name'   => '幻灯片管理',
      *     'parent' => 'admin/Setting/default',
-     *     'display'=> true,
+     *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 40,
      *     'icon'   => '',

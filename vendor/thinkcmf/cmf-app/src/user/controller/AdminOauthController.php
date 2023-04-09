@@ -20,7 +20,7 @@ class AdminOauthController extends AdminBaseController
      * 后台第三方用户列表
      * @adminMenu(
      *     'name'   => '第三方用户',
-     *     'parent' => 'user/AdminIndex/default1',
+     *     'parent' => 'user/AdminIndex/default',
      *     'display'=> true,
      *     'hasView'=> true,
      *     'order'  => 10000,

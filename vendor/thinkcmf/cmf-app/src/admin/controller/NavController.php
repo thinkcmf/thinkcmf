@@ -24,7 +24,7 @@ class NavController extends AdminBaseController
      * @adminMenu(
      *     'name'   => '导航管理',
      *     'parent' => 'admin/Setting/default',
-     *     'display'=> true,
+     *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 30,
      *     'icon'   => '',

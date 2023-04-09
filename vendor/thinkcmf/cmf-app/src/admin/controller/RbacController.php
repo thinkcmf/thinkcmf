@@ -26,7 +26,7 @@ class RbacController extends AdminBaseController
      * 角色管理列表
      * @adminMenu(
      *     'name'   => '角色管理',
-     *     'parent' => 'admin/User/default',
+     *     'parent' => 'user/AdminIndex/default',
      *     'display'=> true,
      *     'hasView'=> true,
      *     'order'  => 10000,
