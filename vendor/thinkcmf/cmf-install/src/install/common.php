@@ -146,10 +146,13 @@ function sp_create_db_config($config)
     if (is_array($config)) {
         //读取配置内容
         $conf = file_get_contents(__DIR__ . '/data/config.php');
+        //读取配置内容
+        $confYml = file_get_contents(__DIR__ . '/data/database.yml');
 
         //替换配置项
         foreach ($config as $key => $value) {
-            $conf = str_replace("#{$key}#", $value, $conf);
+            $conf    = str_replace("#{$key}#", $value, $conf);
+            $confYml = str_replace("#{$key}#", $value, $confYml);
         }
 
         if (strpos(cmf_version(), '5.0.') === false) {
@@ -159,15 +162,13 @@ function sp_create_db_config($config)
         }
 
         try {
-
             if (!file_exists($confDir)) {
                 mkdir($confDir, 0777, true);
             }
             file_put_contents($confDir . 'database.php', $conf);
+            file_put_contents($confDir . 'database.yml', $confYml);
         } catch (\Exception $e) {
-
             return false;
-
         }
 
         return true;
