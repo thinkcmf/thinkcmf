@@ -73,7 +73,7 @@ return [
     'WEBSITE_ADMIN_THEME_STYLE'          => '后台风格',
     'HTML_CACHE'                         => '开启静态缓存',
     'WEBSITE_ICP'                        => 'ICP备',
-    'WEBSITE_GWA'                        => '公网安备',
+    'WEBSITE_GWA'                        => '公安网备',
     'WEBMASTER_EMAIL'                    => '站长邮箱',
     'WEBSITE_STATISTICAL_CODE'           => '统计代码',
     'WEBSITE_COPYRIGHT_INFOMATION'       => '版权信息',
