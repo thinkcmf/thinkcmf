@@ -122,7 +122,7 @@ class BaseController
      */
     protected function display($content = '', $vars = [], $config = [])
     {
-        return Response::create($content, 'view')->assign($vars)->config($config)->isContent(true);
+        return Response::create($content, 'view')->assign($vars)->isContent(true);
     }
 
     /**
