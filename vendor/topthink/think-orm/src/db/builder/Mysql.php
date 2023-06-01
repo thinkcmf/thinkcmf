@@ -12,6 +12,7 @@ declare (strict_types = 1);
 
 namespace think\db\builder;
 
+use PDO;
 use think\db\Builder;
 use think\db\exception\DbException as Exception;
 use think\db\Query;
@@ -146,10 +147,9 @@ class Mysql extends Builder
      * @access public
      * @param  Query     $query   查询对象
      * @param  array     $dataSet 数据集
-     * @param  bool      $replace 是否replace
      * @return string
      */
-    public function insertAll(Query $query, array $dataSet, bool $replace = false): string
+    public function insertAll(Query $query, array $dataSet): string
     {
         $options = $query->getOptions();
 
@@ -183,7 +183,55 @@ class Mysql extends Builder
         return str_replace(
             ['%INSERT%', '%EXTRA%', '%TABLE%', '%PARTITION%', '%FIELD%', '%DATA%', '%DUPLICATE%', '%COMMENT%'],
             [
-                $replace ? 'REPLACE' : 'INSERT',
+                !empty($options['replace']) ? 'REPLACE' : 'INSERT',
+                $this->parseExtra($query, $options['extra']),
+                $this->parseTable($query, $options['table']),
+                $this->parsePartition($query, $options['partition']),
+                implode(' , ', $fields),
+                implode(' , ', $values),
+                $this->parseDuplicate($query, $options['duplicate']),
+                $this->parseComment($query, $options['comment']),
+            ],
+            $this->insertAllSql
+        );
+    }
+
+    /**
+     * 生成insertall SQL
+     * @access public
+     * @param  Query    $query   查询对象
+     * @param  array    $keys 键值
+     * @param  array    $values 数据
+     * @return string
+     */
+    public function insertAllByKeys(Query $query, array $keys, array $datas): string
+    {
+        $options = $query->getOptions();
+
+        // 获取绑定信息
+        $bind   = $query->getFieldsBindType();
+        $fields = [];
+        $values = [];
+
+        foreach ($keys as $field) {
+            $fields[] = $this->parseKey($query, $field);
+        }
+
+        foreach ($datas as $data) {
+            foreach ($data as $key => &$val) {
+                if (!$query->isAutoBind()) {
+                    $val = PDO::PARAM_STR == $bind[$keys[$key]] ? '\'' . $val . '\'' : $val;
+                } else {
+                    $val = $this->parseDataBind($query, $keys[$key], $val, $bind);
+                }
+            }
+            $values[] = '( ' . implode(',', $data) . ' )';
+        }
+
+        return str_replace(
+            ['%INSERT%', '%EXTRA%', '%TABLE%', '%PARTITION%', '%FIELD%', '%DATA%', '%DUPLICATE%', '%COMMENT%'],
+            [
+                !empty($options['replace']) ? 'REPLACE' : 'INSERT',
                 $this->parseExtra($query, $options['extra']),
                 $this->parseTable($query, $options['table']),
                 $this->parsePartition($query, $options['partition']),

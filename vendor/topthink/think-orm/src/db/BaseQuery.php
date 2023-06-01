@@ -770,10 +770,9 @@ abstract class BaseQuery
      * @param mixed             $key    缓存key
      * @param integer|\DateTime $expire 缓存有效期
      * @param string|array      $tag    缓存标签
-     * @param bool              $always 始终缓存
      * @return $this
      */
-    public function cache($key = true, $expire = null, $tag = null, bool $always = false)
+    public function cache($key = true, $expire = null, $tag = null)
     {
         if (false === $key || !$this->getConnection()->getCache()) {
             return $this;
@@ -784,8 +783,7 @@ abstract class BaseQuery
             $key    = true;
         }
 
-        $this->options['cache']        = [$key, $expire, $tag];
-        $this->options['cache_always'] = $always;
+        $this->options['cache']     = [$key, $expire, $tag ?: $this->getTable()];
 
         return $this;
     }
@@ -800,7 +798,23 @@ abstract class BaseQuery
      */
     public function cacheAlways($key = true, $expire = null, $tag = null)
     {
-        return $this->cache($key, $expire, $tag, true);
+        $this->options['cache_always'] = true;
+        return $this->cache($key, $expire, $tag);
+    }
+
+    /**
+     * 强制更新缓存
+     *
+     * @param mixed         $key    缓存key
+     * @param int|\DateTime $expire 缓存有效期
+     * @param string|array  $tag    缓存标签
+     *
+     * @return $this
+     */
+    public function cacheForce($key = true, $expire = null, $tag = null)
+    {
+        $this->options['force_cache'] = true;
+        return $this->cache($key, $expire, $tag);
     }
 
     /**
@@ -1024,6 +1038,23 @@ abstract class BaseQuery
         }
 
         return $this->connection->insertAll($this, $dataSet, $limit);
+    }
+
+    /**
+     * 批量插入记录
+     * @access public
+     * @param array   $keys 键值
+     * @param array   $values 数据
+     * @param integer $limit   每次写入数据限制
+     * @return integer
+     */
+    public function insertAllByKeys(array $keys, array $values, int $limit = 0): int
+    {
+        if (empty($limit) && !empty($this->options['limit']) && is_numeric($this->options['limit'])) {
+            $limit = (int) $this->options['limit'];
+        }
+
+        return $this->connection->insertAllByKeys($this, $keys, $values, $limit);
     }
 
     /**

@@ -1239,6 +1239,53 @@ abstract class Builder
     }
 
     /**
+     * 生成insertall SQL
+     * @access public
+     * @param  Query $query 查询对象
+     * @param  array $keys  字段名
+     * @param  array $datas 数据
+     * @return string
+     */
+    public function insertAllByKeys(Query $query, array $keys, array $datas): string
+    {
+        $options = $query->getOptions();
+
+        // 获取绑定信息
+        $bind   = $query->getFieldsBindType();
+        $fields = [];
+        $values = [];
+
+        foreach ($keys as $field) {
+            $fields[] = $this->parseKey($query, $field);
+        }
+
+        foreach ($datas as $data) {
+            foreach ($data as $key => &$val) {
+                if (!$query->isAutoBind()) {
+                    $val = PDO::PARAM_STR == $bind[$keys[$key]] ? '\'' . $val . '\'' : $val;
+                } else {
+                    $val = $this->parseDataBind($query, $keys[$key], $val, $bind);
+                }
+            }
+
+            $values[] = 'SELECT ' . implode(',', $data);
+        }
+
+        return str_replace(
+            ['%INSERT%', '%TABLE%', '%EXTRA%', '%FIELD%', '%DATA%', '%COMMENT%'],
+            [
+                !empty($options['replace']) ? 'REPLACE' : 'INSERT',
+                $this->parseTable($query, $options['table']),
+                $this->parseExtra($query, $options['extra']),
+                implode(' , ', $fields),
+                implode(' UNION ALL ', $values),
+                $this->parseComment($query, $options['comment']),
+            ],
+            $this->insertAllSql
+        );
+    }
+    
+    /**
      * 生成slect insert SQL
      * @access public
      * @param  Query  $query  查询对象
