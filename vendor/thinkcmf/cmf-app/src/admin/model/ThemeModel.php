@@ -261,13 +261,17 @@ class ThemeModel extends Model
                         $configMore['widgets_blocks'][$widgetsBlockName]['widgets'] = $moreInDb['widgets_blocks'][$widgetsBlockName]['widgets'];
                     } else {
                         foreach ($configMore['widgets_blocks'][$widgetsBlockName]['widgets'] as $widgetId => $configMoreBlockWidget) {
-                            if(!empty( $moreInDb['widgets_blocks'][$widgetsBlockName]['widgets'][$widgetId])){
+                            if (!empty($moreInDb['widgets_blocks'][$widgetsBlockName]['widgets'][$widgetId])) {
                                 $configMore['widgets_blocks'][$widgetsBlockName]['widgets'][$widgetId] = $moreInDb['widgets_blocks'][$widgetsBlockName]['widgets'][$widgetId];
                             }
                         }
                     }
                 }
             }
+        }
+
+        if (isset($moreInDb['edited_by_designer'])) {
+            $configMore['edited_by_designer'] = $moreInDb['edited_by_designer'];
         }
 
         return $configMore;

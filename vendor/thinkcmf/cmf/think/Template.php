@@ -577,7 +577,7 @@ class Template
                     }
                     $template = "public@widgets/{$widget['name']}/head";
                     try {
-                        $template = $this->parseTemplateFile($template);
+                        $template           = $this->parseTemplateFile($template);
                         $widgetsHeadContent .= <<<hello
 <include file="$template"/>
 hello;
@@ -605,10 +605,13 @@ hello;
             $designingTheme = cookie('cmf_design_theme');
 
             foreach ($matches as $match) {
-                $array   = $this->parseAttr($match[0]);
-                $name    = $array['name'];
-                $tagName = $array['tag'];
+                $array = $this->parseAttr($match[0]);
+                $name  = $array['name'];
+                if (empty($widgetsBlocks[$name])) {
+                    continue;
+                }
 
+                $tagName   = $array['tag'];
                 $attrsText = '';
                 unset($array['tag']);
                 unset($array['name']);

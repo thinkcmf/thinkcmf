@@ -687,7 +687,7 @@ class ThemeController extends AdminBaseController
 
             $more = json_encode($more);
             ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
-
+            cmf_clear_cache();
             $this->success(lang('EDIT_SUCCESS'), url('Theme/fileArrayData', ['tab' => $tab, 'var' => $varName, 'file_id' => $fileId, 'widget' => $widgetName, 'widget_id' => $widgetId, 'block_name' => $blockName]));
 
         }
@@ -780,7 +780,7 @@ class ThemeController extends AdminBaseController
 
         $more = json_encode($more);
         ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
-
+        cmf_clear_cache();
         $this->success(lang('DELETE_SUCCESS'), url('Theme/fileArrayData', ['tab' => $tab, 'var' => $varName, 'file_id' => $fileId, 'widget' => $widgetName, 'widget_id' => $widgetId, 'block_name' => $blockName]));
     }
 
@@ -891,6 +891,7 @@ class ThemeController extends AdminBaseController
                     ThemeFileModel::where('id', $id)->update(['more' => $more]);
                 }
             }
+            cmf_clear_cache();
             $this->success(lang('EDIT_SUCCESS'), '');
         }
     }
@@ -1070,6 +1071,73 @@ class ThemeController extends AdminBaseController
     }
 
     /**
+     * 自由模板控件排序
+     * @adminMenu(
+     *     'name'   => '自由模板控件排序',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '自由模板控件排序',
+     *     'param'  => ''
+     * )
+     */
+    public function widgetsSort()
+    {
+        $files = $this->request->param();
+//        $this->success('', '', $files);
+        $widgets = [];
+
+        foreach ($files as $fileId => $widgetsBlocks) {
+            $fileId     = str_replace('file', '', $fileId);
+            $file       = ThemeFileModel::where('id', $fileId)->find();
+            $configMore = $file['more'];
+            if (!empty($configMore['widgets_blocks'])) {
+                foreach ($configMore['widgets_blocks'] as $widgetsBlockName => $widgetsBlock) {
+                    if (!empty($configMore['widgets_blocks'][$widgetsBlockName]['widgets'])) {
+                        foreach ($configMore['widgets_blocks'][$widgetsBlockName]['widgets'] as $widgetId => $widget) {
+                            $widgets[$widgetId] = $widget;
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach ($files as $fileId => $widgetsBlocks) {
+            $fileId     = str_replace('file', '', $fileId);
+            $file       = ThemeFileModel::where('id', $fileId)->find();
+            $configMore = $file['more'];
+
+            foreach ($widgetsBlocks as $widgetsBlockName => $widgetIds) {
+                $mWidgets = [];
+                foreach ($widgetIds as $widgetIdInfo) {
+                    $widgetId = $widgetIdInfo['widget_id'];
+
+                    if (!empty($widgets[$widgetId])) {
+                        $mWidgets[$widgetId] = $widgets[$widgetId];
+                    }
+                }
+                $configMore['widgets_blocks'][$widgetsBlockName]['widgets'] = $mWidgets;
+            }
+
+            if (!empty($configMore['widgets_blocks'])) {
+                foreach ($configMore['widgets_blocks'] as $widgetsBlockName => $widgetsBlock) {
+                    if (!isset($widgetsBlocks[$widgetsBlockName])) {
+                        $configMore['widgets_blocks'][$widgetsBlockName]['widgets'] = [];
+                    }
+                }
+            }
+
+            $configMore['edited_by_designer'] = 1;
+            $more                             = json_encode($configMore);
+            ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
+        }
+        cmf_clear_cache();
+        $this->success('', '', $configMore);
+    }
+
+    /**
      * 模板自由控件设置
      * @adminMenu(
      *     'name'   => '模板自由控件设置',
@@ -1146,8 +1214,13 @@ class ThemeController extends AdminBaseController
         $items     = [];
         $item      = [];
         $oldWidget = $oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId];
+
+        $theme           = $file['theme'];
+        $widgetManifest  = file_get_contents(WEB_ROOT . "themes/$theme/public/widgets/{$oldWidget['name']}/manifest.json");
+        $widgetInFile          = json_decode($widgetManifest, true);
+
         foreach ($vars as $varName => $varValue) {
-            if (isset($oldWidget['vars'][$varName])) {
+            if (isset($widgetInFile['vars'][$varName])) {
                 $oldWidget['vars'][$varName] = $varValue;
             }
         }
@@ -1161,6 +1234,7 @@ class ThemeController extends AdminBaseController
 
         $more = json_encode($oldMore);
         ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
+        cmf_clear_cache();
         $this->success(lang('EDIT_SUCCESS'));
     }
 

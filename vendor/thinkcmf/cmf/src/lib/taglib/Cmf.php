@@ -90,6 +90,10 @@ parse;
                     $attrs[] = 'data-cmf_widget_id="<?php echo $_widget_id;?>"';
                 }
 
+                if (!isset($tag['style'])) {
+                    $tag['style'] = '';
+                }
+
 
                 foreach ($tag as $attrName => $attrValue) {
                     if (strpos($attrValue, '$') === 0) {
@@ -101,6 +105,10 @@ parse;
 
                     if ($attrName == 'class' && $designingTheme) {
                         $attrValue = '__cmf_widget_in_block ' . $attrValue;
+                    }
+
+                    if ($attrName == 'style') {
+                        $attrValue = 'margin-bottom:15px;' . $attrValue;
                     }
 
                     $attrs[] = $attrName . '="' . $attrValue . '"';
