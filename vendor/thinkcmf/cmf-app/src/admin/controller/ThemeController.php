@@ -1167,33 +1167,36 @@ class ThemeController extends AdminBaseController
         $widgetManifest  = file_get_contents(WEB_ROOT . "themes/$theme/public/widgets/{$widgetWithValue['name']}/manifest.json");
         $widget          = json_decode($widgetManifest, true);
 
+        $defaultCss = [
+            "margin-top"    => [
+                "title" => "上边距",
+                "value" => "0",
+                "type"  => "text",
+                "tip"   => "支持单位,如px(像素),em(字符),rem",
+            ],
+            "margin-bottom" => [
+                "title" => "下边距",
+                "value" => "15px",
+                "type"  => "text",
+                "tip"   => "支持单位,如px(像素),em(字符),rem",
+            ],
+            "margin-left"   => [
+                "title" => "左边距",
+                "value" => "0",
+                "type"  => "text",
+                "tip"   => "支持单位,如px(像素),em(字符),rem",
+            ],
+            "margin-right"  => [
+                "title" => "右边距",
+                "value" => "0",
+                "type"  => "text",
+                "tip"   => "支持单位,如px(像素),em(字符),rem",
+            ],
+        ];
         if (empty($widget['css'])) {
-            $widget['css'] = [
-                "margin-top"    => [
-                    "title" => "上边距",
-                    "value" => "0",
-                    "type"  => "text",
-                    "tip"   => "",
-                ],
-                "margin-bottom" => [
-                    "title" => "下边距",
-                    "value" => "15px",
-                    "type"  => "text",
-                    "tip"   => "",
-                ],
-                "margin-left"   => [
-                    "title" => "左边距",
-                    "value" => "0",
-                    "type"  => "text",
-                    "tip"   => "",
-                ],
-                "margin-right"  => [
-                    "title" => "右边距",
-                    "value" => "0",
-                    "type"  => "text",
-                    "tip"   => "",
-                ],
-            ];
+            $widget['css'] = $defaultCss;
+        } else {
+            $widget['css'] = array_merge($defaultCss, $widget['css']);
         }
 
         foreach ($widgetWithValue as $key => $value) {
