@@ -242,6 +242,9 @@ hello;
                                         }else{
                                             $widgetVars[$varName] = $varValue;
                                         }
+                                        if(isset($varValue['valueText'])){
+                                            $widgetVars[$varName.'_text_'] = $varValue['valueText'];
+                                        }
                                     }
                                 }
 
