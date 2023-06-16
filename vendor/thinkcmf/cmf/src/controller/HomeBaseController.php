@@ -231,15 +231,29 @@ hello;
                 if (!empty($oldMore['widgets_blocks'])) {
                     foreach ($oldMore['widgets_blocks'] as $widgetsBlockName => $widgetsBlock) {
                         $widgetsBlock['_file_id']         = $file['id'];
-                        $widgetsBlocks[$widgetsBlockName] = $widgetsBlock;
                         if (!empty($widgetsBlock['widgets'])) {
-                            foreach ($widgetsBlock['widgets'] as $widget) {
+                            foreach ($widgetsBlock['widgets'] as $widgetId=>$widget) {
+
+                                $widgetVars = [];
+                                if (!empty($widget['vars'])) {
+                                    foreach ($widget['vars'] as $varName => $varValue) {
+                                        if(isset($varValue['value'])){
+                                            $widgetVars[$varName] = $varValue['value'];
+                                        }else{
+                                            $widgetVars[$varName] = $varValue;
+                                        }
+                                    }
+                                }
+
+                                $widgetsBlock['widgets'][$widgetId]['vars']=$widgetVars;
+
                                 $widgetsInBlock[$widget['name']] = [
                                     'name'    => $widget['name'],
                                     'display' => $widget['display']
                                 ];
                             }
                         }
+                        $widgetsBlocks[$widgetsBlockName] = $widgetsBlock;
                     }
                 }
             }

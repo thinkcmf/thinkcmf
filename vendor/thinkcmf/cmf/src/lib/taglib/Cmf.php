@@ -108,7 +108,17 @@ parse;
                     }
 
                     if ($attrName == 'style') {
-                        $attrValue = 'margin-bottom:15px;' . $attrValue;
+                        $styles = <<<hello
+<?php 
+if(isset(\$widget['css'])){
+    foreach(\$widget['css'] as \$cssAttrName=>\$cssValue){
+        echo \$cssAttrName.':'.\$cssValue.';';
+    }
+}
+?>
+hello;
+
+                        $attrValue = $attrValue . ';' . str_replace("\n", '', $styles);
                     }
 
                     $attrs[] = $attrName . '="' . $attrValue . '"';

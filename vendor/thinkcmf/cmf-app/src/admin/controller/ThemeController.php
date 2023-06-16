@@ -1167,17 +1167,60 @@ class ThemeController extends AdminBaseController
         $widgetManifest  = file_get_contents(WEB_ROOT . "themes/$theme/public/widgets/{$widgetWithValue['name']}/manifest.json");
         $widget          = json_decode($widgetManifest, true);
 
+        if (empty($widget['css'])) {
+            $widget['css'] = [
+                "margin-top"    => [
+                    "title" => "上边距",
+                    "value" => "0",
+                    "type"  => "text",
+                    "tip"   => "",
+                ],
+                "margin-bottom" => [
+                    "title" => "下边距",
+                    "value" => "15px",
+                    "type"  => "text",
+                    "tip"   => "",
+                ],
+                "margin-left"   => [
+                    "title" => "左边距",
+                    "value" => "0",
+                    "type"  => "text",
+                    "tip"   => "",
+                ],
+                "margin-right"  => [
+                    "title" => "右边距",
+                    "value" => "0",
+                    "type"  => "text",
+                    "tip"   => "",
+                ],
+            ];
+        }
+
         foreach ($widgetWithValue as $key => $value) {
             if ($key == 'vars') {
                 foreach ($value as $varName => $varValue) {
                     if (isset($widget['vars'][$varName])) {
-                        $widget['vars'][$varName]['value'] = $varValue;
+                        if (is_array($varValue)) {
+                            $widget['vars'][$varName]['value'] = $varValue['value'];
+                            if (isset($varValue['value'])) {
+                                $widget['vars'][$varName]['valueText'] = $varValue['valueText'];
+                            }
+                        } else {
+                            $widget['vars'][$varName]['value'] = $varValue;
+                        }
+                    }
+                }
+            } else if ($key == 'css') {
+                foreach ($value as $varName => $varValue) {
+                    if (isset($widget['css'][$varName])) {
+                        $widget['css'][$varName]['value'] = $varValue;
                     }
                 }
             } else {
                 $widget[$key] = $value;
             }
         }
+
 
         $this->assign('widget_id', $widgetId);
         $this->assign('file_id', $fileId);
@@ -1208,6 +1251,7 @@ class ThemeController extends AdminBaseController
         $fileId    = $this->request->param('file_id', 0, 'intval');
         $widget    = $this->request->param('widget/a');
         $vars      = empty($widget['vars']) ? [] : $widget['vars'];
+        $cssVars   = empty($widget['css']) ? [] : $widget['css'];
 
         $file      = ThemeFileModel::where('id', $fileId)->find();
         $oldMore   = $file['more'];
@@ -1215,13 +1259,26 @@ class ThemeController extends AdminBaseController
         $item      = [];
         $oldWidget = $oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId];
 
-        $theme           = $file['theme'];
-        $widgetManifest  = file_get_contents(WEB_ROOT . "themes/$theme/public/widgets/{$oldWidget['name']}/manifest.json");
-        $widgetInFile          = json_decode($widgetManifest, true);
+        $theme          = $file['theme'];
+        $widgetManifest = file_get_contents(WEB_ROOT . "themes/$theme/public/widgets/{$oldWidget['name']}/manifest.json");
+        $widgetInFile   = json_decode($widgetManifest, true);
 
         foreach ($vars as $varName => $varValue) {
             if (isset($widgetInFile['vars'][$varName])) {
-                $oldWidget['vars'][$varName] = $varValue;
+                if (isset($vars[$varName . '_text_'])) {
+                    $oldWidget['vars'][$varName] = [
+                        'value'     => $varValue,
+                        'valueText' => $vars[$varName . '_text_']
+                    ];
+                } else {
+                    $oldWidget['vars'][$varName] = $varValue;
+                }
+            }
+        }
+
+        foreach ($cssVars as $varName => $varValue) {
+            if (isset($widgetInFile['css'][$varName]) || in_array($varName, ['margin-top', 'margin-bottom', 'margin-left', 'margin-right'])) {
+                $oldWidget['css'][$varName] = $varValue;
             }
         }
 

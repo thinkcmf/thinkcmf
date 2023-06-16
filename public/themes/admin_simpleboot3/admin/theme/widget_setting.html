@@ -34,12 +34,29 @@
                 </label>
             </div>
             <div class="panel-body">
-                {:_parse_vars($widget['vars'],'widget[vars]',2)}
+                <div>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">属性</a></li>
+                        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">样式</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home">
+                            <br>
+                            {:_parse_vars($widget['vars'],'widget[vars]',2)}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="profile">
+                            <br>
+                            {:_parse_vars($widget['css'],'widget[css]',2)}
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group" style="display: none;">
                     <input type="hidden" name="file_id" value="{$file_id}"/>
                     <input type="hidden" name="widget_id" value="{$widget_id}"/>
                     <input type="hidden" name="block_name" value="{$block_name}"/>
-                    <button type="submit" class="btn btn-primary js-ajax-submit" id="submit-btn">保存</button>
+                    <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0" id="submit-btn">保存</button>
                 </div>
             </div>
         </div>
