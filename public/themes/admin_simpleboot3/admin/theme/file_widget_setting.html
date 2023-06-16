@@ -86,6 +86,11 @@
                                             data-title="设置">
                                             {$widget.title|default='无标题'}
                                             <a class="pull-right" onclick="doWidgetSetting(this)" href="javascript:;"><i class="fa fa-cog"></i></a>
+                                            <empty name="widget.display">
+                                                <div class="pull-right">
+                                                    <i class="fa fa-eye-slash "></i>&nbsp;
+                                                </div>
+                                            </empty>
                                         </li>
                                     </foreach>
                                     <else/>
