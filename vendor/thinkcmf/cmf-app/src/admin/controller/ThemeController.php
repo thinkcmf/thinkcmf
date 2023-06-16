@@ -1172,25 +1172,25 @@ class ThemeController extends AdminBaseController
                 "title" => "上边距",
                 "value" => "0",
                 "type"  => "text",
-                "tip"   => "支持单位,如px(像素),em(字符),rem",
+                "tip"   => "支持单位,如px(像素),em(字符),rem;例子:10px,2em,1rem",
             ],
             "margin-bottom" => [
                 "title" => "下边距",
                 "value" => "15px",
                 "type"  => "text",
-                "tip"   => "支持单位,如px(像素),em(字符),rem",
+                "tip"   => "支持单位,如px(像素),em(字符),rem;例子:10px,2em,1rem",
             ],
             "margin-left"   => [
                 "title" => "左边距",
                 "value" => "0",
                 "type"  => "text",
-                "tip"   => "支持单位,如px(像素),em(字符),rem",
+                "tip"   => "支持单位,如px(像素),em(字符),rem;例子:10px,2em,1rem",
             ],
             "margin-right"  => [
                 "title" => "右边距",
                 "value" => "0",
                 "type"  => "text",
-                "tip"   => "支持单位,如px(像素),em(字符),rem",
+                "tip"   => "支持单位,如px(像素),em(字符),rem;例子:10px,2em,1rem",
             ],
         ];
         if (empty($widget['css'])) {
