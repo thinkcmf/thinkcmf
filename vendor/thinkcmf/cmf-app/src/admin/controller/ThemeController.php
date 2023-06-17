@@ -1203,14 +1203,11 @@ class ThemeController extends AdminBaseController
             if ($key == 'vars') {
                 foreach ($value as $varName => $varValue) {
                     if (isset($widget['vars'][$varName])) {
-                        if (is_array($varValue)) {
-                            $widget['vars'][$varName]['value'] = $varValue['value'];
-                            if (isset($varValue['value'])) {
-                                $widget['vars'][$varName]['valueText'] = $varValue['valueText'];
-                            }
-                        } else {
-                            $widget['vars'][$varName]['value'] = $varValue;
+                        if (isset($value[$varName . '_text_'])) {
+                            $widget['vars'][$varName]['valueText'] = $value[$varName . '_text_'];
                         }
+
+                        $widget['vars'][$varName]['value'] = $varValue;
                     }
                 }
             } else if ($key == 'css') {
@@ -1269,13 +1266,9 @@ class ThemeController extends AdminBaseController
         foreach ($vars as $varName => $varValue) {
             if (isset($widgetInFile['vars'][$varName])) {
                 if (isset($vars[$varName . '_text_'])) {
-                    $oldWidget['vars'][$varName] = [
-                        'value'     => $varValue,
-                        'valueText' => $vars[$varName . '_text_']
-                    ];
-                } else {
-                    $oldWidget['vars'][$varName] = $varValue;
+                    $oldWidget['vars'][$varName . '_text_'] = $vars[$varName . '_text_'];
                 }
+                $oldWidget['vars'][$varName] = $varValue;
             }
         }
 
