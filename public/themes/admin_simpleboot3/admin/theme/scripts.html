@@ -1,6 +1,25 @@
 <script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
 <script src="__TMPL__/public/assets/js/jquery-ui.min.js?v={$_static_version}"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
 <script>
+
+    $(function () {
+    
+        $('.rich_text_content').each(function (i,item){
+            var editor = new baidu.editor.ui.Editor();
+            editor.render(item);
+            try {
+                editor.sync();
+            } catch (err) {
+            }
+        });
+        
+    });
 
     $('.widgets-group').sortable({
         connectWith: '.widgets-group',
@@ -110,6 +129,8 @@
             }
         });
     }
+
+
 
     function doEditArrayData(obj) {
         var $obj = $(obj);

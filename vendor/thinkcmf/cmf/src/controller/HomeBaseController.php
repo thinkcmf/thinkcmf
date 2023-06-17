@@ -230,25 +230,19 @@ hello;
 
                 if (!empty($oldMore['widgets_blocks'])) {
                     foreach ($oldMore['widgets_blocks'] as $widgetsBlockName => $widgetsBlock) {
-                        $widgetsBlock['_file_id']         = $file['id'];
+                        $widgetsBlock['_file_id'] = $file['id'];
                         if (!empty($widgetsBlock['widgets'])) {
-                            foreach ($widgetsBlock['widgets'] as $widgetId=>$widget) {
+                            foreach ($widgetsBlock['widgets'] as $widgetId => $widget) {
 
-//                                $widgetVars = [];
-//                                if (!empty($widget['vars'])) {
-//                                    foreach ($widget['vars'] as $varName => $varValue) {
-//                                        if(isset($varValue['value'])){
-//                                            $widgetVars[$varName] = $varValue['value'];
-//                                        }else{
-//                                            $widgetVars[$varName] = $varValue;
-//                                        }
-//                                        if(isset($varValue['valueText'])){
-//                                            $widgetVars[$varName.'_text_'] = $varValue['valueText'];
-//                                        }
-//                                    }
-//                                }
-//
-//                                $widgetsBlock['widgets'][$widgetId]['vars']=$widgetVars;
+                                if (!empty($widget['vars'])) {
+                                    foreach ($widget['vars'] as $varName => $varValue) {
+                                        if (isset($widget['vars'][$varName . '_type_']) && $widget['vars'][$varName . '_type_'] == 'rich_text') {
+                                            $widget['vars'][$varName] = cmf_replace_content_file_url(htmlspecialchars_decode($varValue));
+                                        }
+                                    }
+                                }
+
+                                $widgetsBlock['widgets'][$widgetId]['vars'] = $widget['vars'];
 
                                 $widgetsInBlock[$widget['name']] = [
                                     'name'    => $widget['name'],

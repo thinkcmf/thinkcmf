@@ -188,6 +188,16 @@
                         </present>
                     </div>
                 </case>
+                <case value="rich_text">
+                    <div class="controls">
+                        <div>
+                            <script type="text/plain" class="rich_text_content" name="{$inputName}[{$varName}]">{$vars[$varName]['value']}</script>
+                        </div>
+                        <present name="var.tip">
+                            <p class="help-block">{$var.tip}</p>
+                        </present>
+                    </div>
+                </case>
             </switch>
         </div>
     </fieldset>

@@ -1207,6 +1207,10 @@ class ThemeController extends AdminBaseController
                             $widget['vars'][$varName]['valueText'] = $value[$varName . '_text_'];
                         }
 
+                        if (in_array($widget['vars'][$varName]['type'], ['rich_text'])) {
+                            $varValue = cmf_replace_content_file_url(htmlspecialchars_decode($varValue));
+                        }
+
                         $widget['vars'][$varName]['value'] = $varValue;
                     }
                 }
@@ -1267,6 +1271,11 @@ class ThemeController extends AdminBaseController
             if (isset($widgetInFile['vars'][$varName])) {
                 if (isset($vars[$varName . '_text_'])) {
                     $oldWidget['vars'][$varName . '_text_'] = $vars[$varName . '_text_'];
+                }
+                if (in_array($widgetInFile['vars'][$varName]['type'], ['rich_text'])) {
+                    $varValue = htmlspecialchars(cmf_replace_content_file_url(htmlspecialchars_decode($varValue), true));
+
+                    $oldWidget['vars'][$varName . '_type_'] = $widgetInFile['vars'][$varName]['type'];
                 }
                 $oldWidget['vars'][$varName] = $varValue;
             }
