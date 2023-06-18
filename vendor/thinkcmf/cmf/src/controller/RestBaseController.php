@@ -93,7 +93,7 @@ class RestBaseController
 
     private function _initUser()
     {
-        $token = $this->request->header('Authorization','');
+        $token = $this->request->header('Authorization', '');
         if (substr($token, 0, 7) === 'Bearer ') {
             $token = substr($token, 7);
         }
@@ -305,9 +305,26 @@ class RestBaseController
             $this->error(['code' => 10001, 'msg' => '用户未登录']);
         }
         return $this->userId;
-
-
     }
 
+    /**
+     * 获取API路由路径
+     * @return string 如demo/articles,demo/artilces/:id
+     */
+    public function getRoutePath()
+    {
+        $rule = $this->request->rule();
+        if (empty($rule['rule'])) {
+            $app        = $this->app->http->getName();
+            $controller = cmf_parse_name($this->request->controller());
+            $action     = $this->request->action(false);
+            $rule       = "$app/$controller/$action";
+        } else {
+            $routePath = preg_replace("/<(.+)>/", ':$1', $rule['rule']);
+            $routePath = str_replace('$', '', $routePath);
+        }
+
+        return $routePath;
+    }
 
 }

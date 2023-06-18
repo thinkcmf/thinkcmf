@@ -19,7 +19,17 @@ class RestAdminBaseController extends RestBaseController
         } elseif ($this->userType != 1) {
             $this->error(['code' => 10001, 'msg' => '登录已失效!']);
         }
+
+        $this->checkAccess();
     }
 
+    public function checkAccess()
+    {
+        $requestMethod = $this->request->method();
+        $ruleName      = "admin_api:$requestMethod|{$this->getRoutePath()}";
+        if (!cmf_auth_check($this->getUserId(), $ruleName)) {
+            $this->error(['code' => 0, 'msg' => '无权限！']);
+        }
+    }
 
 }
