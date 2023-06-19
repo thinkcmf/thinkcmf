@@ -2,4 +2,10 @@
 *
 !.gitignore
 !swagger
-!/swagger/**/*.php
+!swagger/**/*.php
+!swagger/*.json
+!swagger/*.lock
+!swagger/*.php
+!swagger/controller
+!swagger/controller/*.php
+
