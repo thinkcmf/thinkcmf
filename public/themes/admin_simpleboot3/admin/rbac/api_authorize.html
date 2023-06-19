@@ -7,6 +7,7 @@
         <li class="active"><a href="{:url('Rbac/apiAuthorize',['id'=>$role_id])}">后台API授权</a></li>
     </ul>
     <form class="js-ajax-form margin-top-20" action="{:url('Rbac/apiAuthorizePost')}" method="post">
+        <div><a href="{:url('Api/import')}" class="btn btn-xs btn-primary">导入API</a></div>
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             <foreach name="tags_admin_apis" item="tag_admin_apis" key="tag" index="tags_admin_apis_index">
                 <div class="panel panel-default">
