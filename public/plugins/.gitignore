@@ -2,4 +2,4 @@
 *
 !.gitignore
 !swagger/
-!swagger/**/*.php
+!/swagger/**/*.php
