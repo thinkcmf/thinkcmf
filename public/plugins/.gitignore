@@ -1,5 +1,5 @@
 # 二次开发可以更新或删除此文件
 *
 !.gitignore
-!swagger/
+!swagger
 !/swagger/**/*.php
