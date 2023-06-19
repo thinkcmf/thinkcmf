@@ -15,4 +15,5 @@ Vagrantfile
 /config
 /docker/redis/data
 /docker/mysql/data
-/public/plugins/
+/public/plugins/*
+!public/plugins/swagger/*
