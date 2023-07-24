@@ -7,8 +7,8 @@
         <li class="active"><a href="{:url('Rbac/apiAuthorize',['id'=>$role_id])}">后台API授权</a></li>
     </ul>
     <form class="js-ajax-form margin-top-20" action="{:url('Rbac/apiAuthorizePost')}" method="post">
-        <div><a href="{:url('Api/import')}" class="btn btn-xs btn-primary">导入API</a></div>
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div><a href="javascript:openApiImportDialog()" class="btn btn-xs btn-primary">导入API</a></div>
+        <div class="panel-group margin-top-10" id="accordion" role="tablist" aria-multiselectable="true">
             <foreach name="tags_admin_apis" item="tag_admin_apis" key="tag" index="tags_admin_apis_index">
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="heading{$tags_admin_apis_index}">
@@ -26,7 +26,7 @@
                             <thead>
                             <tr>
                                 <th width="30"><input type="checkbox" class="js-check-all" data-direction="x"
-                                           data-checklist="js-check-x{$tags_admin_apis_index}"></th>
+                                                      data-checklist="js-check-x{$tags_admin_apis_index}"></th>
                                 <th>名称</th>
                                 <th>API</th>
                                 <th>备注</th>
@@ -34,8 +34,10 @@
                             </thead>
                             <foreach name="tag_admin_apis" item="admin_api">
                                 <tr>
-                                    <td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x{$tags_admin_apis_index}" name="ids[]"
-                                               value="{$admin_api.id}" {$admin_api._checked?'checked':''}></td>
+                                    <td><input type="checkbox" class="js-check" data-yid="js-check-y"
+                                               data-xid="js-check-x{$tags_admin_apis_index}" name="ids[]"
+                                               value="{$admin_api.id}" {$admin_api._checked?'checked':''}>
+                                    </td>
                                     <td>{$admin_api.name}</td>
                                     <td>{$admin_api.url}</td>
                                     <td>{$admin_api.remark}</td>
@@ -63,7 +65,15 @@
         });
     });
 
-    $('.js-check-wrap').each(function (){
+    function openApiImportDialog() {
+        parent.openIframeLayer("{:url('Api/import')}", '导入API', {
+            end: function () {
+                window.location.reload();
+            }
+        });
+    }
+
+    $('.js-check-wrap').each(function () {
         $(this).find('.js-check:eq(0)').change();
     });
 

@@ -40,4 +40,49 @@ class SwaggerPlugin extends Plugin
         return true; //卸载成功返回true，失败false
     }
 
+    public function adminApiImportView()
+    {
+        $api   = \OpenApi\Generator::scan([
+            CMF_ROOT . 'api',
+            CMF_ROOT . 'vendor/thinkcmf/cmf-api'
+        ]);
+        $api   = json_decode($api->toJson(), true);
+        $paths = $api['paths'];
+
+        foreach ($paths as $path => $methods) {
+            $path = trim(preg_replace("/\{(.+)\}/", ':$1', $path), '/');
+            if (!str_starts_with($path, "admin")) {
+                continue;
+            }
+            if (!empty($path)) {
+                foreach ($methods as $method => $methodData) {
+                    $url          = strtoupper($method) . '|' . $path;
+                    $findAdminApi = db('admin_api')->where('url', $url)->find();
+                    if (empty($findAdminApi)) {
+                        db('admin_api')->insert([
+                            'parent_id' => 0,
+                            'type'      => 1,
+                            'url'       => $url,
+                            'name'      => empty($methodData['summary']) ? '' : $methodData['summary'],
+                            'remark'    => empty($methodData['description']) ? '' : $methodData['description'],
+                            'tags'      => join(',', $methodData['tags'])
+                        ]);
+                    } else {
+                        db('admin_api')->where('id', $findAdminApi['id'])->update([
+                            'parent_id' => 0,
+                            'type'      => 1,
+                            'url'       => $url,
+                            'name'      => empty($methodData['summary']) ? '' : $methodData['summary'],
+                            'remark'    => empty($methodData['description']) ? '' : $methodData['description'],
+                            'tags'      => join(',', $methodData['tags'])
+                        ]);
+                    }
+                }
+
+            }
+        }
+
+        return $this->fetch('widget');
+    }
+
 }
