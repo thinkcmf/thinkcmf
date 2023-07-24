@@ -95,6 +95,9 @@ enjoy your cmf~!
 https://gitee.com/thinkcmf/docker
 
 ### 升级指导
+#### 6.0.8升级到6.0.9
+1. `composer update`
+
 #### 6.0.7升级到6.0.8
 1. `composer update`
 
@@ -126,6 +129,7 @@ https://gitee.com/thinkcmf/docker
 ### 更新日志
 #### 6.0.9
 * 增加后台API权限管理
+* 增加报台API导入
 * 增强前台模板自由控件功能支持拖拽
 * 增加模板块控件css样式功能
 * 增加模板富文本`rich_text`变量类型
