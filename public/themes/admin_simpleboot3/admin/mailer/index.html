@@ -5,6 +5,7 @@
     <ul class="nav nav-tabs">
         <li class="active"><a href="{:url('Mailer/index')}">{:lang('ADMIN_MAILER_INDEX')}</a></li>
         <li><a href="{:url('Mailer/template')}?template_key=verification_code">{:lang('ADMIN_MAILER_TEMPLATE')}</a></li>
+        <li><a href="{:url('User/emailSetting')}">我的邮箱配置</a></li>
     </ul>
     <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Mailer/indexPost')}">
         <div class="form-group">

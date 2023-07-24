@@ -396,7 +396,7 @@ class UserController extends AdminBaseController
      * @adminMenu(
      *     'name'   => '我的邮箱设置',
      *     'parent' => 'admin/Setting/default',
-     *     'display'=> true,
+     *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
