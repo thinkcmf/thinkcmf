@@ -41,7 +41,7 @@ class HookLogic
 
                 $hook['type'] = empty($hook['type']) ? 2 : $hook['type'];
 
-                if (!in_array($hook['type'], [1, 2, 3, 4]) && !in_array($app, ['cmf', 'swoole'])) {
+                if (!in_array($hook['type'], [1, 2, 3, 4])) {
                     $hook['type'] = 2;
                 }
 
