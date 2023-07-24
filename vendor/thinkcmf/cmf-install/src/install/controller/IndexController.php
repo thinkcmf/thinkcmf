@@ -399,6 +399,7 @@ class IndexController extends BaseController
     public function installAppHooks()
     {
         $apps = cmf_scan_dir(CMF_ROOT . 'app/*', GLOB_ONLYDIR);
+        array_push($apps, 'admin', 'user');
         foreach ($apps as $app) {
 
             // 导入应用钩子
@@ -412,6 +413,7 @@ class IndexController extends BaseController
     public function installAppUserActions()
     {
         $apps = cmf_scan_dir(CMF_ROOT . 'app/*', GLOB_ONLYDIR);
+        array_push($apps, 'admin', 'user');
         foreach ($apps as $app) {
             // 导入应用用户行为
             UserActionLogic::importUserActions($app);
