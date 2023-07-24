@@ -27,7 +27,7 @@ class AdminUserActionController extends AdminBaseController
      * @adminMenu(
      *     'name'   => '用户操作管理',
      *     'parent' => 'admin/Setting/default',
-     *     'display'=> true,
+     *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
