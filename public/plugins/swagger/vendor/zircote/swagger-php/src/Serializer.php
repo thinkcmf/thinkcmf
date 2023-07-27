@@ -7,6 +7,7 @@
 namespace OpenApi;
 
 use OpenApi\Annotations as OA;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Allows to serialize/de-serialize annotations from/to JSON.
@@ -38,6 +39,10 @@ class Serializer
         OA\Operation::class,
         OA\Options::class,
         OA\Parameter::class,
+        OA\PathParameter::class,
+        OA\QueryParameter::class,
+        OA\CookieParameter::class,
+        OA\HeaderParameter::class,
         OA\Patch::class,
         OA\PathItem::class,
         OA\Post::class,
@@ -55,72 +60,66 @@ class Serializer
         OA\XmlContent::class,
     ];
 
-    public static function isValidAnnotationClass($className)
+    protected static function isValidAnnotationClass(string $className): bool
     {
-        return in_array($className, static::$VALID_ANNOTATIONS);
-    }
-
-    /**
-     * Serialize.
-     *
-     *
-     * @return string
-     */
-    public function serialize(OA\AbstractAnnotation $annotation)
-    {
-        return json_encode($annotation);
+        return in_array($className, self::$VALID_ANNOTATIONS);
     }
 
     /**
      * Deserialize a string.
-     *
-     * @return OA\AbstractAnnotation
      */
-    public function deserialize(string $jsonString, string $className)
+    public function deserialize(string $jsonString, string $className): OA\AbstractAnnotation
     {
         if (!$this->isValidAnnotationClass($className)) {
             throw new \Exception($className . ' is not defined in OpenApi PHP Annotations');
         }
 
-        return $this->doDeserialize(json_decode($jsonString), $className);
+        return $this->doDeserialize(json_decode($jsonString), $className, new Context(['generated' => true]));
     }
 
     /**
      * Deserialize a file.
-     *
-     * @return OA\AbstractAnnotation
      */
-    public function deserializeFile(string $filename, string $className = OA\OpenApi::class)
+    public function deserializeFile(string $filename, string $format = 'json', string $className = OA\OpenApi::class): OA\AbstractAnnotation
     {
         if (!$this->isValidAnnotationClass($className)) {
-            throw new \Exception($className . ' is not defined in OpenApi PHP Annotations');
+            throw new \Exception($className . ' is not a valid OpenApi PHP Annotations');
         }
 
-        return $this->doDeserialize(json_decode(file_get_contents($filename)), $className);
+        $contents = file_get_contents($filename);
+
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        if ('yaml' == $format || in_array($ext, ['yml', 'yaml'])) {
+            $contents = json_encode(Yaml::parse($contents));
+        }
+
+        return $this->doDeserialize(json_decode($contents), $className, new Context(['generated' => true]));
     }
 
     /**
      * Do deserialization.
-     *
-     * @return OA\AbstractAnnotation
      */
-    protected function doDeserialize(\stdClass $c, string $class)
+    protected function doDeserialize(\stdClass $c, string $class, Context $context): OA\AbstractAnnotation
     {
-        $annotation = new $class(['_context' => new Context(['generated' => true])]);
+        $annotation = new $class(['_context' => $context]);
         foreach ((array) $c as $property => $value) {
             if ($property === '$ref') {
                 $property = 'ref';
             }
 
             if (substr($property, 0, 2) === 'x-') {
-                if ($annotation->x === Generator::UNDEFINED) {
+                if (Generator::isDefault($annotation->x)) {
                     $annotation->x = [];
                 }
                 $custom = substr($property, 2);
                 $annotation->x[$custom] = $value;
             } else {
-                $annotation->$property = $this->doDeserializeProperty($annotation, $property, $value);
+                $annotation->{$property} = $this->doDeserializeProperty($annotation, $property, $value, $context);
             }
+        }
+
+        if ($annotation instanceof OA\OpenApi) {
+            $context->root()->version = $annotation->openapi;
         }
 
         return $annotation;
@@ -128,12 +127,16 @@ class Serializer
 
     /**
      * Deserialize the annotation's property.
+     *
+     * @param mixed $value
+     *
+     * @return mixed
      */
-    protected function doDeserializeProperty(OA\AbstractAnnotation $annotation, string $property, $value)
+    protected function doDeserializeProperty(OA\AbstractAnnotation $annotation, string $property, $value, Context $context)
     {
         // property is primitive type
         if (array_key_exists($property, $annotation::$_types)) {
-            return $this->doDeserializeBaseProperty($annotation::$_types[$property], $value);
+            return $this->doDeserializeBaseProperty($annotation::$_types[$property], $value, $context);
         }
 
         // property is embedded annotation
@@ -142,7 +145,7 @@ class Serializer
             // property is an annotation
             if (is_string($declaration) && $declaration === $property) {
                 if (is_object($value)) {
-                    return $this->doDeserialize($value, $nestedClass);
+                    return $this->doDeserialize($value, $nestedClass, $context);
                 } else {
                     return $value;
                 }
@@ -152,7 +155,7 @@ class Serializer
             if (is_array($declaration) && count($declaration) === 1 && $declaration[0] === $property) {
                 $annotationArr = [];
                 foreach ($value as $v) {
-                    $annotationArr[] = $this->doDeserialize($v, $nestedClass);
+                    $annotationArr[] = $this->doDeserialize($v, $nestedClass, $context);
                 }
 
                 return $annotationArr;
@@ -163,8 +166,8 @@ class Serializer
                 $key = $declaration[1];
                 $annotationHash = [];
                 foreach ($value as $k => $v) {
-                    $annotation = $this->doDeserialize($v, $nestedClass);
-                    $annotation->$key = $k;
+                    $annotation = $this->doDeserialize($v, $nestedClass, $context);
+                    $annotation->{$key} = $k;
                     $annotationHash[$k] = $annotation;
                 }
 
@@ -183,7 +186,7 @@ class Serializer
      *
      * @return array|OA\AbstractAnnotation
      */
-    protected function doDeserializeBaseProperty($type, $value)
+    protected function doDeserializeBaseProperty($type, $value, Context $context)
     {
         $isAnnotationClass = is_string($type) && is_subclass_of(trim($type, '[]'), OA\AbstractAnnotation::class);
 
@@ -195,13 +198,13 @@ class Serializer
                 $class = trim($type, '[]');
 
                 foreach ($value as $v) {
-                    $annotationArr[] = $this->doDeserialize($v, $class);
+                    $annotationArr[] = $this->doDeserialize($v, $class, $context);
                 }
 
                 return $annotationArr;
             }
 
-            return $this->doDeserialize($value, $type);
+            return $this->doDeserialize($value, $type, $context);
         }
 
         return $value;

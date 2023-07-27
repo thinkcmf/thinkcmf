@@ -9,29 +9,36 @@ namespace OpenApi\Annotations;
 use OpenApi\Generator;
 
 /**
- * @Annotation
- * A "Response Object": https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#response-object
+ * Describes a single response from an API Operation, including design-time,
+ * static links to operations based on the response.
  *
- * Describes a single response from an API Operation, including design-time, static links to operations based on the response.
+ * @see [OAI Response Object](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#response-object)
+ *
+ * @Annotation
  */
 class Response extends AbstractAnnotation
 {
     /**
-     * $ref See https://swagger.io/docs/specification/using-ref/.
+     * The relative or absolute path to a response.
      *
-     * @var string
+     * @see [Using refs](https://swagger.io/docs/specification/using-ref/)
+     *
+     * @var string|class-string|object
      */
     public $ref = Generator::UNDEFINED;
 
     /**
      * The key into Operations->responses array.
      *
-     * @var string a HTTP Status Code or "default"
+     * A HTTP status code or <code>default</code>.
+     *
+     * @var string|int
      */
     public $response = Generator::UNDEFINED;
 
     /**
      * A short description of the response.
+     *
      * CommonMark syntax may be used for rich text representation.
      *
      * @var string
@@ -40,8 +47,12 @@ class Response extends AbstractAnnotation
 
     /**
      * Maps a header name to its definition.
-     * RFC7230 states header names are case insensitive. https://tools.ietf.org/html/rfc7230#page-22
+     *
+     * RFC7230 states header names are case insensitive.
+     *
      * If a response header is defined with the name "Content-Type", it shall be ignored.
+     *
+     * @see [RFC7230](https://tools.ietf.org/html/rfc7230#page-22)
      *
      * @var Header[]
      */
@@ -49,25 +60,25 @@ class Response extends AbstractAnnotation
 
     /**
      * A map containing descriptions of potential response payloads.
-     * The key is a media type or media type range and the value describes it.
-     * For responses that match multiple keys, only the most specific key is applicable. e.g. text/plain overrides text/*.
      *
-     * @var MediaType[]
+     * The key is a media type or media type range and the value describes it.
+     *
+     * For responses that match multiple keys, only the most specific key is applicable;
+     * e.g. <code>text/plain</code> overrides <code>text/*</code>.
+     *
+     * @var MediaType|JsonContent|XmlContent|Attachable|array<MediaType|JsonContent|XmlContent|Attachable>
      */
     public $content = Generator::UNDEFINED;
 
     /**
      * A map of operations links that can be followed from the response.
-     * The key of the map is a short name for the link, following the naming constraints of the names for Component Objects.
      *
-     * @var array
+     * The key of the map is a short name for the link, following the naming constraints of the names for Component
+     * Objects.
+     *
+     * @var Link[]
      */
     public $links = Generator::UNDEFINED;
-
-    /**
-     * @inheritdoc
-     */
-    public static $_required = ['description'];
 
     /**
      * @inheritdoc
@@ -101,4 +112,19 @@ class Response extends AbstractAnnotation
         Options::class,
         Trace::class,
     ];
+
+    /**
+     * @inheritdoc
+     */
+    public function validate(array $stack = [], array $skip = [], string $ref = '', $context = null): bool
+    {
+        $valid = parent::validate($stack, $skip, $ref, $context);
+
+        if (Generator::isDefault($this->description) && Generator::isDefault($this->ref)) {
+            $this->_context->logger->warning($this->identity() . ' One of description or ref is required');
+            $valid = false;
+        }
+
+        return $valid;
+    }
 }

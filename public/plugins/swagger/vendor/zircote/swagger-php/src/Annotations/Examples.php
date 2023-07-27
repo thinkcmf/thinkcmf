@@ -14,14 +14,16 @@ use OpenApi\Generator;
 class Examples extends AbstractAnnotation
 {
     /**
-     * $ref See https://swagger.io/docs/specification/using-ref/.
+     * The relative or absolute path to an example.
      *
-     * @var string
+     * @see [Using refs](https://swagger.io/docs/specification/using-ref/)
+     *
+     * @var string|class-string|object
      */
     public $ref = Generator::UNDEFINED;
 
     /**
-     * The key into Components->examples array.
+     * The key into `#/components/examples`.
      *
      * @var string
      */
@@ -35,10 +37,12 @@ class Examples extends AbstractAnnotation
     public $summary = Generator::UNDEFINED;
 
     /**
-     * Embedded literal example. The value field and externalValue field are
-     * mutually exclusive. To represent examples of media types that cannot
-     * naturally represented in JSON or YAML, use a string value to contain
-     * the example, escaping where necessary.
+     * Embedded literal example.
+     *
+     * The value field and externalValue field are mutually exclusive.
+     *
+     * To represent examples of media types that cannot naturally be represented
+     * in JSON or YAML, use a string value to contain the example, escaping where necessary.
      *
      * @var string
      */
@@ -46,19 +50,22 @@ class Examples extends AbstractAnnotation
 
     /**
      * Embedded literal example.
-     * The value field and externalValue field are mutually exclusive.
-     * To represent examples of media types that cannot naturally represented
-     * in JSON or YAML, use a string value to contain the example, escaping
-     * where necessary.
      *
-     * @var string
+     * The value field and externalValue field are mutually exclusive.
+     *
+     * To represent examples of media types that cannot naturally be represented
+     * in JSON or YAML, use a string value to contain the example, escaping where necessary.
+     *
+     * @var int|string|array
      */
     public $value = Generator::UNDEFINED;
 
     /**
-     * A URL that points to the literal example. This provides the
-     * capability to reference examples that cannot easily be included
+     * An URL that points to the literal example.
+     *
+     * This provides the capability to reference examples that cannot easily be included
      * in JSON or YAML documents.
+     *
      * The value field and externalValue field are mutually exclusive.
      *
      * @var string
@@ -76,6 +83,7 @@ class Examples extends AbstractAnnotation
     public static $_parents = [
         Components::class,
         Parameter::class,
+        PathParameter::class,
         MediaType::class,
         JsonContent::class,
         XmlContent::class,

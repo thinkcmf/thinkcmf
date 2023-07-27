@@ -9,20 +9,27 @@ namespace OpenApi\Annotations;
 use OpenApi\Generator;
 
 /**
- * @Annotation
- * A "Link Object" https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#link-object
- *
  * The Link object represents a possible design-time link for a response.
- * The presence of a link does not guarantee the caller's ability to successfully invoke it, rather it provides a known relationship and traversal mechanism between responses and other operations.
- * Unlike dynamic links (i.e. links provided in the response payload), the OA linking mechanism does not require link information in the runtime response.
- * For computing links, and providing instructions to execute them, a runtime expression is used for accessing values in an operation and using them as parameters while invoking the linked operation.
+ *
+ * The presence of a link does not guarantee the caller's ability to successfully invoke it, rather it provides a known
+ * relationship and traversal mechanism between responses and other operations.
+ *
+ * Unlike dynamic links (i.e. links provided in the response payload), the OA linking mechanism does not require
+ * link information in the runtime response.
+ *
+ * For computing links, and providing instructions to execute them, a runtime expression is used for
+ * accessing values in an operation and using them as parameters while invoking the linked operation.
+ *
+ * @see [OAI Link Object](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#link-object)
+ *
+ * @Annotation
  */
 class Link extends AbstractAnnotation
 {
     /**
-     * $ref See https://swagger.io/docs/specification/using-ref/.
+     * @see [Using refs](https://swagger.io/docs/specification/using-ref/)
      *
-     * @var string
+     * @var string|class-string|object
      */
     public $ref = Generator::UNDEFINED;
 
@@ -35,35 +42,47 @@ class Link extends AbstractAnnotation
 
     /**
      * A relative or absolute reference to an OA operation.
-     * This field is mutually exclusive of the operationId field, and must point to an Operation Object.
-     * Relative operationRef values may be used to locate an existing Operation Object in the OpenAPI definition.
+     *
+     * This field is mutually exclusive of the <code>operationId</code> field, and must point to an Operation object.
+     *
+     * Relative values may be used to locate an existing Operation object in the OpenAPI definition.
      *
      * @var string
      */
     public $operationRef = Generator::UNDEFINED;
 
     /**
-     * The name of an existing, resolvable OA operation, as defined with a unique operationId.
-     * This field is mutually exclusive of the operationRef field.
+     * The name of an existing, resolvable OA operation, as defined with a unique <code>operationId</code>.
+     *
+     * This field is mutually exclusive of the <code>operationRef</code> field.
      *
      * @var string
      */
     public $operationId = Generator::UNDEFINED;
 
     /**
-     * A map representing parameters to pass to an operation as specified with operationId or identified via operationRef.
-     * The key is the parameter name to be used, whereas the value can be a constant or an expression to be evaluated and passed to the linked operation.
-     * The parameter name can be qualified using the parameter location [{in}.]{name} for operations that use the same parameter name in different locations (e.g. path.id).
+     * A map representing parameters to pass to an operation as specified with operationId or identified via
+     * operationRef.
+     *
+     * The key is the parameter name to be used, whereas the value can be a constant or an expression to
+     * be evaluated and passed to the linked operation.
+     * The parameter name can be qualified using the parameter location [{in}.]{name} for operations
+     * that use the same parameter name in different locations (e.g. path.id).
+     *
+     * @var array<string,mixed>
      */
     public $parameters = Generator::UNDEFINED;
 
     /**
      * A literal value or {expression} to use as a request body when calling the target operation.
+     *
+     * @var mixed
      */
     public $requestBody = Generator::UNDEFINED;
 
     /**
      * A description of the link.
+     *
      * CommonMark syntax may be used for rich text representation.
      *
      * @var string

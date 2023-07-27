@@ -396,6 +396,8 @@ class Finder implements \IteratorAggregate, \Countable
      * @see ignoreVCS()
      *
      * @param string|string[] $pattern VCS patterns to ignore
+     *
+     * @return void
      */
     public static function addVCSPattern(string|array $pattern)
     {
@@ -425,6 +427,22 @@ class Finder implements \IteratorAggregate, \Countable
     }
 
     /**
+     * Sorts files and directories by extension.
+     *
+     * This can be slow as all the matching files and directories must be retrieved for comparison.
+     *
+     * @return $this
+     *
+     * @see SortableIterator
+     */
+    public function sortByExtension(): static
+    {
+        $this->sort = Iterator\SortableIterator::SORT_BY_EXTENSION;
+
+        return $this;
+    }
+
+    /**
      * Sorts files and directories by name.
      *
      * This can be slow as all the matching files and directories must be retrieved for comparison.
@@ -436,6 +454,38 @@ class Finder implements \IteratorAggregate, \Countable
     public function sortByName(bool $useNaturalSort = false): static
     {
         $this->sort = $useNaturalSort ? Iterator\SortableIterator::SORT_BY_NAME_NATURAL : Iterator\SortableIterator::SORT_BY_NAME;
+
+        return $this;
+    }
+
+    /**
+     * Sorts files and directories by name case insensitive.
+     *
+     * This can be slow as all the matching files and directories must be retrieved for comparison.
+     *
+     * @return $this
+     *
+     * @see SortableIterator
+     */
+    public function sortByCaseInsensitiveName(bool $useNaturalSort = false): static
+    {
+        $this->sort = $useNaturalSort ? Iterator\SortableIterator::SORT_BY_NAME_NATURAL_CASE_INSENSITIVE : Iterator\SortableIterator::SORT_BY_NAME_CASE_INSENSITIVE;
+
+        return $this;
+    }
+
+    /**
+     * Sorts files and directories by size.
+     *
+     * This can be slow as all the matching files and directories must be retrieved for comparison.
+     *
+     * @return $this
+     *
+     * @see SortableIterator
+     */
+    public function sortBySize(): static
+    {
+        $this->sort = Iterator\SortableIterator::SORT_BY_SIZE;
 
         return $this;
     }
@@ -585,7 +635,7 @@ class Finder implements \IteratorAggregate, \Countable
                 $resolvedDirs[] = [$this->normalizeDir($dir)];
             } elseif ($glob = glob($dir, (\defined('GLOB_BRACE') ? \GLOB_BRACE : 0) | \GLOB_ONLYDIR | \GLOB_NOSORT)) {
                 sort($glob);
-                $resolvedDirs[] = array_map([$this, 'normalizeDir'], $glob);
+                $resolvedDirs[] = array_map($this->normalizeDir(...), $glob);
             } else {
                 throw new DirectoryNotFoundException(sprintf('The "%s" directory does not exist.', $dir));
             }
@@ -623,9 +673,7 @@ class Finder implements \IteratorAggregate, \Countable
 
         $iterator = new \AppendIterator();
         foreach ($this->dirs as $dir) {
-            $iterator->append(new \IteratorIterator(new LazyIterator(function () use ($dir) {
-                return $this->searchInDirectory($dir);
-            })));
+            $iterator->append(new \IteratorIterator(new LazyIterator(fn () => $this->searchInDirectory($dir))));
         }
 
         foreach ($this->iterators as $it) {

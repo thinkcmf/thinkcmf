@@ -7,27 +7,33 @@
 namespace OpenApi\Annotations;
 
 use OpenApi\Generator;
+use OpenApi\Util;
 
 /**
- * @Annotation
- * A Components Object: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#components-object
- *
  * Holds a set of reusable objects for different aspects of the OA.
- * All objects defined within the components object will have no effect on the API unless they are explicitly referenced from properties outside the components object.
+ *
+ * All objects defined within the components object will have no effect on the API unless they are explicitly
+ * referenced from properties outside the components object.
+ *
+ * @see [OAI Components Object](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#components-object)
+ *
+ * @Annotation
  */
 class Components extends AbstractAnnotation
 {
+    public const COMPONENTS_PREFIX = '#/components/';
+
     /**
      * Schema reference.
      *
      * @var string
      */
-    const SCHEMA_REF = '#/components/schemas/';
+    public const SCHEMA_REF = '#/components/schemas/';
 
     /**
      * Reusable Schemas.
      *
-     * @var Schema[]
+     * @var array<Schema|\OpenApi\Attributes\Schema>
      */
     public $schemas = Generator::UNDEFINED;
 
@@ -53,7 +59,7 @@ class Components extends AbstractAnnotation
     public $examples = Generator::UNDEFINED;
 
     /**
-     * Reusable Request Bodys.
+     * Reusable Request Bodies.
      *
      * @var RequestBody[]
      */
@@ -83,7 +89,7 @@ class Components extends AbstractAnnotation
     /**
      * Reusable Callbacks.
      *
-     * @var callable[]
+     * @var array
      */
     public $callbacks = Generator::UNDEFINED;
 
@@ -98,14 +104,43 @@ class Components extends AbstractAnnotation
      * @inheritdoc
      */
     public static $_nested = [
-        Schema::class => ['schemas', 'schema'],
         Response::class => ['responses', 'response'],
         Parameter::class => ['parameters', 'parameter'],
+        PathParameter::class => ['parameters', 'parameter'],
         RequestBody::class => ['requestBodies', 'request'],
         Examples::class => ['examples', 'example'],
         Header::class => ['headers', 'header'],
         SecurityScheme::class => ['securitySchemes', 'securityScheme'],
         Link::class => ['links', 'link'],
+        Schema::class => ['schemas', 'schema'],
         Attachable::class => ['attachables'],
     ];
+
+    /**
+     * Generate a `#/components/...` reference for the given annotation.
+     *
+     * A `string` component value always assumes type `Schema`.
+     *
+     * @param AbstractAnnotation|string $component
+     */
+    public static function ref($component, bool $encode = true): string
+    {
+        if ($component instanceof AbstractAnnotation) {
+            foreach (Components::$_nested as $type => $nested) {
+                // exclude attachables
+                if (2 == count($nested)) {
+                    if ($component instanceof $type) {
+                        $type = $nested[0];
+                        $name = $component->{$nested[1]};
+                        break;
+                    }
+                }
+            }
+        } else {
+            $type = 'schemas';
+            $name = $component;
+        }
+
+        return self::COMPONENTS_PREFIX . $type . '/' . ($encode ? Util::refEncode((string) $name) : $name);
+    }
 }

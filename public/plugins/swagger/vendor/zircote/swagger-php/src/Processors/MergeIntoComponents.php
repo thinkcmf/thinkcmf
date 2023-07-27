@@ -7,26 +7,27 @@
 namespace OpenApi\Processors;
 
 use OpenApi\Analysis;
-use OpenApi\Annotations\Components;
+use OpenApi\Annotations as OA;
 use OpenApi\Context;
 use OpenApi\Generator;
 
 /**
  * Merge reusable annotation into @OA\Schemas.
  */
-class MergeIntoComponents
+class MergeIntoComponents implements ProcessorInterface
 {
     public function __invoke(Analysis $analysis)
     {
         $components = $analysis->openapi->components;
-        if ($components === Generator::UNDEFINED) {
-            $context = new Context([], $analysis->context);
-            $components = new Components(['_context' => $context]);
-            $components->_context->generated = true;
+        if (Generator::isDefault($components)) {
+            $components = new OA\Components(['_context' => new Context(['generated' => true], $analysis->context)]);
         }
 
+        /** @var OA\AbstractAnnotation $annotation */
         foreach ($analysis->annotations as $annotation) {
-            if (Components::matchNested(get_class($annotation)) && $annotation->_context->is('nested') === false) {
+            if ($annotation instanceof OA\AbstractAnnotation
+                && in_array(OA\Components::class, $annotation::$_parents)
+                && false === $annotation->_context->is('nested')) {
                 // A top level annotation.
                 $components->merge([$annotation], true);
                 $analysis->openapi->components = $components;

@@ -9,9 +9,9 @@ namespace OpenApi\Annotations;
 use OpenApi\Generator;
 
 /**
- * @Annotation
+ * @see [OAI Tag Object]( https://github.com/OAI/OpenAPI-Specification/blob/OpenAPI.next/versions/3.0.md#tagObject).
  *
- * A "Tag Object":  https://github.com/OAI/OpenAPI-Specification/blob/OpenAPI.next/versions/3.0.md#tagObject
+ * @Annotation
  */
 class Tag extends AbstractAnnotation
 {

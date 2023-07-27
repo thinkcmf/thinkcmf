@@ -7,8 +7,9 @@
 namespace OpenApi\Annotations;
 
 /**
+ * The description of an item in a Schema with type `array`.
+ *
  * @Annotation
- * The description of an item in a Schema with type "array"
  */
 class Items extends Schema
 {
@@ -40,21 +41,22 @@ class Items extends Schema
     /**
      * @inheritdoc
      */
-    public function validate(array $parents = [], array $skip = [], string $ref = ''): bool
+    public function validate(array $stack = [], array $skip = [], string $ref = '', $context = null): bool
     {
         if (in_array($this, $skip, true)) {
             return true;
         }
 
-        $valid = parent::validate($parents, $skip);
+        $valid = parent::validate($stack, $skip, $ref, $context);
 
-        $parent = end($parents);
+        $parent = end($stack);
         if ($parent instanceof Schema && $parent->type !== 'array') {
             $this->_context->logger->warning('@OA\\Items() parent type must be "array" in ' . $this->_context);
             $valid = false;
         }
 
-        return $valid;
         // @todo Additional validation when used inside a Header or Parameter context.
+
+        return $valid;
     }
 }

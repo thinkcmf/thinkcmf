@@ -9,10 +9,11 @@ namespace OpenApi\Annotations;
 use OpenApi\Generator;
 
 /**
- * @Annotation
  * License information for the exposed API.
  *
- * A "License Object": https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#license-object
+ * @see [OAI License Object](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#license-object)
+ *
+ * @Annotation
  */
 class License extends AbstractAnnotation
 {
@@ -24,7 +25,16 @@ class License extends AbstractAnnotation
     public $name = Generator::UNDEFINED;
 
     /**
-     * A URL to the license used for the API.
+     * An SPDX license expression for the API. The `identifier` field is mutually exclusive of the `url` field.
+     *
+     * @var string
+     */
+    public $identifier = Generator::UNDEFINED;
+
+    /**
+     * An URL to the license used for the API. This MUST be in the form of a URL.
+     *
+     * The `url` field is mutually exclusive of the `identifier` field.
      *
      * @var string
      */
@@ -35,6 +45,7 @@ class License extends AbstractAnnotation
      */
     public static $_types = [
         'name' => 'string',
+        'identifier' => 'string',
         'url' => 'string',
     ];
 
@@ -56,4 +67,36 @@ class License extends AbstractAnnotation
     public static $_nested = [
         Attachable::class => ['attachables'],
     ];
+
+    /**
+     * @inheritdoc
+     */
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize()
+    {
+        $data = parent::jsonSerialize();
+
+        if ($this->_context->isVersion(OpenApi::VERSION_3_0_0)) {
+            unset($data->identifier);
+        }
+
+        return $data;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function validate(array $stack = [], array $skip = [], string $ref = '', $context = null): bool
+    {
+        $valid = parent::validate($stack, $skip, $ref, $context);
+
+        if ($this->_context->isVersion(OpenApi::VERSION_3_1_0)) {
+            if (!Generator::isDefault($this->url) && $this->identifier !== Generator::UNDEFINED) {
+                $this->_context->logger->warning($this->identity() . ' url and identifier are mutually exclusive');
+                $valid = false;
+            }
+        }
+
+        return $valid;
+    }
 }
