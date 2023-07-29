@@ -25,9 +25,13 @@ class SettingController extends RestAdminBaseController
      *     summary="清理缓存",
      *     description="清理缓存",
      *     @OA\Response(
-     *         response=200,
-     *         description=""
-     *     )
+     *          response="1",
+     *          @OA\JsonContent(example={"code": 1,"msg": "清除成功!","data": ""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "清除失败!","data": ""})
+     *     ),
      * )
      */
     public function clearCache()

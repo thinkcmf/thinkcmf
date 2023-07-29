@@ -201,19 +201,10 @@ class PublicController extends RestBaseController
      * @OA\Post(
      *     tags={"user"},
      *     path="/user/public/login",
-     *     @OA\Parameter(
-     *         in="header",
-     *         name="XX-Device-Type",
-     *         description="此处与表单 device_type 任选一 设备类型：mobile,android,iphone,ipad,web,pc,mac,wxapp,ios",
-     *         @OA\Schema(
-     *             type="string",
-     *             default="web"
-     *         )
-     *     ),
      *     @OA\RequestBody(
      *         description="请求参数",
      *         @OA\MediaType(
-     *             mediaType="multipart/form-data",
+     *             mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
      *                 @OA\Property(
      *                     property="username",
@@ -234,10 +225,14 @@ class PublicController extends RestBaseController
      *         )
      *     ),
      *     @OA\Response(
-     *         response="200",
-     *         description="An example resource",
+     *         response="1",
+     *         description="登录成功",
+     *         @OA\JsonContent(ref="#/components/schemas/UserPublicLoginResponse")
      *     ),
-     *     @OA\Response(response="default", description="An example resource")
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "登录失败!","data": ""})
+     *     ),
      * )
      */
     // TODO 增加最后登录信息记录,如 ip

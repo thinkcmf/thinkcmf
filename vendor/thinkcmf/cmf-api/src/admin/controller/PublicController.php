@@ -48,10 +48,11 @@ class PublicController extends RestBaseController
      *         )
      *     ),
      *     @OA\Response(
-     *         response="200",
-     *         description="An example resource",
+     *         response="1",
+     *         description="登录成功",
+     *         @OA\JsonContent(ref="#/components/schemas/AdminPublicLoginResponse")
      *     ),
-     *     @OA\Response(response="default", description="An example resource")
+     *     @OA\Response(response="0",ref="#/components/responses/0"),
      * )
      */
     public function login()
@@ -103,7 +104,7 @@ class PublicController extends RestBaseController
 
         if (empty($this->deviceType) && (empty($data['device_type']) || !in_array($data['device_type'], $this->allowedDeviceTypes))) {
             $this->error("请求错误,未知设备!");
-        } else if(!empty($data['device_type'])) {
+        } else if (!empty($data['device_type'])) {
             $this->deviceType = $data['device_type'];
         }
 
@@ -150,9 +151,13 @@ class PublicController extends RestBaseController
      *     summary="后台管理员退出",
      *     description="后台管理员退出",
      *     @OA\Response(
-     *         response=200,
-     *         description=""
-     *     )
+     *          response="1",
+     *          @OA\JsonContent(example={"code": 1,"msg": "退出成功!","data": null})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "退出失败!","data": null})
+     *     ),
      * )
      */
     public function logout()

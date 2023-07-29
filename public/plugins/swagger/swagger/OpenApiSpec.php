@@ -23,6 +23,13 @@ use OpenApi\Annotations as OA;
  *     description="设备类型：mobile,android,iphone,ipad,web,pc,mac,wxapp,ios",
  * )
  * @OA\SecurityScheme(
+ *     securityScheme="ApiToken-XX-Api-Version",
+ *     type="apiKey",
+ *     in="header",
+ *     name="XX-Api-Version",
+ *     description="API版本号,默认1.1.0",
+ * )
+ * @OA\SecurityScheme(
  *     securityScheme="ApiToken-Authorization",
  *     type="apiKey",
  *     in="header",

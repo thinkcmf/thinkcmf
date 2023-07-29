@@ -68,7 +68,7 @@ class RestBaseController
 
 //        $this->request->root(cmf_get_root() . '/');
 
-        $this->apiVersion = $this->request->header('XX-Api-Version');
+        $this->apiVersion = $this->request->header('XX-Api-Version', '1.1.0');
 
         // 用户验证初始化
         $this->_initUser();
@@ -314,11 +314,12 @@ class RestBaseController
     public function getRoutePath()
     {
         $rule = $this->request->rule();
-        if (empty($rule['rule'])) {
+
+        if (empty($rule->getRule())) {
             $app        = $this->app->http->getName();
             $controller = cmf_parse_name($this->request->controller());
             $action     = $this->request->action(false);
-            $rule       = "$app/$controller/$action";
+            $routePath  = "$app/$controller/$action";
         } else {
             $routePath = preg_replace("/<(.+)>/", ':$1', $rule['rule']);
             $routePath = str_replace('$', '', $routePath);

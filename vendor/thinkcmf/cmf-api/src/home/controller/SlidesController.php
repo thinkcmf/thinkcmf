@@ -34,8 +34,15 @@ class SlidesController extends RestBaseController
      *             type="integer",
      *         )
      *     ),
-     *     @OA\Response(response="200", description="An example resource"),
-     *     @OA\Response(response="default", description="An example resource")
+     *     @OA\Response(
+     *         response="1",
+     *         description="登录成功",
+     *         @OA\JsonContent(ref="#/components/schemas/HomeSlidesReadResponse")
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "该组幻灯片显示数据为空!","data": null})
+     *     ),
      * )
      */
     public function read()
