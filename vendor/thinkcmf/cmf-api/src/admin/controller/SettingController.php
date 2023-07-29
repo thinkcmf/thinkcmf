@@ -10,12 +10,26 @@ namespace api\admin\controller;
 
 use cmf\controller\RestAdminBaseController;
 use cmf\controller\RestBaseController;
+use OpenApi\Annotations as OA;
 use think\facade\Db;
 use think\facade\Validate;
 
 class SettingController extends RestAdminBaseController
 {
-    // 管理员退出
+    /**
+     * 清理缓存
+     * @throws \think\exception\DbException
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/setting/clearCache",
+     *     summary="清理缓存",
+     *     description="清理缓存",
+     *     @OA\Response(
+     *         response=200,
+     *         description=""
+     *     )
+     * )
+     */
     public function clearCache()
     {
         cmf_clear_cache();

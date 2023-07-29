@@ -11,13 +11,52 @@ namespace api\admin\controller;
 use cmf\controller\RestBaseController;
 use think\facade\Db;
 use think\facade\Validate;
+use OpenApi\Annotations as OA;
 
 class PublicController extends RestBaseController
 {
 
-    // 用户登录 TODO 增加最后登录信息记录,如 ip
+    /**
+     * 后台管理员登录
+     * @throws \think\exception\DbException
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/public/login",
+     *     summary="后台管理员登录",
+     *     description="后台管理员登录",
+     *     @OA\RequestBody(
+     *         description="请求参数",
+     *         @OA\MediaType(
+     *             mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="username",
+     *                     description="手机号，邮箱，账户",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="password",
+     *                     description="密码",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="device_type",
+     *                     description="设备类型：mobile,android,iphone,ipad,web,pc,mac,wxapp,ios",
+     *                     type="string"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="An example resource",
+     *     ),
+     *     @OA\Response(response="default", description="An example resource")
+     * )
+     */
     public function login()
     {
+        // TODO 增加最后登录信息记录,如 ip
         $validate = new \think\Validate();
         $validate->rule([
             'username' => 'require',
@@ -102,7 +141,20 @@ class PublicController extends RestBaseController
         $this->success("登录成功!", ['token' => $token]);
     }
 
-    // 管理员退出
+    /**
+     * 后台管理员退出
+     * @throws \think\exception\DbException
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/public/logout",
+     *     summary="后台管理员退出",
+     *     description="后台管理员退出",
+     *     @OA\Response(
+     *         response=200,
+     *         description=""
+     *     )
+     * )
+     */
     public function logout()
     {
         $userId = $this->getUserId();

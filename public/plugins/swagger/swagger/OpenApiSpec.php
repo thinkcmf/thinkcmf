@@ -2,6 +2,7 @@
 
 namespace plugins\swagger\swagger;
 
+use OpenApi\Annotations as OA;
 /**
  * @OA\Info(
  *     title="ThinkCMF API",
@@ -11,16 +12,15 @@ namespace plugins\swagger\swagger;
  *         email="catman@thinkcmf.com"
  *     ),
  * )
- *
  * @OA\Server(
  *     url="/api"
  * )
- *
  * @OA\SecurityScheme(
- *     securityScheme="ApiToken-XX-Token",
+ *     securityScheme="ApiToken-XX-Device-Type",
  *     type="apiKey",
  *     in="header",
- *     name="XX-Token"
+ *     name="XX-Device-Type",
+ *     description="设备类型：mobile,android,iphone,ipad,web,pc,mac,wxapp,ios",
  * )
  * @OA\SecurityScheme(
  *     securityScheme="ApiToken-Authorization",
@@ -28,30 +28,37 @@ namespace plugins\swagger\swagger;
  *     in="header",
  *     name="Authorization"
  * )
- * @OA\SecurityScheme(
- *     securityScheme="ApiToken-AuthorizationBearer",
- *     type="http",
- *     scheme="bearer",
- *     bearerFormat="JWT"
+ * @OA\OpenApi(
+ *     security={
+ *      {"ApiToken-Authorization":{}},
+ *      {"ApiToken-XX-Device-Type":{}},
+ *     }
  * )
  * @OA\Parameter(
- *     parameter="DeviceTypeParameter",
- *     in="header",
- *     name="XX-Device-Type",
- *     required=true,
- *     description="设备类型：mobile,android,iphone,ipad,web,pc,mac,wxapp,ios",
+ *     parameter="PageParameter",
+ *     in="query",
+ *     name="page",
+ *     required=false,
+ *     description="分页参数,格式如:1(第1页,每页条数用默认值);2,10(第2页,每页10条)",
  *     @OA\Schema(
  *         type="string",
- *         default="web"
+ *         default="1"
  *     )
  * )
  * @OA\Response(
  *     response=200,
- *     description="HTTP 200 响应",
+ *     description="success",
  *     @OA\JsonContent(
  *         ref="#/components/schemas/SuccessResponse"
  *     )
- * ),
+ * )
+ * @OA\Response(
+ *     response=0,
+ *     description="error",
+ *     @OA\JsonContent(
+ *         ref="#/components/schemas/ErrorResponse"
+ *     )
+ * )
  */
 class OpenApiSpec
 {

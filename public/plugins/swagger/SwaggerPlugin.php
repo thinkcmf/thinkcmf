@@ -11,6 +11,7 @@ namespace plugins\swagger;
 
 //Demo插件英文名，改成你的插件英文就行了
 use cmf\lib\Plugin;
+use plugins\swagger\service\OpenApi;
 
 //Demo插件英文名，改成你的插件英文就行了
 class SwaggerPlugin extends Plugin
@@ -42,42 +43,7 @@ class SwaggerPlugin extends Plugin
 
     public function adminApiImportView()
     {
-        $paths = [WEB_ROOT . 'plugins/swagger/swagger', CMF_ROOT . 'vendor/thinkcmf/cmf-api/src/swagger'];
-        $apps  = cmf_scan_dir(CMF_ROOT . 'api/*', GLOB_ONLYDIR);
-
-        foreach ($apps as $app) {
-            $dir = CMF_ROOT . 'api/' . $app . '/controller';
-            if (is_dir($dir)) {
-                $paths[] = $dir;
-            }
-
-            $dir = CMF_ROOT . 'api/' . $app . '/swagger';
-            if (is_dir($dir)) {
-                $paths[] = $dir;
-            }
-        }
-
-        $apps = cmf_scan_dir(CMF_ROOT . 'vendor/thinkcmf/cmf-api/src/*', GLOB_ONLYDIR);
-        foreach ($apps as $app) {
-            $dir = CMF_ROOT . 'vendor/thinkcmf/cmf-api/src/' . $app . '/controller';
-            if (is_dir($dir)) {
-                $paths[] = $dir;
-            }
-
-            $dir = CMF_ROOT . 'vendor/thinkcmf/cmf-api/src/' . $app . '/swagger';
-            if (is_dir($dir)) {
-                $paths[] = $dir;
-            }
-        }
-        $api   = \OpenApi\Generator::scan($paths,
-            [
-                'aliases'  => [
-                    'oa' => 'OpenApi\\Annotations'
-                ],
-//                    'namespaces' => ['OpenApi\\Annotations\\'],
-                'validate' => false
-            ]
-        );
+        $api   = OpenApi::generate();
         $api   = json_decode($api->toJson(), true);
         $paths = $api['paths'];
 
