@@ -29,7 +29,7 @@ class SlidesController extends RestBaseController
      *         name="id",
      *         in="path",
      *         description="幻灯片分组 id",
-     *         required=false,
+     *         required=true,
      *         @OA\Schema(
      *             type="integer",
      *         )

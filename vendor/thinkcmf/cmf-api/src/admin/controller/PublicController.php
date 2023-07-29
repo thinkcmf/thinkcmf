@@ -28,23 +28,11 @@ class PublicController extends RestBaseController
      *         description="请求参数",
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
-     *             @OA\Schema(
-     *                 @OA\Property(
-     *                     property="username",
-     *                     description="手机号，邮箱，账户",
-     *                     type="string"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="password",
-     *                     description="密码",
-     *                     type="string"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="device_type",
-     *                     description="设备类型：mobile,android,iphone,ipad,web,pc,mac,wxapp,ios",
-     *                     type="string"
-     *                 )
-     *             )
+     *             @OA\Schema(ref="#/components/schemas/LoginRequest")
+     *         ),
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/LoginRequest")
      *         )
      *     ),
      *     @OA\Response(

@@ -25,7 +25,7 @@ class AdminPublicLoginResponse
     /**
      * @OA\Property(
      *     type="object",
-     *     ref="#/components/schemas/AdminPublicLogicResponseData"
+     *     ref="#/components/schemas/AdminPublicLoginResponseData"
      * )
      * @var object
      */
