@@ -12,11 +12,52 @@ use api\user\model\UserModel;
 use think\facade\Db;
 use think\facade\Validate;
 use cmf\controller\RestBaseController;
+use OpenApi\Annotations as OA;
 
 class PublicController extends RestBaseController
 {
     /**
-     *  用户注册
+     * 用户注册
+     * @OA\Post(
+     *     tags={"user"},
+     *     path="/user/public/register",
+     *     summary="用户注册",
+     *     description="用户注册",
+     *     @OA\RequestBody(
+     *          required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *                  @OA\Property(
+     *                      property="username",
+     *                      description="手机号，邮箱，账户",
+     *                      type="string",
+     *                      required=true
+     *                  ),
+     *                  @OA\Property(
+     *                      property="password",
+     *                      description="密码",
+     *                      type="string",
+     *                      required=true
+     *                  ),
+     *                  @OA\Property(
+     *                      property="verification_code",
+     *                      description="数字验证码",
+     *                      type="string",
+     *                      required=true
+     *                  ),
+     *             )
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          @OA\JsonContent(example={"code": 1,"msg": "注册并激活成功,请登录!","data": null})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "请输入您的密码!","data": null})
+     *     ),
+     * )
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -314,7 +355,7 @@ class PublicController extends RestBaseController
         $this->success("登录成功!", ['token' => $token, 'user' => $findUser->hidden([
             'user_pass',
             'user_activation_key',
-            'more','user_type'
+            'more', 'user_type'
         ])]);
     }
 

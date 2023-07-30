@@ -9,18 +9,10 @@
 namespace api\portal\controller;
 
 use cmf\controller\RestBaseController;
+use OpenApi\Annotations as OA;
 
 class IndexController extends RestBaseController
 {
-    /**
-     * API首页
-     * @OA\Get(
-     *     tags={"home"},
-     *     path="/",
-     *     @OA\Response(response="200", description="An example resource"),
-     *     @OA\Response(response="default", description="An example resource")
-     * )
-     */
     public function index()
     {
         $this->success("恭喜您,API访问成功!", [
