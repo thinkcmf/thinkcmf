@@ -19,7 +19,7 @@ class SwaggerPlugin extends Plugin
     public $info = [
         'name'        => 'Swagger', //Demo插件英文名，改成你的插件英文就行了
         'title'       => 'Swagger',
-        'description' => 'Swagger',
+        'description' => 'Swagger4.0支持PHP版本>=8.1,同时支持Attributes和Annotations',
         'status'      => 1,
         'author'      => 'ThinkCMF',
         'version'     => '1.0.1',

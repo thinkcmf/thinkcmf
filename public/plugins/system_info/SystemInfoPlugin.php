@@ -45,10 +45,14 @@ class SystemInfoPlugin extends Plugin
 
         $version = cmf_version();
 
-        $opensslVersions = curl_version();
+        $curlVersions = curl_version();
 
         $moreUrl = cmf_plugin_url('SystemInfo://AdminIndex/index');
 
+        $opensslVersion = '未知';
+        if (defined('OPENSSL_VERSION_TEXT')) {
+            $opensslVersion = OPENSSL_VERSION_TEXT;
+        }
 
         //server infomation
         $info = [
@@ -58,7 +62,8 @@ class SystemInfoPlugin extends Plugin
             lang('PHP_RUN_MODE')          => php_sapi_name(),
             lang('PHP_VERSION')           => phpversion(),
             lang('MYSQL_VERSION')         => $mysql,
-            'CURL'                        => $opensslVersions['ssl_version'],
+            'CURL'                        => $curlVersions['version'],
+            'OpenSSL'                     => $opensslVersion,
             'ThinkPHP'                    => cmf_thinkphp_version(),
             'ThinkCMF'                    => "{$version} <a href=\"http://www.thinkcmf.com\" target=\"_blank\">访问官网</a>",
             lang('UPLOAD_MAX_FILESIZE')   => ini_get('upload_max_filesize'),
