@@ -1,6 +1,6 @@
 <php>
     if (!function_exists('_get_system_widget')) {
-        function _get_system_widget($name){
+    function _get_system_widget($name){
 </php>
 <switch name="name">
     <case value="CmfHub">
@@ -11,7 +11,8 @@
             <div class="panel-body home-info">
                 <ul class="list-unstyled">
                     <li>
-                        <em>官网</em> <span><a href="http://www.thinkcmf.com" target="_blank">www.thinkcmf.com</a></span>
+                        <em>官网</em> <span><a href="http://www.thinkcmf.com"
+                                               target="_blank">www.thinkcmf.com</a></span>
                     </li>
                     <li><em>QQ 群</em> <span>100828313,316669417</span></li>
                     <li><em>联系邮箱</em> <span>catman@thinkcmf.com</span></li>
@@ -29,7 +30,7 @@
                     <li>
                         <em>完全开发手册</em>
                         <span>
-                            <a class="label label-success" href="http://www.thinkcmf.com/doc.html"
+                            <a class="label label-success" href="https://www.thinkcmf.com/docs/cmf6/"
                                target="_blank">立即阅读</a>
                         </span>
                     </li>
@@ -50,7 +51,7 @@
                     <li>
                         <em>API开发手册</em>
                         <span>
-                            <a class="label label-success" href="http://www.thinkcmf.com/cmf5api.html"
+                            <a class="label label-success" href="https://www.thinkcmf.com/docs/cmf6/#/API"
                                target="_blank">立即阅读</a>
                         </span>
                     </li>
@@ -63,19 +64,9 @@
             <div class="panel-heading">
                 <h3 class="panel-title">主要贡献者</h3>
             </div>
-            <div class="panel-body home-info">
+            <div class="panel-body home-info main_contributors">
                 <ul class="list-inline">
-                    <li>老猫</li>
-                    <li>Sam</li>
-                    <li>Tuolaji</li>
-                    <li>睡不醒的猪</li>
-                    <li>小夏</li>
-                    <li>Powerless</li>
-                    <li>WelKinVan</li>
-                    <li>Kane</li>
-                    <li>iYting</li>
-                    <li>pl125</li>
-                    <li>五五</li>
+                    <li>加载中...</li>
                 </ul>
             </div>
         </div>
@@ -85,33 +76,16 @@
             <div class="panel-heading">
                 <h3 class="panel-title">贡献者</h3>
             </div>
-            <div class="panel-body home-info">
+            <div class="panel-body home-info contributors">
                 <ul class="list-inline">
-                    <li>Kin Ho</li>
-                    <li><a href="https://www.wzxaini9.cn/" target="_blank">Powerless</a></li>
-                    <li>Jess</li>
-                    <li>木兰情</li>
-                    <li>Labulaka</li>
-                    <li><a href="http://www.wzcoder.com/" target="_blank">WelKinVan</a></li>
-                    <li><a href="http://blog.sina.com.cn/u/1918098881" target="_blank">Jeson</a></li>
-                    <li>Yim</li>
-                    <li><a href="http://www.jamlee.cn/" target="_blank">Jamlee</a></li>
-                    <li>香香咸蛋黄</li>
-                    <li><a href="http://www.xdmeng.cn" target="_blank">小凯</a></li>
-                    <li>Co</li>
-                    <li>Rainfer</li>
-                    <li><a href="http://www.yaoweixiu.cn/" target="_blank">Kane</a></li>
-                    <li><a href="https://www.jianshu.com/u/9caeb6b5e1cd" target="_blank">北岸的云</a></li>
-                    <li>pl125</li>
-                    <li><a href="http://www.wuwuseo.com/" target="_blank">五五</a></li>
-                    <li><a href="https://www.qdcrazy.cn/" target="_blank">惠达浪</a></li>
+                    <li>加载中...</li>
                 </ul>
             </div>
         </div>
     </case>
 </switch>
 <php>
-        }
+    }
     }
 </php>
 
@@ -218,7 +192,7 @@
 </div>
 <script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
 <php>
-    $lang_set=defined('LANG_SET')?LANG_SET:'';
+    $lang_set=cmf_current_lang();
     $thinkcmf_version=cmf_version();
 </php>
 <script>
@@ -266,12 +240,12 @@
             mirrorContainer: document.body,    // set the element that gets mirror elements appended
             ignoreInputTextSelection: true     // allows users to select input text, see details below
         }).on('drop', function (el, target, source, sibling) {
-            var $target          = $(target);
-            var targetClasses    = $target.attr('class');
+            var $target = $(target);
+            var targetClasses = $target.attr('class');
             var targetDataWidget = $target.data('widget');
             var targetDataSystem = $target.data('system');
-            var $source          = $(source);
-            var sourceClasses    = $source.attr('class');
+            var $source = $(source);
+            var sourceClasses = $source.attr('class');
             var sourceDataWidget = $source.data('widget');
             var sourceDataSystem = $source.data('system');
             $(source).append($(target).find('.dashboard-box').not('.gu-transit'));
@@ -322,10 +296,46 @@
         });
     }
 
+    $.ajax({
+        url: "//www.thinkcmf.com/service/team.php?lang={$lang_set}&v={$thinkcmf_version}",
+        type: 'get',
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            if (data.code == 1) {
+                var $wrap = $('<ul class="list-inline"></ul>')
+                $.each(data.data.main_contributors, function (i, item) {
+                    if (item.url) {
+                        $wrap.append('<li><a href="' + item.url + '" target="_blank">' + item.name + '</a></li>')
+                    } else {
+                        $wrap.append('<li>' + item.name + '</li>')
+                    }
+                });
+                $('.main_contributors').html($wrap);
+
+                $wrap = $('<ul class="list-inline"></ul>');
+                $.each(data.data.contributors, function (i, item) {
+                    if (item.url) {
+                        $wrap.append('<li><a href="' + item.url + '" target="_blank">' + item.name + '</a></li>')
+                    } else {
+                        $wrap.append('<li>' + item.name + '</li>')
+                    }
+                });
+                $('.contributors').html($wrap);
+            }
+        },
+        error: function () {
+
+        },
+        complete: function () {
+
+        }
+    });
+
     //获取官方通知
     $.getJSON("//www.thinkcmf.com/service/sms_jsonp.php?lang={$lang_set}&v={$thinkcmf_version}&callback=?",
         function (data) {
-            var tpl      = '<li><em class="title"></em><span class="content"></span></li>';
+            var tpl = '<li><em class="title"></em><span class="content"></span></li>';
             var $notices = $("#thinkcmf-notices");
             $notices.empty();
             if (data.length > 0) {
