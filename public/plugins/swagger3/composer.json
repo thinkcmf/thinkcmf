@@ -1,0 +1,16 @@
+{
+    "name": "thinkcmf/plugins-swagger",
+    "description": "ThinkCMF swagger3 plugin",
+    "type": "cmf-plugin",
+    "license": "apache2.0",
+    "authors": [
+        {
+            "name": "catman",
+            "email": "catman@thinkcmf.com"
+        }
+    ],
+    "require": {
+        "zircote/swagger-php": "^3.1",
+        "psr/log": "^1.0"
+    }
+}
