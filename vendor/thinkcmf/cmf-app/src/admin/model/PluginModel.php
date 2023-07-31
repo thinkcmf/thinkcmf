@@ -49,10 +49,13 @@ class PluginModel extends Model
                     //TODO 加入到日志中
                     continue;
                 }
-                $obj                 = new $class;
-                $plugins[$pluginDir] = $obj->info;
+                
+                $classObj            = new \ReflectionClass($class);
+                $defaultProperties   = $classObj->getDefaultProperties();
+                $info                = isset($defaultProperties['info']) ? $defaultProperties['info'] : [];
+                $plugins[$pluginDir] = $info;
 
-                if (!isset($obj->info['type']) || $obj->info['type'] == 1) {//只获取普通插件
+                if (!isset($info['type']) || $info['type'] == 1) {//只获取普通插件
                     if ($plugins[$pluginDir]) {
                         $plugins[$pluginDir]['status'] = 3;//未安装
                     }
