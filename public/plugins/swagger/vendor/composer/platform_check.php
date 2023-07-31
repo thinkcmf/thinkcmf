@@ -8,6 +8,14 @@ if (!(PHP_VERSION_ID >= 80100)) {
     $issues[] = 'Your Composer dependencies require a PHP version ">= 8.1.0". You are running ' . PHP_VERSION . '.';
 }
 
+$missingExtensions = array();
+extension_loaded('json') || $missingExtensions[] = 'json';
+extension_loaded('tokenizer') || $missingExtensions[] = 'tokenizer';
+
+if ($missingExtensions) {
+    $issues[] = 'Your Composer dependencies require the following PHP extensions to be installed: ' . implode(', ', $missingExtensions) . '.';
+}
+
 if ($issues) {
     if (!headers_sent()) {
         header('HTTP/1.1 500 Internal Server Error');

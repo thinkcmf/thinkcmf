@@ -12,5 +12,8 @@
     "require": {
         "zircote/swagger-php": "^4.0",
         "psr/log": "^1.1"
+    },
+    "config": {
+        "platform-check": true
     }
 }

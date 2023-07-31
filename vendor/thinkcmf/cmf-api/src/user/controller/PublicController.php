@@ -361,8 +361,21 @@ class PublicController extends RestBaseController
 
     /**
      * 用户退出
-     * @throws \think\Exception
-     * @throws \think\exception\PDOException
+     * @throws \think\exception\DbException
+     * @OA\Post(
+     *     tags={"user"},
+     *     path="/user/public/logout",
+     *     summary="用户退出",
+     *     description="用户退出",
+     *     @OA\Response(
+     *          response="1",
+     *          @OA\JsonContent(example={"code": 1,"msg": "退出成功!","data": null})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "退出失败!","data": null})
+     *     ),
+     * )
      */
     public function logout()
     {

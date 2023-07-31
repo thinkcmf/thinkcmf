@@ -56,9 +56,9 @@
             'dev_requirement' => false,
         ),
         'symfony/finder' => array(
-            'pretty_version' => 'v6.3.0',
-            'version' => '6.3.0.0',
-            'reference' => 'd9b01ba073c44cef617c7907ce2419f8d00d75e2',
+            'pretty_version' => 'v6.3.2',
+            'version' => '6.3.2.0',
+            'reference' => '78ce4c29757d657d2b41a91c328923b9a0d6b43d',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/finder',
             'aliases' => array(),
