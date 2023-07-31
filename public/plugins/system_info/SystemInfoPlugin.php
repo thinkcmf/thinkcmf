@@ -49,7 +49,7 @@ class SystemInfoPlugin extends Plugin
 
         $moreUrl = cmf_plugin_url('SystemInfo://AdminIndex/index');
 
-        $opensslVersion = '未知';
+        $opensslVersion = 'Unknown';
         if (defined('OPENSSL_VERSION_TEXT')) {
             $opensslVersion = OPENSSL_VERSION_TEXT;
         }
