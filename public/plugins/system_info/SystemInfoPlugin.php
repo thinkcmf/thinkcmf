@@ -16,7 +16,7 @@ class SystemInfoPlugin extends Plugin
     public $info = [
         'name'        => 'SystemInfo',
         'title'       => '系统信息',
-        'description' => '系统信息',
+        'description' => '后台首页显示系统信息',
         'status'      => 1,
         'author'      => 'ThinkCMF',
         'version'     => '1.0.0'
