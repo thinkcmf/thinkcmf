@@ -137,7 +137,9 @@ https://gitee.com/thinkcmf/docker
 * 增加安装程序数据库迁移功能
 * 增加插件执行顺序设置
 * 增加`cmf_get_file_url`,`cmf_utf8_bom`函数
+* 优化后台开发者面板支持插件扩展
 * 优化后台插件管理
+* 优化后台首页
 * 优化插件设置
 * 优化权限认证
 
