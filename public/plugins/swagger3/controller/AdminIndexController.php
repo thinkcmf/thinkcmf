@@ -31,12 +31,12 @@ class AdminIndexController extends PluginAdminBaseController
      * Swagger
      * @adminMenu(
      *     'name'   => 'Swagger3',
-     *     'parent' => 'admin/Plugin/default',
+     *     'parent' => 'admin/Dev/index',
      *     'display'=> true,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => 'Swagger',
+     *     'remark' => 'Swagger3',
      *     'param'  => ''
      * )
      */
