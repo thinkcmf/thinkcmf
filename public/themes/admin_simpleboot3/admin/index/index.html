@@ -48,6 +48,7 @@
         .nav-list > li ul.submenu ul.submenu > li a > [class*="fa-"]:first-child {
             left: 30px;
         }
+
         /*----------------导航hack--------------------*/
     </style>
     <php>
@@ -68,7 +69,7 @@
 
     <php>
         if (!function_exists('getsubmenu')) {
-            function getsubmenu($submenus){
+        function getsubmenu($submenus){
 
     </php>
     <notempty name="submenus">
@@ -103,13 +104,13 @@
         <php>}</php>
     </notempty>
     <php>
-            }
+        }
         }
     </php>
 
     <php>
         if (!function_exists('getsubmenu1')) {
-            function getsubmenu1($submenus){
+        function getsubmenu1($submenus){
     </php>
     <php>foreach($submenus as $menu){</php>
     <li>
@@ -141,7 +142,7 @@
 
     <php>}</php>
     <php>}
-    }
+        }
     </php>
 
     <php>
@@ -165,7 +166,7 @@
 
     <php>}</php>
     <php>}
-    }
+        }
     </php>
 
 
@@ -185,7 +186,7 @@
 <div id="right-tools-wrapper">
     <!--<span id="right_tools_clearcache" title="清除缓存" onclick="javascript:openapp('{:url('admin/Setting/clearcache')}','right_tool_clearcache','清除缓存');"><i class="fa fa-trash-o right_tool_icon"></i></span>-->
     <!--<span id="refresh-wrapper" title="{:lang('REFRESH_CURRENT_PAGE')}"><i-->
-            <!--class="fa fa-refresh right_tool_icon"></i></span>-->
+    <!--class="fa fa-refresh right_tool_icon"></i></span>-->
 </div>
 <div class="navbar navbar-default">
     <div class="container-fluid">
@@ -215,12 +216,14 @@
 
             <ul class="nav navbar-nav navbar-right simplewind-nav">
                 <li class="light-blue" style="border-left:none;display: none;" id="close-all-tabs-btn">
-                    <a id="close-wrapper" href="javascript:void(0);" title="{:lang('CLOSE_TOP_MENU')}" style="color:#fff;font-size: 16px">
+                    <a id="close-wrapper" href="javascript:void(0);" title="{:lang('CLOSE_TOP_MENU')}"
+                       style="color:#fff;font-size: 16px">
                         <i class="fa fa-times right_tool_icon"></i>
                     </a>
                 </li>
                 <li class="light-blue" style="border-left:none;">
-                    <a id="refresh-wrapper" href="javacript:void(0);" title="{:lang('REFRESH_CURRENT_PAGE')}" style="color:#fff;font-size: 16px">
+                    <a id="refresh-wrapper" href="javacript:void(0);" title="{:lang('REFRESH_CURRENT_PAGE')}"
+                       style="color:#fff;font-size: 16px">
                         <i class="fa fa-refresh right_tool_icon"></i>
                     </a>
                 </li>
@@ -254,7 +257,8 @@
                                 <a href="javascript:openapp('{:url('Setting/password')}','index_password','{:lang('ADMIN_SETTING_PASSWORD')}');"><i
                                         class="fa fa-lock fa-fw"></i> {:lang('ADMIN_SETTING_PASSWORD')}</a></li>
                         </if>
-                        <li><a href="{:url('Public/logout')}"><i class="fa fa-sign-out fa-fw"></i> {:lang('LOGOUT')}</a></li>
+                        <li><a href="{:url('Public/logout')}"><i class="fa fa-sign-out fa-fw"></i> {:lang('LOGOUT')}</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -313,14 +317,20 @@
                 </a>
             </if>
 
-            <if condition="APP_DEBUG">
-                <a class="btn btn-sm btn-default"
-                   href="javascript:openapp('{:url('admin/Dev/index')}','index_dev','开发面板',true);"
-                   title="开发面板"
-                   data-toggle="tooltip">
-                    <i class="fa fa-window-maximize"></i>
-                </a>
-            </if>
+            <php>
+                $dev_menu_display='none';
+                if(APP_DEBUG){
+                $dev_menu_display='inline-block';
+                }
+            </php>
+            <a class="btn btn-sm btn-default"
+               id="dev-menu-button"
+               style="display: {$dev_menu_display};"
+               href="javascript:openapp('{:url('admin/Dev/index')}','index_dev','开发面板',true);"
+               title="开发面板"
+               data-toggle="tooltip">
+                <i class="fa fa-terminal"></i>
+            </a>
 
         </div>
         <div id="nav-wrapper">
@@ -354,27 +364,25 @@
             $(this).removeClass("open");
         });
 
-        var menus= {:$menus_js_var};
+        var menus = {$menus_js_var};
         //读取url参数。尝试执行菜单功能。
-        if(typeof(menus) != "undefined"){
+        if (typeof (menus) != "undefined") {
 
             var tw = window.top;
-            var twa =tw.location.href.split("#");
+            var twa = tw.location.href.split("#");
             var url = twa[1];
             var urlTmp = url;
-            if (url !=null ){
+            if (url != null) {
                 //去掉/ 去掉_ 全部小写。
-                urlTmp = urlTmp.replace(/[\\/|_|]/g,"");
-                urlTmp = urlTmp.replace(".html","");
+                urlTmp = urlTmp.replace(/[\\/|_|]/g, "");
+                urlTmp = urlTmp.replace(".html", "");
                 urlTmp = urlTmp.toLowerCase();
                 var menu = menus[urlTmp];
-                if (menu){
-                    openapp(url,menu.id+menu.app,menu.name,true);
+                if (menu) {
+                    openapp(url, menu.id + menu.app, menu.name, true);
                 }
             }
         }
-
-
 
 
     });
@@ -413,6 +421,35 @@
         return false;
     });
 
+    var consoleOpened = false;
+
+    function isConsoleOpen() {
+        if (consoleOpened) {
+            return consoleOpened;
+        }
+        var startTime = new Date().getTime();
+        debugger;
+        var endTime = new Date().getTime();
+
+        return endTime - startTime > 100;
+    }
+
+    var openDevTipsTimes = 0;
+    var openDevTipsTimer = null;
+
+    function openDevTips() {
+        consoleOpened = true;
+        if (openDevTipsTimes < 20) {
+            console.log('打开开发者面板,请执行:')
+            console.log("$('#dev-menu-button').show();openapp('/admin/dev/index.html','index_dev','开发面板',true);");
+        } else {
+            clearInterval(openDevTipsTimer);
+        }
+        openDevTipsTimes++;
+    }
+
+    openDevTipsTimer = setInterval(openDevTips, 5000);
+    openDevTips();
 
 
 </script>

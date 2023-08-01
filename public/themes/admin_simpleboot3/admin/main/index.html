@@ -116,6 +116,10 @@
         padding: 5px;
     }
 
+    .home-grid .dashboard-box .panel-title{
+        cursor: move;
+    }
+
     .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
         padding-left: 5px;
         padding-right: 5px;
@@ -197,6 +201,12 @@
 </php>
 <script>
 
+    $('.dashboard-box').each(function () {
+        var $this = $(this);
+        if ($(this).children().length === 0) {
+            $this.parents('.grid-item').remove();
+        }
+    });
     Wind.css('dragula');
     Wind.use('masonry', 'imagesloaded', 'dragula', function () {
         var $homeGrid = $('.home-grid').masonry({
@@ -224,7 +234,10 @@
                 return false; // only elements in drake.containers will be taken into account
             },
             moves: function (el, source, handle, sibling) {
-                return true; // elements are always draggable by default
+                if($(handle).is('.panel-title')){
+                    return true;
+                }
+                return false; // elements are always draggable by default
             },
             accepts: function (el, target, source, sibling) {
                 return true; // elements can be dropped in any of the `containers` by default
@@ -301,7 +314,6 @@
         type: 'get',
         dataType: 'json',
         success: function (data) {
-            console.log(data);
             if (data.code == 1) {
                 var $wrap = $('<ul class="list-inline"></ul>')
                 $.each(data.data.main_contributors, function (i, item) {
