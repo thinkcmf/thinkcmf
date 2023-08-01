@@ -47,7 +47,7 @@ class HookController extends AdminBaseController
      * 钩子插件管理
      * @adminMenu(
      *     'name'   => '钩子插件管理',
-     *     'parent' => 'index',
+     *     'parent' => 'admin/Plugin/default',
      *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
@@ -75,7 +75,7 @@ class HookController extends AdminBaseController
      * 钩子插件排序
      * @adminMenu(
      *     'name'   => '钩子插件排序',
-     *     'parent' => 'index',
+     *     'parent' => 'plugins',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
@@ -96,7 +96,7 @@ class HookController extends AdminBaseController
      * 同步钩子
      * @adminMenu(
      *     'name'   => '同步钩子',
-     *     'parent' => 'index',
+     *     'parent' => 'admin/Dev/index',
      *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,

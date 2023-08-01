@@ -116,7 +116,7 @@ class AdminUserActionController extends AdminBaseController
      * 同步用户操作
      * @adminMenu(
      *     'name'   => '同步用户操作',
-     *     'parent' => 'index',
+     *     'parent' => 'admin/Dev/index',
      *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
