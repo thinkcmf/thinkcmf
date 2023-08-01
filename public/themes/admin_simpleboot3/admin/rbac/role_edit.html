@@ -15,6 +15,14 @@
             </div>
         </div>
         <div class="form-group">
+            <label for="input-name" class="col-sm-2 control-label"><span class="form-required">*</span>类型</label>
+            <div class="col-md-6 col-sm-10">
+                <select class="form-control" name="type">
+                    <option value="admin">管理员</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
             <label for="input-remark" class="col-sm-2 control-label">{:lang('ROLE_DESCRIPTION')}</label>
             <div class="col-md-6 col-sm-10">
                 <textarea type="text" class="form-control" id="input-remark" name="remark">{$data.remark}</textarea>
