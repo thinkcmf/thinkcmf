@@ -11,6 +11,7 @@
             <tr>
                 <th>{:lang('NAME')}</th>
                 <th>{:lang('Type')}</th>
+                <th>执行插件</th>
                 <th>{:lang('Description')}</th>
                 <th width="150">{:lang('ACTIONS')}</th>
             </tr>
@@ -20,6 +21,7 @@
                 <tr>
                     <td><b>{$vo.name}</b>:<span class="label label-success">{$vo.hook}</span></td>
                     <td>{$types[$vo.type]}</td>
+                    <td>{$vo.once?'首个插件':'多个插件'}</td>
                     <td>{$vo.description}</td>
                     <td>
                         <a class="btn btn-xs btn-primary"
