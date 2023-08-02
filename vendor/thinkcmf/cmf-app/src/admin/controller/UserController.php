@@ -22,6 +22,15 @@ use think\Validate;
 /**
  * Class UserController
  * @package app\admin\controller
+ * @adminMenuRoot(
+ *     'name'   => '管理组',
+ *     'action' => 'default',
+ *     'parent' => 'user/AdminIndex/default',
+ *     'display'=> false,
+ *     'order'  => 10000,
+ *     'icon'   => '',
+ *     'remark' => '管理组'
+ * )
  */
 class UserController extends AdminBaseController
 {

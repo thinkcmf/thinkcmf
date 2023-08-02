@@ -9,7 +9,6 @@
 namespace api\portal\controller;
 
 use cmf\controller\RestBaseController;
-use OpenApi\Annotations as OA;
 
 class IndexController extends RestBaseController
 {

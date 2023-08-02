@@ -23,7 +23,7 @@ class PublicController extends RestBaseController
      *     tags={"admin"},
      *     path="/admin/public/login",
      *     summary="后台管理员登录",
-     *     description="后台管理员登录",
+     *     description="后台管理员登录(请先使用原来登录页面登录，登录获取token后再使用后台API)",
      *     @OA\RequestBody(
      *         description="请求参数",
      *         @OA\MediaType(
@@ -45,6 +45,7 @@ class PublicController extends RestBaseController
      */
     public function login()
     {
+        $this->error('请先使用原来登录页面登录，登录获取token 后再使用后台API');
         // TODO 增加最后登录信息记录,如 ip
         $validate = new \think\Validate();
         $validate->rule([

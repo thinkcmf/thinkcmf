@@ -29,6 +29,15 @@ use think\db\Query;
  *     'remark' =>'用户管理'
  * )
  *
+ * @adminMenuRoot(
+ *     'name'   =>'用户组',
+ *     'action' =>'default1',
+ *     'parent' =>'user/AdminIndex/default',
+ *     'display'=> false,
+ *     'order'  => 10000,
+ *     'icon'   =>'',
+ *     'remark' =>'用户组'
+ * )
  */
 class AdminIndexController extends AdminBaseController
 {
