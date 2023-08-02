@@ -112,17 +112,17 @@
     }
 
     .grid-item {
-        margin-bottom: 5px;
+        margin-bottom: 6px;
         padding: 5px;
     }
 
-    .home-grid .dashboard-box .panel-title{
+    .home-grid .dashboard-box .panel-title {
         cursor: move;
     }
 
     .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
-        padding-left: 5px;
-        padding-right: 5px;
+        padding-left: 8px;
+        padding-right: 8px;
         float: none;
     }
 
@@ -178,17 +178,16 @@
         <div class="grid-sizer"></div>
         <foreach name="dashboard_widgets" item="vo">
             <if condition="$vo.is_system">
-                <div class="grid-item col-md-12" data-system="1" data-widget="{$vo.name}">
+                <div class="grid-item col-md-6" data-system="1" data-widget="{$vo.name}" data-width="6">
                     <div class="dashboard-box">{:_get_system_widget($vo.name)}</div>
                 </div>
                 <else/>
                 <present name="dashboard_widget_plugins[$vo['name']]">
                     <div class="grid-item col-md-{$dashboard_widget_plugins[$vo['name']]['width']}" data-system="0"
-                         data-widget="{$vo.name}">
+                         data-widget="{$vo.name}" data-width="{$dashboard_widget_plugins[$vo['name']]['width']}">
                         <div class="dashboard-box">{$dashboard_widget_plugins[$vo.name]['view']}</div>
                     </div>
                 </present>
-
             </if>
 
         </foreach>
@@ -207,9 +206,12 @@
             $this.parents('.grid-item').remove();
         }
     });
+    var $homeGrid = null;
     Wind.css('dragula');
     Wind.use('masonry', 'imagesloaded', 'dragula', function () {
-        var $homeGrid = $('.home-grid').masonry({
+        $homeGrid = $('.home-grid').masonry({
+            // gutter: 10,
+            // fitWidth:true,
             // set itemSelector so .grid-sizer is not used in layout
             itemSelector: '.grid-item',
             // use element for option
@@ -222,6 +224,41 @@
         $homeGrid.masonry('on', 'layoutComplete', function (event, laidOutItems) {
         });
 
+        $.ajax({
+            url: "//www.thinkcmf.com/service/team.php?lang={$lang_set}&v={$thinkcmf_version}",
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 1) {
+                    var $wrap = $('<ul class="list-inline"></ul>')
+                    $.each(data.data.main_contributors, function (i, item) {
+                        if (item.url) {
+                            $wrap.append('<li><a href="' + item.url + '" target="_blank">' + item.name + '</a></li>')
+                        } else {
+                            $wrap.append('<li>' + item.name + '</li>')
+                        }
+                    });
+                    $('.main_contributors').html($wrap);
+
+                    $wrap = $('<ul class="list-inline"></ul>');
+                    $.each(data.data.contributors, function (i, item) {
+                        if (item.url) {
+                            $wrap.append('<li><a href="' + item.url + '" target="_blank">' + item.name + '</a></li>')
+                        } else {
+                            $wrap.append('<li>' + item.name + '</li>')
+                        }
+                    });
+                    $('.contributors').html($wrap);
+                    $homeGrid.masonry();
+                }
+            },
+            error: function () {
+
+            },
+            complete: function () {
+
+            }
+        });
 
         $homeGrid.masonry();
 
@@ -234,7 +271,7 @@
                 return false; // only elements in drake.containers will be taken into account
             },
             moves: function (el, source, handle, sibling) {
-                if($(handle).is('.panel-title')){
+                if ($(handle).is('.panel-title')) {
                     return true;
                 }
                 return false; // elements are always draggable by default
@@ -293,7 +330,7 @@
         });
 
         $.ajax({
-            url: "{:url('main/dashboardWidget')}",
+            url: "{:url('Main/dashboardWidget')}",
             type: 'post',
             dataType: 'json',
             data: {widgets: widgets},
@@ -308,41 +345,6 @@
             }
         });
     }
-
-    $.ajax({
-        url: "//www.thinkcmf.com/service/team.php?lang={$lang_set}&v={$thinkcmf_version}",
-        type: 'get',
-        dataType: 'json',
-        success: function (data) {
-            if (data.code == 1) {
-                var $wrap = $('<ul class="list-inline"></ul>')
-                $.each(data.data.main_contributors, function (i, item) {
-                    if (item.url) {
-                        $wrap.append('<li><a href="' + item.url + '" target="_blank">' + item.name + '</a></li>')
-                    } else {
-                        $wrap.append('<li>' + item.name + '</li>')
-                    }
-                });
-                $('.main_contributors').html($wrap);
-
-                $wrap = $('<ul class="list-inline"></ul>');
-                $.each(data.data.contributors, function (i, item) {
-                    if (item.url) {
-                        $wrap.append('<li><a href="' + item.url + '" target="_blank">' + item.name + '</a></li>')
-                    } else {
-                        $wrap.append('<li>' + item.name + '</li>')
-                    }
-                });
-                $('.contributors').html($wrap);
-            }
-        },
-        error: function () {
-
-        },
-        complete: function () {
-
-        }
-    });
 
     //获取官方通知
     $.getJSON("//www.thinkcmf.com/service/sms_jsonp.php?lang={$lang_set}&v={$thinkcmf_version}&callback=?",

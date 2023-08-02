@@ -75,7 +75,7 @@ class SystemInfoPlugin extends Plugin
         $this->assign('server_info', $info);
 
         return [
-            'width'  => 12,
+            'width'  => 6,
             'view'   => $this->fetch('widget'),
             'plugin' => 'SystemInfo'
         ];
