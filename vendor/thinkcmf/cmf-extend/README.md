@@ -2,6 +2,9 @@
 ThinkCMF old extend classes
 
 ## 更新日志
+### v5.1.5
+* 修复tree若干bug
+
 ### v5.1.4
 * 修复tree若干bug
 

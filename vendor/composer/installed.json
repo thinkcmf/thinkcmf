@@ -1030,20 +1030,20 @@
         },
         {
             "name": "thinkcmf/cmf-extend",
-            "version": "v5.1.4",
-            "version_normalized": "5.1.4.0",
+            "version": "v5.1.5",
+            "version_normalized": "5.1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-extend.git",
-                "reference": "439590e44404902116065f35ede16928a534ae29"
+                "reference": "bd4c7077792089cf573d0332e9e8a73a68135aab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-extend/zipball/439590e44404902116065f35ede16928a534ae29",
-                "reference": "439590e44404902116065f35ede16928a534ae29",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-extend/zipball/bd4c7077792089cf573d0332e9e8a73a68135aab",
+                "reference": "bd4c7077792089cf573d0332e9e8a73a68135aab",
                 "shasum": ""
             },
-            "time": "2022-07-08T15:30:42+00:00",
+            "time": "2023-08-02T17:30:54+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1067,7 +1067,7 @@
             "description": "The ThinkCMF extend Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-extend/issues",
-                "source": "https://github.com/thinkcmf/cmf-extend/tree/v5.1.4"
+                "source": "https://github.com/thinkcmf/cmf-extend/tree/v5.1.5"
             },
             "install-path": "../thinkcmf/cmf-extend"
         },
@@ -1114,17 +1114,17 @@
         },
         {
             "name": "thinkcmf/cmf-root",
-            "version": "v1.0.11",
-            "version_normalized": "1.0.11.0",
+            "version": "v1.0.13",
+            "version_normalized": "1.0.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-root.git",
-                "reference": "6f474513b6c4433ca3eb46396c485dbe1085bc39"
+                "reference": "356850d2c597ef95e17c4cfa6bea701a402bb977"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-root/zipball/6f474513b6c4433ca3eb46396c485dbe1085bc39",
-                "reference": "6f474513b6c4433ca3eb46396c485dbe1085bc39",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-root/zipball/356850d2c597ef95e17c4cfa6bea701a402bb977",
+                "reference": "356850d2c597ef95e17c4cfa6bea701a402bb977",
                 "shasum": ""
             },
             "require": {
@@ -1133,7 +1133,7 @@
             "require-dev": {
                 "composer/composer": "^1.0||^2.0"
             },
-            "time": "2023-02-28T15:52:29+00:00",
+            "time": "2023-08-02T17:27:50+00:00",
             "type": "composer-plugin",
             "extra": {
                 "class": "cmf\\composer\\RootDirPlugin"
@@ -1157,7 +1157,7 @@
             "description": "The files in ThinkCMF root dir",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-root/issues",
-                "source": "https://github.com/thinkcmf/cmf-root/tree/v1.0.11"
+                "source": "https://github.com/thinkcmf/cmf-root/tree/v1.0.13"
             },
             "install-path": "../thinkcmf/cmf-root"
         },
