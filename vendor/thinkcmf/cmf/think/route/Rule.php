@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think\route;
 
@@ -67,7 +67,7 @@ abstract class Rule
      * 请求类型
      * @var string
      */
-    protected $method;
+    protected $method = '*';
 
     /**
      * 路由变量
@@ -98,7 +98,7 @@ abstract class Rule
     /**
      * 设置路由参数
      * @access public
-     * @param array $option 参数
+     * @param  array $option 参数
      * @return $this
      */
     public function option(array $option)
@@ -337,6 +337,17 @@ abstract class Rule
     }
 
     /**
+     * 是否区分大小写
+     * @access public
+     * @param  bool $case 是否区分
+     * @return $this
+     */
+    public function caseUrl(bool $case)
+    {
+        return $this->setOption('case_sensitive', $case);
+    }
+
+    /**
      * 设置参数过滤检查
      * @access public
      * @param  array $filter 参数过滤
@@ -357,7 +368,7 @@ abstract class Rule
      * @param  bool                  $exception 是否抛出异常
      * @return $this
      */
-    public function model($var, $model = null, bool $exception = true)
+    public function model(array|string|Closure $var, string|Closure $model = null, bool $exception = true)
     {
         if ($var instanceof Closure) {
             $this->option['model'][] = $var;
@@ -408,7 +419,7 @@ abstract class Rule
      * @param mixed $params 参数
      * @return $this
      */
-    public function middleware($middleware, ...$params)
+    public function middleware(string|array|Closure $middleware, ...$params)
     {
         if (empty($params) && is_array($middleware)) {
             $this->option['middleware'] = $middleware;
@@ -449,7 +460,7 @@ abstract class Rule
      * @param  array|string $cache 缓存
      * @return $this
      */
-    public function cache($cache)
+    public function cache(array|string $cache)
     {
         return $this->middleware(CheckRequestCache::class, $cache);
     }
@@ -533,6 +544,17 @@ abstract class Rule
     }
 
     /**
+     * 通过闭包检查路由是否匹配
+     * @access public
+     * @param  callable $match 闭包
+     * @return $this
+     */
+    public function match(callable $match)
+    {
+        return $this->setOption('match', $match);
+    }
+
+    /**
      * 设置路由完整匹配
      * @access public
      * @param  bool $match 是否完整匹配
@@ -561,14 +583,7 @@ abstract class Rule
      */
     public function crossDomainRule()
     {
-        if ($this instanceof RuleGroup) {
-            $method = '*';
-        } else {
-            $method = $this->method;
-        }
-
-        $this->router->setCrossDomainRule($this, $method);
-
+        $this->router->setCrossDomainRule($this);
         return $this;
     }
 
@@ -593,7 +608,7 @@ abstract class Rule
         // 替换路由地址中的变量
         $extraParams = true;
         $search      = $replace      = [];
-        $depr        = $this->router->config('pathinfo_depr');
+        $depr        = $this->config('pathinfo_depr');
         foreach ($matches as $key => $value) {
             $search[]  = '<' . $key . '>';
             $replace[] = $value;
@@ -601,7 +616,7 @@ abstract class Rule
             $search[]  = ':' . $key;
             $replace[] = $value;
 
-            if (strpos($value, $depr)) {
+            if (str_contains($value, $depr)) {
                 $extraParams = false;
             }
         }
@@ -638,7 +653,7 @@ abstract class Rule
         } elseif ($route instanceof Closure) {
             // 执行闭包
             $result = new CallbackDispatch($request, $this, $route, $this->vars);
-        } elseif (false !== strpos($route, '@') || false !== strpos($route, '::') || false !== strpos($route, '\\')) {
+        } elseif (str_contains($route, '@') || str_contains($route, '::') || str_contains($route, '\\')) {
             // 路由到类的方法
             $route  = str_replace('::', '@', $route);
             $result = $this->dispatchMethod($request, $route);
@@ -662,7 +677,7 @@ abstract class Rule
         $path = $this->parseUrlPath($route);
 
         $route  = str_replace('/', '@', implode('/', $path));
-        $method = strpos($route, '@') ? explode('@', $route) : $route;
+        $method = str_contains($route, '@') ? explode('@', $route) : $route;
 
         $params = $this->vars;
         if (!empty($method[1])) {
@@ -706,6 +721,13 @@ abstract class Rule
      */
     protected function checkOption(array $option, Request $request): bool
     {
+        // 检查当前路由是否匹配
+        if (isset($option['match']) && is_callable($option['match'])) {
+            if (false === $option['match']($this, $request)) {
+                return false;
+            }
+        }
+
         // 请求类型检测
         if (!empty($option['method'])) {
             if (is_string($option['method']) && false === stripos($option['method'], $request->method())) {
@@ -736,14 +758,15 @@ abstract class Rule
 
         // HTTPS检查
         if ((isset($option['https']) && $option['https'] && !$request->isSsl())
-            || (isset($option['https']) && !$option['https'] && $request->isSsl())) {
+            || (isset($option['https']) && !$option['https'] && $request->isSsl())
+        ) {
             return false;
         }
 
         // 请求参数检查
         if (isset($option['filter'])) {
             foreach ($option['filter'] as $name => $value) {
-                if ($request->param($name, '', null) != $value) {
+                if ($request->param($name, '') != $value) {
                     return false;
                 }
             }
@@ -780,7 +803,7 @@ abstract class Rule
         $url = str_replace('|', '/', $url);
         $url = trim($url, '/');
 
-        if (strpos($url, '/')) {
+        if (str_contains($url, '/')) {
             // [控制器/操作]
             $path = explode('/', $url);
         } else {
@@ -815,7 +838,7 @@ abstract class Rule
         if ('/' != $rule) {
             if (!empty($option['remove_slash'])) {
                 $rule = rtrim($rule, '/');
-            } elseif (substr($rule, -1) == '/') {
+            } elseif (str_ends_with($rule, '/')) {
                 $rule     = rtrim($rule, '/');
                 $hasSlash = true;
             }
@@ -856,20 +879,20 @@ abstract class Rule
             return '';
         }
 
-        if (strpos($name, '?')) {
+        if (str_contains($name, '?')) {
             $name     = substr($name, 1, -2);
             $optional = '?';
-        } elseif (strpos($name, '>')) {
+        } elseif (str_contains($name, '>')) {
             $name = substr($name, 1, -1);
         }
 
         if (isset($pattern[$name])) {
             $nameRule = $pattern[$name];
-            if (0 === strpos($nameRule, '/') && '/' == substr($nameRule, -1)) {
+            if (str_starts_with($nameRule, '/') && str_ends_with($nameRule, '/')) {
                 $nameRule = substr($nameRule, 1, -1);
             }
         } else {
-            $nameRule = $this->router->config('default_route_pattern');
+            $nameRule = $this->config('default_route_pattern');
         }
 
         return '(' . $prefix . '(?<' . $name . $suffix . '>' . $nameRule . '))' . $optional;
