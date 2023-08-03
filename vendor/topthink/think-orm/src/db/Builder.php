@@ -783,6 +783,9 @@ abstract class Builder
             if (false === strpos($value, ',')) {
                 return $key . ('IN' == $exp ? ' = ' : ' <> ') . $value;
             }
+
+            $value = implode(',', $array);
+            
         }
 
         return $key . ' ' . $exp . ' (' . $value . ')';
