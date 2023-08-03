@@ -1,0 +1,67 @@
+<include file="public@header"/>
+<style>
+    .dev-menu-wrap{
+        margin-bottom: 15px;
+    }
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('Dev/index')}">开发面板</a></li>
+    </ul>
+
+    <div class="margin-top-20">
+        <div class="row">
+            <div class="col-md-3 dev-menu-wrap">
+                <a href="javascript:parent.openapp('{:url('Menu/index')}','dev_menu_index','后台菜单')" class="btn btn-primary btn-block">{:lang('ADMIN_MENU_INDEX')}</a>
+            </div>
+            <div class="col-md-3 dev-menu-wrap">
+                <a href="{:url('user/AdminUserAction/sync')}" class="btn btn-success btn-block">{:lang('USER_ADMINUSERACTION_SYNC')}</a>
+            </div>
+            <div class="col-md-3 dev-menu-wrap">
+                <a href="javascript:parent.openapp('{:url('admin/Hook/index')}','dev_hook_index','{:lang('ADMIN_HOOK_INDEX')}')" class="btn btn-info btn-block">{:lang('ADMIN_HOOK_INDEX')}</a>
+            </div>
+            <div class="col-md-3 dev-menu-wrap">
+                <a href="{:url('admin/Hook/sync')}" class="btn btn-default btn-block">{:lang('ADMIN_HOOK_SYNC')}</a>
+            </div>
+
+            <php>
+                $sub_menus=\app\admin\service\DevService::devMenus();
+                $default_menus = [
+                'admin/Menu/index'          => ['app' => 'admin', 'controller' => 'Menu', 'action' => 'index'],
+                'user/AdminUserAction/sync' => ['app' => 'user', 'controller' => 'AdminUserAction', 'action' => 'sync'],
+                'admin/Hook/index'          => ['app' => 'admin', 'controller' => 'Hook', 'action' => 'index'],
+                'admin/Hook/sync'           => ['app' => 'admin', 'controller' => 'Hook', 'action' => 'sync'],
+                ];
+            </php>
+            <foreach name="sub_menus" item="sub_menu">
+                <php>
+                    $url=$sub_menu['app'].'/'.$sub_menu['controller'].'/'.$sub_menu['action'];
+                    if(isset($default_menus[$url])){continue;}
+                </php>
+                <div class="col-md-3 dev-menu-wrap">
+                    <php>
+                        if (strpos($sub_menu['app'], 'plugin/') === 0) {
+                            $pluginName = str_replace('plugin/', '', $sub_menu['app']);
+                            $url        = cmf_plugin_url($pluginName . "://".$sub_menu['controller'].'/'.$sub_menu['action']);
+                        }else{
+                            $url=url($url);
+                        }
+
+                        $lang_key=strtoupper($sub_menu['app']).'_'.strtoupper($sub_menu['controller']).'_'.strtoupper($sub_menu['action']);
+                        $menu_lang_name=lang($lang_key);
+                        $menu_name=$menu_lang_name===$lang_key?$sub_menu['name']:$menu_lang_name;
+                    </php>
+                    <a href="javascript:parent.openapp('{$url}','{$sub_menu.id}admin','{$menu_name}')" class="btn btn-default btn-block">{$menu_name}</a>
+                </div>
+            </foreach>
+        </div>
+
+
+    </div>
+
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

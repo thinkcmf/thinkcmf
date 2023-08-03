@@ -1,0 +1,147 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('Plugin/index')}">{:lang('ADMIN_PLUGIN_INDEX')}</a></li>
+        <if condition="class_exists('\app\admin\controller\AppStoreController')">
+            <li><a href="{:url('AppStore/plugins')}">{:lang('ADMIN_APPSTORE_PLUGINS')}</a></li>
+        </if>
+        <li>
+            <a href="http://www.thinkcmf.com/faq.html?url=https://www.kancloud.cn/thinkcmf/faq/493510" target="_blank">插件离线安装<i
+                    class="fa fa-question-circle"></i></a>
+        </li>
+        <li><a href="http://www.thinkcmf.com/topic/index/index/cat/9.html" target="_blank">插件交流</a></li>
+        <li><a href="https://www.thinkcmf.com/docs/cmf6/#/%E6%8F%92%E4%BB%B6" target="_blank">插件文档</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20">
+        <php>
+            $status=array("1"=>'开启',"0"=>'禁用',"3"=>'未安装');
+        </php>
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>{:lang('Name')}</th>
+                <th>{:lang('Key')}</th>
+                <th>{:lang('Description')}</th>
+                <th>{:lang('Author')}</th>
+                <th>{:lang('Version')}</th>
+                <th width="60">{:lang('Status')}</th>
+                <th width="225">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="plugins" item="vo">
+                <tr>
+                    <td>{$vo.title}</td>
+                    <td><span class="label label-info">{$vo.name}</span></td>
+                    <td>{$vo.description}</td>
+                    <td>{$vo.author}</td>
+                    <td><span class="label label-success">{$vo.version}</span></td>
+                    <td>{$status[$vo['status']]}</td>
+                    <td>
+                        <if condition="$vo['status']==3">
+                            <a class="btn btn-xs btn-primary js-ajax-dialog-btn"
+                               href="{:url('Plugin/install',array('name'=>$vo['name']))}"
+                               data-msg="确定安装该插件吗？">{:lang('Install')}</a>
+                            <else/>
+                            <php>$config=json_decode($vo['config'],true);</php>
+                            <!-- Single button -->
+                            <span class="dropdown">
+                                <span class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown"
+                                      aria-haspopup="true" aria-expanded="false">
+                                    设置<span class="caret"></span>
+                                </span>
+                                <ul class="dropdown-menu">
+                                    <if condition="!empty($config)">
+                                        <empty name="config.custom_config">
+                                            <li>
+                                                <a data-href="{:url('Plugin/setting',array('id'=>$vo['id']))}"
+                                                   href="javascript:;" onclick="openPluginSettingDialog(this)"><i class="fa fa-cog fa-fw"></i> 插件设置</a>
+                                            </li>
+                                            <else/>
+                                            <li>
+                                                <a data-href="{:cmf_plugin_url($vo['name'].'://AdminIndex/setting')}"
+                                                   href="javascript:;" onclick="openPluginSettingDialog(this)"><i class="fa fa-cog fa-fw"></i> 插件设置</a>
+                                            </li>
+                                        </empty>
+                                    </if>
+                                    <li>
+                                        <a data-href="{:url('admin/Plugin/hooks',['id'=>$vo.id])}"
+                                           href="javascript:;" onclick="openPluginHooksDialog(this)"><i class="fa fa-list-ol fa-fw"></i> 执行顺序</a>
+                                    </li>
+                                </ul>
+                            </span>
+
+                            <if condition="!empty($vo['has_admin'])">
+                                <a class="btn btn-xs btn-info"
+                                   href="javascript:parent.openapp('{:cmf_plugin_url($vo['name'].'://AdminIndex/index')}','plugin_{$vo.name}','{$vo.title}')">管理</a>
+                                <else/>
+                                <a class="btn btn-xs btn-info disabled" href="javascript:;">管理</a>
+                            </if>
+
+                            <a class="btn btn-xs btn-success js-ajax-dialog-btn"
+                               href="{:url('Plugin/update',array('name'=>$vo['name']))}"
+                               data-msg="确定更新该插件吗？">{:lang('Update')}</a>
+
+                            <if condition="$vo['status']==0">
+                                <a class="btn btn-xs btn-success js-ajax-dialog-btn"
+                                   href="{:url('Plugin/toggle',array('id'=>$vo['id'],'enable'=>1))}"
+                                   data-msg="确定启用该插件吗？">{:lang('Enable')}</a>
+                                <else/>
+                                <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
+                                   href="{:url('Plugin/toggle',array('id'=>$vo['id'],'disable'=>1))}"
+                                   data-msg="确定禁用该插件吗？">{:lang('Disable')}</a>
+                            </if>
+
+                            <a class="btn btn-xs btn-danger js-ajax-dialog-btn"
+                               href="{:url('Plugin/uninstall',array('id'=>$vo['id']))}"
+                               data-msg="确定卸载该插件吗？">{:lang('Uninstall')}</a>
+                        </if>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+    function openPluginSettingDialog(obj) {
+        var $obj = $(obj);
+        var href = $obj.data('href');
+        parent.openIframeLayer(href, '插件设置', {
+            area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '95%'],
+            offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
+            // btn: ['确定', '取消'],
+            yes: function (index, layero) {
+                console.log(layero);
+                var iframeWin = parent.window[layero.find('iframe')[0]['name']];
+                //iframeWin.confirm();
+                parent.layer.close(index); //如果设定了yes回调，需进行手工关闭
+            },
+            end: function () {
+            }
+        });
+    }
+
+    function openPluginHooksDialog(obj) {
+        var $obj = $(obj);
+        var href = $obj.data('href');
+        parent.openIframeLayer(href, '插件钩子', {
+            area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '95%'],
+            offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
+            // btn: ['确定', '取消'],
+            yes: function (index, layero) {
+                console.log(layero);
+                var iframeWin = parent.window[layero.find('iframe')[0]['name']];
+                //iframeWin.confirm();
+                parent.layer.close(index); //如果设定了yes回调，需进行手工关闭
+            },
+            end: function () {
+            }
+        });
+    }
+</script>
+</body>
+</html>

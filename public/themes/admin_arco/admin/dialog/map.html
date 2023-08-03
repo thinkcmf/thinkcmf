@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <style type="text/css">
+        body, html, #allmap {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        #suggestId {
+            position: absolute;
+            z-index: 9999;
+            right: 20px;
+            top: 20px;
+            line-height: 32px;
+            padding: 0 10px;
+            width: 300px;
+            border: 1px solid #e4e6e7;
+
+        }
+
+        #suggestId:focus {
+            outline: none;
+        }
+    </style>
+    <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=KxkuAcGBup6sD1XxaDW85KBG"></script>
+    <title>点击地图获取当前经纬度</title>
+</head>
+<body>
+<input id="lng_input" type="hidden" value="{$lng}"/>
+<input id="lat_input" type="hidden" value="{$lat}"/>
+<input id="address_input" type="hidden"/>
+<input id="city_input" type="hidden"/>
+<input id="province_input" type="hidden"/>
+<input id="district_input" type="hidden"/>
+
+<input id="suggestId" type="text" placeholder="请输入地址"/>
+<div>百度地图商业使用需要商业授权，如果您商业使用联系开发者或百度地图咨询授权问题，也可删除此页面！</div>
+<div id="allmap"></div>
+<script type="text/javascript">
+
+    // 百度地图API功能
+    var center = new BMap.Point({$lng}, {$lat});
+
+    var map = new BMap.Map("allmap");
+    map.centerAndZoom(new BMap.Point(116.404, 39.915), 8);
+    map.enableScrollWheelZoom();    //启用滚轮放大缩小，默认禁用
+    map.enableContinuousZoom();
+
+    var map_ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+        {
+            "input": "suggestId",
+            "location": map
+        });
+
+    var marker = new BMap.Marker(center);  // 创建标注
+    map.addOverlay(marker);              // 将标注添加到地图中
+    marker.enableDragging();    //可拖拽
+    //marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+
+    map_ac.addEventListener("onconfirm", function (e) {    //鼠标点击下拉列表后的事件
+        var _value = e.item.value;
+
+        function myFun() {
+            var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+            map.centerAndZoom(pp, 8);
+            marker.setPosition(pp);
+            mgetLocation(pp);
+        }
+
+        myValue   = _value.province + _value.city + _value.district + _value.street + _value.business;
+        var local = new BMap.LocalSearch(map, { //智能搜索
+            onSearchComplete: myFun
+        });
+        local.search(myValue);
+    });
+
+
+    var opts       = {
+        width: 200,     // 信息窗口宽度
+        height: 30,     // 信息窗口高度
+        title: "", // 信息窗口标题
+        enableMessage: false,//设置允许信息窗发送短息
+
+    };
+    var infoWindow = new BMap.InfoWindow("{:lang('DRAG_MAP_TO_SET_LOCATION')}", opts);  // 创建信息窗口对象
+    marker.openInfoWindow(infoWindow);
+
+    var gc = new BMap.Geocoder();
+
+    function msetpoint(e) {
+        document.getElementById("lng_input").value = e.point.lng;
+        document.getElementById("lat_input").value = e.point.lat;
+        marker.setPosition(new BMap.Point(e.point.lng, e.point.lat));
+
+        mgetLocation(e.point);
+    }
+
+    function mgetLocation(point) {
+        document.getElementById("lng_input").value = point.lng;
+        document.getElementById("lat_input").value = point.lat;
+        gc.getLocation(point, function (rs) {
+            var addComp = rs.addressComponents;
+            marker.openInfoWindow(new BMap.InfoWindow(rs.address, opts));
+            document.getElementById("address_input").value  = rs.address;
+            document.getElementById("city_input").value     = addComp.city;
+            document.getElementById("province_input").value = addComp.province;
+            document.getElementById("district_input").value = addComp.district;
+            //alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+        });
+    }
+
+    marker.addEventListener("dragend", msetpoint);
+
+    map.addEventListener("click", msetpoint);
+
+
+    function tilesloaded() {
+        map.setCenter(center);   //设置地图中心点。center除了可以为坐标点以外，还支持城市名
+        mgetLocation(center);
+        // map.setZoom(8);  //将视图切换到指定的缩放等级，中心点坐标不变
+        map.removeEventListener("tilesloaded", tilesloaded);
+    }
+
+    map.addEventListener("tilesloaded", tilesloaded);
+
+
+    function confirm() {
+        var data      = {};
+        data.lng      = document.getElementById("lng_input").value;
+        data.lat      = document.getElementById("lat_input").value;
+        data.address  = document.getElementById("address_input").value;
+        data.city     = document.getElementById("city_input").value;
+        data.province = document.getElementById("province_input").value;
+        data.district = document.getElementById("district_input").value;
+
+        return data;
+    }
+</script>
+
+</body>
+</html>

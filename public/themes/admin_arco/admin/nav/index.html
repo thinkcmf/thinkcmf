@@ -1,0 +1,51 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('Nav/index')}">{:lang('ADMIN_NAV_INDEX')}</a></li>
+        <li><a href="{:url('Nav/add')}">{:lang('ADMIN_NAV_ADD')}</a></li>
+    </ul>
+    <form action="{:url('Rbac/listorders')}" method="post" class="margin-top-20">
+        <php> $is_main=array("1"=>lang('YES'),"0"=>lang('NO'));</php>
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="40">ID</th>
+                <th>{:lang('Name')}</th>
+                <th width="80">{:lang('Main Navigation')}</th>
+                <th>{:lang('Description')}</th>
+                <th width="160">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="navs" item="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.name}</td>
+                    <td>
+                        <empty name="vo.is_main">
+                            <span class="label label-default">
+                                {$is_main[$vo.is_main]}
+                            </span>
+                            <else/>
+                            <span class="label label-success">
+                                {$is_main[$vo.is_main]}
+                            </span>
+                        </empty>
+                    </td>
+                    <td>{$vo.remark}</td>
+                    <td>
+                        <a class="btn btn-xs btn-primary" href="javascript:parent.openIframeLayer('{:url('NavMenu/index',array('nav_id'=>$vo['id']))}','{$vo.name} {:lang('Sub Navigations')}',{});">{:lang('Sub Navigations')}</a>
+                        <a class="btn btn-xs btn-success"  href="{:url('Nav/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                        <a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('Nav/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

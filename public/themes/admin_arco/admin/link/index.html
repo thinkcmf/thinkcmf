@@ -1,0 +1,92 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('Link/index')}">{:lang('ADMIN_LINK_INDEX')}</a></li>
+        <li><a href="{:url('Link/add')}">{:lang('ADMIN_LINK_ADD')}</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20" action="{:url('Link/listOrder')}">
+        <div class="table-actions">
+            <button class="btn btn-sm btn-primary js-ajax-submit" type="submit">{:lang('SORT')}</button>
+            <button class="btn btn-sm btn-success js-ajax-submit" type="submit"
+                    data-action="{:url('Link/toggle',array('display'=>1))}" data-subcheck="true">{:lang('DISPLAY')}
+            </button>
+            <button class="btn btn-sm btn-danger js-ajax-submit" type="submit"
+                    data-action="{:url('Link/toggle',array('hide'=>1))}" data-subcheck="true">{:lang('HIDE')}
+            </button>
+        </div>
+        <php>$status=array("1"=>lang('DISPLAY'),"0"=>lang('HIDDEN'));</php>
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th width="16"><label><input type="checkbox" class="js-check-all" data-direction="x"
+                                             data-checklist="js-check-x"></label></th>
+                <th width="50">{:lang('SORT')}</th>
+                <th width="50">ID</th>
+                <th>{:lang('NAME')}</th>
+                <th>{:lang('Url')}</th>
+                <th width="50">{:lang('STATUS')}</th>
+                <th width="120">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="links" item="vo">
+                <tr>
+                    <td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]"
+                               value="{$vo.id}"></td>
+                    <td><input name='list_orders[{$vo.id}]' class="input input-order mr5" type='text' size='3'
+                               value='{$vo.list_order}'></td>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.name}</td>
+                    <td><a href="{$vo.url}" target="_blank">{$vo.url}</a></td>
+                    <td>
+                        <empty name="vo.status">
+                            <span class="label label-default">
+                                {$status[$vo['status']]}
+                            </span>
+                            <else/>
+                            <span class="label label-success">
+                                {$status[$vo['status']]}
+                            </span>
+                        </empty>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-primary" href="{:url('Link/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                        <a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('Link/delete',array('id'=>$vo['id']))}">
+                            {:lang('DELETE')}
+                        </a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th width="16">
+                    <label>
+                        <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                    </label>
+                </th>
+                <th width="50">{:lang('SORT')}</th>
+                <th width="50">ID</th>
+                <th>{:lang('NAME')}</th>
+                <th>{:lang('Url')}</th>
+                <th width="50">{:lang('STATUS')}</th>
+                <th width="120">{:lang('ACTIONS')}</th>
+            </tr>
+            </tfoot>
+        </table>
+        <div class="table-actions">
+            <button class="btn btn-sm btn-primary js-ajax-submit" type="submit">{:lang('SORT')}</button>
+            <button class="btn btn-sm btn-success js-ajax-submit" type="submit"
+                    data-action="{:url('Link/toggle',array('display'=>1))}" data-subcheck="true">{:lang('DISPLAY')}
+            </button>
+            <button class="btn btn-sm btn-danger js-ajax-submit" type="submit"
+                    data-action="{:url('Link/toggle',array('hide'=>1))}" data-subcheck="true">{:lang('HIDE')}
+            </button>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

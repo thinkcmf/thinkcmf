@@ -1,0 +1,124 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">{:lang('ADMIN_NAVMENU_INDEX')}</a></li>
+        <li><a href="{:url('NavMenu/add',['nav_id'=>$nav_id])}">{:lang('ADMIN_NAVMENU_ADD')}</a>
+        </li>
+        <li class="active"><a>{:lang('ADMIN_NAVMENU_EDIT')}</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('NavMenu/editPost')}">
+        <fieldset>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{:lang('Parent')}</label>
+                <div class="col-md-8 col-sm-10">
+                    <select name="parent_id" class="form-control">
+                        <option value="0">/</option>
+                        {$nav_trees}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group form-inline">
+                <label class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('Url')}</label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="radio" id="external-link-radio">
+                    <input type="text" class="form-control" name="href" id="external-link-input">
+                    <input type="radio" id="select-href-radio">
+                    <select name="href" id="select-href" class="form-control">
+                        <option value="{:base64_encode('home')}" data-name="{:lang('HOME')}">{:lang('HOME')}</option>
+                        <foreach name="navs" item="vo">
+                            <optgroup label="{$vo.name}">
+                                {$vo.html}
+                            </optgroup>
+                        </foreach>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('Name')}</label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="text" class="form-control" name="name" id="name-input" value="{$name}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{:lang('Url Target')}</label>
+                <div class="col-md-8 col-sm-10">
+                    <select name="target" class="form-control">
+                        <option value="">{:lang('Default')}</option>
+                        <option {$target=='_blank'?'selected':''} value="_blank">_Blank</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{:lang('Icon')}</label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="text" class="form-control" name="icon" value="{$icon}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{:lang('Status')}</label>
+                <div class="col-md-8 col-sm-10">
+                    <select name="status" class="form-control">
+                        <option value="1">{:lang('DISPLAY')}</option>
+                        <php>$status_selected=empty($status)?"selected":"";</php>
+                        <option value="0" {$status_selected}>{:lang('HIDDEN')}</option>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="hidden" name="id" value="{$id}">
+            <input type="hidden" name="nav_id" value="{$nav_id}">
+            <button type="submit" class="btn btn-primary js-ajax-submit">{:lang("SAVE")}</button>
+            <a class="btn btn-default" href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">{:lang('BACK')}</a>
+        </div>
+    </form>
+
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+    $(function () {
+        $("#select-href,#select-href-radio").click(function () {
+            checkChange(2);
+        });
+
+        $("#select-href").change(function () {
+            var $this = $(this);
+            var label = $this.find("option[value='" + $this.val() + "']").data('name');
+            $('#name-input').val(label);
+        });
+
+        $("#external-link-input,#external-link-radio").click(function () {
+            checkChange(1);
+        });
+
+        var opt = $("#select-href option[value='" + '{$href}' + "']");
+        if (opt.length > 0) {
+            opt.prop('selected', true);
+            checkChange(2);
+        } else {
+            checkChange(1);
+            $('#external-link-input').val('{$href}');
+        }
+
+        function checkChange(i) {
+            if (i == 1) {
+                //自动输入url
+                $('#external-link-input').attr('name', 'external_href');
+                $('#select-href').removeAttr('name');
+                $('#select-href-radio').prop('checked', false);
+                $('#external-link-radio').prop('checked', true);
+            } else {
+                //选择链接url
+                $('#select-href').attr('name', 'href');
+                $('#external-link-input').removeAttr('name');
+                $('#select-href-radio').prop('checked', true);
+                $('#external-link-radio').prop('checked', false);
+            }
+        }
+    });
+</script>
+</body>
+</html>

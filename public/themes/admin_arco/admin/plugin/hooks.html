@@ -1,0 +1,38 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <form action="" method="post">
+        <php>
+            $types = ["1"=>'系统钩子','2'=>'应用钩子','3'=>'模板钩子','4'=>'后台模板钩子'];
+        </php>
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>{:lang('NAME')}</th>
+                <th>{:lang('Type')}</th>
+                <th>执行插件</th>
+                <th>{:lang('Description')}</th>
+                <th width="150">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="hooks" item="vo">
+                <tr>
+                    <td><b>{$vo.name}</b>:<span class="label label-success">{$vo.hook}</span></td>
+                    <td>{$types[$vo.type]}</td>
+                    <td>{$vo.once?'首个插件':'多个插件'}</td>
+                    <td>{$vo.description}</td>
+                    <td>
+                        <a class="btn btn-xs btn-primary"
+                           href="javascript:parent.openIframeLayer('{:url('Hook/plugins',['hook'=>$vo['hook']])}','钩子{$vo.name}插件管理',{});">设置执行顺序</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

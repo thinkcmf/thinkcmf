@@ -1,0 +1,282 @@
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script src="__TMPL__/public/assets/js/jquery-ui.min.js?v={$_static_version}"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script>
+
+    $(function () {
+    
+        $('.rich_text_content').each(function (i,item){
+            var editor = new baidu.editor.ui.Editor();
+            editor.render(item);
+            try {
+                editor.sync();
+            } catch (err) {
+            }
+        });
+        
+    });
+
+    $('.widgets-group').sortable({
+        connectWith: '.widgets-group',
+        items: "> li.widgets-group-item",
+        cursor: "move",
+        opacity: 0.8,
+        forcePlaceholderSize: true,
+        scrollSensitivity: 100,
+        scrollSpeed: 50,
+        tolerance: 'pointer',
+        stop: function (event, ui) {
+            console.log(ui.item.parent().html())
+            //$('.widgets-group').sortable('cancel')
+            var widgetIds = {};
+            $('.widgets-group').each(function () {
+                var blockName = $(this).data('block_name');
+                var fileId = 'file' + $(this).data('file_id');
+                $(this).find('li.widgets-group-item').each(function () {
+                    if (!widgetIds.hasOwnProperty(fileId)) {
+                        widgetIds[fileId] = {};
+                    }
+
+                    if (!widgetIds[fileId].hasOwnProperty(blockName)) {
+                        widgetIds[fileId][blockName] = [];
+                    }
+
+                    widgetIds[fileId][blockName].push({
+                        file_id: $(this).data('file_id'),
+                        widget_id: $(this).data('id')
+                    });
+                });
+
+            });
+
+            $.ajax({
+                url: "{:url('Theme/widgetsSort')}",
+                type: 'POST',
+                dataType: 'json',
+                data: widgetIds,
+                success: function (data) {
+                    parent.simulator.location.reload(true);
+                }
+            })
+            console.log(widgetIds);
+        },
+        over: function (event, ui) {
+            // ui.placeholder.addClass('ui-sortable-placeholder-disabled');
+        }
+    })
+
+    // $( "li", '.widgets-group' ).draggable({
+    //     // cancel: "a.ui-icon", // clicking an icon won't initiate dragging
+    //     revert: "invalid", // when not dropped, the item will revert back to its initial position
+    //     containment: "document",
+    //     cursor: "move"
+    // });
+
+    // $( '.widgets-group').droppable({
+    //     accept: ".widgets-group > li",
+    //     tolerance: 'pointer',
+    //     classes: {
+    //         "ui-droppable-active": "ui-state-active",
+    //         "ui-droppable-hover": "ui-state-hover"
+    //     },
+    //     drop: function( event, ui ) {
+    //         ui.draggable.appendTo($(this));
+    //     }
+    // });
+
+
+    Wind.use('colorpicker', function () {
+        $('.js-color').each(function () {
+            var $this = $(this);
+            $this.ColorPicker({
+                livePreview: true,
+                onChange: function (hsb, hex, rgb) {
+                    $this.val('#' + hex);
+                },
+                onBeforeShow: function () {
+                    $(this).ColorPickerSetColor(this.value);
+                }
+            });
+        });
+
+    });
+
+    function doSelectData(obj) {
+        var $obj = $(obj);
+        var $realInput = $obj.next();
+        var selectedObjectsId = $realInput.val();
+        var dataSource = $obj.data('source');
+        var title = $obj.data('title');
+        parent.openIframeLayer("{:url('Theme/dataSource')}?ids=" + selectedObjectsId + '&data_source=' + dataSource, title, {
+            area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '90%'],
+            offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
+            btn: ['确定', '取消'],
+            yes: function (index, layero) {
+                var iframeWin = parent.window[layero.find('iframe')[0]['name']];
+                var selectedObjects = iframeWin.confirm();
+                if (selectedObjects.selectedObjectsId.length == 0) {
+                    layer.msg('您没有选择任何数据!');
+                    return;
+                }
+                $realInput.val(selectedObjects.selectedObjectsId.join(','));
+                $obj.val(selectedObjects.selectedObjectsName.join(','));
+                parent.layer.close(index); //如果设定了yes回调，需进行手工关闭
+            }
+        });
+    }
+
+
+
+    function doEditArrayData(obj) {
+        var $obj = $(obj);
+        var mVar = $obj.data('var');
+        var title = $obj.data('title');
+        var widget = $obj.data('widget');
+        widget = widget ? '&widget=' + widget : '';
+        var fileId = $obj.data('file_id');
+        if (!fileId) {
+            fileId = '{$file_id}';
+        }
+
+        var blockName = "{$block_name|default=''}";
+        blockName = blockName ? '&block_name=' + blockName : '';
+        var widgetId = "{$widget_id|default=''}";
+        widgetId = widgetId ? '&widget_id=' + widgetId : '';
+
+        parent.openIframeLayer(
+            "{:url('Theme/fileArrayData')}?tab={$tab|default=''}&file_id=" + fileId + "&" + 'var=' + mVar + widget + blockName + widgetId,
+            title,
+            {
+                area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '90%'],
+                offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    var iframeWin = parent.window[layero.find('iframe')[0]['name']];
+                    var result = iframeWin.confirm();
+
+                    if (result) {
+                        parent.layer.close(index); //如果设定了yes回调，需进行手工关闭
+                    }
+                },
+                end: function () {
+                    window.location.reload();
+                }
+            }
+        );
+    }
+
+    function doWidgetSetting(obj) {
+        var $obj = $(obj);
+        var $widgetsBlock = $obj.parents('.widgets-group');
+        var $parent = $obj.parent();
+        var blockName = $widgetsBlock.data('block_name');
+        var widgetId = $parent.data('id');
+        var fileId = $widgetsBlock.data('file_id');
+        var title = $parent.data('title');
+
+        parent.openIframeLayer(
+            "{:url('Theme/widgetSetting')}?file_id=" + fileId + "&widget_id=" + widgetId + '&block_name=' + blockName,
+            title,
+            {
+                area: GV.IS_MOBILE ? ['100%', '100%'] : ['600px', '100%'],
+                offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
+                btn: ['保存', '取消'],
+                yes: function (index, layero) {
+                    var iframeWin = parent.window[layero.find('iframe')[0]['name']];
+                    var result = iframeWin.confirm();
+
+                    if (result) {
+                        parent.layer.close(index); //如果设定了yes回调，需进行手工关闭
+                    }
+
+                },
+                end: function () {
+                    parent.simulator.location.reload(true);
+                }
+            }
+        );
+    }
+
+    function doSelectLocation(obj) {
+        var $obj = $(obj);
+        var title = $obj.data('title');
+        var $realInput = $obj.next();
+        var location = $realInput.val();
+
+        parent.openIframeLayer(
+            "{:url('dialog/map')}?location=" + location,
+            title,
+            {
+                area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '90%'],
+                offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    var iframeWin = parent.window[layero.find('iframe')[0]['name']];
+                    var location = iframeWin.confirm();
+                    $realInput.val(location.lng + ',' + location.lat);
+                    $obj.val(location.address);
+                    parent.layer.close(index); //如果设定了yes回调，需进行手工关闭
+                }
+            }
+        );
+    }
+
+    /**
+     * 单个图片上传
+     * @param dialog_title 上传对话框标题
+     * @param input_selector 图片容器
+     * @param extra_params 额外参数，object
+     * @param app  应用名,CMF的应用名
+     */
+    function doUploadOneImage(dialog_title, input_selector, extra_params, app) {
+        parent.openUploadDialog(dialog_title, function (dialog, files) {
+            $(input_selector).val(files[0].filepath);
+            $(input_selector + '-preview').attr('src', files[0].preview_url);
+
+            $(input_selector + '-name').val(files[0].name);
+            $(input_selector + '-name-text').text(files[0].name);
+
+        }, extra_params, 0, 'image', app);
+    }
+
+    /**
+     * 单个文件上传
+     * @param dialog_title 上传对话框标题
+     * @param input_selector 图片容器
+     * @param filetype 文件类型，image,video,audio,file
+     * @param extra_params 额外参数，object
+     * @param app  应用名,CMF的应用名
+     */
+    function doUploadOne(dialog_title, input_selector, filetype, extra_params, app) {
+        filetype = filetype ? filetype : 'file';
+        parent.openUploadDialog(dialog_title, function (dialog, files) {
+            $(input_selector).val(files[0].filepath);
+            $(input_selector + '-preview').attr('href', files[0].preview_url);
+
+            $(input_selector + '-name').val(files[0].name);
+            $(input_selector + '-name-text').text(files[0].name);
+        }, extra_params, 0, filetype, app);
+    }
+
+    function confirm() {
+        $('#submit-btn').click();
+    }
+
+    function removeImage(wigetVarName) {
+        //需要定位input和image
+        //清空Input
+        $('#js-' + wigetVarName + '-input').val('');
+        //修改Image为原图。
+        var defaultImage = $('#js-' + wigetVarName + '-button-remove').attr('defaultImage');
+        $('#js-' + wigetVarName + '-input-preview').attr('src', defaultImage);
+        //移除自身
+        $('#js-' + wigetVarName + '-button-remove').remove();
+
+    }
+
+</script>

@@ -1,0 +1,66 @@
+<include file="plugin/functions"/>
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <form method="post" class="form-horizontal js-ajax-form" action="{:url('Plugin/settingPost')}">
+        <empty name="custom_config">
+            {:_parse_plugin_config($data['config'])}
+            <else/>
+            <present name="custom_config">
+                {$custom_config}
+            </present>
+        </empty>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="hidden" name="id" value="{$id}" readonly>
+                <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">{:lang('SAVE')}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+
+    Wind.use('colorpicker',function(){
+        $('.js-color').each(function () {
+            var $this=$(this);
+            $this.ColorPicker({
+                livePreview:true,
+                onChange: function(hsb, hex, rgb) {
+                    $this.val('#'+hex);
+                },
+                onBeforeShow: function () {
+                    $(this).ColorPickerSetColor(this.value);
+                }
+            });
+        });
+
+    });
+
+    function doSelectLocation(obj) {
+        var $obj       = $(obj);
+        var title      = $obj.data('title');
+        var $realInput = $obj;
+        var location   = $realInput.val();
+
+        parent.openIframeLayer(
+            "{:url('dialog/map')}?location=" + location,
+            title,
+            {
+                area: GV.IS_MOBILE ? ['100%', '100%'] : ['700px', '90%'],
+                offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    var iframeWin = parent.window[layero.find('iframe')[0]['name']];
+                    var location  = iframeWin.confirm();
+                    $realInput.val(location.lng + ',' + location.lat);
+                    //$obj.val(location.address);
+                    parent.layer.close(index); //如果设定了yes回调，需进行手工关闭
+                }
+            }
+        );
+    }
+</script>
+</body>
+</html>

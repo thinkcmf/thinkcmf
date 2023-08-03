@@ -1,0 +1,72 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_INDEX')}</a></li>
+        <li><a href="{:url('SlideItem/add',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_ADD')}</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20" action="{:url('SlideItem/listOrder')}">
+        <div class="table-actions">
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">{:lang('SORT')}</button>
+        </div>
+        <php>
+			$status = [lang('HIDDEN'), lang('DISPLAY')];
+			$target = [''=>'','_blank'=>'新窗口', '_self'=>'当前窗口', '_parent'=>'父窗口', '_top'=>'主窗口'];
+        </php>
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="50">{:lang('SORT')}</th>
+                <th width="50">ID</th>
+                <th>{:lang('Title')}</th>
+                <th>{:lang('Description')}</th>
+                <th>{:lang('Url')}</th>
+                <th>{:lang('Url Target')}</th>
+                <th>{:lang('Image')}</th>
+                <th>{:lang('Status')}</th>
+                <th width="160">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="result" item="vo">
+                <tr>
+                    <td>
+                        <input name="list_orders[{$vo.id}]" class="input-order" type="text" value="{$vo.list_order}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.title}</td>
+                    <td>{$description = mb_substr($vo['description'], 0, 48,'utf-8')}</td>
+                    <td>{$vo.url}</td>
+                    <td>{$target[$vo.target]}</td>
+                    <td>
+                        <if condition="!empty($vo['image'])">
+                            <a href="javascript:imagePreviewDialog('{:cmf_get_image_preview_url($vo.image)}');">
+                                <i class="fa fa-photo fa-fw"></i>
+                            </a>
+
+                        </if>
+                    </td>
+                    <td>{$status[$vo['status']]}</td>
+                    <td>
+                        <a class="btn btn-xs btn-primary" href="{:url('SlideItem/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                        <a href="{:url('SlideItem/delete',array('id'=>$vo['id']))}"
+                           class="btn btn-xs btn-danger js-ajax-delete">{:lang('DELETE')}</a>
+                        <if condition="empty($vo['status']) eq 1">
+                            <a href="{:url('SlideItem/cancelban',array('id'=>$vo['id']))}" class="btn btn-xs btn-warning js-ajax-dialog-btn"
+                               data-msg="确定显示此幻灯片吗？">{:lang('DISPLAY')}</a>
+                            <else/>
+                            <a href="{:url('SlideItem/ban',array('id'=>$vo['id']))}" class="btn btn-xs btn-warning js-ajax-dialog-btn"
+                               data-msg="确定隐藏此幻灯片吗？">{:lang('HIDE')}</a>
+                        </if>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

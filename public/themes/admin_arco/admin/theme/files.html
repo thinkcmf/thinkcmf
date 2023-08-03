@@ -1,0 +1,55 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <form method="post" class="js-ajax-form">
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th>文件名</th>
+                <th>操作名</th>
+                <th>文件路径</th>
+                <th>{:lang('Description')}</th>
+                <th width="120">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="files" item="vo">
+                <tr>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.action}</td>
+                    <td>{$vo.file}.html</td>
+                    <td>{$vo.description}</td>
+                    <td>
+                        <a class="btn btn-xs btn-primary"
+                           href="javascript:;"
+                           data-file="{$vo.id}"
+                           data-title="{$vo.name} {$vo.file}.html"
+                           onclick="openDesignDialog(this)">设计</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+    function openDesignDialog(obj) {
+        var $obj = $(obj);
+        var fileId = $obj.data('file');
+        var title = $obj.data('title');
+        parent.openIframeLayer("{:url('Theme/fileSetting')}?file_id=" + fileId, title, {
+            area: GV.IS_MOBILE ? ['100%', '100%'] : ['700px', '90%'],
+            offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
+            btn: ['确定', '取消'],
+            yes: function (index, layero) {
+                var iframeWin = parent.window[layero.find('iframe')[0]['name']];
+                iframeWin.confirm();
+                //layer.close(index); //如果设定了yes回调，需进行手工关闭
+            }
+        });
+    }
+</script>
+</body>
+</html>

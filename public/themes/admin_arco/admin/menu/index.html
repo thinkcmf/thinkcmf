@@ -1,0 +1,81 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('Menu/index')}">{:lang('ADMIN_MENU_INDEX')}</a></li>
+        <li><a href="{:url('Menu/add')}">{:lang('ADMIN_MENU_ADD')}</a></li>
+        <li><a href="{:url('Menu/lists')}">{:lang('ADMIN_MENU_LISTS')}</a></li>
+    </ul>
+    <form class="js-ajax-form" action="{:url('Menu/listOrder')}" method="post">
+        <div class="table-actions">
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">{:lang('SORT')}</button>
+        </div>
+        <table class="table table-hover table-bordered table-list" id="menus-table">
+            <thead>
+            <tr>
+                <th width="80">{:lang('SORT')}</th>
+                <th width="50">ID</th>
+                <th>{:lang('NAME')}</th>
+                <th>{:lang('APP_CONTROLLER_ACTION')}</th>
+                <th width="80">{:lang('STATUS')}</th>
+                <th width="180">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tree name="menus" item="menu">
+                <tr id="node-{$menu.id}" class="{$menu.parent_id?'child-of-node-'.$menu.parent_id:''}" style="{$menu.parent_id?'display:none;':''}">
+                    <td style="padding-left:20px;">
+                        <input name="list_orders[{$menu.id}]" type="text" size="3" value="{$menu.list_order}"
+                               class="input input-order">
+                    </td>
+                    <td>{$menu.id}</td>
+                    <td>{$menu._spacer}{$menu.name}</td>
+                    <td>{$menu.app}/{$menu.controller}/{$menu.action}</td>
+                    <td>
+                        <empty name="menu.status">
+                            <span class="label label-warning">{:lang('HIDDEN')}</span>
+                            <else/>
+                            <span class="label label-success">{:lang('DISPLAY')}</span>
+                        </empty>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-primary"
+                           href="{:url('Menu/add', ['parent_id' =>$menu.id])}">{:lang('ADD_SUB_MENU')}</a>
+                        <a class="btn btn-xs btn-success"
+                           href="{:url('Menu/edit', ['id' =>$menu.id])}">{:lang('EDIT')}</a>
+                        <a class="btn btn-xs btn-danger js-ajax-delete"
+                           href="{:url('Menu/delete', ['id' =>$menu.id])}">{:lang('DELETE')}</a>
+                    </td>
+                </tr>
+            </tree>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th width="80">{:lang('SORT')}</th>
+                <th width="50">ID</th>
+                <th>{:lang('NAME')}</th>
+                <th>{:lang('APP_CONTROLLER_ACTION')}</th>
+                <th width="80">{:lang('STATUS')}</th>
+                <th width="180">{:lang('ACTIONS')}</th>
+            </tr>
+            </tfoot>
+        </table>
+        <div class="table-actions">
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">{:lang('SORT')}</button>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+    $(document).ready(function () {
+        Wind.css('treeTable');
+        Wind.use('treeTable', function () {
+            $("#menus-table").treeTable({
+                indent: 20
+            });
+        });
+    });
+</script>
+</body>
+</html>

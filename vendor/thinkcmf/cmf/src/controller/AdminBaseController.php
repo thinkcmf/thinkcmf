@@ -145,7 +145,7 @@ class AdminBaseController extends BaseController
 
         if (!is_file($file)) {
 
-            $adminDefaultTheme = 'admin_simpleboot3';
+            $adminDefaultTheme = 'admin_arco';
 
             $cmfAdminThemePath = config('template.cmf_admin_theme_path');
             $themePath         = "{$cmfAdminThemePath}{$adminDefaultTheme}";

@@ -1,0 +1,43 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">{:lang('ADMIN_NAVMENU_INDEX')}</a></li>
+        <li><a href="{:url('NavMenu/add',['nav_id'=>$nav_id])}">{:lang('ADMIN_NAVMENU_ADD')}</a></li>
+    </ul>
+    <form class="js-ajax-form margin-top-20" action="{:url('NavMenu/listOrder')}" method="post">
+        <div class="table-actions">
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">{:lang('Sort')}</button>
+        </div>
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="50">{:lang('Sort')}</th>
+                <th width="50">ID</th>
+                <th>{:lang('Name')}</th>
+                <th width="80">{:lang('Status')}</th>
+                <th width="180">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tree name="menus" item="menu">
+                <tr>
+                    <td><input name="list_orders[{$menu.id}]" type="text" size="3" value="{$menu.list_order}" class='input input-order'></td>
+                    <td>{$menu.id}</td>
+                    <td>{$menu._spacer}{$menu.name}</td>
+                    <td>{$menu.status ? lang('DISPLAY') : lang('HIDDEN')}</td>
+                    <td>
+                        <a class="btn btn-xs btn-primary" href="{:url('NavMenu/add', ['parent_id' =>$menu.id, 'nav_id'=> $menu.nav_id])}">{:lang('ADD_SUB_MENU')}</a>
+                        <a class="btn btn-xs btn-primary" href="{:url('NavMenu/edit', ['id' =>$menu.id])}">{:lang('EDIT')}</a>
+                        <a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('NavMenu/delete', ['id' =>$menu.id, 'nav_id'=> $menu.nav_id])}">{:lang('DELETE')}</a>
+                    </td>
+                </tr>
+            </tree>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

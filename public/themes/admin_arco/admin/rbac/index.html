@@ -1,0 +1,84 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('Rbac/index')}">{:lang('ADMIN_RBAC_INDEX')}</a></li>
+        <li><a href="{:url('Rbac/roleAdd')}">{:lang('ADMIN_RBAC_ROLEADD')}</a></li>
+    </ul>
+    <form action="{:url('Rbac/listorders')}" method="post" class="margin-top-20">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="40">ID</th>
+                <th align="left">{:lang('ROLE_NAME')}</th>
+                <th align="left">类型</th>
+                <th align="left">{:lang('ROLE_DESCRIPTION')}</th>
+                <th width="60" align="left">{:lang('STATUS')}</th>
+                <th width="160">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="roles" item="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.name}</td>
+                    <td>
+                        <switch name="$vo.type">
+                            <case value="admin">管理员</case>
+                            <case value="user">用户</case>
+                            <default>{$vo.type}</default>
+                        </switch>
+                    </td>
+                    <td>{$vo.remark}</td>
+                    <td>
+                        <if condition="$vo['status'] eq 1">
+                            <span class="label label-success">{:lang('Enabled')}</span>
+                            <else/>
+                            <span class="label label-danger">{:lang('Disabled')}</span>
+                        </if>
+                    </td>
+                    <td>
+                        <if condition="$vo['id'] eq 1">
+                            <span class="btn btn-xs btn-primary disabled">{:lang('ROLE_SETTING')}</span>
+                            <!-- <a href="javascript:openIframeDialog('{:url('Rbac/member',array('id'=>$vo['id']))}','成员管理');">成员管理</a> | -->
+                            <span class="btn btn-xs btn-primary disabled">{:lang('EDIT')}</span>
+                            <span class="btn btn-xs btn-danger disabled">{:lang('DELETE')}</span>
+                            <else/>
+                            <a class="btn btn-xs btn-primary" href="javascript:;"
+                               onclick="openAuthorizeDialog(this)"
+                               data-href="{:url('Rbac/authorize',array('id'=>$vo['id']))}">{:lang('ROLE_SETTING')}</a>
+                            <!-- <a href="javascript:openIframeDialog('{:url('Rbac/member',array('id'=>$vo['id']))}','成员管理');">成员管理</a>| -->
+                            <a class="btn btn-xs btn-primary" href="{:url('Rbac/roleedit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                            <a class="btn btn-xs btn-danger js-ajax-delete" class=""
+                               href="{:url('Rbac/roledelete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+                        </if>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+    function openAuthorizeDialog(obj) {
+        var $obj = $(obj);
+        var href = $obj.data('href');
+        parent.openIframeLayer(href, '角色授权', {
+            area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '95%'],
+            offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
+            // btn: ['确定', '取消'],
+            yes: function (index, layero) {
+                console.log(layero);
+                var iframeWin = parent.window[layero.find('iframe')[0]['name']];
+                //iframeWin.confirm();
+                parent.layer.close(index); //如果设定了yes回调，需进行手工关闭
+            },
+            end: function () {
+            }
+        });
+    }
+</script>
+</body>
+</html>

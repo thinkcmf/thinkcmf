@@ -1,0 +1,203 @@
+<include file="theme/functions"/>
+<include file="public@header"/>
+<style>
+    html, body {
+        overflow-x: hidden;
+    }
+
+    .form-control-widget-title {
+        border: none;
+        padding: 0;
+        margin: 0;
+        font-size: inherit;
+        line-height: inherit;
+        background: transparent;
+    }
+
+    .form-control-widget-title:focus {
+        outline: none;
+        background: #fff;
+    }
+
+    .widgets-group {
+        min-height: 40px;
+    }
+
+    .widgets-group .ui-sortable-placeholder {
+        background: #f9f9f9;
+        visibility: visible !important;
+    }
+
+    .widgets-group .ui-sortable-placeholder.ui-sortable-placeholder-disabled {
+        background: red;
+    }
+</style>
+</head>
+<body>
+<notempty name="has_file">
+    <div class="wrap">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'widget'])}">
+                    组件
+                </a>
+            </li>
+            <notempty name="file.more.vars">
+                <li>
+                    <a href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'var'])}">
+                        设置
+                    </a>
+                </li>
+            </notempty>
+            <notempty name="has_public_var">
+                <li>
+                    <a href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'public_var'])}">
+                        全局设置
+                    </a>
+                </li>
+            </notempty>
+        </ul>
+
+        <form method="post" class="js-ajax-form  margin-top-20" action="{:url('Theme/settingPost')}">
+            <div class="list-group">
+                <a href="javascript:parent.openIframeLayer('{:url('admin/Nav/index')}','导航管理')" class="list-group-item">导航管理</a>
+                <a href="javascript:parent.openIframeLayer('{:url('admin/Slide/index')}','幻灯片管理')"
+                   class="list-group-item">幻灯片管理</a>
+                <a href="javascript:parent.openIframeLayer('{:url('admin/Link/index')}','友情链接管理')"
+                   class="list-group-item">友情链接管理</a>
+            </div>
+
+            <foreach name="files" item="file">
+                <notempty name="file['more']['widgets_blocks']">
+                    <foreach name="file['more']['widgets_blocks']" item="widgetsBlock" key="widgetsBlockName"
+                             index="index">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                {$widgetsBlock.title|default='无标题'}
+                            </div>
+                            <ul class="list-group widgets-group"
+                                data-file_id="{$file.id}"
+                                data-block_name="{$widgetsBlockName}">
+                                <notempty name="widgetsBlock.widgets">
+                                    <foreach name="widgetsBlock.widgets" item="widget">
+                                        <li class="list-group-item widgets-group-item"
+                                            data-file_id="{$file.id}"
+                                            data-id="{$key}"
+                                            data-title="设置">
+                                            {$widget.title|default='无标题'}
+                                            <a class="pull-right" onclick="doWidgetSetting(this)" href="javascript:;"><i class="fa fa-cog"></i></a>
+                                            <empty name="widget.display">
+                                                <div class="pull-right">
+                                                    <i class="fa fa-eye-slash "></i>&nbsp;
+                                                </div>
+                                            </empty>
+                                        </li>
+                                    </foreach>
+                                    <else/>
+                                    <!--                                    <li class="list-group-item">什么都没有~</li>-->
+                                </notempty>
+
+                            </ul>
+                        </div>
+                    </foreach>
+                </notempty>
+            </foreach>
+
+            <notempty name="has_widget">
+                <foreach name="files" item="file">
+                    <notempty name="file['more']['widgets']">
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <foreach name="file['more']['widgets']" item="widget" key="widgetName" index="index">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <!--<a role="button" data-toggle="collapse" data-parent="#accordion"-->
+                                        <!--href="#collapse-{$widgetName}">-->
+                                        <!--{$widget.title}-->
+                                        <!--</a>-->
+                                        <input class="form-control-widget-title" type="text" value="{$widget.title}"
+                                               name="files[{$file.id}][widget][{$widgetName}][title]">
+                                        <label class="checkbox-inline pull-right">
+                                            <php>$display_checked=empty($widget['display'])?'':'checked';</php>
+                                            <input type="checkbox"
+                                                   name="files[{$file.id}][widget][{$widgetName}][display]"
+                                                   value="1"
+                                                   {$display_checked}>
+                                            显示
+                                        </label>
+                                    </div>
+                                    <div id="collapse-{$widgetName}" class="panel-collapse collapse in" role="tabpanel">
+                                        <div class="panel-body">
+                                            {:_parse_vars($widget.vars,'files['.$file['id'].'][widget_vars]['.$widgetName.']',1,$widgetName,$file['id'])}
+                                            <notempty name="file.is_public">
+                                                <span class="pull-right label label-success">公共组件</span>
+                                                <!--<a class="pull-right" title="公共组件" data-toggle="tooltip"><i class="fa fa-question-circle"></i></a>-->
+                                            </notempty>
+                                        </div>
+                                    </div>
+                                </div>
+                            </foreach>
+                        </div>
+                        <else/>
+                    </notempty>
+                </foreach>
+                <else/>
+            </notempty>
+            <div class="form-group text-center" style="display: none;">
+                <input type="hidden" name="id" value="{$file.id|default=''}">
+                <button type="submit" class="btn btn-primary js-ajax-submit" id="submit-btn"
+                        data-success="successCallback">
+                    {:lang('SAVE')}
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+    <include file="theme/scripts"/>
+    <script>
+        parent.showDesignBtn();
+    </script>
+</notempty>
+<empty name="has_file">
+    <script>
+        parent.hideDesignBtn();
+    </script>
+</empty>
+<script>
+    function successCallback(data, statusText, xhr, $form) {
+        function _refresh() {
+            if (data.url) {
+                //返回带跳转地址
+                window.location.href = data.url;
+            } else {
+                if (data.code == 1) {
+                    //刷新当前页
+                    reloadPage(window);
+                }
+            }
+        }
+
+        noty({
+            text: data.msg,
+            type: 'success',
+            layout: 'topCenter',
+            modal: true,
+            // animation: {
+            //     open: 'animated bounceInDown', // Animate.css class names
+            //     close: 'animated bounceOutUp', // Animate.css class names
+            // },
+            timeout: 800,
+            callback: {
+                afterClose: function () {
+                    if (parent.afterSaveSetting) {
+                        parent.afterSaveSetting();
+                    }
+                    _refresh();
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

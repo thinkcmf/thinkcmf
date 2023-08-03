@@ -1,0 +1,72 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="javascript:void(0)">{:lang('ADMIN_RECYCLEBIN_INDEX')}</a></li>
+    </ul>
+    <form class="js-ajax-form" method="post">
+        <div class="table-actions margin-top-20">
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('RecycleBin/delete')}" data-subcheck="true">全部删除
+            </button>
+            <button class="btn btn-success btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('RecycleBin/restore')}" data-subcheck="true">全部还原
+            </button>
+            <a class="btn btn-danger btn-sm js-ajax-dialog-btn" href="{:url('RecycleBin/clear')}"
+               data-msg="该操作不可恢复，确认要清空全部文件吗？">清空回收站 </a>
+        </div>
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th style="width: 15px">
+                    <label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"> </label>
+                </th>
+                <th style="width: 50px">ID</th>
+                <th>内容名称</th>
+                <th>内容类型</th>
+                <th>删除时间</th>
+                <th>操作人</th>
+                <th width="130">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="list" item="vo">
+                <tr>
+                    <td>
+                        <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]" value="{$vo.id}"
+                               title="ID:{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.name}</td>
+                    <td>
+                        {:lang('TABLE_'.strtoupper($vo['table_name']))}
+                    </td>
+                    <td> {:date('Y-m-d H:i:s',$vo['create_time'])}</td>
+
+                    <td> {$vo.user.user_login|default=''}</td>
+                    <td>
+                        <a href="{:url('RecycleBin/restore', ['ids'=>$vo.id])}" class="btn btn-xs btn-success js-ajax-dialog-btn"
+                           data-msg="确定要还原吗？">还原</a>
+                        <a href="{:url('RecycleBin/delete', ['ids'=>$vo.id])}" class="btn btn-xs btn-danger js-ajax-delete">{:lang('DELETE')}</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <div class="table-actions">
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('RecycleBin/delete')}" data-subcheck="true">全部删除
+            </button>
+            <button class="btn btn-success btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('RecycleBin/restore')}" data-subcheck="true">全部还原
+            </button>
+            <a class="btn btn-danger btn-sm js-ajax-dialog-btn" href="{:url('RecycleBin/clear')}"
+               data-msg="该操作不可恢复，确认要清空全部文件吗？">清空回收站 </a>
+        </div>
+        <div class="pagination">{$page}</div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

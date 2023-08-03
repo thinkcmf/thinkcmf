@@ -1,0 +1,81 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('Theme/index')}">{:lang('ADMIN_THEME_INDEX')}</a></li>
+        <li><a href="{:url('Theme/install')}">{:lang('ADMIN_THEME_INSTALL')}</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20">
+        <php> $status=array("1"=>lang('DISPLAY'),"0"=>lang('HIDDEN'));</php>
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th>{:lang('Key')}</th>
+                <th>{:lang('Name')}</th>
+                <th>{:lang('Version')}</th>
+                <th>{:lang('Language')}</th>
+                <th>{:lang('Author')}</th>
+                <th>{:lang('Description')}</th>
+                <th>{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="themes" item="vo">
+                <tr>
+                    <td>
+                        {$vo.theme}
+                        <eq name="vo.theme" value="$default_theme">
+                            <span class="label label-success">{:lang('Enabled')}</span>
+                        </eq>
+                    </td>
+                    <td>{$vo.name}</td>
+                    <td><span class="label label-success">{$vo.version}</span></td>
+                    <td>{$vo.lang}</td>
+                    <td>{$vo.author}</td>
+                    <td>{$vo.description}</td>
+                    <td>
+                        <a class="btn btn-xs btn-primary" href="{:url('Theme/design',['theme'=>$vo.theme])}"
+                           target="_blank">{:lang('Design')}</a>
+                        <a class="btn btn-xs btn-primary"
+                           href="javascript:parent.openIframeLayer('{:url('Theme/files',array('theme'=>$vo['theme']))}','{$vo.name}{:lang('File List')}',{});">{:lang('File List')}</a>
+                        <a class="btn btn-xs btn-success js-ajax-dialog-btn"
+                           href="{:url('Theme/update',array('theme'=>$vo['theme']))}"
+                           data-msg="确定更新此模板吗？">{:lang('Update')}</a>
+                        <if condition="$vo.theme == $default_theme">
+                            <span class="btn btn-xs btn-warning disabled" color="#cccccc">{:lang('Enable')}</span>
+                            <else/>
+                            <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
+                               href="{:url('Theme/active',array('theme'=>$vo['theme']))}"
+                               data-msg="确定使用此模板吗？">{:lang('Enable')}</a>
+                        </if>
+
+                        <if condition="($vo.name == 'simpleboot3') OR ($vo.theme == $default_theme) ">
+                            <span class="btn btn-xs btn-danger disabled">{:lang('Uninstall')}</span>
+                            <else/>
+                            <a class="btn btn-xs btn-danger js-ajax-dialog-btn"
+                               href="{:url('Theme/uninstall',array('theme'=>$vo['theme']))}"
+                               data-msg="您设置的模板数据将被删除，<br>确定卸载此模板吗？">{:lang('Uninstall')}</a>
+                        </if>
+
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th>{:lang('Key')}</th>
+                <th>{:lang('Name')}</th>
+                <th>{:lang('Version')}</th>
+                <th>{:lang('Language')}</th>
+                <th>{:lang('Author')}</th>
+                <th>{:lang('Description')}</th>
+                <th>{:lang('ACTIONS')}</th>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

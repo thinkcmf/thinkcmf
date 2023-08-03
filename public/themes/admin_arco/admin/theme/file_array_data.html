@@ -1,0 +1,58 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>所有数据</a></li>
+        <li><a href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">添加数据</a>
+        </li>
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20">
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <foreach name="array_item" item="vo">
+                    <th>{$vo.title}</th>
+                </foreach>
+                <th width="120">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="array_items" item="item" key="itemKey">
+                <tr>
+                    <foreach name="array_item" item="vo">
+                        <td>
+                            <switch name="vo.type">
+                                <case value="image">
+                                    <notempty name="$item[$key]">
+                                        <img src="{:cmf_get_image_preview_url($item[$key])}" style="height:100px;"/>
+                                    </notempty>
+                                </case>
+                                <default>
+                                    {$item[$key]|default=''}
+                                </default>
+                            </switch>
+                        </td>
+                    </foreach>
+                    <td>
+                        <a class="btn btn-xs btn-primary"
+                           href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name,'item_index'=>$itemKey])}"
+                        >编辑</a>
+                        <a class="btn btn-xs btn-danger js-ajax-delete"
+                           href="{:url('Theme/fileArrayDataDelete',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name,'item_index'=>$itemKey])}"
+                        >删除</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+    function confirm() {
+        return true;
+    }
+</script>
+</body>
+</html>

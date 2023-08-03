@@ -1,0 +1,29 @@
+<include file="theme/functions"/>
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('Theme/fileArrayData',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">所有数据</a></li>
+        <heq name="item_index" value="">
+            <li class="active"><a>添加数据</a></li>
+            <else/>
+            <li>
+                <a href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">添加数据</a>
+            </li>
+            <li class="active"><a>编辑数据</a></li>
+        </heq>
+
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20"
+          action="{:url('Theme/fileArrayDataEditPost',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">
+        {:_parse_vars($array_item,'item',2)}
+        <div class="form-group" style="display: none;">
+            <input type="hidden" name="item_index" value="{$item_index}">
+            <button type="submit" class="btn btn-primary js-ajax-submit" id="submit-btn">保存</button>
+        </div>
+    </form>
+</div>
+<include file="theme/scripts"/>
+</body>
+</html>

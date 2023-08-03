@@ -1,0 +1,112 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('Route/index')}">{:lang('ADMIN_ROUTE_INDEX')}</a></li>
+        <li><a href="{:url('Route/add')}">{:lang('ADMIN_ROUTE_ADD')}</a></li>
+    </ul>
+    <form class="js-ajax-form" action="{:url('Route/listOrder')}" method="post">
+        <div class="table-actions">
+            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('Sort')}</button>
+        </div>
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th width="50">{:lang('Sort')}</th>
+                <th width="50">ID</th>
+                <th>{:lang('Full Url')}</th>
+                <th>{:lang('Short Url')}</th>
+                <th>{:lang('Type')}</th>
+                <th>{:lang('Status')}</th>
+                <th width="110">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <php>
+                $statuses=array('0'=>lang('Disabled'),"1"=>lang('Enabled'));
+                $types=array('1'=>"自定义","2"=>"别名定义");
+            </php>
+            <foreach name="routes" item="vo">
+                <tr>
+                    <td>
+                        <input name="list_orders[{$vo.id}]" class="input-order" type="text"
+                               value="{$vo.list_order}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.full_url}</td>
+                    <td>{$vo.url}</td>
+                    <td>
+                        <eq name="vo.type" value="2">
+                            <span class="label label-danger" data-toggle="tooltip" title="别名定义规则,无法编辑,排序">{$types[$vo['type']]}</span>
+                            <else/>
+                            <span class="label label-success" data-toggle="tooltip" title="自定义规则,可以编辑,排序">{$types[$vo['type']]}</span>
+                        </eq>
+                    </td>
+                    <td>
+                        <empty name="vo.status">
+                            <span class="label label-default">{$statuses[$vo['status']]}</span>
+                            <else/>
+                            <span class="label label-success">{$statuses[$vo['status']]}</span>
+                        </empty>
+                    </td>
+                    <td>
+                        <eq name="vo.type" value="2">
+                            <span class="btn btn-xs btn-primary disabled" title="{:lang('EDIT')}" data-toggle="tooltip">
+                                <i class="fa fa-edit fa-fw"></i></span>
+                            <span class="btn btn-xs btn-warning disabled" title="{:lang('Disable')}"
+                                  data-toggle="tooltip"><i class="fa fa-toggle-off fa-fw"></i></span>
+                            <span class="btn btn-xs btn-danger disabled" title="{:lang('DELETE')}"
+                                  data-toggle="tooltip"><i class="fa fa-trash fa-fw"></i></span>
+                            <else/>
+                            <a class="btn btn-xs btn-primary" href="{:url('Route/edit',array('id'=>$vo['id']))}"
+                               data-toggle="tooltip"
+                               title="{:lang('EDIT')}"><i class="fa fa-edit fa-fw"></i></a>
+                            <eq name="vo.status" value="1">
+                                <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
+                                   href="{:url('Route/ban',array('id'=>$vo['id']))}"
+                                   data-toggle="tooltip"
+                                   data-msg="确定禁用吗？" title="{:lang('Disable')}">
+                                    <i class="fa fa-toggle-off fa-fw"></i>
+                                </a>
+                                <else/>
+                                <a class="btn btn-xs btn-success js-ajax-dialog-btn"
+                                   href="{:url('Route/open',array('id'=>$vo['id']))}"
+                                   data-toggle="tooltip"
+                                   data-msg="确定启用吗？"
+                                   title="{:lang('Enable')}">
+                                    <i class="fa fa-toggle-on fa-fw"></i>
+                                </a>
+                            </eq>
+                            <a class="btn btn-xs btn-danger js-ajax-delete"
+                               data-href="{:url('Route/delete',array('id'=>$vo['id']))}"
+                               href="javascript:;"
+                               title="{:lang('DELETE')}"
+                               data-toggle="tooltip">
+                                <i class="fa fa-trash fa-fw"></i>
+                            </a>
+                        </eq>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th width="50">{:lang('Sort')}</th>
+                <th width="50">ID</th>
+                <th>{:lang('Full Url')}</th>
+                <th>{:lang('Short Url')}</th>
+                <th>{:lang('Type')}</th>
+                <th>{:lang('Status')}</th>
+                <th width="110">{:lang('ACTIONS')}</th>
+            </tr>
+            </tfoot>
+        </table>
+        <div class="table-actions">
+            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('Sort')}</button>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

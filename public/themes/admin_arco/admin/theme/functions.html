@@ -1,0 +1,209 @@
+<php>
+    if (!function_exists('_parse_vars')) {
+        function _parse_vars($vars,$inputName,$level=1,$widget='',$file_id=''){
+
+</php>
+<foreach name="vars" item="var" key="varName">
+    <fieldset>
+        <div class="form-group">
+            <present name="var.title">
+                <label class="control-label">
+                    {$var.title}
+                    <notempty name="var.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+            </present>
+            <switch name="var.type">
+                <case value="text">
+                    <div class="controls">
+                        <present name="var.dataSource">
+                            <input type="text" name="{$inputName}[{$varName}_text_]" class="form-control"
+                                   onclick="doSelectData(this)"
+                                   data-source="{:base64_encode(json_encode($var['dataSource']))}"
+                                   data-title="请选择{$var.title}"
+                                   value="{$vars[$varName]['valueText']|default=''}"
+                                   placeholder="{$var.placeholder|default=''}">
+                            <input type="hidden" name="{$inputName}[{$varName}]" class="form-control"
+                                   value="{$vars[$varName]['value']}">
+                            <else/>
+                            <input type="text" name="{$inputName}[{$varName}]" class="form-control"
+                                   value="{$vars[$varName]['value']}"
+                                   placeholder="{$var.placeholder|default=''}">
+                        </present>
+                        <present name="var.tip">
+                            <p class="help-block">{$var.tip}</p>
+                        </present>
+                    </div>
+                </case>
+                <case value="textarea">
+                    <div class="controls">
+                        <textarea name="{$inputName}[{$varName}]"
+                                  class="form-control"
+                                  placeholder="{$var.placeholder|default=''}">{$vars[$varName]['value']}</textarea>
+                        <present name="var.tip">
+                            <p class="help-block">{$var.tip}</p>
+                        </present>
+                    </div>
+                </case>
+                <case value="date">
+                    <div class="controls">
+                        <input type="text" name="{$inputName}[{$varName}]" class="form-control js-bootstrap-date"
+                               value="{$vars[$varName]['value']}"
+                               placeholder="{$var.placeholder|default=''}">
+                        <present name="var.tip">
+                            <p class="help-block">{$var.tip}</p>
+                        </present>
+                    </div>
+                </case>
+                <case value="datetime">
+                    <div class="controls">
+                        <input type="text" name="{$inputName}[{$varName}]" class="form-control js-bootstrap-datetime"
+                               value="{$vars[$varName]['value']}"
+                               placeholder="{$var.placeholder|default=''}">
+                        <present name="var.tip">
+                            <p class="help-block">{$var.tip}</p>
+                        </present>
+                    </div>
+                </case>
+                <case value="image">
+                    <div class="controls">
+                        <input type="hidden" name="{$inputName}[{$varName}]" class="form-control"
+                               value="{$vars[$varName]['value']}" id="js-{$widget}{$varName}-input">
+                        <div>
+                            <a href="javascript:doUploadOneImage('图片上传','#js-{$widget}{$varName}-input');">
+                                <if condition="empty($vars[$varName]['value'])">
+                                    <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                         id="js-{$widget}{$varName}-input-preview"
+                                         width="135" style="cursor: pointer"/>
+                                    <else/>
+                                    <img src="{:cmf_get_image_preview_url($vars[$varName]['value'])}"
+                                         id="js-{$widget}{$varName}-input-preview"
+                                         width="135" style="cursor: pointer"/>
+                                </if>
+                            </a>
+                            <if condition="!empty($vars[$varName]['value'])">
+                                <br>
+                                <button id="js-{$widget}{$varName}-button-remove"
+                                        defaultImage="__TMPL__/public/assets/images/default-thumbnail.png"
+                                        class="removeImage btn btn-sm" type="button"
+                                        onclick="removeImage('{$widget}{$varName}')">取消图片
+                                </button>
+                            </if>
+                        </div>
+                        <present name="var.tip">
+                            <p class="help-block">{$var.tip}</p>
+                        </present>
+                    </div>
+                </case>
+                <case value="number">
+                    <div class="controls">
+                        <input type="number" name="{$inputName}[{$varName}]" class="form-control"
+                               value="{$vars[$varName]['value']}"
+                               placeholder="{$var.placeholder|default=''}">
+                        <present name="var.tip">
+                            <p class="help-block">{$var.tip}</p>
+                        </present>
+                    </div>
+                </case>
+                <case value="location">
+                    <div class="controls">
+                        <input type="text" name="{$inputName}[{$varName}_text_]" class="form-control"
+                               onclick="doSelectLocation(this)"
+                               data-title="请选择{$var.title}"
+                               value="{$vars[$varName]['valueText']|default=''}"
+                               placeholder="{$var.placeholder|default=''}">
+                        <input type="hidden" name="{$inputName}[{$varName}]" class="form-control"
+                               value="{$vars[$varName]['value']}">
+                        <present name="var.tip">
+                            <p class="help-block">{$var.tip}</p>
+                        </present>
+                    </div>
+                </case>
+                <case value="file">
+                    <div class="controls">
+                        <div class="input-group">
+                            <input type="text" name="{$inputName}[{$varName}]" class="form-control"
+                                   value="{$vars[$varName]['value']}" id="js-{$widget}{$varName}-input-file"
+                                   placeholder="{$var.placeholder|default=''}">
+                            <span class="input-group-addon"> <a
+                                    href="javascript:doUploadOne('图片上传','#js-{$widget}{$varName}-input-file','file');">上传</a></span>
+                        </div>
+                        <present name="var.tip">
+                            <p class="help-block">{$var.tip}</p>
+                        </present>
+                    </div>
+                </case>
+                <case value="color">
+                    <div class="controls">
+                        <input type="text" name="{$inputName}[{$varName}]" class="form-control js-color"
+                               value="{$vars[$varName]['value']}" id="js-color-{$widget}{$varName}"
+                               placeholder="{$var.placeholder|default=''}">
+                        <present name="var.tip">
+                            <p class="help-block">{$var.tip}</p>
+                        </present>
+                    </div>
+                </case>
+
+                <case value="array">
+                    <div class="controls">
+                        <php>
+                            $arrayValueText=is_array($var['value'])&&count($var['value'])>0?count($var['value']).'条数据,点击添加更多...':'';
+                        </php>
+                        <textarea class="form-control" placeholder="点击添加数据"
+                                  onclick="doEditArrayData(this)"
+                                  data-var="{$varName}"
+                                  data-widget="{$widget}"
+                                  data-title="编辑{$var.title}"
+                                  data-file_id="{$file_id}">{$arrayValueText}</textarea>
+                        <present name="var.tip">
+                            <p class="help-block">{$var.tip}</p>
+                        </present>
+                    </div>
+                </case>
+                <case value="select">
+                    <div class="controls">
+                        <php>
+                            $value= $vars[$varName]['value'];
+                            $options = $vars[$varName]['options'];
+                        </php>
+                        <select name="{$inputName}[{$varName}]" class="form-control">
+                            <foreach name="options" item="optionItem" key="optionKey">
+                                <php>$optionSelected=$optionKey==$value?"selected":"";</php>
+                                <option value="{$optionKey}" {$optionSelected}>{$optionItem}
+                                </option>
+                            </foreach>
+                        </select>
+                        <present name="var.tip">
+                            <p class="help-block">{$var.tip}</p>
+                        </present>
+                    </div>
+                </case>
+                <case value="slide">
+                    <div class="controls">
+                        <input type="text" name="{$inputName}[{$varName}]" class="form-control"
+                               value="{$vars[$varName]['value']}">
+                        <present name="var.tip">
+                            <p class="help-block">{$var.tip}</p>
+                        </present>
+                    </div>
+                </case>
+                <case value="rich_text">
+                    <div class="controls">
+                        <div>
+                            <script type="text/plain" class="rich_text_content" name="{$inputName}[{$varName}]">{$vars[$varName]['value']}</script>
+                        </div>
+                        <present name="var.tip">
+                            <p class="help-block">{$var.tip}</p>
+                        </present>
+                    </div>
+                </case>
+            </switch>
+        </div>
+    </fieldset>
+</foreach>
+
+<php>
+    }
+    }
+</php>

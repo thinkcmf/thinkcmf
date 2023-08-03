@@ -1,0 +1,88 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>{:lang('USER_INDEXADMIN_INDEX')}</a></li>
+    </ul>
+    <form class="well form-inline margin-top-20 bg-white" method="post" action="{:url('user/AdminIndex/index')}">
+        {:lang('User ID')}:
+        <input class="form-control" type="text" name="uid" style="width: 200px;" value="{:input('request.uid')}"
+               placeholder="请输入用户ID">
+        {:lang('Keyword')}:
+        <input class="form-control" type="text" name="keyword" style="width: 200px;" value="{:input('request.keyword')}"
+               placeholder="用户名/昵称/邮箱/手机">
+        <input type="submit" class="btn btn-primary" value="{:lang('Search')}"/>
+        <a class="btn btn-danger" href="{:url('user/AdminIndex/index')}">{:lang('Clear')}</a>
+    </form>
+    <form method="post" class="js-ajax-form">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>{:lang('USERNAME')}</th>
+                <th>{:lang('NICENAME')}</th>
+                <th>{:lang('AVATAR')}</th>
+                <th>{:lang('EMAIL')}</th>
+                <th>{:lang('MOBILE')}</th>
+                <th>{:lang('REGISTRATION_TIME')}</th>
+                <th>{:lang('LAST_LOGIN_TIME')}</th>
+                <th>{:lang('LAST_LOGIN_IP')}</th>
+                <th>{:lang('STATUS')}</th>
+                <th>{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <php>
+                $user_statuses=array("0"=>lang('USER_STATUS_BLOCKED'),"1"=>lang('USER_STATUS_ACTIVATED'),"2"=>lang('USER_STATUS_UNVERIFIED'));
+            </php>
+            <foreach name="list" item="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo['user_login']?$vo['user_login']:($vo['mobile']?$vo['mobile']:lang('THIRD_PARTY_USER'))}
+                    </td>
+                    <td>{$vo['user_nickname']?$vo['user_nickname']:lang('NOT_FILLED')}</td>
+                    <td><img width="25" height="25" src="{:url('user/Public/avatar',array('id'=>$vo['id']))}"/></td>
+                    <td>{$vo.user_email}</td>
+                    <td>{$vo.mobile}</td>
+                    <td>{:date('Y-m-d H:i:s',$vo['create_time'])}</td>
+                    <td>{:date('Y-m-d H:i:s',$vo['last_login_time'])}</td>
+                    <td>{$vo.last_login_ip}</td>
+                    <td>
+                        <switch name="vo.user_status">
+                            <case value="0">
+                                <span class="label label-danger">{$user_statuses[$vo['user_status']]}</span>
+                            </case>
+                            <case value="1">
+                                <span class="label label-success">{$user_statuses[$vo['user_status']]}</span>
+                            </case>
+                            <case value="2">
+                                <span class="label label-warning">{$user_statuses[$vo['user_status']]}</span>
+                            </case>
+                        </switch>
+                    </td>
+                    <td>
+                        <neq name="vo.id" value="1">
+                            <empty name="vo.user_status">
+                                <a class="btn btn-xs btn-success js-ajax-dialog-btn"
+                                   href="{:url('adminIndex/cancelban',array('id'=>$vo['id']))}"
+                                   data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}">{:lang('ACTIVATE_USER')}</a>
+                                <else/>
+                                <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
+                                   href="{:url('adminIndex/ban',array('id'=>$vo['id']))}"
+                                   data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}">{:lang('BLOCK_USER')}</a>
+                            </empty>
+                            <else/>
+                            <a class="btn btn-xs btn-warning disabled">{:lang('BLOCK_USER')}</a>
+                        </neq>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <div class="pagination">{$page}</div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

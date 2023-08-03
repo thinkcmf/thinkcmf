@@ -1,0 +1,44 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <form action="{:url('hook/pluginListOrder')}" method="post" class="js-ajax-form">
+        <php>
+            $types = ["1"=>'系统钩子','2'=>'应用钩子','3'=>'模板钩子','4'=>'后台模板钩子'];
+            $status=array("1"=>'开启',"0"=>'禁用',"3"=>'未安装');
+        </php>
+        <div class="table-actions">
+            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+        </div>
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="50">{:lang('Sort')}</th>
+                <th>{:lang('Name')}</th>
+                <th>{:lang('Key')}</th>
+                <th>{:lang('Hook')}</th>
+                <th>{:lang('Description')}</th>
+                <th>{:lang('Author')}</th>
+                <th width="60">{:lang('Status')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="plugins" item="vo">
+                <tr>
+                    <td><input name="list_orders[{$vo.hook_plugin_id}]" type="text" size="3" value="{$vo.list_order}"
+                               class="input input-order"></td>
+                    <td>{$vo.title}</td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.hooks|default=''}</td>
+                    <td>{$vo.description}</td>
+                    <td>{$vo.author}</td>
+                    <td>{$status[$vo['hook_plugin_status']]}</td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

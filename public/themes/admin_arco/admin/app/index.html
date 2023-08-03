@@ -1,0 +1,74 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('admin/App/index')}">{:lang('ADMIN_APP_INDEX')}</a></li>
+        <if condition="class_exists('\app\admin\controller\AppStoreController')">
+            <li><a href="{:url('AppStore/apps')}">{:lang('ADMIN_APPSTORE_APPS')}</a></li>
+        </if>
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20">
+        <php>
+            $status=array("1"=>lang('Enabled'),"0"=>lang('Disabled'),"3"=>lang('Not Installed'));
+        </php>
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>{:lang('NAME')}</th>
+                <th>{:lang('Key')}</th>
+                <th>{:lang('Description')}</th>
+                <th>{:lang('Author')}</th>
+                <th>{:lang('Version')}</th>
+                <th width="60">{:lang('STATUS')}</th>
+                <th width="220">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="apps" item="vo">
+                <tr>
+                    <td>{$vo.title}</td>
+                    <td><span class="label label-info">{$vo.name}</span></td>
+                    <td>{$vo.description}</td>
+                    <td>{$vo.author}</td>
+                    <td><span class="label label-success">{$vo.version}</span></td>
+                    <td>
+                        <empty name="vo.installed">
+                            <span class="label label-warning">{:lang('Not Installed')}</span>
+                            <else/>
+                            <span class="label label-success">{:lang('Installed')}</span>
+                        </empty>
+                    </td>
+                    <td>
+                        <empty name="vo.installed">
+                            <a class="btn btn-xs btn-primary js-ajax-dialog-btn"
+                               href="{:url('App/install',array('name'=>$vo['name']))}"
+                               data-msg="{:lang('INSTALL_APP_CONFIRM_MSG')}">{:lang('Install')}</a>
+                            <else/>
+                            <a class="btn btn-xs btn-success js-ajax-dialog-btn"
+                               href="{:url('App/update',array('name'=>$vo['name']))}"
+                               data-msg="{:lang('UPDATE_APP_CONFIRM_MSG')}">{:lang('Update')}</a>
+                            <a class="btn btn-xs btn-danger"
+                               href="javascript:doOpenUninstallAppDialog('{$vo.name}')"
+                               data-msg="{:lang('INSTALL_APP_CONFIRM_MSG')}">{:lang('Uninstall')}</a>
+                        </empty>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+    function doOpenUninstallAppDialog(name) {
+        parent.openIframeLayer("{:url('App/uninstall')}?name=" + name, '应用卸载', {
+            area: ['450px', '600px'],
+            end: function () {
+                window.location.reload();
+            }
+        })
+    }
+</script>
+</body>
+</html>

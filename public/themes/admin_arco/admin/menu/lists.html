@@ -1,0 +1,61 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:url('Menu/index')}">{:lang('ADMIN_MENU_INDEX')}</a></li>
+			<li><a href="{:url('Menu/add')}">{:lang('ADMIN_MENU_ADD')}</a></li>
+			<li class="active"><a href="{:url('Menu/lists')}">{:lang('ADMIN_MENU_LISTS')}</a></li>
+		</ul>
+		<form class="form-horizontal js-ajax-form" action="{:url('Menu/listorders')}" method="post">
+			<div class="table-actions">
+				<a class="btn btn-primary btn-sm js-ajax-dialog-btn" href="{:url('Menu/exportMenuLang')}" data-msg="您确定生成菜单动态语言包吗？请确保data目录下lang目录可写！">{:lang('ADMIN_MENU_EXPORT_MENU_LANG')}</a>
+				<a class="btn btn-warning btn-sm" href="{:url('Menu/getactions')}">{:lang('ADMIN_MENU_GETACTIONS')}</a>
+			</div>
+			<div class="alert alert-warning" style="margin: 0 0 5px 0;">
+				 请在开发人员指导下进行以上操作！
+			</div>
+			<table class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="50">ID</th>
+						<th>{:lang('Name')}</th>
+						<th width="50">{:lang('Status')}</th>
+						<th width="100">{:lang('ACTIONS')}</th>
+					</tr>
+				</thead>
+				<foreach name="menus" item="vo">
+				<tr>
+					<td>{$vo.id}</td>
+					<td>{$vo.name}:{$vo.app}/{$vo.controller}/{$vo.action}</td>
+					<td>
+						<empty name="vo.status">
+                            <span class="label label-warning">
+                                {:lang('HIDDEN')}
+                            </span>
+							<else/>
+							<span class="label label-success">
+                                {:lang('DISPLAY')}
+                            </span>
+						</empty>
+					</td>
+					<td>
+						<a class="btn btn-xs btn-primary" href="{:url('Menu/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+						<a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('Menu/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+					</td>
+				</tr>
+				</foreach>
+				<tfoot>
+					<tr>
+						<th width="50">ID</th>
+						<th>{:lang('Name')}</th>
+						<th width="50">{:lang('Status')}</th>
+						<th width="100">{:lang('ACTIONS')}</th>
+					</tr>
+				</tfoot>
+			</table>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

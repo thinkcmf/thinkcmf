@@ -1,0 +1,59 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('Link/index')}">{:lang('ADMIN_LINK_INDEX')}</a></li>
+        <li><a href="{:url('Link/add')}">{:lang('ADMIN_LINK_ADD')}</a></li>
+        <li class="active"><a>{:lang('ADMIN_LINK_EDIT')}</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Link/editPost')}">
+        <div class="form-group">
+            <label for="input-link_name" class="col-sm-2 control-label">{:lang('Name')}<span class="form-required">*</span></label>
+            <div class="col-md-8 col-sm-10">
+                <input type="text" class="form-control" id="input-link_name" name="name" value="{$link.name}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-link_url" class="col-sm-2 control-label">{:lang('Url')}<span class="form-required">*</span></label>
+            <div class="col-md-8 col-sm-10">
+                <input type="text" class="form-control" id="input-link_url" name="url" value="{$link.url}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-link_image" class="col-sm-2 control-label">{:lang('Icon')}</label>
+            <div class="col-md-8 col-sm-10">
+                <input type="text" class="form-control" id="input-link_image" name="image" value="{$link.image}">
+                <a href="javascript:uploadOneImage('{:lang('Upload Image')}','#input-link_image');">{:lang('Upload Image')}</a>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-target" class="col-sm-2 control-label">{:lang('Url Target')}</label>
+            <div class="col-md-8 col-sm-10">
+                <select class="form-control" name="target" id="input-target">
+                    <foreach name="targets" item="vo">
+                        <php>$link_target_selected=$link['target']==$key?"selected='selected'":"";</php>
+                        <option value="{$key}" {$link_target_selected}>{$vo}</option>
+                    </foreach>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-link_description" class="col-sm-2 control-label">{:lang('Description')}</label>
+            <div class="col-md-8 col-sm-10">
+                <textarea class="form-control" name="description"
+                          id="input-link_description">{$link.description}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="hidden" name="id" value="{$link.id}">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                <a class="btn btn-default" href="{:url('Link/index')}">{:lang('BACK')}</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<php>
+    if (!function_exists('_parse_plugin_config')) {
+        function _parse_plugin_config($pluginConfig){
+
+</php>
+
+<foreach name="pluginConfig" item="form">
+    <switch name="form.type">
+        <case value="explain">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="{$key}">
+                {$form.title|default=''}
+                    <notempty name="form.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <p class="form-control-static">{$form.value}</p>
+                    <present name="form.tip">
+                        <p class="help-block">{$form.tip}</p>
+                    </present>
+                </div>
+            </div>
+        </case>
+        <case value="text">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="{$key}">
+                    {$form.title|default=''}
+                    <notempty name="form.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="text" name="config[{$key}]" class="form-control" {$form.disabled?'disabled':''} value="{$form.value}" id="{$key}">
+                    <present name="form.tip">
+                        <p class="help-block">{$form.tip}</p>
+                    </present>
+                </div>
+            </div>
+        </case>
+        <case value="password">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="{$key}">
+                    {$form.title|default=''}
+                    <notempty name="form.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="password" name="config[{$key}]" class="form-control" value="{$form.value}"
+                           id="{$key}">
+                    <present name="form.tip">
+                        <p class="help-block">{$form.tip}</p>
+                    </present>
+                </div>
+            </div>
+        </case>
+        <case value="number">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="{$key}">
+                    {$form.title|default=''}
+                    <notempty name="form.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="number" name="config[{$key}]" class="form-control" {$form.disabled?'disabled':''} value="{$form.value}"
+                           id="{$key}">
+                    <present name="form.tip">
+                        <p class="help-block">{$form.tip}</p>
+                    </present>
+                </div>
+            </div>
+        </case>
+        <case value="hidden">
+            <input type="hidden" name="config[{$key}]" value="{$form.value}">
+        </case>
+        <case value="radio">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="{$key}">
+                    {$form.title|default=''}
+                    <notempty name="form.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <foreach name="form.options" item="opt" key="opt_k">
+                        <label class="radio-inline">
+                            <php>$radio_checked=$opt_k==$form['value']?"checked":"";</php>
+                            <input type="radio" name="config[{$key}]" value="{$opt_k}" {$radio_checked}>{$opt}
+                        </label>
+                    </foreach>
+                    <present name="form.tip">
+                        <p class="help-block">{$form.tip}</p>
+                    </present>
+                </div>
+            </div>
+        </case>
+        <case value="checkbox">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="{$key}">
+                    {$form.title|default=''}
+                    <notempty name="form.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <foreach name="form.options" item="opt" key="opt_k">
+                        <label class="checkbox-inline">
+                            <php>
+                                is_null($form["value"]) && $form["value"] = array();
+                            </php>
+                            <input type="checkbox" name="config[{$key}][]" value="{$opt_k}"
+                            <in name="opt_k" value="$form.value"> checked</in>
+                            >{$opt}
+                        </label>
+                    </foreach>
+                    <present name="form.tip">
+                        <p class="help-block">{$form.tip}</p>
+                    </present>
+                </div>
+            </div>
+        </case>
+        <case value="select">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="{$key}">
+                    {$form.title|default=''}
+                    <notempty name="form.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <select class="form-control" name="config[{$key}]" id="{$key}">
+                        <foreach name="form.options" item="opt" key="opt_k">
+                            <option value="{$opt_k}"
+                            <eq name="form.value" value="$opt_k"> selected</eq>
+                            >{$opt}</option>
+                        </foreach>
+                    </select>
+                    <present name="form.tip">
+                        <p class="help-block">{$form.tip}</p>
+                    </present>
+                </div>
+            </div>
+        </case>
+        <case value="textarea">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="{$key}">
+                    {$form.title|default=''}
+                    <notempty name="form.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <textarea class="form-control" name="config[{$key}]" {$form.disabled?'disabled':''} id="{$key}">{$form.value}</textarea>
+                    <present name="form.tip">
+                        <p class="help-block">{$form.tip}</p>
+                    </present>
+                </div>
+            </div>
+        </case>
+        <case value="group">
+            <div>
+                <ul class="nav nav-tabs" role="tablist">
+                    <foreach name="form.options" item="groupItem" key="groupKey" index="groupIndex">
+                        <li role="presentation" class="{$groupIndex==1?'active':''}">
+                            <a href="#tab-{$groupKey}" role="tab" data-toggle="tab" aria-controls="home"
+                               aria-expanded="true">{$groupItem.title|default=''}</a>
+                        </li>
+                    </foreach>
+                </ul>
+                <div class="tab-content margin-top-20">
+                    <foreach name="form.options" item="groupItem" key="groupKey" index="groupIndex">
+                        <div role="tabpanel" class="tab-pane fade in {$groupIndex==1?'active':''}" id="tab-{$groupKey}"
+                             aria-labelledby="home-tab">
+                            {:_parse_plugin_config($groupItem.options)}
+                        </div>
+                    </foreach>
+                </div>
+            </div>
+        </case>
+        <case value="date">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="{$key}">
+                    {$form.title|default=''}
+                    <notempty name="form.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input class="form-control js-bootstrap-date" name="config[{$key}]" id="{$key}"
+                           value="{$form.value}">
+                    <present name="form.tip">
+                        <p class="help-block">{$form.tip}</p>
+                    </present>
+                </div>
+            </div>
+        </case>
+        <case value="datetime">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="{$key}">
+                    {$form.title|default=''}
+                    <notempty name="form.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input class="form-control js-bootstrap-datetime" name="config[{$key}]" id="{$key}"
+                           value="{$form.value}">
+                    <present name="form.tip">
+                        <p class="help-block">{$form.tip}</p>
+                    </present>
+                </div>
+            </div>
+        </case>
+        <case value="color">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="{$key}">
+                    {$form.title|default=''}
+                    <notempty name="form.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input class="form-control js-color" name="config[{$key}]" id="{$key}"
+                           value="{$form.value}">
+                    <present name="form.tip">
+                        <p class="help-block">{$form.tip}</p>
+                    </present>
+                </div>
+            </div>
+        </case>
+        <case value="image">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="{$key}">
+                    {$form.title|default=''}
+                    <notempty name="form.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="hidden" name="config[{$key}]" class="form-control"
+                           value="{$form.value}" id="js-{$key}-input">
+                    <div>
+                        <a href="javascript:uploadOneImage('图片上传','#js-{$key}-input');">
+                            <if condition="empty($form['value'])">
+                                <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                     id="js-{$key}-input-preview"
+                                     width="135" style="cursor: pointer"/>
+                                <else/>
+                                <img src="{:cmf_get_image_preview_url($form['value'])}"
+                                     id="js-{$key}-input-preview"
+                                     width="135" style="cursor: pointer"/>
+                            </if>
+                        </a>
+                    </div>
+                    <present name="form.tip">
+                        <p class="help-block">{$form.tip}</p>
+                    </present>
+                </div>
+            </div>
+        </case>
+        <case value="file">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="{$key}">
+                    {$form.title|default=''}
+                    <notempty name="form.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <div>
+                        <input class="form-control" id="js-{$key}-input" type="text" name="config[{$key}]" value="{$form['value']}"
+                               style="width: 300px;display: inline-block;" title="文件名称">
+                        <a href="javascript:uploadOne('文件上传','#js-{$key}-input','file');">上传文件</a>
+                    </div>
+                    <present name="form.tip">
+                        <p class="help-block">{$form.tip}</p>
+                    </present>
+                </div>
+            </div>
+        </case>
+        <case value="location">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="{$key}">
+                    {$form.title|default=''}
+                    <notempty name="form.rule.require">
+                        <span class="form-required">*</span>
+                    </notempty>
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input class="form-control" name="config[{$key}]" id="{$key}" value="{$form.value}"
+                           onclick="doSelectLocation(this)"
+                           data-title="请选择{$form.title|default=''}">
+                    <present name="form.tip">
+                        <p class="help-block">{$form.tip}</p>
+                    </present>
+                </div>
+            </div>
+        </case>
+    </switch>
+</foreach>
+
+<php>
+        }
+    }
+</php>

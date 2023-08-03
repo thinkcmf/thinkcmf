@@ -1,0 +1,69 @@
+<include file="theme/functions"/>
+<include file="public@header"/>
+<style>
+    .form-control-widget-title {
+        border: none;
+        padding: 0;
+        margin: 0;
+        font-size: inherit;
+        line-height: inherit;
+        background: transparent;
+    }
+
+    .form-control-widget-title:focus {
+        outline: none;
+        background: #fff;
+    }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <form method="post" class="js-ajax-form"
+          action="{:url('Theme/widgetSettingPost')}">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <input class="form-control-widget-title" type="text" value="{$widget.title}"
+                       name="widget[title]">
+                <label class="checkbox-inline pull-right">
+                    <php>$display_checked=empty($widget['display'])?'':'checked';</php>
+                    <input type="checkbox"
+                           name="widget[display]"
+                           value="1"
+                           {$display_checked}>
+                    显示
+                </label>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">属性</a></li>
+                        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">样式</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home">
+                            <br>
+                            {:_parse_vars($widget['vars'],'widget[vars]',2)}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="profile">
+                            <br>
+                            {:_parse_vars($widget['css'],'widget[css]',2)}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="display: none;">
+                    <input type="hidden" name="file_id" value="{$file_id}"/>
+                    <input type="hidden" name="widget_id" value="{$widget_id}"/>
+                    <input type="hidden" name="block_name" value="{$block_name}"/>
+                    <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0" id="submit-btn">保存</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+<include file="theme/scripts"/>
+</body>
+</html>

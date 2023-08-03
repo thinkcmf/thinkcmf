@@ -1,0 +1,62 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('AdminAsset/index')}">{:lang('USER_ADMINASSET_INDEX')}</a></li>
+    </ul>
+    <php>$status=['不可用', '可用'];</php>
+    <table class="table table-hover table-bordered margin-top-20">
+        <thead>
+        <tr>
+            <th width="50">ID</th>
+            <th>用户</th>
+            <th>文件大小</th>
+            <th>文件名</th>
+            <th>图像</th>
+            <th>文件路径</th>
+            <th>状态</th>
+            <th width="160">{:lang('ACTIONS')}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <php>
+            $asset_img_suffixes=['bmp','jpg','jpeg','png','gif','tiff'];/*TODO ADD MORE*/
+        </php>
+        <foreach name="assets" item="vo">
+            <tr>
+                <td>{$vo.id}</td>
+                <td>
+                    用户ID:{$vo.user_id} {$vo.user_login} {$vo.user_nickname}
+                </td>
+                <td>{$vo.file_size/1024|round}KB</td>
+                <td>{$vo.filename}</td>
+                <td>
+                    <if condition="in_array(strtolower($vo['suffix']),$asset_img_suffixes)">
+                        <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo['file_path'])}');">
+                            <i class="fa fa-photo fa-fw"></i>
+                        </a>
+                    </if>
+                </td>
+                <td>
+                    {$vo.file_path}
+                    <if condition="!file_exists('upload/'.$vo['file_path'])">
+                        <span style='color:red;'>&nbsp;&nbsp(文件丢失)</span>
+                    </if>
+                </td>
+                <td>{$status[$vo['status']]}</td>
+                <td>
+                    <a class="btn btn-xs btn-danger js-ajax-delete"
+                       href="{:url('AdminAsset/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+                </td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+
+    <div class="pagination">{$page|default=''}</div>
+
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>
