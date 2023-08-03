@@ -520,7 +520,7 @@ ul, ol {
 
 .task-changebt:hover {
     font-weight: bold;
-    color: #fff;
+    color: #4E5969;
     text-decoration: none;
     opacity: 0.8;
     filter: Alpha(opacity=80)
@@ -708,6 +708,6 @@ ul, ol {
     background: transparent;
 }
 
-#refresh-wrapper{
+#refresh-wrapper,#close-wrapper{
     color: #4E5969;
 }
