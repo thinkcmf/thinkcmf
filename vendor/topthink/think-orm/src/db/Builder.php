@@ -737,9 +737,9 @@ abstract class Builder
         }
 
         return $key . ' ' . substr($exp, 0, -4)
-        . $this->parseDateTime($query, $value[0], $field, $bindType)
-        . ' AND '
-        . $this->parseDateTime($query, $value[1], $field, $bindType);
+            . $this->parseDateTime($query, $value[0], $field, $bindType)
+            . ' AND '
+            . $this->parseDateTime($query, $value[1], $field, $bindType);
 
     }
 
@@ -783,9 +783,6 @@ abstract class Builder
             if (false === strpos($value, ',')) {
                 return $key . ('IN' == $exp ? ' = ' : ' <> ') . $value;
             }
-
-            $value = implode(',', $array);
-            
         }
 
         return $key . ' ' . $exp . ' (' . $value . ')';
@@ -1287,7 +1284,7 @@ abstract class Builder
             $this->insertAllSql
         );
     }
-    
+
     /**
      * 生成slect insert SQL
      * @access public
@@ -1370,3 +1367,4 @@ abstract class Builder
         );
     }
 }
+
