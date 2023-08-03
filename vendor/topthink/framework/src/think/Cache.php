@@ -2,16 +2,17 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace think;
 
+use DateInterval;
 use Psr\SimpleCache\CacheInterface;
 use think\cache\Driver;
 use think\cache\TagSet;
@@ -32,7 +33,7 @@ class Cache extends Manager implements CacheInterface
      * 默认驱动
      * @return string|null
      */
-    public function getDefaultDriver()
+    public function getDefaultDriver(): ?string
     {
         return $this->getConfig('default');
     }
@@ -57,7 +58,7 @@ class Cache extends Manager implements CacheInterface
      * 获取驱动配置
      * @param string $store
      * @param string $name
-     * @param null   $default
+     * @param mixed  $default
      * @return array
      */
     public function getStoreConfig(string $store, string $name = null, $default = null)
@@ -82,7 +83,7 @@ class Cache extends Manager implements CacheInterface
     /**
      * 连接或者切换缓存
      * @access public
-     * @param string $name 连接配置名
+     * @param string|null $name 连接配置名
      * @return Driver
      */
     public function store(string $name = null)
@@ -107,7 +108,7 @@ class Cache extends Manager implements CacheInterface
      * @param mixed  $default 默认值
      * @return mixed
      */
-    public function get($key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         return $this->store()->get($key, $default);
     }
@@ -120,7 +121,7 @@ class Cache extends Manager implements CacheInterface
      * @param int|\DateTime $ttl   有效时间 0为永久
      * @return bool
      */
-    public function set($key, $value, $ttl = null): bool
+    public function set(string $key, mixed $value, int|DateInterval $ttl = null): bool
     {
         return $this->store()->set($key, $value, $ttl);
     }
@@ -131,7 +132,7 @@ class Cache extends Manager implements CacheInterface
      * @param string $key 缓存变量名
      * @return bool
      */
-    public function delete($key): bool
+    public function delete(string $key): bool
     {
         return $this->store()->delete($key);
     }
@@ -144,7 +145,7 @@ class Cache extends Manager implements CacheInterface
      * @return iterable
      * @throws InvalidArgumentException
      */
-    public function getMultiple($keys, $default = null): iterable
+    public function getMultiple(iterable $keys, mixed $default = null): iterable
     {
         return $this->store()->getMultiple($keys, $default);
     }
@@ -156,7 +157,7 @@ class Cache extends Manager implements CacheInterface
      * @param null|int|\DateInterval $ttl    有效时间 0为永久
      * @return bool
      */
-    public function setMultiple($values, $ttl = null): bool
+    public function setMultiple(iterable $values, int|DateInterval $ttl = null): bool
     {
         return $this->store()->setMultiple($values, $ttl);
     }
@@ -168,7 +169,7 @@ class Cache extends Manager implements CacheInterface
      * @return bool
      * @throws InvalidArgumentException
      */
-    public function deleteMultiple($keys): bool
+    public function deleteMultiple(iterable $keys): bool
     {
         return $this->store()->deleteMultiple($keys);
     }
@@ -179,7 +180,7 @@ class Cache extends Manager implements CacheInterface
      * @param string $key 缓存变量名
      * @return bool
      */
-    public function has($key): bool
+    public function has(string $key): bool
     {
         return $this->store()->has($key);
     }
@@ -190,7 +191,7 @@ class Cache extends Manager implements CacheInterface
      * @param string|array $name 标签名
      * @return TagSet
      */
-    public function tag($name): TagSet
+    public function tag(string|array $name): TagSet
     {
         return $this->store()->tag($name);
     }

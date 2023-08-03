@@ -2,17 +2,18 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think;
 
 use SplFileInfo;
+use Closure;
 use think\exception\FileException;
 
 /**
@@ -29,6 +30,12 @@ class File extends SplFileInfo
     protected $hash = [];
 
     protected $hashName;
+
+    /**
+     * 保存的文件后缀
+     * @var string
+     */
+    protected $extension;
 
     public function __construct(string $path, bool $checkPath = true)
     {
@@ -156,32 +163,36 @@ class File extends SplFileInfo
     }
 
     /**
+     * 指定保存文件的扩展名
+     * @param string $extension
+     * @return void
+     */
+    public function setExtension(string $extension): void
+    {
+        $this->extension = $extension;
+    }
+
+    /**
      * 自动生成文件名
      * @access public
-     * @param string|\Closure $rule
+     * @param string|Closure|null $rule
      * @return string
      */
-    public function hashName($rule = ''): string
+    public function hashName(string|Closure|null $rule = null): string
     {
         if (!$this->hashName) {
-            if ($rule instanceof \Closure) {
+            if ($rule instanceof Closure) {
                 $this->hashName = call_user_func_array($rule, [$this]);
             } else {
-                switch (true) {
-                    case in_array($rule, hash_algos()):
-                        $hash           = $this->hash($rule);
-                        $this->hashName = substr($hash, 0, 2) . DIRECTORY_SEPARATOR . substr($hash, 2);
-                        break;
-                    case is_callable($rule):
-                        $this->hashName = call_user_func($rule);
-                        break;
-                    default:
-                        $this->hashName = date('Ymd') . DIRECTORY_SEPARATOR . md5(microtime(true) . $this->getPathname());
-                        break;
-                }
+                $this->hashName = match (true) {
+                    in_array($rule, hash_algos()) && $hash = $this->hash($rule)   =>  substr($hash, 0, 2) . DIRECTORY_SEPARATOR . substr($hash, 2),
+                    is_callable($rule)  =>  call_user_func($rule),
+                    default     =>  date('Ymd') . DIRECTORY_SEPARATOR . md5(microtime(true) . $this->getPathname()),
+                };
             }
         }
 
-        return $this->hashName . '.' . $this->extension();
+        $extension = $this->extension ?? $this->extension();
+        return $this->hashName . ($extension ? '.' . $extension : '');
     }
 }

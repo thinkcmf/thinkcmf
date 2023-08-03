@@ -2,16 +2,17 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace think\cache\driver;
 
+use DateInterval;
 use FilesystemIterator;
 use think\App;
 use think\cache\Driver;
@@ -51,7 +52,7 @@ class File extends Driver
             $this->options['path'] = $app->getRuntimePath() . 'cache';
         }
 
-        if (substr($this->options['path'], -1) != DIRECTORY_SEPARATOR) {
+        if (!str_ends_with($this->options['path'], DIRECTORY_SEPARATOR)) {
             $this->options['path'] .= DIRECTORY_SEPARATOR;
         }
     }
@@ -108,7 +109,7 @@ class File extends Driver
                 $content = gzuncompress($content);
             }
 
-            return is_string($content) ? ['content' => $content, 'expire' => $expire] : null;
+            return is_string($content) ? ['content' => (string) $content, 'expire' => $expire] : null;
         }
     }
 
@@ -118,7 +119,7 @@ class File extends Driver
      * @param string $name 缓存变量名
      * @return bool
      */
-    public function has($name): bool
+    public function has(string $name): bool
     {
         return $this->getRaw($name) !== null;
     }
@@ -130,7 +131,7 @@ class File extends Driver
      * @param mixed  $default 默认值
      * @return mixed
      */
-    public function get($name, $default = null)
+    public function get(string $name, mixed $default = null): mixed
     {
         $this->readTimes++;
 
@@ -142,12 +143,12 @@ class File extends Driver
     /**
      * 写入缓存
      * @access public
-     * @param string        $name   缓存变量名
-     * @param mixed         $value  存储数据
-     * @param int|\DateTime $expire 有效时间 0为永久
+     * @param string                 $name   缓存变量名
+     * @param mixed                  $value  存储数据
+     * @param int|\DateInterval|null $expire 有效时间 0为永久
      * @return bool
      */
-    public function set($name, $value, $expire = null): bool
+    public function set(string $name, mixed $value, int|DateInterval $expire = null): bool
     {
         $this->writeTimes++;
 
@@ -175,8 +176,14 @@ class File extends Driver
             $data = gzcompress($data, 3);
         }
 
-        $data   = "<?php\n//" . sprintf('%012d', $expire) . "\n exit();?>\n" . $data;
-        $result = file_put_contents($filename, $data);
+        $data = "<?php\n//" . sprintf('%012d', $expire) . "\n exit();?>\n" . $data;
+
+        if (str_contains($filename, '://') && !str_starts_with($filename, 'file://')) {
+            //虚拟文件不加锁
+            $result = file_put_contents($filename, $data);
+        } else {
+            $result = file_put_contents($filename, $data, LOCK_EX);
+        }
 
         if ($result) {
             clearstatcache();
@@ -224,7 +231,7 @@ class File extends Driver
      * @param string $name 缓存变量名
      * @return bool
      */
-    public function delete($name): bool
+    public function delete(string $name): bool
     {
         $this->writeTimes++;
 
@@ -300,5 +307,4 @@ class File extends Driver
 
         return true;
     }
-
 }

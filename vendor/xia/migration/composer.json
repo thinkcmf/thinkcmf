@@ -8,8 +8,7 @@
     }
   ],
   "require": {
-    "topthink/framework": "^6.0.0",
-    "topthink/think-helper": "^3.0.3"
+    
   },
   "autoload": {
     "psr-4": {

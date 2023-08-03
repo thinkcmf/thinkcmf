@@ -62,7 +62,7 @@
 		$is_mobile=cmf_is_mobile();
         $_static_version='1.0.4';
         $cmf_version=cmf_version();
-        if (strpos(cmf_version(), '6.') === 0) {
+        if (preg_match("/^(8|6)\./",$cmf_version)) {
             $_app=app()->http->getName();
         }else{
             $_app=request()->module();

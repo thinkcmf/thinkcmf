@@ -1,6 +1,6 @@
 {
     "name": "thinkcmf/thinkcmf",
-    "description": "ThinkCMF based on ThinkPHP 6.0 , it is a free and open source Content Management Framework(CMF)",
+    "description": "ThinkCMF based on ThinkPHP 8.0 , it is a free and open source Content Management Framework(CMF)",
     "type": "project",
     "keywords": [
         "cmf",
@@ -28,13 +28,13 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.4.0",
+        "php": ">=8.0.0",
         "ext-json": "*",
         "ext-curl": "*",
         "ext-pdo": "*",
-        "thinkcmf/cmf-app": "^6.0.0",
+        "thinkcmf/cmf-app": "^8.0.0",
         "thinkcmf/cmf-install": "^6.0.0",
-        "thinkcmf/cmf-api": "^6.0.0",
+        "thinkcmf/cmf-api": "^8.0.0",
         "thinkcmf/cmf-appstore": "^1.0",
         "thinkcmf/cmf-root": "^1.0"
     },
