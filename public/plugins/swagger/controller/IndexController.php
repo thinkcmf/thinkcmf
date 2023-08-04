@@ -10,7 +10,6 @@
 namespace plugins\swagger\controller;
 
 //Demo插件英文名，改成你的插件英文就行了
-use api\ApiInfo;
 use cmf\controller\PluginBaseController;
 use plugins\swagger\service\OpenApi;
 use think\exception\HttpResponseException;

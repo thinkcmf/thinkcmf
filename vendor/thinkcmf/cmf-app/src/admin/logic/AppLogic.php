@@ -61,8 +61,12 @@ class AppLogic
         $app = new $class;
 
         $installSuccess = $app->install();
-        if (!$installSuccess) {
-            return '应用预安装失败!';
+        if ($installSuccess !== true) {
+            if (is_string($installSuccess)) {
+                return $installSuccess;
+            } else {
+                return '应用预安装失败!';
+            }
         }
 
         $migrate = new Migrate($appName);
