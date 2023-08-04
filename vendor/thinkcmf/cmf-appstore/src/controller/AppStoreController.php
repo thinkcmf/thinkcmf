@@ -354,7 +354,7 @@ class AppStoreController extends AppStoreAdminBaseController
             realpath(CMF_ROOT . 'data') . DIRECTORY_SEPARATOR,
             realpath(WEB_ROOT . 'plugins') . DIRECTORY_SEPARATOR,
             realpath(WEB_ROOT . 'themes') . DIRECTORY_SEPARATOR,
-            realpath(WEB_ROOT . 'themes/admin_simpleboot3') . DIRECTORY_SEPARATOR,
+            realpath(WEB_ROOT . 'themes/admin_default') . DIRECTORY_SEPARATOR,
         ];
 
         foreach ($dirs as $dir) {

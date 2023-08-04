@@ -99,16 +99,16 @@ class PublishApp extends Command
                 }
             }
 
-            $adminThemeDir = WEB_ROOT . "themes/admin_simpleboot3/$name/";
+            $adminThemeDir = WEB_ROOT . "themes/admin_default/$name/";
             if (file_exists($adminThemeDir)) {
                 $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($adminThemeDir, \RecursiveDirectoryIterator::UNIX_PATHS | \RecursiveDirectoryIterator::CURRENT_AS_SELF | \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST, \RecursiveIteratorIterator::CATCH_GET_CHILD);
                 foreach ($files as $file) {
                     $subPath = $file->getSubPathname();
                     if ($file->isDir()) {
                         $subPath = rtrim($subPath, '/') . '/';
-                        $zip->addEmptyDir("$name/public/themes/admin_simpleboot3/$name/" . $subPath);
+                        $zip->addEmptyDir("$name/public/themes/admin_default/$name/" . $subPath);
                     } else {
-                        $zip->addFile($adminThemeDir . $subPath, "$name/public/themes/admin_simpleboot3/$name/" . $subPath);
+                        $zip->addFile($adminThemeDir . $subPath, "$name/public/themes/admin_default/$name/" . $subPath);
                     }
                 }
             }

@@ -1,0 +1,26 @@
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="{:url('Storage/index')}">{:lang('ADMIN_STORAGE_INDEX')}</a>
+            </li>
+        </ul>
+        <form method="post" class="js-ajax-form margin-top-20" action="{:url('Storage/settingPost')}">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="input-type" class="form-label">{:lang('Type')}</label>
+                    <select class="form-select" name="type" id="input-type">
+                        <foreach name="storages" item="vo">
+                            <php>$type_selected=isset($type)&&$type==$key?"selected":"";</php>
+                            <option value="{$key}" {$type_selected}>{$vo.name}</option>
+                        </foreach>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">{:lang('SAVE')}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</block>

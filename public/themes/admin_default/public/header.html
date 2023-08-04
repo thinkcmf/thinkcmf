@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- HTML5 shim for IE8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <![endif]-->
+
+    <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style('arcoadmin')}/bootstrap.min.css" rel="stylesheet">
+    <link href="__TMPL__/public/assets/simpleboot/css/simplebootadmin.css" rel="stylesheet">
+    <link href="__STATIC__/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style('arcoadmin')}/simplebootadmin.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <php>
+		$is_mobile=cmf_is_mobile();
+        $_static_version='1.0.4';
+        $cmf_version=cmf_version();
+        if (preg_match("/^(8|6)\./",$cmf_version)) {
+            $_app=app()->http->getName();
+        }else{
+            $_app=request()->module();
+        }
+    </php>
+    <script type="text/javascript">
+        //全局变量
+        var GV = {
+            ROOT: "__ROOT__/",
+            WEB_ROOT: "__WEB_ROOT__/",
+            JS_ROOT: "static/js/",
+            APP: '{$_app}'/*当前应用名*/,
+            IS_MOBILE: {$is_mobile? 'true' : 'false'}
+        };
+    </script>
+    <script src="__TMPL__/public/assets/js/jquery-1.12.4.min.js"></script>
+    <script src="__TMPL__/public/assets/js/jquery-migrate-1.4.1.min.js"></script>
+    <script src="__STATIC__/js/wind.js"></script>
+    <script src="__TMPL__/public/assets/js/bootstrap.min.js"></script>
+    <script>
+        Wind.alias({noty:'__TMPL__/public/assets/js/noty-2.4.1.js'})
+    </script>
+    <script>
+        Wind.css('artDialog');
+        Wind.css('layer');
+        $(function () {
+            $("[data-toggle='tooltip']").tooltip({
+                container: 'body',
+                html: true,
+            });
+            $("li.dropdown").hover(function () {
+                $(this).addClass("open");
+            }, function () {
+                $(this).removeClass("open");
+            });
+        });
+    </script>
+    <if condition="APP_DEBUG">
+        <style>
+            #think_page_trace_open {
+                z-index: 9999;
+            }
+        </style>
+    </if>

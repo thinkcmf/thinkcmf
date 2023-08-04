@@ -164,7 +164,7 @@ class IndexController extends BaseController
             CMF_ROOT . 'data' . DIRECTORY_SEPARATOR,
             WEB_ROOT . 'plugins' . DIRECTORY_SEPARATOR,
             WEB_ROOT . 'themes' . DIRECTORY_SEPARATOR,
-            WEB_ROOT . 'themes/admin_simpleboot3' . DIRECTORY_SEPARATOR,
+            WEB_ROOT . 'themes/admin_default' . DIRECTORY_SEPARATOR,
             WEB_ROOT . 'upload' . DIRECTORY_SEPARATOR,
         ];
         $newFolders = [];

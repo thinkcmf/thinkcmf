@@ -1,0 +1,65 @@
+@CHARSET "UTF-8";
+.bg-white{
+	background-color: #fff;
+}
+
+.input-order {
+	width: 30px;
+}
+
+.wrap {
+	padding: 20px;
+	border-radius: 4px;
+	background: #fff;
+	min-height: 100%;
+}
+
+.margin-top-3 {
+	margin-top: 3px !important;
+}
+
+.margin-top-10 {
+	margin-top: 10px !important;
+}
+
+.margin-top-20 {
+	margin-top: 20px !important;
+}
+
+form .input-order {
+	margin-bottom: 0px;
+	padding: 0 2px;
+	width: 42px;
+	font-size: 12px;
+}
+
+form .input-order:focus {
+	outline: none;
+}
+
+.table-actions {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding: 0px;
+}
+
+.table-list {
+	margin-bottom: 0px;
+}
+
+.form-required {
+	color: red;
+}
+
+.td-actions .btn {
+	margin-bottom: 2px;
+	min-width: 96px;
+	text-align: center;
+}
+
+.td-actions .btn:last-child {
+	margin-bottom: 0;
+}
+a:hover, a:focus{
+	text-decoration: none;
+}

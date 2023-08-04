@@ -1911,10 +1911,10 @@ function cmf_replace_content_file_url($content, $isForDbSave = false)
  * 获取后台风格名称
  * @return string
  */
-function cmf_get_admin_style()
+function cmf_get_admin_style($defaultStyle = 'simpleadmin')
 {
     $adminSettings = cmf_get_option('admin_settings');
-    return empty($adminSettings['admin_style']) ? 'simpleadmin' : $adminSettings['admin_style'];
+    return empty($adminSettings['admin_style']) ? $defaultStyle : $adminSettings['admin_style'];
 }
 
 /**
