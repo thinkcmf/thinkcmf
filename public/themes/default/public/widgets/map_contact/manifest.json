@@ -1,0 +1,67 @@
+{
+    "title": "联系地图",
+    "name": "map_contact",
+    "display": "1",
+    "version": "1.0.0",
+    "demo_url": "http://demo.thinkcmf.com",
+    "author": "ThinkCMF",
+    "author_url": "http://www.thinkcmf.com",
+    "keywords": "ThinkCMF模板simpleboot5联系地图控件",
+    "description": "ThinkCMF模板simpleboot5联系地图控件",
+    "action": "",
+    "css": {
+        "margin-bottom": {
+            "title": "下边距",
+            "name": "margin-bottom",
+            "value": "15px",
+            "type": "text",
+            "tip": "下边距,支持单位如px(像素),em(字符),rem",
+            "rule": []
+        }
+    },
+    "vars": {
+        "baidu_map_info_window_text": {
+            "title": "百度地图标注文字",
+            "name": "baidu_map_info_window_text",
+            "value": "ThinkCMF<br/><span class=''>地址：上海市徐汇区斜土路2601号</span>",
+            "type": "text",
+            "tip": "百度地图标注文字,支持简单html代码",
+            "rule": []
+        },
+        "baidu_map_info_window_rich_text": {
+            "title": "百度地图标注文字",
+            "name": "baidu_map_info_window_rich_text",
+            "value": "ThinkCMF<br/><span class=''>地址：上海市徐汇区斜土路2601号</span>",
+            "type": "rich_text",
+            "tip": "百度地图标注文字,支持简单html代码",
+            "rule": []
+        },
+        "baidu_map_info_window_rich_text2": {
+            "title": "百度地图标注文字2",
+            "name": "baidu_map_info_window_rich_text2",
+            "value": "ThinkCMF<br/><span class=''>地址：上海市徐汇区斜土路2601号</span>",
+            "type": "rich_text",
+            "tip": "百度地图标注文字,支持简单html代码",
+            "rule": []
+        },
+        "company_location": {
+            "title": "公司坐标",
+            "value": "",
+            "type": "location",
+            "tip": "",
+            "rule": {
+                "require": true
+            }
+        },
+        "fullscreen": {
+            "title": "全屏显示",
+            "type": "select",
+            "value": 1,
+            "options": {
+                "1": "开启",
+                "0": "关闭"
+            },
+            "tip": ""
+        }
+    }
+}

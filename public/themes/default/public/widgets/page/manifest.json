@@ -1,0 +1,15 @@
+{
+    "title": "页面内容",
+    "name": "page",
+    "display": "1",
+    "version": "1.0.0",
+    "demo_url": "http://demo.thinkcmf.com",
+    "author": "ThinkCMF",
+    "author_url": "http://www.thinkcmf.com",
+    "keywords": "ThinkCMF模板simpleboot5页面内容控件",
+    "description": "ThinkCMF模板simpleboot5页面内容控件",
+    "action": "portal/Page/index",
+    "vars": {
+
+    }
+}

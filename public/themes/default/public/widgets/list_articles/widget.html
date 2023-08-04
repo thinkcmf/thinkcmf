@@ -1,0 +1,52 @@
+<widget tag="div">
+    <div class="container">
+        <notempty name="category">
+            <div class="">
+                <php>
+                    $where= function($query){
+                    $query->where('post.create_time','>=',0);
+                    };
+                    $page=[
+                    'list_rows'=>10,
+                    'next'=>'下一页',
+                    'prev'=>'上一页'
+                    ];
+                </php>
+                <portal:articles item="vo" where="$where" order="post.create_time DESC" page="$page"
+                                 relation="categories"
+                                 categoryIds="$category.id"
+                                 returnVarName="articles_data">
+                    <div class="list-boxes">
+                        <h2><a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}">{$vo.post_title}</a>
+                        </h2>
+                        <p>{$vo.post_excerpt}</p>
+                        <div>
+                            <div class="pull-left">
+                                <div class="list-actions">
+                                    <a href="javascript:;"><i class="fa fa-eye"></i><span>{$vo.post_hits}</span></a>
+                                    <a href="{:url('portal/Article/doLike',array('id'=>$vo['id']))}"
+                                       class="js-count-btn"><i class="fa fa-thumbs-up"></i><span class="count">{$vo.post_like}</span></a>
+                                    <a href="{:url('user/Favorite/add',array('id'=>$vo['id'],'cid'=>$category['id']))}"
+                                       class="js-favorite-btn"
+                                       data-id="{$vo.id}"
+                                       data-table="portal_post"
+                                       data-title="{:base64_encode($vo.post_title)}"
+                                       data-url="{:cmf_url_encode('portal/Article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}"
+                                    >
+                                        <i class="fa fa-star-o"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <a class="btn btn-warning btn-sm pull-right"
+                               href="{:cmf_url('portal/Article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}">查看更多</a>
+                        </div>
+                    </div>
+                </portal:articles>
+
+            </div>
+            <ul class="pagination">
+                <page/>
+            </ul>
+        </notempty>
+    </div>
+</widget>

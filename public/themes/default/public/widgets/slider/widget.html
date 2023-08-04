@@ -1,0 +1,39 @@
+<!-- Nav -->
+<widget tag="div">
+    <php>$fullscreen=empty($widget['vars']['fullscreen'])?'':'g-0';</php>
+    <div class="container-fluid {$fullscreen}">
+        <php>
+            $top_slide_id=empty($widget['vars']['slide_id'])?1:$widget['vars']['slide_id'];
+        </php>
+        <ul class="slider">
+            <slides id="$top_slide_id">
+                <li>
+                    <div class="caption-wraper">
+                        <div class="caption">{$vo.title|default=''}</div>
+                    </div>
+                    <a href="{$vo.url|default=''}"><img src="{:cmf_get_image_url($vo.image)}" alt=""></a>
+                </li>
+            </slides>
+            <noslides id="$top_slide_id">
+                <li>
+                    <div class="caption-wraper">
+                        <div class="caption">此幻灯片只是演示,您没有设置任何幻灯片,请到后台模板设置！</div>
+                    </div>
+                    <a href=""><img src="__TMPL__/public/assets/images/demo/1.jpg" alt=""></a>
+                </li>
+                <li>
+                    <div class="caption-wraper">
+                        <div class="caption">此幻灯片只是演示,您没有设置任何幻灯片,请到后台模板设置！</div>
+                    </div>
+                    <a href=""><img src="__TMPL__/public/assets/images/demo/2.jpg" alt=""></a>
+                </li>
+                <li>
+                    <div class="caption-wraper">
+                        <div class="caption">此幻灯片只是演示,您没有设置任何幻灯片,请到后台模板设置！</div>
+                    </div>
+                    <a href=""><img src="__TMPL__/public/assets/images/demo/3.jpg" alt=""></a>
+                </li>
+            </noslides>
+        </ul>
+    </div>
+</widget>

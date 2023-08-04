@@ -1,15 +1,29 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8"/>
-    <title>
-        <block name="title">标题</block>
-    </title>
+    <block name="seo">
+        <title>首页 {$site_info.site_name|default=''}</title>
+        <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+        <meta name="description" content="{$site_info.site_seo_description|default=''}">
+    </block>
+    <include file="public@head"/>
+    <widgetsHead/>
 </head>
-<body>
-<block name="menu">菜单</block>
-<block name="left">左边分栏</block>
-<block name="main">主内容</block>
-<block name="right">右边分栏</block>
-<block name="footer">底部</block>
+<body class="body-white">
+<widgetsBlock tag="div" name="top"/>
+<widgetsBlock tag="div" name="body"/>
+<div class="container g-0">
+    <div class="row g-0">
+        <div class="col-md-9">
+            <widgetsBlock tag="div" name="body_left"/>
+        </div>
+        <div class="col-md-3">
+            <widgetsBlock tag="div" name="body_right"/>
+        </div>
+    </div>
+</div>
+<widgetsBlock tag="div" name="footer"/>
+<include file="public@scripts"/>
+<widgetsScript/>
 </body>
 </html>

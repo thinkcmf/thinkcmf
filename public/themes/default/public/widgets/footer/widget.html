@@ -1,0 +1,44 @@
+<widget tag="div">
+    <div class="container">
+        <br>
+        <!-- Footer ================================================== -->
+        <hr>
+        <div id="footer">
+            <hook name="footer_start"/>
+            <div class="links">
+                <links>
+                    <a href="{$vo.url|default=''}" target="{$vo.target|default=''}">{$vo.name|default=''}</a>&nbsp;
+                </links>
+
+            </div>
+            <p>
+                Made by <a href="http://www.thinkcmf.com" target="_blank">ThinkCMF</a>
+                Code licensed under the
+                <a href="http://www.apache.org/licenses/LICENSE-2.0" rel="nofollow" target="_blank">Apache License
+                    v2.0</a>.
+                <br/>
+                Based on
+                <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>.
+                Icons from
+                <a href="http://fortawesome.github.com/Font-Awesome/" target="_blank">Font Awesome</a>
+                <br>
+                <notempty name="site_info.site_icp">
+                    <a href="https://beian.miit.gov.cn/" target="_blank">{$site_info.site_icp}</a>
+                    <else/>
+                    请在后台设置"网站信息"设置"ICP备"
+                </notempty>
+                <notempty name="site_info.site_gwa">
+                    <img src="__TMPL__/public/assets/images/ghs.png">
+                    <a href="http://beian.gov.cn/" target="_blank">{$site_info.site_gwa}</a>
+                    <else/>
+                    请在后台设置"网站信息"设置"公网安备"
+                </notempty>
+
+
+            </p>
+        </div>
+        <div id="backtotop">
+            <i class="fa fa-arrow-circle-up"></i>
+        </div>
+    </div>
+</widget>

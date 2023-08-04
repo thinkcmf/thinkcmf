@@ -1,0 +1,68 @@
+{
+    "title": "客户联系",
+    "name": "guestbook",
+    "display": "1",
+    "version": "1.0.0",
+    "demo_url": "http://demo.thinkcmf.com",
+    "author": "ThinkCMF",
+    "author_url": "http://www.thinkcmf.com",
+    "keywords": "ThinkCMF模板simpleboot5客户联系控件",
+    "description": "ThinkCMF模板simpleboot5幻客户联系控件",
+    "action": "",
+    "vars": {
+        "address_cn": {
+            "title": "公司地址",
+            "value": "上海市徐汇区斜土路0001号",
+            "type": "text",
+            "tip": "",
+            "rule": {
+                "require": true
+            }
+        },
+        "address_en": {
+            "title": "公司地址（英文）",
+            "value": "NO.0001 Xie Tu Road, Shanghai China",
+            "type": "text",
+            "tip": "",
+            "rule": {
+                "require": true
+            }
+        },
+        "email": {
+            "title": "公司邮箱",
+            "value": "catman@thinkcmf.com",
+            "type": "text",
+            "tip": "",
+            "rule": {
+                "require": true
+            }
+        },
+        "phone_cn": {
+            "title": "公司电话",
+            "value": "021 1000 0001",
+            "type": "text",
+            "tip": "",
+            "rule": {
+                "require": true
+            }
+        },
+        "phone_en": {
+            "title": "公司电话（英文）",
+            "value": "+8621 1000 0001",
+            "type": "text",
+            "tip": "",
+            "rule": {
+                "require": true
+            }
+        },
+        "qq": {
+            "title": "联系QQ",
+            "value": "478519726",
+            "type": "text",
+            "tip": "多个 QQ以英文逗号隔开",
+            "rule": {
+                "require": true
+            }
+        }
+    }
+}

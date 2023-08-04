@@ -1,0 +1,15 @@
+{
+    "title": "文章内容",
+    "name": "article",
+    "display": "1",
+    "version": "1.0.0",
+    "demo_url": "http://demo.thinkcmf.com",
+    "author": "ThinkCMF",
+    "author_url": "http://www.thinkcmf.com",
+    "keywords": "ThinkCMF模板simpleboot5文章内容控件",
+    "description": "ThinkCMF模板simpleboot5文章内容控件",
+    "action": "portal/Article/index",
+    "vars": {
+
+    }
+}

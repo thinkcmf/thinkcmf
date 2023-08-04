@@ -1,0 +1,13 @@
+<widget tag="div">
+    <div class="container">
+        <notempty name="page">
+            <div class="tc-box article-box">
+                <h2>{$page.post_title|default=''}</h2>
+                <hr>
+                <div id="article_content">
+                    {$page.post_content|default=''}
+                </div>
+            </div>
+        </notempty>
+    </div>
+</widget>

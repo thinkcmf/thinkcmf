@@ -1,0 +1,6 @@
+<extend name="public@base"/>
+<block name="seo">
+    <title>{$category.name} {$category.seo_title} {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$category.seo_keywords},{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$category.seo_description},{$site_info.site_seo_description|default=''}">
+</block>

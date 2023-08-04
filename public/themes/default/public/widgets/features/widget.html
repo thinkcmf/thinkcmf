@@ -1,0 +1,28 @@
+<widget tag="div">
+    <div class="container">
+        <div>
+            <h1 class="text-center">{$widget.title}</h1>
+            <h3 class="text-center">{$widget.vars.sub_title|default='Quickly understand the ThinkCMF'}</h3>
+        </div>
+        <notempty name="$widget['vars']['features']">
+            <php>
+                $features_count = count($widget['vars']['features']);
+                $rows = ceil($features_count/3);
+            </php>
+            <for start="1" end="$rows" comparison="elt" step="1" name="row">
+                <php>
+                    $first_row = ($row-1)*3;
+                    $features = array_slice($widget['vars']['features'],$first_row,3);
+                </php>
+                <div class="row">
+                    <foreach name="features" item="vo">
+                        <div class="col-md-4">
+                            <h2 class="font-large nospace"><i class="fa fa-{$vo.icon}"></i> {$vo.title}</h2>
+                            <p>{$vo.content}</p>
+                        </div>
+                    </foreach>
+                </div>
+            </for>
+        </notempty>
+    </div>
+</widget>

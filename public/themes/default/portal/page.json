@@ -1,0 +1,71 @@
+{
+    "name": "单页面",
+    "action": "portal/Page/index",
+    "description": "单页面模板文件",
+    "order": 10.0,
+    "more": {
+        "widgets_blocks": {
+            "top": {
+                "title": "顶部",
+                "widgets": {
+                    "top_nav_202206300003": {
+                        "title": "顶部导航",
+                        "name": "nav",
+                        "display": "1"
+                    }
+
+                }
+            },
+            "body_left": {
+                "title": "主体左",
+                "widgets": {
+                    "page_slider_202206300003": {
+                        "title": "首页幻灯片",
+                        "name": "slider",
+                        "display": "1"
+                    },
+                    "page_202206300003": {
+                        "title": "页面内容",
+                        "name": "page",
+                        "display": "1"
+                    },
+                    "page_last_news_202206300003": {
+                        "title": "最新资讯",
+                        "name": "last_news",
+                        "display": "1"
+                    }
+                }
+            },
+            "body_right": {
+                "title": "主体右",
+                "widgets": {
+                    "page_slider_202206300004": {
+                        "title": "首页幻灯片",
+                        "name": "slider",
+                        "display": "1"
+                    },
+                    "page_side_hot_articles_202206300004": {
+                        "title": "热门文章",
+                        "name": "side_hot_articles",
+                        "display": "1"
+                    },
+                    "page_side_last_articles_202206300004": {
+                        "title": "最新文章",
+                        "name": "side_last_articles",
+                        "display": "1"
+                    }
+                }
+            },
+            "footer": {
+                "title": "底部",
+                "widgets": {
+                    "footer_202206300003": {
+                        "title": "底部",
+                        "name": "footer",
+                        "display": "1"
+                    }
+                }
+            }
+        }
+    }
+}

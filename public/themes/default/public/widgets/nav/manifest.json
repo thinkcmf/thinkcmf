@@ -1,0 +1,22 @@
+{
+    "title": "顶部导航",
+    "name": "nav",
+    "display": "1",
+    "version": "1.0.0",
+    "demo_url": "http://demo.thinkcmf.com",
+    "author": "ThinkCMF",
+    "author_url": "http://www.thinkcmf.com",
+    "keywords": "ThinkCMF模板simpleboot5控件nav",
+    "description": "ThinkCMF模板simpleboot5控件nav",
+    "action": "",
+    "vars": {
+        "company_name": {
+            "title": "公司名称",
+            "name": "company_name",
+            "value": "ThinkCMF",
+            "type": "text",
+            "tip": "",
+            "rule": []
+        }
+    }
+}

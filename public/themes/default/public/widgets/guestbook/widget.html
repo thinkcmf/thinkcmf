@@ -1,0 +1,67 @@
+<!-- Nav -->
+<widget tag="div" >
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <php>$guestbook=hook_one('guestbook');</php>
+                <if condition="empty($guestbook) && cmf_get_current_admin_id()">
+                    <div style="border: 1px dashed #ddd;min-height: 300px;padding-top: 100px;">
+                        <div class="alert alert-warning" role="alert">
+                            此区域这为留言区，请安装留言插件！<br>
+                            <em>注：普通用户不会看到此提示！</em>
+                        </div>
+                    </div>
+                </if>
+                {$guestbook}
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 class="section-title">联系方式</h3>
+                        <div class="contact-info">
+                            <h5>地址</h5>
+                            <p>{$widget.vars.address_cn|default=''}</p>
+
+                            <h5>邮箱</h5>
+                            <p>{$widget.vars.email|default=''}</p>
+
+                            <h5>电话</h5>
+                            <p>{$widget.vars.phone_cn|default=''}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h3>Contact</h3>
+                        <div class="contact-info">
+                            <h5>Address</h5>
+                            <p>{$widget.vars.address_en|default=''}</p>
+
+                            <h5>Email</h5>
+                            <p>{$widget.vars.email|default=''}</p>
+
+                            <h5>Phone</h5>
+                            <p>{$widget.vars.phone_en|default=''}</p>
+                        </div>
+                    </div>
+                </div>
+                <php>
+                    $company_qq=empty($widget['vars']['qq'])?'':$widget['vars']['qq'];
+                    $company_qq=explode(',',$company_qq);
+                </php>
+                <notempty name="company_qq">
+                    <h3 class="section-title">快捷交流</h3>
+                    <p>点击以下QQ图标，免加好友即时洽谈合作</p>
+                    <div class="social-media">
+                        <foreach name="company_qq" item="qq">
+                            <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$qq}&site=qq&menu=yes">
+                                <img border="0"
+                                     src="http://wpa.qq.com/pa?p=2:{$qq}:51"
+                                     alt="点击这里给我发消息"
+                                     title="点击这里给我发消息"/>
+                            </a>
+                        </foreach>
+                    </div>
+                </notempty>
+            </div>
+        </div>
+    </div>
+</widget>

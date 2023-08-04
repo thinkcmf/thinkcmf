@@ -1,0 +1,29 @@
+<widget tag="div">
+    <div class="container">
+        <div class="tc-box">
+            <div class="headtitle">
+                <h2>{$widget.title}</h2>
+            </div>
+            <div class="ranking">
+                <php>
+                    $hot_articles=[];
+                </php>
+                <ul class="list-unstyled">
+                    <if condition="isset($widget['vars']['hottest_articles_category_id'])">
+                        <portal:articles limit="5" order="post.post_hits DESC"
+                                         categoryIds="$widget.vars.hottest_articles_category_id">
+                            <php>$top=$key<3?"top3":"";</php>
+                            <li class="{$top}">
+                                <i>{$key+1}</i>
+                                <a title="{$vo.post_title}"
+                                   href="{:cmf_url('portal/Article/index',array('id'=>$vo['id'],'cid'=>$vo.category_id))}">
+                                    {$vo.post_title}
+                                </a>
+                            </li>
+                        </portal:articles>
+                    </if>
+                </ul>
+            </div>
+        </div>
+    </div>
+</widget>

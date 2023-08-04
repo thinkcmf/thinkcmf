@@ -1,0 +1,161 @@
+<widget tag="div">
+    <div class="container">
+        <div>
+            <h1 class="text-center">{$widget.title}</h1>
+        </div>
+
+        <div class="row">
+            <php>
+                $widget["vars"]["last_news_category_id"] =
+                empty($widget["vars"]["last_news_category_id"])?1:$widget["vars"]["last_news_category_id"];
+                $last_news_limit=4;
+                try{
+            </php>
+            <portal:articles limit="$last_news_limit" order="post.published_time DESC"
+                             categoryIds="$widget.vars.last_news_category_id">
+                <div class="col-md-3">
+                    <div class="tc-gridbox">
+                        <div class="header">
+                            <div class="item-image">
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">
+                                    <present name="vo.more.thumbnail">
+                                        <empty name="vo.more.thumbnail">
+                                            <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                                 class="img-responsive"
+                                                 alt="">
+                                            <else/>
+                                            <img src="{:cmf_get_image_url($vo.more.thumbnail)}"
+                                                 class="img-responsive"
+                                                 alt="">
+                                        </empty>
+                                        <else/>
+                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                             class="img-responsive"
+                                             alt="">
+                                    </present>
+                                </a>
+                            </div>
+                            <h3>
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">{$vo.post_title}</a>
+                            </h3>
+                            <hr>
+                        </div>
+                        <div class="body">
+                            <p>
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">...</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="tc-gridbox">
+                        <div class="header">
+                            <div class="item-image">
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">
+                                    <present name="vo.more.thumbnail">
+                                        <empty name="vo.more.thumbnail">
+                                            <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                                 class="img-responsive"
+                                                 alt="">
+                                            <else/>
+                                            <img src="{:cmf_get_image_url($vo.more.thumbnail)}"
+                                                 class="img-responsive"
+                                                 alt="">
+                                        </empty>
+                                        <else/>
+                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                             class="img-responsive"
+                                             alt="">
+                                    </present>
+                                </a>
+                            </div>
+                            <h3>
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">{$vo.post_title}</a>
+                            </h3>
+                            <hr>
+                        </div>
+                        <div class="body">
+                            <p>
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">...</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="tc-gridbox">
+                        <div class="header">
+                            <div class="item-image">
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">
+                                    <present name="vo.more.thumbnail">
+                                        <empty name="vo.more.thumbnail">
+                                            <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                                 class="img-responsive"
+                                                 alt="">
+                                            <else/>
+                                            <img src="{:cmf_get_image_url($vo.more.thumbnail)}"
+                                                 class="img-responsive"
+                                                 alt="">
+                                        </empty>
+                                        <else/>
+                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                             class="img-responsive"
+                                             alt="">
+                                    </present>
+                                </a>
+                            </div>
+                            <h3>
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">{$vo.post_title}</a>
+                            </h3>
+                            <hr>
+                        </div>
+                        <div class="body">
+                            <p>
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">...</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="tc-gridbox">
+                        <div class="header">
+                            <div class="item-image">
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">
+                                    <present name="vo.more.thumbnail">
+                                        <empty name="vo.more.thumbnail">
+                                            <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                                 class="img-responsive"
+                                                 alt="">
+                                            <else/>
+                                            <img src="{:cmf_get_image_url($vo.more.thumbnail)}"
+                                                 class="img-responsive"
+                                                 alt="">
+                                        </empty>
+                                        <else/>
+                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                             class="img-responsive"
+                                             alt="">
+                                    </present>
+                                </a>
+                            </div>
+                            <h3>
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">{$vo.post_title}</a>
+                            </h3>
+                            <hr>
+                        </div>
+                        <div class="body">
+                            <p>
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">...</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </portal:articles>
+            <php>}catch(\Exception $e){</php>
+            <div class="alert alert-danger" role="alert">
+                此组件运行发生错误，请检查是否设置正确或已在后台应用中心安装门户应用！<br>
+                您也可以隐藏此组件！
+            </div>
+            <php>}</php>
+        </div>
+    </div>
+</widget>

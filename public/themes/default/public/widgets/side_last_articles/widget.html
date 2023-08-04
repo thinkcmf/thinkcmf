@@ -1,0 +1,33 @@
+<widget tag="div">
+    <div class="container">
+        <div class="tc-box">
+            <div class="headtitle">
+                <h2>{$widget.title}</h2>
+            </div>
+            <div class="posts">
+                <if condition="isset($widget['vars']['last_articles_category_id'])">
+                    <portal:articles limit="5" order="post.published_time DESC"
+                                     categoryIds="$widget.vars.last_articles_category_id">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                <a class="img-wraper"
+                                   href="{:cmf_url('portal/Article/index',array('id'=>$vo.id))}">
+                                    <if condition="empty($vo.more.thumbnail)">
+                                        <img src="__TMPL__/public/assets/images/default_tupian4.png"
+                                             class="img-responsive" alt="{$vo.post_title}"/>
+                                        <else/>
+                                        <img src="{:cmf_get_image_url($vo.more.thumbnail)}"
+                                             class="img-responsive" alt="{$vo.post_title}"/>
+                                    </if>
+                                </a>
+                            </dt>
+                            <dd>
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}">{$vo.post_title}</a>
+                            </dd>
+                        </dl>
+                    </portal:articles>
+                </if>
+            </div>
+        </div>
+    </div>
+</widget>

@@ -1,8 +1,8 @@
 {
-    "name": "首页",
-    "action": "portal/Index/index",
-    "description": "首页模板文件",
-    "order": 5.0,
+    "name": "联系我们页",
+    "action": "portal/Page/index",
+    "description": "联系我们页模板文件",
+    "order": 10.0,
     "more": {
         "widgets_blocks": {
             "top": {
@@ -13,24 +13,19 @@
                         "name": "nav",
                         "display": "1"
                     }
-                 }
+                }
             },
             "body": {
                 "title": "主体",
                 "widgets": {
-                    "home_slider_202206300003": {
-                        "title": "首页幻灯片",
-                        "name": "slider",
+                    "contact_map_202206300003": {
+                        "title": "联系地图",
+                        "name": "map_contact",
                         "display": "1"
                     },
-                    "home_features_202206300003": {
-                        "title": "产品特性",
-                        "name": "features",
-                        "display": "1"
-                    },
-                    "home_last_news_202206300003": {
-                        "title": "最新资讯",
-                        "name": "last_news",
+                    "contact_guestbook_202206300003": {
+                        "title": "客户联系",
+                        "name": "guestbook",
                         "display": "1"
                     }
 
@@ -39,7 +34,7 @@
             "footer": {
                 "title": "底部",
                 "widgets": {
-                    "home_footer_202206300003": {
+                    "contact_footer_202206300003": {
                         "title": "底部",
                         "name": "footer",
                         "display": "1"

@@ -1,0 +1,28 @@
+{
+    "title": "热门文章",
+    "name": "side_hot_articles",
+    "display": "1",
+    "version": "1.0.0",
+    "demo_url": "http://demo.thinkcmf.com",
+    "author": "ThinkCMF",
+    "author_url": "http://www.thinkcmf.com",
+    "keywords": "ThinkCMF模板simpleboot5侧边热门文章列表控件",
+    "description": "ThinkCMF模板simpleboot5侧边热门文章列表控件",
+    "action": "",
+    "vars": {
+        "hottest_articles_category_id": {
+            "title": "文章分类ID",
+            "value": "",
+            "type": "text",
+            "dataSource": {
+                "api": "portal/category/index",
+                "multi": true
+            },
+            "placeholder": "请选择分类",
+            "tip": "",
+            "rule": {
+                "require": true
+            }
+        }
+    }
+}
