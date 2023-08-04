@@ -17,7 +17,7 @@
                    data-toggle="tooltip"
                    target="_blank"><i class="fa fa-question-circle"></i></a>
             </label>
-            <div class="col-md-6 col-sm-10">
+            <div class="col-md-8 col-sm-10">
                 <input type="text" class="form-control" id="input-from_name" name="from_name"
                        value="{$from_name|default=''}">
             </div>
@@ -26,7 +26,7 @@
             <label for="input-from" class="col-sm-2 control-label">
                 <span class="form-required">*</span>{:lang('SENDER_EMAIL_ADDRESS')}
             </label>
-            <div class="col-md-6 col-sm-10">
+            <div class="col-md-8 col-sm-10">
                 <input type="text" class="form-control" id="input-from" name="from" value="{$from|default=''}">
             </div>
         </div>
@@ -34,7 +34,7 @@
             <label for="input-host" class="col-sm-2 control-label">
                 <span class="form-required">*</span>{:lang('SENDER_SMTP_SERVER')}
             </label>
-            <div class="col-md-6 col-sm-10">
+            <div class="col-md-8 col-sm-10">
                 <input type="text" class="form-control" id="input-host" name="host" value="{$host|default=''}">
             </div>
         </div>
@@ -42,7 +42,7 @@
             <label for="js-smtpsecure" class="col-sm-2 control-label">
                 <span class="form-required">*</span>{:lang('SMTP Secure Protocol')}
             </label>
-            <div class="col-md-6 col-sm-10">
+            <div class="col-md-8 col-sm-10">
                 <select name="smtp_secure" id="js-smtpsecure" class="form-control">
                     <option value="">{:lang('Default')}</option>
                     <option value="ssl">SSL</option>
@@ -54,7 +54,7 @@
             <label for="input-port" class="col-sm-2 control-label">
                 <span class="form-required">*</span>{:lang('SMTP Server Port')}
             </label>
-            <div class="col-md-6 col-sm-10">
+            <div class="col-md-8 col-sm-10">
                 <input type="text" class="form-control" id="input-port" name="port" value="{$port|default=''}"
                        placeholder="25">
             </div>
@@ -63,7 +63,7 @@
             <label for="input-login_name" class="col-sm-2 control-label">
                 <span class="form-required">*</span>{:lang('SMTP_MAIL_ADDRESS')}
             </label>
-            <div class="col-md-6 col-sm-10">
+            <div class="col-md-8 col-sm-10">
                 <input type="text" class="form-control" id="input-login_name" name="username"
                        value="{$username|default=''}">
             </div>
@@ -72,7 +72,7 @@
             <label for="input-password" class="col-sm-2 control-label">
                 <span class="form-required">*</span>{:lang('SMTP_MAIL_PASSWORD')}
             </label>
-            <div class="col-md-6 col-sm-10">
+            <div class="col-md-8 col-sm-10">
                 <input type="password" class="form-control" id="input-password" name="password"
                        value="{$password|default=''}">
             </div>

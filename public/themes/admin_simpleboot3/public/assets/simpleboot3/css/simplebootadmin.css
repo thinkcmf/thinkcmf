@@ -5,7 +5,10 @@
 }
 
 .wrap {
-	padding: 20px 20px 70px;
+	padding: 20px;
+	border-radius: 4px;
+	background: #fff;
+	min-height: 100%;
 }
 
 .margin-top-3 {

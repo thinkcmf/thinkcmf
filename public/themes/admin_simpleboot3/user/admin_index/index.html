@@ -5,11 +5,11 @@
     <ul class="nav nav-tabs">
         <li class="active"><a>{:lang('USER_INDEXADMIN_INDEX')}</a></li>
     </ul>
-    <form class="well form-inline margin-top-20" method="post" action="{:url('user/AdminIndex/index')}">
-        {:lang('User ID')}
+    <form class="well form-inline margin-top-20 bg-white" method="post" action="{:url('user/AdminIndex/index')}">
+        {:lang('User ID')}:
         <input class="form-control" type="text" name="uid" style="width: 200px;" value="{:input('request.uid')}"
                placeholder="请输入用户ID">
-        {:lang('Keyword')}
+        {:lang('Keyword')}:
         <input class="form-control" type="text" name="keyword" style="width: 200px;" value="{:input('request.keyword')}"
                placeholder="用户名/昵称/邮箱/手机">
         <input type="submit" class="btn btn-primary" value="{:lang('Search')}"/>

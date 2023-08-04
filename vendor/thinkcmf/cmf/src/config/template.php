@@ -10,7 +10,7 @@ return [
     'cmf_theme_path'          => 'themes/',
     'cmf_default_theme'       => 'default',
     'cmf_admin_theme_path'    => 'themes/',
-    'cmf_admin_default_theme' => 'admin_arco',
+    'cmf_admin_default_theme' => 'admin_simpleboot3',
     'tpl_replace_string'      => [
         '__STATIC__' => '/static',
         '__ROOT__'   => '',

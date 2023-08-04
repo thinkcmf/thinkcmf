@@ -11,7 +11,7 @@
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
-    <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style()}/bootstrap.min.css" rel="stylesheet">
+    <link href="__TMPL__/public/assets/themes/arcoadmin/bootstrap.min.css" rel="stylesheet">
     <link href="__STATIC__/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style()}/login.css" rel="stylesheet">
     <!--[if lt IE 9]>
@@ -35,29 +35,29 @@
                 <h1 class="text-center">ThinkCMF</h1>
                 <form class="js-ajax-form" action="{:url('public/doLogin')}" method="post">
                     <div class="form-group">
-                        <input type="text" id="input_username" class="form-control" name="username"
+                        <input type="text" id="input_username" class="form-control input-lg" name="username"
                                placeholder="{:lang('USERNAME_OR_EMAIL')}" title="{:lang('USERNAME_OR_EMAIL')}"
                                value="{:cookie('admin_username')}" data-rule-required="true" data-msg-required="">
                     </div>
 
                     <div class="form-group">
-                        <input type="password" id="input_password" class="form-control" name="password"
+                        <input type="password" id="input_password" class="form-control input-lg" name="password"
                                placeholder="{:lang('PASSWORD')}" title="{:lang('PASSWORD')}" data-rule-required="true"
                                data-msg-required="">
                     </div>
 
                     <div class="form-group">
                         <div style="position: relative;">
-                            <input type="text" name="captcha" placeholder="{:lang('Captcha')}" class="form-control captcha">
-                            <captcha height="32" width="150" font-size="18"
-                                     style="cursor: pointer;position:absolute;right:1px;top:1px;"/>
+                            <input type="text" name="captcha" placeholder="{:lang('Captcha')}" class="form-control input-lg captcha">
+                            <captcha height="38" width="150" font-size="18"
+                                     style="cursor: pointer;position:absolute;right:2px;top:1px;"/>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <input type="hidden" name="redirect" value="">
-                        <button class="btn btn-primary btn-block js-ajax-submit" type="submit" style="margin-left: 0px"
-                                data-loadingmsg="{:lang('LOADING')}">
+                        <button class="btn btn-lg btn-primary btn-block js-ajax-submit" type="submit" style="margin-left: 0px"
+                                data-loadingmsg="{:lang('LOADING')}" data-success_refresh="successRefreshCallback">
                             {:lang('LOGIN')}
                         </button>
                     </div>
@@ -80,11 +80,22 @@
 </script>
 <script src="__TMPL__/public/assets/js/jquery-1.10.2.min.js?v={$_static_version}"></script>
 <script src="__STATIC__/js/wind.js?v={$_static_version}"></script>
+<script>
+    Wind.alias({noty:'__TMPL__/public/assets/js/noty-2.4.1.js'})
+</script>
 <script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
 <script>
     (function () {
         document.getElementById('input_username').focus();
     })();
+
+    function  successRefreshCallback(data, statusText, xhr, $form){
+        localStorage.setItem('token', data.data.token);
+        if (data.url) {
+            //返回带跳转地址
+            window.location.href = data.url;
+        }
+    }
 </script>
 </body>
 </html>

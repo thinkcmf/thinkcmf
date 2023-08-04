@@ -20,11 +20,21 @@
     <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
+        body,html{
+            background-color: #f2f3f5;
+        }
+        body{
+            padding: 20px;
+        }
         form .input-order {
             margin-bottom: 0px;
             padding: 0 2px;
             width: 42px;
             font-size: 12px;
+        }
+
+        .bg-white{
+            background-color: #fff;
         }
 
         form .input-order:focus {
@@ -83,6 +93,9 @@
 <!--    <script src="__TMPL__/public/assets/js/jquery-3.6.0.min.js"></script>-->
     <script src="__STATIC__/js/wind.js"></script>
     <script src="__TMPL__/public/assets/js/bootstrap.min.js"></script>
+    <script>
+        Wind.alias({noty:'__TMPL__/public/assets/js/noty-2.4.1.js'})
+    </script>
     <script>
         Wind.css('artDialog');
         Wind.css('layer');

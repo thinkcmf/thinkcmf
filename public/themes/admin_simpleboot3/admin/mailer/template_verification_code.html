@@ -11,13 +11,13 @@
           action="{:url('admin/mailer/templatePost')}">
         <div class="form-group">
             <label for="input-title" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('EMAIL_SUBJECT')}</label>
-            <div class="col-md-6 col-sm-10">
+            <div class="col-md-8 col-sm-10">
                 <input type="text" class="form-control" name="subject" id="input-title" value="{$subject|default=''}">
             </div>
         </div>
         <div class="form-group">
             <label for="input-title" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('EMAIL_TEMPLATE')}</label>
-            <div class="col-md-6 col-sm-12">
+            <div class="col-md-8 col-sm-12">
                 <script type="text/plain" id="content" name="template">{$template|default=""|htmlspecialchars_decode}</script>
                 <span style="color: #ffb752;">{:lang('EMAIL_TEMPLATE_HELP_TEXT')}</span>
             </div>

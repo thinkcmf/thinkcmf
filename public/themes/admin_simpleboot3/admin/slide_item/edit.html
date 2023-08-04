@@ -12,9 +12,9 @@
             <div class="col-md-9">
                 <table class="table table-bordered">
                     <tr>
-                        <th><span class="form-required">*</span>{:lang('Title')}</th>
+                        <th width="100"><span class="form-required">*</span>{:lang('Title')}</th>
                         <td>
-                            <input class="form-control" type="text" style="width:400px;" name="post[title]" id="title"
+                            <input class="form-control" type="text" name="post[title]" id="title"
                                    required value="{$result.title}" placeholder="{:lang('Title')}"/>
                         </td>
                     </tr>
@@ -22,7 +22,7 @@
                         <th>{:lang('Url')}</th>
                         <td>
                             <input class="form-control" type="text" name="post[url]" id="keywords" value="{$result.url}"
-                                   style="width: 400px" placeholder="{:lang('Url')}">
+                                   placeholder="{:lang('Url')}">
                         </td>
                     </tr>
                     <tr>
@@ -39,13 +39,13 @@
                     <tr>
                         <th>{:lang('Description')}</th>
                         <td><input class="form-control" type="text" name="post[description]" id="source"
-                                   value="{$result.description}" style="width: 400px" placeholder="{:lang('Description')}"></td>
+                                   value="{$result.description}" placeholder="{:lang('Description')}"></td>
                     </tr>
                     <tr>
                         <th>幻灯片内容</th>
                         <td>
                             <textarea class="form-control" name="post[content]" id="description"
-                                      style="width: 47%; height: 100px;"
+                                      style="min-height: 100px;"
                                       placeholder="请填写幻灯片内容">{$result.content}</textarea>
                         </td>
                     </tr>

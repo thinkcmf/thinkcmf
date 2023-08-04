@@ -8,13 +8,13 @@ $(function () {
     $mainIframe      = $("#mainiframe");
     $content         = $("#content");
     $loading         = $("#loading");
-    var headerHeight = 48;
+    var headerHeight = 54;
     $content.height($(window).height() - headerHeight);
 
-    $navWraper.height($(window).height() - 48 - 40);
+    $navWraper.height($(window).height() - headerHeight - 40);
     $navWraper.css("overflow", "auto");
     $(window).resize(function () {
-        $navWraper.height($(window).height() - 48 - 40);
+        $navWraper.height($(window).height() - headerHeight - 40);
         $content.height($(window).height() - headerHeight);
         calcTaskContentWidth();
     });

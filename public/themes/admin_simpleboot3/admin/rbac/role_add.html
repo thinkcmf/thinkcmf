@@ -9,13 +9,13 @@
     <form class="form-horizontal js-ajax-form margin-top-20" action="{:url('Rbac/roleAddPost')}" method="post">
         <div class="form-group">
             <label for="input-name" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('ROLE_NAME')}</label>
-            <div class="col-md-6 col-sm-10">
+            <div class="col-md-8 col-sm-10">
                 <input type="text" class="form-control" id="input-name" name="name">
             </div>
         </div>
         <div class="form-group">
             <label for="input-name" class="col-sm-2 control-label"><span class="form-required">*</span>类型</label>
-            <div class="col-md-6 col-sm-10">
+            <div class="col-md-8 col-sm-10">
                 <select class="form-control" name="type">
                     <option value="admin">管理员</option>
                 </select>
@@ -23,13 +23,13 @@
         </div>
         <div class="form-group">
             <label for="input-remark" class="col-sm-2 control-label">{:lang('ROLE_DESCRIPTION')}</label>
-            <div class="col-md-6 col-sm-10">
+            <div class="col-md-8 col-sm-10">
                 <textarea type="text" class="form-control" id="input-remark" name="remark"></textarea>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">{:lang('STATUS')}</label>
-            <div class="col-md-6 col-sm-10">
+            <div class="col-md-8 col-sm-10">
                 <label class="radio-inline">
                     <input type="radio" name="status" value="1"> {:lang('ENABLED')}
                 </label>

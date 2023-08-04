@@ -11,23 +11,22 @@
             <div class="col-md-9">
                 <table class="table table-bordered">
                     <tr>
-                        <th>标题<span class="form-required">*</span></th>
+                        <th width="100">标题<span class="form-required">*</span></th>
                         <td>
-                            <input class="form-control" type="text" style="width:400px;" name="post[title]" id="title"
+                            <input class="form-control" type="text" name="post[title]" id="title"
                                    required value="" placeholder="请输入标题"/>
                         </td>
                     </tr>
                     <tr>
                         <th>{:lang('Url')}</th>
                         <td>
-                            <input class="form-control" type="text" name="post[url]" id="keywords" value=""
-                                   style="width: 400px" placeholder="请输入链接">
+                            <input class="form-control" type="text" name="post[url]" id="keywords" value="" placeholder="请输入链接">
                         </td>
                     </tr>
                     <tr>
                         <th>{:lang('Url Target')}</th>
                         <td>
-                            <select class="form-control" name="post[target]" id="target" style="width: 400px">
+                            <select class="form-control" name="post[target]" id="target">
                                 <option value="_blank" selected="selected">_blank</option>
                                 <option value="_self">_self</option>
                                 <option value="_parent">_parent</option>
@@ -38,13 +37,13 @@
                     <tr>
                         <th>{:lang('Description')}</th>
                         <td><input class="form-control" type="text" name="post[description]" id="source" value=""
-                                   style="width: 400px" placeholder="{:lang('Description')}"></td>
+                                  placeholder="{:lang('Description')}"></td>
                     </tr>
                     <tr>
                         <th>幻灯片内容</th>
                         <td>
                             <textarea class="form-control" name="post[content]" id="description"
-                                      style="width: 47%; height: 100px;" placeholder="请填写幻灯片内容"></textarea>
+                                      style="min-height: 100px;" placeholder="请填写幻灯片内容"></textarea>
                         </td>
                     </tr>
                 </table>
