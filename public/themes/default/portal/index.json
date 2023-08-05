@@ -32,6 +32,11 @@
                         "title": "最新资讯",
                         "name": "last_news",
                         "display": "1"
+                    },
+                    "home_last_news_202206300004": {
+                        "title": "最新资讯",
+                        "name": "last_news",
+                        "display": "1"
                     }
 
                 }

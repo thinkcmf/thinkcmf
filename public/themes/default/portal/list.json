@@ -19,11 +19,6 @@
             "body_left": {
                 "title": "主体左",
                 "widgets": {
-                    "list_slider_202206300003": {
-                        "title": "首页幻灯片",
-                        "name": "slider",
-                        "display": "1"
-                    },
                     "list_articles_202206300003": {
                         "title": "文章列表",
                         "name": "list_articles",
@@ -39,11 +34,6 @@
             "body_right": {
                 "title": "主体右",
                 "widgets": {
-                    "list_slider_202206300004": {
-                        "title": "首页幻灯片",
-                        "name": "slider",
-                        "display": "1"
-                    },
                     "list_side_hot_articles_202206300004": {
                         "title": "热门文章",
                         "name": "side_hot_articles",
