@@ -117,12 +117,13 @@ https://gitee.com/thinkcmf/docker
 "thinkcmf/cmf-app": "^8.0.0",
 "thinkcmf/cmf-api": "^8.0.0",
 ```
-
 2. `composer update`
+3. 后台所有非ajax的`POST`请求，改为`GET`请求
+4. 如自定义后台模板未用`admin.js`,请注意所有POST请求时在`header`中增加`XX-Device-Type`和`Authorization`
 
 ### 更新日志
 
 #### 8.0.0
-
 * 升级到ThinkPHP8.0
+* 后台所有POST请求需要传token
 

@@ -5,7 +5,7 @@
     <ul class="nav nav-tabs">
         <li class="active"><a>{:lang('USER_INDEXADMIN_INDEX')}</a></li>
     </ul>
-    <form class="well form-inline margin-top-20 bg-white" method="post" action="{:url('user/AdminIndex/index')}">
+    <form class="well form-inline margin-top-20 bg-white" method="get" action="{:url('user/AdminIndex/index')}">
         {:lang('User ID')}:
         <input class="form-control" type="text" name="uid" style="width: 200px;" value="{:input('request.uid')}"
                placeholder="请输入用户ID">

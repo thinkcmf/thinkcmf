@@ -1,6 +1,12 @@
 ;(function () {
     //全局ajax处理
+    var headers = {'XX-Device-Type': 'web'};
+    var token = localStorage.getItem('token');
+    if (token) {
+        headers['Authorization'] = token;
+    }
     $.ajaxSetup({
+        headers: headers,
         complete: function (jqXHR) {
         },
         data: {},
@@ -761,8 +767,8 @@
 
                             $.each(data.data.areas, function (i, area) {
                                 var area_html = '<option value="[id]">[name]</option>';
-                                area_html     = area_html.replace('[name]', area.name);
-                                area_html     = area_html.replace('[id]', area.id);
+                                area_html = area_html.replace('[name]', area.name);
+                                area_html = area_html.replace('[id]', area.id);
                                 html.push(area_html);
                             });
                             html = html.join('', html);
@@ -793,7 +799,7 @@
             var $_this = this,
                 $this = $($_this),
                 title = $this.data('title');
-                title = title ? title:'点击下面链接,直接拨打电话';
+            title = title ? title : '点击下面链接,直接拨打电话';
             art.dialog({
                 title: title,
                 icon: 'question',

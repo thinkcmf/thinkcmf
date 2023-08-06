@@ -12,7 +12,7 @@
 <body>
 <div class="wrap js-check-wrap">
     <notempty name="filters">
-        <form method="post" action="{:url('Theme/dataSource')}" id="search-form">
+        <form method="get" action="{:url('Theme/dataSource')}" id="search-form">
             <div class="row">
                 <foreach name="filters" item="filter" key="filterName">
                     <switch name="filter.type">
