@@ -39,7 +39,7 @@ body.body-white {
 /*tc-box*/
 .tc-box {
     background: #fff;
-    padding: 5px 10px;
+    padding: 10px;
     margin: 0 0 10px 0;
 }
 
@@ -434,7 +434,6 @@ body.body-white {
 
 .ranking ul li {
     padding: 5px 0;
-    height: 36px;
     line-height: 36px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -589,9 +588,9 @@ ul.tc-photos {
     display: block;
     width: 55px;
     height: 55px;
-    padding: 1px;
+    padding: 0;
     margin-top: 2px;
-    border: solid 1px #ddd;
+    border: solid 1px #eee;
 }
 
 .posts .dl-horizontal dt img {
@@ -635,7 +634,7 @@ ul.tc-photos {
 
 .headtitle {
     display: block;
-    margin: 0 0 10px 0;
+    margin: 0 0 5px 0;
     border-bottom: 1px dotted #e4e9f0;
 }
 
@@ -661,4 +660,3 @@ ul.tc-photos {
 }
 
 
-		
