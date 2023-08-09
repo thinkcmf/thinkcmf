@@ -91,6 +91,15 @@
 
 <include file="public@header"/>
 <style>
+    .wrap{
+        background: transparent;
+        padding: 0;
+        margin: -10px;
+    }
+
+    .panel-default > .panel-heading {
+        background-color: #fff;
+    }
     .home-info li em {
         float: left;
         width: 120px;
@@ -112,8 +121,8 @@
     }
 
     .grid-item {
-        margin-bottom: 6px;
-        padding: 5px;
+        /*margin-bottom: 6px;*/
+        padding: 10px;
     }
 
     .home-grid .dashboard-box .panel-title {
@@ -121,8 +130,8 @@
     }
 
     .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
-        padding-left: 8px;
-        padding-right: 8px;
+        padding-left: 10px;
+        padding-right: 10px;
         float: none;
     }
 
@@ -225,7 +234,7 @@
         });
 
         $.ajax({
-            url: "//www.thinkcmf.com/service/team.php?lang={$lang_set}&v={$thinkcmf_version}",
+            url: "https://www.thinkcmf.com/service/team.php?lang={$lang_set}&v={$thinkcmf_version}",
             type: 'get',
             dataType: 'json',
             success: function (data) {
@@ -347,7 +356,7 @@
     }
 
     //获取官方通知
-    $.getJSON("//www.thinkcmf.com/service/sms_jsonp.php?lang={$lang_set}&v={$thinkcmf_version}&callback=?",
+    $.getJSON("https://www.thinkcmf.com/service/sms_jsonp.php?lang={$lang_set}&v={$thinkcmf_version}&callback=?",
         function (data) {
             var tpl = '<li><em class="title"></em><span class="content"></span></li>';
             var $notices = $("#thinkcmf-notices");
