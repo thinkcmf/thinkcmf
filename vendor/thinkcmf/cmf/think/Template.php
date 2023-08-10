@@ -967,9 +967,11 @@ hello;
             $className = '\\think\\template\\taglib\\' . ucwords($tagLib);
         }
 
-        $tLib = new $className($this);
+        if (class_exists($className)) {
+            $tLib = new $className($this);
 
-        $tLib->parseTag($content, $hide ? '' : $tagLib);
+            $tLib->parseTag($content, $hide ? '' : $tagLib);
+        }
     }
 
     /**
