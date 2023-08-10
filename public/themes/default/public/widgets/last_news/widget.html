@@ -8,7 +8,7 @@
                 $widget["vars"]["last_news_category_id"] =
                 empty($widget["vars"]["last_news_category_id"])?1:$widget["vars"]["last_news_category_id"];
                 $last_news_limit=4;
-                try{
+                if(class_exists('\app\portal\taglib\Portal')){
             </php>
             <portal:articles limit="$last_news_limit" order="post.published_time DESC"
                              categoryIds="$widget.vars.last_news_category_id">
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </portal:articles>
-            <php>}catch(\Exception $e){</php>
+            <php>}else{</php>
             <div class="alert alert-danger" role="alert">
                 此组件运行发生错误，请检查是否设置正确或已在后台应用中心安装门户应用！<br>
                 您也可以隐藏此组件！

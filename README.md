@@ -126,4 +126,6 @@ https://gitee.com/thinkcmf/docker
 #### 8.0.0
 * 升级到ThinkPHP8.0
 * 后台所有POST请求需要传token
+* 优化模板标签库加载忽略不存在标签库
+* 优化后台模板
 
