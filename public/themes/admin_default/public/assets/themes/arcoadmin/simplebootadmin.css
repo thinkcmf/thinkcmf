@@ -6,3 +6,15 @@ body{
 	padding: 20px;
 }
 
+.main-iframe-wrap.wrap{
+	background: transparent;
+	padding: 0;
+	margin: -10px;
+}
+
+.main-iframe-wrap .panel-default > .panel-heading {
+	background-color: #fff;
+}
+
+
+

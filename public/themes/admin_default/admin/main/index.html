@@ -91,15 +91,10 @@
 
 <include file="public@header"/>
 <style>
-    .wrap{
-        background: transparent;
-        padding: 0;
+    .wrap {
         margin: -10px;
     }
 
-    .panel-default > .panel-heading {
-        background-color: #fff;
-    }
     .home-info li em {
         float: left;
         width: 120px;
@@ -139,7 +134,7 @@
 <hook name="admin_before_head_end"/>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap main-iframe-wrap">
     <empty name="has_smtp_setting">
         <div class="grid-item col-md-12">
             <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-bottom: 0;">
