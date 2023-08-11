@@ -35,4 +35,24 @@ class AdminMenuServiceImpl implements AdminMenuService
     {
         return $this->model->order($order)->select();
     }
+
+    /**
+     * 后台菜单列表,用于后台首页左侧菜单
+     * @return mixed
+     */
+    public function menus($adminId)
+    {
+        $menus = $this->model->where('type', 'in', [0, 1])->order('list_order asc')->select()->toArray();
+        if ($adminId != 1) {
+            foreach ($menus as $key => $menu) {
+//                adminMenu.App + "/" + adminMenu.Controller + "/" + adminMenu.Action
+                $ruleName = "{$menu['app']}/{$menu['controller']}/{$menu['action']}";
+                if (!cmf_auth_check($adminId, $ruleName)) {
+                    $menus[$key]['status'] = 0;
+                }
+            }
+        }
+        return $menus;
+    }
+
 }
