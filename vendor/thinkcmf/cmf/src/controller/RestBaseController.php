@@ -321,7 +321,7 @@ class RestBaseController
             $action     = $this->request->action(false);
             $routePath  = "$app/$controller/$action";
         } else {
-            $routePath = preg_replace("/<(.+)>/", ':$1', $rule['rule']);
+            $routePath = preg_replace("/<(.+)>/", ':$1', $rule->getRule());
             $routePath = str_replace('$', '', $routePath);
         }
 
