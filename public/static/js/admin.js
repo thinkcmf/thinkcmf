@@ -179,11 +179,35 @@
                     },
                     submitHandler: function (form) {
                         var $form = $(form);
-                        $form.ajaxSubmit({
-                            url: $btn.data('action') ? $btn.data('action') : $form.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
-                            dataType: 'json',
-                            beforeSubmit: function (arr, $form, options) {
+                        var url = $btn.data('action');
+                        var apiNamespace = '';
+                        var method = 'post';
+                        debugger;
+                        if (url) {
+                            apiNamespace = $btn.data('api');
+                            if ($btn.data('method')) {
+                                method = $btn.data('method');
+                            }
+                        } else {
+                            url = $form.attr('action');
+                            apiNamespace = $form.data('api');
+                            method = $form.attr('method');
+                        }
 
+                        if (apiNamespace !== undefined || (url.indexOf('/') !== 0 && url.indexOf(':') < 0)) {
+                            apiNamespace = apiNamespace ? apiNamespace : 'api';
+                            if (GV.API_ROOT && GV.API_ROOT[apiNamespace]) {
+                                url = GV.API_ROOT[apiNamespace] + url;
+                            } else {
+                                alert('请在全局变量GV中定义API_ROOT');
+                            }
+                        }
+
+                        $form.ajaxSubmit({
+                            url: url, //按钮上是否自定义提交地址(多按钮情况)
+                            dataType: 'json',
+                            method: method,
+                            beforeSubmit: function (arr, $form, options) {
                                 $btn.data("loading", true);
                                 var text = $btn.text();
 

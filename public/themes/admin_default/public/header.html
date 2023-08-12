@@ -20,13 +20,13 @@
     <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <php>
-		$is_mobile=cmf_is_mobile();
+        $is_mobile=cmf_is_mobile();
         $_static_version='1.0.4';
         $cmf_version=cmf_version();
         if (preg_match("/^(8|6)\./",$cmf_version)) {
-            $_app=app()->http->getName();
+        $_app=app()->http->getName();
         }else{
-            $_app=request()->module();
+        $_app=request()->module();
         }
     </php>
     <script type="text/javascript">
@@ -35,6 +35,7 @@
             ROOT: "__ROOT__/",
             WEB_ROOT: "__WEB_ROOT__/",
             JS_ROOT: "static/js/",
+            API_ROOT: {api: '__WEB_ROOT__/api/'},
             APP: '{$_app}'/*当前应用名*/,
             IS_MOBILE: {$is_mobile? 'true' : 'false'}
         };
@@ -44,7 +45,7 @@
     <script src="__STATIC__/js/wind.js"></script>
     <script src="__TMPL__/public/assets/js/bootstrap.min.js"></script>
     <script>
-        Wind.alias({noty:'__TMPL__/public/assets/js/noty-2.4.1.js'})
+        Wind.alias({noty: '__TMPL__/public/assets/js/noty-2.4.1.js'})
     </script>
     <script>
         Wind.css('artDialog');
