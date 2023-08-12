@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace api\admin\controller;
 
+use app\admin\model\RouteModel;
 use cmf\controller\RestAdminBaseController;
 use cmf\controller\RestBaseController;
 use OpenApi\Annotations as OA;
@@ -91,6 +92,72 @@ class SettingController extends RestAdminBaseController
             'admin_settings' => $adminSettings,
             'cmf_settings'   => $cmfSettings,
         ]);
+    }
+
+    /**
+     * 网站信息提交保存
+     * @throws \think\exception\DbException
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/setting/site",
+     *     summary="网站信息提交保存",
+     *     description="网站信息提交保存",
+     *     @OA\Response(
+     *          response="1",
+     *          @OA\JsonContent(example={"code": 1,"msg": "保存成功!","data": ""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "保存成功!","data": ""})
+     *     ),
+     * )
+     */
+    public function sitePost()
+    {
+        $result = $this->validate($this->request->param(), 'SettingSite');
+        if ($result !== true) {
+            $this->error($result);
+        }
+
+        $options = $this->request->param('options/a');
+        cmf_set_option('site_info', $options);
+
+        $cmfSettings = $this->request->param('cmf_settings/a');
+
+        $bannedUsernames                 = preg_replace("/[^0-9A-Za-z_\\x{4e00}-\\x{9fa5}-]/u", ",", $cmfSettings['banned_usernames']);
+        $cmfSettings['banned_usernames'] = $bannedUsernames;
+        cmf_set_option('cmf_settings', $cmfSettings);
+
+        $cdnSettings = $this->request->param('cdn_settings/a');
+        cmf_set_option('cdn_settings', $cdnSettings);
+
+        $adminSettings = $this->request->param('admin_settings/a');
+
+        $routeModel = new RouteModel();
+        if (!empty($adminSettings['admin_password'])) {
+            $routeModel->setRoute($adminSettings['admin_password'] . '$', 'admin/Index/index', [], 2, 5000);
+        } else {
+            $routeModel->deleteRoute('admin/Index/index', []);
+        }
+
+        $routeModel->getRoutes(true);
+
+        if (!empty($adminSettings['admin_theme'])) {
+            $result = cmf_set_dynamic_config([
+                'template' => [
+                    'cmf_admin_default_theme' => $adminSettings['admin_theme']
+                ]
+            ]);
+
+            if ($result === false) {
+                $this->error('配置写入失败!');
+            }
+        }
+
+        cmf_set_option('admin_settings', $adminSettings);
+
+        $this->success(lang('EDIT_SUCCESS'));
+
     }
 
 }
