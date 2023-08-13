@@ -26,6 +26,8 @@ class Upload
     private $error = false;
     private $fileType;
     private $formName = 'file';
+    private $uploadDir = '';//文件保存目录
+    private $private = false;//私有文件
 
     public function __construct()
     {
@@ -46,6 +48,23 @@ class Upload
     {
         $this->formName = $name;
     }
+
+    /**
+     * @param string $uploadDir
+     */
+    public function setUploadDir(string $uploadDir): void
+    {
+        $this->uploadDir = $uploadDir;
+    }
+
+    /**
+     * @param bool $private
+     */
+    public function setPrivate(bool $private = true): void
+    {
+        $this->private = $private;
+    }
+
 
     public function upload()
     {
@@ -120,7 +139,6 @@ class Upload
         $userId  = cmf_get_current_user_id();
         $userId  = empty($adminId) ? $userId : $adminId;
         if (empty($userId)) {
-
             $token = $this->request->header('Authorization');
             if (substr($token, 0, 7) === 'Bearer ') {
                 $token = substr($token, 7);
@@ -210,7 +228,7 @@ class Upload
             throw new HttpResponseException($response);
         }
 
-        $uploadPath = WEB_ROOT . 'upload/';
+        $uploadPath = empty($this->uploadDir) ? WEB_ROOT . 'upload/' : $this->uploadDir;
 
         $fileSaveName    = (empty($app) ? '' : $app . '/') . $strDate . '/' . md5(uniqid()) . "." . $strFileExtension;
         $strSaveFilePath = $uploadPath . $fileSaveName; //TODO 测试 windows 下
@@ -350,7 +368,7 @@ class Upload
 //        }
         @rmdir($targetDir);
 
-        if ($storage['type'] != 'Local') { //  增加存储驱动
+        if ($storage['type'] != 'Local' && !$this->private) { //  增加存储驱动
             $watermark = cmf_get_plugin_config($storage['type']);
             $storage   = new Storage($storage['type'], $storage['storages'][$storage['type']]);
 

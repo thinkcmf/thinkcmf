@@ -1411,7 +1411,10 @@ function cmf_get_order_sn()
 function cmf_get_file_extension($filename)
 {
     $pathinfo = pathinfo($filename);
-    return strtolower($pathinfo['extension']);
+    if (isset($pathinfo['extension'])) {
+        return strtolower($pathinfo['extension']);
+    }
+    return '';
 }
 
 /**

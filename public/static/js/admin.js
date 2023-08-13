@@ -182,7 +182,6 @@
                         var url = $btn.data('action');
                         var apiNamespace = '';
                         var method = 'post';
-                        debugger;
                         if (url) {
                             apiNamespace = $btn.data('api');
                             if ($btn.data('method')) {
@@ -200,6 +199,7 @@
                                 url = GV.API_ROOT[apiNamespace] + url;
                             } else {
                                 alert('请在全局变量GV中定义API_ROOT');
+                                return;
                             }
                         }
 
@@ -346,10 +346,10 @@
                 e.preventDefault();
                 var $_this = this,
                     $this = $($_this),
-                    href = $this.data('href'),
+                    url = $this.data('href'),
                     refresh = $this.data('refresh'),
                     msg = $this.data('msg');
-                href = href ? href : $this.attr('href');
+                url = url ? url : $this.attr('href');
 
                 art.dialog({
                     title: false,
@@ -362,9 +362,28 @@
                     },
                     okVal: "确定",
                     ok: function () {
+                        var apiNamespace = $this.data('api');
+                        var method = 'post';
+
+                        if (apiNamespace !== undefined || (url.indexOf('/') !== 0 && url.indexOf(':') < 0)) {
+                            apiNamespace = apiNamespace ? apiNamespace : 'api';
+                            if (GV.API_ROOT && GV.API_ROOT[apiNamespace]) {
+                                url = GV.API_ROOT[apiNamespace] + url;
+                            } else {
+                                alert('请在全局变量GV中定义API_ROOT');
+                                return;
+                            }
+
+                            if ($this.data('method')) {
+                                method = $this.data('method');
+                            } else {
+                                method = 'delete';
+                            }
+                        }
+
                         $.ajax({
-                            url: href,
-                            type: 'post',
+                            url: url,
+                            type: method,
                             dataType: 'JSON',
                             success: function (data) {
                                 if (data.code == '1') {
@@ -422,11 +441,11 @@
             e.preventDefault();
             var $_this = this,
                 $this = $($_this),
-                href = $this.data('href'),
+                url = $this.data('href'),
                 refresh = $this.data('refresh'),
                 msg = $this.data('msg'),
                 waitMsg = $this.data('wait-msg');
-            href = href ? href : $this.attr('href');
+            url = url ? url : $this.attr('href');
             if (!msg) {
                 msg = "您确定要进行此操作吗？";
             }
@@ -454,9 +473,27 @@
                             timeout: false
                         });
                     }
+
+                    var apiNamespace = $this.data('api');
+                    var method = 'post';
+
+                    if (apiNamespace !== undefined || (url.indexOf('/') !== 0 && url.indexOf(':') < 0)) {
+                        apiNamespace = apiNamespace ? apiNamespace : 'api';
+                        if (GV.API_ROOT && GV.API_ROOT[apiNamespace]) {
+                            url = GV.API_ROOT[apiNamespace] + url;
+                        } else {
+                            alert('请在全局变量GV中定义API_ROOT');
+                            return;
+                        }
+
+                        if ($this.data('method')) {
+                            method = $this.data('method');
+                        }
+                    }
+
                     $.ajax({
-                        url: href,
-                        type: 'post',
+                        url: url,
+                        type: method,
                         dataType: 'JSON',
                         success: function (data) {
                             if (waitNoty) {
@@ -521,16 +558,33 @@
                 e.preventDefault();
                 var $_this = this,
                     $this = $($_this),
-                    href = $this.data('href'),
+                    url = $this.data('href'),
                     msg = $this.data('msg');
                 refresh = $this.data('refresh');
-                href = href ? href : $this.attr('href');
+                url = url ? url : $this.attr('href');
                 refresh = refresh == undefined ? 1 : refresh;
+
+                var apiNamespace = $this.data('api');
+                var method = 'post';
+
+                if (apiNamespace !== undefined || (url.indexOf('/') !== 0 && url.indexOf(':') < 0)) {
+                    apiNamespace = apiNamespace ? apiNamespace : 'api';
+                    if (GV.API_ROOT && GV.API_ROOT[apiNamespace]) {
+                        url = GV.API_ROOT[apiNamespace] + url;
+                    } else {
+                        alert('请在全局变量GV中定义API_ROOT');
+                        return;
+                    }
+
+                    if ($this.data('method')) {
+                        method = $this.data('method');
+                    }
+                }
 
 
                 $.ajax({
-                    url: href,
-                    type: 'post',
+                    url: url,
+                    type: method,
                     dataType: 'JSON',
                     success: function (data) {
                         if (data.code == 1) {
@@ -1188,6 +1242,9 @@ function artdialogAlert(msg) {
 function openIframeLayer(url, title, options) {
 
     if (GV.IS_MOBILE) {
+        if (!options) {
+            options = {};
+        }
         options.area = ['100%', '100%'];
         options.offset = ['0px', '0px'];
     }
@@ -1217,4 +1274,113 @@ function openIframeLayer(url, title, options) {
         layer.open(params);
     });
 
+}
+
+/**
+ * 打开文件上传对话框
+ * @param dialog_title 对话框标题
+ * @param callback 回调方法，参数有（当前dialog对象，选择的文件数组，你设置的extra_params）
+ * @param extra_params 额外参数，object
+ * @param multi 是否可以多选
+ * @param filetype 文件类型，image,video,audio,file
+ * @param app  应用名，CMF的应用名
+ * @param openIn 打开窗口
+ */
+function openUploadPrivateDialog(dialog_title, callback, extra_params, multi, filetype, app, openIn) {
+    multi = multi ? 1 : 0;
+    filetype = filetype ? filetype : 'image';
+    app = app ? app : GV.APP;
+    var params = '&multi=' + multi + '&filetype=' + filetype + '&app=' + app;
+
+    openIn = openIn ? openIn : window;
+    openIn.openIframeLayer(GV.ROOT + 'user/Asset/upload?' + params, dialog_title, {
+        btn: ['确定'], area: ['600px', '450px'], yes: function (index, layero) {
+            if (typeof callback == 'function') {
+                // var body = openIn.layer.getChildFrame('body', index);
+                //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                var iframeWin = openIn[layero.find('iframe')[0]['name']];
+                var files = iframeWin.get_selected_files();
+                console.log(files);
+                if (files && files.length > 0) {
+                    callback.apply(this, [this, files, extra_params]);
+                    openIn.layer.close(index);
+                } else {
+                    // return false;
+                }
+            }
+        }
+    });
+}
+
+/**
+ * 单个文件上传
+ * @param dialog_title 上传对话框标题
+ * @param input_selector 图片容器
+ * @param filetype 文件类型，image,video,audio,file
+ * @param extra_params 额外参数，object
+ * @param app  应用名,CMF的应用名
+ * @param openIn 打开窗口
+ */
+function uploadPrivateOne(dialog_title, input_selector, filetype, extra_params, app, openIn) {
+    filetype = filetype ? filetype : 'file';
+    openUploadPrivateDialog(dialog_title, function (dialog, files) {
+        $(input_selector).val(files[0].filepath);
+        $(input_selector + '-preview').attr('href', files[0].preview_url);
+        $(input_selector + '-name').val(files[0].name);
+        $(input_selector + '-name-text').text(files[0].name);
+    }, extra_params, 0, filetype, app, openIn);
+}
+
+/**
+ * 单个文件上传(在父级窗口打开)
+ * @param dialog_title 上传对话框标题
+ * @param input_selector 图片容器
+ * @param filetype 文件类型，image,video,audio,file
+ * @param extra_params 额外参数，object
+ * @param app  应用名,CMF的应用名
+ */
+function parentUploadPrivateOne(dialog_title, input_selector, filetype, extra_params, app) {
+    uploadPrivateOne(dialog_title, input_selector, filetype, extra_params, app, parent);
+}
+
+/**
+ * 多文件上传
+ * @param dialog_title 上传对话框标题
+ * @param container_selector 图片容器
+ * @param item_tpl_wrapper_id 单个图片html模板容器id
+ * @param filetype 文件类型，image,video,audio,file
+ * @param extra_params 额外参数，object
+ * @param app  应用名,CMF 的应用名
+ * @param openIn 打开窗口
+ */
+function uploadPrivateMultiFile(dialog_title, container_selector, item_tpl_wrapper_id, filetype, extra_params, app, openIn) {
+    filetype = filetype ? filetype : 'file';
+    openUploadPrivateDialog(dialog_title, function (dialog, files) {
+        var tpl = $('#' + item_tpl_wrapper_id).html();
+        var html = '';
+        $.each(files, function (i, item) {
+            var itemtpl = tpl;
+            itemtpl = itemtpl.replace(/\{id\}/g, item.id);
+            itemtpl = itemtpl.replace(/\{url\}/g, item.url);
+            itemtpl = itemtpl.replace(/\{preview_url\}/g, item.preview_url);
+            itemtpl = itemtpl.replace(/\{filepath\}/g, item.filepath);
+            itemtpl = itemtpl.replace(/\{name\}/g, item.name);
+            html += itemtpl;
+        });
+        $(container_selector).append(html);
+
+    }, extra_params, 1, filetype, app, openIn);
+}
+
+/**
+ * 多文件上传
+ * @param dialog_title 上传对话框标题
+ * @param container_selector 图片容器
+ * @param item_tpl_wrapper_id 单个图片html模板容器id
+ * @param filetype 文件类型，image,video,audio,file
+ * @param extra_params 额外参数，object
+ * @param app  应用名,CMF 的应用名
+ */
+function parentUploadPrivateMultiFile(dialog_title, container_selector, item_tpl_wrapper_id, filetype, extra_params, app, openIn) {
+    uploadPrivateMultiFile(dialog_title, container_selector, item_tpl_wrapper_id, filetype, extra_params, app, parent)
 }
