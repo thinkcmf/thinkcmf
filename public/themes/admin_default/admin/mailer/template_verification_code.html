@@ -7,8 +7,8 @@
         <li class="active"><a href="#" data-toggle="tab">{:lang('ADMIN_MAILER_TEMPLATE')}</a></li>
         <li><a href="{:url('User/emailSetting')}">我的邮箱配置</a></li>
     </ul>
-    <form method="post" class="form-horizontal js-ajax-form margin-top-20" role="form"
-          action="{:url('admin/mailer/templatePost')}">
+    <form method="put" class="form-horizontal js-ajax-form margin-top-20" role="form"
+          action="admin/mail/template">
         <div class="form-group">
             <label for="input-title" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('EMAIL_SUBJECT')}</label>
             <div class="col-md-8 col-sm-10">
