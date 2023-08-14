@@ -129,7 +129,8 @@ class MailController extends RestAdminBaseController
      *     ),
      * )
      */
-    public function test(){
+    public function test()
+    {
         if ($this->request->isPost()) {
 
             $validate = new \think\Validate();
@@ -157,6 +158,109 @@ class MailController extends RestAdminBaseController
                 $this->error('发送失败：' . $result['message']);
             }
 
+        }
+    }
+
+    /**
+     * 获取邮箱数字验证码模板配置
+     * @throws \think\exception\DbException
+     * @OA\Get(
+     *     tags={"admin"},
+     *     path="/admin/mail/template",
+     *     summary="获取邮箱数字验证码模板配置",
+     *     description="获取邮箱数字验证码模板配置",
+     *     @OA\Parameter(
+     *         name="template_key",
+     *         in="query",
+     *         description="模板类型键值",
+     *         example="verification_code",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          @OA\JsonContent(example={"code": 1,"msg": "success",
+     *             "data": {
+     *                  "config": {
+     *                      "subjuct": "ThinkCMF数字验证码",
+     *                      "template": "<p>您的数字验证码是{$code}。</p>"
+     *                  }
+     *              }
+     *          })
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error","data": ""})
+     *     )
+     * )
+     */
+    public function template()
+    {
+        $allowedTemplateKeys = ['verification_code'];
+        $templateKey         = $this->request->param('template_key');
+
+        if (empty($templateKey) || !in_array($templateKey, $allowedTemplateKeys)) {
+            $this->error(lang('illegal request'));
+        }
+
+        $template = cmf_get_option('email_template_' . $templateKey);
+        if (isset($template['template'])) {
+            $template['template'] = htmlspecialchars_decode($template['template']);
+        }
+        $this->success("success", [
+            'config' => $template,
+        ]);
+    }
+
+    /**
+     * 更新邮箱数字验证码模板
+     * @throws \think\exception\DbException
+     * @OA\Put(
+     *     tags={"admin"},
+     *     path="/admin/mail/template",
+     *     summary="更新邮箱数字验证码模板",
+     *     description="更新邮箱数字验证码模板",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="请求参数",
+     *         @OA\MediaType(
+     *             mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(ref="#/components/schemas/AdminMailTemplatePutRequest")
+     *         ),
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/AdminMailTemplatePutRequest")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          @OA\JsonContent(example={"code": 1,"msg": "保存成功！","data": ""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "保存失败！","data": ""})
+     *     ),
+     * )
+     */
+    public function templatePut()
+    {
+        if ($this->request->isPut()) {
+            $allowedTemplateKeys = ['verification_code'];
+            $templateKey         = $this->request->param('template_key');
+
+            if (empty($templateKey) || !in_array($templateKey, $allowedTemplateKeys)) {
+                $this->error(lang('illegal request'));
+            }
+
+            $data = $this->request->param();
+
+            unset($data['template_key']);
+
+            cmf_set_option('email_template_' . $templateKey, $data);
+
+            $this->success(lang('EDIT_SUCCESS'));
         }
     }
 
