@@ -99,4 +99,65 @@ class MailController extends RestAdminBaseController
         $this->success(lang('EDIT_SUCCESS'));
     }
 
+    /**
+     *  测试系统邮箱配置
+     * @throws \think\exception\DbException
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/mail/test",
+     *     summary="测试系统邮箱配置",
+     *     description="测试系统邮箱配置",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="请求参数",
+     *         @OA\MediaType(
+     *             mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(ref="#/components/schemas/AdminMailTestRequest")
+     *         ),
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/AdminMailTestRequest")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          @OA\JsonContent(example={"code": 1,"msg": "发送成功！","data": ""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "发送失败！","data": ""})
+     *     ),
+     * )
+     */
+    public function test(){
+        if ($this->request->isPost()) {
+
+            $validate = new \think\Validate();
+            $validate->rule([
+                'to'      => 'require|email',
+                'subject' => 'require',
+                'content' => 'require',
+            ]);
+            $validate->message([
+                'to.require'      => '收件箱不能为空！',
+                'to.email'        => '收件箱格式不正确！',
+                'subject.require' => '标题不能为空！',
+                'content.require' => '内容不能为空！',
+            ]);
+
+            $data = $this->request->param();
+            if (!$validate->check($data)) {
+                $this->error($validate->getError());
+            }
+
+            $result = cmf_send_email($data['to'], $data['subject'], $data['content']);
+            if ($result && empty($result['error'])) {
+                $this->success('发送成功！');
+            } else {
+                $this->error('发送失败：' . $result['message']);
+            }
+
+        }
+    }
+
 }

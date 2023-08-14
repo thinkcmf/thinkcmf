@@ -5,7 +5,9 @@ namespace api\admin\swagger\request;
 use OpenApi\Annotations as OA;
 
 /**
- * @OA\Schema()
+ * @OA\Schema(
+ *     required={"from_name","from","host","port","username","password"}
+ * )
  */
 class AdminMailConfigPutRequest
 {
@@ -43,6 +45,7 @@ class AdminMailConfigPutRequest
      * @OA\Property(
      *     type="string",
      *     example="ssl",
+     *     enum={"","ssl","tls"},
      *     description="连接方式,或选值:ssl,tls或留空"
      * )
      * @var object
@@ -58,7 +61,6 @@ class AdminMailConfigPutRequest
      * @var object
      */
     public $port;
-
 
     /**
      * @OA\Property(
