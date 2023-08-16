@@ -23,4 +23,14 @@ class SlideItemModel extends Model
     protected $type = [
         'more'        => 'array'
     ];
+
+    /**
+     * image 自动转化
+     * @param $value
+     * @return array
+     */
+    public function getImageUrlAttr($value,$data)
+    {
+        return cmf_get_image_url($data['image']);
+    }
 }
