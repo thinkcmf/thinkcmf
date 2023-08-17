@@ -16,6 +16,10 @@ Route::post('admin/slide/items/:id/status/:status', 'admin/SlideItem/status')->p
 Route::post('admin/slide/items/list/order', 'admin/SlideItem/listOrder');
 
 Route::resource('admin/routes', 'admin/Route');
+Route::post('admin/routes/:id/toggle', 'admin/Route/toggle')->pattern(['id' => '\d+',]);
+Route::post('admin/routes/:id/status/:status', 'admin/Route/status')->pattern(['id' => '\d+', 'status' => '\d+',]);
+Route::post('admin/routes/list/order', 'admin/Route/listOrder');
+Route::get('admin/routes/app/urls', 'admin/Route/appUrls');
 
 
 
