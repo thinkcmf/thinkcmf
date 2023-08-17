@@ -14,6 +14,12 @@ use think\facade\Validate;
 use cmf\controller\RestBaseController;
 use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Tag(
+ *     name="user",
+ *     description="用户应用"
+ * )
+ */
 class PublicController extends RestBaseController
 {
     /**

@@ -19,6 +19,10 @@ class PublicController extends RestBaseController
     /**
      * 后台管理员登录
      * @throws \think\exception\DbException
+     * @OA\Tag(
+     *     name="admin",
+     *     description="系统核心后台管理"
+     * )
      * @OA\Post(
      *     tags={"admin"},
      *     path="/admin/public/login",

@@ -20,9 +20,9 @@ class SettingController extends RestAdminBaseController
     /**
      * 清理缓存
      * @throws \think\exception\DbException
-     * @OA\Post(
+     * @OA\Delete(
      *     tags={"admin"},
-     *     path="/admin/setting/clearCache",
+     *     path="/admin/setting/cache",
      *     summary="清理缓存",
      *     description="清理缓存",
      *     @OA\Response(

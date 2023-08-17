@@ -25,7 +25,7 @@ class SlideItemController extends RestAdminBaseController
      * @throws \think\exception\DbException
      * @OA\Get(
      *     tags={"admin"},
-     *     path="/admin/slide_items",
+     *     path="/admin/slide/items",
      *     summary="幻灯片页面列表",
      *     description="幻灯片页面列表",
      *     @OA\Parameter(
@@ -64,7 +64,7 @@ class SlideItemController extends RestAdminBaseController
      * @throws \think\exception\DbException
      * @OA\Post(
      *     tags={"admin"},
-     *     path="/admin/slide_items",
+     *     path="/admin/slide/items",
      *     summary="添加幻灯片页面",
      *     description="添加幻灯片页面",
      *     @OA\RequestBody(
@@ -110,7 +110,7 @@ class SlideItemController extends RestAdminBaseController
      * @throws \think\exception\DbException
      * @OA\Get(
      *     tags={"admin"},
-     *     path="/admin/slide_items/{id}",
+     *     path="/admin/slide/items/{id}",
      *     summary="获取幻灯片页面信息",
      *     description="获取幻灯片页面信息",
      *     @OA\Parameter(
@@ -152,7 +152,7 @@ class SlideItemController extends RestAdminBaseController
      * @throws \think\exception\DbException
      * @OA\Put(
      *     tags={"admin"},
-     *     path="/admin/slide_items/{id}",
+     *     path="/admin/slide/items/{id}",
      *     summary="编辑幻灯片页面",
      *     description="编辑幻灯片页面",
      *     @OA\Parameter(
@@ -201,7 +201,7 @@ class SlideItemController extends RestAdminBaseController
      * @throws \think\exception\DbException
      * @OA\Delete(
      *     tags={"admin"},
-     *     path="/admin/slide_items/{id}",
+     *     path="/admin/slide/items/{id}",
      *     summary="删除幻灯片页面",
      *     description="删除幻灯片页面",
      *     @OA\Parameter(
@@ -234,6 +234,136 @@ class SlideItemController extends RestAdminBaseController
         } else {
             $this->error(lang('DELETE_FAILED'));
         }
+    }
+
+    /**
+     * 切换幻灯片页面显示状态
+     * @throws \think\exception\DbException
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/slide/items/{id}/toggle",
+     *     summary="切换幻灯片页面显示状态",
+     *     description="切换幻灯片页面显示状态",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="幻灯片页面id",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "操作成功!","data":""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "幻灯片页面不存在！","data":""})
+     *     ),
+     * )
+     */
+    public function toggle()
+    {
+        $id        = $this->request->param('id', 0, 'intval');
+        $slideItem = SlideItemModel::find($id);
+        if (empty($slideItem)) {
+            $this->error('幻灯片页面不存在！');
+        } else {
+            $status = empty($slideItem['status']) ? 1 : 0;
+            $slideItem->save(['status' => $status]);
+            $this->success('操作成功！');
+        }
+    }
+
+    /**
+     * 设置幻灯片页面显示状态
+     * @throws \think\exception\DbException
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/slide/items/{id}/status/{status}",
+     *     summary="设置幻灯片页面显示状态",
+     *     description="设置幻灯片页面显示状态",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="幻灯片页面id",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="status",
+     *         in="path",
+     *         description="幻灯片页面显示状态,0:隐藏;1:显示",
+     *         example="1",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "操作成功!","data":""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "幻灯片页面不存在！","data":""})
+     *     ),
+     * )
+     */
+    public function status()
+    {
+        $id        = $this->request->param('id', 0, 'intval');
+        $status    = $this->request->param('status', 1, 'intval');
+        $slideItem = SlideItemModel::find($id);
+        if (empty($slideItem)) {
+            $this->error('幻灯片页面不存在！');
+        } else {
+            $status = empty($status) ? 0 : 1;
+            $slideItem->save(['status' => $status]);
+            $this->success('操作成功！');
+        }
+    }
+
+    /**
+     * 幻灯片页面排序
+     * @throws \think\exception\DbException
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/slide/items/list/order",
+     *     summary="幻灯片页面排序",
+     *     description="幻灯片页面排序",
+     *     @OA\RequestBody(
+     *         description="<b>此种map类型数据swagger不支持application/x-www-form-urlencoded，但实际开发中可以用</b>",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/AdminSlideItemListOrderRequest")
+     *         ),
+     *         @OA\MediaType(
+     *             mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(ref="#/components/schemas/AdminSlideItemListOrderRequest")
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "操作成功!","data":""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "幻灯片页面不存在！","data":""})
+     *     ),
+     * )
+     */
+    public function listOrder()
+    {
+        $slideItemModel = new  SlideItemModel();
+        parent::listOrders($slideItemModel);
+        $this->success(lang('Sort update successful'));
     }
 
 }
