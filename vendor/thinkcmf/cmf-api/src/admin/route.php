@@ -15,5 +15,8 @@ Route::post('admin/slide/items/:id/toggle', 'admin/SlideItem/toggle')->pattern([
 Route::post('admin/slide/items/:id/status/:status', 'admin/SlideItem/status')->pattern(['id' => '\d+', 'status' => '\d+',]);
 Route::post('admin/slide/items/list/order', 'admin/SlideItem/listOrder');
 
+Route::resource('admin/routes', 'admin/Route');
+
+
 
 

@@ -15,6 +15,7 @@ use think\App;
 use think\Container;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
+use think\facade\Db;
 use think\Response;
 use think\Validate;
 
@@ -326,6 +327,35 @@ class RestBaseController
         }
 
         return $routePath;
+    }
+
+    /**
+     *  排序 排序字段为list_orders数组 POST 排序字段为：list_order
+     */
+    protected function listOrders($model)
+    {
+        if ($this->request->isPost()) {
+            $modelName = '';
+            if (is_object($model)) {
+                $modelName = $model->getName();
+            } else {
+                $modelName = $model;
+            }
+
+            $pk  = Db::name($modelName)->getPk(); //获取主键名称
+            $ids = $this->request->post('list_orders/a');
+
+            if (!empty($ids)) {
+                foreach ($ids as $key => $r) {
+                    $data['list_order'] = $r;
+                    Db::name($modelName)->where($pk, $key)->update($data);
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 }
