@@ -190,8 +190,8 @@ class RouteModel extends Model
             if (file_exists($urlConfigFile)) {
                 $urls = include $urlConfigFile;
                 foreach ($urls as $action => $url) {
-                    $action = $app . '/' . $action;
-
+                    $action           = $app . '/' . $action;
+                    $url['action']    = $action;
                     $appUrls[$action] = $url;
                     if (!empty($url['vars'])) {
                         foreach ($url['vars'] as $urlVarName => $urlVar) {
