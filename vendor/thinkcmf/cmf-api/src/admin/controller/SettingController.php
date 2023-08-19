@@ -9,6 +9,7 @@
 namespace api\admin\controller;
 
 use app\admin\model\RouteModel;
+use app\admin\model\UserModel;
 use cmf\controller\RestAdminBaseController;
 use cmf\controller\RestBaseController;
 use OpenApi\Annotations as OA;
@@ -298,6 +299,71 @@ class SettingController extends RestAdminBaseController
         $storage['type'] = $post['type'];
         cmf_set_option('storage', $storage);
         $this->success(lang('EDIT_SUCCESS'), '');
+    }
+
+    /**
+     * 管理员修改密码
+     * @throws \think\exception\DbException
+     * @OA\Put(
+     *     tags={"admin"},
+     *     path="/admin/setting/password",
+     *     summary="管理员修改密码",
+     *     description="管理员修改密码",
+     *     @OA\RequestBody(
+     *         description="请求参数",
+     *         @OA\MediaType(
+     *             mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(ref="#/components/schemas/AdminSettingPasswordPutRequest")
+     *         ),
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/AdminSettingPasswordPutRequest")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          @OA\JsonContent(example={"code": 1,"msg": "密码修改成功!","data": ""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "原始密码不能为空!","data": ""})
+     *     ),
+     * )
+     */
+    public function passwordPut()
+    {
+        $data = $this->request->param();
+        if (empty($data['old_password'])) {
+            $this->error("原始密码不能为空！");
+        }
+        if (empty($data['password'])) {
+            $this->error("新密码不能为空！");
+        }
+
+        $userId = cmf_get_current_admin_id();
+
+        $admin = UserModel::where("id", $userId)->find();
+
+        $oldPassword = $data['old_password'];
+        $password    = $data['password'];
+        $rePassword  = $data['re_password'];
+
+        if (cmf_compare_password($oldPassword, $admin['user_pass'])) {
+            if ($password == $rePassword) {
+
+                if (cmf_compare_password($password, $admin['user_pass'])) {
+                    $this->error("新密码不能和原始密码相同！");
+                } else {
+                    UserModel::where('id', $userId)->update(['user_pass' => cmf_password($password)]);
+                    $this->success("密码修改成功！");
+                }
+            } else {
+                $this->error("密码输入不一致！");
+            }
+
+        } else {
+            $this->error("原始密码不正确！");
+        }
     }
 
 
