@@ -37,7 +37,6 @@ class AdminMailConfigPutRequest
      *     example="smtp.thinkcmf.com",
      *     description="SMTP服务器"
      * )
-     * @var object
      */
     public $host;
 
@@ -48,7 +47,6 @@ class AdminMailConfigPutRequest
      *     enum={"","ssl","tls"},
      *     description="连接方式,或选值:ssl,tls或留空"
      * )
-     * @var object
      */
     public $smtp_secure;
 
@@ -58,7 +56,6 @@ class AdminMailConfigPutRequest
      *     example="463",
      *     description="SMTP服务器端口"
      * )
-     * @var object
      */
     public $port;
 
@@ -68,7 +65,6 @@ class AdminMailConfigPutRequest
      *     example="463",
      *     description="发件箱帐号"
      * )
-     * @var object
      */
     public $username;
 
@@ -78,7 +74,6 @@ class AdminMailConfigPutRequest
      *     example="",
      *     description="发件箱授权码"
      * )
-     * @var object
      */
     public $password;
 

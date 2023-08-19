@@ -334,14 +334,14 @@ class RouteController extends RestAdminBaseController
      *     summary="路由排序",
      *     description="路由排序",
      *     @OA\RequestBody(
-     *         description="<b>此种map类型数据swagger不支持application/x-www-form-urlencoded，但实际开发中可以用</b>",
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(ref="#/components/schemas/AdminSlideItemListOrderRequest")
-     *         ),
+     *         description="请求参数",
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
-     *             @OA\Schema(ref="#/components/schemas/AdminSlideItemListOrderRequest")
+     *             @OA\Schema(ref="#/components/schemas/ListOrdersRequestForm")
+     *         ),
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/ListOrdersRequest")
      *         ),
      *     ),
      *     @OA\Response(

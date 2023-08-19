@@ -40,7 +40,8 @@ class OpenApi
                     'oa' => 'OpenApi\\Annotations'
                 ],
 //                    'namespaces' => ['OpenApi\\Annotations\\'],
-                'validate' => false
+                'validate' => false,
+                'version'  => '3.1.0'
             ]
         );
     }

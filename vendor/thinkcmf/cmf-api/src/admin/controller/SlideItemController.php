@@ -338,14 +338,14 @@ class SlideItemController extends RestAdminBaseController
      *     summary="幻灯片页面排序",
      *     description="幻灯片页面排序",
      *     @OA\RequestBody(
-     *         description="<b>此种map类型数据swagger不支持application/x-www-form-urlencoded，但实际开发中可以用</b>",
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(ref="#/components/schemas/AdminSlideItemListOrderRequest")
-     *         ),
+     *         description="<b>请求参数</b>",
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
-     *             @OA\Schema(ref="#/components/schemas/AdminSlideItemListOrderRequest")
+     *             @OA\Schema(ref="#/components/schemas/ListOrdersRequestForm")
+     *         ),
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/ListOrdersRequest")
      *         ),
      *     ),
      *     @OA\Response(

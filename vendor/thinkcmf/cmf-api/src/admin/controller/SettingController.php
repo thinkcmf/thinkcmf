@@ -160,4 +160,66 @@ class SettingController extends RestAdminBaseController
 
     }
 
+    /**
+     * 上传设置
+     * @throws \think\exception\DbException
+     * @OA\Get(
+     *     tags={"admin"},
+     *     path="/admin/setting/upload",
+     *     summary="上传设置",
+     *     description="上传设置",
+     *     @OA\Response(
+     *          response="1",
+     *          @OA\JsonContent(example={"code": 1,"msg": "success!","data": ""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error!","data": ""})
+     *     ),
+     * )
+     */
+    public function upload()
+    {
+        $uploadSetting = cmf_get_upload_setting();
+        $this->success('success', ['setting' => $uploadSetting]);
+    }
+
+    /**
+     * 上传设置提交保存
+     * @throws \think\exception\DbException
+     * @OA\Put(
+     *     tags={"admin"},
+     *     path="/admin/setting/upload",
+     *     summary="上传设置提交保存",
+     *     description="上传设置提交保存",
+     *     @OA\RequestBody(
+     *         description="请求参数",
+     *         @OA\MediaType(
+     *             mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(ref="#/components/schemas/AdminSettingUploadPostRequestForm")
+     *         ),
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/AdminSettingUploadPostRequest")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          @OA\JsonContent(example={"code": 1,"msg": "保存成功!","data": ""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "保存成功!","data": ""})
+     *     ),
+     * )
+     */
+    public function uploadPost()
+    {
+        //TODO 非空验证
+        $uploadSetting = $this->request->post();
+
+        cmf_set_option('upload_setting', $uploadSetting);
+        $this->success(lang('EDIT_SUCCESS'));
+    }
+
 }

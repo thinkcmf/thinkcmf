@@ -1,6 +1,6 @@
 <?php
 
-namespace api\admin\swagger\request;
+namespace api\swagger\request;
 
 use OpenApi\Annotations as OA;
 
@@ -9,7 +9,7 @@ use OpenApi\Annotations as OA;
  *     required={"slide_id","title"}
  * )
  */
-class AdminSlideItemListOrderRequest
+class ListOrdersRequest
 {
 
     /**
