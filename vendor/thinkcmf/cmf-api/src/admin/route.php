@@ -2,6 +2,11 @@
 
 use think\facade\Route;
 
+Route::get('admin/apps', 'admin/App/index');
+Route::post('admin/apps/:name', 'admin/App/install');
+Route::put('admin/apps/:name', 'admin/App/update');
+Route::delete('admin/apps/:name', 'admin/App/uninstall');
+
 Route::get('admin/menus', 'admin/Menu/menus');
 
 Route::delete('admin/setting/cache', 'admin/Setting/clearCache');
