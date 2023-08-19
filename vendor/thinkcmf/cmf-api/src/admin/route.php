@@ -5,7 +5,11 @@ use think\facade\Route;
 Route::get('admin/menus', 'admin/Menu/menus');
 
 Route::delete('admin/setting/cache', 'admin/Setting/clearCache');
-Route::post('admin/setting/site', 'admin/Setting/sitePost');
+Route::put('admin/setting/site', 'admin/Setting/sitePut');
+Route::put('admin/setting/upload', 'admin/Setting/uploadPut');
+Route::put('admin/setting/storage', 'admin/Setting/storagePut');
+
+
 Route::put('admin/mail/config', 'admin/Mail/configPut');
 Route::put('admin/mail/template', 'admin/Mail/templatePut');
 

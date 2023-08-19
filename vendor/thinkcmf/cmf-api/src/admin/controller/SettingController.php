@@ -97,7 +97,7 @@ class SettingController extends RestAdminBaseController
     /**
      * 网站信息提交保存
      * @throws \think\exception\DbException
-     * @OA\Post(
+     * @OA\Put(
      *     tags={"admin"},
      *     path="/admin/setting/site",
      *     summary="网站信息提交保存",
@@ -112,7 +112,7 @@ class SettingController extends RestAdminBaseController
      *     ),
      * )
      */
-    public function sitePost()
+    public function sitePut()
     {
         $result = $this->validate($this->request->param(), 'SettingSite');
         if ($result !== true) {
@@ -196,11 +196,11 @@ class SettingController extends RestAdminBaseController
      *         description="请求参数",
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
-     *             @OA\Schema(ref="#/components/schemas/AdminSettingUploadPostRequestForm")
+     *             @OA\Schema(ref="#/components/schemas/AdminSettingUploadPutRequestForm")
      *         ),
      *         @OA\MediaType(
      *             mediaType="application/json",
-     *             @OA\Schema(ref="#/components/schemas/AdminSettingUploadPostRequest")
+     *             @OA\Schema(ref="#/components/schemas/AdminSettingUploadPutRequest")
      *         )
      *     ),
      *     @OA\Response(
@@ -213,7 +213,7 @@ class SettingController extends RestAdminBaseController
      *     ),
      * )
      */
-    public function uploadPost()
+    public function uploadPut()
     {
         //TODO 非空验证
         $uploadSetting = $this->request->post();
@@ -221,5 +221,84 @@ class SettingController extends RestAdminBaseController
         cmf_set_option('upload_setting', $uploadSetting);
         $this->success(lang('EDIT_SUCCESS'));
     }
+
+    /**
+     * 文件存储
+     * @throws \think\exception\DbException
+     * @OA\Get(
+     *     tags={"admin"},
+     *     path="/admin/setting/storage",
+     *     summary="文件存储",
+     *     description="文件存储",
+     *     @OA\Response(
+     *          response="1",
+     *          @OA\JsonContent(example={"code": 1,"msg": "success!","data": ""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error!","data": ""})
+     *     ),
+     * )
+     */
+    public function storage()
+    {
+        $storage = cmf_get_option('storage');
+
+        if (empty($storage)) {
+            $storage['type']     = 'Local';
+            $storage['storages'] = ['Local' => ['name' => '本地']];
+        } else {
+            if (empty($storage['type'])) {
+                $storage['type'] = 'Local';
+            }
+
+            if (empty($storage['storages']['Local'])) {
+                $storage['storages']['Local'] = ['name' => '本地'];
+            }
+        }
+
+        $this->success('success', ['storage' => $storage]);
+    }
+
+
+    /**
+     * 文件存储设置提交保存
+     * @throws \think\exception\DbException
+     * @OA\Put(
+     *     tags={"admin"},
+     *     path="/admin/setting/storage",
+     *     summary="文件存储设置提交保存",
+     *     description="文件存储设置提交保存",
+     *     @OA\RequestBody(
+     *         description="请求参数",
+     *         @OA\MediaType(
+     *             mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(ref="#/components/schemas/AdminSettingStoragePutRequest")
+     *         ),
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/AdminSettingStoragePutRequest")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          @OA\JsonContent(example={"code": 1,"msg": "保存成功!","data": ""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "保存成功!","data": ""})
+     *     ),
+     * )
+     */
+    public function storagePut()
+    {
+        $post    = $this->request->post();
+        $storage = cmf_get_option('storage');
+
+        $storage['type'] = $post['type'];
+        cmf_set_option('storage', $storage);
+        $this->success(lang('EDIT_SUCCESS'), '');
+    }
+
 
 }

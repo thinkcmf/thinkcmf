@@ -9,7 +9,7 @@ use OpenApi\Annotations as OA;
  *     required={}
  * )
  */
-class AdminSettingUploadPostRequestForm
+class AdminSettingUploadPutRequestForm
 {
 
     /**

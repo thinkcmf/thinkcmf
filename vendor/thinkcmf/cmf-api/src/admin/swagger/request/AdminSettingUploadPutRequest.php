@@ -9,7 +9,7 @@ use OpenApi\Annotations as OA;
  *     required={}
  * )
  */
-class AdminSettingUploadPostRequest
+class AdminSettingUploadPutRequest
 {
 
     /**
@@ -35,7 +35,7 @@ class AdminSettingUploadPostRequest
      * @OA\Property(
      *     type="object",
      *     description="最大同时上传文件数",
-     *     ref="#/components/schemas/AdminSettingUploadPostRequestFileTypes"
+     *     ref="#/components/schemas/AdminSettingUploadPutRequestFileTypes"
      * )
      */
     public $file_types;
@@ -48,13 +48,13 @@ class AdminSettingUploadPostRequest
  *     required={}
  * )
  */
-class AdminSettingUploadPostRequestFileTypes
+class AdminSettingUploadPutRequestFileTypes
 {
 
     /**
      * @OA\Property(
      *     type="object",
-     *     ref="#/components/schemas/AdminSettingUploadPostRequestFileType"
+     *     ref="#/components/schemas/AdminSettingUploadPutRequestFileType"
      * )
      */
     public $image;
@@ -62,7 +62,7 @@ class AdminSettingUploadPostRequestFileTypes
     /**
      * @OA\Property(
      *     type="object",
-     *     ref="#/components/schemas/AdminSettingUploadPostRequestFileType"
+     *     ref="#/components/schemas/AdminSettingUploadPutRequestFileType"
      * )
      */
     public $video;
@@ -70,7 +70,7 @@ class AdminSettingUploadPostRequestFileTypes
     /**
      * @OA\Property(
      *     type="object",
-     *     ref="#/components/schemas/AdminSettingUploadPostRequestFileType"
+     *     ref="#/components/schemas/AdminSettingUploadPutRequestFileType"
      * )
      */
     public $audio;
@@ -78,7 +78,7 @@ class AdminSettingUploadPostRequestFileTypes
     /**
      * @OA\Property(
      *     type="object",
-     *     ref="#/components/schemas/AdminSettingUploadPostRequestFileType"
+     *     ref="#/components/schemas/AdminSettingUploadPutRequestFileType"
      * )
      */
     public $file;
@@ -90,7 +90,7 @@ class AdminSettingUploadPostRequestFileTypes
  *     required={}
  * )
  */
-class AdminSettingUploadPostRequestFileType
+class AdminSettingUploadPutRequestFileType
 {
     /**
      * @OA\Property(
