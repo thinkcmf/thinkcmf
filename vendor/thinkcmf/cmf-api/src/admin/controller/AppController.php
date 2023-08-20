@@ -28,7 +28,19 @@ class AppController extends RestAdminBaseController
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
      *              "apps":{
-     *                  {"id": 1,"status": 1,"delete_time": 0,"name": "又菜又爱玩","remark": ""}
+     *                  {
+     *                      "title": "演示应用",
+     *                      "name": "demo",
+     *                      "version": "1.0.3",
+     *                      "demo_url": "http://demo.thinkcmf.com",
+     *                      "author": "ThinkCMF",
+     *                      "author_url": "http://www.thinkcmf.com",
+     *                      "keywords": "ThinkCMF 演示应用",
+     *                      "description": "ThinkCMF 演示应用",
+     *                      "config_url": "",
+     *                      "installed": 1,
+     *                      "local_verison": "1.0.3"
+     *                  }
      *              }
      *          }})
      *     ),
