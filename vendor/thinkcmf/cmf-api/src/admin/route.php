@@ -2,12 +2,19 @@
 
 use think\facade\Route;
 
-Route::get('admin/apps', 'admin/App/index');
+Route::get('admin/apps$', 'admin/App/index');
 Route::post('admin/apps/:name', 'admin/App/install');
 Route::put('admin/apps/:name', 'admin/App/update');
 Route::delete('admin/apps/:name', 'admin/App/uninstall');
 
-Route::get('admin/menus', 'admin/Menu/menus');
+Route::get('admin/hooks/:hook/plugins', 'admin/Hook/plugins');
+Route::get('admin/hooks$', 'admin/Hook/index');
+Route::post('admin/hooks/plugins/list/order', 'admin/Hook/pluginListOrder');
+Route::post('admin/hooks/sync', 'admin/Hook/sync');
+
+
+
+Route::get('admin/menus$', 'admin/Menu/menus');
 
 Route::delete('admin/setting/cache', 'admin/Setting/clearCache');
 Route::put('admin/setting/site', 'admin/Setting/sitePut');
@@ -28,7 +35,7 @@ Route::resource('admin/routes', 'admin/Route');
 Route::post('admin/routes/:id/toggle', 'admin/Route/toggle')->pattern(['id' => '\d+',]);
 Route::post('admin/routes/:id/status/:status', 'admin/Route/status')->pattern(['id' => '\d+', 'status' => '\d+',]);
 Route::post('admin/routes/list/order', 'admin/Route/listOrder');
-Route::get('admin/routes/app/urls', 'admin/Route/appUrls');
+Route::get('admin/routes/app/urls$', 'admin/Route/appUrls');
 
 
 
