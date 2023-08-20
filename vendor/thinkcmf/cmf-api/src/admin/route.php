@@ -17,6 +17,9 @@ Route::resource('admin/links', 'admin/Link');
 
 Route::get('admin/menus$', 'admin/Menu/menus');
 
+Route::resource('admin/navs', 'admin/Nav');
+
+
 Route::delete('admin/setting/cache', 'admin/Setting/clearCache');
 Route::put('admin/setting/site', 'admin/Setting/sitePut');
 Route::put('admin/setting/upload', 'admin/Setting/uploadPut');
