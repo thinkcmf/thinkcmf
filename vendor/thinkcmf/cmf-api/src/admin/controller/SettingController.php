@@ -11,10 +11,7 @@ namespace api\admin\controller;
 use app\admin\model\RouteModel;
 use app\admin\model\UserModel;
 use cmf\controller\RestAdminBaseController;
-use cmf\controller\RestBaseController;
 use OpenApi\Annotations as OA;
-use think\facade\Db;
-use think\facade\Validate;
 
 class SettingController extends RestAdminBaseController
 {

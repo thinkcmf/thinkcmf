@@ -11,12 +11,8 @@ namespace api\admin\controller;
 use app\admin\model\RecycleBinModel;
 use app\admin\model\SlideItemModel;
 use app\admin\model\SlideModel;
-use app\admin\service\AdminMenuService;
 use cmf\controller\RestAdminBaseController;
-use cmf\controller\RestBaseController;
 use OpenApi\Annotations as OA;
-use think\facade\Db;
-use think\facade\Validate;
 
 class SlideController extends RestAdminBaseController
 {

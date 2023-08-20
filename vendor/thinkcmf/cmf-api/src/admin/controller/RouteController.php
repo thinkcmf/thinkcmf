@@ -8,16 +8,9 @@
 // +----------------------------------------------------------------------
 namespace api\admin\controller;
 
-use app\admin\model\RecycleBinModel;
 use app\admin\model\RouteModel;
-use app\admin\model\SlideItemModel;
-use app\admin\model\SlideModel;
-use app\admin\service\AdminMenuService;
 use cmf\controller\RestAdminBaseController;
-use cmf\controller\RestBaseController;
 use OpenApi\Annotations as OA;
-use think\facade\Db;
-use think\facade\Validate;
 
 class RouteController extends RestAdminBaseController
 {
@@ -430,7 +423,6 @@ class RouteController extends RestAdminBaseController
             $actionArr[2] = cmf_parse_name($actionArr[2]);
             return empty($params) ? $actionArr[2] . '$' : ($actionArr[2] . '/' . implode('/', $urlDepr1Params) /*. '或' . $actionArr[2] . '-' . implode('-', $urlDepr2Params)*/);
         }
-
     }
 
 }
