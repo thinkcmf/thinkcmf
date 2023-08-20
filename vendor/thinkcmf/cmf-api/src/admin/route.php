@@ -12,6 +12,7 @@ Route::get('admin/hooks$', 'admin/Hook/index');
 Route::post('admin/hooks/plugins/list/order', 'admin/Hook/pluginListOrder');
 Route::post('admin/hooks/sync', 'admin/Hook/sync');
 
+Route::resource('admin/links', 'admin/Link');
 
 
 Route::get('admin/menus$', 'admin/Menu/menus');
