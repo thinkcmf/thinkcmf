@@ -69,7 +69,7 @@ class NavController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "nav":{"id": 1,"status": 1,"delete_time": 0,"name": "又菜又爱玩","remark": ""}
+     *              "nav":{"id": 1,"is_main": 1,"name": "主导航","remark": "主导航"}
      *          }})
      *     ),
      *     @OA\Response(
@@ -116,7 +116,7 @@ class NavController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "nav":{"id": 1,"status": 1,"delete_time": 0,"name": "又菜又爱玩","remark": ""}
+     *              "nav":{"id": 1,"is_main": 1,"name": "主导航","remark": "主导航"}
      *          }})
      *     ),
      *     @OA\Response(
