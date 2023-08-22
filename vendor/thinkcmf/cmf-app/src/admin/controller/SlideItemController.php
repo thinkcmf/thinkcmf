@@ -92,7 +92,7 @@ class SlideItemController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             $data = $this->request->param('',null,'strip_tags');
-            SlideItemModel::insert($data['post']);
+            SlideItemModel::create($data['post']);
             $this->success(lang('ADD_SUCCESS'), url('SlideItem/index', ['slide_id' => $data['post']['slide_id']]));
         }
     }
