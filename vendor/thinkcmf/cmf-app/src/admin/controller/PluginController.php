@@ -83,11 +83,11 @@ class PluginController extends AdminBaseController
             }
 
             $status         = 1;
-            $successMessage = "启用成功！";
+            $successMessage = '启用成功！';
 
             if ($this->request->param('disable')) {
                 $status         = 0;
-                $successMessage = "禁用成功！";
+                $successMessage = '禁用成功！';
             }
 
             $pluginModel->startTrans();
@@ -153,7 +153,6 @@ class PluginController extends AdminBaseController
         $plugin['config'] = include $pluginObj->getConfigFilePath();
 
         if ($pluginConfigInDb) {
-            $pluginConfigInDb = json_decode($pluginConfigInDb, true);
             foreach ($plugin['config'] as $key => $value) {
                 if ($value['type'] != 'group') {
                     if (isset($pluginConfigInDb[$key])) {
@@ -258,7 +257,7 @@ class PluginController extends AdminBaseController
             }
 
             $pluginModel = PluginModel::where('id', $id)->find();
-            $pluginModel->save(['config' => json_encode($config)]);
+            $pluginModel->save(['config' => $config]);
             cmf_clear_cache();
             $this->success(lang('EDIT_SUCCESS'), '');
         }
