@@ -30,6 +30,7 @@ class Migrate
     private $appName;
     private $pluginName;
     private $app;
+    private $adapter;
 
     /**
      * @param string $appName
