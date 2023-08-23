@@ -45,7 +45,7 @@
                                href="{:url('Plugin/install',array('name'=>$vo['name']))}"
                                data-msg="确定安装该插件吗？">{:lang('Install')}</a>
                             <else/>
-                            <php>$config=json_decode($vo['config'],true);</php>
+                            <php>$config=$vo['config'];</php>
                             <!-- Single button -->
                             <span class="dropdown">
                                 <span class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown"

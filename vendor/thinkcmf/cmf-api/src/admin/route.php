@@ -18,7 +18,10 @@ Route::resource('admin/links', 'admin/Link');
 Route::get('admin/menus$', 'admin/Menu/menus');
 
 Route::resource('admin/navs', 'admin/Nav');
-
+Route::resource('admin/nav/menus', 'admin/NavMenu');
+Route::post('admin/nav/menus/:id/toggle', 'admin/NavMenu/toggle')->pattern(['id' => '\d+',]);
+Route::post('admin/nav/menus/:id/status/:status', 'admin/NavMenu/status')->pattern(['id' => '\d+', 'status' => '\d+',]);
+Route::post('admin/nav/menus/list/order', 'admin/NavMenu/listOrder');
 
 Route::delete('admin/setting/cache', 'admin/Setting/clearCache');
 Route::put('admin/setting/site', 'admin/Setting/sitePut');
