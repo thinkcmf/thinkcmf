@@ -29,6 +29,7 @@ class Migrate
     private $input;
     private $appName;
     private $pluginName;
+    private $app;
 
     /**
      * @param string $appName
