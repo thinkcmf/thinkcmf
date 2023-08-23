@@ -70,7 +70,7 @@ class PluginLogic
             $info['has_admin'] = 0;
         }
 
-        $info['config'] = json_encode($plugin->getConfig());
+        $info['config'] = $plugin->getConfig();
 
         $pluginModel->save($info);
 

@@ -23,6 +23,14 @@ Route::post('admin/nav/menus/:id/toggle', 'admin/NavMenu/toggle')->pattern(['id'
 Route::post('admin/nav/menus/:id/status/:status', 'admin/NavMenu/status')->pattern(['id' => '\d+', 'status' => '\d+',]);
 Route::post('admin/nav/menus/list/order', 'admin/NavMenu/listOrder');
 
+Route::get('admin/plugins$', 'admin/Plugin/index');
+Route::post('admin/plugins/:id/status/:status', 'admin/Plugin/status')->pattern(['id' => '\d+', 'status' => '\d+',]);
+Route::get('admin/plugins/:id/config$', 'admin/Plugin/config')->pattern(['id' => '\d+',]);
+Route::put('admin/plugins/:id/config$', 'admin/Plugin/configPut')->pattern(['id' => '\d+',]);
+Route::post('admin/plugins/:name$', 'admin/Plugin/install');
+Route::put('admin/plugins/:name', 'admin/Plugin/update');
+Route::delete('admin/plugins/:id', 'admin/Plugin/uninstall');
+
 Route::delete('admin/setting/cache', 'admin/Setting/clearCache');
 Route::put('admin/setting/site', 'admin/Setting/sitePut');
 Route::put('admin/setting/upload', 'admin/Setting/uploadPut');

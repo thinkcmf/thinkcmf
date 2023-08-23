@@ -250,8 +250,10 @@ class PluginController extends AdminBaseController
 
             $config = $this->request->param('config/a');
 
-            $validate = new Validate($rules, $messages);
-            $result   = $validate->check($config);
+            $validate = new Validate();
+            $validate->rule($rules);
+            $validate->message($messages);
+            $result = $validate->check($config);
             if ($result !== true) {
                 $this->error($validate->getError());
             }

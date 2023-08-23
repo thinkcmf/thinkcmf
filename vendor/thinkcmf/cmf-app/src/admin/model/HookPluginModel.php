@@ -22,5 +22,4 @@ class HookPluginModel extends Model
     protected $name = 'hook_plugin';
 
 
-
 }
