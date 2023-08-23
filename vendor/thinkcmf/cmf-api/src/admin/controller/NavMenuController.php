@@ -9,7 +9,6 @@
 namespace api\admin\controller;
 
 use app\admin\model\NavMenuModel;
-use app\admin\model\SlideItemModel;
 use cmf\controller\RestAdminBaseController;
 use OpenApi\Annotations as OA;
 
