@@ -26,11 +26,12 @@ class SlideService
     {
         $slideModel = new SlideModel();
         $data       = $slideModel
-//            ->relation(['items'])
-            ->where('status', 1)
-            ->where('delete_time', 0)
+            ->withJoin(['items'])
+            ->where('status','=', 1)
+            ->where('delete_time','=', 0)
             ->where($map)
-            ->find();
+            ->find()
+            ->hidden(['delete_time','status','items.status']);
         return $data;
     }
 }
