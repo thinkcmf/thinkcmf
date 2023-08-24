@@ -31,6 +31,12 @@ Route::post('admin/plugins/:name$', 'admin/Plugin/install');
 Route::put('admin/plugins/:name', 'admin/Plugin/update');
 Route::delete('admin/plugins/:id', 'admin/Plugin/uninstall');
 
+Route::get('admin/roles/:id/api/authorize$', 'admin/Role/apiAuthorize');
+Route::put('admin/roles/:id/api/authorize$', 'admin/Role/apiAuthorizePut');
+Route::get('admin/roles/:id/authorize$', 'admin/Role/authorize');
+Route::put('admin/roles/:id/authorize$', 'admin/Role/authorizePut');
+Route::resource('admin/roles', 'admin/Role');
+
 Route::delete('admin/setting/cache', 'admin/Setting/clearCache');
 Route::put('admin/setting/site', 'admin/Setting/sitePut');
 Route::put('admin/setting/upload', 'admin/Setting/uploadPut');

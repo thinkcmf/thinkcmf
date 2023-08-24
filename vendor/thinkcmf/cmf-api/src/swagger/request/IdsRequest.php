@@ -9,15 +9,15 @@ use OpenApi\Annotations as OA;
  *     required={}
  * )
  */
-class ListOrdersRequest
+class IdsRequest
 {
 
     /**
      * @OA\Property(
-     *     type="object",
-     *     example={"1":"10000","2":"1"},
-     *     description="排序数据"
+     *     type="array",
+     *     description="排序数据",
+     *     @OA\Items(type="integer")
      * )
      */
-    public $list_orders;
+    public $ids;
 }
