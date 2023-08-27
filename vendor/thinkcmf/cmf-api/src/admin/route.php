@@ -44,6 +44,10 @@ Route::put('admin/setting/upload$', 'admin/Setting/uploadPut');
 Route::put('admin/setting/storage$', 'admin/Setting/storagePut');
 Route::put('admin/setting/password$', 'admin/Setting/passwordPut');
 
+Route::post('admin/my/email/setting/test$', 'admin/My/emailSettingTest');
+Route::get('admin/my/email/setting$', 'admin/My/emailSetting');
+Route::put('admin/my/email/setting$', 'admin/My/emailSettingPut');
+
 Route::put('admin/mail/config$', 'admin/Mail/configPut');
 Route::put('admin/mail/template$', 'admin/Mail/templatePut');
 
