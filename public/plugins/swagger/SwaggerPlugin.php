@@ -49,7 +49,7 @@ class SwaggerPlugin extends Plugin
 
         foreach ($paths as $path => $methods) {
             $path = trim(preg_replace("/\{(.+)\}/", ':$1', $path), '/');
-            if (!str_starts_with($path, "admin")) {
+            if (!str_starts_with($path, "admin") && !str_contains($path, "/admin")) {
                 continue;
             }
             if (!empty($path)) {
