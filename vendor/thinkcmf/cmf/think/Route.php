@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace think;
 
@@ -392,14 +392,14 @@ class Route
     {
         if (is_null($domain)) {
             $domain = $this->host;
-        } elseif (false === strpos($domain, '.') && $this->request) {
+        } elseif (!str_contains($domain, '.') && $this->request) {
             $domain .= '.' . $this->request->rootDomain();
         }
 
         if ($this->request) {
             $subDomain = $this->request->subDomain();
 
-            if (strpos($subDomain, '.')) {
+            if (str_contains($subDomain, '.')) {
                 $name = '*' . strstr($subDomain, '.');
             }
         }
