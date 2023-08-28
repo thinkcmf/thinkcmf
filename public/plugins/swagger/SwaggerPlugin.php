@@ -75,6 +75,25 @@ class SwaggerPlugin extends Plugin
                             'tags'      => join(',', $methodData['tags'])
                         ]);
                     }
+
+                    $ruleName = strtolower("admin_api:$url");
+
+                    $findAuthRule = db('auth_rule')->where('name', $ruleName)->find();
+                    if ($findAuthRule) {
+                        db('auth_rule')->where('id', $findAuthRule['id'])->update([
+                            'app'   => $methodData['tags'][0],
+                            'type'  => 'admin_api',
+                            'name'  => $ruleName,
+                            'title' => empty($methodData['summary']) ? '' : $methodData['summary'],
+                        ]);
+                    } else {
+                        db('auth_rule')->insert([
+                            'app'   => $methodData['tags'][0],
+                            'type'  => 'admin_api',
+                            'name'  => $ruleName,
+                            'title' => empty($methodData['summary']) ? '' : $methodData['summary'],
+                        ]);
+                    }
                 }
 
             }

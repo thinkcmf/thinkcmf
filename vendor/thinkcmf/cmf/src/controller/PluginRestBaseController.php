@@ -52,11 +52,11 @@ class PluginRestBaseController extends RestBaseController
     /**
      * 验证数据
      * @access protected
-     * @param  array        $data     数据
-     * @param  string|array $validate 验证器名或者验证规则数组
-     * @param  array        $message  提示信息
-     * @param  bool         $batch    是否批量验证
-     * @param  mixed        $callback 回调方法（闭包）
+     * @param array        $data     数据
+     * @param string|array $validate 验证器名或者验证规则数组
+     * @param array        $message  提示信息
+     * @param bool         $batch    是否批量验证
+     * @param mixed        $callback 回调方法（闭包）
      * @return array|string|true
      * @throws ValidateException
      */
@@ -106,12 +106,13 @@ class PluginRestBaseController extends RestBaseController
     public function getRoutePath(): string
     {
         $rule = $this->request->rule();
+        $routeRuleName = $rule->getRule();
 
-        if (empty($rule->getRule())) {
+        if (empty($routeRuleName) || $routeRuleName == "plugin/<_plugin>/<_controller?>/<_action?>") {
             $pluginName = $this->request->param('_plugin');
-            $pluginName = cmf_parse_name($pluginName, 1);
+            $pluginName = cmf_parse_name($pluginName, 0);
             $controller = $this->request->param('_controller');
-            $controller = cmf_parse_name($controller, 1);
+            $controller = cmf_parse_name($controller, 0);
             $action     = $this->request->param('_action');
             $routePath  = "plugin/{$pluginName}/$controller/$action";
         } else {
