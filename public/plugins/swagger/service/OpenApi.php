@@ -2,6 +2,8 @@
 
 namespace plugins\swagger\service;
 
+use think\facade\Db;
+
 class OpenApi
 {
 
@@ -34,6 +36,21 @@ class OpenApi
                 $paths[] = $dir;
             }
         }
+
+        $plugins = Db::name('plugin')->where('status', 1)->field('name')->select();
+        foreach ($plugins as $plugin) {
+            $pluginDir = cmf_parse_name($plugin['name'], 0);
+            $dir       = WEB_ROOT . "plugins/{$pluginDir}/controller";
+            if (is_dir($dir)) {
+                $paths[] = $dir;
+            }
+
+            $dir = WEB_ROOT . "plugins/{$pluginDir}/swagger";
+            if (is_dir($dir)) {
+                $paths[] = $dir;
+            }
+        }
+
         return \OpenApi\Generator::scan($paths,
             [
                 'aliases'  => [
