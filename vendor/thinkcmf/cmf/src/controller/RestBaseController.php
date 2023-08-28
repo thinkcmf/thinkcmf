@@ -322,7 +322,7 @@ class RestBaseController
             $action     = $this->request->action(false);
             $routePath  = "$app/$controller/$action";
         } else {
-            $routePath = preg_replace("/<(.+)>/", ':$1', $rule->getRule());
+            $routePath = preg_replace("/<([0-9a-zA-Z_]+)>/", ':$1', $rule->getRule());
             $routePath = str_replace('$', '', $routePath);
         }
 

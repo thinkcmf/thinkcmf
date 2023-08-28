@@ -99,5 +99,28 @@ class PluginRestBaseController extends RestBaseController
         return true;
     }
 
+    /**
+     * 获取API路由路径
+     * @return string 如demo/articles,demo/artilces/:id
+     */
+    public function getRoutePath(): string
+    {
+        $rule = $this->request->rule();
+
+        if (empty($rule->getRule())) {
+            $pluginName = $this->request->param('_plugin');
+            $pluginName = cmf_parse_name($pluginName, 1);
+            $controller = $this->request->param('_controller');
+            $controller = cmf_parse_name($controller, 1);
+            $action     = $this->request->param('_action');
+            $routePath  = "plugin/{$pluginName}/$controller/$action";
+        } else {
+            $routePath = preg_replace("/<([0-9a-zA-Z_]+)>/", ':$1', $rule->getRule());
+            $routePath = str_replace('$', '', $routePath);
+        }
+
+        return $routePath;
+    }
+
 
 }
