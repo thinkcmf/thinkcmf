@@ -48,7 +48,7 @@ class SwaggerPlugin extends Plugin
         $paths = $api['paths'];
 
         foreach ($paths as $path => $methods) {
-            $path = trim(preg_replace("/\{(.+)\}/", ':$1', $path), '/');
+            $path = trim(preg_replace("/\{([0-9a-zA-Z_]+)\}/", ':$1', $path), '/');
             if (!(str_starts_with($path, "admin") || str_contains($path, "/admin") || str_contains($path, '/api_admin_'))) {
                 continue;
             }
