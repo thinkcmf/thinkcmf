@@ -44,6 +44,13 @@ Route::put('admin/setting/upload$', 'admin/Setting/uploadPut');
 Route::put('admin/setting/storage$', 'admin/Setting/storagePut');
 Route::put('admin/setting/password$', 'admin/Setting/passwordPut');
 
+Route::get('admin/themes/not/installed$', 'admin/Theme/notInstalled');
+Route::get('admin/themes$', 'admin/Theme/index');
+Route::post('admin/themes/:theme$', 'admin/Theme/install');
+Route::put('admin/themes/:theme$', 'admin/Theme/update');
+Route::delete('admin/themes/:theme$', 'admin/Theme/uninstall');
+
+
 Route::post('admin/my/email/setting/test$', 'admin/My/emailSettingTest');
 Route::get('admin/my/email/setting$', 'admin/My/emailSetting');
 Route::put('admin/my/email/setting$', 'admin/My/emailSettingPut');
