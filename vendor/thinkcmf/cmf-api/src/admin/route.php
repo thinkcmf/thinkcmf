@@ -49,7 +49,9 @@ Route::get('admin/themes$', 'admin/Theme/index');
 Route::post('admin/themes/:theme$', 'admin/Theme/install');
 Route::put('admin/themes/:theme$', 'admin/Theme/update');
 Route::delete('admin/themes/:theme$', 'admin/Theme/uninstall');
-
+Route::get('admin/theme/:theme/files$', 'admin/Theme/files');
+Route::get('admin/theme/{theme}/file/setting$', 'admin/Theme/fileSetting');
+Route::post('admin/theme/{theme}/file/setting$', 'admin/Theme/fileSettingPost');
 
 Route::post('admin/my/email/setting/test$', 'admin/My/emailSettingTest');
 Route::get('admin/my/email/setting$', 'admin/My/emailSetting');
