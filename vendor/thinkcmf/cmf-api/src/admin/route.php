@@ -8,6 +8,9 @@ Route::post('admin/apps/:name$', 'admin/App/install');
 Route::put('admin/apps/:name$', 'admin/App/update');
 Route::delete('admin/apps/:name$', 'admin/App/uninstall');
 
+Route::get('admin/assets', 'admin/Asset/index');
+Route::delete('admin/assets/:id', 'admin/Asset/delete');
+
 Route::get('admin/hooks/:hook/plugins$', 'admin/Hook/plugins');
 Route::get('admin/hooks$', 'admin/Hook/index');
 Route::post('admin/hooks/plugins/list/order$', 'admin/Hook/pluginListOrder');

@@ -20,4 +20,12 @@ class AssetModel extends Model
      */
     protected $name = 'asset';
 
+    /**
+     * 关联 user表
+     * @return $this
+     */
+    public function user()
+    {
+        return $this->belongsTo('UserModel', 'user_id');
+    }
 }
