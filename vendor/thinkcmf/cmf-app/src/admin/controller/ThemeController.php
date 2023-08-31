@@ -1086,7 +1086,6 @@ class ThemeController extends AdminBaseController
     public function widgetsSort()
     {
         $files = $this->request->param();
-//        $this->success('', '', $files);
         $widgets = [];
 
         foreach ($files as $fileId => $widgetsBlocks) {

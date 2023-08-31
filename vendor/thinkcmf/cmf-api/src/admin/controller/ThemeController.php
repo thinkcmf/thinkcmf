@@ -806,5 +806,84 @@ class ThemeController extends RestAdminBaseController
         $this->success(lang('EDIT_SUCCESS'));
     }
 
+    /**
+     * 自由模板控件排序
+     * @throws \think\exception\DbException
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/theme/widgets/sort",
+     *     summary="自由模板控件排序",
+     *     description="自由模板控件排序",
+     *     @OA\RequestBody(
+     *         description="请求参数",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/AdminThemeWidgetsSortRequest")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "保存成功!","data":""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error!","data":""})
+     *     ),
+     * )
+     */
+    public function widgetsSort()
+    {
+        $files = $this->request->param();
+        $widgets = [];
+
+        foreach ($files as $fileId => $widgetsBlocks) {
+            $fileId     = str_replace('file', '', $fileId);
+            $file       = ThemeFileModel::where('id', $fileId)->find();
+            $configMore = $file['more'];
+            if (!empty($configMore['widgets_blocks'])) {
+                foreach ($configMore['widgets_blocks'] as $widgetsBlockName => $widgetsBlock) {
+                    if (!empty($configMore['widgets_blocks'][$widgetsBlockName]['widgets'])) {
+                        foreach ($configMore['widgets_blocks'][$widgetsBlockName]['widgets'] as $widgetId => $widget) {
+                            $widgets[$widgetId] = $widget;
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach ($files as $fileId => $widgetsBlocks) {
+            $fileId     = str_replace('file', '', $fileId);
+            $file       = ThemeFileModel::where('id', $fileId)->find();
+            $configMore = $file['more'];
+
+            foreach ($widgetsBlocks as $widgetsBlockName => $widgetIds) {
+                $mWidgets = [];
+                foreach ($widgetIds as $widgetIdInfo) {
+                    $widgetId = $widgetIdInfo['widget_id'];
+
+                    if (!empty($widgets[$widgetId])) {
+                        $mWidgets[$widgetId] = $widgets[$widgetId];
+                    }
+                }
+                $configMore['widgets_blocks'][$widgetsBlockName]['widgets'] = $mWidgets;
+            }
+
+            if (!empty($configMore['widgets_blocks'])) {
+                foreach ($configMore['widgets_blocks'] as $widgetsBlockName => $widgetsBlock) {
+                    if (!isset($widgetsBlocks[$widgetsBlockName])) {
+                        $configMore['widgets_blocks'][$widgetsBlockName]['widgets'] = [];
+                    }
+                }
+            }
+
+            $configMore['edited_by_designer'] = 1;
+            $more                             = json_encode($configMore);
+            ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
+        }
+        cmf_clear_cache();
+        $this->success('', '', $configMore);
+    }
+
 
 }
