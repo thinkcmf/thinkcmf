@@ -603,5 +603,208 @@ class ThemeController extends RestAdminBaseController
         return $newRules;
     }
 
+    /**
+     * 获取模板自由控件设置
+     * @throws \think\exception\DbException
+     * @OA\Get(
+     *     tags={"admin"},
+     *     path="/admin/theme/widget/setting",
+     *     summary="获取模板自由控件设置",
+     *     description="获取模板自由控件设置",
+     *     @OA\Parameter(
+     *         name="widget_id",
+     *         in="query",
+     *         example="",
+     *         description="自由控件ID",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="block_name",
+     *         in="query",
+     *         example="",
+     *         description="模板块名称",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="file_id",
+     *         in="query",
+     *         example="",
+     *         description="模板文件ID",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
+     *              "files":{
+     *                  {"id": 141,"is_public": 1,"list_order": 0,"theme": "default","name": "模板全局配置","action": "public/Config","file": "public/config","description": "模板全局配置文件","more": {"vars": {"enable_mobile": {"title": "手机注册","type": "select","value": 1,"options": {"0": "关闭","1": "开启"},"tip": ""}}}}
+     *              }
+     *          }})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error!","data":""})
+     *     ),
+     * )
+     */
+    public function widgetSetting()
+    {
+        $widgetId  = $this->request->param('widget_id', '');
+        $blockName = $this->request->param('block_name', '');
+        $fileId    = $this->request->param('file_id', 0, 'intval');
+
+        $file            = ThemeFileModel::where('id', $fileId)->find();
+        $oldMore         = $file['more'];
+        $widgetWithValue = $oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId];
+        $theme           = $file['theme'];
+        $widgetManifest  = file_get_contents(WEB_ROOT . "themes/$theme/public/widgets/{$widgetWithValue['name']}/manifest.json");
+        $widget          = json_decode($widgetManifest, true);
+
+        $defaultCss = [
+            "margin-top"    => [
+                "title" => "上边距",
+                "value" => "0",
+                "type"  => "text",
+                "tip"   => "支持单位,如px(像素),em(字符),rem;例子:10px,2em,1rem",
+            ],
+            "margin-bottom" => [
+                "title" => "下边距",
+                "value" => "15px",
+                "type"  => "text",
+                "tip"   => "支持单位,如px(像素),em(字符),rem;例子:10px,2em,1rem",
+            ],
+            "margin-left"   => [
+                "title" => "左边距",
+                "value" => "0",
+                "type"  => "text",
+                "tip"   => "支持单位,如px(像素),em(字符),rem;例子:10px,2em,1rem",
+            ],
+            "margin-right"  => [
+                "title" => "右边距",
+                "value" => "0",
+                "type"  => "text",
+                "tip"   => "支持单位,如px(像素),em(字符),rem;例子:10px,2em,1rem",
+            ],
+        ];
+        if (empty($widget['css'])) {
+            $widget['css'] = $defaultCss;
+        } else {
+            $widget['css'] = array_merge($defaultCss, $widget['css']);
+        }
+
+        foreach ($widgetWithValue as $key => $value) {
+            if ($key == 'vars') {
+                foreach ($value as $varName => $varValue) {
+                    if (isset($widget['vars'][$varName])) {
+                        if (isset($value[$varName . '_text_'])) {
+                            $widget['vars'][$varName]['valueText'] = $value[$varName . '_text_'];
+                        }
+
+                        if (in_array($widget['vars'][$varName]['type'], ['rich_text'])) {
+                            $varValue = cmf_replace_content_file_url(htmlspecialchars_decode($varValue));
+                        }
+
+                        $widget['vars'][$varName]['value'] = $varValue;
+                    }
+                }
+            } else if ($key == 'css') {
+                foreach ($value as $varName => $varValue) {
+                    if (isset($widget['css'][$varName])) {
+                        $widget['css'][$varName]['value'] = $varValue;
+                    }
+                }
+            } else {
+                $widget[$key] = $value;
+            }
+        }
+
+        $this->success('success', ['widget' => $widget]);
+    }
+
+    /**
+     * 模板自由控件设置提交保存
+     * @throws \think\exception\DbException
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/theme/widget/setting",
+     *     summary="模板自由控件设置提交保存",
+     *     description="模板自由控件设置提交保存",
+     *     @OA\RequestBody(
+     *         description="请求参数",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/AdminThemeWidgetSettingPostRequest")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "保存成功!","data":""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error!","data":""})
+     *     ),
+     * )
+     */
+    public function widgetSettingPost()
+    {
+        $widgetId  = $this->request->param('widget_id', '');
+        $blockName = $this->request->param('block_name', '');
+        $fileId    = $this->request->param('file_id', 0, 'intval');
+        $widget    = $this->request->param('widget/a');
+        $vars      = empty($widget['vars']) ? [] : $widget['vars'];
+        $cssVars   = empty($widget['css']) ? [] : $widget['css'];
+
+        $file      = ThemeFileModel::where('id', $fileId)->find();
+        $oldMore   = $file['more'];
+        $oldWidget = $oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId];
+
+        $theme          = $file['theme'];
+        $widgetManifest = file_get_contents(WEB_ROOT . "themes/$theme/public/widgets/{$oldWidget['name']}/manifest.json");
+        $widgetInFile   = json_decode($widgetManifest, true);
+
+        foreach ($vars as $varName => $varValue) {
+            if (isset($widgetInFile['vars'][$varName])) {
+                if (isset($vars[$varName . '_text_'])) {
+                    $oldWidget['vars'][$varName . '_text_'] = $vars[$varName . '_text_'];
+                }
+                if (in_array($widgetInFile['vars'][$varName]['type'], ['rich_text'])) {
+                    $varValue = htmlspecialchars(cmf_replace_content_file_url(htmlspecialchars_decode($varValue), true));
+
+                    $oldWidget['vars'][$varName . '_type_'] = $widgetInFile['vars'][$varName]['type'];
+                }
+                $oldWidget['vars'][$varName] = $varValue;
+            }
+        }
+
+        foreach ($cssVars as $varName => $varValue) {
+            if (isset($widgetInFile['css'][$varName]) || in_array($varName, ['margin-top', 'margin-bottom', 'margin-left', 'margin-right'])) {
+                $oldWidget['css'][$varName] = $varValue;
+            }
+        }
+
+        $oldWidget['display'] = isset($widget['display']) && !empty($widget['display']) ? 1 : 0;
+        if (isset($widget['title'])) {
+            $oldWidget['title'] = $widget['title'];
+        }
+
+        $oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId] = $oldWidget;
+
+        $more = json_encode($oldMore);
+        ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
+        cmf_clear_cache();
+        $this->success(lang('EDIT_SUCCESS'));
+    }
+
 
 }
