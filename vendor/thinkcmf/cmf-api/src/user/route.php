@@ -12,6 +12,9 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
+Route::get('admin/user/users', 'user/AdminUser/index'); //获评论列表
+Route::post('admin/user/users/:id/status/:status$', 'user/AdminUser/status')->pattern(['id' => '\d+', 'status' => '\d+',]);
+
 Route::get('user/favorites/my', 'user/Favorites/getFavorites'); //获取收藏列表
 Route::get('user/comments/my', 'user/Comments/getUserComments'); //获取我的评论列表
 Route::get('user/comments', 'user/Comments/getComments'); //获评论列表
