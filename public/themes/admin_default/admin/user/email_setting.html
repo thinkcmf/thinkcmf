@@ -7,7 +7,7 @@
         <li><a href="{:url('Mailer/template')}?template_key=verification_code">{:lang('ADMIN_MAILER_TEMPLATE')}</a></li>
         <li class="active"><a href="{:url('User/emailSetting')}">我的邮箱配置</a></li>
     </ul>
-    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('User/emailSettingPost')}">
+    <form method="PUT" class="form-horizontal js-ajax-form margin-top-20" action="admin/my/email/setting">
         <div class="form-group">
             <label for="input-from_name" class="col-sm-2 control-label">
                 <span class="form-required">*</span>
