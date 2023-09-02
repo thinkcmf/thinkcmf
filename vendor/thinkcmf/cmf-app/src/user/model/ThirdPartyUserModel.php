@@ -20,4 +20,13 @@ class ThirdPartyUserModel extends Model
      */
     protected $name = 'third_party_user';
 
+    /**
+     * 关联 user表
+     * @return $this
+     */
+    public function user()
+    {
+        return $this->belongsTo('UserModel', 'user_id');
+    }
+
 }

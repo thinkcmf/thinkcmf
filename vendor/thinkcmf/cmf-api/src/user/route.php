@@ -12,7 +12,10 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-Route::get('admin/user/users', 'user/AdminUser/index'); //获评论列表
+Route::get('admin/user/oauth/users', 'user/AdminOauth/index');
+Route::delete('admin/user/oauth/users/:id', 'user/AdminOauth/delete');
+
+Route::get('admin/user/users', 'user/AdminUser/index');
 Route::post('admin/user/users/:id/status/:status$', 'user/AdminUser/status')->pattern(['id' => '\d+', 'status' => '\d+',]);
 
 Route::get('user/favorites/my', 'user/Favorites/getFavorites'); //获取收藏列表

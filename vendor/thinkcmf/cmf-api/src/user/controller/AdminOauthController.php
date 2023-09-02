@@ -8,28 +8,27 @@
 // +----------------------------------------------------------------------
 // | Author: Powerless < wzxaini9@gmail.com>
 // +----------------------------------------------------------------------
-
 namespace api\user\controller;
 
-use app\user\model\UserModel;
+use app\user\model\ThirdPartyUserModel;
 use cmf\controller\RestAdminBaseController;
+use OpenApi\Annotations as OA;
 use think\db\Query;
 
-class AdminUserController extends RestAdminBaseController
+class AdminOauthController extends RestAdminBaseController
 {
-
     /**
-     * 本站用户列表
+     * 第三方用户列表
      * @throws \think\exception\DbException
      * @OA\Get(
      *     tags={"user"},
-     *     path="/admin/user/users",
-     *     summary="本站用户列表",
-     *     description="本站用户列表",
+     *     path="/admin/user/oauth/users",
+     *     summary="第三方用户列表",
+     *     description="第三方用户列表",
      *     @OA\Parameter(
      *         name="user_id",
      *         in="query",
-     *         description="用户ID",
+     *         description="本站用户ID",
      *         required=false,
      *         @OA\Schema(
      *             type="integer",
@@ -38,7 +37,7 @@ class AdminUserController extends RestAdminBaseController
      *     @OA\Parameter(
      *         name="keyword",
      *         in="query",
-     *         description="关键字,可以搜索用户名，昵称，手机，邮箱",
+     *         description="关键字,可以搜索昵称",
      *         required=false,
      *         @OA\Schema(
      *             type="string",
@@ -50,12 +49,10 @@ class AdminUserController extends RestAdminBaseController
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
      *              "users":{
      *                  {
-     *                      "id": 2,"user_type": 1,"sex": 0,
-     *                      "birthday": 0,"last_login_time": 1691213022,"score": 0,"coin": 0,"balance": "0.00",
-     *                      "create_time": 1691213022,"user_status": 0,"user_login": "ddd",
-     *                      "user_nickname": "","user_email": "sss@11.com","user_url": "","avatar": "",
-     *                      "signature": "","last_login_ip": "","user_activation_key": "","mobile": "",
-     *                      "more": null
+     *                      "id": 1,"user_id": 1,"last_login_time": 0,"expire_time": 0,"create_time": 0,"login_times": 0,"status": 1,
+     *                       "nickname": "猫二","third_party": "","app_id": "","last_login_ip": "","access_token": "",
+     *                      "openid": "","union_id": "","more": null,
+     *                      "user": {  "id": 1,  "user_type": 1,  "sex": 0,  "birthday": 0,  "last_login_time": 1693579520,  "score": 1,  "coin": 1,  "balance": "0.00",  "create_time": 1684378993,  "user_status": 1,  "user_login": "admin",  "user_nickname": "admin",  "user_email": "sales@naturesci.cn",  "user_url": "",  "avatar": "",  "signature": "",  "last_login_ip": "172.21.0.1",  "user_activation_key": "",  "mobile": "",  "more": null}
      *                  }
      *              },
      *              "total":20
@@ -69,49 +66,40 @@ class AdminUserController extends RestAdminBaseController
      */
     public function index()
     {
-        $list = UserModel::where(function (Query $query) {
+        $list = ThirdPartyUserModel::where(function (Query $query) {
             $data = $this->request->param();
             if (!empty($data['user_id'])) {
-                $query->where('id', intval($data['user_id']));
+                $query->where('user_id', intval($data['user_id']));
             }
 
             if (!empty($data['keyword'])) {
                 $keyword = $data['keyword'];
-                $query->where('user_login|user_nickname|user_email|mobile', 'like', "%$keyword%");
+                $query->where('nickname', 'like', "%$keyword%");
             }
-
-        })->order("id DESC")
+        })
+            ->order("create_time DESC")
             ->paginate(10);
 
         if (!$list->isEmpty()) {
-            $list->hidden(['user_pass']);
+            $list->load(['user']);
+            $list->hidden(['user.user_pass']);
         }
 
         $this->success('success', ['users' => $list->items(), 'total' => $list->total()]);
     }
 
     /**
-     * 设置用户状态
+     * 删除第三方用户绑定
      * @throws \think\exception\DbException
-     * @OA\Post(
+     * @OA\Delete(
      *     tags={"user"},
-     *     path="/admin/user/users/{id}/status/{status}",
-     *     summary="设置用户状态",
-     *     description="设置用户状态",
+     *     path="/admin/user/oauth/users/{id}",
+     *     summary="删除第三方用户绑定",
+     *     description="删除第三方用户绑定",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="用户id",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer",
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         name="status",
-     *         in="path",
-     *         description="用户状态,0:禁用;1:正常",
-     *         example="1",
+     *         description="第三方用户表id",
      *         required=true,
      *         @OA\Schema(
      *             type="integer",
@@ -120,7 +108,7 @@ class AdminUserController extends RestAdminBaseController
      *     @OA\Response(
      *          response="1",
      *          description="success",
-     *          @OA\JsonContent(example={"code": 1,"msg": "操作成功!","data":""})
+     *          @OA\JsonContent(example={"code": 1,"msg": "删除成功!","data":""})
      *     ),
      *     @OA\Response(
      *          response="0",
@@ -128,21 +116,18 @@ class AdminUserController extends RestAdminBaseController
      *     ),
      * )
      */
-    public function status()
+    public function delete()
     {
-        $id     = $this->request->param('id', 0, 'intval');
-        $status = $this->request->param('status', 0, 'intval');
-        if ($id) {
-            $status = empty($status) ? 0 : 1;
-            $result = UserModel::where(["id" => $id, "user_type" => 2])->update(['user_status' => $status]);
-            if ($result) {
-                $this->success("操作成功！",);
-            } else {
-                $this->error('操作失败,会员不存在,或者是管理员！');
+        if ($this->request->isDelete()) {
+            $id = $this->request->param('id', 0, 'intval');
+            if (empty($id)) {
+                $this->error(lang('illegal data'));
             }
-        } else {
-            $this->error('数据传入失败！');
+
+            ThirdPartyUserModel::where("id", $id)->delete();
+            $this->success(lang('DELETE_SUCCESS'));
         }
     }
+
 
 }
