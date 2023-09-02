@@ -15,7 +15,7 @@ class IdsRequest
     /**
      * @OA\Property(
      *     type="array",
-     *     description="排序数据",
+     *     description="IDs",
      *     @OA\Items(type="integer")
      * )
      */

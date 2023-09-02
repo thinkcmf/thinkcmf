@@ -35,6 +35,11 @@ Route::post('admin/plugins/:name$', 'admin/Plugin/install');
 Route::put('admin/plugins/:name$', 'admin/Plugin/update');
 Route::delete('admin/plugins/:id$', 'admin/Plugin/uninstall');
 
+Route::get('admin/recycle/bin/items$', 'admin/RecycleBin/index');
+Route::post('admin/recycle/bin/restore$', 'admin/RecycleBin/restore');
+Route::delete('admin/recycle/bin/items$', 'admin/RecycleBin/delete');
+Route::delete('admin/recycle/bin/clear$', 'admin/RecycleBin/clear');
+
 Route::get('admin/roles/:id/api/authorize$', 'admin/Role/apiAuthorize');
 Route::put('admin/roles/:id/api/authorize$', 'admin/Role/apiAuthorizePut');
 Route::get('admin/roles/:id/authorize$', 'admin/Role/authorize');

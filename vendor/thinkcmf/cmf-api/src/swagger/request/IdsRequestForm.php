@@ -17,7 +17,7 @@ class IdsRequestForm
      *     property="ids[0]",
      *      example="1",
      *     type="string",
-     *     description="排序数据"
+     *     description="ID"
      * )
      */
     public $ids0;
@@ -27,7 +27,7 @@ class IdsRequestForm
      *     property="ids[1]",
      *      example="2",
      *     type="string",
-     *     description="排序数据"
+     *     description="ID"
      * )
      */
     public $ids1;
@@ -37,7 +37,7 @@ class IdsRequestForm
      *     property="ids[2]",
      *      example="3",
      *     type="string",
-     *     description="排序数据"
+     *     description="ID"
      * )
      */
     public $ids2;
@@ -48,7 +48,7 @@ class IdsRequestForm
      *     property="ids[2]",
      *      example="4",
      *     type="string",
-     *     description="排序数据"
+     *     description="ID"
      * )
      */
     public $ids3;
@@ -59,7 +59,7 @@ class IdsRequestForm
      *     property="ids[3]",
      *      example="5",
      *     type="string",
-     *     description="排序数据"
+     *     description="ID"
      * )
      */
     public $ids4;
@@ -70,7 +70,7 @@ class IdsRequestForm
      *     property="ids[4]",
      *      example="6",
      *     type="string",
-     *     description="排序数据"
+     *     description="ID"
      * )
      */
     public $ids5;
@@ -81,7 +81,7 @@ class IdsRequestForm
      *     property="ids[5]",
      *      example="7",
      *     type="string",
-     *     description="排序数据"
+     *     description="ID"
      * )
      */
     public $ids6;
@@ -92,7 +92,7 @@ class IdsRequestForm
      *     property="ids[6]",
      *      example="8",
      *     type="string",
-     *     description="排序数据"
+     *     description="ID"
      * )
      */
     public $ids7;
@@ -103,7 +103,7 @@ class IdsRequestForm
      *     property="ids[7]",
      *      example="9",
      *     type="string",
-     *     description="排序数据"
+     *     description="ID"
      * )
      */
     public $ids8;
@@ -113,7 +113,7 @@ class IdsRequestForm
      *     property="ids[8]",
      *      example="10",
      *     type="string",
-     *     description="排序数据"
+     *     description="ID"
      * )
      */
     public $ids9;
@@ -124,7 +124,7 @@ class IdsRequestForm
      *     property="ids[9]",
      *     example="11",
      *     type="string",
-     *     description="排序数据"
+     *     description="ID"
      * )
      */
     public $ids10;
