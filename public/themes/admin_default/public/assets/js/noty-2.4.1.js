@@ -1967,6 +1967,8 @@ $.noty.themes.arcoTheme = {
       position  : 'relative'
     });
 
+    this.$bar.find('.noty_text').css({'font-size':'14px'});
+
     this.$progressBar.css({
       position       : 'absolute',
       left           : 0,
