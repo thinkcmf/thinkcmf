@@ -77,7 +77,7 @@ class MyController extends RestAdminBaseController
      *     ),
      * )
      */
-    public function infoPut($id)
+    public function infoPut()
     {
         $data             = $this->request->param();
         $data['birthday'] = strtotime($data['birthday']);

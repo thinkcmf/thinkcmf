@@ -25,4 +25,11 @@ class UserModel extends Model
     ];
 
     protected $autoWriteTimestamp = true;
+
+    /**
+     * 更新时间字段 false表示关闭.
+     *
+     * @var false|string
+     */
+    protected $updateTime = false;
 }

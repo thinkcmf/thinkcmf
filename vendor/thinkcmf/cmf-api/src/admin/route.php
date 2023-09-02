@@ -21,6 +21,9 @@ Route::resource('admin/links', 'admin/Link');
 
 Route::get('admin/menus$', 'admin/Menu/menus');
 
+Route::put('admin/my/info$', 'admin/My/infoPut');
+
+
 Route::resource('admin/navs', 'admin/Nav');
 Route::resource('admin/nav/menus', 'admin/NavMenu');
 Route::post('admin/nav/menus/:id/toggle$', 'admin/NavMenu/toggle')->pattern(['id' => '\d+',]);

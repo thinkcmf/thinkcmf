@@ -6,7 +6,7 @@
 			<li class="active"><a href="{:url('User/userInfo')}">{:lang('ADMIN_USER_USERINFO')}</a></li>
 			<li><a href="{:url('setting/password')}">{:lang('ADMIN_SETTING_PASSWORD')}</a></li>
 		</ul>
-		<form class="form-horizontal js-ajax-form margin-top-20" role="form" method="post" action="{:url('User/userinfoPost')}">
+		<form class="form-horizontal js-ajax-form margin-top-20" role="form" method="put" action="admin/my/info">
 			<div class="form-group">
 				<label for="input-user-nickname" class="col-sm-2 control-label">{:lang('NICKNAME')}</label>
 				<div class="col-md-8 col-sm-10">
