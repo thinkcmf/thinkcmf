@@ -37,21 +37,6 @@ class AdminUserActionController extends AdminBaseController
      */
     public function index()
     {
-        $where   = [];
-        $request = input('request.');
-
-        if (!empty($request['uid'])) {
-            $where['id'] = intval($request['uid']);
-        }
-        $keywordComplex = [];
-        if (!empty($request['keyword'])) {
-            $keyword = $request['keyword'];
-
-            $keywordComplex['user_login']    = ['like', "%$keyword%"];
-            $keywordComplex['user_nickname'] = ['like', "%$keyword%"];
-            $keywordComplex['user_email']    = ['like', "%$keyword%"];
-        }
-
         $actions = UserActionModel::paginate(20);
         // 获取分页显示
         $page = $actions->render();
