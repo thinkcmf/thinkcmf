@@ -42,11 +42,14 @@
                     <td>
                         <empty name="vo.installed">
                             <a class="btn btn-xs btn-primary js-ajax-dialog-btn"
-                               href="{:url('App/install',array('name'=>$vo['name']))}"
+                               href="javascript:void(0);"
+                               data-href="admin/apps/{$vo.name}"
                                data-msg="{:lang('INSTALL_APP_CONFIRM_MSG')}">{:lang('Install')}</a>
                             <else/>
                             <a class="btn btn-xs btn-success js-ajax-dialog-btn"
-                               href="{:url('App/update',array('name'=>$vo['name']))}"
+                               href="javascript:void(0);"
+                               data-href="admin/apps/{$vo.name}"
+                               data-method="PUT"
                                data-msg="{:lang('UPDATE_APP_CONFIRM_MSG')}">{:lang('Update')}</a>
                             <a class="btn btn-xs btn-danger"
                                href="javascript:doOpenUninstallAppDialog('{$vo.name}')"

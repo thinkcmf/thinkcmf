@@ -18,7 +18,6 @@ Route::post('admin/hooks/sync$', 'admin/Hook/sync');
 
 Route::resource('admin/links', 'admin/Link');
 
-
 Route::get('admin/menus$', 'admin/Menu/menus');
 
 Route::put('admin/my/info$', 'admin/My/infoPut');
