@@ -6,14 +6,14 @@
         <li class="active"><a href="{:url('Link/index')}">{:lang('ADMIN_LINK_INDEX')}</a></li>
         <li><a href="{:url('Link/add')}">{:lang('ADMIN_LINK_ADD')}</a></li>
     </ul>
-    <form method="post" class="js-ajax-form margin-top-20" action="{:url('Link/listOrder')}">
+    <form method="post" class="js-ajax-form margin-top-20" action="admin/links/list/order">
         <div class="table-actions">
             <button class="btn btn-sm btn-primary js-ajax-submit" type="submit">{:lang('SORT')}</button>
             <button class="btn btn-sm btn-success js-ajax-submit" type="submit"
-                    data-action="{:url('Link/toggle',array('display'=>1))}" data-subcheck="true">{:lang('DISPLAY')}
+                    data-action="admin/links/status/1" data-subcheck="true">{:lang('DISPLAY')}
             </button>
             <button class="btn btn-sm btn-danger js-ajax-submit" type="submit"
-                    data-action="{:url('Link/toggle',array('hide'=>1))}" data-subcheck="true">{:lang('HIDE')}
+                    data-action="admin/links/status/0" data-subcheck="true">{:lang('HIDE')}
             </button>
         </div>
         <php>$status=array("1"=>lang('DISPLAY'),"0"=>lang('HIDDEN'));</php>
@@ -53,7 +53,7 @@
                     </td>
                     <td>
                         <a class="btn btn-xs btn-primary" href="{:url('Link/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
-                        <a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('Link/delete',array('id'=>$vo['id']))}">
+                        <a class="btn btn-xs btn-danger js-ajax-delete" href="javascript:void(0);" data-href="admin/links/{$vo.id}">
                             {:lang('DELETE')}
                         </a>
                     </td>
@@ -79,10 +79,10 @@
         <div class="table-actions">
             <button class="btn btn-sm btn-primary js-ajax-submit" type="submit">{:lang('SORT')}</button>
             <button class="btn btn-sm btn-success js-ajax-submit" type="submit"
-                    data-action="{:url('Link/toggle',array('display'=>1))}" data-subcheck="true">{:lang('DISPLAY')}
+                    data-action="admin/links/status/1" data-subcheck="true">{:lang('DISPLAY')}
             </button>
             <button class="btn btn-sm btn-danger js-ajax-submit" type="submit"
-                    data-action="{:url('Link/toggle',array('hide'=>1))}" data-subcheck="true">{:lang('HIDE')}
+                    data-action="admin/links/status/0" data-subcheck="true">{:lang('HIDE')}
             </button>
         </div>
     </form>

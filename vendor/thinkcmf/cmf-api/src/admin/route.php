@@ -17,6 +17,9 @@ Route::post('admin/hooks/plugins/list/order$', 'admin/Hook/pluginListOrder');
 Route::post('admin/hooks/sync$', 'admin/Hook/sync');
 
 Route::resource('admin/links', 'admin/Link');
+Route::post('admin/links/list/order$', 'admin/Link/listOrder');
+Route::post('admin/links/:id/status/:status$', 'admin/Link/status')->pattern(['id' => '\d+', 'status' => '\d+',]);
+Route::post('admin/links/status/:status$', 'admin/Link/status')->pattern(['status' => '\d+',]);
 
 Route::get('admin/menus$', 'admin/Menu/menus');
 

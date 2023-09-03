@@ -234,5 +234,141 @@ class LinkController extends RestAdminBaseController
         }
     }
 
+    /**
+     * 设置友情链接显示状态
+     * @throws \think\exception\DbException
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/links/{id}/status/{status}",
+     *     summary="设置友情链接显示状态",
+     *     description="设置友情链接显示状态",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="友情链接id",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="status",
+     *         in="path",
+     *         description="友情链接显示状态,0:隐藏;1:显示",
+     *         example="1",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "操作成功!","data":""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "友情链接不存在！","data":""})
+     *     ),
+     * )
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/links/status/{status}",
+     *     summary="批量设置友情链接显示状态",
+     *     description="批量设置友情链接显示状态",
+     *     @OA\Parameter(
+     *         name="status",
+     *         in="path",
+     *         description="友情链接显示状态,0:隐藏;1:显示",
+     *         example="1",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         description="请求参数",
+     *         @OA\MediaType(
+     *             mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(ref="#/components/schemas/IdsRequestForm")
+     *         ),
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/IdsRequest")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "操作成功!","data":""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "友情链接不存在！","data":""})
+     *     ),
+     * )
+     */
+    public function status()
+    {
+        $status = $this->request->param('status', 1, 'intval');
+        $status = empty($status) ? 0 : 1;
+        $id     = $this->request->param('id', 0, 'intval');
+        if (!empty($id)) {
+            $link = LinkModel::find($id);
+            if (empty($link)) {
+                $this->error('友情链接不存在！');
+            } else {
+                $link->save(['status' => $status]);
+                $this->success(lang('Updated successfully'));
+            }
+        } else {
+            $ids = $this->request->param('ids/a');
+            if (!empty($ids)) {
+                LinkModel::where('id', 'in', $ids)->update(['status' => $status]);
+                $this->success(lang('Updated successfully'));
+            } else {
+                $this->error('参数错误！');
+            }
+        }
+
+    }
+
+    /**
+     * 友情链接排序
+     * @throws \think\exception\DbException
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/links/list/order",
+     *     summary="友情链接排序",
+     *     description="友情链接排序",
+     *     @OA\RequestBody(
+     *         description="<b>请求参数</b>",
+     *         @OA\MediaType(
+     *             mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(ref="#/components/schemas/ListOrdersRequestForm")
+     *         ),
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/ListOrdersRequest")
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "操作成功!","data":""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "友情链接不存在！","data":""})
+     *     ),
+     * )
+     */
+    public function listOrder()
+    {
+        $linkModel = new  LinkModel();
+        parent::listOrders($linkModel);
+        $this->success(lang('Sort update successful'));
+    }
+
 
 }
