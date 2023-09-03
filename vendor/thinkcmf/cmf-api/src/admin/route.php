@@ -6,7 +6,7 @@ use think\facade\Route;
 Route::get('admin/apps$', 'admin/App/index');
 Route::post('admin/apps/:name$', 'admin/App/install');
 Route::put('admin/apps/:name$', 'admin/App/update');
-Route::delete('admin/apps/:name$', 'admin/App/uninstall');
+Route::delete('admin/apps', 'admin/App/uninstall');
 
 Route::get('admin/assets', 'admin/Asset/index');
 Route::delete('admin/assets/:id', 'admin/Asset/delete');

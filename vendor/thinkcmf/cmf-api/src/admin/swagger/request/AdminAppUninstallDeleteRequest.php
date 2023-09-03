@@ -6,11 +6,20 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *     required={"password"}
+ *     required={"name","password"}
  * )
  */
 class AdminAppUninstallDeleteRequest
 {
+
+    /**
+     * @OA\Property(
+     *     type="string",
+     *     example="demo",
+     *     description="应用名"
+     * )
+     */
+    public $name;
 
     /**
      * @OA\Property(

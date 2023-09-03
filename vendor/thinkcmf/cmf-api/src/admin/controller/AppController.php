@@ -145,19 +145,9 @@ class AppController extends RestAdminBaseController
      * @throws \think\exception\DbException
      * @OA\Delete(
      *     tags={"admin"},
-     *     path="/admin/apps/{name}",
+     *     path="/admin/apps",
      *     summary="卸载应用",
      *     description="卸载应用",
-     *     @OA\Parameter(
-     *         name="name",
-     *         in="path",
-     *         example="demo",
-     *         description="应用名,如 demo,portal",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string",
-     *         )
-     *     ),
      *     @OA\RequestBody(
      *         description="请求参数",
      *         @OA\MediaType(
