@@ -7,7 +7,7 @@
         <li><a href="{:url('Menu/add')}">{:lang('ADMIN_MENU_ADD')}</a></li>
         <li><a href="{:url('Menu/lists')}">{:lang('ADMIN_MENU_LISTS')}</a></li>
     </ul>
-    <form class="js-ajax-form" action="{:url('Menu/listOrder')}" method="post">
+    <form class="js-ajax-form" action="admin/menus/list/order" method="post">
         <div class="table-actions">
             <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">{:lang('SORT')}</button>
         </div>
@@ -45,7 +45,8 @@
                         <a class="btn btn-xs btn-success"
                            href="{:url('Menu/edit', ['id' =>$menu.id])}">{:lang('EDIT')}</a>
                         <a class="btn btn-xs btn-danger js-ajax-delete"
-                           href="{:url('Menu/delete', ['id' =>$menu.id])}">{:lang('DELETE')}</a>
+                           href="javascript:void(0);"
+                           data-href="admin/menus/{$menu.id}">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </tree>

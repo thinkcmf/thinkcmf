@@ -427,8 +427,8 @@ class MenuController extends AdminBaseController
         $menus         = AdminMenuModel::order(["app" => "ASC", "controller" => "ASC", "action" => "ASC"])->select();
         $langDir       = cmf_current_lang();
         $adminMenuLang = CMF_DATA . "lang/" . $langDir . "/admin_menu.php";
-
-        if (!empty($adminMenuLang) && !file_exists_case($adminMenuLang)) {
+        $adminMenuLangDir = dirname($adminMenuLang);
+        if (!is_dir($adminMenuLangDir)) {
             mkdir(dirname($adminMenuLang), 0777, true);
         }
 

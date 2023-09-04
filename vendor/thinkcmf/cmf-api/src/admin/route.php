@@ -21,7 +21,9 @@ Route::post('admin/links/list/order$', 'admin/Link/listOrder');
 Route::post('admin/links/:id/status/:status$', 'admin/Link/status')->pattern(['id' => '\d+', 'status' => '\d+',]);
 Route::post('admin/links/status/:status$', 'admin/Link/status')->pattern(['status' => '\d+',]);
 
-Route::get('admin/menus$', 'admin/Menu/menus');
+Route::post('admin/menus/list/order$', 'admin/Menu/listOrder');
+Route::get('admin/home/menus$', 'admin/Menu/menus');
+Route::resource('admin/menus', 'admin/Menu');
 
 Route::put('admin/my/info$', 'admin/My/infoPut');
 

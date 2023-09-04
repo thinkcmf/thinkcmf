@@ -17,12 +17,12 @@
 				<if condition="!empty($next_app)">
 					<script>
 						setTimeout(function() {
-							location.href = "{:url('admin/menu/getactions',array('app'=>$next_app))}";
+							location.href = "{:url('admin/Menu/getActions',array('app'=>$next_app))}";
 						}, 1000);
 					</script>
 					<div class="error_return">
-						<a href="{:url('admin/menu/getActions',array('app'=>$next_app))}" class="btn btn-primary">下一个应用</a>
-						<a href="{:url('admin/menu/index')}" class="btn btn-default" style="margin-left: 10px;">返回</a>
+						<a href="{:url('admin/Menu/getActions',array('app'=>$next_app))}" class="btn btn-primary">下一个应用</a>
+						<a href="{:url('admin/Menu/index')}" class="btn btn-default" style="margin-left: 10px;">返回</a>
 					</div>
 				<else />
 					<div>全部导入成功！</div>
