@@ -15,7 +15,8 @@
     <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style('arcoadmin')}/bootstrap.min.css" rel="stylesheet">
     <link href="__TMPL__/public/assets/simpleboot/css/simplebootadmin.css" rel="stylesheet">
     <link href="__STATIC__/font-awesome/css/font-awesome.min.css?page=index" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="__TMPL__/public/assets/themes/{:cmf_get_admin_style('arcoadmin')}/simplebootadminindex.min.css">
+    <link rel="stylesheet"
+          href="__TMPL__/public/assets/themes/{:cmf_get_admin_style('arcoadmin')}/simplebootadminindex.min.css">
     <!--[if lt IE 9]>
     <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
@@ -248,21 +249,15 @@
                         <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
-                        <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/Setting/site')">
-                            <li>
-                                <a href="javascript:openapp('{:url('Setting/site')}','index_site','{:lang('ADMIN_SETTING_SITE')}');"><i
-                                        class="fa fa-cog fa-fw"></i> {:lang('ADMIN_SETTING_SITE')}</a></li>
-                        </if>
-                        <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/user/userinfo')">
-                            <li>
-                                <a href="javascript:openapp('{:url('User/userinfo')}','index_userinfo','{:lang('ADMIN_USER_USERINFO')}');"><i
-                                        class="fa fa-user fa-fw"></i> {:lang('ADMIN_USER_USERINFO')}</a></li>
-                        </if>
-                        <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/Setting/password')">
-                            <li>
-                                <a href="javascript:openapp('{:url('Setting/password')}','index_password','{:lang('ADMIN_SETTING_PASSWORD')}');"><i
-                                        class="fa fa-lock fa-fw"></i> {:lang('ADMIN_SETTING_PASSWORD')}</a></li>
-                        </if>
+                        <li>
+                            <a href="javascript:openapp('{:url('User/userinfo')}','index_userinfo','{:lang('ADMIN_USER_USERINFO')}');"><i
+                                    class="fa fa-user fa-fw"></i> {:lang('ADMIN_USER_USERINFO')}</a></li>
+                        <li>
+                            <a href="javascript:openapp('{:url('User/emailSetting')}','index_email_setting','邮箱配置');"><i
+                                    class="fa fa-envelope fa-fw"></i> 邮箱配置</a></li>
+                        <li>
+                            <a href="javascript:openapp('{:url('Setting/password')}','index_password','{:lang('ADMIN_SETTING_PASSWORD')}');"><i
+                                    class="fa fa-lock fa-fw"></i> {:lang('ADMIN_SETTING_PASSWORD')}</a></li>
                         <li><a href="{:url('Public/logout')}"><i class="fa fa-sign-out fa-fw"></i> {:lang('LOGOUT')}</a>
                         </li>
                     </ul>

@@ -7,7 +7,7 @@
 			<li><a href="{:url('User/add')}">{:lang('ADMIN_USER_ADD')}</a></li>
 			<li class="active"><a>{:lang('ADMIN_USER_EDIT')}</a></li>
 		</ul>
-		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('User/editPost')}">
+		<form method="put" class="form-horizontal js-ajax-form margin-top-20" action="admin/users/{$id}">
 			<div class="form-group">
 				<label for="input-user_login" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('USERNAME')}</label>
 				<div class="col-md-8 col-sm-10">
@@ -32,7 +32,7 @@
 					<foreach name="roles" item="vo">
 						<label class="checkbox-inline">
 							<php>$role_id_checked=in_array($vo['id'],$role_ids)?"checked":"";</php>
-							<input value="{$vo.id}" type="checkbox" name="role_id[]" {$role_id_checked} <if condition="cmf_get_current_admin_id() neq 1 && $vo['id'] eq 1">disabled="true"</if>>{$vo.name}
+							<input value="{$vo.id}" type="checkbox" name="role_ids[]" {$role_id_checked} <if condition="cmf_get_current_admin_id() neq 1 && $vo['id'] eq 1">disabled="true"</if>>{$vo.name}
 						</label>
 					</foreach>
 				</div>

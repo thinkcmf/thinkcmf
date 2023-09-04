@@ -6,7 +6,7 @@
 			<li><a href="{:url('User/index')}">{:lang('ADMIN_USER_INDEX')}</a></li>
 			<li class="active"><a href="{:url('User/add')}">{:lang('ADMIN_USER_ADD')}</a></li>
 		</ul>
-		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('User/addpost')}">
+		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="admin/users">
 			<div class="form-group">
 				<label for="input-user_login" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('USERNAME')}</label>
 				<div class="col-md-8 col-sm-10">
@@ -30,7 +30,7 @@
 				<div class="col-md-8 col-sm-10">
 					<foreach name="roles" item="vo">
 						<label class="checkbox-inline">
-							<input value="{$vo.id}" type="checkbox" name="role_id[]" <if condition="cmf_get_current_admin_id() neq 1 && $vo['id'] eq 1">disabled="true"</if>>{$vo.name}
+							<input value="{$vo.id}" type="checkbox" name="role_ids[]" <if condition="cmf_get_current_admin_id() neq 1 && $vo['id'] eq 1">disabled="true"</if>>{$vo.name}
 						</label>
 					</foreach>
 				</div>

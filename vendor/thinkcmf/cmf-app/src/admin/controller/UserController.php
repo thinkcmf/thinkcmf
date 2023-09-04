@@ -401,15 +401,15 @@ class UserController extends AdminBaseController
     }
 
     /**
-     * 我的邮箱设置
+     * 我的邮箱配置
      * @adminMenu(
-     *     'name'   => '我的邮箱设置',
+     *     'name'   => '我的邮箱配置',
      *     'parent' => 'admin/Setting/default',
      *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '我的邮箱设置',
+     *     'remark' => '我的邮箱配置',
      *     'param'  => ''
      * )
      */
