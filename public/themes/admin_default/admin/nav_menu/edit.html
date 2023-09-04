@@ -8,7 +8,7 @@
         </li>
         <li class="active"><a>{:lang('ADMIN_NAVMENU_EDIT')}</a></li>
     </ul>
-    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('NavMenu/editPost')}">
+    <form method="put" class="form-horizontal js-ajax-form margin-top-20" action="admin/nav/menus/{$id}">
         <fieldset>
             <div class="form-group">
                 <label class="col-sm-2 control-label">{:lang('Parent')}</label>

@@ -7,8 +7,7 @@
         <li class="active"><a href="{:url('Nav/add')}">{:lang('ADMIN_NAV_ADD')}</a></li>
         <!--<li><a  href="{:url('Nav/edit')}" >{:lang('ADMIN_NAV_EDIT')}</a></li>-->
     </ul>
-    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Nav/addPost')}">
-
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="admin/navs">
         <div class="form-group">
             <label class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('Name')}</label>
             <div class="col-md-8 col-sm-10">
@@ -32,7 +31,6 @@
 
             </div>
         </div>
-
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-primary js-ajax-submit">{:lang("SAVE")}</button>

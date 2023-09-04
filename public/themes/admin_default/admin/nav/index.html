@@ -6,7 +6,7 @@
         <li class="active"><a href="{:url('Nav/index')}">{:lang('ADMIN_NAV_INDEX')}</a></li>
         <li><a href="{:url('Nav/add')}">{:lang('ADMIN_NAV_ADD')}</a></li>
     </ul>
-    <form action="{:url('Rbac/listorders')}" method="post" class="margin-top-20">
+    <form action="" method="post" class="margin-top-20">
         <php> $is_main=array("1"=>lang('YES'),"0"=>lang('NO'));</php>
         <table class="table table-hover table-bordered">
             <thead>
@@ -36,9 +36,12 @@
                     </td>
                     <td>{$vo.remark}</td>
                     <td>
-                        <a class="btn btn-xs btn-primary" href="javascript:parent.openIframeLayer('{:url('NavMenu/index',array('nav_id'=>$vo['id']))}','{$vo.name} {:lang('Sub Navigations')}',{});">{:lang('Sub Navigations')}</a>
+                        <a class="btn btn-xs btn-primary"
+                           href="javascript:parent.openIframeLayer('{:url('NavMenu/index',array('nav_id'=>$vo['id']))}','{$vo.name} {:lang('Sub Navigations')}',{});">
+                            {:lang('Sub Navigations')}</a>
                         <a class="btn btn-xs btn-success"  href="{:url('Nav/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
-                        <a class="btn btn-xs btn-danger js-ajax-delete" href="{:url('Nav/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+                        <a class="btn btn-xs btn-danger js-ajax-delete" href="javascript:void(0);"
+                           data-href="admin/navs/{$vo.id}">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>

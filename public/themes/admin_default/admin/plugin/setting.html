@@ -3,7 +3,7 @@
 </head>
 <body>
 <div class="wrap">
-    <form method="post" class="form-horizontal js-ajax-form" action="{:url('Plugin/settingPost')}">
+    <form method="put" class="form-horizontal js-ajax-form" action="admin/plugins/{$id}/config">
         <empty name="custom_config">
             {:_parse_plugin_config($data['config'])}
             <else/>

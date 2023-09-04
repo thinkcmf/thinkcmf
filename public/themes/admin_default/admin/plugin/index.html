@@ -42,7 +42,8 @@
                     <td>
                         <if condition="$vo['status']==3">
                             <a class="btn btn-xs btn-primary js-ajax-dialog-btn"
-                               href="{:url('Plugin/install',array('name'=>$vo['name']))}"
+                               href="javascript:void(0);"
+                               data-href="admin/plugins/{$vo.name}"
                                data-msg="确定安装该插件吗？">{:lang('Install')}</a>
                             <else/>
                             <php>$config=$vo['config'];</php>
@@ -81,21 +82,26 @@
                             </if>
 
                             <a class="btn btn-xs btn-success js-ajax-dialog-btn"
-                               href="{:url('Plugin/update',array('name'=>$vo['name']))}"
+                               href="javascript:void(0);"
+                               data-method="put"
+                               data-href="admin/plugins/{$vo.name}"
                                data-msg="确定更新该插件吗？">{:lang('Update')}</a>
 
                             <if condition="$vo['status']==0">
                                 <a class="btn btn-xs btn-success js-ajax-dialog-btn"
-                                   href="{:url('Plugin/toggle',array('id'=>$vo['id'],'enable'=>1))}"
+                                   href="javascript:void(0);"
+                                   data-href="admin/plugins/{$vo.id}/status/1"
                                    data-msg="确定启用该插件吗？">{:lang('Enable')}</a>
                                 <else/>
                                 <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
-                                   href="{:url('Plugin/toggle',array('id'=>$vo['id'],'disable'=>1))}"
+                                   href="javascript:void(0);"
+                                   data-href="admin/plugins/{$vo.id}/status/0"
                                    data-msg="确定禁用该插件吗？">{:lang('Disable')}</a>
                             </if>
 
-                            <a class="btn btn-xs btn-danger js-ajax-dialog-btn"
-                               href="{:url('Plugin/uninstall',array('id'=>$vo['id']))}"
+                            <a class="btn btn-xs btn-danger js-ajax-delete"
+                               href="javascript:void(0);"
+                               data-href="admin/plugins/{$vo.id}"
                                data-msg="确定卸载该插件吗？">{:lang('Uninstall')}</a>
                         </if>
                     </td>

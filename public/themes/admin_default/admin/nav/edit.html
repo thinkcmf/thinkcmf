@@ -7,7 +7,7 @@
         <li><a href="{:url('Nav/add')}">{:lang('ADMIN_NAV_ADD')}</a></li>
         <li class="active"><a>{:lang('ADMIN_NAV_EDIT')}</a></li>
     </ul>
-    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Nav/editPost')}">
+    <form method="put" class="form-horizontal js-ajax-form margin-top-20" action="admin/navs/{$id}">
 
         <div class="form-group">
             <label class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('Name')}</label>
