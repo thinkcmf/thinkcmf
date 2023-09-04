@@ -94,7 +94,10 @@ class SlideItemController extends RestAdminBaseController
      */
     public function save()
     {
-        $data      = $this->request->param('', null, 'strip_tags');
+        $data = $this->request->param('', null, 'strip_tags');
+        if (empty($data['title'])) {
+            $this->error('请填写标题！');
+        }
         $slideItem = SlideItemModel::create($data);
         $this->success(lang('ADD_SUCCESS'), ['slide_item' => $slideItem]);
     }

@@ -72,7 +72,7 @@ class RouteController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "slide":{"id": 1,"status": 1,"delete_time": 0,"name": "又菜又爱玩","remark": ""}
+     *              "route":{"id": 7,"list_order": 5000,"status": 1,"type": 2,"full_url": "portal/Page/index?id=3","url": "contact$"}
      *          }})
      *     ),
      *     @OA\Response(
@@ -114,7 +114,7 @@ class RouteController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "slide":{"id": 1,"status": 1,"delete_time": 0,"name": "又菜又爱玩","remark": ""}
+     *              "route":{"id": 7,"list_order": 5000,"status": 1,"type": 2,"full_url": "portal/Page/index?id=3","url": "contact$"}
      *          }})
      *     ),
      *     @OA\Response(

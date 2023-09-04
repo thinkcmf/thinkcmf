@@ -469,7 +469,7 @@ class RoleController extends RestAdminBaseController
      *     ),
      * )
      */
-    public function apiAuthorizePost()
+    public function apiAuthorizePut()
     {
         if ($this->request->isPut()) {
             $roleId = $this->request->param("id", 0, 'intval');

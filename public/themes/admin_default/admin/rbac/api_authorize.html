@@ -6,8 +6,11 @@
         <li><a href="{:url('Rbac/authorize',['id'=>$role_id])}">后台界面授权</a></li>
         <li class="active"><a href="{:url('Rbac/apiAuthorize',['id'=>$role_id])}">后台API授权</a></li>
     </ul>
-    <form class="js-ajax-form margin-top-20" action="{:url('Rbac/apiAuthorizePost')}" method="post">
-        <div><a href="javascript:openApiImportDialog()" class="btn btn-xs btn-primary">导入API</a></div>
+    <form class="js-ajax-form margin-top-20" action="admin/roles/{$role_id}/api/authorize" method="put">
+        <div>
+            <button class="btn btn-xs btn-primary js-ajax-submit" data-msg="您确定要为此管理员授权？" type="submit">授权</button>
+            <a href="javascript:openApiImportDialog()" class="btn btn-xs btn-success">导入API</a>
+        </div>
         <div class="panel-group margin-top-10" id="accordion" role="tablist" aria-multiselectable="true">
             <foreach name="tags_admin_apis" item="tag_admin_apis" key="tag" index="tags_admin_apis_index">
                 <div class="panel panel-default">
@@ -50,7 +53,7 @@
         </div>
         <div class="form-actions text-center">
             <input type="hidden" name="role_id" value="{$role_id}"/>
-            <button class="btn btn-primary js-ajax-submit" type="submit">{:lang('SAVE')}</button>
+            <button class="btn btn-primary js-ajax-submit" type="submit" data-msg="您确定要为此管理员授权？">授权</button>
         </div>
     </form>
 </div>

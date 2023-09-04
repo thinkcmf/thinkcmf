@@ -6,7 +6,7 @@
                 <a class="nav-link active" href="{:url('Storage/index')}">{:lang('ADMIN_STORAGE_INDEX')}</a>
             </li>
         </ul>
-        <form method="post" class="js-ajax-form margin-top-20" action="{:url('Storage/settingPost')}">
+        <form method="put" class="js-ajax-form margin-top-20" action="admin/setting/storage">
             <div class="row g-3">
                 <div class="col-md-6">
                     <label for="input-type" class="form-label">{:lang('Type')}</label>

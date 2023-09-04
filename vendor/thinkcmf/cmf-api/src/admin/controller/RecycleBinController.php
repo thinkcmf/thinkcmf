@@ -124,7 +124,7 @@ class RecycleBinController extends RestAdminBaseController
      */
     public function delete()
     {
-        if ($this->request->isPost()) {
+        if ($this->request->isDelete()) {
             $ids = $this->request->param('ids');
             $this->operate($ids);
             $this->success(lang('DELETE_SUCCESS'));
@@ -165,7 +165,7 @@ class RecycleBinController extends RestAdminBaseController
      */
     public function clear()
     {
-        if ($this->request->isPost()) {
+        if ($this->request->isDelete()) {
             $this->operate(null);
             $this->success('回收站已清空');
         }
@@ -181,7 +181,12 @@ class RecycleBinController extends RestAdminBaseController
         if (!empty($ids) && !is_array($ids)) {
             $ids = [$ids];
         }
-        $records = RecycleBinModel::select($ids);
+        if (is_null($ids)) {
+            $records = RecycleBinModel::select();
+        } else {
+            $records = RecycleBinModel::select($ids);
+        }
+
 
         if ($records) {
             try {

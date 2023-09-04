@@ -49,9 +49,10 @@
                                onclick="openAuthorizeDialog(this)"
                                data-href="{:url('Rbac/authorize',array('id'=>$vo['id']))}">{:lang('ROLE_SETTING')}</a>
                             <!-- <a href="javascript:openIframeDialog('{:url('Rbac/member',array('id'=>$vo['id']))}','成员管理');">成员管理</a>| -->
-                            <a class="btn btn-xs btn-primary" href="{:url('Rbac/roleedit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
-                            <a class="btn btn-xs btn-danger js-ajax-delete" class=""
-                               href="{:url('Rbac/roledelete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+                            <a class="btn btn-xs btn-primary" href="{:url('Rbac/roleEdit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                            <a class="btn btn-xs btn-danger js-ajax-delete"
+                               href="javascript:void(0);"
+                               data-href="admin/roles/{$vo.id}">{:lang('DELETE')}</a>
                         </if>
                     </td>
                 </tr>
