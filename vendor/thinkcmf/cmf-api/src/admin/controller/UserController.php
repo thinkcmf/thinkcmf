@@ -347,7 +347,7 @@ class UserController extends RestAdminBaseController
             }
             $status = empty($status) ? 0 : 1;
             UserModel::where(['id' => $id])->update(['user_status' => $status]);
-            $this->success('success', '操作成功！');
+            $this->success('操作成功！');
         } else {
             $this->error('数据传入失败！');
         }
