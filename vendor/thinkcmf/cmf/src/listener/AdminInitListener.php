@@ -10,13 +10,6 @@
 // +---------------------------------------------------------------------
 namespace cmf\listener;
 
-use think\db\Query;
-use think\exception\HttpResponseException;
-use think\facade\Db;
-use think\facade\Event;
-use think\facade\Response;
-use think\facade\Route;
-
 class AdminInitListener
 {
     // 行为扩展的执行入口必须是run

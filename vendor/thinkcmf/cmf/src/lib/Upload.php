@@ -11,7 +11,6 @@
 namespace cmf\lib;
 
 use think\exception\HttpResponseException;
-use think\facade\Env;
 use think\File;
 use app\user\model\AssetModel;
 use think\Response;

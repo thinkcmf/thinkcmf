@@ -12,7 +12,6 @@
 namespace cmf\controller;
 
 use think\captcha\Captcha;
-use think\facade\Config;
 use think\Request;
 
 class CaptchaController

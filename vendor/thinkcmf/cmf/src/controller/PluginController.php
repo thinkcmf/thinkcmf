@@ -11,9 +11,8 @@
 namespace cmf\controller;
 
 use think\facade\App;
-use think\Loader;
 
-class PluginController extends HomeBaseController
+class PluginController
 {
     public function index($_plugin, $_controller, $_action)
     {

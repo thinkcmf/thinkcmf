@@ -12,7 +12,6 @@ namespace cmf\controller;
 
 use think\facade\Db;
 use app\admin\model\ThemeModel;
-use think\facade\View;
 
 class HomeBaseController extends BaseController
 {

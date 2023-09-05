@@ -11,10 +11,8 @@
 namespace cmf\listener;
 
 use think\db\Query;
-use think\exception\HttpResponseException;
 use think\facade\Event;
 use think\facade\Db;
-use think\facade\Response;
 use think\facade\Route;
 
 class InitHookListener

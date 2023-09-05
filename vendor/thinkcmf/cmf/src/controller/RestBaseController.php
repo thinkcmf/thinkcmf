@@ -12,9 +12,7 @@ namespace cmf\controller;
 
 use cmf\model\UserTokenModel;
 use think\App;
-use think\Container;
 use think\exception\HttpResponseException;
-use think\exception\ValidateException;
 use think\facade\Db;
 use think\Response;
 use think\Validate;

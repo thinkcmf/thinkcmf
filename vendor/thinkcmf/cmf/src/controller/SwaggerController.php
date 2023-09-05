@@ -11,12 +11,6 @@
 
 namespace cmf\controller;
 
-use think\captcha\Captcha;
-use think\exception\HttpResponseException;
-use think\facade\Config;
-use think\Request;
-use think\Response;
-
 class SwaggerController
 {
     public function index()

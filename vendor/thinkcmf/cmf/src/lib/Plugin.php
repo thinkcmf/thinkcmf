@@ -10,13 +10,10 @@
 // +---------------------------------------------------------------------
 namespace cmf\lib;
 
-use think\exception\TemplateNotFoundException;
+use think\template\exception\TemplateNotFoundException;
 use think\facade\Cache;
-use think\facade\Lang;
-use think\Loader;
 use think\facade\Db;
 use think\View;
-use think\facade\Config;
 
 
 /**
@@ -259,19 +256,19 @@ abstract class Plugin
                 return $_config[$name];
             }
         }
-        $pluginCofingKey = 'cmf_'.$name.'_plugin_config';
-        if (Cache::has($pluginCofingKey)){
+        $pluginCofingKey = 'cmf_' . $name . '_plugin_config';
+        if (Cache::has($pluginCofingKey)) {
             return Cache::get($pluginCofingKey);
         }
-        $ttl = mt_rand(600,6000);
-        $config = Db::name('plugin')->cache('cmf_'.$name.'_plugin_config_db',$ttl)->where('name', $name)->value('config');
+        $ttl    = mt_rand(600, 6000);
+        $config = Db::name('plugin')->cache('cmf_' . $name . '_plugin_config_db', $ttl)->where('name', $name)->value('config');
 
         if (!empty($config) && $config != "null") {
             $config = json_decode($config, true);
         } else {
             $config = $this->getDefaultConfig();
         }
-        Cache::set($pluginCofingKey,$config,$ttl);
+        Cache::set($pluginCofingKey, $config, $ttl);
         $_config[$name] = $config;
         return $config;
     }

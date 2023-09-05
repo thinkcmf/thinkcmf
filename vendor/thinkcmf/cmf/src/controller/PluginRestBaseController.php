@@ -13,7 +13,6 @@ namespace cmf\controller;
 use think\App;
 use think\exception\ValidateException;
 use think\Request;
-use think\Loader;
 
 class PluginRestBaseController extends RestBaseController
 {

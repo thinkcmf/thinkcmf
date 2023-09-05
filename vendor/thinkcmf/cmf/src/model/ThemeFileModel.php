@@ -10,7 +10,6 @@
 // +----------------------------------------------------------------------
 namespace cmf\model;
 
-use think\Db;
 use think\Model;
 
 class ThemeFileModel extends Model

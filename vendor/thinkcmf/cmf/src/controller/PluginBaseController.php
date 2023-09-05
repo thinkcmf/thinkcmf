@@ -11,10 +11,7 @@
 namespace cmf\controller;
 
 use app\admin\model\PluginModel;
-use think\Container;
 use think\exception\ValidateException;
-use think\facade\Config;
-use think\Loader;
 use think\template\exception\TemplateNotFoundException;
 use think\Validate;
 

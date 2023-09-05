@@ -10,7 +10,6 @@
 // +----------------------------------------------------------------------
 use think\facade\Db;
 use cmf\model\OptionModel;
-use think\facade\Env;
 use dir\Dir;
 use think\facade\Route;
 use cmf\lib\Storage;

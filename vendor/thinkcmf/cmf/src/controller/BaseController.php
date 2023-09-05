@@ -15,13 +15,9 @@ use think\Container;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
 use think\Response;
-use think\response\Redirect;
 use think\Validate;
-
-
 use think\facade\Db;
 use think\View;
-use think\facade\Config;
 
 class BaseController
 {
