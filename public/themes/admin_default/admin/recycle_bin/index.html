@@ -49,10 +49,12 @@
 
                     <td> {$vo.user.user_login|default=''}</td>
                     <td>
-                        <a href="{:url('RecycleBin/restore', ['ids'=>$vo.id])}"
+                        <a href="javascript:"
+                           data-href="admin/recycle/bin/restore?ids={$vo.id}"
                            class="btn btn-xs btn-success js-ajax-dialog-btn"
                            data-msg="确定要还原吗？">还原</a>
-                        <a href="{:url('RecycleBin/delete', ['ids'=>$vo.id])}"
+                        <a href="javascript:"
+                           data-href="admin/recycle/bin/items?ids={$vo.id}"
                            class="btn btn-xs btn-danger js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>

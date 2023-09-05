@@ -380,7 +380,7 @@ class MenuController extends RestAdminBaseController
     {
         $menus            = AdminMenuModel::order(["app" => "ASC", "controller" => "ASC", "action" => "ASC"])->select();
         $langDir          = cmf_current_lang();
-        $adminMenuLang    = CMF_DATA . "lang/" . $langDir . "/admin_menu.php";
+        $adminMenuLang    = CMF_DATA . "lang/tmp/" . $langDir . "/admin_menu.php";
         $adminMenuLangDir = dirname($adminMenuLang);
         if (!is_dir($adminMenuLangDir)) {
             mkdir(dirname($adminMenuLang), 0777, true);
@@ -399,6 +399,31 @@ class MenuController extends RestAdminBaseController
         if (!empty($adminMenuLang)) {
             file_put_contents($adminMenuLang, "<?php\nreturn $langStr;");
         }
+    }
+
+    /**
+     * 导出后台菜单语言包
+     * @throws \think\exception\DbException
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/menus/lang/export",
+     *     summary="导出后台菜单语言包",
+     *     description="导出后台菜单语言包",
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "操作成功!","data":""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error！","data":""})
+     *     ),
+     * )
+     */
+    public function exportMenuLang()
+    {
+        $this->_exportAppMenuDefaultLang();
+        $this->success('操作成功');
     }
 
 }
