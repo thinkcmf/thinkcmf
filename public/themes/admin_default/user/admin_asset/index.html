@@ -47,7 +47,8 @@
                 <td>{$status[$vo['status']]}</td>
                 <td>
                     <a class="btn btn-xs btn-danger js-ajax-delete"
-                       href="{:url('AdminAsset/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+                       href="javascript:"
+                       data-href="admin/assets/{$vo.id}">{:lang('DELETE')}</a>
                 </td>
             </tr>
         </foreach>

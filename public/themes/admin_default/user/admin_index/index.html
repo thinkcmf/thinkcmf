@@ -65,11 +65,13 @@
                         <neq name="vo.id" value="1">
                             <empty name="vo.user_status">
                                 <a class="btn btn-xs btn-success js-ajax-dialog-btn"
-                                   href="{:url('adminIndex/cancelban',array('id'=>$vo['id']))}"
+                                   href="javascript:"
+                                   data-href="admin/user/users/{$vo.id}/status/1"
                                    data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}">{:lang('ACTIVATE_USER')}</a>
                                 <else/>
                                 <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
-                                   href="{:url('adminIndex/ban',array('id'=>$vo['id']))}"
+                                   href="javascript:"
+                                   data-href="admin/user/users/{$vo.id}/status/0"
                                    data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}">{:lang('BLOCK_USER')}</a>
                             </empty>
                             <else/>

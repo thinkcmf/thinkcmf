@@ -6,7 +6,7 @@
         <li><a href="{:url('AdminUserAction/index')}">{:lang('USER_ADMINUSERACTION_INDEX')}</a></li>
         <li class="active"><a>{:lang('USER_ADMINUSERACTION_EDIT')}</a></li>
     </ul>
-    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('AdminUserAction/editPost')}">
+    <form method="put" class="form-horizontal js-ajax-form margin-top-20" action="admin/user/actions/{$id}">
         <div class="form-group">
             <label for="input-score" class="col-sm-2 control-label">积分</label>
             <div class="col-md-8 col-sm-10">
