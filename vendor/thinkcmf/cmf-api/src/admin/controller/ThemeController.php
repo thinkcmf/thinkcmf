@@ -834,7 +834,7 @@ class ThemeController extends RestAdminBaseController
      */
     public function widgetsSort()
     {
-        $files = $this->request->param();
+        $files   = $this->request->param();
         $widgets = [];
 
         foreach ($files as $fileId => $widgetsBlocks) {
@@ -882,7 +882,7 @@ class ThemeController extends RestAdminBaseController
             ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
         }
         cmf_clear_cache();
-        $this->success('', '', $configMore);
+        $this->success('排序成功！');
     }
 
 

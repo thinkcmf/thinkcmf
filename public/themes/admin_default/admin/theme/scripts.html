@@ -9,8 +9,8 @@
 <script>
 
     $(function () {
-    
-        $('.rich_text_content').each(function (i,item){
+
+        $('.rich_text_content').each(function (i, item) {
             var editor = new baidu.editor.ui.Editor();
             editor.render(item);
             try {
@@ -18,7 +18,7 @@
             } catch (err) {
             }
         });
-        
+
     });
 
     $('.widgets-group').sortable({
@@ -55,7 +55,7 @@
             });
 
             $.ajax({
-                url: "{:url('Theme/widgetsSort')}",
+                url: GV.API_ROOT['api'] + "admin/theme/widgets/sort",
                 type: 'POST',
                 dataType: 'json',
                 data: widgetIds,
@@ -129,7 +129,6 @@
             }
         });
     }
-
 
 
     function doEditArrayData(obj) {
