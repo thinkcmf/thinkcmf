@@ -25,7 +25,7 @@
         </notempty>
     </ul>
 
-    <form method="post" class="js-ajax-form  margin-top-20" action="{:url('Theme/settingPost')}">
+    <form method="post" class="js-ajax-form  margin-top-20" action="admin/theme/{$theme}/file/setting">
         <foreach name="files" item="file">
             <if condition="$file.id neq $file_id">
                 <notempty name="file['more']['vars']">

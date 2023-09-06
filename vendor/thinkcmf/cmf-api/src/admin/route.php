@@ -60,14 +60,15 @@ Route::put('admin/setting/upload$', 'admin/Setting/uploadPut');
 Route::put('admin/setting/storage$', 'admin/Setting/storagePut');
 Route::put('admin/setting/password$', 'admin/Setting/passwordPut');
 
+Route::post('admin/themes/:theme/active$', 'admin/Theme/active');
 Route::get('admin/themes/not/installed$', 'admin/Theme/notInstalled');
 Route::get('admin/themes$', 'admin/Theme/index');
 Route::post('admin/themes/:theme$', 'admin/Theme/install');
 Route::put('admin/themes/:theme$', 'admin/Theme/update');
 Route::delete('admin/themes/:theme$', 'admin/Theme/uninstall');
 Route::get('admin/theme/:theme/files$', 'admin/Theme/files');
-Route::get('admin/theme/{theme}/file/setting$', 'admin/Theme/fileSetting');
-Route::post('admin/theme/{theme}/file/setting$', 'admin/Theme/fileSettingPost');
+Route::get('admin/theme/:theme/file/setting$', 'admin/Theme/fileSetting');
+Route::post('admin/theme/:theme/file/setting$', 'admin/Theme/fileSettingPost');
 Route::get('admin/theme/widget/setting$', 'admin/Theme/widgetSetting');
 Route::post('admin/theme/widget/setting$', 'admin/Theme/widgetSettingPost');
 

@@ -28,7 +28,8 @@
                     <td>{$vo.author}</td>
                     <td>{$vo.description}</td>
                     <td>
-                        <a href="{:url('Theme/installTheme',array('theme'=>$vo['theme']))}"
+                        <a href="javascript:"
+                           data-href="admin/themes/{$vo.theme}"
                            class="btn btn-xs btn-primary js-ajax-dialog-btn js-ajax-dialog-btn">{:lang('Install')}</a>
                     </td>
                 </tr>
