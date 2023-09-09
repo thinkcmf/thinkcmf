@@ -22,7 +22,7 @@ class LinkController extends AdminBaseController
      * @adminMenu(
      *     'name'   => '友情链接',
      *     'parent' => 'admin/Setting/default',
-     *     'display'=> false,
+     *     'display'=> true,
      *     'hasView'=> true,
      *     'order'  => 50,
      *     'icon'   => '',
