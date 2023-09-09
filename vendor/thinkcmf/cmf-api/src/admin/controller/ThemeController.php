@@ -885,5 +885,723 @@ class ThemeController extends RestAdminBaseController
         $this->success('排序成功！');
     }
 
+    /**
+     * 获取模板文件模板变量数组数据
+     * @throws \think\exception\DbException
+     * @OA\Get(
+     *     tags={"admin"},
+     *     path="/admin/theme/file/var/array",
+     *     summary="获取模板文件模板变量数组数据",
+     *     description="获取模板文件模板变量数组数据",
+     *     @OA\Parameter(
+     *         name="file_id",
+     *         in="query",
+     *         example="1",
+     *         description="模板文件ID",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="var",
+     *         in="query",
+     *         example="var1",
+     *         description="变量名",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
+     *              "items":{
+     *                  {"title": "xxxx","content": "xxxxxxx"}
+     *              },
+     *              "item":{"title": {"title": "标题","value": "","type": "text","rule": {"require": true}},"content": {"title": "内容","value": "","type": "text"}}
+     *          }})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error!","data":""})
+     *     ),
+     * )
+     * @OA\Get(
+     *     tags={"admin"},
+     *     path="/admin/theme/file/widget/array",
+     *     summary="获取模板文件控件数组数据",
+     *     description="获取模板文件控件数组数据",
+     *     @OA\Parameter(
+     *         name="file_id",
+     *         in="query",
+     *         example="1",
+     *         description="模板文件ID",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="widget",
+     *         in="query",
+     *         example="widget1",
+     *         description="控件名",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="var",
+     *         in="query",
+     *         example="var1",
+     *         description="变量名",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
+     *              "items":{
+     *                  {"title": "xxxx","content": "xxxxxxx"}
+     *              },
+     *              "item":{"title": {"title": "标题","value": "","type": "text","rule": {"require": true}},"content": {"title": "内容","value": "","type": "text"}}
+     *          }})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error!","data":""})
+     *     ),
+     * )
+     * @OA\Get(
+     *     tags={"admin"},
+     *     path="/admin/theme/file/block/widget/array",
+     *     summary="获取模板文件块控件数组数据",
+     *     description="获取模板文件块控件数组数据",
+     *     @OA\Parameter(
+     *         name="file_id",
+     *         in="query",
+     *         example="1",
+     *         description="模板文件ID",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="block_name",
+     *         in="query",
+     *         example="block1",
+     *         description="块名",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="widget_id",
+     *         in="query",
+     *         example="xxxxxx",
+     *         description="自由控件ID",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="var",
+     *         in="query",
+     *         example="var1",
+     *         description="变量名",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
+     *              "items":{
+     *                  {"title": "xxxx","content": "xxxxxxx"}
+     *              },
+     *              "item":{"title": {"title": "标题","value": "","type": "text","rule": {"require": true}},"content": {"title": "内容","value": "","type": "text"}}
+     *          }})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error!","data":""})
+     *     ),
+     * )
+     */
+    public function fileArrayData()
+    {
+        $tab        = $this->request->param('tab', 'widget');
+        $varName    = $this->request->param('var', '');
+        $widgetName = $this->request->param('widget', '');
+        $fileId     = $this->request->param('file_id', 0, 'intval');
+        $widgetId   = $this->request->param('widget_id', ''); //自由控件编辑
+        $blockName  = $this->request->param('block_name', '');//自由控件编辑
+        $file       = ThemeFileModel::where('id', $fileId)->find();
+        $oldMore    = $file['more'];
+
+
+        $items = [];
+        $item  = [];
+
+        $tab = ($tab == 'public_var') ? 'var' : $tab;
+
+        if ($tab == 'var' && !empty($oldMore['vars']) && is_array($oldMore['vars'])) {
+
+            if (isset($oldMore['vars'][$varName]) && is_array($oldMore['vars'][$varName])) {
+                $items = $oldMore['vars'][$varName]['value'];
+            }
+
+            if (isset($oldMore['vars'][$varName]['item'])) {
+                $item = $oldMore['vars'][$varName]['item'];
+            }
+
+        }
+
+        if ($tab == 'widget' && !empty($oldMore['widgets'][$widgetName]) && is_array($oldMore['widgets'][$widgetName])) {
+            $widget = $oldMore['widgets'][$widgetName];
+            if (!empty($widget['vars']) && is_array($widget['vars'])) {
+                foreach ($widget['vars'] as $mVarName => $mVar) {
+                    if ($mVarName == $varName) {
+                        if (is_array($mVar['value'])) {
+                            $items = $mVar['value'];
+                        }
+
+                        if (isset($mVar['item'])) {
+                            $item = $mVar['item'];
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($tab == 'block_widget' && isset($oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId])) {
+            $widget = $file->fillBlockWidgetValue($blockName, $widgetId);
+
+            if (!empty($widget['vars'][$varName])) {
+                $mVar = $widget['vars'][$varName];
+                if (is_array($mVar['value'])) {
+                    $items = $mVar['value'];
+                }
+
+                if (isset($mVar['item'])) {
+                    $item = $mVar['item'];
+                }
+            }
+        }
+
+        $this->success('success', ['items' => $items, 'item' => $item]);
+    }
+
+    /**
+     * @throws \think\exception\DbException
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/theme/file/var/array",
+     *     summary="模板文件模板变量数组数据添加编辑提交保存",
+     *     description="获取模板文件模板变量数组数据添加编辑提交保存",
+     *     @OA\RequestBody(
+     *         description="请求参数",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/AdminThemeFileArrayDataEditPostVar")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "保存成功","data":""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error!","data":""})
+     *     ),
+     * )
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/theme/file/widget/array",
+     *     summary="模板文件控件数组数据添加编辑提交保存",
+     *     description="模板文件控件数组数据添加编辑提交保存",
+     *     @OA\RequestBody(
+     *         description="请求参数",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/AdminThemeFileArrayDataEditPostWidget")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
+     *              "items":{
+     *                  {"id": 141,"is_public": 1,"list_order": 0,"theme": "default","name": "模板全局配置","action": "public/Config","file": "public/config","description": "模板全局配置文件","more": {"vars": {"enable_mobile": {"title": "手机注册","type": "select","value": 1,"options": {"0": "关闭","1": "开启"},"tip": ""}}}}
+     *              },
+     *              "item":{}
+     *          }})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error!","data":""})
+     *     ),
+     * )
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/theme/file/block/widget/array",
+     *     summary="模板文件块控件数组数据添加编辑提交保存",
+     *     description="模板文件块控件数组数据添加编辑提交保存",
+     *     @OA\RequestBody(
+     *         description="请求参数",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/AdminThemeFileArrayDataEditPostBlockWidget")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
+     *              "items":{
+     *                  {"id": 141,"is_public": 1,"list_order": 0,"theme": "default","name": "模板全局配置","action": "public/Config","file": "public/config","description": "模板全局配置文件","more": {"vars": {"enable_mobile": {"title": "手机注册","type": "select","value": 1,"options": {"0": "关闭","1": "开启"},"tip": ""}}}}
+     *              },
+     *              "item":{}
+     *          }})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error!","data":""})
+     *     ),
+     * )
+     */
+    public function fileArrayDataEditPost()
+    {
+        if (!$this->request->isPost()) {
+            $this->error(lang('illegal request'));
+        }
+        $tab        = $this->request->param('tab', 'widget');
+        $varName    = $this->request->param('var');
+        $widgetName = $this->request->param('widget', '');
+        $widgetId   = $this->request->param('widget_id', ''); //自由控件编辑
+        $blockName  = $this->request->param('block_name', '');//自由控件编辑
+        $fileId     = $this->request->param('file_id', 0, 'intval');
+        $itemIndex  = $this->request->param('item_index', '');
+
+        $file = ThemeFileModel::where('id', $fileId)->find();
+
+        if ($this->request->isPost()) {
+
+            $post = $this->request->param();
+
+            $more = $file['more'];
+
+            if ($tab == 'var') {
+                if (isset($more['vars'][$varName])) {
+                    $mVar = $more['vars'][$varName];
+                    if ($mVar['type'] == 'array') {
+
+                        $messages = [];
+                        $rules    = [];
+
+                        foreach ($mVar['item'] as $varItemKey => $varItem) {
+                            if (!empty($varItem['rule'])) {
+                                $rules[$varItemKey] = $this->_parseRules($varItem['rule']);
+                            }
+
+                            if (!empty($varItem['message'])) {
+                                foreach ($varItem['message'] as $rule => $msg) {
+                                    $messages[$varItemKey . '.' . $rule] = $msg;
+                                }
+                            }
+                        }
+
+                        $validate = new Validate($rules, $messages);
+                        $result   = $validate->check($post['item']);
+                        if (!$result) {
+                            $this->error($validate->getError());
+                        }
+
+                        if ($itemIndex === '') {
+                            if (!empty($mVar['value']) && is_array($mVar['value'])) {
+                                array_push($more['vars'][$varName]['value'], $post['item']);
+                            } else {
+                                $more['vars'][$varName]['value'] = [$post['item']];
+                            }
+                        } else {
+                            if (!empty($mVar['value']) && is_array($mVar['value']) && isset($mVar['value'][$itemIndex])) {
+                                $more['vars'][$varName]['value'][$itemIndex] = $post['item'];
+                            }
+                        }
+                    }
+                }
+            }
+
+            if ($tab == 'widget') {
+                if (isset($more['widgets'][$widgetName])) {
+                    $widget = $more['widgets'][$widgetName];
+                    if (!empty($widget['vars']) && is_array($widget['vars'])) {
+                        if (isset($widget['vars'][$varName])) {
+                            $widgetVar = $widget['vars'][$varName];
+                            if ($widgetVar['type'] == 'array') {
+                                $messages = [];
+                                $rules    = [];
+
+                                foreach ($widgetVar['item'] as $widgetArrayVarItemKey => $widgetArrayVarItem) {
+                                    if (!empty($widgetArrayVarItem['rule'])) {
+                                        $rules[$widgetArrayVarItemKey] = $this->_parseRules($widgetArrayVarItem['rule']);
+                                    }
+
+                                    if (!empty($widgetArrayVarItem['message'])) {
+                                        foreach ($widgetArrayVarItem['message'] as $rule => $msg) {
+                                            $messages[$widgetArrayVarItemKey . '.' . $rule] = $msg;
+                                        }
+                                    }
+                                }
+
+                                $validate = new Validate($rules, $messages);
+                                $result   = $validate->check($post['item']);
+                                if (!$result) {
+                                    $this->error($validate->getError());
+                                }
+
+                                if ($itemIndex === '') {
+                                    if (!empty($widgetVar['value']) && is_array($widgetVar['value'])) {
+                                        array_push($more['widgets'][$widgetName]['vars'][$varName]['value'], $post['item']);
+                                    } else {
+                                        $more['widgets'][$widgetName]['vars'][$varName]['value'] = [$post['item']];
+                                    }
+                                } else {
+                                    if (!empty($widgetVar['value']) && is_array($widgetVar['value']) && isset($widgetVar['value'][$itemIndex])) {
+                                        $more['widgets'][$widgetName]['vars'][$varName]['value'][$itemIndex] = $post['item'];
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            if ($tab == 'block_widget') {
+                $widget = $file->fillBlockWidgetValue($blockName, $widgetId);
+                if (!empty($widget['vars']) && is_array($widget['vars'])) {
+                    if (isset($widget['vars'][$varName])) {
+                        $widgetVar = $widget['vars'][$varName];
+                        if ($widgetVar['type'] == 'array') {
+                            $messages = [];
+                            $rules    = [];
+
+                            foreach ($widgetVar['item'] as $widgetArrayVarItemKey => $widgetArrayVarItem) {
+                                if (!empty($widgetArrayVarItem['rule'])) {
+                                    $rules[$widgetArrayVarItemKey] = $this->_parseRules($widgetArrayVarItem['rule']);
+                                }
+
+                                if (!empty($widgetArrayVarItem['message'])) {
+                                    foreach ($widgetArrayVarItem['message'] as $rule => $msg) {
+                                        $messages[$widgetArrayVarItemKey . '.' . $rule] = $msg;
+                                    }
+                                }
+                            }
+
+                            $validate = new Validate($rules, $messages);
+                            $result   = $validate->check($post['item']);
+                            if (!$result) {
+                                $this->error($validate->getError());
+                            }
+
+                            if ($itemIndex === '') {
+                                if (!empty($widgetVar['value']) && is_array($widgetVar['value'])) {
+                                    array_push($more['widgets_blocks'][$blockName]['widgets'][$widgetId]['vars'][$varName], $post['item']);
+                                } else {
+                                    $more['widgets_blocks'][$blockName]['widgets'][$widgetId]['vars'][$varName] = [$post['item']];
+                                }
+                            } else {
+                                if (!empty($widgetVar['value']) && is_array($widgetVar['value']) && isset($widgetVar['value'][$itemIndex])) {
+                                    $more['widgets_blocks'][$blockName]['widgets'][$widgetId]['vars'][$varName][$itemIndex] = $post['item'];
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            $more = json_encode($more);
+            ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
+            cmf_clear_cache();
+            $this->success(lang('EDIT_SUCCESS'), url('Theme/fileArrayData', ['tab' => $tab, 'var' => $varName, 'file_id' => $fileId, 'widget' => $widgetName, 'widget_id' => $widgetId, 'block_name' => $blockName]));
+
+        }
+
+    }
+
+    /**
+     * @throws \think\exception\DbException
+     * @OA\Delete(
+     *     tags={"admin"},
+     *     path="/admin/theme/file/var/array",
+     *     summary="删除模板文件模板变量数组数据",
+     *     description="删除模板文件模板变量数组数据",
+     *     @OA\Parameter(
+     *         name="file_id",
+     *         in="query",
+     *         example="1",
+     *         description="模板文件ID",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="var",
+     *         in="query",
+     *         example="var1",
+     *         description="变量名",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="item_index",
+     *         in="query",
+     *         example="0",
+     *         description="变量索引",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
+     *              "items":{
+     *                  {"title": "xxxx","content": "xxxxxxx"}
+     *              },
+     *              "item":{"title": {"title": "标题","value": "","type": "text","rule": {"require": true}},"content": {"title": "内容","value": "","type": "text"}}
+     *          }})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error!","data":""})
+     *     ),
+     * )
+     * @OA\Delete(
+     *     tags={"admin"},
+     *     path="/admin/theme/file/widget/array",
+     *     summary="获取模板文件控件数组数据",
+     *     description="获取模板文件控件数组数据",
+     *     @OA\Parameter(
+     *         name="file_id",
+     *         in="query",
+     *         example="1",
+     *         description="模板文件ID",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="widget",
+     *         in="query",
+     *         example="widget1",
+     *         description="控件名",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="var",
+     *         in="query",
+     *         example="var1",
+     *         description="变量名",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="item_index",
+     *         in="query",
+     *         example="0",
+     *         description="变量索引",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
+     *              "items":{
+     *                  {"title": "xxxx","content": "xxxxxxx"}
+     *              },
+     *              "item":{"title": {"title": "标题","value": "","type": "text","rule": {"require": true}},"content": {"title": "内容","value": "","type": "text"}}
+     *          }})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error!","data":""})
+     *     ),
+     * )
+     * @OA\Delete(
+     *     tags={"admin"},
+     *     path="/admin/theme/file/block/widget/array",
+     *     summary="获取模板文件块控件数组数据",
+     *     description="获取模板文件块控件数组数据",
+     *     @OA\Parameter(
+     *         name="file_id",
+     *         in="query",
+     *         example="1",
+     *         description="模板文件ID",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="block_name",
+     *         in="query",
+     *         example="block1",
+     *         description="块名",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="widget_id",
+     *         in="query",
+     *         example="xxxxxx",
+     *         description="自由控件ID",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="var",
+     *         in="query",
+     *         example="var1",
+     *         description="变量名",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="item_index",
+     *         in="query",
+     *         example="0",
+     *         description="变量索引",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
+     *              "items":{
+     *                  {"title": "xxxx","content": "xxxxxxx"}
+     *              },
+     *              "item":{"title": {"title": "标题","value": "","type": "text","rule": {"require": true}},"content": {"title": "内容","value": "","type": "text"}}
+     *          }})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error!","data":""})
+     *     ),
+     * )
+     */
+    public function fileArrayDataDelete()
+    {
+        if (!$this->request->isDelete()) {
+            $this->error(lang('illegal request'));
+        }
+        $tab        = $this->request->param('tab', 'widget');
+        $varName    = $this->request->param('var');
+        $widgetName = $this->request->param('widget', '');
+        $fileId     = $this->request->param('file_id', 0, 'intval');
+        $widgetId   = $this->request->param('widget_id', ''); //自由控件编辑
+        $blockName  = $this->request->param('block_name', '');//自由控件编辑
+        $itemIndex  = $this->request->param('item_index', '');
+
+        if ($itemIndex === '') {
+            $this->error('未指定删除元素!');
+        }
+
+        $file = ThemeFileModel::where('id', $fileId)->find();
+
+        $more = $file['more'];
+        if ($tab == 'var') {
+            foreach ($more['vars'] as $mVarName => $mVar) {
+
+                if ($mVarName == $varName && $mVar['type'] == 'array') {
+                    if (!empty($mVar['value']) && is_array($mVar['value']) && isset($mVar['value'][$itemIndex])) {
+                        array_splice($more['vars'][$mVarName]['value'], $itemIndex, 1);
+                    } else {
+                        $this->error('指定数据不存在!');
+                    }
+                    break;
+                }
+            }
+        }
+
+        if ($tab == 'widget') {
+            foreach ($more['widgets'] as $mWidgetName => $widget) {
+                if ($mWidgetName == $widgetName) {
+                    if (!empty($widget['vars']) && is_array($widget['vars'])) {
+                        foreach ($widget['vars'] as $widgetVarName => $widgetVar) {
+                            if ($widgetVarName == $varName && $widgetVar['type'] == 'array') {
+                                if (!empty($widgetVar['value']) && is_array($widgetVar['value']) && isset($widgetVar['value'][$itemIndex])) {
+                                    array_splice($more['widgets'][$widgetName]['vars'][$widgetVarName]['value'], $itemIndex, 1);
+                                } else {
+                                    $this->error('指定数据不存在!');
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+
+        if ($tab == 'block_widget') {
+            $widget = $file->fillBlockWidgetValue($blockName, $widgetId);
+            if (!empty($widget['vars']) && is_array($widget['vars'])) {
+                if (isset($widget['vars'][$varName])) {
+                    $widgetVar = $widget['vars'][$varName];
+                    if ($widgetVar['type'] == 'array') {
+                        if ($itemIndex !== '') {
+                            if (!empty($widgetVar['value']) && is_array($widgetVar['value']) && isset($widgetVar['value'][$itemIndex])) {
+                                array_splice($more['widgets_blocks'][$blockName]['widgets'][$widgetId]['vars'][$varName], $itemIndex, 1);
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+        $more = json_encode($more);
+        ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
+        cmf_clear_cache();
+        $this->success(lang('DELETE_SUCCESS'));
+    }
+
 
 }

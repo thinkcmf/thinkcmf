@@ -4,7 +4,9 @@
 <body>
 <div class="wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('Theme/fileArrayData',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">所有数据</a></li>
+        <li>
+            <a href="{:url('Theme/fileArrayData',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">所有数据</a>
+        </li>
         <heq name="item_index" value="">
             <li class="active"><a>添加数据</a></li>
             <else/>
@@ -16,9 +18,20 @@
 
     </ul>
     <form method="post" class="js-ajax-form margin-top-20"
-          action="{:url('Theme/fileArrayDataEditPost',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">
+          action="admin/theme/file/{:str_replace('_','/',$tab)}/array">
         {:_parse_vars($array_item,'item',2)}
         <div class="form-group" style="display: none;">
+            <input type="hidden" name="file_id" value="{$file_id}">
+            <notempty name="$widget">
+                <input type="hidden" name="widget" value="{$widget}">
+            </notempty>
+            <notempty name="$widget_id">
+                <input type="hidden" name="widget_id" value="{$widget_id}">
+            </notempty>
+            <notempty name="$block_name">
+                <input type="hidden" name="block_name" value="{$block_name}">
+            </notempty>
+            <input type="hidden" name="var" value="{$var}">
             <input type="hidden" name="item_index" value="{$item_index}">
             <button type="submit" class="btn btn-primary js-ajax-submit" id="submit-btn">保存</button>
         </div>

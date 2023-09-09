@@ -39,7 +39,8 @@
                            href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name,'item_index'=>$itemKey])}"
                         >编辑</a>
                         <a class="btn btn-xs btn-danger js-ajax-delete"
-                           href="{:url('Theme/fileArrayDataDelete',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name,'item_index'=>$itemKey])}"
+                           href="javascript:"
+                           data-href="admin/theme/file/{:str_replace('_','/',$tab)}/array?{:http_build_query(['var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name,'item_index'=>$itemKey])}"
                         >删除</a>
                     </td>
                 </tr>
