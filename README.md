@@ -16,7 +16,6 @@ ThinkCMF 8.0.0 Beta
 * 支持`RESTful API`
 * 支持`Swagger API`文档
 * 支持数据库迁移
-* 支持`.env`环境配置
 * 支持`Docker`运行
 
 ### 功能列表
@@ -68,6 +67,7 @@ ThinkCMF 8.0.0 Beta
 - [x] 验证码优化
 - [x] 强制所有创建，更新，删除操作为POST请求
 - [x] 基础控制器`validateFailError()`方法
+- [x] 支持`.env`环境配置
 
 ### 开发手册
 
