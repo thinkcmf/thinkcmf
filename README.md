@@ -1,12 +1,12 @@
-ThinkCMF 8.0.0 开发版
+ThinkCMF 8.0.0 Beta
 ===============
 欢迎入坑，有问题请及时提交issue!
 
-**`8.0.0`正在紧张开发中，请不要用于正式环境！实际项目请下载最新正式版`6.0.9`**
+**`8.0.0`正在紧张测试中，请不要用于正式环境！实际项目请下载最新正式版`6.0.9`**
 
 ### 主要特性
 
-* 框架协议依旧为`MIT`,让你更自由地飞
+* 框架协议为`MIT`,让你飞得更高
 * 基于`ThinkPHP 8.0`
 * `API`增加`Swagger`支持
 * 增加`.env`环境配置支持
@@ -155,13 +155,19 @@ https://gitee.com/thinkcmf/docker
 ### 更新日志
 
 #### 8.0.0
-* 升级到ThinkPHP8.0
-* 增加本地文件上传
+* 升级到`ThinkPHP8.0`
+* 增加后台管理本地文件上传
 * 增加`admin.js`对`RESTful API`支持
 * 增加插件`PluginRestAdminBaseController`基类
 * 后台所有POST请求需要传token
+* 后台使用`RESTful API`
 * 优化模板标签库加载忽略不存在标签库
 * 优化后台模板
+* 更改后台默认模板为`admin_default`
+* 增加后台风格`arcoadmin`
+* 增加后台模板支持`bootstrap5`
+* 完善前台默认模板`default`
+
 
 #### 6.0.9
 * 增强前台模板自由控件功能支持拖拽
