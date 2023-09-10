@@ -132,7 +132,7 @@ class Migrate
         } elseif ($this->pluginName) {
             $path = WEB_ROOT . 'plugins' . DIRECTORY_SEPARATOR . cmf_parse_name($this->pluginName) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'migrations';
         } else {
-            $path = $this->app->getRootPath();// . 'vendor/thinkcmf/cmf/src/data/migrations';
+            $path = $this->app->getRootPath() . 'vendor/thinkcmf/cmf/src/data/migrations';
         }
 
         return $path;
