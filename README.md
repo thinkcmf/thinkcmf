@@ -69,6 +69,9 @@ ThinkCMF 8.0.0 Beta
 - [x] 基础控制器`validateFailError()`方法
 - [x] 支持`.env`环境配置
 
+### 即将废弃
+* `app`模式下后台所有`非GET`请求提交接口，请后台模板开发者请尽快升级到`API`接口
+
 ### 开发手册
 
 https://www.thinkcmf.com/docs/cmf6
