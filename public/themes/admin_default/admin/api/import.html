@@ -1,0 +1,35 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            <div class="panel panel-default" style="margin-top: 10%">
+                <div class="panel-heading">
+                    <h3 class="panel-title">请安装或启用Swagger插件</h3>
+                </div>
+                <div class="panel-body">
+                    <div style="line-height: 60px;">
+                        请安装或启用Swagger插件
+                    </div>
+                    <div>
+                        <a href="javascript: openInstallSwaggerDialog();" class="btn btn-primary pull-right">去安装</a>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+    function openInstallSwaggerDialog() {
+        parent.openIframeLayer("{:url('admin/Plugin/index')}", '安装Swagger插件', {
+            end: function () {
+                window.location.reload();
+            }
+        });
+    }
+</script>
+</body>
+</html>
