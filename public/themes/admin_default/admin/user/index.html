@@ -25,7 +25,7 @@
             <th>{:lang('LAST_LOGIN_TIME')}</th>
             <th>{:lang('EMAIL')}</th>
             <th>{:lang('STATUS')}</th>
-            <th width="140">{:lang('ACTIONS')}</th>
+            <th width="120">{:lang('ACTIONS')}</th>
         </tr>
         </thead>
         <tbody>
@@ -65,30 +65,50 @@
                 </td>
                 <td>
                     <if condition="$vo['id'] eq 1 || $vo['id'] eq cmf_get_current_admin_id()">
-                        <span class="btn btn-xs btn-primary disabled">{:lang('EDIT')}</span>
                         <if condition="$vo['user_status'] eq 1">
-                            <span class="btn btn-xs btn-warning disabled">{:lang('BLOCK_USER')}</span>
+                            <span class="btn btn-xs btn-warning disabled"
+                                  title="{:lang('BLOCK_USER')}"
+                                  data-toggle="tooltip">
+                                <i class="fa fa-toggle-off fa-fw"></i>
+                            </span>
                             <else/>
-                            <span class="btn btn-xs btn-warning disabled">{:lang('ACTIVATE_USER')}</span>
+                            <span class="btn btn-xs btn-warning disabled"
+                                  title="{:lang('ACTIVATE_USER')}"
+                                  data-toggle="tooltip">
+                                <i class="fa fa-toggle-on fa-fw"></i>
+                            </span>
                         </if>
-                        <span class="btn btn-xs btn-danger disabled">{:lang('DELETE')}</span>
+                        <span class="btn btn-xs btn-primary disabled" title="{:lang('EDIT')}" data-toggle="tooltip">
+                            <i class="fa fa-edit fa-fw"></i></span>
+                        <span class="btn btn-xs btn-danger disabled" title="{:lang('DELETE')}" data-toggle="tooltip">
+                            <i class="fa fa-trash fa-fw"></i></span>
                         <else/>
-                        <a class="btn btn-xs btn-primary" href='{:url("User/edit",array("id"=>$vo["id"]))}'>{:lang('EDIT')}</a>
                         <if condition="$vo['user_status'] eq 1">
                             <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
                                href="javascript:"
                                data-href="admin/users/{$vo.id}/status/0"
-                               data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}">{:lang('BLOCK_USER')}</a>
+                               data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}"
+                               title="{:lang('BLOCK_USER')}" data-toggle="tooltip">
+                                <i class="fa fa-toggle-off fa-fw"></i>
+                            </a>
                             <else/>
                             <a class="btn btn-xs btn-success js-ajax-dialog-btn"
                                href="javascript:"
                                data-href="admin/users/{$vo.id}/status/1"
-                               data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}">{:lang('ACTIVATE_USER')}</a>
+                               data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}"
+                               title="{:lang('ACTIVATE_USER')}" data-toggle="tooltip">
+                                <i class="fa fa-toggle-on fa-fw"></i>
+                            </a>
                         </if>
+                        <a class="btn btn-xs btn-primary" href='{:url("User/edit",array("id"=>$vo["id"]))}'
+                           title="{:lang('EDIT')}" data-toggle="tooltip">
+                            <i class="fa fa-edit fa-fw"></i>
+                        </a>
                         <a class="btn btn-xs btn-danger js-ajax-delete"
                            href="javascript:"
-                           data-href="admin/users/{$vo.id}">{:lang('DELETE')}</a>
-
+                           data-href="admin/users/{$vo.id}" title="{:lang('DELETE')}" data-toggle="tooltip">
+                            <i class="fa fa-trash fa-fw"></i>
+                        </a>
                     </if>
                 </td>
             </tr>

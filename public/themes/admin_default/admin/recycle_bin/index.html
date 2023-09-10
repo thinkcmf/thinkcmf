@@ -29,7 +29,7 @@
                 <th>内容类型</th>
                 <th>删除时间</th>
                 <th>操作人</th>
-                <th width="130">{:lang('ACTIONS')}</th>
+                <th width="100">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -52,10 +52,16 @@
                         <a href="javascript:"
                            data-href="admin/recycle/bin/restore?ids={$vo.id}"
                            class="btn btn-xs btn-success js-ajax-dialog-btn"
-                           data-msg="确定要还原吗？">还原</a>
+                           data-msg="确定要还原吗？"
+                           title="还原" data-toggle="tooltip">
+                            <i class="fa fa-undo fa-fw"></i>
+                        </a>
                         <a href="javascript:"
                            data-href="admin/recycle/bin/items?ids={$vo.id}"
-                           class="btn btn-xs btn-danger js-ajax-delete">{:lang('DELETE')}</a>
+                           class="btn btn-xs btn-danger js-ajax-delete"
+                           title="{:lang('DELETE')}" data-toggle="tooltip">
+                            <i class="fa fa-trash fa-fw"></i>
+                        </a>
                     </td>
                 </tr>
             </foreach>
@@ -70,7 +76,7 @@
                 <th>内容类型</th>
                 <th>删除时间</th>
                 <th>操作人</th>
-                <th width="130">{:lang('ACTIONS')}</th>
+                <th width="100">{:lang('ACTIONS')}</th>
             </tr>
             </tfoot>
         </table>

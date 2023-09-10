@@ -15,7 +15,7 @@
                 <th>{:lang('Name')}</th>
                 <th width="80">{:lang('Main Navigation')}</th>
                 <th>{:lang('Description')}</th>
-                <th width="160">{:lang('ACTIONS')}</th>
+                <th width="120">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -37,11 +37,22 @@
                     <td>{$vo.remark}</td>
                     <td>
                         <a class="btn btn-xs btn-primary"
-                           href="javascript:parent.openIframeLayer('{:url('NavMenu/index',array('nav_id'=>$vo['id']))}','{$vo.name} {:lang('Sub Navigations')}',{});">
-                            {:lang('Sub Navigations')}</a>
-                        <a class="btn btn-xs btn-success"  href="{:url('Nav/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                           href="javascript:parent.openIframeLayer('{:url('NavMenu/index',array('nav_id'=>$vo['id']))}','{$vo.name} {:lang('Sub Navigations')}',{});"
+                           title="{:lang('Sub Navigations')}"
+                           data-toggle="tooltip">
+                            <i class="fa fa-list fa-fw"></i>
+                        </a>
+                        <a class="btn btn-xs btn-success"
+                           href="{:url('Nav/edit',array('id'=>$vo['id']))}"
+                           title="{:lang('EDIT')}" data-toggle="tooltip">
+                            <i class="fa fa-edit fa-fw"></i>
+                        </a>
                         <a class="btn btn-xs btn-danger js-ajax-delete" href="javascript:void(0);"
-                           data-href="admin/navs/{$vo.id}">{:lang('DELETE')}</a>
+                           data-href="admin/navs/{$vo.id}"
+                           title="{:lang('DELETE')}"
+                           data-toggle="tooltip">
+                            <i class="fa fa-trash fa-fw"></i>
+                        </a>
                     </td>
                 </tr>
             </foreach>

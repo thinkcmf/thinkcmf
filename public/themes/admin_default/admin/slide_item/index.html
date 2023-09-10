@@ -26,7 +26,7 @@
                 <th>{:lang('Url Target')}</th>
                 <th>{:lang('Image')}</th>
                 <th>{:lang('Status')}</th>
-                <th width="160">{:lang('ACTIONS')}</th>
+                <th width="110">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -50,21 +50,33 @@
                     </td>
                     <td>{$status[$vo['status']]}</td>
                     <td>
-                        <a class="btn btn-xs btn-primary" href="{:url('SlideItem/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
                         <if condition="empty($vo['status']) eq 1">
                             <a href="javascript:"
                                data-href="admin/slide/items/{$vo.id}/status/1"
                                class="btn btn-xs btn-success js-ajax-dialog-btn"
-                               data-msg="确定显示此幻灯片吗？">{:lang('DISPLAY')}</a>
+                               data-msg="确定显示此幻灯片吗？"
+                               title="{:lang('DISPLAY')}" data-toggle="tooltip">
+                                <i class="fa fa-eye fa-fw"></i>
+                            </a>
                             <else/>
                             <a href="javascript:"
                                data-href="admin/slide/items/{$vo.id}/status/0"
                                class="btn btn-xs btn-warning js-ajax-dialog-btn"
-                               data-msg="确定隐藏此幻灯片吗？">{:lang('HIDE')}</a>
+                               data-msg="确定隐藏此幻灯片吗？"
+                               title="{:lang('HIDE')}" data-toggle="tooltip">
+                                <i class="fa fa-eye-slash fa-fw"></i>
+                            </a>
                         </if>
+                        <a class="btn btn-xs btn-primary" href="{:url('SlideItem/edit',array('id'=>$vo['id']))}"
+                           title="{:lang('EDIT')}" data-toggle="tooltip">
+                            <i class="fa fa-edit fa-fw"></i>
+                        </a>
                         <a href="javascript:"
                            data-href="admin/slide/items/{$vo.id}"
-                           class="btn btn-xs btn-danger js-ajax-delete">{:lang('DELETE')}</a>
+                           class="btn btn-xs btn-danger js-ajax-delete"
+                           title="{:lang('DELETE')}" data-toggle="tooltip">
+                            <i class="fa fa-trash fa-fw"></i>
+                        </a>
                     </td>
                 </tr>
             </foreach>

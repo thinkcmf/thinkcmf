@@ -21,7 +21,7 @@
                 <th>{:lang('Author')}</th>
                 <th>{:lang('Version')}</th>
                 <th width="60">{:lang('STATUS')}</th>
-                <th width="220">{:lang('ACTIONS')}</th>
+                <th width="90">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -44,16 +44,25 @@
                             <a class="btn btn-xs btn-primary js-ajax-dialog-btn"
                                href="javascript:void(0);"
                                data-href="admin/apps/{$vo.name}"
-                               data-msg="{:lang('INSTALL_APP_CONFIRM_MSG')}">{:lang('Install')}</a>
+                               data-msg="{:lang('INSTALL_APP_CONFIRM_MSG')}"
+                               title="{:lang('Install')}" data-toggle="tooltip">
+                                <i class="fa fa-plus-circle fa-fw"></i>
+                            </a>
                             <else/>
                             <a class="btn btn-xs btn-success js-ajax-dialog-btn"
                                href="javascript:void(0);"
                                data-href="admin/apps/{$vo.name}"
                                data-method="PUT"
-                               data-msg="{:lang('UPDATE_APP_CONFIRM_MSG')}">{:lang('Update')}</a>
+                               data-msg="{:lang('UPDATE_APP_CONFIRM_MSG')}"
+                               title="{:lang('Update')}" data-toggle="tooltip">
+                                <i class="fa fa-refresh fa-fw"></i>
+                            </a>
                             <a class="btn btn-xs btn-danger"
                                href="javascript:doOpenUninstallAppDialog('{$vo.name}')"
-                               data-msg="{:lang('INSTALL_APP_CONFIRM_MSG')}">{:lang('Uninstall')}</a>
+                               data-msg="{:lang('INSTALL_APP_CONFIRM_MSG')}"
+                               title="{:lang('Uninstall')}" data-toggle="tooltip">
+                                <i class="fa fa-trash fa-fw"></i>
+                            </a>
                         </empty>
                     </td>
                 </tr>

@@ -17,7 +17,7 @@
                 <th>{:lang('Language')}</th>
                 <th>{:lang('Author')}</th>
                 <th>{:lang('Description')}</th>
-                <th>{:lang('ACTIONS')}</th>
+                <th width="180">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -35,31 +35,52 @@
                     <td>{$vo.author}</td>
                     <td>{$vo.description}</td>
                     <td>
-                        <a class="btn btn-xs btn-primary" href="{:url('Theme/design',['theme'=>$vo.theme])}"
-                           target="_blank">{:lang('Design')}</a>
+                        <a class="btn btn-xs btn-info" target="_blank"
+                           href="{:url('Theme/design',['theme'=>$vo.theme])}"
+                           title="{:lang('Design')}" data-toggle="tooltip">
+                            <i class="fa fa-paint-brush fa-fw"></i>
+                        </a>
                         <a class="btn btn-xs btn-primary"
-                           href="javascript:parent.openIframeLayer('{:url('Theme/files',array('theme'=>$vo['theme']))}','{$vo.name}{:lang('File List')}',{});">{:lang('File List')}</a>
+                           href="javascript:parent.openIframeLayer('{:url('Theme/files',array('theme'=>$vo['theme']))}','{$vo.name}{:lang('File List')}',{});"
+                           title="{:lang('File List')}" data-toggle="tooltip">
+                            <i class="fa fa-list fa-fw"></i>
+                        </a>
                         <a class="btn btn-xs btn-success js-ajax-dialog-btn"
                            href="javascript:"
                            data-method="put"
                            data-href="admin/themes/{$vo.theme}"
-                           data-msg="确定更新此模板吗？">{:lang('Update')}</a>
+                           data-msg="确定更新此模板吗？"
+                           title="{:lang('Update')}" data-toggle="tooltip">
+                            <i class="fa fa-refresh fa-fw"></i>
+                        </a>
                         <if condition="$vo.theme == $default_theme">
-                            <span class="btn btn-xs btn-warning disabled" color="#cccccc">{:lang('Enable')}</span>
+                            <span class="btn btn-xs btn-success disabled" color="#cccccc"
+                                  title="{:lang('Enable')}" data-toggle="tooltip">
+                                <i class="fa fa-toggle-on fa-fw"></i>
+                            </span>
                             <else/>
-                            <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
+                            <a class="btn btn-xs btn-success js-ajax-dialog-btn"
                                href="javascript:"
                                data-href="admin/themes/{$vo.theme}/active"
-                               data-msg="确定使用此模板吗？">{:lang('Enable')}</a>
+                               data-msg="确定使用此模板吗？"
+                               title="{:lang('Enable')}" data-toggle="tooltip">
+                                <i class="fa fa-toggle-on fa-fw"></i>
+                            </a>
                         </if>
 
                         <if condition="($vo.name == 'simpleboot3') OR ($vo.theme == $default_theme) ">
-                            <span class="btn btn-xs btn-danger disabled">{:lang('Uninstall')}</span>
+                            <span class="btn btn-xs btn-danger disabled"
+                                  title="{:lang('Uninstall')}" data-toggle="tooltip">
+                                <i class="fa fa-trash fa-fw"></i>
+                            </span>
                             <else/>
                             <a class="btn btn-xs btn-danger js-ajax-delete"
                                href="javascript:"
                                data-href="admin/themes/{$vo.theme}"
-                               data-msg="您设置的模板数据将被删除，<br>确定卸载此模板吗？">{:lang('Uninstall')}</a>
+                               data-msg="您设置的模板数据将被删除，<br>确定卸载此模板吗？"
+                               title="{:lang('Uninstall')}" data-toggle="tooltip">
+                                <i class="fa fa-trash fa-fw"></i>
+                            </a>
                         </if>
 
                     </td>

@@ -27,7 +27,7 @@
                 <th>{:lang('NAME')}</th>
                 <th>{:lang('Url')}</th>
                 <th width="50">{:lang('STATUS')}</th>
-                <th width="120">{:lang('ACTIONS')}</th>
+                <th width="80">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -52,9 +52,15 @@
                         </empty>
                     </td>
                     <td>
-                        <a class="btn btn-xs btn-primary" href="{:url('Link/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
-                        <a class="btn btn-xs btn-danger js-ajax-delete" href="javascript:void(0);" data-href="admin/links/{$vo.id}">
-                            {:lang('DELETE')}
+                        <a class="btn btn-xs btn-primary"
+                           href="{:url('Link/edit',array('id'=>$vo['id']))}"
+                           title="{:lang('EDIT')}" data-toggle="tooltip">
+                            <i class="fa fa-edit fa-fw"></i>
+                        </a>
+                        <a class="btn btn-xs btn-danger js-ajax-delete" href="javascript:void(0);"
+                           data-href="admin/links/{$vo.id}"
+                           title="{:lang('DELETE')}" data-toggle="tooltip">
+                            <i class="fa fa-trash fa-fw"></i>
                         </a>
                     </td>
                 </tr>
@@ -72,7 +78,7 @@
                 <th>{:lang('NAME')}</th>
                 <th>{:lang('Url')}</th>
                 <th width="50">{:lang('STATUS')}</th>
-                <th width="120">{:lang('ACTIONS')}</th>
+                <th width="80">{:lang('ACTIONS')}</th>
             </tr>
             </tfoot>
         </table>

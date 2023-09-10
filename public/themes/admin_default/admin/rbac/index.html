@@ -15,7 +15,7 @@
                 <th align="left">类型</th>
                 <th align="left">{:lang('ROLE_DESCRIPTION')}</th>
                 <th width="60" align="left">{:lang('STATUS')}</th>
-                <th width="160">{:lang('ACTIONS')}</th>
+                <th width="120">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -40,19 +40,35 @@
                     </td>
                     <td>
                         <if condition="$vo['id'] eq 1">
-                            <span class="btn btn-xs btn-primary disabled">{:lang('ROLE_SETTING')}</span>
-                            <!-- <a href="javascript:openIframeDialog('{:url('Rbac/member',array('id'=>$vo['id']))}','成员管理');">成员管理</a> | -->
-                            <span class="btn btn-xs btn-primary disabled">{:lang('EDIT')}</span>
-                            <span class="btn btn-xs btn-danger disabled">{:lang('DELETE')}</span>
+                            <span class="btn btn-xs btn-primary disabled" title="{:lang('ROLE_SETTING')}"
+                                  data-toggle="tooltip">
+                                <i class="fa fa-cog fa-fw"></i>
+                            </span>
+                            <span class="btn btn-xs btn-success disabled" title="{:lang('EDIT')}" data-toggle="tooltip">
+                                <i class="fa fa-edit fa-fw"></i>
+                            </span>
+                            <span class="btn btn-xs btn-danger disabled"
+                                  title="{:lang('DELETE')}"
+                                  data-toggle="tooltip">
+                                <i class="fa fa-trash fa-fw"></i>
+                            </span>
                             <else/>
-                            <a class="btn btn-xs btn-primary" href="javascript:;"
+                            <a class="btn btn-xs btn-primary" href="javascript:"
                                onclick="openAuthorizeDialog(this)"
-                               data-href="{:url('Rbac/authorize',array('id'=>$vo['id']))}">{:lang('ROLE_SETTING')}</a>
-                            <!-- <a href="javascript:openIframeDialog('{:url('Rbac/member',array('id'=>$vo['id']))}','成员管理');">成员管理</a>| -->
-                            <a class="btn btn-xs btn-primary" href="{:url('Rbac/roleEdit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                               data-href="{:url('Rbac/authorize',array('id'=>$vo['id']))}"
+                               title="{:lang('ROLE_SETTING')}" data-toggle="tooltip">
+                                <i class="fa fa-cog fa-fw"></i>
+                            </a>
+                            <a class="btn btn-xs btn-success" href="{:url('Rbac/roleEdit',array('id'=>$vo['id']))}"
+                               title="{:lang('EDIT')}" data-toggle="tooltip">
+                                <i class="fa fa-edit fa-fw"></i>
+                            </a>
                             <a class="btn btn-xs btn-danger js-ajax-delete"
-                               href="javascript:void(0);"
-                               data-href="admin/roles/{$vo.id}">{:lang('DELETE')}</a>
+                               href="javascript:"
+                               data-href="admin/roles/{$vo.id}"
+                               title="{:lang('DELETE')}" data-toggle="tooltip">
+                                <i class="fa fa-trash fa-fw"></i>
+                            </a>
                         </if>
                     </td>
                 </tr>

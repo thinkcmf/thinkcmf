@@ -67,15 +67,23 @@
                                 <a class="btn btn-xs btn-success js-ajax-dialog-btn"
                                    href="javascript:"
                                    data-href="admin/user/users/{$vo.id}/status/1"
-                                   data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}">{:lang('ACTIVATE_USER')}</a>
+                                   data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}"
+                                   title="{:lang('ACTIVATE_USER')}"
+                                   data-toggle="tooltip">
+                                    <i class="fa fa-toggle-on fa-fw"></i></a>
                                 <else/>
                                 <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
                                    href="javascript:"
                                    data-href="admin/user/users/{$vo.id}/status/0"
-                                   data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}">{:lang('BLOCK_USER')}</a>
+                                   data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}"
+                                   title="{:lang('BLOCK_USER')}" data-toggle="tooltip">
+                                    <i class="fa fa-toggle-off fa-fw"></i></a>
                             </empty>
                             <else/>
-                            <a class="btn btn-xs btn-warning disabled">{:lang('BLOCK_USER')}</a>
+                            <span class="btn btn-xs btn-warning disabled"
+                               title="{:lang('BLOCK_USER')}" data-toggle="tooltip">
+                                <i class="fa fa-toggle-off fa-fw"></i>
+                            </span>
                         </neq>
                     </td>
                 </tr>

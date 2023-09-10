@@ -19,7 +19,7 @@
                 <th>描述</th>
                 <th>版本</th>
                 <!--                <th width="60">状态</th>-->
-                <th width="220">操作</th>
+                <th width="60">操作</th>
             </tr>
             </thead>
             <tbody>
@@ -44,22 +44,37 @@
                         <empty name="vo.installed">
                             <empty name="appstore_settings.access_token">
                                 <a class="btn btn-primary btn-xs js-install-plugin-btn"
-                                   data-href="{:url('AppStore/installApp',['id'=>$vo.id])}">安装</a>
+                                   data-href="{:url('AppStore/installApp',['id'=>$vo.id])}"
+                                   title="{:lang('Install')}" data-toggle="tooltip">
+                                    <i class="fa fa-plus-circle fa-fw"></i>
+                                </a>
                                 <else/>
                                 <empty name="vo.has_bought">
                                     <a class="btn btn-info btn-xs"
-                                       href="javascript:;" onclick="doBuyApp('{$vo.buy_url}')">购买</a>
+                                       href="javascript:" onclick="doBuyApp('{$vo.buy_url}')"
+                                       title="购买" data-toggle="tooltip">
+                                        <i class="fa fa-cart-plus fa-fw"></i>
+                                    </a>
                                     <else/>
                                     <a class="btn btn-primary btn-xs js-ajax-dialog-btn"
                                        data-href="{:url('AppStore/installApp',['id'=>$vo.id])}"
-                                       data-wait-msg="正在安装...">安装</a>
+                                       data-wait-msg="正在安装..."
+                                       title="{:lang('Install')}" data-toggle="tooltip">
+                                        <i class="fa fa-plus-circle fa-fw"></i>
+                                    </a>
                                 </empty>
                             </empty>
                             <else/>
-                            <a class="btn btn-danger btn-xs" href="javascript:doOpenUninstallAppDialog('{$vo.name}')">卸载</a>
+                            <a class="btn btn-danger btn-xs" href="javascript:doOpenUninstallAppDialog('{$vo.name}')"
+                               title="{:lang('Uninstall')}" data-toggle="tooltip">
+                                <i class="fa fa-trash fa-fw"></i>
+                            </a>
                             <notempty name="vo.need_update">
                                 <a class="btn btn-success btn-xs js-ajax-dialog-btn"
-                                   data-href="{:url('AppStore/installApp',['id'=>$vo.id,'version'=>$vo.installed_app.version])}">升级</a>
+                                   data-href="{:url('AppStore/installApp',['id'=>$vo.id,'version'=>$vo.installed_app.version])}"
+                                   title="升级" data-toggle="tooltip">
+                                    <i class="fa fa-refresh fa-fw"></i>
+                                </a>
                             </notempty>
                         </empty>
                         <!--<a target="_blank" href2="https://www.thinkcmf.com/appstore/login/index" class="btn btn-primary btn-xs js-install-plugin-btn" data-href="{:url('AppStore/installApp',['id'=>$vo.id])}">安装</a>-->
@@ -92,6 +107,7 @@
     });
 
     var buyAppLayerIndex = '';
+
     function doBuyApp(buyUrl) {
         buyUrl = buyUrl + "?app_store_token={$appstore_settings.access_token|default=''}"
         parent.openIframeLayer(buyUrl, '购买应用', {

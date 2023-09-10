@@ -34,7 +34,10 @@
                     <td>
                         <a class="btn btn-xs btn-danger js-ajax-delete"
                            href="javascript:"
-                           data-href="admin/user/oauth/users/{$vo.id}">{:lang('DELETE')}</a>
+                           data-href="admin/user/oauth/users/{$vo.id}"
+                           title="{:lang('DELETE')}" data-toggle="tooltip">
+                            <i class="fa fa-trash fa-fw"></i>
+                        </a>
                     </td>
                 </tr>
             </foreach>

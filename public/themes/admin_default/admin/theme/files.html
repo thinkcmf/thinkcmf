@@ -10,7 +10,7 @@
                 <th>操作名</th>
                 <th>文件路径</th>
                 <th>{:lang('Description')}</th>
-                <th width="120">{:lang('ACTIONS')}</th>
+                <th width="60">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -25,7 +25,10 @@
                            href="javascript:;"
                            data-file="{$vo.id}"
                            data-title="{$vo.name} {$vo.file}.html"
-                           onclick="openDesignDialog(this)">设计</a>
+                           onclick="openDesignDialog(this)"
+                           title="{:lang('Design')}" data-toggle="tooltip">
+                            <i class="fa fa-paint-brush fa-fw"></i>
+                        </a>
                     </td>
                 </tr>
             </foreach>
