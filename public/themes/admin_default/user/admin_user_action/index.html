@@ -13,7 +13,7 @@
                 <th>操作</th>
                 <th>积分更改</th>
                 <th>金币更改</th>
-                <th>奖励周期</th>
+                <th>奖励次数/周期</th>
                 <th>{:lang('ACTIONS')}</th>
             </tr>
             </thead>
@@ -26,11 +26,14 @@
                     <td>{$vo.coin}</td>
                     <th>
                         <eq name="vo.cycle_type" value="0">
-                            不限
+                            不限制
                             <else/>
-                            {$vo.reward_number}次/{$vo.cycle_time}{$cycle_types[$vo['cycle_type']]}
+                            <eq name="vo.cycle_type" value="3">
+                                {$vo.reward_number}次/{$cycle_types[$vo['cycle_type']]}
+                                <else/>
+                                {$vo.reward_number}次/{$vo.cycle_time}{$cycle_types[$vo['cycle_type']]}
+                            </eq>
                         </eq>
-
                     </th>
                     <td>
                         <a class="btn btn-xs btn-primary" href="{:url('AdminUserAction/edit')}?id={$vo.id}" title="编辑"
