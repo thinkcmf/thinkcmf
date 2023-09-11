@@ -184,7 +184,7 @@
             {
                 area: GV.IS_MOBILE ? ['100%', '100%'] : ['600px', '100%'],
                 offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
-                btn: ['保存', '取消'],
+                btn: ["{:lang('SAVE')}", '取消'],
                 yes: function (index, layero) {
                     var iframeWin = parent.window[layero.find('iframe')[0]['name']];
                     var result = iframeWin.confirm();

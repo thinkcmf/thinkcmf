@@ -4,7 +4,8 @@
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
         <li class="active"><a>所有数据</a></li>
-        <li><a href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">添加数据</a>
+        <li>
+            <a href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">添加数据</a>
         </li>
     </ul>
     <form method="post" class="js-ajax-form margin-top-20">
@@ -14,7 +15,7 @@
                 <foreach name="array_item" item="vo">
                     <th>{$vo.title}</th>
                 </foreach>
-                <th width="120">{:lang('ACTIONS')}</th>
+                <th width="100">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -37,11 +38,15 @@
                     <td>
                         <a class="btn btn-xs btn-primary"
                            href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name,'item_index'=>$itemKey])}"
-                        >编辑</a>
+                           title="{:lang('EDIT')}" data-toggle="tooltip">
+                            <i class="fa fa-edit fa-fw"></i>
+                        </a>
                         <a class="btn btn-xs btn-danger js-ajax-delete"
                            href="javascript:"
                            data-href="admin/theme/file/{:str_replace('_','/',$tab)}/array?{:http_build_query(['var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name,'item_index'=>$itemKey])}"
-                        >删除</a>
+                           title="{:lang('DELETE')}" data-toggle="tooltip">
+                            <i class="fa fa-trash fa-fw"></i>
+                        </a>
                     </td>
                 </tr>
             </foreach>

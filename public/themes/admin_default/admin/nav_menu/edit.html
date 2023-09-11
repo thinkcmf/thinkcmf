@@ -71,7 +71,9 @@
                 <div class="col-md-8 col-sm-10">
                     <input type="hidden" name="id" value="{$id}">
                     <input type="hidden" name="nav_id" value="{$nav_id}">
-                    <button type="submit" class="btn btn-primary js-ajax-submit">{:lang("SAVE")}</button>
+                    <button type="submit" class="btn btn-primary js-ajax-submit">
+                        <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
+                    </button>
                     <a class="btn btn-default" href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">{:lang('BACK')}</a>
                 </div>
             </div>

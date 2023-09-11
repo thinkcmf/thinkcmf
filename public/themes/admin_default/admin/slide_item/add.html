@@ -73,7 +73,9 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <input type="hidden" name="slide_id" value="{$slide_id}">
-                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+                <button type="submit" class="btn btn-primary js-ajax-submit">
+                    <i class="fa fa-save fa-fw"></i> {:lang('ADD')}
+                </button>
                 <a class="btn btn-default" href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">{:lang('BACK')}</a>
             </div>
         </div>

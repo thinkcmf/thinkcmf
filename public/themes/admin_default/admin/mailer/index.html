@@ -78,7 +78,9 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                <button type="submit" class="btn btn-primary js-ajax-submit">
+                    <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
+                </button>
                 <a class="btn btn-warning"
                    href="javascript:parent.openIframeLayer('{:url('Mailer/test')}','{:lang('Send Test Email')}',{area:['600px','400px']});">
                     {:lang('Send Test Email')}

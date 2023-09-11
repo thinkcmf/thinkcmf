@@ -82,7 +82,9 @@
             <div class="col-sm-offset-2 col-sm-10">
                 <input type="hidden" name="id" value="{$result.id}"/>
                 <input type="hidden" name="slide_id" value="{$slide_id}">
-                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                <button type="submit" class="btn btn-primary js-ajax-submit">
+                    <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
+                </button>
                 <a class="btn btn-default" href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">{:lang('BACK')}</a>
             </div>
         </div>
