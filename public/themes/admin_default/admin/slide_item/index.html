@@ -48,7 +48,17 @@
 
                         </if>
                     </td>
-                    <td>{$status[$vo['status']]}</td>
+                    <td>
+                        <empty name="vo.status">
+                            <span class="label label-default">
+                                {:lang('HIDDEN')}
+                            </span>
+                            <else/>
+                            <span class="label label-success">
+                                {:lang('DISPLAY')}
+                            </span>
+                        </empty>
+                    </td>
                     <td>
                         <if condition="empty($vo['status']) eq 1">
                             <a href="javascript:"
