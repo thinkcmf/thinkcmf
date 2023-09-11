@@ -16,7 +16,7 @@
                 <th>{:lang('Version')}</th>
                 <th>{:lang('Author')}</th>
                 <th>{:lang('Description')}</th>
-                <th>{:lang('ACTIONS')}</th>
+                <th width="60">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
             <tbody>
@@ -30,7 +30,10 @@
                     <td>
                         <a href="javascript:"
                            data-href="admin/themes/{$vo.theme}"
-                           class="btn btn-xs btn-primary js-ajax-dialog-btn js-ajax-dialog-btn">{:lang('Install')}</a>
+                           class="btn btn-xs btn-primary js-ajax-dialog-btn js-ajax-dialog-btn"
+                           title="{:lang('Install')}" data-toggle="tooltip">
+                            <i class="fa fa-plus-circle fa-fw"></i>
+                        </a>
                     </td>
                 </tr>
             </foreach>

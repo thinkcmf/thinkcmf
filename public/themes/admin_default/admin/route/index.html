@@ -8,7 +8,10 @@
     </ul>
     <form class="js-ajax-form" action="admin/routes/list/order" method="post">
         <div class="table-actions">
-            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('Sort')}</button>
+            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit"
+                    title="{:lang('Sort')}" data-toggle="tooltip">
+                <i class="fa fa-sort-numeric-asc fa-fw"></i>
+            </button>
         </div>
         <table class="table table-hover table-bordered table-list">
             <thead>
@@ -106,7 +109,10 @@
             </tfoot>
         </table>
         <div class="table-actions">
-            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('Sort')}</button>
+            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit"
+                    title="{:lang('Sort')}" data-toggle="tooltip">
+                <i class="fa fa-sort-numeric-asc fa-fw"></i>
+            </button>
         </div>
     </form>
 </div>

@@ -7,9 +7,12 @@
                 href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_INDEX')}</a></li>
         <li><a href="{:url('SlideItem/add',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_ADD')}</a></li>
     </ul>
-    <form method="post" class="js-ajax-form margin-top-20" action="admin/slide/items/list/order">
+    <form method="post" class="js-ajax-form margin-top-10" action="admin/slide/items/list/order">
         <div class="table-actions">
-            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">{:lang('SORT')}</button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    title="{:lang('Sort')}" data-toggle="tooltip">
+                <i class="fa fa-sort-numeric-asc fa-fw"></i>
+            </button>
         </div>
         <php>
             $status = [lang('HIDDEN'), lang('DISPLAY')];

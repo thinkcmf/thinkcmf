@@ -8,7 +8,10 @@
             $status=array("1"=>'开启',"0"=>'禁用',"3"=>'未安装');
         </php>
         <div class="table-actions">
-            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+            <button type="submit" class="btn btn-primary btn-sm js-ajax-submit"
+                    title="{:lang('Sort')}" data-toggle="tooltip">
+                <i class="fa fa-sort-numeric-asc fa-fw"></i>
+            </button>
         </div>
         <table class="table table-hover table-bordered">
             <thead>
@@ -25,14 +28,34 @@
             <tbody>
             <foreach name="plugins" item="vo">
                 <tr>
-                    <td><input name="list_orders[{$vo.hook_plugin_id}]" type="text" size="3" value="{$vo.list_order}"
-                               class="input input-order"></td>
+                    <td>
+                        <input name="list_orders[{$vo.hook_plugin_id}]" type="text" size="3" value="{$vo.list_order}"
+                               class="input input-order">
+                    </td>
                     <td>{$vo.title}</td>
                     <td>{$vo.name}</td>
                     <td>{$vo.hooks|default=''}</td>
                     <td>{$vo.description}</td>
                     <td>{$vo.author}</td>
-                    <td>{$status[$vo['hook_plugin_status']]}</td>
+                    <td>
+                        <switch name="vo.hook_plugin_status">
+                            <case value="0">
+                                <span class="label label-warning">
+                                    {$status[$vo['hook_plugin_status']]}
+                                </span>
+                            </case>
+                            <case value="1">
+                                <span class="label label-success">
+                                    {$status[$vo['hook_plugin_status']]}
+                                </span>
+                            </case>
+                            <case value="3">
+                                <span class="label label-default">
+                                    {$status[$vo['hook_plugin_status']]}
+                                </span>
+                            </case>
+                        </switch>
+                    </td>
                 </tr>
             </foreach>
             </tbody>

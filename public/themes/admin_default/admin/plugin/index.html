@@ -90,21 +90,24 @@
                                         <empty name="config.custom_config">
                                             <li>
                                                 <a data-href="{:url('Plugin/setting',array('id'=>$vo['id']))}"
-                                                   href="javascript:;" onclick="openPluginSettingDialog(this)"><i
-                                                        class="fa fa-cog fa-fw"></i> 插件设置</a>
+                                                   href="javascript:;" onclick="openPluginSettingDialog(this)">
+                                                    <i class="fa fa-cog fa-fw"></i> 插件设置
+                                                </a>
                                             </li>
                                             <else/>
                                             <li>
                                                 <a data-href="{:cmf_plugin_url($vo['name'].'://AdminIndex/setting')}"
-                                                   href="javascript:;" onclick="openPluginSettingDialog(this)"><i
-                                                        class="fa fa-cog fa-fw"></i> 插件设置</a>
+                                                   href="javascript:;" onclick="openPluginSettingDialog(this)">
+                                                    <i class="fa fa-cog fa-fw"></i> 插件设置
+                                                </a>
                                             </li>
                                         </empty>
                                     </if>
                                     <li>
                                         <a data-href="{:url('admin/Plugin/hooks',['id'=>$vo.id])}"
-                                           href="javascript:;" onclick="openPluginHooksDialog(this)"><i
-                                                class="fa fa-list-ol fa-fw"></i> 执行顺序</a>
+                                           href="javascript:;" onclick="openPluginHooksDialog(this)">
+                                            <i class="fa fa-sort-numeric-asc fa-fw"></i> 执行顺序
+                                        </a>
                                     </li>
                                 </ul>
                             </span>

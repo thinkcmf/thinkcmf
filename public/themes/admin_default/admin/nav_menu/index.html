@@ -6,9 +6,12 @@
         <li class="active"><a href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">{:lang('ADMIN_NAVMENU_INDEX')}</a></li>
         <li><a href="{:url('NavMenu/add',['nav_id'=>$nav_id])}">{:lang('ADMIN_NAVMENU_ADD')}</a></li>
     </ul>
-    <form class="js-ajax-form margin-top-20" action="admin/nav/menus/list/order" method="post">
+    <form class="js-ajax-form margin-top-10" action="admin/nav/menus/list/order" method="post">
         <div class="table-actions">
-            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">{:lang('Sort')}</button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    title="{:lang('Sort')}" data-toggle="tooltip">
+                <i class="fa fa-sort-numeric-asc fa-fw"></i>
+            </button>
         </div>
         <table class="table table-hover table-bordered">
             <thead>

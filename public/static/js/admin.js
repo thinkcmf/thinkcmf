@@ -209,10 +209,10 @@
                             method: method,
                             beforeSubmit: function (arr, $form, options) {
                                 $btn.data("loading", true);
-                                var text = $btn.text();
+                                var html = $btn.html();
 
                                 //按钮文案、状态修改
-                                $btn.text(text + '...').prop('disabled', true).addClass('disabled');
+                                $btn.html(html + '...').prop('disabled', true).addClass('disabled');
                             },
                             success: function (data, statusText, xhr, $form) {
 
@@ -228,10 +228,10 @@
                                     }
                                 }
 
-                                var text = $btn.text();
+                                var html = $btn.html();
 
                                 //按钮文案、状态修改
-                                $btn.removeClass('disabled').prop('disabled', false).text(text.replace('...', '')).parent().find('span').remove();
+                                $btn.removeClass('disabled').prop('disabled', false).html(html.replace('...', '')).parent().find('span').remove();
                                 if (data.code == 1) {
                                     if ($btn.data('success')) {
                                         var successCallback = $btn.data('success');
