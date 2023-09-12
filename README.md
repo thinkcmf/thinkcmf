@@ -125,7 +125,10 @@ https://gitee.com/thinkcmf/docker
 ```json
 "php": ">=8.0.0",
 "thinkcmf/cmf-app": "^8.0.0",
+"thinkcmf/cmf-install": "^8.0.0",
 "thinkcmf/cmf-api": "^8.0.0",
+"thinkcmf/cmf-appstore": "^2.0",
+"thinkcmf/cmf-root": "^2.0"
 ```
 2. `composer update`
 3. 后台所有非ajax的`POST`请求，改为`GET`请求

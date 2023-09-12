@@ -834,12 +834,12 @@ class Route
      */
     public function url(string $url): Dispatch
     {
-        if ($this->request->method() == 'OPTIONS') {
-            // 自动响应options请求
-            return new Callback($this->request, $this->group, function () {
-                return Response::create('', 'html', 204)->header(['Allow' => 'GET, POST, PUT, DELETE']);
-            });
-        }
+//        if ($this->request->method() == 'OPTIONS') {
+//            // 自动响应options请求
+//            return new Callback($this->request, $this->group, function () {
+//                return Response::create('', 'html', 204)->header(['Allow' => 'GET, POST, PUT, DELETE']);
+//            });
+//        }
 
         return new UrlDispatch($this->request, $this->group, $url);
     }

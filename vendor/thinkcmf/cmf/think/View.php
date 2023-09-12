@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types=1);
+declare(strict_types=1);
 
 namespace think;
 
@@ -150,11 +150,7 @@ class View extends Manager
     {
         // 页面缓存
         ob_start();
-        if (PHP_VERSION > 8.0) {
-            ob_implicit_flush(false);
-        } else {
-            ob_implicit_flush(0);
-        }
+        ob_implicit_flush(false);
 
         // 渲染输出
         try {
@@ -222,5 +218,4 @@ class View extends Manager
     {
         return $this->app->config->get('view.type', 'php');
     }
-
 }

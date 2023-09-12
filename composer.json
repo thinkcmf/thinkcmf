@@ -33,10 +33,10 @@
         "ext-curl": "*",
         "ext-pdo": "*",
         "thinkcmf/cmf-app": "^8.0.0",
-        "thinkcmf/cmf-install": "^6.0.0",
+        "thinkcmf/cmf-install": "^8.0.0",
         "thinkcmf/cmf-api": "^8.0.0",
-        "thinkcmf/cmf-appstore": "^1.0",
-        "thinkcmf/cmf-root": "^1.0"
+        "thinkcmf/cmf-appstore": "^2.0",
+        "thinkcmf/cmf-root": "^2.0"
     },
     "require-dev": {
         "topthink/think-trace": "^1.0"
