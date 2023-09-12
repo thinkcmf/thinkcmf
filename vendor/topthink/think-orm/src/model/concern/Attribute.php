@@ -421,7 +421,8 @@ trait Attribute
             $value = $this->writeTransform($value, $this->type[$name]);
         } elseif ($this->isRelationAttr($name)) {
             // 关联属性
-            $this->relation[$name] = $value;
+            $this->relation[$name]  = $value;
+            $this->with[$name]      = true;
         } elseif ((array_key_exists($name, $this->origin) || empty($this->origin)) && $value instanceof Stringable) {
             // 对象类型
             $value = $value->__toString();

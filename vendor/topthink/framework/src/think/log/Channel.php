@@ -25,12 +25,6 @@ class Channel implements LoggerInterface
     use LoggerTrait;
 
     /**
-     * 事件
-     * @var Event
-     */
-    protected $event;
-
-    /**
      * 日志信息
      * @var array
      */
@@ -38,11 +32,11 @@ class Channel implements LoggerInterface
 
     /**
      * 关闭日志
-     * @var array
+     * @var bool
      */
     protected $close = false;
 
-    public function __construct(protected string $name, protected LogHandlerInterface $logger, protected array $allow = [], protected bool $lazy = true, Event $event = null)
+    public function __construct(protected string $name, protected LogHandlerInterface $logger, protected array $allow, protected bool $lazy, protected Event $event)
     {
     }
 

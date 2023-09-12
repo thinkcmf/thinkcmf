@@ -264,7 +264,7 @@ trait Conversion
                     $val->hidden($hidden[$key], true);
                 }
                 // 关联模型对象
-                if (!isset($hidden[$key]) || true !== $hidden[$key]) {
+                if (!array_key_exists($key, $this->relation) || (array_key_exists($key, $this->with) && (!isset($hidden[$key]) || true !== $hidden[$key]))) {
                     $item[$key] = $val->toArray();
                 }
             } elseif (isset($visible[$key])) {

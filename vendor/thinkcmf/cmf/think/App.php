@@ -2,16 +2,17 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types=1);
+declare(strict_types=1);
 
 namespace think;
 
+use Composer\InstalledVersions;
 use think\event\AppInit;
 use think\helper\Str;
 use think\initializer\BootService;
@@ -265,7 +266,7 @@ class App extends Container
      */
     public function getService($service)
     {
-        $name = is_string($service) ? $service : get_class($service);
+        $name = is_string($service) ? $service : $service::class;
         return array_values(array_filter($this->services, function ($value) use ($name) {
                 return $value instanceof $name;
             }, ARRAY_FILTER_USE_BOTH))[0] ?? null;
@@ -344,7 +345,7 @@ class App extends Container
      */
     public function version(): string
     {
-        return static::VERSION;
+        return ltrim(InstalledVersions::getPrettyVersion('topthink/framework'), 'v');
     }
 
     /**

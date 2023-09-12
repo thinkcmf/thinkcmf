@@ -220,17 +220,17 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.8.0",
-            "version_normalized": "6.8.0.0",
+            "version": "v6.8.1",
+            "version_normalized": "6.8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "df16b615e371d81fb79e506277faea67a1be18f1"
+                "reference": "e88da8d679acc3824ff231fdc553565b802ac016"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/df16b615e371d81fb79e506277faea67a1be18f1",
-                "reference": "df16b615e371d81fb79e506277faea67a1be18f1",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/e88da8d679acc3824ff231fdc553565b802ac016",
+                "reference": "e88da8d679acc3824ff231fdc553565b802ac016",
                 "shasum": ""
             },
             "require": {
@@ -240,13 +240,13 @@
                 "php": ">=5.5.0"
             },
             "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+                "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
                 "doctrine/annotations": "^1.2.6 || ^1.13.3",
                 "php-parallel-lint/php-console-highlighter": "^1.0.0",
                 "php-parallel-lint/php-parallel-lint": "^1.3.2",
                 "phpcompatibility/php-compatibility": "^9.3.5",
                 "roave/security-advisories": "dev-latest",
-                "squizlabs/php_codesniffer": "^3.7.1",
+                "squizlabs/php_codesniffer": "^3.7.2",
                 "yoast/phpunit-polyfills": "^1.0.4"
             },
             "suggest": {
@@ -259,7 +259,7 @@
                 "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)",
                 "thenetworg/oauth2-azure": "Needed for Microsoft XOAUTH2 authentication"
             },
-            "time": "2023-03-06T14:43:22+00:00",
+            "time": "2023-08-29T08:26:30+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -291,7 +291,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.8.0"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.8.1"
             },
             "funding": [
                 {
@@ -905,17 +905,17 @@
         },
         {
             "name": "topthink/framework",
-            "version": "v8.0.1",
-            "version_normalized": "8.0.1.0",
+            "version": "v8.0.2",
+            "version_normalized": "8.0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "23101f0ad7581de32442553e045cffd7686a337b"
+                "reference": "6477942f80090a7f3d194197765ca1217a7aab87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/23101f0ad7581de32442553e045cffd7686a337b",
-                "reference": "23101f0ad7581de32442553e045cffd7686a337b",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/6477942f80090a7f3d194197765ca1217a7aab87",
+                "reference": "6477942f80090a7f3d194197765ca1217a7aab87",
                 "shasum": ""
             },
             "require": {
@@ -935,7 +935,7 @@
                 "mockery/mockery": "^1.2",
                 "phpunit/phpunit": "^9.5"
             },
-            "time": "2023-07-09T09:12:43+00:00",
+            "time": "2023-08-15T03:05:55+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -967,7 +967,7 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/framework/issues",
-                "source": "https://github.com/top-think/framework/tree/v8.0.1"
+                "source": "https://github.com/top-think/framework/tree/v8.0.2"
             },
             "install-path": "../topthink/framework"
         },
@@ -1022,17 +1022,17 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v3.0.11",
-            "version_normalized": "3.0.11.0",
+            "version": "v3.0.13",
+            "version_normalized": "3.0.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "38a6da3ae03bcae4ea2f484a4cf05687a88a5488"
+                "reference": "e676e172d54055266005986d05685bdac5ac66b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/38a6da3ae03bcae4ea2f484a4cf05687a88a5488",
-                "reference": "38a6da3ae03bcae4ea2f484a4cf05687a88a5488",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/e676e172d54055266005986d05685bdac5ac66b7",
+                "reference": "e676e172d54055266005986d05685bdac5ac66b7",
                 "shasum": ""
             },
             "require": {
@@ -1046,7 +1046,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^8|^9.5|^10"
             },
-            "time": "2023-07-18T11:04:31+00:00",
+            "time": "2023-09-01T09:08:49+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1074,7 +1074,7 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/think-orm/issues",
-                "source": "https://github.com/top-think/think-orm/tree/v3.0.11"
+                "source": "https://github.com/top-think/think-orm/tree/v3.0.13"
             },
             "install-path": "../topthink/think-orm"
         },

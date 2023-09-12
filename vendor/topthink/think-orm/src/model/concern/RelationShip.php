@@ -52,6 +52,13 @@ trait RelationShip
     private $relation = [];
 
     /**
+     * 预载入关联模型
+     *
+     * @var array
+     */
+    protected $with = [];
+
+    /**
      * 关联写入定义信息.
      *
      * @var array
@@ -130,7 +137,10 @@ trait RelationShip
             $value = $this->$method($value, array_merge($this->data, $data));
         }
 
-        $this->relation[$this->getRealFieldName($name)] = $value;
+        $name = $this->getRealFieldName($name);
+
+        $this->relation[$name]  = $value;
+        $this->with[$name]      = true;
 
         return $this;
     }
@@ -170,7 +180,7 @@ trait RelationShip
                 $relationResult->withAttr($withRelationAttr[$relationName]);
             }
 
-            $this->relation[$relation] = $relationResult->getRelation((array) $subRelation, $closure);
+            $this->setRelation($relation, $relationResult->getRelation((array) $subRelation, $closure));
         }
     }
 
@@ -257,7 +267,7 @@ trait RelationShip
      * 预载入关联查询 返回数据集.
      *
      * @param array  $resultSet        数据集
-     * @param string $relation         关联名
+     * @param array  $relations        关联名
      * @param array  $withRelationAttr 关联获取器
      * @param bool   $join             是否为JOIN方式
      * @param mixed  $cache            关联缓存
@@ -299,6 +309,8 @@ trait RelationShip
             }
 
             $relationResult->eagerlyResultSet($resultSet, $relationName, $subRelation, $closure, $relationCache, $join);
+
+            $this->with[$relationName] = true;
         }
     }
 
