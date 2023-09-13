@@ -123,6 +123,10 @@ class PublicController extends AdminBaseController
     public function logout()
     {
         session('ADMIN_ID', null);
-        return redirect(url('/', [], false, true));
+        if ($this->request->isAjax()) {
+            $this->success('退出成功！');
+        } else {
+            return redirect(url('/', [], false, true));
+        }
     }
 }

@@ -1,3 +1,37 @@
+Wind.use('noty', function () {});
+
+function _loginExpiredNoty() {
+    noty({
+        text: "登录失效，请退出重新登录！",
+        type: 'error',
+        layout: 'topCenter',
+        modal: true,
+        // animation: {
+        //     open: 'animated bounceInDown', // Animate.css class names
+        //     close: 'animated bounceOutUp', // Animate.css class names
+        // },
+        timeout: 800,
+        callback: {
+            afterClose: function () {
+                $.ajax({
+                    url: GV.ROOT + 'admin/public/logout',
+                    type: 'get',
+                    dataType: 'JSON',
+                    success: function (data) {
+                        if (data.code == 1) {
+                            if (parent) {
+                                parent.location.reload()
+                            } else {
+                                window.location.reload();
+                            }
+                        }
+                    }
+                })
+            }
+        }
+    })
+}
+
 ;(function () {
     //全局ajax处理
     var headers = {'XX-Device-Type': 'web'};
@@ -8,6 +42,10 @@
     $.ajaxSetup({
         headers: headers,
         complete: function (jqXHR) {
+            var data = jqXHR.responseJSON;
+            if (data.code == 10001) {
+                _loginExpiredNoty();
+            }
         },
         data: {},
         error: function (jqXHR, textStatus, errorThrown) {
@@ -294,9 +332,9 @@
                                         }
                                     }).show();
                                     $(window).focus();
+                                } else if (data.code == 10001) {
+                                    _loginExpiredNoty();
                                 }
-
-
                             },
                             error: function (xhr, e, statusText) {
                                 art.dialog({
