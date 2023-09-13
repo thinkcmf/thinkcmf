@@ -22,7 +22,7 @@ class SwaggerPlugin extends Plugin
         'description' => 'Swagger4.0支持PHP版本>=8.1,同时支持Attributes和Annotations',
         'status'      => 1,
         'author'      => 'ThinkCMF',
-        'version'     => '1.0.1',
+        'version'     => '2.0.0',
         'demo_url'    => 'http://demo.thinkcmf.com',
         'author_url'  => 'http://www.thinkcmf.com',
     ];
