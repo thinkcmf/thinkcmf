@@ -66,6 +66,13 @@ $(function () {
         $loading.show();
         //$currentIframe.attr("src",$currentIframe.attr("src"));
         $currentIframe[0].contentWindow.location.reload();
+        $currentIframe.load(function () {
+            var srcLoaded = $currentIframe.get(0).contentWindow.location;
+            if (srcLoaded.pathname == GV.ROOT) {
+                window.location.reload(true);
+            }
+            $loading.hide();
+        });
         return false;
     });
 
