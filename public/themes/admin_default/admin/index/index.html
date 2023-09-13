@@ -271,7 +271,7 @@
 
     <div class="sidebar" id="sidebar">
         <div class="sidebar-shortcuts" id="sidebar-shortcuts">
-            <a class="btn btn-sm btn-warning" href="__ROOT__/"
+            <a class="btn btn-sm btn-default" href="__ROOT__/"
                title="{:lang('WEBSITE_HOME_PAGE')}"
                target="_blank"
                data-toggle="tooltip">
@@ -310,7 +310,7 @@
             </if>
 
             <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/RecycleBin/index')">
-                <a class="btn btn-sm btn-danger"
+                <a class="btn btn-sm btn-warning"
                    href="javascript:openapp('{:url('admin/RecycleBin/index')}','index_recycle','{:lang('ADMIN_RECYCLEBIN_INDEX')}',true);"
                    title="{:lang('ADMIN_RECYCLEBIN_INDEX')}"
                    data-toggle="tooltip">
