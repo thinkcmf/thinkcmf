@@ -70,7 +70,7 @@ class SystemInfoPlugin extends Plugin
             lang('MAX_EXECUTION_TIME')    => ini_get('max_execution_time') . "s",
             //TODO 增加更多信息
             lang('DISK_FREE_SPACE')       => round((@disk_free_space(".") / (1024 * 1024)), 2) . 'M',
-            '更新信息'                    => "<a href=\"{$moreUrl}\" target=\"_blank\">查看</a>"
+            '更多信息'                    => "<a href=\"{$moreUrl}\" target=\"_blank\">查看</a>"
         ];
         $this->assign('server_info', $info);
 
