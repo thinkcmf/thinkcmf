@@ -11,13 +11,13 @@ class ErrorResponse
 {
 
     /**
-     * @OA\Property(format="int64")
+     * @OA\Property(format="int64",example="1")
      * @var int
      */
     public $code;
 
     /**
-     * @OA\Property()
+     * @OA\Property(example="error")
      * @var string
      */
     public $msg;
