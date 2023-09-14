@@ -99,6 +99,20 @@ class PublishApp extends Command
                 }
             }
 
+            $defaultThemeDir = WEB_ROOT . "themes/default/$name/";
+            if (file_exists($defaultThemeDir)) {
+                $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($defaultThemeDir, \RecursiveDirectoryIterator::UNIX_PATHS | \RecursiveDirectoryIterator::CURRENT_AS_SELF | \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST, \RecursiveIteratorIterator::CATCH_GET_CHILD);
+                foreach ($files as $file) {
+                    $subPath = $file->getSubPathname();
+                    if ($file->isDir()) {
+                        $subPath = rtrim($subPath, '/') . '/';
+                        $zip->addEmptyDir("$name/public/themes/default/$name/" . $subPath);
+                    } else {
+                        $zip->addFile($defaultThemeDir . $subPath, "$name/public/themes/default/$name/" . $subPath);
+                    }
+                }
+            }
+
             $adminThemeDir = WEB_ROOT . "themes/admin_default/$name/";
             if (file_exists($adminThemeDir)) {
                 $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($adminThemeDir, \RecursiveDirectoryIterator::UNIX_PATHS | \RecursiveDirectoryIterator::CURRENT_AS_SELF | \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST, \RecursiveIteratorIterator::CATCH_GET_CHILD);
