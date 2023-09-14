@@ -41,14 +41,8 @@ class AppStoreController extends AppStoreAdminBaseController
      */
     public function apps()
     {
-        $appStoreSettings = cmf_get_option('appstore_settings');
-        $accessToken      = '';
-        if (!empty($appStoreSettings['access_token'])) {
-            $accessToken = $appStoreSettings['access_token'];
-        }
-
         $currentPage = $this->request->param('page', 1, 'intval');
-        $url         = "https://www.thinkcmf.com/api/appstore/apps?token={$accessToken}&page=" . $currentPage;
+        $url         = "https://www.thinkcmf.com/api/appstore/apps?{$this->buildRequestParams(['page'=>$currentPage])}";
         $data        = cmf_curl_get($url);
 
         $data = json_decode($data, true);
@@ -70,7 +64,6 @@ class AppStoreController extends AppStoreAdminBaseController
             $mApp['installed']   = 0;
             $mApp['need_update'] = 0;
             $appName             = $mApp['name'];
-            $optionName          = "app_manifest_" . $appName;
             $findAppSetting      = OptionModel::where('option_name', "app_manifest_" . $appName)->find();
 
             if (!empty($findAppSetting)) {
@@ -106,14 +99,8 @@ class AppStoreController extends AppStoreAdminBaseController
      */
     public function plugins()
     {
-        $appStoreSettings = cmf_get_option('appstore_settings');
-        $accessToken      = '';
-        if (!empty($appStoreSettings['access_token'])) {
-            $accessToken = $appStoreSettings['access_token'];
-        }
-
         $currentPage = $this->request->param('page', 1, 'intval');
-        $url         = "https://www.thinkcmf.com/api/appstore/plugins?token={$accessToken}&page=" . $currentPage;
+        $url         = "https://www.thinkcmf.com/api/appstore/plugins?{$this->buildRequestParams(['page'=>$currentPage])}";
         $data        = cmf_curl_get($url);
 
         $data = json_decode($data, true);
@@ -170,14 +157,8 @@ class AppStoreController extends AppStoreAdminBaseController
      */
     public function themes()
     {
-        $appStoreSettings = cmf_get_option('appstore_settings');
-        $accessToken      = '';
-        if (!empty($appStoreSettings['access_token'])) {
-            $accessToken = $appStoreSettings['access_token'];
-        }
-
         $currentPage = $this->request->param('page', 1, 'intval');
-        $url         = "https://www.thinkcmf.com/api/appstore/themes?token={$accessToken}&page=" . $currentPage;
+        $url         = "https://www.thinkcmf.com/api/appstore/themes?{$this->buildRequestParams(['page'=>$currentPage])}";
         $data        = cmf_curl_get($url);
 
         $data = json_decode($data, true);
@@ -263,14 +244,9 @@ class AppStoreController extends AppStoreAdminBaseController
 
     public function installPlugin()
     {
-        $appStoreSettings = cmf_get_option('appstore_settings');
-        $accessToken      = '';
-        if (!empty($appStoreSettings['access_token'])) {
-            $accessToken = $appStoreSettings['access_token'];
-        }
         $id      = $this->request->param('id', 0, 'intval');
-        $version = $this->request->param('version', '', 'urlencode');
-        $data    = cmf_curl_get("https://www.thinkcmf.com/api/appstore/plugins/{$id}?token=$accessToken&version=$version");
+        $version = $this->request->param('version', '');
+        $data    = cmf_curl_get("https://www.thinkcmf.com/api/appstore/plugins/{$id}?{$this->buildRequestParams(['version'=>$version])}");
         $data    = json_decode($data, true);
 
         if (empty($data['code'])) {
@@ -342,12 +318,6 @@ class AppStoreController extends AppStoreAdminBaseController
 
     public function installApp()
     {
-        $appStoreSettings = cmf_get_option('appstore_settings');
-        $accessToken      = '';
-        if (!empty($appStoreSettings['access_token'])) {
-            $accessToken = $appStoreSettings['access_token'];
-        }
-
         $dirs = [
             realpath(CMF_ROOT . 'api') . DIRECTORY_SEPARATOR,
             realpath(CMF_ROOT . 'app') . DIRECTORY_SEPARATOR,
@@ -364,8 +334,8 @@ class AppStoreController extends AppStoreAdminBaseController
         }
 
         $id      = $this->request->param('id', 0, 'intval');
-        $version = $this->request->param('version', '', 'urlencode');
-        $data    = cmf_curl_get("https://www.thinkcmf.com/api/appstore/apps/{$id}?token=$accessToken&version=$version");
+        $version = $this->request->param('version', '');
+        $data    = cmf_curl_get("https://www.thinkcmf.com/api/appstore/apps/{$id}?{$this->buildRequestParams(['version'=>$version])}");
         $data    = json_decode($data, true);
 
         if (empty($data['code'])) {
@@ -431,12 +401,6 @@ class AppStoreController extends AppStoreAdminBaseController
 
     public function installTheme()
     {
-        $appStoreSettings = cmf_get_option('appstore_settings');
-        $accessToken      = '';
-        if (!empty($appStoreSettings['access_token'])) {
-            $accessToken = $appStoreSettings['access_token'];
-        }
-
         $dirs = [
             realpath(CMF_ROOT . 'data') . DIRECTORY_SEPARATOR,
             realpath(WEB_ROOT . 'themes') . DIRECTORY_SEPARATOR,
@@ -449,8 +413,8 @@ class AppStoreController extends AppStoreAdminBaseController
         }
 
         $id      = $this->request->param('id', 0, 'intval');
-        $version = $this->request->param('version', '', 'urlencode');
-        $data    = cmf_curl_get("https://www.thinkcmf.com/api/appstore/themes/{$id}?token=$accessToken&version=$version");
+        $version = $this->request->param('version', '');
+        $data    = cmf_curl_get("https://www.thinkcmf.com/api/appstore/themes/{$id}?{$this->buildRequestParams(['version'=>$version])}");
         $data    = json_decode($data, true);
 
         if (empty($data['code'])) {
@@ -512,6 +476,35 @@ class AppStoreController extends AppStoreAdminBaseController
         } else {
             $this->success('升级成功！');
         }
+    }
+
+    private function buildRequestParams($params = [])
+    {
+        $appStoreSettings = cmf_get_option('appstore_settings');
+        $accessToken      = '';
+        if (!empty($appStoreSettings['access_token'])) {
+            $accessToken = $appStoreSettings['access_token'];
+        }
+
+        $mysql = Db::query("select VERSION() as version");
+        $mysql = $mysql[0]['version'];
+        $mysql = empty($mysql) ? '' : $mysql;
+
+        $httpReferer = $this->request->server('HTTP_REFERER');
+        if (empty($httpReferer)) {
+            $this->error(lang('illegal request'));
+        }
+        $httpReferer = parse_url($httpReferer);
+        $domain      = empty($httpReferer['host']) ? '' : $httpReferer['host'];
+
+        return http_build_query(array_merge([
+            'token'  => $accessToken,
+            'cmf'    => cmf_version(),
+            'tp'     => cmf_thinkphp_version(),
+            'php'    => phpversion(),
+            'mysql'  => $mysql,
+            'domain' => $domain,
+        ], $params));
     }
 
 
