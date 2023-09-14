@@ -37,8 +37,8 @@
                                         <foreach name="filter.options" item="option">
                                             <php>
                                                 $option_selected='';
-                                                if(isset($form[$filterName]) &&  $form[$filterName]==$option['id']){
-                                                    $option_selected='selected';
+                                                if(isset($form[$filterName]) && $form[$filterName]==$option['id']){
+                                                $option_selected='selected';
                                                 };
                                             </php>
                                             <option value="{$option.id}" {$option_selected}>{$option.name}</option>
@@ -72,9 +72,7 @@
             <tr>
                 <th width="16">
                     <if condition="$multi">
-                        <label>
-                            <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
-                        </label>
+                        <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
                     </if>
                 </th>
                 <th width="50">ID</th>
@@ -111,9 +109,9 @@
     }
 
     function confirm() {
-        var selectedObjectsId   = [];
+        var selectedObjectsId = [];
         var selectedObjectsName = [];
-        var selectedObjects     = [];
+        var selectedObjects = [];
         $('.js-select-box:checked').each(function () {
             var $this = $(this);
             selectedObjectsId.push($this.val());
