@@ -108,7 +108,11 @@ class PublicController extends AdminBaseController
                 UserModel::where('id', $result['id'])->update($data);
                 cookie("admin_username", $name, 3600 * 24 * 30);
                 session("__LOGIN_BY_CMF_ADMIN_PW__", null);
-                $this->success(lang('LOGIN_SUCCESS'), url("admin/Index/index"), ['token' => $token]);
+                $this->success(lang('LOGIN_SUCCESS'), url("admin/Index/index"), ['token' => $token, 'user' => [
+                    'id'            => $result['id'],
+                    'user_login'    => $result['user_login'],
+                    'user_nickname' => $result['user_nickname'],
+                ]]);
             } else {
                 $this->error(lang('PASSWORD_NOT_RIGHT'));
             }
