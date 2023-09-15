@@ -109,7 +109,8 @@ class PluginController extends AdminBaseController
 
             }
 
-            Cache::clear('init_hook_plugins');
+//            Cache::clear('init_hook_plugins');
+            cmf_clear_cache();
 
             $this->success($successMessage);
         }

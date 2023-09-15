@@ -85,9 +85,9 @@ class AppLogic
             'option_value' => $manifest
         ]);
 
-        Cache::clear('init_hook_apps');
-        Cache::clear('admin_menus');// 删除后台菜单缓存
-
+//        Cache::clear('init_hook_apps');
+//        Cache::clear('admin_menus');// 删除后台菜单缓存
+        cmf_clear_cache();
         return true;
     }
 
@@ -150,8 +150,9 @@ class AppLogic
         UserActionLogic::importUserActions($appName);
         $findAppSetting->save(['option_value' => $manifest]);
 
-        Cache::clear('init_hook_apps');
-        Cache::clear('admin_menus');// 删除后台菜单缓存
+//        Cache::clear('init_hook_apps');
+//        Cache::clear('admin_menus');// 删除后台菜单缓存
+        cmf_clear_cache();
         return true;
     }
 
@@ -261,8 +262,9 @@ class AppLogic
             return false;
         }
 
-        Cache::clear('init_hook_apps');
-        Cache::clear('admin_menus');// 删除后台菜单缓存
+//        Cache::clear('init_hook_apps');
+//        Cache::clear('admin_menus');// 删除后台菜单缓存
+        cmf_clear_cache();
         return true;
 
     }

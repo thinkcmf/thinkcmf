@@ -81,8 +81,9 @@ class PluginLogic
 
         self::getActions($pluginName);
 
-        Cache::clear('init_hook_plugins');
-        Cache::clear('admin_menus');// 删除后台菜单缓存
+//        Cache::clear('init_hook_plugins');
+//        Cache::clear('admin_menus');// 删除后台菜单缓存
+        cmf_clear_cache();
 
         return true;
     }
@@ -121,6 +122,7 @@ class PluginLogic
             return false;
         }
 
+        cmf_clear_cache();
         return true;
     }
 
@@ -196,8 +198,9 @@ class PluginLogic
 
         self::getActions($pluginName);
 
-        Cache::clear('init_hook_plugins');
-        Cache::clear('admin_menus');// 删除后台菜单缓存
+//        Cache::clear('init_hook_plugins');
+//        Cache::clear('admin_menus');// 删除后台菜单缓存
+        cmf_clear_cache();
 
         return true;
     }

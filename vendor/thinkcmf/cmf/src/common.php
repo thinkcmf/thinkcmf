@@ -355,23 +355,24 @@ function cmf_random_string($len = 6)
  */
 function cmf_clear_cache()
 {
-    // 清除 opcache缓存
-    if (function_exists("opcache_reset")) {
-        opcache_reset();
-    }
+    try {
+        // 清除 opcache缓存
+        if (function_exists("opcache_reset")) {
+            opcache_reset();
+        }
 
-    $runtimePath = runtime_path();
-    $dirs        = [];
-    $rootDirs    = cmf_scan_dir($runtimePath . "*");
-    //$noNeedClear=array(".","..","Data");
-    $noNeedClear = ['.', '..', 'log', 'session'];
-    $rootDirs    = array_diff($rootDirs, $noNeedClear);
-    foreach ($rootDirs as $dir) {
+        $runtimePath = runtime_path();
+        $dirs        = [];
+        $rootDirs    = cmf_scan_dir($runtimePath . "*");
+        //$noNeedClear=array(".","..","Data");
+        $noNeedClear = ['.', '..', 'log', 'session'];
+        $rootDirs    = array_diff($rootDirs, $noNeedClear);
+        foreach ($rootDirs as $dir) {
 
-        if ($dir != "." && $dir != "..") {
-            $dir = $runtimePath . $dir;
-            if (is_dir($dir)) {
-                array_push($dirs, $dir);
+            if ($dir != "." && $dir != "..") {
+                $dir = $runtimePath . $dir;
+                if (is_dir($dir)) {
+                    array_push($dirs, $dir);
 //                $tmpRootDirs = cmf_scan_dir($dir . "/*");
 //                foreach ($tmpRootDirs as $tDir) {
 //                    if ($tDir != "." && $tDir != "..") {
@@ -383,17 +384,20 @@ function cmf_clear_cache()
 //                        }
 //                    }
 //                }
-            } else {
+                } else {
 //                @unlink($dir);
+                }
             }
         }
-    }
-    $dirTool = new Dir($runtimePath);
-    foreach ($dirs as $dir) {
-        $dirTool->delDir($dir);
-    }
+        $dirTool = new Dir($runtimePath);
+        foreach ($dirs as $dir) {
+            $dirTool->delDir($dir);
+        }
 
-    Cache::clear();
+        Cache::clear();
+    } catch (\Exception $e) {
+
+    }
 }
 
 /**

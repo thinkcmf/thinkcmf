@@ -113,6 +113,7 @@ class ThemeController extends AdminBaseController
                 ThemeFileModel::where('theme', $theme)->delete();
             });
 
+            cmf_clear_cache();
             $this->success(lang('Uninstall successful'), url('Theme/index'));
 
         }
@@ -145,6 +146,7 @@ class ThemeController extends AdminBaseController
             if ($result === false) {
                 $this->error('模板不存在!');
             }
+            cmf_clear_cache();
             $this->success(lang('Installed successfully'), url('Theme/index'));
         }
     }
@@ -176,6 +178,7 @@ class ThemeController extends AdminBaseController
             if ($result === false) {
                 $this->error('模板不存在!');
             }
+            cmf_clear_cache();
             $this->success(lang('Updated successfully'));
         }
     }
@@ -215,7 +218,7 @@ class ThemeController extends AdminBaseController
                 $this->error('配置写入失败!');
             }
             session('cmf_default_theme', $theme);
-
+            cmf_clear_cache();
             $this->success('模板启用成功', url('Theme/index'));
         }
     }
