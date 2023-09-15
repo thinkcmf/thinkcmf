@@ -153,7 +153,7 @@
         </div>
     </empty>
 
-    <if condition="function_exists('finfo_open')">
+    <if condition="!function_exists('finfo_open')">
         <div class="grid-item col-md-12">
             <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-bottom: 0;">
                 <button type="button" class="close cmf-alert-close" aria-label="Close">
@@ -168,7 +168,12 @@
         <div class="dashboard-box">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{:lang('SYSTEM_NOTIFICATIONS')}</h3>
+                    <h3 class="panel-title">
+                        {:lang('SYSTEM_NOTIFICATIONS')}
+                        <button type="button" class="close cmf-alert-close pull-right" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h3>
                 </div>
                 <div class="panel-body home-info">
                     <ul id="thinkcmf-notices" class="list-unstyled">
