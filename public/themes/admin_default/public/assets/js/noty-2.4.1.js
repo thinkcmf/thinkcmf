@@ -2054,8 +2054,30 @@ $.noty.themes.arcoTheme = {
                 });
                 break;
             case 'topCenter':
+                this.$bar.css({
+                    borderRadius: '2px',
+                    border: '1px solid #eee',
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    marginBottom: "5px"
+                });
+                this.$message.css({textAlign: 'center'});
+                break;
             case 'center':
+                this.$bar.css({
+                    borderRadius: '2px',
+                    border: '1px solid #eee',
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
+                });
+                this.$message.css({textAlign: 'center'});
+                break;
             case 'bottomCenter':
+                this.$bar.css({
+                    borderRadius: '2px',
+                    border: '1px solid #eee',
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
+                });
+                this.$message.css({textAlign: 'center'});
+                break;
             case 'inline':
                 this.$bar.css({
                     borderRadius: '2px',

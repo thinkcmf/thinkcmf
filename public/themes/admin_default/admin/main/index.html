@@ -107,7 +107,7 @@
         margin: 0;
     }
 
-    .home-info ul li{
+    .home-info ul li {
         margin-bottom: 3px;
     }
 
@@ -141,24 +141,25 @@
 <div class="wrap main-iframe-wrap">
     <empty name="has_smtp_setting">
         <div class="grid-item col-md-12">
-            <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-bottom: 0;">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <div class="alert alert-danger alert-dismissible fade in" role="alert"
+                 style="margin-bottom: 0;">
+                <button type="button" class="close cmf-alert-close" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <strong>提示!</strong> 邮箱配置未完成,无法进行邮件发送!
+                <strong><i class="fa fa-times-circle alert-icon"></i></strong> 邮箱配置未完成,无法进行邮件发送!
                 <a href="javascript:" class="label label-success" data-dismiss="alert" aria-label="Close"
                    onclick="parent.openapp('{:url('Mailer/index')}','admin_mailer_index','邮箱配置');">现在设置</a>
             </div>
         </div>
     </empty>
 
-    <if condition="!function_exists('finfo_open')">
+    <if condition="function_exists('finfo_open')">
         <div class="grid-item col-md-12">
             <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-bottom: 0;">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <button type="button" class="close cmf-alert-close" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <strong>提示!</strong> php_fileinfo扩展没有开启，无法正常上传文件！
+                <strong><i class="fa fa-times-circle alert-icon"></i></strong> php_fileinfo扩展没有开启，无法正常上传文件！
             </div>
         </div>
     </if>
@@ -207,7 +208,11 @@
     $thinkcmf_version=cmf_version();
 </php>
 <script>
-
+    $('.grid-item .cmf-alert-close').click(function (){
+        $(this).parents('.grid-item').fadeOut(function (){
+            $(this).remove();
+        })
+    });
     $('.dashboard-box').each(function () {
         var $this = $(this);
         if ($(this).children().length === 0) {

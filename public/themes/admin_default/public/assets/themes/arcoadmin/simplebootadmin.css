@@ -16,5 +16,8 @@ body{
 	background-color: #fff;
 }
 
+.main-iframe-wrap .grid-item>.alert-danger{
+	border-color: #ffd5cc;
+}
 
 
