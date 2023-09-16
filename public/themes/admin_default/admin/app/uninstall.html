@@ -16,9 +16,10 @@
         </div>
         <form method="delete" class="form-horizontal js-ajax-form" action="admin/apps">
             <div class="form-group">
-                <label for="input-name" class="col-sm-2 control-label">应用名 <span class="form-required">*</span></label>
+                <label for="input-confirm_name" class="col-sm-2 control-label">应用名
+                    <span class="form-required">*</span></label>
                 <div class="col-md-8 col-sm-10">
-                    <input type="text" class="form-control" id="input-name" name="name"
+                    <input type="text" class="form-control" id="input-confirm_name" name="confirm_name"
                            placeholder="请输入应用的名称{$app_name}">
                 </div>
             </div>
@@ -33,6 +34,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
+                    <input type="hidden" name="name" value="{$app_name}"/>
                     <button type="submit" class="btn btn-danger js-ajax-submit btn-block"
                             data-msg="您需要再次确认卸载应用{$app_name},并知晓严重性！">确认卸载应用{$app_name},并知晓严重性
                     </button>

@@ -6,7 +6,7 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *     required={"name","password"}
+ *     required={"name","confirm_name","password"}
  * )
  */
 class AdminAppUninstallDeleteRequest
@@ -20,6 +20,15 @@ class AdminAppUninstallDeleteRequest
      * )
      */
     public $name;
+
+    /**
+     * @OA\Property(
+     *     type="string",
+     *     example="demo",
+     *     description="确认应用名"
+     * )
+     */
+    public $confirm_name;
 
     /**
      * @OA\Property(

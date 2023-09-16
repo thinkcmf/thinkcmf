@@ -172,11 +172,16 @@ class AppController extends RestAdminBaseController
      */
     public function uninstall()
     {
-        $appName     = $this->request->param('name', '', 'trim');
-        $allowedApps = ['demo', 'portal'];
+        $appName        = $this->request->param('name', '', 'trim');
+        $confirmAppName = $this->request->param('confirm_name', '', 'trim');
+        $allowedApps    = ['demo', 'portal'];
 
-        if (empty($appName)) {
+        if (empty($appName) || empty($confirmAppName)) {
             $this->error('请输入应用名！');
+        }
+
+        if ($appName != $confirmAppName) {
+            $this->error('应用名输入不一致！');
         }
 
         if (!in_array($appName, $allowedApps)) {
