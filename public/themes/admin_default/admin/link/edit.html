@@ -27,8 +27,10 @@
         <div class="form-group">
             <label for="input-link_image" class="col-sm-2 control-label">{:lang('Icon')}</label>
             <div class="col-md-8 col-sm-10">
-                <input type="text" class="form-control" id="input-link_image" name="image" value="{$link.image}">
-                <a href="javascript:uploadOneImage('{:lang('Upload Image')}','#input-link_image');">{:lang('Upload Image')}</a>
+                <div class="input-group">
+                    <input type="text" id="input-image" name="image" class="form-control" value="{$link.image}">
+                    <span class="input-group-btn"><a class="btn btn-primary" href="javascript:uploadOneImage('{:lang('Upload Image')}','#input-image');">{:lang('Upload Image')}</a></span>
+                </div>
             </div>
         </div>
         <div class="form-group">
