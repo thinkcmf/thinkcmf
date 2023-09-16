@@ -98,9 +98,9 @@
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf' => array(
-            'pretty_version' => 'v8.0.1',
-            'version' => '8.0.1.0',
-            'reference' => '0a3a15a0d804524f1c6965de357d7f428a8ea0d4',
+            'pretty_version' => 'v8.0.2',
+            'version' => '8.0.2.0',
+            'reference' => 'e009cf91837c5b98b25aa14883d92158a8f071b6',
             'type' => 'library',
             'install_path' => __DIR__ . '/../thinkcmf/cmf',
             'aliases' => array(),
