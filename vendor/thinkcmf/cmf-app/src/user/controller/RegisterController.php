@@ -47,7 +47,6 @@ class RegisterController extends HomeBaseController
 //                'captcha'  => 'require',
                 'code'     => 'require',
                 'password' => 'require|min:6|max:32',
-
             ];
 
             $isOpenRegistration = cmf_is_open_registration();
@@ -56,7 +55,8 @@ class RegisterController extends HomeBaseController
                 unset($rules['code']);
             }
 
-            $validate = new \think\Validate($rules);
+            $validate = new \think\Validate();
+            $validate->rule($rules);
             $validate->message([
                 'code.require'     => '验证码不能为空',
                 'password.require' => '密码不能为空',
@@ -68,7 +68,6 @@ class RegisterController extends HomeBaseController
             if (!$validate->check($data)) {
                 $this->error($validate->getError());
             }
-
 
             if (!$isOpenRegistration) {
 
