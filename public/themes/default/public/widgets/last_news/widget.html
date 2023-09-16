@@ -8,7 +8,7 @@
                 $widget["vars"]["last_news_category_id"] =
                 empty($widget["vars"]["last_news_category_id"])?1:$widget["vars"]["last_news_category_id"];
                 $last_news_limit=4;
-                if(class_exists('\app\portal\taglib\Portal')){
+                try{
             </php>
             <portal:articles limit="$last_news_limit" order="post.published_time DESC"
                              categoryIds="$widget.vars.last_news_category_id">
@@ -37,17 +37,17 @@
                             <h3>
                                 <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">{$vo.post_title}</a>
                             </h3>
-<!--                            <hr>-->
+                            <!--                            <hr>-->
                         </div>
-<!--                        <div class="body">-->
-<!--                            <p>-->
-<!--                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">{$vo.post_excerpt}</a>-->
-<!--                            </p>-->
-<!--                        </div>-->
+                        <!--                        <div class="body">-->
+                        <!--                            <p>-->
+                        <!--                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">{$vo.post_excerpt}</a>-->
+                        <!--                            </p>-->
+                        <!--                        </div>-->
                     </div>
                 </div>
             </portal:articles>
-            <php>}else{</php>
+            <php>}catch(\Exception $e){</php>
             <div class="alert alert-danger" role="alert">
                 此组件运行发生错误，请检查是否设置正确或已在后台应用中心安装门户应用！<br>
                 您也可以隐藏此组件！
