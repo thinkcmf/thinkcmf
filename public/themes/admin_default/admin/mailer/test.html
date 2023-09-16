@@ -4,26 +4,34 @@
 	<div class="wrap">
 		<form method="post" class="form-horizontal js-ajax-form" action="admin/mail/test">
 			<div class="form-group">
-				<label for="input-to" class="col-sm-2 control-label"><span class="form-required">*</span>收件箱</label>
+				<label for="input-to" class="col-sm-2 control-label">
+                    收件箱<span class="form-required">*</span>
+                </label>
 				<div class="col-md-8 col-sm-10">
 					<input type="text" class="form-control" id="input-to" name="to">
 				</div>
 			</div>
             <div class="form-group">
-                <label for="input-subject" class="col-sm-2 control-label"><span class="form-required">*</span>标题</label>
+                <label for="input-subject" class="col-sm-2 control-label">
+                    标题<span class="form-required">*</span>
+                </label>
                 <div class="col-md-8 col-sm-10">
                     <input type="text" class="form-control" id="input-subject" name="subject">
                 </div>
             </div>
             <div class="form-group">
-                <label for="input-content" class="col-sm-2 control-label"><span class="form-required">*</span>内容</label>
+                <label for="input-content" class="col-sm-2 control-label">
+                    内容<span class="form-required">*</span>
+                </label>
                 <div class="col-md-8 col-sm-10">
                     <textarea class="form-control" id="input-content" name="content"></textarea>
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-primary js-ajax-submit">发送</button>
+                <div class="col-sm-offset-2 col-sm-10 text-center">
+                    <button type="submit" class="btn btn-primary js-ajax-submit">
+                        <i class="fa fa-paper-plane"></i> 发送
+                    </button>
                 </div>
             </div>
 		</form>
