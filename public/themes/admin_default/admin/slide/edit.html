@@ -8,7 +8,9 @@
 		</ul>
 		<form method="put" class="form-horizontal js-ajax-form margin-top-20" action="admin/slides/{$result.id}">
 			<div class="form-group">
-				<label for="input-name" class="col-sm-2 control-label">{:lang('Name')}<span class="form-required">*</span></label>
+				<label for="input-name" class="col-sm-2 control-label">
+					<span class="form-required">*</span>{:lang('Name')}
+				</label>
 				<div class="col-md-8 col-sm-10">
 					<input type="text" class="form-control" id="input-name" name="name" value="{$result.name}">
 				</div>
