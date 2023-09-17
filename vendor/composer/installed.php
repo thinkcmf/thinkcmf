@@ -125,9 +125,9 @@
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-appstore' => array(
-            'pretty_version' => 'v2.0.0',
-            'version' => '2.0.0.0',
-            'reference' => '858a817452890b722a21ec603a20d6519eed1646',
+            'pretty_version' => 'v2.0.1',
+            'version' => '2.0.1.0',
+            'reference' => '935711d9625c0d5ed3ddf62f082782c768fa1667',
             'type' => 'library',
             'install_path' => __DIR__ . '/../thinkcmf/cmf-appstore',
             'aliases' => array(),

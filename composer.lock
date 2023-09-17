@@ -649,16 +649,16 @@
         },
         {
             "name": "thinkcmf/cmf-appstore",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-appstore.git",
-                "reference": "858a817452890b722a21ec603a20d6519eed1646"
+                "reference": "935711d9625c0d5ed3ddf62f082782c768fa1667"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-appstore/zipball/858a817452890b722a21ec603a20d6519eed1646",
-                "reference": "858a817452890b722a21ec603a20d6519eed1646",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-appstore/zipball/935711d9625c0d5ed3ddf62f082782c768fa1667",
+                "reference": "935711d9625c0d5ed3ddf62f082782c768fa1667",
                 "shasum": ""
             },
             "require": {
@@ -691,9 +691,9 @@
             "description": "The ThinkCMF App Store Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-appstore/issues",
-                "source": "https://github.com/thinkcmf/cmf-appstore/tree/v2.0.0"
+                "source": "https://github.com/thinkcmf/cmf-appstore/tree/v2.0.1"
             },
-            "time": "2023-09-12T00:00:52+00:00"
+            "time": "2023-09-17T00:35:28+00:00"
         },
         {
             "name": "thinkcmf/cmf-captcha",
