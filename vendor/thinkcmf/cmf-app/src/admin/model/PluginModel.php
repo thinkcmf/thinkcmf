@@ -59,7 +59,6 @@ class PluginModel extends Model
                 $info                = isset($defaultProperties['info']) ? $defaultProperties['info'] : [];
                 $plugins[$pluginDir] = $info;
 
-
                 if (!isset($info['type']) || $info['type'] == 1) {//只获取普通插件
                     if ($plugins[$pluginDir]) {
                         $plugins[$pluginDir]['status'] = 3;//未安装
