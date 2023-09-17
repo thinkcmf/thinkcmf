@@ -730,23 +730,23 @@
         },
         {
             "name": "thinkcmf/cmf-captcha",
-            "version": "v3.0.9",
-            "version_normalized": "3.0.9.0",
+            "version": "v3.0.10",
+            "version_normalized": "3.0.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-captcha.git",
-                "reference": "280d7829af55ee3d0647335a7a4bb1796f232203"
+                "reference": "9300381abd25f5c312b4d659fb2232e8799c938e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-captcha/zipball/280d7829af55ee3d0647335a7a4bb1796f232203",
-                "reference": "280d7829af55ee3d0647335a7a4bb1796f232203",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-captcha/zipball/9300381abd25f5c312b4d659fb2232e8799c938e",
+                "reference": "9300381abd25f5c312b4d659fb2232e8799c938e",
                 "shasum": ""
             },
             "require": {
-                "topthink/framework": "^6.0.0|^8.0.0"
+                "topthink/framework": "^6.0.0 || ^8.0.0"
             },
-            "time": "2023-08-03T04:24:00+00:00",
+            "time": "2023-09-17T00:05:55+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -766,7 +766,7 @@
             ],
             "description": "captcha package for ThinkCMF",
             "support": {
-                "source": "https://github.com/thinkcmf/cmf-captcha/tree/v3.0.9"
+                "source": "https://github.com/thinkcmf/cmf-captcha/tree/v3.0.10"
             },
             "install-path": "../thinkcmf/cmf-captcha"
         },

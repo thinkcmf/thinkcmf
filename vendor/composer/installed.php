@@ -134,9 +134,9 @@
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-captcha' => array(
-            'pretty_version' => 'v3.0.9',
-            'version' => '3.0.9.0',
-            'reference' => '280d7829af55ee3d0647335a7a4bb1796f232203',
+            'pretty_version' => 'v3.0.10',
+            'version' => '3.0.10.0',
+            'reference' => '9300381abd25f5c312b4d659fb2232e8799c938e',
             'type' => 'library',
             'install_path' => __DIR__ . '/../thinkcmf/cmf-captcha',
             'aliases' => array(),
