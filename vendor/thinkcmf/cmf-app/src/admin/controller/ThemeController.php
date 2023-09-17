@@ -577,7 +577,9 @@ class ThemeController extends AdminBaseController
                             }
                         }
 
-                        $validate = new Validate($rules, $messages);
+                        $validate = new Validate();
+                        $validate->rule($rules);
+                        $validate->message($messages);
                         $result   = $validate->check($post['item']);
                         if (!$result) {
                             $this->error($validate->getError());
@@ -620,7 +622,9 @@ class ThemeController extends AdminBaseController
                                     }
                                 }
 
-                                $validate = new Validate($rules, $messages);
+                                $validate = new Validate();
+                                $validate->rule($rules);
+                                $validate->message($messages);
                                 $result   = $validate->check($post['item']);
                                 if (!$result) {
                                     $this->error($validate->getError());
@@ -665,7 +669,9 @@ class ThemeController extends AdminBaseController
                                 }
                             }
 
-                            $validate = new Validate($rules, $messages);
+                            $validate = new Validate();
+                            $validate->rule($rules);
+                            $validate->message($messages);
                             $result   = $validate->check($post['item']);
                             if (!$result) {
                                 $this->error($validate->getError());
@@ -833,7 +839,9 @@ class ThemeController extends AdminBaseController
                             }
                         }
 
-                        $validate = new Validate($rules, $messages);
+                        $validate = new Validate();
+                        $validate->rule($rules);
+                        $validate->message($messages);
                         $result   = $validate->check($post['vars']);
                         if (!$result) {
                             $this->error($validate->getError());
@@ -878,7 +886,9 @@ class ThemeController extends AdminBaseController
                             }
 
                             if ($widget['display']) {
-                                $validate   = new Validate($rules, $messages);
+                                $validate   = new Validate();
+                                $validate->rule($rules);
+                                $validate->message($messages);
                                 $widgetVars = empty($post['widget_vars'][$mWidgetName]) ? [] : $post['widget_vars'][$mWidgetName];
                                 $result     = $validate->check($widgetVars);
                                 if (!$result) {
