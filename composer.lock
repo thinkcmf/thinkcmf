@@ -1026,16 +1026,16 @@
         },
         {
             "name": "xia/migration",
-            "version": "v6.0.2",
+            "version": "v6.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/449134904/artisan.git",
-                "reference": "ab262fc5af4237bcd350edc8d53b1c7d1cf7a128"
+                "reference": "c6e17b0e9910baa9221bdfe33037bbc2c9bdc7b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/449134904/artisan/zipball/ab262fc5af4237bcd350edc8d53b1c7d1cf7a128",
-                "reference": "ab262fc5af4237bcd350edc8d53b1c7d1cf7a128",
+                "url": "https://api.github.com/repos/449134904/artisan/zipball/c6e17b0e9910baa9221bdfe33037bbc2c9bdc7b2",
+                "reference": "c6e17b0e9910baa9221bdfe33037bbc2c9bdc7b2",
                 "shasum": ""
             },
             "type": "library",
@@ -1064,9 +1064,9 @@
             ],
             "support": {
                 "issues": "https://github.com/449134904/artisan/issues",
-                "source": "https://github.com/449134904/artisan/tree/v6.0.2"
+                "source": "https://github.com/449134904/artisan/tree/v6.0.3"
             },
-            "time": "2023-08-03T04:19:11+00:00"
+            "time": "2023-09-17T00:27:06+00:00"
         }
     ],
     "packages-dev": [
