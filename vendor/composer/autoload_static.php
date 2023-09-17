@@ -120,8 +120,8 @@ class ComposerStaticInit409e436a19c882513f3c7d0ffdfd059f
         'app\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
-            1 => __DIR__ . '/..' . '/thinkcmf/cmf-install/src',
-            2 => __DIR__ . '/..' . '/thinkcmf/cmf-app/src',
+            1 => __DIR__ . '/..' . '/thinkcmf/cmf-app/src',
+            2 => __DIR__ . '/..' . '/thinkcmf/cmf-install/src',
         ),
         'api\\' => 
         array (
