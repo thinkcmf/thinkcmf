@@ -815,20 +815,20 @@
         },
         {
             "name": "thinkcmf/cmf-install",
-            "version": "v8.0.0",
-            "version_normalized": "8.0.0.0",
+            "version": "v8.0.1",
+            "version_normalized": "8.0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-install.git",
-                "reference": "286fc2c338bf7080c5996bc048cad14dbcebcbfe"
+                "reference": "f7d76f7f4cf7104891e5920c84fc4b005673e4b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/286fc2c338bf7080c5996bc048cad14dbcebcbfe",
-                "reference": "286fc2c338bf7080c5996bc048cad14dbcebcbfe",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-install/zipball/f7d76f7f4cf7104891e5920c84fc4b005673e4b4",
+                "reference": "f7d76f7f4cf7104891e5920c84fc4b005673e4b4",
                 "shasum": ""
             },
-            "time": "2023-09-11T23:57:04+00:00",
+            "time": "2023-09-17T00:13:17+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -850,7 +850,7 @@
             "description": "The ThinkCMF Install Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-install/issues",
-                "source": "https://github.com/thinkcmf/cmf-install/tree/v8.0.0"
+                "source": "https://github.com/thinkcmf/cmf-install/tree/v8.0.1"
             },
             "install-path": "../thinkcmf/cmf-install"
         },
