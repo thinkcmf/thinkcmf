@@ -49,7 +49,9 @@ class SettingController extends RestAdminBaseController
      *     description="网站信息",
      *     @OA\Response(
      *          response="1",
-     *          @OA\JsonContent(example={"code": 1,"msg": "网站信息!","data": ""})
+     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":
+     *              {"site_info":{"site_name":"ThinkCMF内容管理框架","site_seo_title":"ThinkCMF内容管理框架","site_seo_keywords":"ThinkCMF,php,内容管理框架,cmf,cms,简约风, simplewind,framework","site_seo_description":"ThinkCMF是简约风网络科技发布的一款用于快速开发的内容管理框架","site_icp":"","site_gwa":"","site_admin_email":"","site_analytics":""},"admin_styles":{"arcoadmin","flatadmin","orangeadmin","simpleadmin"},"admin_themes":{"admin_default","admin_simpleboot3"},"cdn_settings":{"cdn_static_root":""},"admin_settings":{"admin_password":"","admin_theme":"admin_default","admin_style":"arcoadmin"},"cmf_settings":{"open_registration":"0","banned_usernames":""}}
+     *          })
      *     ),
      *     @OA\Response(
      *          response="0",
@@ -168,7 +170,10 @@ class SettingController extends RestAdminBaseController
      *     description="上传设置",
      *     @OA\Response(
      *          response="1",
-     *          @OA\JsonContent(example={"code": 1,"msg": "success!","data": ""})
+     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
+     *                  "setting":{"max_files":"200","chunk_size":"512","file_types":{"image":{"upload_max_filesize":"10240","extensions":"jpg,jpeg,png,gif,bmp4"},"video":{"upload_max_filesize":"10240","extensions":"mp4,avi,wmv,rm,rmvb,mkv"},"audio":{"upload_max_filesize":"10240","extensions":"mp3,wma,wav"},"file":{"upload_max_filesize":"10240","extensions":"txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar"}},"upload_max_filesize":{"jpg":10485760,"jpeg":10485760,"png":10485760,"gif":10485760,"bmp4":10485760,"mp4":10485760,"avi":10485760,"wmv":10485760,"rm":10485760,"rmvb":10485760,"mkv":10485760,"mp3":10485760,"wma":10485760,"wav":10485760,"txt":10485760,"pdf":10485760,"doc":10485760,"docx":10485760,"xls":10485760,"xlsx":10485760,"ppt":10485760,"pptx":10485760,"zip":10485760,"rar":10485760}}
+     *              }
+     *          })
      *     ),
      *     @OA\Response(
      *          response="0",
@@ -230,7 +235,10 @@ class SettingController extends RestAdminBaseController
      *     description="文件存储",
      *     @OA\Response(
      *          response="1",
-     *          @OA\JsonContent(example={"code": 1,"msg": "success!","data": ""})
+     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
+     *                  "setting":{"type":"Local","storages":{"Local":{"name":"本地"}}}
+     *              }
+     *          })
      *     ),
      *     @OA\Response(
      *          response="0",
@@ -255,7 +263,7 @@ class SettingController extends RestAdminBaseController
             }
         }
 
-        $this->success('success', ['storage' => $storage]);
+        $this->success('success', ['setting' => $storage]);
     }
 
 

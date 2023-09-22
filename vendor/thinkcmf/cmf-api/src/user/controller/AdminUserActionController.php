@@ -33,9 +33,9 @@ class AdminUserActionController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "actions":{
+     *              "list":{
      *                  {"id": 1,"score": 1,"coin": 1,"reward_number": 1,"cycle_type": 2,"cycle_time": 1,"name": "用户登录","action": "login","app": "user","url": ""}
-     *              }
+     *              },"total":1
      *          }})
      *     ),
      *     @OA\Response(
@@ -47,7 +47,7 @@ class AdminUserActionController extends RestAdminBaseController
     public function index()
     {
         $actions = UserActionModel::select();
-        $this->success('success', ['actions' => $actions]);
+        $this->success('success', ['list' => $actions,'total'=>$actions->count()]);
     }
 
     /**
@@ -71,7 +71,7 @@ class AdminUserActionController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "action":{
+     *              "item":{
      *                  "id": 1,"score": 1,"coin": 1,"reward_number": 1,"cycle_type": 2,"cycle_time": 1,"name": "用户登录","action": "login","app": "user","url": ""
      *              }
      *          }})
@@ -90,7 +90,7 @@ class AdminUserActionController extends RestAdminBaseController
         if (empty($action)) {
             $this->error('未找到！');
         }
-        $this->success('success', ['action' => $action]);
+        $this->success('success', ['item' => $action]);
     }
 
     /**

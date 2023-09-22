@@ -29,9 +29,10 @@ class LinkController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "links":{
+     *              "list":{
      *                  {"id": 1,"status": 1,"rating": 1,"list_order": 8,"description": "thinkcmf官网","url": "http://www.thinkcmf.com","name": "ThinkCMF","image": "default/xxxxx.png","target": "_blank","rel": ""}
-     *              }
+     *              },
+     *              "total":1
      *          }})
      *     ),
      *     @OA\Response(
@@ -44,7 +45,7 @@ class LinkController extends RestAdminBaseController
     {
         $linkModel = new LinkModel();
         $links     = $linkModel->select();
-        $this->success('success', ['links' => $links]);
+        $this->success('success', ['list' => $links, 'total' => $links->count()]);
     }
 
     /**
@@ -70,7 +71,7 @@ class LinkController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "link":{"id": 1,"status": 1,"rating": 1,"list_order": 8,"description": "thinkcmf官网",
+     *              "item":{"id": 1,"status": 1,"rating": 1,"list_order": 8,"description": "thinkcmf官网",
      *                      "url": "http://www.thinkcmf.com","name": "ThinkCMF","image": "default/xxxxx.png",
      *                          "target": "_blank","rel": ""
      *                     }
@@ -93,7 +94,7 @@ class LinkController extends RestAdminBaseController
             }
             $linkModel->save($data);
 
-            $this->success(lang('ADD_SUCCESS'), ['link' => $linkModel]);
+            $this->success(lang('ADD_SUCCESS'), ['item' => $linkModel]);
         }
     }
 
@@ -118,7 +119,7 @@ class LinkController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "link":{"id": 1,"status": 1,"rating": 1,"list_order": 8,"description": "thinkcmf官网",
+     *              "item":{"id": 1,"status": 1,"rating": 1,"list_order": 8,"description": "thinkcmf官网",
      *                      "url": "http://www.thinkcmf.com","name": "ThinkCMF","image": "default/xxxxx.png",
      *                          "target": "_blank","rel": ""
      *                     }
@@ -138,7 +139,7 @@ class LinkController extends RestAdminBaseController
         if (empty($link)) {
             $this->error('not found!');
         } else {
-            $this->success('success', ['link' => $link]);
+            $this->success('success', ['item' => $link]);
         }
 
     }

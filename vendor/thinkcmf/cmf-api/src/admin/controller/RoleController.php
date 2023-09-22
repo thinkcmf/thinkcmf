@@ -32,9 +32,9 @@ class RoleController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "roles":{
+     *              "list":{
      *                  {"name": "财务","type": "1","remark": "角色描述","status": "1","id": 3}
-     *              }
+     *              },"total":1
      *          }})
      *     ),
      *     @OA\Response(
@@ -46,7 +46,7 @@ class RoleController extends RestAdminBaseController
     public function index()
     {
         $roles = RoleModel::order(["list_order" => "ASC", "id" => "DESC"])->select();
-        $this->success('success', ['roles' => $roles]);
+        $this->success('success', ['list' => $roles, 'total' => $roles->count()]);
     }
 
     /**
@@ -72,7 +72,7 @@ class RoleController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "role":{"name": "财务","type": "1","remark": "角色描述","status": "1","id": 3}
+     *              "item":{"name": "财务","type": "1","remark": "角色描述","status": "1","id": 3}
      *          }})
      *     ),
      *     @OA\Response(
@@ -92,7 +92,7 @@ class RoleController extends RestAdminBaseController
             } else {
                 $result = RoleModel::create($data);
                 if ($result) {
-                    $this->success(lang('ADD_SUCCESS'), ['role' => $result]);
+                    $this->success(lang('ADD_SUCCESS'), ['item' => $result]);
                 } else {
                     $this->error(lang('ADD_FAILED'));
                 }
@@ -122,7 +122,7 @@ class RoleController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "role":{"name": "财务","type": "1","remark": "角色描述","status": "1","id": 3}
+     *              "item":{"name": "财务","type": "1","remark": "角色描述","status": "1","id": 3}
      *          }})
      *     ),
      *     @OA\Response(
@@ -138,7 +138,7 @@ class RoleController extends RestAdminBaseController
         if (!$data) {
             $this->error("该角色不存在！");
         }
-        $this->success('success', ['role' => $data]);
+        $this->success('success', ['item' => $data]);
     }
 
     /**
@@ -272,7 +272,7 @@ class RoleController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "menus":{"1":{"id": 1,"parent_id": 0,"type": 0,"status": 1,"list_order": 30,"app": "portal",
+     *              "list":{"1":{"id": 1,"parent_id": 0,"type": 0,"status": 1,"list_order": 30,"app": "portal",
      *                      "controller": "AdminIndex","action": "default","param": "",
      *                      "name": "门户管理","icon": "th",
      *                      "remark": "门户管理","checked": 0}}
@@ -300,7 +300,7 @@ class RoleController extends RestAdminBaseController
             $result[$key]['checked'] = ($this->_isChecked($m, $privilegeData)) ? 1 : 0;
         }
 
-        $this->success('success', ['menus' => $result]);
+        $this->success('success', ['list' => $result, 'total' => count($result)]);
     }
 
     /**
@@ -401,8 +401,9 @@ class RoleController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "apis":{"id": 1,"parent_id": 0,"type": 1,"url": "POST|admin/public/login","name": "后台管理员登录",
-     *     "tags": "admin","remark": "后台管理员登录(请先使用原来登录页面登录，登录获取token后再使用后台API)","checked": 1}
+     *              "list":{"id": 1,"parent_id": 0,"type": 1,"url": "POST|admin/public/login","name": "后台管理员登录",
+     *     "tags": "admin","remark": "后台管理员登录(请先使用原来登录页面登录，登录获取token后再使用后台API)","checked": 1},
+     *              "total":1
      *          }})
      *     ),
      *     @OA\Response(
@@ -421,24 +422,17 @@ class RoleController extends RestAdminBaseController
 
         $privilegeData = AuthAccessModel::where("role_id", $roleId)->column('rule_name', 'rule_name');//获取权限表数据
         $adminApis     = AdminApiModel::select();
-        $tagsAdminApis = [];
-
+        $newAdminApis  = [];
         foreach ($adminApis as $adminApi) {
             if (isset($privilegeData[strtolower('admin_api:' . $adminApi['url'])])) {
                 $adminApi['checked'] = 1;
             } else {
                 $adminApi['checked'] = 0;
             }
-            $tags = explode(',', $adminApi['tags']);
-            foreach ($tags as $tag) {
-                if (empty($tagsAdminApis[$tag])) {
-                    $tagsAdminApis[$tag] = [];
-                }
-                $tagsAdminApis[$tag][] = $adminApi;
-            }
+            $newAdminApis[]        = $adminApi;
         }
 
-        $this->success('success', ['apis' => $adminApis, 'tags_apis' => $tagsAdminApis]);
+        $this->success('success', ['list' => $newAdminApis, 'total' => $adminApis->count()]);
     }
 
     /**

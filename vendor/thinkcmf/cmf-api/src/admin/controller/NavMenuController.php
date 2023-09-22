@@ -35,9 +35,10 @@ class NavMenuController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "menus":{
+     *              "list":{
      *                  {"id": 1,"nav_id": 1,"parent_id": 0,"status": 1,"list_order": 0,"name": "首页","target": "","href": "home","icon": "","path": "0-1"}
-     *              }
+     *              },
+     *              "total":1
      *          }})
      *     ),
      *     @OA\Response(
@@ -57,7 +58,7 @@ class NavMenuController extends RestAdminBaseController
 
         $objResult = $navMenuModel->where("nav_id", $intNavId)->order(["list_order" => "ASC"])->select();
 
-        $this->success("success", ['menus' => $objResult]);
+        $this->success("success", ['list' => $objResult, 'total' => $objResult->count()]);
     }
 
     /**
@@ -83,7 +84,7 @@ class NavMenuController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "menu": {"id": 1,"nav_id": 1,"parent_id": 0,"status": 1,"list_order": 0,"name": "首页","target": "","href": "home","icon": "","path": "0-1"}
+     *              "item": {"id": 1,"nav_id": 1,"parent_id": 0,"status": 1,"list_order": 0,"name": "首页","target": "","href": "home","icon": "","path": "0-1"}
      *          }})
      *     ),
      *     @OA\Response(
@@ -109,7 +110,7 @@ class NavMenuController extends RestAdminBaseController
 
             $navMenuModel->save($arrData);
 
-            $this->success(lang('ADD_SUCCESS'), ['menu' => $navMenuModel]);
+            $this->success(lang('ADD_SUCCESS'), ['item' => $navMenuModel]);
         }
     }
 
@@ -134,7 +135,7 @@ class NavMenuController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "menu":{"id": 1,"nav_id": 1,"parent_id": 0,"status": 1,"list_order": 0,"name": "首页","target": "","href": "home","icon": "","path": "0-1"}
+     *              "item":{"id": 1,"nav_id": 1,"parent_id": 0,"status": 1,"list_order": 0,"name": "首页","target": "","href": "home","icon": "","path": "0-1"}
      *          }})
      *     ),
      *     @OA\Response(
@@ -160,7 +161,7 @@ class NavMenuController extends RestAdminBaseController
         if (empty($arrNav)) {
             $this->error('not found!');
         } else {
-            $this->success('success', ['menu' => $arrNav]);
+            $this->success('success', ['item' => $arrNav]);
         }
     }
 

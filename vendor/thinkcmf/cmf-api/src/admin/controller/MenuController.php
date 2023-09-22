@@ -29,7 +29,7 @@ class MenuController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "menus":{
+     *              "list":{
      *                  {"id": 113,"parent_id": 32,"type": 1,"status": 1,"list_order": 0,"app": "admin","controller": "Setting","action": "site","param": "","name": "网站信息","icon": "","remark": "网站信息"}
      *              },
      *              "total":100
@@ -45,7 +45,7 @@ class MenuController extends RestAdminBaseController
     {
         $userId = $this->getUserId();
         $menus  = $adminMenuService->menus($userId);
-        $this->success('success！', ['menus' => $menus, 'total' => count($menus)]);
+        $this->success('success！', ['list' => $menus, 'total' => count($menus)]);
     }
 
     /**
@@ -60,7 +60,7 @@ class MenuController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "menus":{
+     *              "list":{
      *                  {"id": 113,"parent_id": 32,"type": 1,"status": 1,"list_order": 0,"app": "admin","controller": "Setting","action": "site","param": "","name": "网站信息","icon": "","remark": "网站信息"}
      *              },
      *              "total":100
@@ -75,7 +75,7 @@ class MenuController extends RestAdminBaseController
     public function index()
     {
         $menus = AdminMenuModel::order(["list_order" => "ASC"])->select();
-        $this->success('success', ['menus' => $menus, 'total' => $menus->count()]);
+        $this->success('success', ['list' => $menus, 'total' => $menus->count()]);
     }
 
     /**
@@ -101,7 +101,7 @@ class MenuController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "menu":{"id": 113,"parent_id": 32,"type": 1,"status": 1,"list_order": 0,"app": "admin","controller": "Setting","action": "site","param": "","name": "网站信息","icon": "","remark": "网站信息"}
+     *              "item":{"id": 113,"parent_id": 32,"type": 1,"status": 1,"list_order": 0,"app": "admin","controller": "Setting","action": "site","param": "","name": "网站信息","icon": "","remark": "网站信息"}
      *          }})
      *     ),
      *     @OA\Response(
@@ -117,8 +117,8 @@ class MenuController extends RestAdminBaseController
             if ($result !== true) {
                 $this->error($result);
             } else {
-                $data = $this->request->param();
-                AdminMenuModel::strict(false)->field(true)->insert($data);
+                $data      = $this->request->param();
+                $adminMenu = AdminMenuModel::create($data);
 
                 $app          = $this->request->param("app");
                 $controller   = $this->request->param("controller");
@@ -143,7 +143,7 @@ class MenuController extends RestAdminBaseController
                 }
                 $this->_exportAppMenuDefaultLang();
                 Cache::clear('admin_menus');// 删除后台菜单缓存
-                $this->success(lang('ADD_SUCCESS'));
+                $this->success(lang('ADD_SUCCESS'), ['item' => $adminMenu]);
             }
         }
     }
@@ -186,7 +186,7 @@ class MenuController extends RestAdminBaseController
         if (empty($adminMenu)) {
             $this->error('未找到菜单!');
         } else {
-            $this->success('success', ['menu' => $adminMenu]);
+            $this->success('success', ['item' => $adminMenu]);
         }
     }
 

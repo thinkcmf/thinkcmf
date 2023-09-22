@@ -31,7 +31,7 @@ class UserController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "users":{
+     *              "list":{
      *                  {"id": 2,"user_type": 1,"sex": 0,"birthday": 0,
      *                      "last_login_time": 1691213022,"score": 0,"coin": 0,
      *                      "balance": "0.00","create_time": 1691213022,
@@ -70,7 +70,7 @@ class UserController extends RestAdminBaseController
             ->order("id DESC")
             ->paginate(10);
 
-        $this->success('success', ['users' => $users->items(), 'total' => $users->total()]);
+        $this->success('success', ['list' => $users->items(), 'total' => $users->total()]);
     }
 
     /**
@@ -96,7 +96,7 @@ class UserController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "user":{"id": 1,"status": 1,"delete_time": 0,"name": "又菜又爱玩","remark": ""}
+     *              "item":{"id": 1,"status": 1,"delete_time": 0,"name": "又菜又爱玩","remark": ""}
      *          }})
      *     ),
      *     @OA\Response(
@@ -118,15 +118,15 @@ class UserController extends RestAdminBaseController
                     $data['user_pass']       = cmf_password($data['user_pass']);
                     $data['create_time']     = time();
                     $data['last_login_time'] = $data['create_time'];
-                    $userId                  = UserModel::strict(false)->insertGetId($data);
-                    if ($userId !== false) {
+                    $user                    = UserModel::create($data);
+                    if (!empty($user['id'])) {
                         foreach ($roleIds as $roleId) {
                             if ($this->getUserId() != 1 && $roleId == 1) {
                                 $this->error("为了网站的安全，非网站创建者不可创建超级管理员！");
                             }
-                            RoleUserModel::insert(["role_id" => $roleId, "user_id" => $userId]);
+                            RoleUserModel::insert(["role_id" => $roleId, "user_id" => $user['id']]);
                         }
-                        $this->success(lang('ADD_SUCCESS'));
+                        $this->success(lang('ADD_SUCCESS'), ['item' => $user]);
                     } else {
                         $this->error(lang('ADD_FAILED'));
                     }
@@ -159,7 +159,7 @@ class UserController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "user":{"id": 1,"status": 1,"delete_time": 0,"name": "又菜又爱玩","remark": ""}
+     *              "item":{"id": 1,"status": 1,"delete_time": 0,"name": "又菜又爱玩","remark": ""}
      *          }})
      *     ),
      *     @OA\Response(
@@ -175,7 +175,7 @@ class UserController extends RestAdminBaseController
         $roleIds = RoleUserModel::where("user_id", $id)->column("role_id");
 
         $user = UserModel::where("id", $id)->find()->toArray();
-        $this->success('success', ['user' => $user, 'role_ids' => $roleIds, 'roles' => $roles]);
+        $this->success('success', ['item' => $user, 'role_ids' => $roleIds, 'roles' => $roles]);
     }
 
     /**

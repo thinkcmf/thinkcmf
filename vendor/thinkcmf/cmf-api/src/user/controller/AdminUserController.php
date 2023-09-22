@@ -48,7 +48,7 @@ class AdminUserController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "users":{
+     *              "list":{
      *                  {
      *                      "id": 2,"user_type": 1,"sex": 0,
      *                      "birthday": 0,"last_login_time": 1691213022,"score": 0,"coin": 0,"balance": "0.00",
@@ -87,7 +87,7 @@ class AdminUserController extends RestAdminBaseController
             $list->hidden(['user_pass']);
         }
 
-        $this->success('success', ['users' => $list->items(), 'total' => $list->total()]);
+        $this->success('success', ['list' => $list->items(), 'total' => $list->total()]);
     }
 
     /**

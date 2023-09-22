@@ -29,9 +29,10 @@ class HookController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "hooks":{
+     *              "list":{
      *                  {"id": 2,"type": 1,"once": 0,"name": "应用开始","hook": "app_begin","app": "cmf","description": "应用开始"}
-     *              }
+     *              },
+     *              "total":1
      *          }})
      *     ),
      *     @OA\Response(
@@ -44,7 +45,7 @@ class HookController extends RestAdminBaseController
     {
         $hookModel = new HookModel();
         $hooks     = $hookModel->select();
-        $this->success("success", ['hooks' => $hooks]);
+        $this->success("success", ['list' => $hooks, 'total' => $hooks->count()]);
 
     }
 
@@ -70,9 +71,10 @@ class HookController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "hooks":{
-     *                  {"id": 2,"type": 1,"once": 0,"name": "应用开始","hook": "app_begin","app": "cmf","description": "应用开始"}
-     *              }
+     *              "list":{
+     *                  {"id":39,"type":1,"has_admin":1,"status":1,"create_time":0,"name":"Swagger","title":"Swagger","demo_url":"http://demo.thinkcmf.com","hooks":"","author":"ThinkCMF","author_url":"http://www.thinkcmf.com","version":"2.0.0","description":"Swagger4.0支持PHP版本>=8.1,同时支持Attributes和Annotations","config":{}}
+     *              },
+     *              "total":1
      *          }})
      *     ),
      *     @OA\Response(
@@ -92,7 +94,7 @@ class HookController extends RestAdminBaseController
             ->where('b.hook', $hook)
             ->order('b.list_order asc')
             ->select();
-        $this->success('success', ['plugins' => $plugins]);
+        $this->success('success', ['list' => $plugins, 'total' => count($plugins)]);
     }
 
     /**

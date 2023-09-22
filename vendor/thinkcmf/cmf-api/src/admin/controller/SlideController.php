@@ -28,9 +28,9 @@ class SlideController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "slides":{
+     *              "list":{
      *                  {"id": 1,"status": 1,"delete_time": 0,"name": "又菜又爱玩","remark": ""}
-     *              }
+     *              },"total":1
      *          }})
      *     ),
      *     @OA\Response(
@@ -43,7 +43,7 @@ class SlideController extends RestAdminBaseController
     {
         $slidePostModel = new SlideModel();
         $slides         = $slidePostModel->where('delete_time', 0)->select();
-        $this->success("success", ['slides' => $slides]);
+        $this->success("success", ['list' => $slides, 'total' => $slides->count()]);
     }
 
     /**
@@ -69,7 +69,7 @@ class SlideController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "slide":{"id": 1,"status": 1,"delete_time": 0,"name": "又菜又爱玩","remark": ""}
+     *              "item":{"id": 1,"status": 1,"delete_time": 0,"name": "又菜又爱玩","remark": ""}
      *          }})
      *     ),
      *     @OA\Response(
@@ -80,7 +80,7 @@ class SlideController extends RestAdminBaseController
      */
     public function save()
     {
-        $data           = $this->request->param('',null,'strip_tags');
+        $data           = $this->request->param('', null, 'strip_tags');
         $slidePostModel = new SlideModel();
         $result         = $this->validate($data, 'Slide');
         if ($result !== true) {
@@ -88,7 +88,7 @@ class SlideController extends RestAdminBaseController
         }
         $slidePostModel->save($data);
 
-        $this->success(lang('ADD_SUCCESS'), ['slide'=> $slidePostModel]);
+        $this->success(lang('ADD_SUCCESS'), ['item' => $slidePostModel]);
     }
 
     /**
@@ -112,7 +112,7 @@ class SlideController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "slide":{"id": 1,"status": 1,"delete_time": 0,"name": "又菜又爱玩","remark": ""}
+     *              "item":{"id": 1,"status": 1,"delete_time": 0,"name": "又菜又爱玩","remark": ""}
      *          }})
      *     ),
      *     @OA\Response(
@@ -126,10 +126,10 @@ class SlideController extends RestAdminBaseController
         $id             = $this->request->param('id');
         $slidePostModel = new SlideModel();
         $result         = $slidePostModel->where('id', $id)->find();
-        if(empty($result)){
+        if (empty($result)) {
             $this->error('not found!');
-        }else{
-            $this->success('success', ['slide' => $result]);
+        } else {
+            $this->success('success', ['item' => $result]);
         }
     }
 
@@ -174,7 +174,7 @@ class SlideController extends RestAdminBaseController
      */
     public function update($id)
     {
-        $data   = $this->request->param('',null,'strip_tags');
+        $data   = $this->request->param('', null, 'strip_tags');
         $result = $this->validate($data, 'Slide');
         if ($result !== true) {
             $this->error($result);

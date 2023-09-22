@@ -27,7 +27,7 @@ class AppController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "apps":{
+     *              "list":{
      *                  {
      *                      "title": "演示应用",
      *                      "name": "demo",
@@ -41,7 +41,8 @@ class AppController extends RestAdminBaseController
      *                      "installed": 1,
      *                      "local_verison": "1.0.3"
      *                  }
-     *              }
+     *              },
+     *             "total":1
      *          }})
      *     ),
      *     @OA\Response(
@@ -53,7 +54,7 @@ class AppController extends RestAdminBaseController
     public function index()
     {
         $apps = AppLogic::getList();
-        $this->success("success", ['apps' => $apps]);
+        $this->success("success", ['list' => $apps, 'total' => count($apps)]);
     }
 
 

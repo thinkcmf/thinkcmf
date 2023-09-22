@@ -35,9 +35,9 @@ class SlideItemController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "slide_items":{
+     *              "list":{
      *                  {"id": 1,"slide_id": 1,"status": 1,"list_order": 10000,"title": "testtest","image": "","url": "","target": "_blank","description": "","content": "test","more": null}
-     *              }
+     *              },"total":1
      *          }})
      *     ),
      *     @OA\Response(
@@ -50,7 +50,7 @@ class SlideItemController extends RestAdminBaseController
     {
         $slideId    = $this->request->param('slide_id', 0, 'intval');
         $slideItems = SlideItemModel::where('slide_id', $slideId)->select();
-        $this->success("success", ['slide_items' => $slideItems]);
+        $this->success("success", ['list' => $slideItems, 'total' => $slideItems->count()]);
     }
 
     /**
@@ -76,7 +76,7 @@ class SlideItemController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "slide_item": {
+     *              "item": {
      *                      "slide_id": "1",
      *                      "title": "这里是标题",
      *                      "url": "https://www.thinkcmf.com","target": "_blank",
@@ -99,7 +99,7 @@ class SlideItemController extends RestAdminBaseController
             $this->error('请填写标题！');
         }
         $slideItem = SlideItemModel::create($data);
-        $this->success(lang('ADD_SUCCESS'), ['slide_item' => $slideItem]);
+        $this->success(lang('ADD_SUCCESS'), ['item' => $slideItem]);
     }
 
     /**
@@ -123,7 +123,7 @@ class SlideItemController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "slide_item":{"id": 1,"slide_id": 1,"status": 1,"list_order": 10000,"title": "testtest","image": "default/20230816/93ce77f764658f4020ada1acc398fc6a.png","url": "","target": "_blank","description": "","content": "test","more": null}
+     *              "item":{"id": 1,"slide_id": 1,"status": 1,"list_order": 10000,"title": "testtest","image": "default/20230816/93ce77f764658f4020ada1acc398fc6a.png","url": "","target": "_blank","description": "","content": "test","more": null}
      *          }})
      *     ),
      *     @OA\Response(
@@ -140,7 +140,7 @@ class SlideItemController extends RestAdminBaseController
         if (empty($result)) {
             $this->error('not found!');
         } else {
-            $this->success('success', ['slide_item' => $result]);
+            $this->success('success', ['item' => $result]);
         }
     }
 

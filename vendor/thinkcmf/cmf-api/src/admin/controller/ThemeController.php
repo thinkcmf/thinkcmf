@@ -31,7 +31,7 @@ class ThemeController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "themes":{
+     *              "list":{
      *                  {"id": 1,"create_time": 0,
      *                  "update_time": 0,"status": 0,
      *                  "is_compiled": 0,
@@ -41,7 +41,7 @@ class ThemeController extends RestAdminBaseController
      *                  "author": "ThinkCMF","author_url": "http://www.thinkcmf.com",
      *                  "lang": "zh-cn","keywords": "ThinkCMF默认模板",
      *                  "description": "ThinkCMF默认模板"}
-     *              }
+     *              },"total":1
      *          }})
      *     ),
      *     @OA\Response(
@@ -52,14 +52,15 @@ class ThemeController extends RestAdminBaseController
      */
     public function index()
     {
-        $themeModel = new ThemeModel();
-        $themes     = $themeModel->select();
-
+        $themeModel   = new ThemeModel();
+        $themes       = $themeModel->select();
         $defaultTheme = config('template.cmf_default_theme');
-        if ($temp = session('cmf_default_theme')) {
-            $defaultTheme = $temp;
-        }
-        $this->success('success', ['themes' => $themes, 'default_theme' => $defaultTheme]);
+
+        $this->success('success', [
+            'list'          => $themes,
+            'total'         => $themes->count(),
+            'default_theme' => $defaultTheme
+        ]);
     }
 
     /**
@@ -74,7 +75,7 @@ class ThemeController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "themes":{
+     *              "list":{
      *                  {"id": 1,"create_time": 0,
      *                  "update_time": 0,"status": 0,
      *                  "is_compiled": 0,
@@ -84,7 +85,7 @@ class ThemeController extends RestAdminBaseController
      *                  "author": "ThinkCMF","author_url": "http://www.thinkcmf.com",
      *                  "lang": "zh-cn","keywords": "ThinkCMF默认模板",
      *                  "description": "ThinkCMF默认模板"}
-     *              }
+     *              },"total":1
      *          }})
      *     ),
      *     @OA\Response(
@@ -115,7 +116,7 @@ class ThemeController extends RestAdminBaseController
                 }
             }
         }
-        $this->success('success', ['themes' => $themes]);
+        $this->success('success', ['list' => $themes, 'total' => count($themes)]);
     }
 
     /**
@@ -213,7 +214,7 @@ class ThemeController extends RestAdminBaseController
     }
 
     /**
-     *  卸载模板
+     * 卸载模板
      * @throws \think\exception\DbException
      * @OA\Delete(
      *     tags={"admin"},
@@ -261,7 +262,7 @@ class ThemeController extends RestAdminBaseController
     }
 
     /**
-     *  启用模板
+     * 启用模板
      * @throws \think\exception\DbException
      * @OA\Post(
      *     tags={"admin"},
@@ -338,9 +339,9 @@ class ThemeController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "files":{
+     *              "list":{
      *                  {"id": 141,"is_public": 1,"list_order": 0,"theme": "default","name": "模板全局配置","action": "public/Config","file": "public/config","description": "模板全局配置文件","more": {"vars": {"enable_mobile": {"title": "手机注册","type": "select","value": 1,"options": {"0": "关闭","1": "开启"},"tip": ""}}}}
-     *              }
+     *              },"total":1
      *          }})
      *     ),
      *     @OA\Response(
@@ -353,7 +354,7 @@ class ThemeController extends RestAdminBaseController
     {
         $theme = $this->request->param('theme');
         $files = ThemeFileModel::where('theme', $theme)->order('list_order ASC')->select();
-        $this->success('success', ['files' => $files]);
+        $this->success('success', ['list' => $files, 'total' => $files->count()]);
     }
 
     /**
@@ -388,10 +389,8 @@ class ThemeController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "files":{
-     *                  {"id": 141,"is_public": 1,"list_order": 0,"theme": "default","name": "模板全局配置","action": "public/Config","file": "public/config","description": "模板全局配置文件","more": {"vars": {"enable_mobile": {"title": "手机注册","type": "select","value": 1,"options": {"0": "关闭","1": "开启"},"tip": ""}}}}
-     *              }
-     *          }})
+     *                  "file_name":"portal/index","files":{{"id":179,"is_public":1,"list_order":0,"theme":"demo","name":"模板全局配置","action":"public/Config","file":"public/config","description":"模板全局配置文件","more":{"vars":{"enable_mobile":{"title":"手机注册","value":1,"type":"select","options":{"0":"关闭","1":"开启"},"tip":""}}},"config_more":{"vars":{"enable_mobile":{"title":"手机注册","value":1,"type":"select","options":{"0":"关闭","1":"开启"},"tip":""}}},"draft_more":null}},"file":{"id":175,"is_public":0,"list_order":5,"theme":"demo","name":"首页","action":"portal/Index/index","file":"portal/index","description":"首页模板文件","more":{"widgets_blocks":{"main":{"title":"主块区","widgets":{"main_slider_202207090001":{"title":"幻灯片","name":"slider","display":"1","version":"1.0.0","action":"","vars":{"top_slide":""}}}}}},"config_more":{"widgets_blocks":{"main":{"title":"主块区","widgets":{"main_slider_202207090001":{"name":"slider"}}}}},"draft_more":null},"file_id":175,"has_public_var":true,"has_widget":false,"has_file":true
+     *             }})
      *     ),
      *     @OA\Response(
      *          response="0",
@@ -468,11 +467,8 @@ class ThemeController extends RestAdminBaseController
      *         )
      *     ),
      *     @OA\Response(
-     *          response="1",
-     *          description="success",
-     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "slide":{"id": 1,"status": 1,"delete_time": 0,"name": "又菜又爱玩","remark": ""}
-     *          }})
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 1,"msg": "保存成功!","data":""})
      *     ),
      *     @OA\Response(
      *          response="0",
@@ -516,7 +512,7 @@ class ThemeController extends RestAdminBaseController
                         $validate = new Validate();
                         $validate->rule($rules);
                         $validate->message($messages);
-                        $result   = $validate->check($post['vars']);
+                        $result = $validate->check($post['vars']);
                         if (!$result) {
                             $this->error($validate->getError());
                         }
@@ -560,7 +556,7 @@ class ThemeController extends RestAdminBaseController
                             }
 
                             if ($widget['display']) {
-                                $validate   = new Validate();
+                                $validate = new Validate();
                                 $validate->rule($rules);
                                 $validate->message($messages);
                                 $widgetVars = empty($post['widget_vars'][$mWidgetName]) ? [] : $post['widget_vars'][$mWidgetName];
@@ -649,8 +645,7 @@ class ThemeController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "files":{
-     *                  {"id": 141,"is_public": 1,"list_order": 0,"theme": "default","name": "模板全局配置","action": "public/Config","file": "public/config","description": "模板全局配置文件","more": {"vars": {"enable_mobile": {"title": "手机注册","type": "select","value": 1,"options": {"0": "关闭","1": "开启"},"tip": ""}}}}
+     *              "widget":{
      *              }
      *          }})
      *     ),
@@ -921,7 +916,7 @@ class ThemeController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "items":{
+     *              "list":{
      *                  {"title": "xxxx","content": "xxxxxxx"}
      *              },
      *              "item":{"title": {"title": "标题","value": "","type": "text","rule": {"require": true}},"content": {"title": "内容","value": "","type": "text"}}
@@ -971,7 +966,7 @@ class ThemeController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "items":{
+     *              "list":{
      *                  {"title": "xxxx","content": "xxxxxxx"}
      *              },
      *              "item":{"title": {"title": "标题","value": "","type": "text","rule": {"require": true}},"content": {"title": "内容","value": "","type": "text"}}
@@ -1031,7 +1026,7 @@ class ThemeController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "items":{
+     *              "list":{
      *                  {"title": "xxxx","content": "xxxxxxx"}
      *              },
      *              "item":{"title": {"title": "标题","value": "","type": "text","rule": {"require": true}},"content": {"title": "内容","value": "","type": "text"}}
@@ -1104,7 +1099,7 @@ class ThemeController extends RestAdminBaseController
             }
         }
 
-        $this->success('success', ['items' => $items, 'item' => $item]);
+        $this->success('success', ['list' => $items, 'total' => count($items), 'item' => $item]);
     }
 
     /**
@@ -1146,12 +1141,7 @@ class ThemeController extends RestAdminBaseController
      *     @OA\Response(
      *          response="1",
      *          description="success",
-     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "items":{
-     *                  {"id": 141,"is_public": 1,"list_order": 0,"theme": "default","name": "模板全局配置","action": "public/Config","file": "public/config","description": "模板全局配置文件","more": {"vars": {"enable_mobile": {"title": "手机注册","type": "select","value": 1,"options": {"0": "关闭","1": "开启"},"tip": ""}}}}
-     *              },
-     *              "item":{}
-     *          }})
+     *          @OA\JsonContent(example={"code": 1,"msg": "保存成功","data":""})
      *     ),
      *     @OA\Response(
      *          response="0",
@@ -1171,14 +1161,8 @@ class ThemeController extends RestAdminBaseController
      *         )
      *     ),
      *     @OA\Response(
-     *          response="1",
-     *          description="success",
-     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "items":{
-     *                  {"id": 141,"is_public": 1,"list_order": 0,"theme": "default","name": "模板全局配置","action": "public/Config","file": "public/config","description": "模板全局配置文件","more": {"vars": {"enable_mobile": {"title": "手机注册","type": "select","value": 1,"options": {"0": "关闭","1": "开启"},"tip": ""}}}}
-     *              },
-     *              "item":{}
-     *          }})
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 1,"msg": "保存成功","data":""})
      *     ),
      *     @OA\Response(
      *          response="0",
@@ -1230,7 +1214,7 @@ class ThemeController extends RestAdminBaseController
                         $validate = new Validate();
                         $validate->rule($rules);
                         $validate->message($messages);
-                        $result   = $validate->check($post['item']);
+                        $result = $validate->check($post['item']);
                         if (!$result) {
                             $this->error($validate->getError());
                         }
@@ -1275,7 +1259,7 @@ class ThemeController extends RestAdminBaseController
                                 $validate = new Validate();
                                 $validate->rule($rules);
                                 $validate->message($messages);
-                                $result   = $validate->check($post['item']);
+                                $result = $validate->check($post['item']);
                                 if (!$result) {
                                     $this->error($validate->getError());
                                 }
@@ -1322,7 +1306,7 @@ class ThemeController extends RestAdminBaseController
                             $validate = new Validate();
                             $validate->rule($rules);
                             $validate->message($messages);
-                            $result   = $validate->check($post['item']);
+                            $result = $validate->check($post['item']);
                             if (!$result) {
                                 $this->error($validate->getError());
                             }
@@ -1347,7 +1331,7 @@ class ThemeController extends RestAdminBaseController
             $more = json_encode($more);
             ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
             cmf_clear_cache();
-            $this->success(lang('EDIT_SUCCESS'), url('Theme/fileArrayData', ['tab' => $tab, 'var' => $varName, 'file_id' => $fileId, 'widget' => $widgetName, 'widget_id' => $widgetId, 'block_name' => $blockName]));
+            $this->success(lang('EDIT_SUCCESS'));
 
         }
 
@@ -1393,12 +1377,7 @@ class ThemeController extends RestAdminBaseController
      *     @OA\Response(
      *          response="1",
      *          description="success",
-     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "items":{
-     *                  {"title": "xxxx","content": "xxxxxxx"}
-     *              },
-     *              "item":{"title": {"title": "标题","value": "","type": "text","rule": {"require": true}},"content": {"title": "内容","value": "","type": "text"}}
-     *          }})
+     *          @OA\JsonContent(example={"code": 1,"msg": "删除成功","data":""})
      *     ),
      *     @OA\Response(
      *          response="0",
@@ -1453,12 +1432,7 @@ class ThemeController extends RestAdminBaseController
      *     @OA\Response(
      *          response="1",
      *          description="success",
-     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "items":{
-     *                  {"title": "xxxx","content": "xxxxxxx"}
-     *              },
-     *              "item":{"title": {"title": "标题","value": "","type": "text","rule": {"require": true}},"content": {"title": "内容","value": "","type": "text"}}
-     *          }})
+     *          @OA\JsonContent(example={"code": 1,"msg": "删除成功","data":""})
      *     ),
      *     @OA\Response(
      *          response="0",
@@ -1523,12 +1497,7 @@ class ThemeController extends RestAdminBaseController
      *     @OA\Response(
      *          response="1",
      *          description="success",
-     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "items":{
-     *                  {"title": "xxxx","content": "xxxxxxx"}
-     *              },
-     *              "item":{"title": {"title": "标题","value": "","type": "text","rule": {"require": true}},"content": {"title": "内容","value": "","type": "text"}}
-     *          }})
+     *          @OA\JsonContent(example={"code": 1,"msg": "删除成功","data":""})
      *     ),
      *     @OA\Response(
      *          response="0",

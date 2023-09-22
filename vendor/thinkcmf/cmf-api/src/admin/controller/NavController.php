@@ -28,9 +28,10 @@ class NavController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "navs":{
+     *              "list":{
      *                  {"id": 1,"is_main": 1,"name": "主导航","remark": "主导航"}
-     *              }
+     *              },
+     *              "total":1
      *          }})
      *     ),
      *     @OA\Response(
@@ -43,7 +44,7 @@ class NavController extends RestAdminBaseController
     {
         $navModel = new NavModel();
         $navs     = $navModel->select();
-        $this->success("success", ['navs' => $navs]);
+        $this->success("success", ['list' => $navs, 'total' => $navs->count()]);
     }
 
     /**
@@ -69,7 +70,7 @@ class NavController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "nav":{"id": 1,"is_main": 1,"name": "主导航","remark": "主导航"}
+     *              "item":{"id": 1,"is_main": 1,"name": "主导航","remark": "主导航"}
      *          }})
      *     ),
      *     @OA\Response(
@@ -91,7 +92,7 @@ class NavController extends RestAdminBaseController
             }
 
             $navModel->save($arrData);
-            $this->success(lang("ADD_SUCCESS"), ['nav' => $navModel]);
+            $this->success(lang("ADD_SUCCESS"), ['item' => $navModel]);
         }
     }
 
@@ -116,7 +117,7 @@ class NavController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "nav":{"id": 1,"is_main": 1,"name": "主导航","remark": "主导航"}
+     *              "item":{"id": 1,"is_main": 1,"name": "主导航","remark": "主导航"}
      *          }})
      *     ),
      *     @OA\Response(
@@ -133,7 +134,7 @@ class NavController extends RestAdminBaseController
         if (empty($result)) {
             $this->error('not found!');
         } else {
-            $this->success('success', ['nav' => $result]);
+            $this->success('success', ['item' => $result]);
         }
     }
 

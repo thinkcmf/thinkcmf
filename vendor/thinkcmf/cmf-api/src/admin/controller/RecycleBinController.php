@@ -32,7 +32,7 @@ class RecycleBinController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "items":{
+     *              "list":{
      *                  {
      *                      "id": 2,"object_id": 5,"create_time": 1693620556,"table_name": "portal_post","name": "asfsdf","user_id": 1
      *                  }
@@ -50,7 +50,7 @@ class RecycleBinController extends RestAdminBaseController
     {
         $recycleBinModel = new RecycleBinModel();
         $list            = $recycleBinModel->order('create_time desc')->paginate(10);
-        $this->success('success', ['items' => $list->items(), 'total' => $list->total()]);
+        $this->success('success', ['list' => $list->items(), 'total' => $list->total()]);
     }
 
     /**

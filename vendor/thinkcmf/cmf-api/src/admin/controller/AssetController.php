@@ -27,7 +27,7 @@ class AssetController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "assets":{
+     *              "list":{
      *                  {
      *                      "title": "演示应用",
      *                      "name": "demo",
@@ -41,7 +41,8 @@ class AssetController extends RestAdminBaseController
      *                      "installed": 1,
      *                      "local_verison": "1.0.3"
      *                  }
-     *              }
+     *              },
+     *              "total":1
      *          }})
      *     ),
      *     @OA\Response(
@@ -62,7 +63,7 @@ class AssetController extends RestAdminBaseController
         }
 
 
-        $this->success('success', ['assets' => $result->items(), 'total' => $result->total()]);
+        $this->success('success', ['list' => $result->items(), 'total' => $result->total()]);
     }
 
     /**
