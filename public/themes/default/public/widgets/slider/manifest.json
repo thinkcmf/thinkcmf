@@ -1,14 +1,25 @@
 {
+    "/*title": "控件名称*/",
     "title": "幻灯片",
+    "/*name": "控件名，同控件目录名*/",
     "name": "slider",
+    "/*display": "是否显示，默认请设置为1*/",
     "display": "1",
+    "/*version": "控件版本号,三位格式，如1.0.0*/",
     "version": "1.0.0",
+    "/*demo_url": "控件演示地址*/",
     "demo_url": "http://demo.thinkcmf.com",
+    "/*author": "控件开发者*/",
     "author": "ThinkCMF",
+    "/*author_url": "控件开发者网站地址*/",
     "author_url": "http://www.thinkcmf.com",
+    "/*keywords": "控件关键字，用于搜索*/",
     "keywords": "ThinkCMF模板simpleboot5幻灯片控件",
+    "/*description": "控件描述或简介*/",
     "description": "ThinkCMF模板simpleboot5幻灯片控件",
+    "/*action": "控件所在页面，如控件只能用于文章页，可写portal/Article/index，全局控件请留空*/",
     "action": "",
+    "/*vars": "控件变量，格式和模板变量一样，请参考模板变量用法*/",
     "vars": {
         "slide_id": {
             "title": "幻灯片",
@@ -34,6 +45,5 @@
             },
             "tip": ""
         }
-
     }
 }

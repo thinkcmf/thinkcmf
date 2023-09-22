@@ -1,4 +1,14 @@
+<!--
+引入控件外部JS
+注意请使用js标签
+可以保证此控件在同页面多次使用时，只加载一次JS文件
+-->
 <js src="__TMPL__/public/assets/js/slippry.min.js"/>
+<!--
+控件JS
+注意请勿使用ID选择，
+要此控件在同页面多次引用时，JS代码的通用性
+-->
 <script>
     $(function () {
         $(".slider").slippry({
