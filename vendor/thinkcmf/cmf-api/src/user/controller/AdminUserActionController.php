@@ -47,7 +47,7 @@ class AdminUserActionController extends RestAdminBaseController
     public function index()
     {
         $actions = UserActionModel::select();
-        $this->success('success', ['list' => $actions,'total'=>$actions->count()]);
+        $this->success('success', ['list' => $actions, 'total' => $actions->count()]);
     }
 
     /**
@@ -150,20 +150,25 @@ class AdminUserActionController extends RestAdminBaseController
 
     /**
      * 同步用户操作
-     * @adminMenu(
-     *     'name'   => '同步用户操作',
-     *     'parent' => 'admin/Dev/index',
-     *     'display'=> false,
-     *     'hasView'=> true,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '同步用户操作',
-     *     'param'  => ''
+     * @throws \think\exception\DbException
+     * @OA\Post(
+     *     tags={"user"},
+     *     path="/admin/user/actions/sync",
+     *     summary="同步用户操作",
+     *     description="同步用户操作",
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "同步成功!","data":""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error！","data":""})
+     *     ),
      * )
      */
     public function sync()
     {
-
         $apps = cmf_scan_dir($this->app->getAppPath() . '*', GLOB_ONLYDIR);
 
         array_push($apps, 'admin', 'user');
@@ -172,7 +177,7 @@ class AdminUserActionController extends RestAdminBaseController
             UserActionLogic::importUserActions($app);
         }
 
-        return $this->fetch();
+        $this->success("同步成功!");
     }
 
 

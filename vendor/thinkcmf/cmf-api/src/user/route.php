@@ -15,9 +15,10 @@ use think\facade\Route;
 Route::get('admin/user/oauth/users$', 'user/AdminOauth/index');
 Route::delete('admin/user/oauth/users/:id$', 'user/AdminOauth/delete');
 
+Route::post('admin/user/actions/sync$', 'user/AdminUserAction/sync');
 Route::get('admin/user/actions$', 'user/AdminUserAction/index');
-Route::get('admin/user/actions/:id$', 'user/AdminUserAction/read');
-Route::put('admin/user/actions/:id$', 'user/AdminUserAction/update');
+Route::get('admin/user/actions/:id$', 'user/AdminUserAction/read')->pattern(['id' => '\d+']);
+Route::put('admin/user/actions/:id$', 'user/AdminUserAction/update')->pattern(['id' => '\d+']);
 
 Route::get('admin/user/users$', 'user/AdminUser/index');
 Route::post('admin/user/users/:id/status/:status$', 'user/AdminUser/status')->pattern(['id' => '\d+', 'status' => '\d+',]);

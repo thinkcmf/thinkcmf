@@ -169,7 +169,7 @@ class MenuController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "menu":{"id": 113,"parent_id": 32,"type": 1,"status": 1,"list_order": 0,"app": "admin","controller": "Setting","action": "site","param": "","name": "网站信息","icon": "","remark": "网站信息"}
+     *              "item":{"id": 113,"parent_id": 32,"type": 1,"status": 1,"list_order": 0,"app": "admin","controller": "Setting","action": "site","param": "","name": "网站信息","icon": "","remark": "网站信息"}
      *          }})
      *     ),
      *     @OA\Response(

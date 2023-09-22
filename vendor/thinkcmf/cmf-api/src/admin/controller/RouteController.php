@@ -30,7 +30,7 @@ class RouteController extends RestAdminBaseController
      *                  {"id": 1,"list_order": 10000,"status": 1,"type": 1,
      *                      "full_url": "demo/List/index","url": "list/:id"
      *                  }
-     *              }
+     *              },"total":1
      *          }})
      *     ),
      *     @OA\Response(
@@ -367,10 +367,8 @@ class RouteController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "routes":{
-     *                  {"id": 1,"list_order": 10000,"status": 1,"type": 1,
-     *                      "full_url": "demo/List/index","url": "list/:id"
-     *                  }
+     *              "list":{
+     *                  "user/Login/index":{"name":"用户登录","vars":{},"simple":false,"action":"user/Login/index","suggest_url":"login$"}
      *              }
      *          }})
      *     ),
@@ -389,7 +387,7 @@ class RouteController extends RestAdminBaseController
             $urls[$key]['suggest_url'] = $this->_suggest_url($url);
         }
 
-        $this->success("success", ['urls' => $urls]);
+        $this->success("success", ['list' => $urls,'total'=>count($urls)]);
     }
 
     private function _suggest_url($url)
