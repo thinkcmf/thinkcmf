@@ -27,6 +27,24 @@ class UserController extends RestAdminBaseController
      *     path="/admin/users",
      *     summary="管理员列表",
      *     description="管理员列表",
+     *     @OA\Parameter(
+     *         name="user_login",
+     *         in="query",
+     *         description="用户名",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="user_email",
+     *         in="query",
+     *         description="邮箱",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
      *     @OA\Response(
      *          response="1",
      *          description="success",
@@ -53,12 +71,10 @@ class UserController extends RestAdminBaseController
      */
     public function index()
     {
-        /**搜索条件**/
-        $userLogin = $this->request->param('user_login');
-        $userEmail = trim($this->request->param('user_email', ''));
-
         $users = UserModel::where('user_type', 1)
-            ->where(function (Query $query) use ($userLogin, $userEmail) {
+            ->where(function (Query $query)  {
+                $userLogin = trim($this->request->param('user_login',''));
+                $userEmail = trim($this->request->param('user_email', ''));
                 if ($userLogin) {
                     $query->where('user_login', 'like', "%$userLogin%");
                 }
@@ -69,6 +85,10 @@ class UserController extends RestAdminBaseController
             })
             ->order("id DESC")
             ->paginate(10);
+
+        if(!$users->isEmpty()){
+            $users->hidden(['user_pass']);
+        }
 
         $this->success('success', ['list' => $users->items(), 'total' => $users->total()]);
     }
