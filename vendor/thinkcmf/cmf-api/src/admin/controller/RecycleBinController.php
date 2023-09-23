@@ -53,7 +53,7 @@ class RecycleBinController extends RestAdminBaseController
 
         if(!$list->isEmpty()){
             $list->load(['user']);
-            $list->hidden(['user.user_pass','user.score','user.balance','user.coin']);
+            $list->visible(['user.user_type','user.sex','user.user_login','user.user_nickname','user.avatar']);
         }
         $this->success('success', ['list' => $list->items(), 'total' => $list->total()]);
     }

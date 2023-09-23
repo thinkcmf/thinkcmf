@@ -59,7 +59,7 @@ class AssetController extends RestAdminBaseController
 
         if(!$result->isEmpty()){
             $result->load(['user']);
-            $result->hidden(['user.user_pass','user.score','user.balance','user.coin']);
+            $result->visible(['user.user_type','user.sex','user.user_login','user.user_nickname','user.avatar']);
         }
 
 
