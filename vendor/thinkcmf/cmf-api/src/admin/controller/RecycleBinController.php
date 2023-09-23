@@ -50,6 +50,11 @@ class RecycleBinController extends RestAdminBaseController
     {
         $recycleBinModel = new RecycleBinModel();
         $list            = $recycleBinModel->order('create_time desc')->paginate(10);
+
+        if(!$list->isEmpty()){
+            $list->load(['user']);
+            $list->hidden(['user.user_pass','user.score','user.balance','user.coin']);
+        }
         $this->success('success', ['list' => $list->items(), 'total' => $list->total()]);
     }
 
