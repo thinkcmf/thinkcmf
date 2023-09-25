@@ -68,11 +68,11 @@ ThinkCMF 8.0.0 让你更自由地飞
 - [x] 支持`.env`环境配置
 
 ### 即将废弃
-* `app`模式下后台所有`非GET`请求提交接口，请后台模板开发者请尽快升级到`API`接口
+* `app`模式下后台所有`非GET`请求提交接口,请后台模板开发者尽快升级到`API`接口
 
 ### 开发手册
 
-https://www.thinkcmf.com/docs/cmf6
+https://www.thinkcmf.com/docs/cmf8
 
 ### Git仓库
 
@@ -81,14 +81,14 @@ https://www.thinkcmf.com/docs/cmf6
 
 ### 环境推荐
 
-> php8.1  
-> mysql 5.7+  
+> PHP 8.1     
+> MySQL 5.7+   
 > 打开rewrite
 
 ### 最低环境要求
 
-> php8.0.0  (swagger插件要求PHP8.1)
-> mysql 5.5+ (mysql5.1安装时选择utf8编码，不支持表情符)  
+> PHP 8.0  (swagger插件要求PHP8.1)
+> MySQL 5.5+ (mysql5.1安装时选择utf8编码，不支持表情符)  
 > 打开rewrite
 
 ### 安装程序
@@ -100,9 +100,9 @@ enjoy your cmf~!
 
 ### Swagger
 
-#### 开启swagger
+#### 开启Swagger
 
-后台安装 `Swagger`插件(要求PHP8.1及以上)
+后台应用中心->插件管理安装 `Swagger`插件(要求PHP8.1及以上)
 
 #### 相关文档
 
@@ -111,7 +111,7 @@ enjoy your cmf~!
 
 ### Docker
 
-如果需要`docker`下运行`ThinkCMF`,可以使用下面的仓库  
+如果需要`Docker`下运行`ThinkCMF`,可以使用下面的仓库  
 https://gitee.com/thinkcmf/docker
 
 ### 升级指导
@@ -131,6 +131,7 @@ https://gitee.com/thinkcmf/docker
 2. `composer update`
 3. 后台所有非ajax的`POST`请求，改为`GET`请求
 4. 如自定义后台模板未用`admin.js`,请注意所有POST请求时在`header`中增加`XX-Device-Type`和`Authorization`
+5. 后台模板切换为`admin_default`
 
 #### 6.0.8升级到6.0.9
 1. `composer update`
