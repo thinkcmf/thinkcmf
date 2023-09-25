@@ -87,8 +87,8 @@ https://www.thinkcmf.com/docs/cmf8
 
 ### 最低环境要求
 
-> PHP 8.0  (swagger插件要求PHP8.1)
-> MySQL 5.5+ (mysql5.1安装时选择utf8编码，不支持表情符)  
+> PHP 8.0 (swagger插件要求PHP8.1)   
+> MySQL 5.5   
 > 打开rewrite
 
 ### 安装程序
