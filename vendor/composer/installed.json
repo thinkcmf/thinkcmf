@@ -856,17 +856,17 @@
         },
         {
             "name": "thinkcmf/cmf-root",
-            "version": "v2.0.0",
-            "version_normalized": "2.0.0.0",
+            "version": "v2.0.1",
+            "version_normalized": "2.0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-root.git",
-                "reference": "66d4d66747f05719ca6bca8b4f1577ae664eb37f"
+                "reference": "7a995dcfa62f275f3f72b85960524c8a1a70a35c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-root/zipball/66d4d66747f05719ca6bca8b4f1577ae664eb37f",
-                "reference": "66d4d66747f05719ca6bca8b4f1577ae664eb37f",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-root/zipball/7a995dcfa62f275f3f72b85960524c8a1a70a35c",
+                "reference": "7a995dcfa62f275f3f72b85960524c8a1a70a35c",
                 "shasum": ""
             },
             "require": {
@@ -875,7 +875,7 @@
             "require-dev": {
                 "composer/composer": "^1.0||^2.0"
             },
-            "time": "2023-09-12T15:16:02+00:00",
+            "time": "2023-09-25T16:37:49+00:00",
             "type": "composer-plugin",
             "extra": {
                 "class": "cmf\\composer\\RootDirPlugin"
@@ -899,7 +899,7 @@
             "description": "The files in ThinkCMF root dir",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-root/issues",
-                "source": "https://github.com/thinkcmf/cmf-root/tree/v2.0.0"
+                "source": "https://github.com/thinkcmf/cmf-root/tree/v2.0.1"
             },
             "install-path": "../thinkcmf/cmf-root"
         },
