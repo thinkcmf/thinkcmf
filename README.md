@@ -63,7 +63,7 @@ ThinkCMF 8.0.0 让你更自由地飞
 - [x] 默认过滤器`htmlspecialchars`
 - [x] 文件上传
 - [x] 验证码优化
-- [x] 强制所有创建，更新，删除操作为POST请求
+- [x] 强制所有创建，更新，删除操作携带Token请求
 - [x] 基础控制器`validateFailError()`方法
 - [x] 支持`.env`环境配置
 
