@@ -94,6 +94,10 @@ class Mongo extends Connection
         'fields_cache'    => false,
         // 监听SQL
         'trigger_sql'     => true,
+        // Builder类
+        'builder'         => '',
+        // Query类
+        'query'           => '',
         // 自动写入时间戳字段
         'auto_timestamp'  => false,
         // 时间字段取出后的默认时间格式
@@ -111,7 +115,7 @@ class Mongo extends Connection
      */
     public function getQueryClass(): string
     {
-        return Query::class;
+        return $this->getConfig('query') ?: Query::class;
     }
 
     /**
@@ -131,7 +135,7 @@ class Mongo extends Connection
      */
     public function getBuilderClass(): string
     {
-        return Builder::class;
+        return $this->getConfig('builder') ?: Builder::class;
     }
 
     /**

@@ -31,9 +31,9 @@ class PluginController extends RestAdminBaseController
      *          response="1",
      *          description="success",
      *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
-     *              "list":{
-     *                  {"id":39,"type":1,"has_admin":1,"status":1,"create_time":0,"name":"Swagger","title":"Swagger","demo_url":"http://demo.thinkcmf.com","hooks":"","author":"ThinkCMF","author_url":"http://www.thinkcmf.com","version":"2.0.0","description":"Swagger4.0支持PHP版本>=8.1,同时支持Attributes和Annotations","config":{}}
-     *              },"total":1
+     *              "plugins":{
+     *                  {"id": 1,"status": 1,"delete_time": 0,"name": "又菜又爱玩","remark": ""}
+     *              }
      *          }})
      *     ),
      *     @OA\Response(
@@ -46,8 +46,7 @@ class PluginController extends RestAdminBaseController
     {
         $pluginModel = new PluginModel();
         $plugins     = $pluginModel->getList();
-        $plugins     = array_values($plugins);
-        $this->success("success", ['plugins' => $plugins, 'total' => count($plugins)]);
+        $this->success("success", ['plugins' => $plugins]);
     }
 
     /**

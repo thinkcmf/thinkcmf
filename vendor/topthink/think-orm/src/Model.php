@@ -268,6 +268,20 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
     }
 
     /**
+     * 设置当前模型名称.
+     *
+     * @param string $name 模型名称
+     *
+     * @return $this
+     */
+    public function setName(string $name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
      * 创建新的模型实例.
      *
      * @param array $data    数据

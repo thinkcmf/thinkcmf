@@ -9,10 +9,11 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think;
 
+use Closure;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
@@ -56,13 +57,6 @@ class DbManager
      * @var array
      */
     protected $listen = [];
-
-    /**
-     * SQL日志.
-     *
-     * @var array
-     */
-    protected $dbLog = [];
 
     /**
      * 查询次数.
@@ -159,11 +153,11 @@ class DbManager
     /**
      * 设置日志对象
      *
-     * @param LoggerInterface $log 日志对象
+     * @param LoggerInterface|Closure $log 日志对象
      *
      * @return void
      */
-    public function setLog(LoggerInterface $log): void
+    public function setLog(LoggerInterface | Closure $log): void
     {
         $this->log = $log;
     }
@@ -179,27 +173,24 @@ class DbManager
     public function log(string $log, string $type = 'sql')
     {
         if ($this->log) {
-            $this->log->log($type, $log);
-        } else {
-            $this->dbLog[$type][] = $log;
+            if ($this->log instanceof Closure) {
+                call_user_func_array($this->log, [$type, $log]);
+            } else {
+                $this->log->log($type, $log);
+            }
         }
     }
 
     /**
      * 获得查询日志（没有设置日志对象使用）.
      *
+     * @deprecated
      * @param bool $clear 是否清空
-     *
      * @return array
      */
     public function getDbLog(bool $clear = false): array
     {
-        $logs = $this->dbLog;
-        if ($clear) {
-            $this->dbLog = [];
-        }
-
-        return $logs;
+        return [];
     }
 
     /**
@@ -314,17 +305,16 @@ class DbManager
 
     /**
      * 更新查询次数.
-     *
+     * @deprecated
      * @return void
      */
     public function updateQueryTimes(): void
     {
-        $this->queryTimes++;
     }
 
     /**
      * 重置查询次数.
-     *
+     * @deprecated
      * @return void
      */
     public function clearQueryTimes(): void
@@ -334,7 +324,7 @@ class DbManager
 
     /**
      * 获得查询次数.
-     *
+     * @deprecated
      * @return int
      */
     public function getQueryTimes(): int
