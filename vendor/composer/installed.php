@@ -107,9 +107,9 @@
             'dev_requirement' => false,
         ),
         'thinkcmf/cmf-api' => array(
-            'pretty_version' => 'v8.0.3',
-            'version' => '8.0.3.0',
-            'reference' => '4efadc8b148c914f5bc6437a040e0aef774e23f0',
+            'pretty_version' => 'v8.0.4',
+            'version' => '8.0.4.0',
+            'reference' => 'b7f747c5eef90caa572acc8017bdba6aea68a37c',
             'type' => 'library',
             'install_path' => __DIR__ . '/../thinkcmf/cmf-api',
             'aliases' => array(),

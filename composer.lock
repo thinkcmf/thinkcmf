@@ -563,16 +563,16 @@
         },
         {
             "name": "thinkcmf/cmf-api",
-            "version": "v8.0.3",
+            "version": "v8.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinkcmf/cmf-api.git",
-                "reference": "4efadc8b148c914f5bc6437a040e0aef774e23f0"
+                "reference": "b7f747c5eef90caa572acc8017bdba6aea68a37c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/4efadc8b148c914f5bc6437a040e0aef774e23f0",
-                "reference": "4efadc8b148c914f5bc6437a040e0aef774e23f0",
+                "url": "https://api.github.com/repos/thinkcmf/cmf-api/zipball/b7f747c5eef90caa572acc8017bdba6aea68a37c",
+                "reference": "b7f747c5eef90caa572acc8017bdba6aea68a37c",
                 "shasum": ""
             },
             "require": {
@@ -602,9 +602,9 @@
             "description": "The ThinkCMF Core Api Package",
             "support": {
                 "issues": "https://github.com/thinkcmf/cmf-api/issues",
-                "source": "https://github.com/thinkcmf/cmf-api/tree/v8.0.3"
+                "source": "https://github.com/thinkcmf/cmf-api/tree/v8.0.4"
             },
-            "time": "2023-09-25T16:19:12+00:00"
+            "time": "2023-09-27T15:26:56+00:00"
         },
         {
             "name": "thinkcmf/cmf-app",
