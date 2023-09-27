@@ -47,7 +47,7 @@ class PluginController extends RestAdminBaseController
         $pluginModel = new PluginModel();
         $plugins     = $pluginModel->getList();
         $plugins     = array_values($plugins);
-        $this->success("success", ['plugins' => $plugins, 'total' => count($plugins)]);
+        $this->success("success", ['list' => $plugins, 'total' => count($plugins)]);
     }
 
     /**
