@@ -131,7 +131,7 @@ https://gitee.com/thinkcmf/docker
 2. `composer update`
 3. 后台所有非ajax的`POST`请求，改为`GET`请求
 4. 如自定义后台模板未用`admin.js`,请注意所有POST请求时在`header`中增加`XX-Device-Type`和`Authorization`
-5. 后台模板切换为`admin_default`
+5. 把`data/config/template.php`中`cmf_admin_default_theme`后台模板改为`admin_default`
 
 #### 6.0.8升级到6.0.9
 1. `composer update`
