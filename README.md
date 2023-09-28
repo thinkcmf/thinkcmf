@@ -1,6 +1,9 @@
-ThinkCMF 8.0.0 让你更自由地飞
+ThinkCMF 8.0.1 开发版
 ===============
 欢迎入坑，有问题请及时提交issue!
+
+**`8.0.1`正在紧张开发中，请不要用于正式环境！实际项目请下载最新正式版`8.0.0`**
+
 
 ### 主要特性
 
@@ -165,6 +168,9 @@ https://gitee.com/thinkcmf/docker
 5. `composer update`
 
 ### 更新日志
+
+#### 8.0.1 coding~
+* coding~
 
 #### 8.0.0
 * 升级到`ThinkPHP8.0`
