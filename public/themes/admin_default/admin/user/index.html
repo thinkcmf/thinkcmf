@@ -1,122 +1,134 @@
-<include file="public@header"/>
-</head>
-<body>
-<div class="wrap js-check-wrap">
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('User/index')}">{:lang('ADMIN_USER_INDEX')}</a></li>
-        <li><a href="{:url('User/add')}">{:lang('ADMIN_USER_ADD')}</a></li>
-    </ul>
-    <form class="well form-inline margin-top-20 bg-white" method="get" action="{:url('User/index')}">
-        用户名:
-        <input type="text" class="form-control" name="user_login" style="width: 120px;"
-               value="{:input('request.user_login/s','')}" placeholder="请输入{:lang('USERNAME')}">
-        邮箱:
-        <input type="text" class="form-control" name="user_email" style="width: 120px;"
-               value="{:input('request.user_email/s','')}" placeholder="请输入{:lang('EMAIL')}">
-        <input type="submit" class="btn btn-primary" value="搜索"/>
-        <a class="btn btn-danger" href="{:url('User/index')}">清空</a>
-    </form>
-    <table class="table table-hover table-bordered">
-        <thead>
-        <tr>
-            <th width="50">ID</th>
-            <th>{:lang('USERNAME')}</th>
-            <th>{:lang('LAST_LOGIN_IP')}</th>
-            <th>{:lang('LAST_LOGIN_TIME')}</th>
-            <th>{:lang('EMAIL')}</th>
-            <th>{:lang('STATUS')}</th>
-            <th width="120">{:lang('ACTIONS')}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <php>
-            $user_statuses=array("0"=>lang('USER_STATUS_BLOCKED'),"1"=>lang('USER_STATUS_ACTIVATED'),"2"=>lang('USER_STATUS_UNVERIFIED'));
-        </php>
-        <foreach name="users" item="vo">
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="{:url('User/index')}">{:lang('ADMIN_USER_INDEX')}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{:url('User/add')}">{:lang('ADMIN_USER_ADD')}</a>
+            </li>
+        </ul>
+        <div class="card margin-top-20">
+            <div class="card-body">
+                <form class=" bg-white row row-cols-lg-auto gap-1 g-3 align-items-center" method="get"
+                      action="{:url('User/index')}">
+                    <div class="col-12">
+                        <input type="text" class="form-control" name="user_login"
+                               value="{:input('request.user_login/s','')}" placeholder="{:lang('USERNAME')}">
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="form-control" name="user_email"
+                               value="{:input('request.user_email/s','')}" placeholder="{:lang('EMAIL')}">
+                    </div>
+                    <div class="col-12">
+                        <input type="submit" class="btn btn-primary" value="搜索"/>
+                        <a class="btn btn-danger" href="{:url('User/index')}">清空</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <table class="table table-hover table-bordered margin-top-20">
+            <thead>
             <tr>
-                <td>{$vo.id}</td>
-                <td>
-                    <if condition="$vo['user_url']"><a href="{$vo.user_url}" target="_blank" title="{$vo.signature}">{$vo.user_login}</a>
-                        <else/>
-                        {$vo.user_login}
-                    </if>
-                </td>
-                <td>{$vo.last_login_ip}</td>
-                <td>
-                    <if condition="$vo['last_login_time'] eq 0">
-                        {:lang('USER_HAVE_NOT_LOGIN')}
-                        <else/>
-                        {:date('Y-m-d H:i:s',$vo['last_login_time'])}
-                    </if>
-                </td>
-                <td>{$vo.user_email}</td>
-                <td>
-                    <switch name="vo.user_status">
-                        <case value="0">
-                            <span class="label label-danger">{$user_statuses[$vo['user_status']]}</span>
-                        </case>
-                        <case value="1">
-                            <span class="label label-success">{$user_statuses[$vo['user_status']]}</span>
-                        </case>
-                        <case value="2">
-                            <span class="label label-warning">{$user_statuses[$vo['user_status']]}</span>
-                        </case>
-                    </switch>
-                </td>
-                <td>
-                    <if condition="$vo['id'] eq 1 || $vo['id'] eq cmf_get_current_admin_id()">
-                        <if condition="$vo['user_status'] eq 1">
+                <th width="50">ID</th>
+                <th>{:lang('USERNAME')}</th>
+                <th>{:lang('LAST_LOGIN_IP')}</th>
+                <th>{:lang('LAST_LOGIN_TIME')}</th>
+                <th>{:lang('EMAIL')}</th>
+                <th>{:lang('STATUS')}</th>
+                <th width="120">{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <php>
+                $user_statuses=array("0"=>lang('USER_STATUS_BLOCKED'),"1"=>lang('USER_STATUS_ACTIVATED'),"2"=>lang('USER_STATUS_UNVERIFIED'));
+            </php>
+            <foreach name="users" item="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>
+                        <if condition="$vo['user_url']"><a href="{$vo.user_url}" target="_blank"
+                                                           title="{$vo.signature}">{$vo.user_login}</a>
+                            <else/>
+                            {$vo.user_login}
+                        </if>
+                    </td>
+                    <td>{$vo.last_login_ip}</td>
+                    <td>
+                        <if condition="$vo['last_login_time'] eq 0">
+                            {:lang('USER_HAVE_NOT_LOGIN')}
+                            <else/>
+                            {:date('Y-m-d H:i:s',$vo['last_login_time'])}
+                        </if>
+                    </td>
+                    <td>{$vo.user_email}</td>
+                    <td>
+                        <switch name="vo.user_status">
+                            <case value="0">
+                                <span class="label label-danger">{$user_statuses[$vo['user_status']]}</span>
+                            </case>
+                            <case value="1">
+                                <span class="label label-success">{$user_statuses[$vo['user_status']]}</span>
+                            </case>
+                            <case value="2">
+                                <span class="label label-warning">{$user_statuses[$vo['user_status']]}</span>
+                            </case>
+                        </switch>
+                    </td>
+                    <td>
+                        <if condition="$vo['id'] eq 1 || $vo['id'] eq cmf_get_current_admin_id()">
+                            <if condition="$vo['user_status'] eq 1">
                             <span class="btn btn-xs btn-warning disabled"
                                   title="{:lang('BLOCK_USER')}"
                                   data-toggle="tooltip">
                                 <i class="fa fa-toggle-off fa-fw"></i>
                             </span>
-                            <else/>
-                            <span class="btn btn-xs btn-warning disabled"
-                                  title="{:lang('ACTIVATE_USER')}"
-                                  data-toggle="tooltip">
+                                <else/>
+                                <span class="btn btn-xs btn-warning disabled"
+                                      title="{:lang('ACTIVATE_USER')}"
+                                      data-toggle="tooltip">
                                 <i class="fa fa-toggle-on fa-fw"></i>
                             </span>
-                        </if>
-                        <span class="btn btn-xs btn-primary disabled" title="{:lang('EDIT')}" data-toggle="tooltip">
+                            </if>
+                            <span class="btn btn-xs btn-primary disabled" title="{:lang('EDIT')}" data-toggle="tooltip">
                             <i class="fa fa-edit fa-fw"></i></span>
-                        <span class="btn btn-xs btn-danger disabled" title="{:lang('DELETE')}" data-toggle="tooltip">
+                            <span class="btn btn-xs btn-danger disabled" title="{:lang('DELETE')}"
+                                  data-toggle="tooltip">
                             <i class="fa fa-trash fa-fw"></i></span>
-                        <else/>
-                        <if condition="$vo['user_status'] eq 1">
-                            <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
-                               href="javascript:"
-                               data-href="admin/users/{$vo.id}/status/0"
-                               data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}"
-                               title="{:lang('BLOCK_USER')}" data-toggle="tooltip">
-                                <i class="fa fa-toggle-off fa-fw"></i>
-                            </a>
                             <else/>
-                            <a class="btn btn-xs btn-success js-ajax-dialog-btn"
+                            <if condition="$vo['user_status'] eq 1">
+                                <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
+                                   href="javascript:"
+                                   data-href="admin/users/{$vo.id}/status/0"
+                                   data-msg="{:lang('BLOCK_USER_CONFIRM_MESSAGE')}"
+                                   title="{:lang('BLOCK_USER')}" data-toggle="tooltip">
+                                    <i class="fa fa-toggle-off fa-fw"></i>
+                                </a>
+                                <else/>
+                                <a class="btn btn-xs btn-success js-ajax-dialog-btn"
+                                   href="javascript:"
+                                   data-href="admin/users/{$vo.id}/status/1"
+                                   data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}"
+                                   title="{:lang('ACTIVATE_USER')}" data-toggle="tooltip">
+                                    <i class="fa fa-toggle-on fa-fw"></i>
+                                </a>
+                            </if>
+                            <a class="btn btn-xs btn-primary" href='{:url("User/edit",array("id"=>$vo["id"]))}'
+                               title="{:lang('EDIT')}" data-toggle="tooltip">
+                                <i class="fa fa-edit fa-fw"></i>
+                            </a>
+                            <a class="btn btn-xs btn-danger js-ajax-delete"
                                href="javascript:"
-                               data-href="admin/users/{$vo.id}/status/1"
-                               data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}"
-                               title="{:lang('ACTIVATE_USER')}" data-toggle="tooltip">
-                                <i class="fa fa-toggle-on fa-fw"></i>
+                               data-href="admin/users/{$vo.id}" title="{:lang('DELETE')}" data-toggle="tooltip">
+                                <i class="fa fa-trash fa-fw"></i>
                             </a>
                         </if>
-                        <a class="btn btn-xs btn-primary" href='{:url("User/edit",array("id"=>$vo["id"]))}'
-                           title="{:lang('EDIT')}" data-toggle="tooltip">
-                            <i class="fa fa-edit fa-fw"></i>
-                        </a>
-                        <a class="btn btn-xs btn-danger js-ajax-delete"
-                           href="javascript:"
-                           data-href="admin/users/{$vo.id}" title="{:lang('DELETE')}" data-toggle="tooltip">
-                            <i class="fa fa-trash fa-fw"></i>
-                        </a>
-                    </if>
-                </td>
-            </tr>
-        </foreach>
-        </tbody>
-    </table>
-    <div class="pagination">{$page}</div>
-</div>
-<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
-</body>
-</html>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <div class="pagination">{$page}</div>
+    </div>
+</block>

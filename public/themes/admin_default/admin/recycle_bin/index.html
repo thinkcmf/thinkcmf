@@ -1,9 +1,8 @@
-<include file="public@header"/>
-</head>
-<body>
+<extend name="public@base5"/>
+<block name="main">
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="javascript:void(0)">{:lang('ADMIN_RECYCLEBIN_INDEX')}</a></li>
+        <li class="nav-item"><a class="nav-link active" href="javascript:void(0)">{:lang('ADMIN_RECYCLEBIN_INDEX')}</a></li>
     </ul>
     <form class="js-ajax-form margin-top-20" method="post">
         <div class="table-actions">
@@ -103,6 +102,4 @@
         <div class="pagination">{$page}</div>
     </form>
 </div>
-<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
-</body>
-</html>
+</block>

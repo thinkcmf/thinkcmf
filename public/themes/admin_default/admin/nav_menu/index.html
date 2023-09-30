@@ -1,70 +1,71 @@
-<include file="public@header"/>
-</head>
-<body>
-<div class="wrap js-check-wrap">
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">{:lang('ADMIN_NAVMENU_INDEX')}</a></li>
-        <li><a href="{:url('NavMenu/add',['nav_id'=>$nav_id])}">{:lang('ADMIN_NAVMENU_ADD')}</a></li>
-    </ul>
-    <form class="js-ajax-form margin-top-10" action="admin/nav/menus/list/order" method="post">
-        <div class="table-actions">
-            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                    title="{:lang('Sort')}" data-toggle="tooltip">
-                <i class="fa fa-sort-numeric-asc fa-fw"></i>
-            </button>
-        </div>
-        <table class="table table-hover table-bordered">
-            <thead>
-            <tr>
-                <th width="50">{:lang('Sort')}</th>
-                <th width="50">ID</th>
-                <th>{:lang('Name')}</th>
-                <th width="80">{:lang('Status')}</th>
-                <th width="120">{:lang('ACTIONS')}</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tree name="menus" item="menu">
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">{:lang('ADMIN_NAVMENU_INDEX')}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{:url('NavMenu/add',['nav_id'=>$nav_id])}">{:lang('ADMIN_NAVMENU_ADD')}</a>
+            </li>
+        </ul>
+        <form class="js-ajax-form margin-top-10" action="admin/nav/menus/list/order" method="post">
+            <div class="table-actions">
+                <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                        title="{:lang('Sort')}" data-toggle="tooltip">
+                    <i class="fa fa-sort-numeric-asc fa-fw"></i>
+                </button>
+            </div>
+            <table class="table table-hover table-bordered">
+                <thead>
                 <tr>
-                    <td><input name="list_orders[{$menu.id}]" type="text" size="3" value="{$menu.list_order}"
-                               class='input input-order'></td>
-                    <td>{$menu.id}</td>
-                    <td>{$menu._spacer}{$menu.name}</td>
-                    <td>
-                        <empty name="menu.status">
+                    <th width="50">{:lang('Sort')}</th>
+                    <th width="50">ID</th>
+                    <th>{:lang('Name')}</th>
+                    <th width="80">{:lang('Status')}</th>
+                    <th width="120">{:lang('ACTIONS')}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tree name="menus" item="menu">
+                    <tr>
+                        <td><input name="list_orders[{$menu.id}]" type="text" size="3" value="{$menu.list_order}"
+                                   class='input input-order'></td>
+                        <td>{$menu.id}</td>
+                        <td>{$menu._spacer}{$menu.name}</td>
+                        <td>
+                            <empty name="menu.status">
                             <span class="label label-default">
                                 {:lang('HIDDEN')}
                             </span>
-                            <else/>
-                            <span class="label label-success">
+                                <else/>
+                                <span class="label label-success">
                                 {:lang('DISPLAY')}
                             </span>
-                        </empty>
-                    </td>
-                    <td>
-                        <a class="btn btn-xs btn-primary"
-                           href="{:url('NavMenu/add', ['parent_id' =>$menu.id, 'nav_id'=> $menu.nav_id])}"
-                           title="{:lang('ADD_SUB_MENU')}" data-toggle="tooltip">
-                            <i class="fa fa-plus fa-fw"></i>
-                        </a>
-                        <a class="btn btn-xs btn-success" href="{:url('NavMenu/edit', ['id' =>$menu.id])}"
-                           title="{:lang('EDIT')}" data-toggle="tooltip">
-                            <i class="fa fa-edit fa-fw"></i>
-                        </a>
-                        <a class="btn btn-xs btn-danger js-ajax-delete"
-                           href="javascript:void(0);"
-                           data-href="admin/nav/menus/{$menu.id}"
-                           title="{:lang('DELETE')}"
-                           data-toggle="tooltip">
-                            <i class="fa fa-trash fa-fw"></i>
-                        </a>
-                    </td>
-                </tr>
-            </tree>
-            </tbody>
-        </table>
-    </form>
-</div>
-<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
-</body>
-</html>
+                            </empty>
+                        </td>
+                        <td>
+                            <a class="btn btn-xs btn-primary"
+                               href="{:url('NavMenu/add', ['parent_id' =>$menu.id, 'nav_id'=> $menu.nav_id])}"
+                               title="{:lang('ADD_SUB_MENU')}" data-toggle="tooltip">
+                                <i class="fa fa-plus fa-fw"></i>
+                            </a>
+                            <a class="btn btn-xs btn-success" href="{:url('NavMenu/edit', ['id' =>$menu.id])}"
+                               title="{:lang('EDIT')}" data-toggle="tooltip">
+                                <i class="fa fa-edit fa-fw"></i>
+                            </a>
+                            <a class="btn btn-xs btn-danger js-ajax-delete"
+                               href="javascript:void(0);"
+                               data-href="admin/nav/menus/{$menu.id}"
+                               title="{:lang('DELETE')}"
+                               data-toggle="tooltip">
+                                <i class="fa fa-trash fa-fw"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tree>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</block>
