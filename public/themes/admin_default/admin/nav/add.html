@@ -1,47 +1,46 @@
-<include file="public@header"/>
-</head>
-<body>
-<div class="wrap js-check-wrap">
-    <ul class="nav nav-tabs">
-        <li><a href="{:url('Nav/index')}">{:lang('ADMIN_NAV_INDEX')}</a></li>
-        <li class="active"><a href="{:url('Nav/add')}">{:lang('ADMIN_NAV_ADD')}</a></li>
-        <!--<li><a  href="{:url('Nav/edit')}" >{:lang('ADMIN_NAV_EDIT')}</a></li>-->
-    </ul>
-    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="admin/navs">
-        <div class="form-group">
-            <label class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('Name')}</label>
-            <div class="col-md-8 col-sm-10">
-                <input type="text" class="form-control" name="name" value="">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">{:lang('Remark')}</label>
-            <div class="col-md-8 col-sm-10">
-                <textarea class="form-control" name="remark" rows="5" cols="57"></textarea>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">{:lang('Main Navigation')}</label>
-            <div class="col-md-8 col-sm-10">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="is_main" value="1">
-                    </label>
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="{:url('Nav/index')}">{:lang('ADMIN_NAV_INDEX')}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="{:url('Nav/add')}">{:lang('ADMIN_NAV_ADD')}</a>
+            </li>
+            <!--<li><a  href="{:url('Nav/edit')}" >{:lang('ADMIN_NAV_EDIT')}</a></li>-->
+        </ul>
+        <form method="post" class="js-ajax-form margin-top-20" action="admin/navs">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end">
+                    <span class="form-required">*</span>{:lang('Name')}
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="text" class="form-control" name="name" value="">
                 </div>
-
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary js-ajax-submit">
-                    <i class="fa fa-save fa-fw"></i> {:lang('ADD')}
-                </button>
-                <a class="btn btn-default" href="{:url('Nav/index')}">{:lang('BACK')}</a>
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end">{:lang('Remark')}</label>
+                <div class="col-md-8 col-sm-10">
+                    <textarea class="form-control" name="remark" rows="5" cols="57"></textarea>
+                </div>
             </div>
-        </div>
-    </form>
-
-</div>
-<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
-</body>
-</html>
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end pt-0">{:lang('Main Navigation')}</label>
+                <div class="col-md-8 col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="is_main" value="1" id="input-is_main_1">
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="offset-sm-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary js-ajax-submit">
+                        <i class="fa fa-save fa-fw"></i> {:lang('ADD')}
+                    </button>
+                    <a class="btn btn-secondary" href="{:url('Nav/index')}">{:lang('BACK')}</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</block>

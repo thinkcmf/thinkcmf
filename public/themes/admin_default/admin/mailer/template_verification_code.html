@@ -1,46 +1,54 @@
-<include file="public@header"/>
-</head>
-<body>
-<div class="wrap">
-    <ul class="nav nav-tabs">
-        <li><a href="{:url('Mailer/index')}">{:lang('ADMIN_MAILER_INDEX')}</a></li>
-        <li class="active"><a href="#" data-toggle="tab">{:lang('ADMIN_MAILER_TEMPLATE')}</a></li>
-    </ul>
-    <form method="put" class="form-horizontal js-ajax-form margin-top-20" role="form"
-          action="admin/mail/template">
-        <div class="form-group">
-            <label for="input-title" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('EMAIL_SUBJECT')}</label>
-            <div class="col-md-8 col-sm-10">
-                <input type="text" class="form-control" name="subject" id="input-title" value="{$subject|default=''}">
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="{:url('Mailer/index')}">{:lang('ADMIN_MAILER_INDEX')}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#" data-toggle="tab">{:lang('ADMIN_MAILER_TEMPLATE')}</a>
+            </li>
+        </ul>
+        <form method="put" class="js-ajax-form margin-top-20" role="form"
+              action="admin/mail/template">
+            <div class="row mb-3">
+                <label for="input-title" class="col-sm-2 col-form-label text-sm-end">
+                    <span class="form-required">*</span>{:lang('EMAIL_SUBJECT')}
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="text" class="form-control" name="subject" id="input-title"
+                           value="{$subject|default=''}">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="input-title" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('EMAIL_TEMPLATE')}</label>
-            <div class="col-md-8 col-sm-12">
-                <script type="text/plain" id="content" name="template">{$template|default=""|htmlspecialchars_decode}</script>
-                <span style="color: #ffb752;">{:lang('EMAIL_TEMPLATE_HELP_TEXT')}</span>
+            <div class="row mb-3">
+                <label for="input-title" class="col-sm-2 col-form-label text-sm-end">
+                    <span class="form-required">*</span>{:lang('EMAIL_TEMPLATE')}
+                </label>
+                <div class="col-md-8 col-sm-12">
+                    <script type="text/plain" id="content" name="template">{$template|default=""|htmlspecialchars_decode}</script>
+                    <span style="color: #ffb752;">{:lang('EMAIL_TEMPLATE_HELP_TEXT')}</span>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <input type="hidden" name="template_key" value="verification_code">
-                <button type="submit" class="btn btn-primary js-ajax-submit">
-                    <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
-                </button>
+            <div class="row mb-3">
+                <div class="offset-sm-2 col-sm-10">
+                    <input type="hidden" name="template_key" value="verification_code">
+                    <button type="submit" class="btn btn-primary js-ajax-submit">
+                        <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
+                    </button>
+                </div>
             </div>
-        </div>
-    </form>
-</div>
-<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
-<script type="text/javascript">
-    //编辑器路径定义
-    var editorURL = GV.WEB_ROOT;
-</script>
-<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
-<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
-<script type="text/javascript">
-    var editorcontent = new baidu.editor.ui.Editor();
-    editorcontent.render('content');
-</script>
-</body>
-</html>
+        </form>
+    </div>
+</block>
+<block name="scripts">
+    <script type="text/javascript">
+        //编辑器路径定义
+        var editorURL = GV.WEB_ROOT;
+    </script>
+    <script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+    <script type="text/javascript">
+        var editorcontent = new baidu.editor.ui.Editor();
+        editorcontent.render('content');
+    </script>
+</block>

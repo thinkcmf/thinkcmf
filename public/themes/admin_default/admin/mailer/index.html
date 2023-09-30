@@ -1,98 +1,101 @@
-<include file="public@header"/>
-</head>
-<body>
-<div class="wrap">
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="{:url('Mailer/index')}">{:lang('ADMIN_MAILER_INDEX')}</a></li>
-        <li><a href="{:url('Mailer/template')}?template_key=verification_code">{:lang('ADMIN_MAILER_TEMPLATE')}</a></li>
-    </ul>
-    <form method="put" class="form-horizontal js-ajax-form margin-top-20" action="admin/mail/config">
-        <div class="form-group">
-            <label for="input-from_name" class="col-sm-2 control-label">
-                <span class="form-required">*</span>{:lang('SENDER_NAME')}
-                <a href="http://www.thinkcmf.com/faq.html?url=https://www.kancloud.cn/thinkcmf/faq/493502"
-                   title="查看帮助手册"
-                   data-toggle="tooltip"
-                   target="_blank"><i class="fa fa-question-circle"></i></a>
-            </label>
-            <div class="col-md-8 col-sm-10">
-                <input type="text" class="form-control" id="input-from_name" name="from_name"
-                       value="{$from_name|default=''}">
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="{:url('Mailer/index')}">{:lang('ADMIN_MAILER_INDEX')}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{:url('Mailer/template')}?template_key=verification_code">{:lang('ADMIN_MAILER_TEMPLATE')}</a>
+            </li>
+        </ul>
+        <form method="put" class="js-ajax-form margin-top-20" action="admin/mail/config">
+            <div class="row mb-3">
+                <label for="input-from_name" class="col-sm-2 col-form-label text-sm-end">
+                    <span class="form-required">*</span>{:lang('SENDER_NAME')}
+                    <a href="http://www.thinkcmf.com/faq.html?url=https://www.kancloud.cn/thinkcmf/faq/493502"
+                       title="查看帮助手册"
+                       data-toggle="tooltip"
+                       target="_blank"><i class="fa fa-question-circle"></i></a>
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="text" class="form-control" id="input-from_name" name="from_name"
+                           value="{$from_name|default=''}">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="input-from" class="col-sm-2 control-label">
-                <span class="form-required">*</span>{:lang('SENDER_EMAIL_ADDRESS')}
-            </label>
-            <div class="col-md-8 col-sm-10">
-                <input type="text" class="form-control" id="input-from" name="from" value="{$from|default=''}">
+            <div class="row mb-3">
+                <label for="input-from" class="col-sm-2 col-form-label text-sm-end">
+                    <span class="form-required">*</span>{:lang('SENDER_EMAIL_ADDRESS')}
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="text" class="form-control" id="input-from" name="from" value="{$from|default=''}">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="input-host" class="col-sm-2 control-label">
-                <span class="form-required">*</span>{:lang('SENDER_SMTP_SERVER')}
-            </label>
-            <div class="col-md-8 col-sm-10">
-                <input type="text" class="form-control" id="input-host" name="host" value="{$host|default=''}">
+            <div class="row mb-3">
+                <label for="input-host" class="col-sm-2 col-form-label text-sm-end">
+                    <span class="form-required">*</span>{:lang('SENDER_SMTP_SERVER')}
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="text" class="form-control" id="input-host" name="host" value="{$host|default=''}">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="js-smtpsecure" class="col-sm-2 control-label">
-                <span class="form-required">*</span>{:lang('SMTP Secure Protocol')}
-            </label>
-            <div class="col-md-8 col-sm-10">
-                <select name="smtp_secure" id="js-smtpsecure" class="form-control">
-                    <option value="">{:lang('Default')}</option>
-                    <option value="ssl">SSL</option>
-                    <option value="tls">TLS</option>
-                </select>
+            <div class="row mb-3">
+                <label for="js-smtpsecure" class="col-sm-2 col-form-label text-sm-end">
+                    <span class="form-required">*</span>{:lang('SMTP Secure Protocol')}
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <select name="smtp_secure" id="js-smtpsecure" class="form-control">
+                        <option value="">{:lang('Default')}</option>
+                        <option value="ssl">SSL</option>
+                        <option value="tls">TLS</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="input-port" class="col-sm-2 control-label">
-                <span class="form-required">*</span>{:lang('SMTP Server Port')}
-            </label>
-            <div class="col-md-8 col-sm-10">
-                <input type="text" class="form-control" id="input-port" name="port" value="{$port|default=''}"
-                       placeholder="25">
+            <div class="row mb-3">
+                <label for="input-port" class="col-sm-2 col-form-label text-sm-end">
+                    <span class="form-required">*</span>{:lang('SMTP Server Port')}
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="text" class="form-control" id="input-port" name="port" value="{$port|default=''}"
+                           placeholder="25">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="input-login_name" class="col-sm-2 control-label">
-                <span class="form-required">*</span>{:lang('SMTP_MAIL_ADDRESS')}
-            </label>
-            <div class="col-md-8 col-sm-10">
-                <input type="text" class="form-control" id="input-login_name" name="username"
-                       value="{$username|default=''}">
+            <div class="row mb-3">
+                <label for="input-login_name" class="col-sm-2 col-form-label text-sm-end">
+                    <span class="form-required">*</span>{:lang('SMTP_MAIL_ADDRESS')}
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="text" class="form-control" id="input-login_name" name="username"
+                           value="{$username|default=''}">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="input-password" class="col-sm-2 control-label">
-                <span class="form-required">*</span>{:lang('SMTP_MAIL_PASSWORD')}
-            </label>
-            <div class="col-md-8 col-sm-10">
-                <input type="password" class="form-control" id="input-password" name="password"
-                       value="{$password|default=''}">
+            <div class="row mb-3">
+                <label for="input-password" class="col-sm-2 col-form-label text-sm-end">
+                    <span class="form-required">*</span>{:lang('SMTP_MAIL_PASSWORD')}
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="password" class="form-control" id="input-password" name="password"
+                           value="{$password|default=''}">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary js-ajax-submit">
-                    <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
-                </button>
-                <a class="btn btn-warning"
-                   href="javascript:parent.openIframeLayer('{:url('Mailer/test')}','{:lang('Send Test Email')}',{area:['600px','400px']});">
-                    {:lang('Send Test Email')}
-                </a>
+            <div class="row mb-3">
+                <div class="offset-sm-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary js-ajax-submit">
+                        <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
+                    </button>
+                    <a class="btn btn-warning"
+                       href="javascript:parent.openIframeLayer('{:url('Mailer/test')}','{:lang('Send Test Email')}',{area:['600px','400px']});">
+                        {:lang('Send Test Email')}
+                    </a>
+                </div>
             </div>
-        </div>
-    </form>
-</div>
-<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
-<script>
-    $(function () {
-        $('#js-smtpsecure').val("{$smtp_secure|default=''}");
-    });
-</script>
-</body>
-</html>
+        </form>
+    </div>
+</block>
+<block name="scripts">
+    <script>
+        $(function () {
+            $('#js-smtpsecure').val("{$smtp_secure|default=''}");
+        });
+    </script>
+</block>

@@ -14,7 +14,7 @@
         </ul>
         <form method="put" class="js-ajax-form margin-top-20" action="admin/links/{$link.id}">
             <div class="row mb-3">
-                <label for="input-link_name" class="col-sm-2 col-form-label text-sm-start text-md-end">
+                <label for="input-link_name" class="col-sm-2 col-form-label text-sm-end">
                     <span class="form-required">*</span>{:lang('Name')}
                 </label>
                 <div class="col-md-8 col-sm-10">
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="input-link_url" class="col-sm-2 col-form-label text-sm-start text-md-end">
+                <label for="input-link_url" class="col-sm-2 col-form-label text-sm-end">
                     <span class="form-required">*</span>{:lang('Url')}
                 </label>
                 <div class="col-md-8 col-sm-10">
@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="input-image" class="col-sm-2 col-form-label text-sm-start text-md-end">{:lang('Icon')}</label>
+                <label for="input-image" class="col-sm-2 col-form-label text-sm-end">{:lang('Icon')}</label>
                 <div class="col-md-8 col-sm-10">
                     <div class="input-group">
                         <input type="text" id="input-image" name="image" class="form-control" value="{$link.image}">
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="input-target" class="col-sm-2 col-form-label text-sm-start text-md-end">{:lang('Url Target')}</label>
+                <label for="input-target" class="col-sm-2 col-form-label text-sm-end">{:lang('Url Target')}</label>
                 <div class="col-md-8 col-sm-10">
                     <select class="form-control" name="target" id="input-target">
                         <foreach name="targets" item="vo">
@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="input-link_description" class="col-sm-2 col-form-label text-sm-start text-md-end">{:lang('Description')}</label>
+                <label for="input-link_description" class="col-sm-2 col-form-label text-sm-end">{:lang('Description')}</label>
                 <div class="col-md-8 col-sm-10">
                 <textarea class="form-control" name="description"
                           id="input-link_description">{$link.description}</textarea>
