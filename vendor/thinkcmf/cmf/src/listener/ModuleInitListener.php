@@ -19,25 +19,8 @@ class ModuleInitListener
     // 行为扩展的执行入口必须是run
     public function handle($param)
     {
-        /**--start InitAppHookListener--------------------------------------*/
         $this->app = app();
         $appName   = $this->app->http->getName();
-
-        if (!is_dir($this->app->getAppPath() . $appName) && !is_dir(root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}")) {
-            return;
-        }
-
-        $langSet = $this->app->lang->getLangSet();
-
-        // 加载核心应用语言包
-        $this->app->lang->load([
-            root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}/lang/{$langSet}.php",
-        ]);
-
-        // 加载应用语言包
-        $this->app->lang->load([
-            $this->app->getAppPath() . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . '.php',
-        ]);
 
         // 加载应用第三方库
         $appAutoLoadFile = $this->app->getAppPath() . $appName . '/vendor/autoload.php';
@@ -71,6 +54,5 @@ class ModuleInitListener
                 Event::listen($eventName, [$pluginClass, $hookMethod]);
             }
         }
-        /**--end InitAppHookListener--------------------------------------*/
     }
 }
