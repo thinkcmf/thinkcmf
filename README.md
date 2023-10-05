@@ -170,7 +170,8 @@ https://gitee.com/thinkcmf/docker
 ### 更新日志
 
 #### 8.0.1 coding~
-* coding~
+- [ ] 完善多语言功能
+- [ ] 后台模板全面升级为`bootstrap5`
 
 #### 8.0.0
 * 升级到`ThinkPHP8.0`

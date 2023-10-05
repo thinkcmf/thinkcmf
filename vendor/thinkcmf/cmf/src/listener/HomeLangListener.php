@@ -65,5 +65,8 @@ class HomeLangListener
         }
 
         $app->lang->load($langFiles);
+
+        // 监听home_lang_load
+        hook('home_lang_load', ['lang' => $langSet]);
     }
 }

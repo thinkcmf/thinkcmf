@@ -97,6 +97,9 @@ class AdminInitListener
 
         $this->app->lang->load($langFiles);
         /**--end AdminLangListener--------------------------------------*/
+
+        // 监听admin_lang_load
+        hook('admin_lang_load', ['lang' => $langSet]);
     }
 
     /**

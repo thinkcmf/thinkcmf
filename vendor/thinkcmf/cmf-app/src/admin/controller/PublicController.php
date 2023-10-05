@@ -18,6 +18,8 @@ class PublicController extends AdminBaseController
 {
     public function initialize()
     {
+        // 监听admin_init
+        hook('admin_init');
     }
 
     /**
