@@ -69,10 +69,16 @@ class Url
     protected $domain = false;
 
     /**
+     * 语言
+     * @var string|bool
+     */
+    protected $lang = false;
+
+    /**
      * 架构函数
      * @access public
-     * @param  string $url URL地址
-     * @param  array  $vars 参数
+     * @param string $url  URL地址
+     * @param array  $vars 参数
      */
     public function __construct(Route $route, App $app, string $url = '', array $vars = [])
     {
@@ -85,7 +91,7 @@ class Url
     /**
      * 设置URL参数
      * @access public
-     * @param  array $vars URL参数
+     * @param array $vars URL参数
      * @return $this
      */
     public function vars(array $vars = [])
@@ -97,7 +103,7 @@ class Url
     /**
      * 设置URL后缀
      * @access public
-     * @param  string|bool $suffix URL后缀
+     * @param string|bool $suffix URL后缀
      * @return $this
      */
     public function suffix($suffix)
@@ -109,7 +115,7 @@ class Url
     /**
      * 设置URL域名（或者子域名）
      * @access public
-     * @param  string|bool $domain URL域名
+     * @param string|bool $domain URL域名
      * @return $this
      */
     public function domain($domain)
@@ -119,9 +125,21 @@ class Url
     }
 
     /**
+     * 设置语言
+     * @access public
+     * @param string|bool $lang 语言
+     * @return $this
+     */
+    public function lang($lang)
+    {
+        $this->lang = $lang;
+        return $this;
+    }
+
+    /**
      * 设置URL 根地址
      * @access public
-     * @param  string $root URL root
+     * @param string $root URL root
      * @return $this
      */
     public function root(string $root)
@@ -133,7 +151,7 @@ class Url
     /**
      * 设置是否使用HTTPS
      * @access public
-     * @param  bool $https
+     * @param bool $https
      * @return $this
      */
     public function https(bool $https = true)
@@ -145,8 +163,8 @@ class Url
     /**
      * 检测域名
      * @access protected
-     * @param  string      $url URL
-     * @param  string|true $domain 域名
+     * @param string      $url    URL
+     * @param string|true $domain 域名
      * @return string
      */
     protected function parseDomain(string &$url, $domain): string
@@ -157,6 +175,19 @@ class Url
 
         $request    = $this->app->request;
         $rootDomain = $request->rootDomain();
+
+        $langConfig = $this->app->lang->getConfig();
+        if (
+            !empty($langConfig['multi_lang_mode']) &&
+            $langConfig['multi_lang_mode'] == 2 &&
+            !empty($langConfig['lang_domain_list'])
+        ) {
+            $langDomainList = array_flip($langConfig['lang_domain_list']);
+            $langSet        = $this->app->lang->getLangSet();
+            if (isset($langDomainList[$langSet])) {
+                $domain = $langDomainList[$langSet];
+            }
+        }
 
         if (true === $domain) {
             // 自动判断域名
@@ -205,7 +236,7 @@ class Url
     /**
      * 解析URL后缀
      * @access protected
-     * @param  string|bool $suffix 后缀
+     * @param string|bool $suffix 后缀
      * @return string
      */
     protected function parseSuffix($suffix): string
@@ -218,14 +249,14 @@ class Url
             }
         }
 
-        return (empty($suffix) || str_starts_with($suffix, '.')) ? (string) $suffix : '.' . $suffix;
+        return (empty($suffix) || str_starts_with($suffix, '.')) ? (string)$suffix : '.' . $suffix;
     }
 
     /**
      * 直接解析URL地址
      * @access protected
-     * @param  string      $url URL
-     * @param  string|bool $domain Domain
+     * @param string      $url    URL
+     * @param string|bool $domain Domain
      * @return string
      */
     protected function parseUrl(string $url, &$domain): string
@@ -267,7 +298,7 @@ class Url
     /**
      * 分析路由规则中的变量
      * @access protected
-     * @param  string $rule 路由规则
+     * @param string $rule 路由规则
      * @return array
      */
     protected function parseVar(string $rule): array
@@ -296,9 +327,9 @@ class Url
     /**
      * 匹配路由地址
      * @access protected
-     * @param  array $rule 路由规则
-     * @param  array $vars 路由变量
-     * @param  mixed $allowDomain 允许域名
+     * @param array $rule        路由规则
+     * @param array $vars        路由变量
+     * @param mixed $allowDomain 允许域名
      * @return array
      */
     protected function getRuleUrl(array $rule, array &$vars = [], $allowDomain = ''): array
@@ -336,7 +367,7 @@ class Url
 
             foreach ($pattern as $key => $val) {
                 if (isset($vars[$key])) {
-                    $url    = str_replace(['[:' . $key . ']', '<' . $key . '?>', ':' . $key, '<' . $key . '>'], $type ? (string) $vars[$key] : urlencode((string) $vars[$key]), $url);
+                    $url    = str_replace(['[:' . $key . ']', '<' . $key . '?>', ':' . $key, '<' . $key . '>'], $type ? (string)$vars[$key] : urlencode((string)$vars[$key]), $url);
                     $keys[] = $key;
                     $url    = str_replace(['/?', '-?'], ['/', '-'], $url);
                     $result = [rtrim($url, '?/-'), $domain, $suffix];
@@ -486,10 +517,10 @@ class Url
             // 添加参数
             if ($this->route->config('url_common_param')) {
                 $vars = http_build_query($vars);
-                $url .= $suffix . ($vars ? '?' . $vars : '') . $anchor;
+                $url  .= $suffix . ($vars ? '?' . $vars : '') . $anchor;
             } else {
                 foreach ($vars as $var => $val) {
-                    $val = (string) $val;
+                    $val = (string)$val;
                     if ('' !== $val) {
                         $url .= $depr . $var . $depr . urlencode($val);
                     }
@@ -504,8 +535,23 @@ class Url
         // 检测域名
         $domain = $this->parseDomain($url, $domain);
 
+        $langSet = '';
+        if ($this->lang) {
+            if (is_string($this->lang)) {
+                $langSet = $this->lang;
+            } else {
+                $langSet = $this->app->lang->getLangSet();
+            }
+
+            if ($langSet == $this->app->lang->defaultLangSet()) {
+                $langSet = '';
+            } else {
+                $langSet = "$langSet/";
+            }
+        }
+
         // URL组装
-        return $domain . rtrim($this->root, '/') . '/' . ltrim($url, '/');
+        return $domain . rtrim($this->root, '/') . '/' . $langSet . ltrim($url, '/');
     }
 
     public function __toString()

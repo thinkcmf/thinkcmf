@@ -140,7 +140,7 @@ function cmf_get_domain()
  */
 function cmf_get_root()
 {
-    $root = "";
+//    $root = '';
 //    $root = str_replace("//", '/', $root);
 //    $root = str_replace('/index.php', '', $root);
 //    if (defined('APP_NAMESPACE') && APP_NAMESPACE == 'api') {
@@ -149,7 +149,7 @@ function cmf_get_root()
 //
 //    $root = rtrim($root, '/');
 
-    return $root;
+    return '';
 }
 
 /**
@@ -1757,12 +1757,13 @@ function cmf_url_encode($url, $params)
  * @param string|array $vars   变量
  * @param bool|string  $suffix 生成的URL后缀
  * @param bool|string  $domain 域名
+ * @param bool|string  $lang   语言
  * @return string
  * @throws \think\db\exception\DataNotFoundException
  * @throws \think\db\exception\ModelNotFoundException
  * @throws \think\exception\DbException
  */
-function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
+function cmf_url($url = '', $vars = '', $suffix = true, $domain = false, $lang = true)
 {
     global $CMF_GV_routes;
 
@@ -1825,7 +1826,7 @@ function cmf_url($url = '', $vars = '', $suffix = true, $domain = false)
 //        $url = $url . '@' . $domain;
 //    }
 
-    return url($url, $vars, $suffix, $domain);
+    return Route::buildUrl($url, $vars)->suffix($suffix)->domain($domain)->lang($lang)->build();
 }
 
 /**

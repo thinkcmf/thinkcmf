@@ -90,8 +90,8 @@ class LangDetect
                 $domainArr = explode('.', $domain);
                 $mLangSet  = $domainArr[0];
 
-                if (isset($this->config['accept_language'][$mLangSet])) {
-                    $mLangSet = $this->config['accept_language'][$mLangSet];
+                if (isset($this->config['lang_domain_list'][$request->host()])) {
+                    $mLangSet = $this->config['lang_domain_list'][$request->host()];
                 }
 
                 if (in_array($mLangSet, $this->config['allow_lang_list'])) {
