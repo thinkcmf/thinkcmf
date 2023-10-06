@@ -2,12 +2,20 @@
 <block name="head">
     <script type="text/html" id="home-lang-item-tpl">
         <div class="row g-2 mb-2 home-lang-row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="input-group">
                     <div class="input-group-text">
-                        <label class="form-check-label">默认:</label>&nbsp;
+                        <label class="form-check-label" for="default-lang-check{key}">默认</label>&nbsp;
                         <input class="form-check-input mt-0 default-lang-check"
+                               id="default-lang-check{key}"
                                name="default_lang" type="radio">
+                    </div>
+                    <div class="input-group-text">
+                        <label class="form-check-label" for="allow_lang_list-{key}-enable">启用</label>&nbsp;
+                        <input class="form-check-input mt-0"
+                               name="allow_lang_list[{key}][enable]" type="checkbox"
+                               value="1"
+                               id="allow_lang_list-{key}-enable" checked>
                     </div>
                     <input type="text" class="form-control allow_lang_list-lang-input"
                            name="allow_lang_list[{key}][lang]" placeholder="语言包名" required>
@@ -29,12 +37,19 @@
     </script>
     <script type="text/html" id="admin-lang-item-tpl">
         <div class="row g-2 mb-2 admin-lang-row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="input-group">
                     <div class="input-group-text">
                         <label class="form-check-label">默认:</label>&nbsp;
                         <input class="form-check-input mt-0 admin-default-lang-check"
                                name="admin_default_lang" type="radio" value="">
+                    </div>
+                    <div class="input-group-text">
+                        <label class="form-check-label" for="admin_allow_lang_list-{key}-enable">启用</label>&nbsp;
+                        <input class="form-check-input mt-0"
+                               name="admin_allow_lang_list[{key}][enable]" type="checkbox"
+                               value="1"
+                               id="admin_allow_lang_list-{key}-enable" checked>
                     </div>
                     <input type="text" class="form-control admin_allow_lang_list-lang-input"
                            name="admin_allow_lang_list[{key}][lang]" value="" placeholder="语言包名" required>
@@ -93,14 +108,23 @@
                     <notempty name="lang_setting.allow_lang_list">
                         <foreach name="lang_setting.allow_lang_list" item="allow_lang">
                             <div class="row g-2 mb-2 home-lang-row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="input-group">
                                         <div class="input-group-text">
-                                            <label class="form-check-label">默认:</label>&nbsp;
+                                            <label class="form-check-label" for="default-lang-check{$key}">默认</label>&nbsp;
                                             <input class="form-check-input mt-0 default-lang-check"
                                                    name="default_lang" type="radio"
+                                                   id="default-lang-check{$key}"
                                                    {$default_lang==$allow_lang.lang?'checked':''}
                                                    value="{$allow_lang.lang}">
+                                        </div>
+                                        <div class="input-group-text">
+                                            <label class="form-check-label" for="allow_lang_list-{$key}-enable">启用</label>&nbsp;
+                                            <input class="form-check-input mt-0"
+                                                   name="allow_lang_list[{$key}][enable]" type="checkbox"
+                                                   value="1"
+                                                   id="allow_lang_list-{$key}-enable"
+                                                   {:empty($allow_lang.enable)?'':'checked'}>
                                         </div>
                                         <input type="text" class="form-control allow_lang_list-lang-input"
                                                name="allow_lang_list[{$key}][lang]" value="{$allow_lang.lang}"
@@ -153,7 +177,7 @@
                     <notempty name="lang_setting.admin_allow_lang_list">
                         <foreach name="lang_setting.admin_allow_lang_list" item="allow_lang">
                             <div class="row g-2 mb-2 admin-lang-row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="input-group">
                                         <div class="input-group-text">
                                             <label class="form-check-label">默认:</label>&nbsp;
@@ -161,6 +185,14 @@
                                                    name="admin_default_lang" type="radio"
                                                    {$admin_default_lang==$allow_lang.lang?'checked':''}
                                                    value="{$allow_lang.lang}">
+                                        </div>
+                                        <div class="input-group-text">
+                                            <label class="form-check-label" for="admin_allow_lang_list-{$key}-enable">启用</label>&nbsp;
+                                            <input class="form-check-input mt-0"
+                                                   name="admin_allow_lang_list[{$key}][enable]" type="checkbox"
+                                                   value="1"
+                                                   id="admin_allow_lang_list-{$key}-enable"
+                                                   {:empty($allow_lang.enable)?'':'checked'}>
                                         </div>
                                         <input type="text" class="form-control admin_allow_lang_list-lang-input"
                                                name="admin_allow_lang_list[{$key}][lang]" value="{$allow_lang.lang}"

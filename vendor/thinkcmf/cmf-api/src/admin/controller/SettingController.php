@@ -256,7 +256,78 @@ class SettingController extends RestAdminBaseController
      */
     public function langPut()
     {
-        $langSetting = $this->request->param();
+        $langSetting        = $this->request->param();
+        $defaultLang        = empty($langSetting['default_lang']) ? 'zh-cn' : $langSetting['default_lang'];
+        $adminDefaultLang   = empty($langSetting['admin_default_lang']) ? 'zh-cn' : $langSetting['admin_default_lang'];
+        $allowLangList      = [];
+        $adminAllowLangList = [];
+        $langAliasList      = [];
+        $langDomainList     = [];
+        $acceptLanguageList = [];
+
+        if (empty($langSetting['allow_lang_list'])) {
+            $allowLangList                  = [$defaultLang];
+            $langSetting['allow_lang_list'] = [[
+                'lang'   => $defaultLang,
+                'alias'  => '',
+                'domain' => '',
+                'enable' => 1,
+            ]];
+        } else {
+            foreach ($langSetting['allow_lang_list'] as $allowLang) {
+                if (empty($allowLang['lang'])) {
+                    $this->error('前台语言包名不能为空！');
+                }
+                if (in_array($allowLang['lang'], $allowLangList)) {
+                    $this->error('前台语言包名不能重复！');
+                }
+                if ($allowLang['lang'] == $defaultLang && empty($allowLang['enable'])) {
+                    $this->error('前台默认语言包必须启用！');
+                }
+
+                if (!empty($allowLang['enable'])) {
+                    $allowLangList[] = $allowLang['lang'];
+                }
+
+                if (!empty($allowLang['alias'])) {
+                    if (in_array($allowLang['alias'], $langAliasList)) {
+                        $this->error('前台语言别名不能重复！');
+                    }
+                    $langAliasList[$allowLang['lang']]       = $allowLang['alias'];
+                    $acceptLanguageList[$allowLang['alias']] = $allowLang['lang'];
+                }
+
+                if (!empty($allowLang['domain'])) {
+                    if (isset($langDomainList[$allowLang['domain']])) {
+                        $this->error('前台语言域名不能重复！');
+                    }
+                    $langDomainList[$allowLang['domain']] = $allowLang['lang'];
+                }
+            }
+        }
+
+        if (empty($langSetting['admin_allow_lang_list'])) {
+            $allowLangList                        = [$adminAllowLangList];
+            $langSetting['admin_allow_lang_list'] = [[
+                'lang'   => $adminAllowLangList,
+                'enable' => 1,
+            ]];
+        } else {
+            foreach ($langSetting['admin_allow_lang_list'] as $allowLang) {
+                if (empty($allowLang['lang'])) {
+                    $this->error('后台语言包名不能为空！');
+                }
+                if (in_array($allowLang['lang'], $adminAllowLangList)) {
+                    $this->error('后台语言包名不能重复！');
+                }
+                if ($allowLang['lang'] == $adminDefaultLang && empty($allowLang['enable'])) {
+                    $this->error('后台默认语言包必须启用！');
+                }
+                if (!empty($allowLang['enable'])) {
+                    $adminAllowLangList[] = $allowLang['lang'];
+                }
+            }
+        }
 
         $result = cmf_set_dynamic_config([
             'lang' => [
@@ -267,35 +338,19 @@ class SettingController extends RestAdminBaseController
                 // 多语言模式;1:pathinfo前缀;2:域名;
                 'multi_lang_mode'       => empty($langSetting['admin_multi_lang']) || $langSetting['admin_multi_lang'] == 1 ? 1 : 2,
                 // 默认语言
-                'default_lang'          => empty($langSetting['default_lang']) ? 'zh-cn' : $langSetting['default_lang'],
+                'default_lang'          => $defaultLang,
                 // 允许的语言列表
-                'allow_lang_list'       => [
-                    'zh-cn',
-                    'en-us',
-                ],
+                'allow_lang_list'       => $allowLangList,
                 // 后台默认语言
-                'admin_default_lang'    => empty($langSetting['admin_default_lang']) ? 'zh-cn' : $langSetting['admin_default_lang'],
+                'admin_default_lang'    => $adminDefaultLang,
                 // 后台允许的语言列表
-                'admin_allow_lang_list' => [
-                    'zh-cn', 'en-us', 'zh-tw'
-                ],
+                'admin_allow_lang_list' => $adminAllowLangList,
                 // 语言包别名
-                'lang_alias'            => [
-                    'zh-cn' => 'cn',
-                    'en-us' => 'en',
-                ],
+                'lang_alias'            => $langAliasList,
                 // 前台多语言域名列表
-                'lang_domain_list'      => [
-                    'cmf8.im'    => 'zh-cn',
-                    'en.cmf8.im' => 'en-us',
-                ],
+                'lang_domain_list'      => $langDomainList,
                 // Accept-Language转义为对应语言包名称
-                'accept_language'       => [
-                    'zh-hans-cn' => 'zh-cn',
-                    'cn'         => 'zh-cn',
-                    'en'         => 'en-us',
-                    'zh'         => 'zh-cn',
-                ],
+                'accept_language'       => $acceptLanguageList,
             ]
         ]);
         if ($result === false) {
