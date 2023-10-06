@@ -547,10 +547,14 @@ class Url
                 $langSet = '';
             } else {
                 $langConfig = $this->app->lang->getConfig();
-                if (!empty($langConfig['lang_alias'][$langSet])) {
-                    $langSet = "{$langConfig['lang_alias'][$langSet]}/";
+                if (isset($langConfig['multi_lang_mode']) && $langConfig['multi_lang_mode'] == 1) {
+                    if (!empty($langConfig['lang_alias'][$langSet])) {
+                        $langSet = "{$langConfig['lang_alias'][$langSet]}/";
+                    } else {
+                        $langSet = "$langSet/";
+                    }
                 } else {
-                    $langSet = "$langSet/";
+                    $langSet = '';
                 }
             }
         }

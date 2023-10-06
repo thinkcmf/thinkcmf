@@ -336,7 +336,7 @@ class SettingController extends RestAdminBaseController
                 // 后台多语言开关
                 'admin_multi_lang'      => empty($langSetting['admin_multi_lang']) ? 0 : 1,
                 // 多语言模式;1:pathinfo前缀;2:域名;
-                'multi_lang_mode'       => empty($langSetting['admin_multi_lang']) || $langSetting['admin_multi_lang'] == 1 ? 1 : 2,
+                'multi_lang_mode'       => empty($langSetting['multi_lang_mode']) || $langSetting['multi_lang_mode'] == 1 ? 1 : 2,
                 // 默认语言
                 'default_lang'          => $defaultLang,
                 // 允许的语言列表
