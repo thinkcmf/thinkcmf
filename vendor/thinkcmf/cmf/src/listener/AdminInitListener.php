@@ -113,7 +113,12 @@ class AdminInitListener
         // 自动侦测设置获取语言选择
         $langSet = '';
         if (empty($this->config['admin_multi_lang'])) {
-            $langSet = $this->lang->defaultLangSet();
+            if (empty($this->config['admin_default_lang'])) {
+                $langSet = $this->lang->defaultLangSet();
+            } else {
+                $langSet = $this->config['admin_default_lang'];
+            }
+
             // 合法的语言
             $this->lang->setLangSet($langSet);
             return $langSet;

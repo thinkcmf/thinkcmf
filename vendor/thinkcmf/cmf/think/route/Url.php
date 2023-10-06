@@ -546,7 +546,12 @@ class Url
             if ($langSet == $this->app->lang->defaultLangSet()) {
                 $langSet = '';
             } else {
-                $langSet = "$langSet/";
+                $langConfig = $this->app->lang->getConfig();
+                if (!empty($langConfig['lang_alias'][$langSet])) {
+                    $langSet = "{$langConfig['lang_alias'][$langSet]}/";
+                } else {
+                    $langSet = "$langSet/";
+                }
             }
         }
 

@@ -96,7 +96,12 @@ class NavMenuModel extends Model
                     if ($app->lang->getLangSet() != $app->lang->defaultLangSet()) {
                         $langConfig = $app->lang->getConfig();
                         if (!empty($langConfig['home_multi_lang'])) {
-                            $langSet = $app->lang->getLangSet() . '/';
+                            $langSet = $app->lang->getLangSet();
+                            if (!empty($langConfig['lang_alias'][$langSet])) {
+                                $langSet = $langConfig['lang_alias'][$langSet] . '/';
+                            } else {
+                                $langSet = $langSet . '/';
+                            }
                         }
                     }
 
