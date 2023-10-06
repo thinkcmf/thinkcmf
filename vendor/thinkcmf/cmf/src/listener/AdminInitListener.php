@@ -112,16 +112,15 @@ class AdminInitListener
     {
         // 自动侦测设置获取语言选择
         $langSet = '';
+        if (empty($this->config['admin_default_lang'])) {
+            $adminDefaultLangSet = $this->lang->defaultLangSet();
+        } else {
+            $adminDefaultLangSet = $this->config['admin_default_lang'];
+        }
         if (empty($this->config['admin_multi_lang'])) {
-            if (empty($this->config['admin_default_lang'])) {
-                $langSet = $this->lang->defaultLangSet();
-            } else {
-                $langSet = $this->config['admin_default_lang'];
-            }
-
             // 合法的语言
-            $this->lang->setLangSet($langSet);
-            return $langSet;
+            $this->lang->setLangSet($adminDefaultLangSet);
+            return $adminDefaultLangSet;
         }
 
         if ($request->get($this->config['detect_var'])) {
@@ -151,7 +150,7 @@ class AdminInitListener
             // 合法的语言
             $this->lang->setLangSet($langSet);
         } else {
-            $langSet = $this->lang->getLangSet();
+            $langSet = $adminDefaultLangSet;
         }
 
         $this->saveToCookie($this->app->cookie, $langSet);
