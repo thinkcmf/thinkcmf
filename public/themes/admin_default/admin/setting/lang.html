@@ -1,0 +1,226 @@
+<extend name="public@base5"/>
+<block name="head">
+    <script type="text/html" id="home-lang-item-tpl">
+        <div class="row g-2 mb-2 home-lang-row">
+            <div class="col-md-3">
+                <div class="input-group">
+                    <div class="input-group-text">
+                        <label class="form-check-label">默认:</label>&nbsp;
+                        <input class="form-check-input mt-0 default-lang-check"
+                               name="default_lang" type="radio">
+                    </div>
+                    <input type="text" class="form-control allow_lang_list-lang-input"
+                           name="allow_lang_list[{key}][lang]" placeholder="语言包名" required>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control allow_lang_list-alias-input" name="allow_lang_list[{key}][alias]"
+                       placeholder="语言别名">
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control allow_lang_list-domain-input"
+                       name="allow_lang_list[{key}][domain]"
+                       placeholder="语言域名">
+            </div>
+            <div class="col-md-1">
+                <a class="btn btn-secondary home-lang-delete-btn"><i class="fa fa-trash"></i></a>
+            </div>
+        </div>
+    </script>
+    <script type="text/html" id="admin-lang-item-tpl">
+        <div class="row g-2 mb-2 admin-lang-row">
+            <div class="col-md-3">
+                <div class="input-group">
+                    <div class="input-group-text">
+                        <label class="form-check-label">默认:</label>&nbsp;
+                        <input class="form-check-input mt-0 admin-default-lang-check"
+                               name="admin_default_lang" type="radio" value="">
+                    </div>
+                    <input type="text" class="form-control admin_allow_lang_list-lang-input"
+                           name="admin_allow_lang_list[{key}][lang]" value="" placeholder="语言包名" required>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <a class="btn btn-secondary admin-lang-delete-btn"><i class="fa fa-trash"></i></a>
+            </div>
+        </div>
+    </script>
+</block>
+<block name="main">
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="{:url('Setting/lang')}">多语言设置</a>
+            </li>
+        </ul>
+        <form method="put" class="js-ajax-form margin-top-20" action="admin/setting/lang">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end">
+                    前台多语言模式
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <select class="form-control" name="multi_lang_mode">
+                        <option value="1">URL模式</option>
+                        <php>
+                            $multi_lang_mode=empty($lang_setting['multi_lang_mode'])?1:$lang_setting['multi_lang_mode'];
+                        </php>
+                        <option value="2" {$multi_lang_mode==2?'selected':''}>域名模式</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end">
+                    前台多语言
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <select class="form-control" name="home_multi_lang">
+                        <option value="0">关闭</option>
+                        <php>
+                            $home_multi_lang=empty($lang_setting['home_multi_lang'])?0:$lang_setting['home_multi_lang'];
+                        </php>
+                        <option value="1" {$home_multi_lang==1?'selected':''}>开启</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end">
+                    前台语言列表
+                </label>
+                <div class="col-md-8 col-sm-10 ">
+                    <php>
+                        $default_lang=empty($lang_setting['default_lang'])?'zh-cn':$lang_setting['default_lang'];
+                    </php>
+                    <notempty name="lang_setting.allow_lang_list">
+                        <foreach name="lang_setting.allow_lang_list" item="allow_lang">
+                            <div class="row g-2 mb-2 home-lang-row">
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <div class="input-group-text">
+                                            <label class="form-check-label">默认:</label>&nbsp;
+                                            <input class="form-check-input mt-0 default-lang-check"
+                                                   name="default_lang" type="radio"
+                                                   {$default_lang==$allow_lang.lang?'checked':''}
+                                                   value="{$allow_lang.lang}">
+                                        </div>
+                                        <input type="text" class="form-control allow_lang_list-lang-input"
+                                               name="allow_lang_list[{$key}][lang]" value="{$allow_lang.lang}"
+                                               placeholder="语言包名" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control allow_lang_list-alias-input"
+                                           name="allow_lang_list[{$key}][alias]" value="{$allow_lang.alias}"
+                                           placeholder="语言别名">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control allow_lang_list-domain-input"
+                                           name="allow_lang_list[{$key}][domain]" value="{$allow_lang.domain}"
+                                           placeholder="语言域名">
+                                </div>
+                                <div class="col-md-1">
+                                    <a class="btn btn-secondary home-lang-delete-btn"><i class="fa fa-trash"></i></a>
+                                </div>
+                            </div>
+                        </foreach>
+                    </notempty>
+                    <div>
+                        <a class="btn btn-secondary" id="home-lang-add-btn">+ 添加</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end">
+                    后台多语言
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <select class="form-control" name="admin_multi_lang">
+                        <option value="0">关闭</option>
+                        <php>
+                            $admin_multi_lang=empty($lang_setting['admin_multi_lang'])?0:$lang_setting['admin_multi_lang'];
+                        </php>
+                        <option value="1" {$admin_multi_lang==1?'selected':''}>开启</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end">
+                    后台语言列表
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <php>
+                        $admin_default_lang=empty($lang_setting['admin_default_lang'])?'zh-cn':$lang_setting['admin_default_lang'];
+                    </php>
+                    <notempty name="lang_setting.admin_allow_lang_list">
+                        <foreach name="lang_setting.admin_allow_lang_list" item="allow_lang">
+                            <div class="row g-2 mb-2 admin-lang-row">
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <div class="input-group-text">
+                                            <label class="form-check-label">默认:</label>&nbsp;
+                                            <input class="form-check-input mt-0 admin-default-lang-check"
+                                                   name="admin_default_lang" type="radio"
+                                                   {$admin_default_lang==$allow_lang.lang?'checked':''}
+                                                   value="{$allow_lang.lang}">
+                                        </div>
+                                        <input type="text" class="form-control admin_allow_lang_list-lang-input"
+                                               name="admin_allow_lang_list[{$key}][lang]" value="{$allow_lang.lang}"
+                                               placeholder="语言包名" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <a class="btn btn-secondary admin-lang-delete-btn"><i class="fa fa-trash"></i></a>
+                                </div>
+                            </div>
+                        </foreach>
+                    </notempty>
+                    <div>
+                        <a class="btn btn-secondary" id="admin-lang-add-btn">+ 添加</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="offset-sm-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary js-ajax-submit">
+                        <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</block>
+<block name="scripts">
+    <script>
+        $('#home-lang-add-btn').click(function () {
+            var tpl = $('#home-lang-item-tpl').html();
+            tpl = tpl.replace(/\{key\}/g, new Date().getTime());
+            var $tpl = $(tpl);
+            $(this).parent().before($tpl);
+        });
+
+        $('.wrap').on('click', '.home-lang-delete-btn', function () {
+            $(this).parents('.home-lang-row').remove();
+        });
+
+        $('#admin-lang-add-btn').click(function () {
+            var tpl = $('#admin-lang-item-tpl').html();
+            tpl = tpl.replace(/\{key\}/g, new Date().getTime());
+            var $tpl = $(tpl);
+            $(this).parent().before($tpl);
+        });
+
+        $('.wrap').on('click', '.admin-lang-delete-btn', function () {
+            $(this).parents('.admin-lang-row').remove();
+        });
+
+        $('.wrap').on('change', '.allow_lang_list-lang-input', function () {
+            var $parent = $(this).parents('.home-lang-row');
+            $parent.find('.default-lang-check').val($(this).val());
+        })
+
+        $('.wrap').on('change', '.admin_allow_lang_list-lang-input', function () {
+            var $parent = $(this).parents('.admin-lang-row');
+            $parent.find('.admin-default-lang-check').val($(this).val());
+        })
+    </script>
+</block>

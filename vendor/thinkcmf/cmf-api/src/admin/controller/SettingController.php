@@ -219,9 +219,89 @@ class SettingController extends RestAdminBaseController
     public function uploadPut()
     {
         //TODO 非空验证
-        $uploadSetting = $this->request->post();
+        $uploadSetting = $this->request->param();
 
         cmf_set_option('upload_setting', $uploadSetting);
+        $this->success(lang('EDIT_SUCCESS'));
+    }
+
+    /**
+     * 多语言设置提交保存
+     * @throws \think\exception\DbException
+     * @OA\Put(
+     *     tags={"admin"},
+     *     path="/admin/setting/lang",
+     *     summary="多语言设置提交保存",
+     *     description="多语言设置提交保存",
+     *     @OA\RequestBody(
+     *         description="请求参数",
+     *         @OA\MediaType(
+     *             mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(ref="#/components/schemas/AdminSettingUploadPutRequestForm")
+     *         ),
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/AdminSettingUploadPutRequest")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          @OA\JsonContent(example={"code": 1,"msg": "保存成功!","data": ""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "保存成功!","data": ""})
+     *     ),
+     * )
+     */
+    public function langPut()
+    {
+        $langSetting = $this->request->param();
+
+        $result = cmf_set_dynamic_config([
+            'lang' => [
+                // 前台多语言开关
+                'home_multi_lang'       => empty($langSetting['home_multi_lang']) ? 0 : 1,
+                // 后台多语言开关
+                'admin_multi_lang'      => empty($langSetting['admin_multi_lang']) ? 0 : 1,
+                // 多语言模式;1:pathinfo前缀;2:域名;
+                'multi_lang_mode'       => empty($langSetting['admin_multi_lang']) || $langSetting['admin_multi_lang'] == 1 ? 1 : 2,
+                // 默认语言
+                'default_lang'          => empty($langSetting['default_lang']) ? 'zh-cn' : $langSetting['default_lang'],
+                // 允许的语言列表
+                'allow_lang_list'       => [
+                    'zh-cn',
+                    'en-us',
+                ],
+                // 后台默认语言
+                'admin_default_lang'    => empty($langSetting['admin_default_lang']) ? 'zh-cn' : $langSetting['admin_default_lang'],
+                // 后台允许的语言列表
+                'admin_allow_lang_list' => [
+                    'zh-cn', 'en-us', 'zh-tw'
+                ],
+                // 语言包别名
+                'lang_alias'            => [
+                    'zh-cn' => 'cn',
+                    'en-us' => 'en',
+                ],
+                // 前台多语言域名列表
+                'lang_domain_list'      => [
+                    'cmf8.im'    => 'zh-cn',
+                    'en.cmf8.im' => 'en-us',
+                ],
+                // Accept-Language转义为对应语言包名称
+                'accept_language'       => [
+                    'zh-hans-cn' => 'zh-cn',
+                    'cn'         => 'zh-cn',
+                    'en'         => 'en-us',
+                    'zh'         => 'zh-cn',
+                ],
+            ]
+        ]);
+        if ($result === false) {
+            $this->error('配置文件写入失败！');
+        }
+        cmf_set_option('lang_setting', $langSetting);
         $this->success(lang('EDIT_SUCCESS'));
     }
 
@@ -355,7 +435,6 @@ class SettingController extends RestAdminBaseController
 
         if (cmf_compare_password($oldPassword, $admin['user_pass'])) {
             if ($password == $rePassword) {
-
                 if (cmf_compare_password($password, $admin['user_pass'])) {
                     $this->error("新密码不能和原始密码相同！");
                 } else {

@@ -88,6 +88,7 @@ class RestBaseController
     // 初始化
     protected function initialize()
     {
+        hook('home_init');
     }
 
     private function _initUser()

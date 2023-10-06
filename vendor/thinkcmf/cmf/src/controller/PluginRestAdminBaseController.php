@@ -14,6 +14,7 @@ class PluginRestAdminBaseController extends PluginRestBaseController
 {
     public function initialize()
     {
+        hook('admin_init');
         if (empty($this->user)) {
             $this->error(['code' => 10001, 'msg' => '登录已失效!']);
         } elseif ($this->userType != 1) {

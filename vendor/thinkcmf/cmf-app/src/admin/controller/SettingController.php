@@ -288,5 +288,49 @@ class SettingController extends AdminBaseController
         return $this->fetch();
     }
 
+    /**
+     * 多语言设置
+     * @adminMenu(
+     *     'name'   => '多语言设置',
+     *     'parent' => 'default',
+     *     'display'=> true,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '多语言设置',
+     *     'param'  => ''
+     * )
+     */
+    public function lang()
+    {
+        $langSetting = cmf_get_option('lang_setting');
+        if (empty($langSetting)) {
+            $app              = app();
+            $langConfig       = $app->lang->getConfig();
+            $defaultLang      = $app->lang->defaultLangSet();
+            $adminDefaultLang = empty($langConfig['admin_default_lang']) ? 'zh-cn' : $langConfig['admin_default_lang'];
+            $langSetting      = [
+                'multi_lang_mode'       => 1,
+                'home_multi_lang'       => 0,
+                'default_lang'          => $defaultLang,
+                'allow_lang_list'       => [[
+                    'lang'   => $defaultLang,
+                    'alias'  => '',
+                    'domain' => '',
+                ]],
+                'admin_multi_lang'      => 0,
+                'admin_default_lang'    => $adminDefaultLang,
+                'admin_allow_lang_list' => [[
+                    'lang'   => $adminDefaultLang,
+                ]]
+            ];
+
+
+        }
+
+        $this->assign('lang_setting', $langSetting);
+        return $this->fetch();
+    }
+
 
 }

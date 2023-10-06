@@ -34,6 +34,12 @@ class PluginRestBaseController extends RestBaseController
         $this->getPlugin();
     }
 
+    // 初始化
+    protected function initialize()
+    {
+        hook('home_init');
+    }
+
     public function getPlugin()
     {
 

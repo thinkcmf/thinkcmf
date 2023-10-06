@@ -83,6 +83,7 @@ class PluginBaseController extends BaseController
     // 初始化
     protected function initialize()
     {
+        hook('home_init');
     }
 
     /**
