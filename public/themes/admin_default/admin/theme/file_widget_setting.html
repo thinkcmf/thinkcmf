@@ -77,7 +77,11 @@
                              index="index">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                {$widgetsBlock.title|default='无标题'}
+                                <empty name="$widgetsBlock.title">
+                                    无标题
+                                    <else/>
+                                    {:lang($widgetsBlock.title)}
+                                </empty>
                             </div>
                             <ul class="list-group widgets-group"
                                 data-file_id="{$file.id}"

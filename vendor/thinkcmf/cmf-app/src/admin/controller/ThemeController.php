@@ -274,6 +274,7 @@ class ThemeController extends AdminBaseController
 
         } else {
             $file  = ThemeFileModel::where('id', $fileId)->find();
+            $theme = $file['theme'];
             $files = ThemeFileModel::where('theme', $file['theme'])
                 ->where(function ($query) use ($fileId) {
                     $query->where('id', $fileId)->whereOr('is_public', 1);
@@ -281,6 +282,12 @@ class ThemeController extends AdminBaseController
             $this->assign('fileName', $file['file']);
             $this->assign('theme', $file['theme']);
         }
+
+        $app     = app();
+        $langSet = $app->lang->getLangSet();
+        $app->lang->load([
+            WEB_ROOT . "themes/$theme/public/lang/$langSet.php"
+        ]);
 
         $tpl     = 'file_widget_setting';
         $hasFile = false;
@@ -344,6 +351,12 @@ class ThemeController extends AdminBaseController
         $file       = ThemeFileModel::where('id', $fileId)->find();
         $oldMore    = $file['more'];
 
+        $theme   = $file['theme'];
+        $app     = app();
+        $langSet = $app->lang->getLangSet();
+        $app->lang->load([
+            WEB_ROOT . "themes/$theme/public/lang/$langSet.php"
+        ]);
 
         $items = [];
         $item  = [];
@@ -431,8 +444,14 @@ class ThemeController extends AdminBaseController
         $itemIndex  = $this->request->param('item_index', '');
 
         $file = ThemeFileModel::where('id', $fileId)->find();
-
         $oldMore = $file['more'];
+
+        $theme   = $file['theme'];
+        $app     = app();
+        $langSet = $app->lang->getLangSet();
+        $app->lang->load([
+            WEB_ROOT . "themes/$theme/public/lang/$langSet.php"
+        ]);
 
         $items = [];
         $item  = [];
@@ -580,7 +599,7 @@ class ThemeController extends AdminBaseController
                         $validate = new Validate();
                         $validate->rule($rules);
                         $validate->message($messages);
-                        $result   = $validate->check($post['item']);
+                        $result = $validate->check($post['item']);
                         if (!$result) {
                             $this->error($validate->getError());
                         }
@@ -625,7 +644,7 @@ class ThemeController extends AdminBaseController
                                 $validate = new Validate();
                                 $validate->rule($rules);
                                 $validate->message($messages);
-                                $result   = $validate->check($post['item']);
+                                $result = $validate->check($post['item']);
                                 if (!$result) {
                                     $this->error($validate->getError());
                                 }
@@ -672,7 +691,7 @@ class ThemeController extends AdminBaseController
                             $validate = new Validate();
                             $validate->rule($rules);
                             $validate->message($messages);
-                            $result   = $validate->check($post['item']);
+                            $result = $validate->check($post['item']);
                             if (!$result) {
                                 $this->error($validate->getError());
                             }
@@ -842,7 +861,7 @@ class ThemeController extends AdminBaseController
                         $validate = new Validate();
                         $validate->rule($rules);
                         $validate->message($messages);
-                        $result   = $validate->check($post['vars']);
+                        $result = $validate->check($post['vars']);
                         if (!$result) {
                             $this->error($validate->getError());
                         }
@@ -886,7 +905,7 @@ class ThemeController extends AdminBaseController
                             }
 
                             if ($widget['display']) {
-                                $validate   = new Validate();
+                                $validate = new Validate();
                                 $validate->rule($rules);
                                 $validate->message($messages);
                                 $widgetVars = empty($post['widget_vars'][$mWidgetName]) ? [] : $post['widget_vars'][$mWidgetName];
@@ -1098,7 +1117,7 @@ class ThemeController extends AdminBaseController
      */
     public function widgetsSort()
     {
-        $files = $this->request->param();
+        $files   = $this->request->param();
         $widgets = [];
 
         foreach ($files as $fileId => $widgetsBlocks) {
@@ -1169,6 +1188,13 @@ class ThemeController extends AdminBaseController
         $fileId    = $this->request->param('file_id', 0, 'intval');
 
         $file = ThemeFileModel::where('id', $fileId)->find();
+
+        $theme   = $file['theme'];
+        $app     = app();
+        $langSet = $app->lang->getLangSet();
+        $app->lang->load([
+            WEB_ROOT . "themes/$theme/public/lang/$langSet.php"
+        ]);
 
         $oldMore = $file['more'];
         $items   = [];
