@@ -125,9 +125,9 @@ abstract class Plugin
         ]);
 
         //加载多语言
-        $langSet   = $app->lang->getLangSet();
-        $lang_file = $this->pluginPath . "lang/" . $langSet . ".php";
-        $app->lang->load($lang_file);
+//        $langSet   = $app->lang->getLangSet();
+//        $lang_file = $this->pluginPath . "lang/" . $langSet . ".php";
+//        $app->lang->load($lang_file);
 
     }
 

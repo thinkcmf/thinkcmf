@@ -66,6 +66,17 @@ class HomeLangListener
 
         $app->lang->load($langFiles);
 
+        $request = request();
+        $param   = $request->param();
+        if (!empty($param['_plugin'])) {
+            $plugin = $param['_plugin'];
+            // 加载应用语言包
+            $this->app->lang->load([
+                WEB_ROOT . "plugins/$plugin/lang/$langSet.php",
+                WEB_ROOT . "plugins/$plugin/lang/$langSet/home.php",
+            ]);
+        }
+
         // 监听home_lang_load
         hook('home_lang_load', ['lang' => $langSet]);
     }
