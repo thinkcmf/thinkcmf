@@ -286,7 +286,8 @@ class ThemeController extends AdminBaseController
         $app     = app();
         $langSet = $app->lang->getLangSet();
         $app->lang->load([
-            WEB_ROOT . "themes/$theme/public/lang/$langSet.php"
+            WEB_ROOT . "themes/$theme/public/lang/$langSet.php",
+            WEB_ROOT . "themes/$theme/public/lang/$langSet/admin.php",
         ]);
 
         $tpl     = 'file_widget_setting';
@@ -355,7 +356,8 @@ class ThemeController extends AdminBaseController
         $app     = app();
         $langSet = $app->lang->getLangSet();
         $app->lang->load([
-            WEB_ROOT . "themes/$theme/public/lang/$langSet.php"
+            WEB_ROOT . "themes/$theme/public/lang/$langSet.php",
+            WEB_ROOT . "themes/$theme/public/lang/$langSet/admin.php",
         ]);
 
         $items = [];
@@ -450,7 +452,8 @@ class ThemeController extends AdminBaseController
         $app     = app();
         $langSet = $app->lang->getLangSet();
         $app->lang->load([
-            WEB_ROOT . "themes/$theme/public/lang/$langSet.php"
+            WEB_ROOT . "themes/$theme/public/lang/$langSet.php",
+            WEB_ROOT . "themes/$theme/public/lang/$langSet/admin.php",
         ]);
 
         $items = [];
@@ -1193,7 +1196,8 @@ class ThemeController extends AdminBaseController
         $app     = app();
         $langSet = $app->lang->getLangSet();
         $app->lang->load([
-            WEB_ROOT . "themes/$theme/public/lang/$langSet.php"
+            WEB_ROOT . "themes/$theme/public/lang/$langSet.php",
+            WEB_ROOT . "themes/$theme/public/lang/$langSet/admin.php",
         ]);
 
         $oldMore = $file['more'];
