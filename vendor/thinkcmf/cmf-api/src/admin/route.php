@@ -60,6 +60,7 @@ Route::put('admin/setting/site$', 'admin/Setting/sitePut');
 Route::put('admin/setting/upload$', 'admin/Setting/uploadPut');
 Route::put('admin/setting/storage$', 'admin/Setting/storagePut');
 Route::put('admin/setting/password$', 'admin/Setting/passwordPut');
+Route::put('admin/setting/lang$', 'admin/Setting/langPut');
 
 Route::post('admin/themes/:theme/active$', 'admin/Theme/active');
 Route::get('admin/themes/not/installed$', 'admin/Theme/notInstalled');

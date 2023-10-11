@@ -46,8 +46,8 @@ class PluginController extends RestAdminBaseController
     public function index()
     {
         $pluginModel = new PluginModel();
-        $plugins = $pluginModel->getList();
-        $plugins = array_values($plugins);
+        $plugins     = $pluginModel->getList();
+        $plugins     = array_values($plugins);
         $this->success("success", ['list' => $plugins, 'total' => count($plugins)]);
     }
 
@@ -86,7 +86,7 @@ class PluginController extends RestAdminBaseController
         $id = $this->request->param('id', 0, 'intval');
 
         $pluginModel = new PluginModel();
-        $plugin = $pluginModel->find($id);
+        $plugin      = $pluginModel->find($id);
 
         if (empty($plugin)) {
             $this->error('插件未安装!');
@@ -173,7 +173,7 @@ class PluginController extends RestAdminBaseController
         $id = $this->request->param('id', 0, 'intval');
 
         $pluginModel = new PluginModel();
-        $plugin = $pluginModel->find($id)->toArray();
+        $plugin      = $pluginModel->find($id)->toArray();
 
         if (!$plugin) {
             $this->error('插件未安装!');
@@ -193,7 +193,7 @@ class PluginController extends RestAdminBaseController
         }
         $plugin['config'] = include $pluginObj->getConfigFilePath();
 
-        $rules = [];
+        $rules    = [];
         $messages = [];
 
         foreach ($plugin['config'] as $key => $value) {
@@ -297,7 +297,7 @@ class PluginController extends RestAdminBaseController
     {
         if ($this->request->isPost()) {
             $pluginName = $this->request->param('name', '', 'trim');
-            $result = PluginLogic::install($pluginName);
+            $result     = PluginLogic::install($pluginName);
 
             if ($result !== true) {
                 $this->error($result);
@@ -339,7 +339,7 @@ class PluginController extends RestAdminBaseController
     {
         if ($this->request->isDelete()) {
             $pluginModel = new PluginModel();
-            $id = $this->request->param('id', 0, 'intval');
+            $id          = $this->request->param('id', 0, 'intval');
 
             $result = $pluginModel->uninstall($id);
 
@@ -394,8 +394,8 @@ class PluginController extends RestAdminBaseController
      */
     public function status()
     {
-        $id = $this->request->param('id', 0, 'intval');
-        $status = $this->request->param('status', 1, 'intval');
+        $id          = $this->request->param('id', 0, 'intval');
+        $status      = $this->request->param('status', 1, 'intval');
         $pluginModel = PluginModel::find($id);
 
         if (empty($pluginModel)) {
@@ -456,7 +456,7 @@ class PluginController extends RestAdminBaseController
     {
         if ($this->request->isPut()) {
             $pluginName = $this->request->param('name', '', 'trim');
-            $result = PluginLogic::update($pluginName);
+            $result     = PluginLogic::update($pluginName);
 
             if ($result !== true) {
                 $this->error($result);
@@ -502,14 +502,14 @@ class PluginController extends RestAdminBaseController
         $id = $this->request->param('id', 0, 'intval');
 
         $pluginModel = new PluginModel();
-        $plugin = $pluginModel->find($id);
+        $plugin      = $pluginModel->find($id);
 
         if (empty($plugin)) {
             $this->error('插件未安装!');
         }
 
         $hooksArr = HookPluginModel::where('plugin', $plugin['name'])->column('hook');
-        $hooks = HookModel::where('hook', 'in', $hooksArr)->select();
+        $hooks    = HookModel::where('hook', 'in', $hooksArr)->select();
 
         $this->success('success！', ['list' => $hooks, 'total' => count($hooks)]);
     }
