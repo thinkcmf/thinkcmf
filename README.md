@@ -172,7 +172,8 @@ https://gitee.com/thinkcmf/docker
 #### 8.0.1 coding~
 - [ ] 完善多语言功能
 - [ ] 后台模板全面升级为`bootstrap5`
-
+- [ ] 升级`FontAwesome`图标到`v6.4.2`
+ 
 #### 8.0.0
 * 升级到`ThinkPHP8.0`
 * 增加后台管理本地文件上传

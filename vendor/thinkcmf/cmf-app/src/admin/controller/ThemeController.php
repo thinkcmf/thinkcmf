@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\model\ThemeFileI18nModel;
 use app\admin\model\ThemeFileModel;
 use cmf\controller\AdminBaseController;
 use app\admin\model\ThemeModel;
@@ -445,7 +446,7 @@ class ThemeController extends AdminBaseController
         $blockName  = $this->request->param('block_name', '');//自由控件编辑
         $itemIndex  = $this->request->param('item_index', '');
 
-        $file = ThemeFileModel::where('id', $fileId)->find();
+        $file    = ThemeFileModel::where('id', $fileId)->find();
         $oldMore = $file['more'];
 
         $theme   = $file['theme'];
@@ -1186,11 +1187,17 @@ class ThemeController extends AdminBaseController
      */
     public function widgetSetting()
     {
-        $widgetId  = $this->request->param('widget_id', '');
-        $blockName = $this->request->param('block_name', '');
-        $fileId    = $this->request->param('file_id', 0, 'intval');
+        $widgetId    = $this->request->param('widget_id', '');
+        $blockName   = $this->request->param('block_name', '');
+        $fileId      = $this->request->param('file_id', 0, 'intval');
+        $contentLang = $this->request->param('content_lang', session('admin_content_lang'));
 
         $file = ThemeFileModel::where('id', $fileId)->find();
+
+        if (!empty($contentLang) && $contentLang != $this->app->lang->defaultLangSet()) {
+            session('admin_content_lang', $contentLang);
+            $findThemeFileI18n = ThemeFileI18nModel::where('file_id', $fileId)->where('lang', $contentLang)->find();
+        }
 
         $theme   = $file['theme'];
         $app     = app();
@@ -1200,9 +1207,13 @@ class ThemeController extends AdminBaseController
             WEB_ROOT . "themes/$theme/public/lang/$langSet/admin.php",
         ]);
 
-        $oldMore = $file['more'];
-        $items   = [];
-        $item    = [];
+        if (empty($findThemeFileI18n)) {
+            $oldMore = $file['more'];
+        } else {
+            $oldMore = $findThemeFileI18n['more'];
+        }
+        $items = [];
+        $item  = [];
 
         $widgetWithValue = $oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId];
         $theme           = $file['theme'];

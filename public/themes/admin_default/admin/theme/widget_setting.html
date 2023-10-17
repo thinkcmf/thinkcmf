@@ -18,7 +18,36 @@
 </head>
 <body>
 <div class="wrap">
-    <form method="post" class="js-ajax-form"
+    <php>
+        $allow_lang_list=cmf_allow_lang_list();
+    </php>
+    <div style="position: relative;">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a>设置</a>
+            </li>
+        </ul>
+        <div style="position: absolute;right: 0px;top: 0px;">
+            <div class="btn-group" style="margin-bottom: 10px;">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {:input('param.content_lang','默认语言')} <span class="caret"></span>
+                </button>
+                <php>
+                    $get_params=input('get.');
+                </php>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <foreach name="$allow_lang_list" item="lang">
+                        <php>
+                            $get_params['content_lang']=$lang;
+                        </php>
+                        <li><a href="?{:http_build_query($get_params)}">{$lang}</a></li>
+                    </foreach>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <form method="post" class="js-ajax-form margin-top-20"
           action="admin/theme/widget/setting">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -53,6 +82,7 @@
                     </div>
                 </div>
                 <div class="form-group" style="display: none;">
+                    <input type="hidden" name="content_lang" value="{:input('param.content_lang','')}"/>
                     <input type="hidden" name="file_id" value="{$file_id}"/>
                     <input type="hidden" name="widget_id" value="{$widget_id}"/>
                     <input type="hidden" name="block_name" value="{$block_name}"/>

@@ -11,6 +11,7 @@ namespace api\admin\controller;
 use app\admin\model\RecycleBinModel;
 use app\admin\model\SlideItemModel;
 use app\admin\model\SlideModel;
+use app\admin\model\ThemeFileI18nModel;
 use app\admin\model\ThemeFileModel;
 use app\admin\model\ThemeModel;
 use cmf\controller\RestAdminBaseController;
@@ -757,12 +758,13 @@ class ThemeController extends RestAdminBaseController
      */
     public function widgetSettingPost()
     {
-        $widgetId  = $this->request->param('widget_id', '');
-        $blockName = $this->request->param('block_name', '');
-        $fileId    = $this->request->param('file_id', 0, 'intval');
-        $widget    = $this->request->param('widget/a');
-        $vars      = empty($widget['vars']) ? [] : $widget['vars'];
-        $cssVars   = empty($widget['css']) ? [] : $widget['css'];
+        $widgetId    = $this->request->param('widget_id', '');
+        $blockName   = $this->request->param('block_name', '');
+        $fileId      = $this->request->param('file_id', 0, 'intval');
+        $contentLang = $this->request->param('content_lang', '');
+        $widget      = $this->request->param('widget/a');
+        $vars        = empty($widget['vars']) ? [] : $widget['vars'];
+        $cssVars     = empty($widget['css']) ? [] : $widget['css'];
 
         $file      = ThemeFileModel::where('id', $fileId)->find();
         $oldMore   = $file['more'];
@@ -800,7 +802,26 @@ class ThemeController extends RestAdminBaseController
         $oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId] = $oldWidget;
 
         $more = json_encode($oldMore);
-        ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
+
+        if (!empty($contentLang) && $contentLang != $this->app->lang->defaultLangSet()) {
+            $findThemeFileI18n = ThemeFileI18nModel::where('file_id', $fileId)->where('lang', $contentLang)->find();
+            if (empty($findThemeFileI18n)) {
+                ThemeFileI18nModel::create([
+                    'file_id' => $fileId,
+                    'theme'   => $theme,
+                    'lang'    => $contentLang,
+                    'action'  => $file['action'],
+                    'file'    => $file['file'],
+                    'more'    => $oldMore
+                ]);
+            } else {
+                $findThemeFileI18n->save(['more' => $oldMore]);
+            }
+
+        } else {
+            ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
+        }
+
         cmf_clear_cache();
         $this->success(lang('EDIT_SUCCESS'));
     }

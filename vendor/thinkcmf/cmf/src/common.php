@@ -1398,6 +1398,54 @@ function cmf_current_lang()
 }
 
 /**
+ * 获取前台语言包列表
+ * @return array  语言包列表
+ */
+function cmf_allow_lang_list(): array
+{
+    $langConfig = app()->lang->getConfig();
+    return $langConfig['allow_lang_list'] ?? [];
+}
+
+/**
+ * 获取后台语言包列表
+ * @return array  语言包列表
+ */
+function cmf_admin_allow_lang_list(): array
+{
+    $langConfig = app()->lang->getConfig();
+    return $langConfig['admin_allow_lang_list'] ?? [];
+}
+
+/**
+ * 获取多语言设置
+ * @return array  多语言设置
+ */
+function cmf_lang_config(): array
+{
+    $langConfig = app()->lang->getConfig();
+
+    $defaultConfig = [
+        // 前台多语言开关
+        'home_multi_lang'       => 0,
+        // 后台多语言开关
+        'admin_multi_lang'      => 0,
+        // 多语言模式;1:pathinfo前缀;2:域名前缀;
+        'multi_lang_mode'       => 1,
+        // 后台默认语言
+        'admin_default_lang'    => 'zh-cn',
+        // 后台允许的语言列表
+        'admin_allow_lang_list' => [],
+        // 多语言域名列表 ['cmf.im'=>'zh-cn']
+        'lang_domain_list'      => [],
+        // 语言包别名 ['zh-cn' => 'cn']
+        'lang_alias'            => [],
+    ];
+
+    return array_merge($defaultConfig, $langConfig);
+}
+
+/**
  * 获取惟一订单号
  * @return string
  */

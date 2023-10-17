@@ -750,7 +750,7 @@ CREATE TABLE IF NOT EXISTS `cmf_theme_file` (
   `theme` varchar(20) NOT NULL DEFAULT '' COMMENT '模板名称',
   `name` varchar(20) NOT NULL DEFAULT '' COMMENT '模板文件名',
   `action` varchar(50) NOT NULL DEFAULT '' COMMENT '操作',
-  `file` varchar(50) NOT NULL DEFAULT '' COMMENT '模板文件，相对于模板根目录，如Portal/index.html',
+  `file` varchar(50) NOT NULL DEFAULT '' COMMENT '模板文件，相对于模板根目录，如portal/index.html',
   `description` varchar(100) NOT NULL DEFAULT '' COMMENT '模板文件描述',
   `more` text COMMENT '模板更多配置,用户自己后台设置的',
   `config_more` text COMMENT '模板更多配置,来源模板的配置文件',
