@@ -6,7 +6,6 @@
     <meta name="renderer" content="webkit">
     <meta charset="utf-8">
     <title>ThinkCMF {:lang('ADMIN_CENTER')}</title>
-    <meta name="description" content="This is page-header (.page-header &gt; h1)">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- HTML5 shim for IE8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -14,9 +13,9 @@
     <![endif]-->
     <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style('arcoadmin')}/bootstrap.min.css" rel="stylesheet">
     <link href="__TMPL__/public/assets/simpleboot/css/simplebootadmin.css" rel="stylesheet">
-    <link href="__STATIC__/font-awesome/css/font-awesome.min.css?page=index" rel="stylesheet" type="text/css">
-    <link rel="stylesheet"
-          href="__TMPL__/public/assets/themes/{:cmf_get_admin_style('arcoadmin')}/simplebootadminindex.min.css">
+    <link href="__TMPL__/public/assets/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="__TMPL__/public/assets/fontawesome/css/v4-shims.min.css" rel="stylesheet" type="text/css">
+    <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style('arcoadmin')}/simplebootadminindex.min.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
@@ -79,15 +78,22 @@
             <php>
                 $menu_name=lang($menu['lang']);
                 $menu_name=$menu['lang']==$menu_name?$menu['name']:$menu_name;
+                $icon_class='';
+                if(str_contains($menu['icon'],'fa-')){
+                $icon_class=$menu['icon'];
+                }else{
+                $icon_class=empty($menu['icon'])?'fa fa-desktop':'fa fa-'.$menu['icon'];
+                }
             </php>
             <php>if(empty($menu['items'])){</php>
             <a href="javascript:openapp('{$menu.url}','{$menu.id}','{$menu_name}',true);">
-                <i class="fa fa-{$menu.icon|default='desktop'}"></i>
+
+                <i class="{$icon_class}"></i>
                 <span class="menu-text"> {$menu_name} </span>
             </a>
             <php>}else{</php>
             <a href="#" class="dropdown-toggle">
-                <i class="fa fa-{$menu.icon|default='desktop'} normal"></i>
+                <i class="{$icon_class}"></i>
                 <span class="menu-text normal"> {$menu_name} </span>
                 <b class="arrow fa fa-angle-right normal"></b>
                 <i class="fa fa-reply back"></i>
