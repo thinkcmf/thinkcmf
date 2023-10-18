@@ -1194,8 +1194,8 @@ class ThemeController extends AdminBaseController
 
         $file = ThemeFileModel::where('id', $fileId)->find();
 
+        session('admin_content_lang', $contentLang);
         if (!empty($contentLang) && $contentLang != $this->app->lang->defaultLangSet()) {
-            session('admin_content_lang', $contentLang);
             $findThemeFileI18n = ThemeFileI18nModel::where('file_id', $fileId)->where('lang', $contentLang)->find();
         }
 

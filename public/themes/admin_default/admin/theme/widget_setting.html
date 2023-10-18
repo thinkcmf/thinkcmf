@@ -1,101 +1,110 @@
-<include file="theme/functions"/>
-<include file="public@header"/>
-<style>
-    .form-control-widget-title {
-        border: none;
-        padding: 0;
-        margin: 0;
-        font-size: inherit;
-        line-height: inherit;
-        background: transparent;
-    }
+<extend name="public@base5"/>
+<block name="head">
+    <include file="theme/functions"/>
+    <style>
+        .form-control-widget-title {
+            border: none;
+            padding: 0;
+            margin: 0;
+            font-size: inherit;
+            line-height: inherit;
+            background: transparent;
+        }
 
-    .form-control-widget-title:focus {
-        outline: none;
-        background: #fff;
-    }
-</style>
-</head>
-<body>
-<div class="wrap">
-    <php>
-        $allow_lang_list=cmf_allow_lang_list();
-    </php>
-    <div style="position: relative;">
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a>设置</a>
-            </li>
-        </ul>
-        <div style="position: absolute;right: 0px;top: 0px;">
-            <div class="btn-group" style="margin-bottom: 10px;">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {:input('param.content_lang','默认语言')} <span class="caret"></span>
-                </button>
+        .form-control-widget-title:focus {
+            outline: none;
+            background: #fff;
+        }
+    </style>
+</block>
+<block name="main">
+    <div class="wrap">
+        <php>
+            $allow_lang_list=cmf_allow_lang_list();
+        </php>
+        <div style="position: relative;">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active">设置</a>
+                </li>
+            </ul>
+            <div style="position: absolute;right: 0px;top: 0px;">
                 <php>
-                    $get_params=input('get.');
+                    $content_lang=input('param.content_lang',session('admin_content_lang'));
+                    $content_lang=$content_lang?$content_lang:'默认语言';
                 </php>
-                <ul class="dropdown-menu dropdown-menu-right">
-                    <foreach name="$allow_lang_list" item="lang">
-                        <php>
-                            $get_params['content_lang']=$lang;
-                        </php>
-                        <li><a href="?{:http_build_query($get_params)}">{$lang}</a></li>
-                    </foreach>
-                </ul>
+                <div class="dropdown" style="margin-bottom: 10px;">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {$content_lang} <span class="caret"></span>
+                    </button>
+                    <php>
+                        $get_params=input('get.');
+                    </php>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <foreach name="$allow_lang_list" item="lang">
+                            <php>
+                                $get_params['content_lang']=$lang;
+                            </php>
+                            <li><a class="dropdown-item" href="?{:http_build_query($get_params)}">{$lang}</a></li>
+                        </foreach>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-    <form method="post" class="js-ajax-form margin-top-20"
-          action="admin/theme/widget/setting">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <input class="form-control-widget-title" type="text" value="{$widget.title}"
-                       name="widget[title]">
-                <label class="checkbox-inline pull-right">
-                    <php>$display_checked=empty($widget['display'])?'':'checked';</php>
-                    <input type="checkbox"
-                           name="widget[display]"
-                           value="1"
-                           {$display_checked}>
-                    显示
-                </label>
-            </div>
-            <div class="panel-body">
-                <div>
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">属性</a></li>
-                        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">样式</a></li>
-                    </ul>
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="home">
-                            <br>
-                            {:_parse_vars($widget['vars'],'widget[vars]',2)}
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="profile">
-                            <br>
-                            {:_parse_vars($widget['css'],'widget[css]',2)}
-                        </div>
+        <form method="post" class="js-ajax-form margin-top-20"
+              action="admin/theme/widget/setting">
+            <div class="card">
+                <div class="card-header">
+                    <input class="form-control-widget-title" type="text" value="{$widget.title}"
+                           name="widget[title]">
+
+                    <div class="form-check form-check-inline float-end" style="margin: 0;min-height: auto;">
+                        <php>$display_checked=empty($widget['display'])?'':'checked';</php>
+                        <input class="form-check-input" type="checkbox" id="widget-display-check"
+                               name="widget[display]"
+                               value="1"
+                               {$display_checked}>
+                        <label class="form-check-label" for="widget-display-check">显示</label>
                     </div>
                 </div>
-                <div class="form-group" style="display: none;">
-                    <input type="hidden" name="content_lang" value="{:input('param.content_lang','')}"/>
-                    <input type="hidden" name="file_id" value="{$file_id}"/>
-                    <input type="hidden" name="widget_id" value="{$widget_id}"/>
-                    <input type="hidden" name="block_name" value="{$block_name}"/>
-                    <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0" id="submit-btn">
-                        <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
-                    </button>
+                <div class="card-body">
+                    <div>
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="nav-item">
+                                <a class="nav-link active" href="javascript:" data-bs-toggle="tab" data-bs-target="#home" aria-controls="home" role="tab" data-toggle="tab">属性</a>
+                            </li>
+                            <li role="presentation" class="nav-item">
+                                <a class="nav-link" href="javascript:" data-bs-toggle="tab" data-bs-target="#profile" aria-controls="profile" role="tab" data-toggle="tab">样式</a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="home">
+                                <br>
+                                {:_parse_vars($widget['vars'],'widget[vars]',2)}
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="profile">
+                                <br>
+                                {:_parse_vars($widget['css'],'widget[css]',2)}
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: none;">
+                        <input type="hidden" name="content_lang" value="{:input('param.content_lang','')}"/>
+                        <input type="hidden" name="file_id" value="{$file_id}"/>
+                        <input type="hidden" name="widget_id" value="{$widget_id}"/>
+                        <input type="hidden" name="block_name" value="{$block_name}"/>
+                        <button type="submit" class="js-ajax-submit" data-refresh="0" id="submit-btn">{:lang('SAVE')}</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-    </form>
+        </form>
 
-</div>
-<include file="theme/scripts"/>
-</body>
-</html>
+    </div>
+</block>
+<block name="scripts">
+    <include file="theme/scripts"/>
+</block>
