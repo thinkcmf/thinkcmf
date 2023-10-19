@@ -179,9 +179,9 @@
             'dev_requirement' => false,
         ),
         'topthink/framework' => array(
-            'pretty_version' => 'v8.0.2',
-            'version' => '8.0.2.0',
-            'reference' => '6477942f80090a7f3d194197765ca1217a7aab87',
+            'pretty_version' => 'v8.0.3',
+            'version' => '8.0.3.0',
+            'reference' => '5e59fb1e2bcb400c6f82e99d1a40dd058afc8563',
             'type' => 'library',
             'install_path' => __DIR__ . '/../topthink/framework',
             'aliases' => array(),

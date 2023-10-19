@@ -8,11 +8,10 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types = 1);
+declare (strict_types = 1);
 
 namespace think\cache\driver;
 
-use DateInterval;
 use DateTimeInterface;
 use FilesystemIterator;
 use think\App;
@@ -120,7 +119,7 @@ class File extends Driver
      * @param string $name 缓存变量名
      * @return bool
      */
-    public function has(string $name): bool
+    public function has($name): bool
     {
         return $this->getRaw($name) !== null;
     }
@@ -132,10 +131,8 @@ class File extends Driver
      * @param mixed  $default 默认值
      * @return mixed
      */
-    public function get(string $name, mixed $default = null): mixed
+    public function get($name, $default = null): mixed
     {
-        $this->readTimes++;
-
         $raw = $this->getRaw($name);
 
         return is_null($raw) ? $default : $this->unserialize($raw['content']);
@@ -144,15 +141,13 @@ class File extends Driver
     /**
      * 写入缓存
      * @access public
-     * @param string                 $name   缓存变量名
-     * @param mixed                  $value  存储数据
+     * @param string                                   $name   缓存变量名
+     * @param mixed                                    $value  存储数据
      * @param int|\DateInterval|DateTimeInterface|null $expire 有效时间 0为永久
      * @return bool
      */
-    public function set(string $name, mixed $value, int|DateInterval|DateTimeInterface $expire = null): bool
+    public function set($name, $value, $expire = null): bool
     {
-        $this->writeTimes++;
-
         if (is_null($expire)) {
             $expire = $this->options['expire'];
         }
@@ -201,7 +196,7 @@ class File extends Driver
      * @param int    $step 步长
      * @return false|int
      */
-    public function inc(string $name, int $step = 1)
+    public function inc($name, $step = 1)
     {
         if ($raw = $this->getRaw($name)) {
             $value  = $this->unserialize($raw['content']) + $step;
@@ -221,7 +216,7 @@ class File extends Driver
      * @param int    $step 步长
      * @return false|int
      */
-    public function dec(string $name, int $step = 1)
+    public function dec($name, $step = 1)
     {
         return $this->inc($name, -$step);
     }
@@ -232,10 +227,8 @@ class File extends Driver
      * @param string $name 缓存变量名
      * @return bool
      */
-    public function delete(string $name): bool
+    public function delete($name): bool
     {
-        $this->writeTimes++;
-
         return $this->unlink($this->getCacheKey($name));
     }
 
@@ -246,8 +239,6 @@ class File extends Driver
      */
     public function clear(): bool
     {
-        $this->writeTimes++;
-
         $dirname = $this->options['path'] . $this->options['prefix'];
 
         $this->rmdir($dirname);
@@ -261,7 +252,7 @@ class File extends Driver
      * @param array $keys 缓存标识列表
      * @return void
      */
-    public function clearTag(array $keys): void
+    public function clearTag($keys): void
     {
         foreach ($keys as $key) {
             $this->unlink($key);
