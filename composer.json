@@ -32,6 +32,8 @@
         "ext-json": "*",
         "ext-curl": "*",
         "ext-pdo": "*",
+        "ext-mbstring": "*",
+        "ext-zip": "*",
         "thinkcmf/cmf-app": "^8.0.0",
         "thinkcmf/cmf-install": "^8.0.0",
         "thinkcmf/cmf-api": "^8.0.0",

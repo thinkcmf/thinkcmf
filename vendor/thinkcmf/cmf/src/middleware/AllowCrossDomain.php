@@ -8,7 +8,7 @@
 // +---------------------------------------------------------------------
 // | Author: Dean <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare (strict_types=1);
 
 namespace cmf\middleware;
 
@@ -44,7 +44,7 @@ class AllowCrossDomain
      * @param array   $header
      * @return Response
      */
-    public function handle($request, Closure $next, ? array $header = [])
+    public function handle($request, Closure $next, ?array $header = [])
     {
         $header = !empty($header) ? array_merge($this->header, $header) : $this->header;
 
@@ -56,6 +56,11 @@ class AllowCrossDomain
             } else {
                 $header['Access-Control-Allow-Origin'] = '*';
             }
+        }
+
+        if ($request->method() == 'OPTIONS') {
+            // 自动响应options请求
+            return Response::create('', 'html', 204)->header($header);
         }
 
         return $next($request)->header($header);
