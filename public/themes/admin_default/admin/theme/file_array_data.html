@@ -1,64 +1,63 @@
-<include file="public@header"/>
-</head>
-<body>
-<div class="wrap js-check-wrap">
-    <ul class="nav nav-tabs">
-        <li class="active"><a>所有数据</a></li>
-        <li>
-            <a href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">添加数据</a>
-        </li>
-    </ul>
-    <form method="post" class="js-ajax-form margin-top-20">
-        <table class="table table-hover table-bordered table-list">
-            <thead>
-            <tr>
-                <foreach name="array_item" item="vo">
-                    <th>{:lang($vo.title)}</th>
-                </foreach>
-                <th width="100">{:lang('ACTIONS')}</th>
-            </tr>
-            </thead>
-            <tbody>
-            <foreach name="array_items" item="item" key="itemKey">
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a class="nav-link active">所有数据</a></li>
+            <li class="nav-item">
+                <a class="nav-link" href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">添加数据</a>
+            </li>
+        </ul>
+        <form method="post" class="js-ajax-form margin-top-20">
+            <table class="table table-hover table-bordered table-list">
+                <thead>
                 <tr>
                     <foreach name="array_item" item="vo">
-                        <td>
-                            <switch name="vo.type">
-                                <case value="image">
-                                    <notempty name="$item[$key]">
-                                        <img src="{:cmf_get_image_preview_url($item[$key])}" style="height:100px;"/>
-                                    </notempty>
-                                </case>
-                                <default>
-                                    {$item[$key]|default=''}
-                                </default>
-                            </switch>
-                        </td>
+                        <th>{:lang($vo.title)}</th>
                     </foreach>
-                    <td>
-                        <a class="btn btn-xs btn-primary"
-                           href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name,'item_index'=>$itemKey])}"
-                           title="{:lang('EDIT')}" data-toggle="tooltip">
-                            <i class="fa fa-edit fa-fw"></i>
-                        </a>
-                        <a class="btn btn-xs btn-danger js-ajax-delete"
-                           href="javascript:"
-                           data-href="admin/theme/file/{:str_replace('_','/',$tab)}/array?{:http_build_query(['var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name,'item_index'=>$itemKey])}"
-                           title="{:lang('DELETE')}" data-toggle="tooltip">
-                            <i class="fa fa-trash fa-fw"></i>
-                        </a>
-                    </td>
+                    <th width="100">{:lang('ACTIONS')}</th>
                 </tr>
-            </foreach>
-            </tbody>
-        </table>
-    </form>
-</div>
-<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
-<script>
-    function confirm() {
-        return true;
-    }
-</script>
-</body>
-</html>
+                </thead>
+                <tbody>
+                <foreach name="array_items" item="item" key="itemKey">
+                    <tr>
+                        <foreach name="array_item" item="vo">
+                            <td>
+                                <switch name="vo.type">
+                                    <case value="image">
+                                        <notempty name="$item[$key]">
+                                            <img src="{:cmf_get_image_preview_url($item[$key])}" style="height:100px;"/>
+                                        </notempty>
+                                    </case>
+                                    <default>
+                                        {$item[$key]|default=''}
+                                    </default>
+                                </switch>
+                            </td>
+                        </foreach>
+                        <td>
+                            <a class="btn btn-xs btn-primary"
+                               href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name,'item_index'=>$itemKey])}"
+                               title="{:lang('EDIT')}" data-toggle="tooltip">
+                                <i class="fa fa-edit fa-fw"></i>
+                            </a>
+                            <a class="btn btn-xs btn-danger js-ajax-delete"
+                               href="javascript:"
+                               data-href="admin/theme/file/{:str_replace('_','/',$tab)}/array?{:http_build_query(['var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name,'item_index'=>$itemKey])}"
+                               title="{:lang('DELETE')}" data-toggle="tooltip">
+                                <i class="fa fa-trash fa-fw"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </foreach>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</block>
+<block name="scripts">
+    <script>
+        function confirm() {
+            return true;
+        }
+    </script>
+</block>
