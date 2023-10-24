@@ -7,8 +7,8 @@
 <foreach name="pluginConfig" item="form">
     <switch name="form.type">
         <case value="explain">
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="{$key}">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end" for="{$key}">
                 {$form.title|default=''}
                     <notempty name="form.rule.require">
                         <span class="form-required">*</span>
@@ -17,14 +17,14 @@
                 <div class="col-md-8 col-sm-10">
                     <p class="form-control-static">{$form.value}</p>
                     <present name="form.tip">
-                        <p class="help-block">{$form.tip}</p>
+                        <div class="form-text">{$form.tip}</div>
                     </present>
                 </div>
             </div>
         </case>
         <case value="text">
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="{$key}">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end" for="{$key}">
                     {$form.title|default=''}
                     <notempty name="form.rule.require">
                         <span class="form-required">*</span>
@@ -33,14 +33,14 @@
                 <div class="col-md-8 col-sm-10">
                     <input type="text" name="config[{$key}]" class="form-control" {$form.disabled?'disabled':''} value="{$form.value}" id="{$key}">
                     <present name="form.tip">
-                        <p class="help-block">{$form.tip}</p>
+                        <div class="form-text">{$form.tip}</div>
                     </present>
                 </div>
             </div>
         </case>
         <case value="password">
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="{$key}">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end" for="{$key}">
                     {$form.title|default=''}
                     <notempty name="form.rule.require">
                         <span class="form-required">*</span>
@@ -50,14 +50,14 @@
                     <input type="password" name="config[{$key}]" class="form-control" value="{$form.value}"
                            id="{$key}">
                     <present name="form.tip">
-                        <p class="help-block">{$form.tip}</p>
+                        <div class="form-text">{$form.tip}</div>
                     </present>
                 </div>
             </div>
         </case>
         <case value="number">
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="{$key}">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end" for="{$key}">
                     {$form.title|default=''}
                     <notempty name="form.rule.require">
                         <span class="form-required">*</span>
@@ -67,7 +67,7 @@
                     <input type="number" name="config[{$key}]" class="form-control" {$form.disabled?'disabled':''} value="{$form.value}"
                            id="{$key}">
                     <present name="form.tip">
-                        <p class="help-block">{$form.tip}</p>
+                        <div class="form-text">{$form.tip}</div>
                     </present>
                 </div>
             </div>
@@ -76,8 +76,8 @@
             <input type="hidden" name="config[{$key}]" value="{$form.value}">
         </case>
         <case value="radio">
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="{$key}">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end" for="{$key}">
                     {$form.title|default=''}
                     <notempty name="form.rule.require">
                         <span class="form-required">*</span>
@@ -91,14 +91,14 @@
                         </label>
                     </foreach>
                     <present name="form.tip">
-                        <p class="help-block">{$form.tip}</p>
+                        <div class="form-text">{$form.tip}</div>
                     </present>
                 </div>
             </div>
         </case>
         <case value="checkbox">
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="{$key}">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end" for="{$key}">
                     {$form.title|default=''}
                     <notempty name="form.rule.require">
                         <span class="form-required">*</span>
@@ -116,14 +116,14 @@
                         </label>
                     </foreach>
                     <present name="form.tip">
-                        <p class="help-block">{$form.tip}</p>
+                        <div class="form-text">{$form.tip}</div>
                     </present>
                 </div>
             </div>
         </case>
         <case value="select">
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="{$key}">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end" for="{$key}">
                     {$form.title|default=''}
                     <notempty name="form.rule.require">
                         <span class="form-required">*</span>
@@ -138,14 +138,14 @@
                         </foreach>
                     </select>
                     <present name="form.tip">
-                        <p class="help-block">{$form.tip}</p>
+                        <div class="form-text">{$form.tip}</div>
                     </present>
                 </div>
             </div>
         </case>
         <case value="textarea">
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="{$key}">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end" for="{$key}">
                     {$form.title|default=''}
                     <notempty name="form.rule.require">
                         <span class="form-required">*</span>
@@ -154,7 +154,7 @@
                 <div class="col-md-8 col-sm-10">
                     <textarea class="form-control" name="config[{$key}]" {$form.disabled?'disabled':''} id="{$key}">{$form.value}</textarea>
                     <present name="form.tip">
-                        <p class="help-block">{$form.tip}</p>
+                        <div class="form-text">{$form.tip}</div>
                     </present>
                 </div>
             </div>
@@ -180,8 +180,8 @@
             </div>
         </case>
         <case value="date">
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="{$key}">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end" for="{$key}">
                     {$form.title|default=''}
                     <notempty name="form.rule.require">
                         <span class="form-required">*</span>
@@ -191,14 +191,14 @@
                     <input class="form-control js-bootstrap-date" name="config[{$key}]" id="{$key}"
                            value="{$form.value}">
                     <present name="form.tip">
-                        <p class="help-block">{$form.tip}</p>
+                        <div class="form-text">{$form.tip}</div>
                     </present>
                 </div>
             </div>
         </case>
         <case value="datetime">
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="{$key}">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end" for="{$key}">
                     {$form.title|default=''}
                     <notempty name="form.rule.require">
                         <span class="form-required">*</span>
@@ -208,14 +208,14 @@
                     <input class="form-control js-bootstrap-datetime" name="config[{$key}]" id="{$key}"
                            value="{$form.value}">
                     <present name="form.tip">
-                        <p class="help-block">{$form.tip}</p>
+                        <div class="form-text">{$form.tip}</div>
                     </present>
                 </div>
             </div>
         </case>
         <case value="color">
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="{$key}">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end" for="{$key}">
                     {$form.title|default=''}
                     <notempty name="form.rule.require">
                         <span class="form-required">*</span>
@@ -225,14 +225,14 @@
                     <input class="form-control js-color" name="config[{$key}]" id="{$key}"
                            value="{$form.value}">
                     <present name="form.tip">
-                        <p class="help-block">{$form.tip}</p>
+                        <div class="form-text">{$form.tip}</div>
                     </present>
                 </div>
             </div>
         </case>
         <case value="image">
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="{$key}">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end" for="{$key}">
                     {$form.title|default=''}
                     <notempty name="form.rule.require">
                         <span class="form-required">*</span>
@@ -255,34 +255,34 @@
                         </a>
                     </div>
                     <present name="form.tip">
-                        <p class="help-block">{$form.tip}</p>
+                        <div class="form-text">{$form.tip}</div>
                     </present>
                 </div>
             </div>
         </case>
         <case value="file">
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="{$key}">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end" for="{$key}">
                     {$form.title|default=''}
                     <notempty name="form.rule.require">
                         <span class="form-required">*</span>
                     </notempty>
                 </label>
                 <div class="col-md-8 col-sm-10">
-                    <div>
+                    <div class="input-group">
                         <input class="form-control" id="js-{$key}-input" type="text" name="config[{$key}]" value="{$form['value']}"
                                style="width: 300px;display: inline-block;" title="文件名称">
-                        <a href="javascript:uploadOne('文件上传','#js-{$key}-input','file');">上传文件</a>
+                        <a class="btn btn-primary" href="javascript:uploadOne('文件上传','#js-{$key}-input','file');">上传文件</a>
                     </div>
                     <present name="form.tip">
-                        <p class="help-block">{$form.tip}</p>
+                        <div class="form-text">{$form.tip}</div>
                     </present>
                 </div>
             </div>
         </case>
         <case value="location">
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="{$key}">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-sm-end" for="{$key}">
                     {$form.title|default=''}
                     <notempty name="form.rule.require">
                         <span class="form-required">*</span>
@@ -293,7 +293,7 @@
                            onclick="doSelectLocation(this)"
                            data-title="请选择{$form.title|default=''}">
                     <present name="form.tip">
-                        <p class="help-block">{$form.tip}</p>
+                        <div class="form-text">{$form.tip}</div>
                     </present>
                 </div>
             </div>
