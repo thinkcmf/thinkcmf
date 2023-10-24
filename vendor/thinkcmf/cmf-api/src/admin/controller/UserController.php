@@ -72,8 +72,8 @@ class UserController extends RestAdminBaseController
     public function index()
     {
         $users = UserModel::where('user_type', 1)
-            ->where(function (Query $query)  {
-                $userLogin = trim($this->request->param('user_login',''));
+            ->where(function (Query $query) {
+                $userLogin = trim($this->request->param('user_login', ''));
                 $userEmail = trim($this->request->param('user_email', ''));
                 if ($userLogin) {
                     $query->where('user_login', 'like', "%$userLogin%");
@@ -86,7 +86,7 @@ class UserController extends RestAdminBaseController
             ->order("id DESC")
             ->paginate(10);
 
-        if(!$users->isEmpty()){
+        if (!$users->isEmpty()) {
             $users->hidden(['user_pass']);
         }
 
@@ -253,12 +253,13 @@ class UserController extends RestAdminBaseController
                 // 验证失败 输出错误信息
                 $this->error($result);
             } else {
-                $userId = $this->request->param('id', 0, 'intval');
-                $result = UserModel::strict(false)->where('id', $userId)->save($data);
+                $currentUserId = $this->getUserId();
+                $userId        = $this->request->param('id', 0, 'intval');
+                $result        = UserModel::strict(false)->where('id', $userId)->save($data);
                 if ($result !== false) {
                     RoleUserModel::where("user_id", $userId)->delete();
                     foreach ($roleIds as $roleId) {
-                        if (cmf_get_current_admin_id() != 1 && $roleId == 1) {
+                        if ($currentUserId != 1 && $roleId == 1) {
                             $this->error("为了网站的安全，非网站创建者不可创建超级管理员！");
                         }
                         RoleUserModel::insert(["role_id" => $roleId, "user_id" => $userId]);

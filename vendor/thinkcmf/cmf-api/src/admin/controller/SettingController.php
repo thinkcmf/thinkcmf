@@ -480,7 +480,7 @@ class SettingController extends RestAdminBaseController
             $this->error("新密码不能为空！");
         }
 
-        $userId = cmf_get_current_admin_id();
+        $userId = $this->getUserId();
 
         $admin = UserModel::where("id", $userId)->find();
 

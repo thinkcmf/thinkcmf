@@ -167,7 +167,7 @@ class MyController extends RestAdminBaseController
                 $this->error("不能留空！");
             }
 
-            $adminId = cmf_get_current_admin_id();
+            $adminId = $this->getUserId();
             cmf_set_option('admin_smtp_setting_' . $adminId, $post);
 
             $this->success(lang('EDIT_SUCCESS'));
