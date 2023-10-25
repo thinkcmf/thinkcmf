@@ -1,28 +1,31 @@
-<include file="public@header"/>
-</head>
-<body>
+<extend name="public@base5"/>
+<block name="main">
 <div class="wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('AdminUserAction/index')}">{:lang('USER_ADMINUSERACTION_INDEX')}</a></li>
-        <li class="active"><a>{:lang('USER_ADMINUSERACTION_EDIT')}</a></li>
+        <li class="nav-item">
+            <a class="nav-link" href="{:url('AdminUserAction/index')}">{:lang('USER_ADMINUSERACTION_INDEX')}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active">{:lang('USER_ADMINUSERACTION_EDIT')}</a>
+        </li>
     </ul>
-    <form method="put" class="form-horizontal js-ajax-form margin-top-20" action="admin/user/actions/{$id}">
-        <div class="form-group">
-            <label for="input-score" class="col-sm-2 control-label">积分</label>
+    <form method="PUT" class="js-ajax-form margin-top-20" action="admin/user/actions/{$id}">
+        <div class="row mb-3">
+            <label for="input-score" class="col-sm-2 col-form-label text-sm-end">积分</label>
             <div class="col-md-8 col-sm-10">
                 <input type="text" class="form-control" id="input-score" name="score" value="{$score}">
-                <p class="help-block">用户操作时积分更改，可以为负</p>
+                <div class="form-text">用户操作时积分更改，可以为负</div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="input-coin" class="col-sm-2 control-label">金币</label>
+        <div class="row mb-3">
+            <label for="input-coin" class="col-sm-2 col-form-label text-sm-end">金币</label>
             <div class="col-md-8 col-sm-10">
                 <input type="text" class="form-control" id="input-coin" name="coin" value="{$coin}">
-                <p class="help-block">用户操作时金币更改，可以为负</p>
+                <div class="form-text">用户操作时金币更改，可以为负</div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="input-cycle_type" class="col-sm-2 control-label">周期类型</label>
+        <div class="row mb-3">
+            <label for="input-cycle_type" class="col-sm-2 col-form-label text-sm-end">周期类型</label>
             <div class="col-md-8 col-sm-10">
                 <select name="cycle_type" id="input-cycle_type" class="form-control">
                     <option value="0">不限</option>
@@ -30,38 +33,38 @@
                     <option value="2">小时</option>
                     <option value="3">永久</option>
                 </select>
-                <p class="help-block">用户操作时奖励周期类型</p>
+                <div class="form-text">用户操作时奖励周期类型</div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="input-cycle_time" class="col-sm-2 control-label">周期时间</label>
+        <div class="row mb-3">
+            <label for="input-cycle_time" class="col-sm-2 col-form-label text-sm-end">周期时间</label>
             <div class="col-md-8 col-sm-10">
                 <input type="text" class="form-control" id="input-cycle_time" name="cycle_time" value="{$cycle_time}">
-                <p class="help-block">用户操作时奖励周期时间</p>
+                <div class="form-text">用户操作时奖励周期时间</div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="input-reward_number" class="col-sm-2 control-label">奖励次数</label>
+        <div class="row mb-3">
+            <label for="input-reward_number" class="col-sm-2 col-form-label text-sm-end">奖励次数</label>
             <div class="col-md-8 col-sm-10">
                 <input type="text" class="form-control" id="input-reward_number" name="reward_number"
                        value="{$reward_number}">
-                <p class="help-block">用户操作时奖励次数</p>
+                <div class="form-text">用户操作时奖励次数</div>
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
+        <div class="row mb-3">
+            <div class="offset-md-2 col-sm-10">
                 <input type="hidden" name="id" value="{$id}">
                 <button type="submit" class="btn btn-primary js-ajax-submit">
                     <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
                 </button>
-                <a class="btn btn-default" href="{:url('AdminUserAction/index')}">{:lang('BACK')}</a>
+                <a class="btn btn-secondary" href="{:url('AdminUserAction/index')}">{:lang('BACK')}</a>
             </div>
         </div>
     </form>
 </div>
-<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
-<script>
-    $('#input-cycle_type').val("{$cycle_type}");
-</script>
-</body>
-</html>
+</block>
+<block name="scripts">
+    <script>
+        $('#input-cycle_type').val("{$cycle_type}");
+    </script>
+</block>

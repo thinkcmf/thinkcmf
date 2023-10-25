@@ -52,11 +52,11 @@
                         <td><a href="{$vo.url}" target="_blank">{$vo.url}</a></td>
                         <td>
                             <empty name="vo.status">
-                            <span class="label label-default">
+                            <span class="badge text-bg-secondary">
                                 {$status[$vo['status']]}
                             </span>
                                 <else/>
-                                <span class="label label-success">
+                                <span class="badge text-bg-success">
                                 {$status[$vo['status']]}
                             </span>
                             </empty>

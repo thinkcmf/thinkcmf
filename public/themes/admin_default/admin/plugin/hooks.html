@@ -18,7 +18,7 @@
                 <tbody>
                 <foreach name="hooks" item="vo">
                     <tr>
-                        <td><b>{$vo.name}</b>:<span class="label label-success">{$vo.hook}</span></td>
+                        <td><b>{$vo.name}</b>:<span class="badge text-bg-success">{$vo.hook}</span></td>
                         <td>{$types[$vo.type]}</td>
                         <td>{$vo.once?'首个插件':'多个插件'}</td>
                         <td>{$vo.description}</td>

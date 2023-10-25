@@ -1,95 +1,104 @@
-<include file="public@header"/>
-</head>
-<body>
-<div class="wrap js-check-wrap">
-    <ul class="nav nav-tabs">
-        <li><a href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_INDEX')}</a></li>
-        <li><a href="{:url('SlideItem/add',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_ADD')}</a></li>
-        <li class="active"><a>{:lang('ADMIN_SLIDEITEM_EDIT')}</a></li>
-    </ul>
-    <form action="admin/slide/items/{$result.id}" method="put" class="form-horizontal js-ajax-form margin-top-20">
-        <div class="row">
-            <div class="col-md-9">
-                <table class="table table-bordered">
-                    <tr>
-                        <th width="100"><span class="form-required">*</span>{:lang('Title')}</th>
-                        <td>
-                            <input class="form-control" type="text" name="title" id="title"
-                                   required value="{$result.title}" placeholder="{:lang('Title')}"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>{:lang('Url')}</th>
-                        <td>
-                            <input class="form-control" type="text" name="url" id="keywords" value="{$result.url}"
-                                   placeholder="{:lang('Url')}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>{:lang('Url Target')}</th>
-                        <td>
-                            <select class="form-control" name="target" id="target" style="width: 400px">
-                                <option value="_blank" {$result.target==='_blank'?'selected="selected"':''}>_blank</option>
-                                <option value="_self" {$result.target==='_self'?'selected="selected"':''}>_self</option>
-                                <option value="_parent" {$result.target==='_parent'?'selected="selected"':''}>_parent</option>
-                                <option value="_top" {$result.target==='_top'?'selected="selected"':''}>_top</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>{:lang('Description')}</th>
-                        <td><input class="form-control" type="text" name="description" id="source"
-                                   value="{$result.description}" placeholder="{:lang('Description')}"></td>
-                    </tr>
-                    <tr>
-                        <th>幻灯片内容</th>
-                        <td>
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_INDEX')}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{:url('SlideItem/add',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_ADD')}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active">{:lang('ADMIN_SLIDEITEM_EDIT')}</a>
+            </li>
+        </ul>
+        <form action="admin/slide/items/{$result.id}" method="put" class="form-horizontal js-ajax-form margin-top-20">
+            <div class="row">
+                <div class="col-md-9">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th width="100"><span class="form-required">*</span>{:lang('Title')}</th>
+                            <td>
+                                <input class="form-control" type="text" name="title" id="title"
+                                       required value="{$result.title}" placeholder="{:lang('Title')}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{:lang('Url')}</th>
+                            <td>
+                                <input class="form-control" type="text" name="url" id="keywords" value="{$result.url}"
+                                       placeholder="{:lang('Url')}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{:lang('Url Target')}</th>
+                            <td>
+                                <select class="form-control" name="target" id="target" style="width: 400px">
+                                    <option value="_blank" {$result.target==='_blank'?'selected="selected"':''}>_blank
+                                    </option>
+                                    <option value="_self" {$result.target==='_self'?'selected="selected"':''}>_self
+                                    </option>
+                                    <option value="_parent" {$result.target==='_parent'?'selected="selected"':''}>
+                                        _parent
+                                    </option>
+                                    <option value="_top" {$result.target==='_top'?'selected="selected"':''}>_top
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{:lang('Description')}</th>
+                            <td><input class="form-control" type="text" name="description" id="source"
+                                       value="{$result.description}" placeholder="{:lang('Description')}"></td>
+                        </tr>
+                        <tr>
+                            <th>幻灯片内容</th>
+                            <td>
                             <textarea class="form-control" name="content" id="description"
                                       style="min-height: 100px;"
                                       placeholder="请填写幻灯片内容">{$result.content}</textarea>
-                        </td>
-                    </tr>
-                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-3">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th><b>缩略图</b></th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="text-align: center;">
+                                    <input type="hidden" name="image" id="thumb" value="{$result.image|default=''}">
+                                    <a href="javascript:uploadOneImage('图片上传','#thumb');">
+                                        <if condition="empty($result['image'])">
+                                            <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                                 id="thumb-preview" width="135" style="cursor: hand"/>
+                                            <else/>
+                                            <img src="{:cmf_get_image_preview_url($result['image'])}" id="thumb-preview"
+                                                 width="135" style="cursor: hand"/>
+                                        </if>
+                                    </a>
+                                    <input type="button" class="btn btn-sm"
+                                           onclick="$('#thumb-preview').attr('src','__TMPL__/public/assets/images/default-thumbnail.png');$('#thumb').val('');return false;"
+                                           value="取消图片">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-            <div class="col-md-3">
-                <table class="table table-bordered">
-                    <tr>
-                        <th><b>缩略图</b></th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div style="text-align: center;">
-                                <input type="hidden" name="image" id="thumb" value="{$result.image|default=''}">
-                                <a href="javascript:uploadOneImage('图片上传','#thumb');">
-                                    <if condition="empty($result['image'])">
-                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png"
-                                             id="thumb-preview" width="135" style="cursor: hand"/>
-                                        <else/>
-                                        <img src="{:cmf_get_image_preview_url($result['image'])}" id="thumb-preview"
-                                             width="135" style="cursor: hand"/>
-                                    </if>
-                                </a>
-                                <input type="button" class="btn btn-sm"
-                                       onclick="$('#thumb-preview').attr('src','__TMPL__/public/assets/images/default-thumbnail.png');$('#thumb').val('');return false;"
-                                       value="取消图片">
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+            <div class="form-group">
+                <div class="offset-md-2 col-sm-10">
+                    <input type="hidden" name="id" value="{$result.id}"/>
+                    <input type="hidden" name="slide_id" value="{$slide_id}">
+                    <button type="submit" class="btn btn-primary js-ajax-submit">
+                        <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
+                    </button>
+                    <a class="btn btn-secondary"
+                       href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">{:lang('BACK')}</a>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <input type="hidden" name="id" value="{$result.id}"/>
-                <input type="hidden" name="slide_id" value="{$slide_id}">
-                <button type="submit" class="btn btn-primary js-ajax-submit">
-                    <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
-                </button>
-                <a class="btn btn-default" href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">{:lang('BACK')}</a>
-            </div>
-        </div>
-    </form>
-</div>
-<script type="text/javascript" src="__STATIC__/js/admin.js?v={$_static_version}"></script>
-</body>
-</html>
+        </form>
+    </div>
+</block>

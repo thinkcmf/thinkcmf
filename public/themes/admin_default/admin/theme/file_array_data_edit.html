@@ -1,26 +1,26 @@
+<extend name="public@base5"/>
+<block name="head">
 <include file="theme/functions"/>
-<include file="public@header"/>
-</head>
-<body>
+</block>
+<block name="main">
 <div class="wrap">
     <ul class="nav nav-tabs">
-        <li>
-            <a href="{:url('Theme/fileArrayData',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">所有数据</a>
+        <li class="nav-item">
+            <a class="nav-link" href="{:url('Theme/fileArrayData',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">所有数据</a>
         </li>
         <heq name="item_index" value="">
-            <li class="active"><a>添加数据</a></li>
+            <li class="nav-item"><a class="nav-link active">添加数据</a></li>
             <else/>
-            <li>
-                <a href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">添加数据</a>
+            <li class="nav-item">
+                <a class="nav-link" href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">添加数据</a>
             </li>
-            <li class="active"><a>编辑数据</a></li>
+            <li class="nav-item"><a class="nav-link active">编辑数据</a></li>
         </heq>
-
     </ul>
     <form method="post" class="js-ajax-form margin-top-20"
           action="admin/theme/file/{:str_replace('_','/',$tab)}/array">
         {:_parse_vars($array_item,'item',2)}
-        <div class="form-group" style="display: none;">
+        <div style="display: none;">
             <input type="hidden" name="file_id" value="{$file_id}">
             <notempty name="$widget">
                 <input type="hidden" name="widget" value="{$widget}">
@@ -39,6 +39,7 @@
         </div>
     </form>
 </div>
-<include file="theme/scripts"/>
-</body>
-</html>
+</block>
+<block name="scripts">
+    <include file="theme/scripts"/>
+</block>

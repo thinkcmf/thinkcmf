@@ -1,21 +1,26 @@
-<include file="public@header" />
-</head>
-<body>
+<extend name="public@base5"/>
+<block name="main">
 	<div class="wrap">
 		<ul class="nav nav-tabs">
-			<li class="active"><a href="{:url('User/userInfo')}">{:lang('ADMIN_USER_USERINFO')}</a></li>
-			<li><a href="{:url('User/emailSetting')}">{:lang('ADMIN_USER_EMAILSETTING')}</a></li>
-			<li><a href="{:url('setting/password')}">{:lang('ADMIN_SETTING_PASSWORD')}</a></li>
+			<li class="nav-item">
+				<a class="nav-link active" href="{:url('User/userInfo')}">{:lang('ADMIN_USER_USERINFO')}</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{:url('User/emailSetting')}">{:lang('ADMIN_USER_EMAILSETTING')}</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{:url('setting/password')}">{:lang('ADMIN_SETTING_PASSWORD')}</a>
+			</li>
 		</ul>
-		<form class="form-horizontal js-ajax-form margin-top-20" role="form" method="put" action="admin/my/info">
-			<div class="form-group">
-				<label for="input-user-nickname" class="col-sm-2 control-label">{:lang('NICKNAME')}</label>
+		<form class="js-ajax-form margin-top-20" role="form" method="put" action="admin/my/info">
+			<div class="row mb-3">
+				<label for="input-user-nickname" class="col-sm-2 col-form-label text-sm-end">{:lang('NICKNAME')}</label>
 				<div class="col-md-8 col-sm-10">
 					<input type="text" class="form-control" id="input-user-nickname" name="user_nickname" value="{$user_nickname}">
 				</div>
 			</div>
-			<div class="form-group">
-				<label for="input-gender" class="col-sm-2 control-label">{:lang('GENDER')}</label>
+			<div class="row mb-3">
+				<label for="input-gender" class="col-sm-2 col-form-label text-sm-end">{:lang('GENDER')}</label>
 				<div class="col-md-8 col-sm-10">
 					<select class="form-control" name="sex" id="input-gender">
 						<php>$sexs=array("0"=>lang('GENDER_SECRECY'),"1"=>lang('MALE'),"2"=>lang('FEMALE'));</php>
@@ -26,26 +31,26 @@
 					</select>
 				</div>
 			</div>
-			<div class="form-group">
-				<label for="input-birthday" class="col-sm-2 control-label">{:lang('BIRTHDAY')}</label>
+			<div class="row mb-3">
+				<label for="input-birthday" class="col-sm-2 col-form-label text-sm-end">{:lang('BIRTHDAY')}</label>
 				<div class="col-md-8 col-sm-10">
 					<input type="text" class="form-control js-bootstrap-date" id="input-birthday" name="birthday" value="{:date('Y-m-d',$birthday)}" placeholder="2013-01-04">
 				</div>
 			</div>
-			<div class="form-group">
-				<label for="input-user_url" class="col-sm-2 control-label">{:lang('WEBSITE')}</label>
+			<div class="row mb-3">
+				<label for="input-user_url" class="col-sm-2 col-form-label text-sm-end">{:lang('WEBSITE')}</label>
 				<div class="col-md-8 col-sm-10">
 					<input type="text" class="form-control" id="input-user_url" name="user_url" value="{$user_url}" placeholder="http://thinkcmf.com">
 				</div>
 			</div>
-			<div class="form-group">
-				<label for="input-signature" class="col-sm-2 control-label">{:lang('SIGNATURE')}</label>
+			<div class="row mb-3">
+				<label for="input-signature" class="col-sm-2 col-form-label text-sm-end">{:lang('SIGNATURE')}</label>
 				<div class="col-md-8 col-sm-10">
 					<textarea class="form-control" id="input-signature" name="signature" placeholder="{:lang('SIGNATURE')}">{$signature}</textarea>
 				</div>
 			</div>
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
+			<div class="row mb-3">
+				<div class="offset-md-2 col-sm-10">
 					<button type="submit" class="btn btn-primary js-ajax-submit">
 						<i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
 					</button>
@@ -53,6 +58,4 @@
 			</div>
 		</form>
 	</div>
-	<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
-</body>
-</html>
+</block>

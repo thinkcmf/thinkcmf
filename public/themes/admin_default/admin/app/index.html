@@ -31,15 +31,15 @@
                 <foreach name="apps" item="vo">
                     <tr>
                         <td>{$vo.title}</td>
-                        <td><span class="label label-info">{$vo.name}</span></td>
+                        <td><span class="badge text-bg-info">{$vo.name}</span></td>
                         <td>{$vo.description}</td>
                         <td>{$vo.author}</td>
-                        <td><span class="label label-success">{$vo.version}</span></td>
+                        <td><span class="badge text-bg-success">{$vo.version}</span></td>
                         <td>
                             <empty name="vo.installed">
-                                <span class="label label-warning">{:lang('Not Installed')}</span>
+                                <span class="badge text-bg-warning">{:lang('Not Installed')}</span>
                                 <else/>
-                                <span class="label label-success">{:lang('Installed')}</span>
+                                <span class="badge text-bg-success">{:lang('Installed')}</span>
                             </empty>
                         </td>
                         <td>

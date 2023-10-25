@@ -45,24 +45,24 @@
                 <foreach name="plugins" item="vo">
                     <tr>
                         <td>{$vo.title}</td>
-                        <td><span class="label label-info">{$vo.name}</span></td>
+                        <td><span class="badge text-bg-info">{$vo.name}</span></td>
                         <td>{$vo.description}</td>
                         <td>{$vo.author}</td>
-                        <td><span class="label label-success">{$vo.version}</span></td>
+                        <td><span class="badge text-bg-success">{$vo.version}</span></td>
                         <td>
                             <switch name="vo.status">
                                 <case value="0">
-                                <span class="label label-warning">
+                                <span class="badge text-bg-warning">
                                     {$status[$vo['status']]}
                                 </span>
                                 </case>
                                 <case value="1">
-                                <span class="label label-success">
+                                <span class="badge text-bg-success">
                                     {$status[$vo['status']]}
                                 </span>
                                 </case>
                                 <case value="3">
-                                <span class="label label-default">
+                                <span class="badge text-bg-secondary">
                                     {$status[$vo['status']]}
                                 </span>
                                 </case>
