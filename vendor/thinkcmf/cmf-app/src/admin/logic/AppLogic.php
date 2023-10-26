@@ -134,7 +134,10 @@ class AppLogic
 
         if (method_exists($app, 'update')) {
             $updateSuccess = $app->update();
-            if (!$updateSuccess) {
+            if ($updateSuccess !== true) {
+                if (is_string($updateSuccess)) {
+                    return $updateSuccess;
+                }
                 return '应用预升级失败!';
             }
         }

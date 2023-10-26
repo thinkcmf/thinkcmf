@@ -45,8 +45,8 @@ class PluginLogic
         }
 
         $installSuccess = $plugin->install();
-        if (!$installSuccess) {
-            return '插件预安装失败!';
+        if ($installSuccess !== true) {
+            return $installSuccess;
         }
 
         $migrate = new Migrate('', $pluginName);
@@ -91,7 +91,7 @@ class PluginLogic
     public static function uninstall($pluginName)
     {
         $class      = cmf_get_plugin_class($pluginName);
-        $pluginName = cmf_parse_name($pluginName,1);
+        $pluginName = cmf_parse_name($pluginName, 1);
 
         HookPluginModel::startTrans();
         try {
@@ -102,9 +102,9 @@ class PluginLogic
                 $plugin = new $class;
 
                 $uninstallSuccess = $plugin->uninstall();
-                if (!$uninstallSuccess) {
+                if ($uninstallSuccess !== true) {
                     HookPluginModel::rollback();
-                    return "插件卸载失败!";
+                    return $uninstallSuccess;
                 }
             }
 
@@ -141,8 +141,8 @@ class PluginLogic
 
         if (method_exists($plugin, 'update')) {
             $updateSuccess = $plugin->update();
-            if (!$updateSuccess) {
-                return '插件预升级失败!';
+            if ($updateSuccess !== true) {
+                return $updateSuccess;
             }
         }
 

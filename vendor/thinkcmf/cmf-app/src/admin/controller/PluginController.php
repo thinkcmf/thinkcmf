@@ -310,7 +310,11 @@ class PluginController extends AdminBaseController
             $result     = PluginLogic::install($pluginName);
 
             if ($result !== true) {
-                $this->error($result);
+                if (is_string($result)) {
+                    $this->error($result);
+                } else {
+                    $this->error('安装失败！');
+                }
             }
 
             $this->success(lang('Installed successfully'));
@@ -337,7 +341,11 @@ class PluginController extends AdminBaseController
             $result     = PluginLogic::update($pluginName);
 
             if ($result !== true) {
-                $this->error($result);
+                if (is_string($result)) {
+                    $this->error($result);
+                } else {
+                    $this->error('更新失败！');
+                }
             }
             $this->success(lang('Updated successfully'));
         }
@@ -365,7 +373,11 @@ class PluginController extends AdminBaseController
             $result = $pluginModel->uninstall($id);
 
             if ($result !== true) {
-                $this->error(lang('Uninstall failed'));
+                if (is_string($result)) {
+                    $this->error($result);
+                } else {
+                    $this->error(lang('Uninstall failed'));
+                }
             }
 
             Cache::clear('init_hook_plugins');

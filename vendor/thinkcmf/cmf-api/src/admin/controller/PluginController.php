@@ -300,7 +300,11 @@ class PluginController extends RestAdminBaseController
             $result     = PluginLogic::install($pluginName);
 
             if ($result !== true) {
-                $this->error($result);
+                if (is_string($result)) {
+                    $this->error($result);
+                } else {
+                    $this->error('安装失败！');
+                }
             }
 
             $this->success(lang('Installed successfully'));
@@ -344,7 +348,11 @@ class PluginController extends RestAdminBaseController
             $result = $pluginModel->uninstall($id);
 
             if ($result !== true) {
-                $this->error(lang('Uninstall failed'));
+                if (is_string($result)) {
+                    $this->error($result);
+                } else {
+                    $this->error(lang('Uninstall failed'));
+                }
             }
 
             Cache::clear('init_hook_plugins');
@@ -459,8 +467,13 @@ class PluginController extends RestAdminBaseController
             $result     = PluginLogic::update($pluginName);
 
             if ($result !== true) {
-                $this->error($result);
+                if (is_string($result)) {
+                    $this->error($result);
+                } else {
+                    $this->error('更新失败！');
+                }
             }
+
             $this->success(lang('Updated successfully'));
         }
     }
