@@ -86,6 +86,61 @@ class SettingController extends AdminBaseController
     }
 
     /**
+     * 后台设置
+     * @adminMenu(
+     *     'name'   => '后台设置',
+     *     'parent' => 'default',
+     *     'display'=> true,
+     *     'hasView'=> true,
+     *     'order'  => 0,
+     *     'icon'   => '',
+     *     'remark' => '后台设置',
+     *     'param'  => ''
+     * )
+     */
+    public function admin()
+    {
+        $content = hook_one('admin_setting_admin_view');
+
+        if (!empty($content)) {
+            return $content;
+        }
+
+        $noNeedDirs     = [".", "..", ".svn", 'fonts'];
+        $adminThemesDir = WEB_ROOT . config('template.cmf_admin_theme_path') . config('template.cmf_admin_default_theme') . '/public/assets/themes/';
+        $adminStyles    = cmf_scan_dir($adminThemesDir . '*', GLOB_ONLYDIR);
+        $adminStyles    = array_diff($adminStyles, $noNeedDirs);
+        $cdnSettings    = cmf_get_option('cdn_settings');
+        $cmfSettings    = cmf_get_option('cmf_settings');
+        $adminSettings  = cmf_get_option('admin_settings');
+
+        $adminThemes = [];
+        $themes      = cmf_scan_dir(WEB_ROOT . config('template.cmf_admin_theme_path') . '/*', GLOB_ONLYDIR);
+
+        foreach ($themes as $theme) {
+            if (strpos($theme, 'admin_') === 0) {
+                array_push($adminThemes, $theme);
+            }
+        }
+
+        if (APP_DEBUG && false) { // TODO 没确定要不要可以设置默认应用
+            $apps = cmf_scan_dir($this->app->getAppPath() . '*', GLOB_ONLYDIR);
+            $apps = array_diff($apps, $noNeedDirs);
+            $this->assign('apps', $apps);
+        }
+
+        $this->assign('site_info', cmf_get_option('site_info'));
+        $this->assign("admin_styles", $adminStyles);
+        $this->assign("templates", []);
+        $this->assign("admin_themes", $adminThemes);
+        $this->assign("cdn_settings", $cdnSettings);
+        $this->assign("admin_settings", $adminSettings);
+        $this->assign("cmf_settings", $cmfSettings);
+
+        return $this->fetch();
+    }
+
+    /**
      * 网站信息设置提交
      * @adminMenu(
      *     'name'   => '网站信息设置提交',

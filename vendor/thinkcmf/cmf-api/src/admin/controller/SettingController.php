@@ -161,6 +161,104 @@ class SettingController extends RestAdminBaseController
     }
 
     /**
+     * 获取后台设置
+     * @throws \think\exception\DbException
+     * @OA\Get(
+     *     tags={"admin"},
+     *     path="/admin/setting/admin",
+     *     summary="获取后台设置",
+     *     description="获取后台设置",
+     *     @OA\Response(
+     *          response="1",
+     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":
+     *              {"admin_styles":{"arcoadmin","flatadmin","orangeadmin","simpleadmin"},"admin_themes":{"admin_default","admin_simpleboot3"},"admin_settings":{"admin_password":"","admin_theme":"admin_default","admin_style":"arcoadmin"}}
+     *          })
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "后台设置!","data": ""})
+     *     ),
+     * )
+     */
+    public function admin()
+    {
+        $noNeedDirs     = [".", "..", ".svn", 'fonts'];
+        $adminThemesDir = WEB_ROOT . config('template.cmf_admin_theme_path') . config('template.cmf_admin_default_theme') . '/public/assets/themes/';
+        $adminStyles    = cmf_scan_dir($adminThemesDir . '*', GLOB_ONLYDIR);
+        $adminStyles    = array_diff($adminStyles, $noNeedDirs);
+        $adminSettings  = cmf_get_option('admin_settings');
+
+        $adminThemes = [];
+        $themes      = cmf_scan_dir(WEB_ROOT . config('template.cmf_admin_theme_path') . '/*', GLOB_ONLYDIR);
+
+        foreach ($themes as $theme) {
+            if (strpos($theme, 'admin_') === 0) {
+                array_push($adminThemes, $theme);
+            }
+        }
+
+        if (APP_DEBUG && false) { // TODO 没确定要不要可以设置默认应用
+            $apps = cmf_scan_dir($this->app->getAppPath() . '*', GLOB_ONLYDIR);
+            $apps = array_diff($apps, $noNeedDirs);
+        }
+
+        $this->success("success", [
+            'admin_styles'   => array_values($adminStyles),
+            'admin_themes'   => $adminThemes,
+            'admin_settings' => $adminSettings,
+        ]);
+    }
+
+    /**
+     * 后台设置提交保存
+     * @throws \think\exception\DbException
+     * @OA\Put(
+     *     tags={"admin"},
+     *     path="/admin/setting/admin",
+     *     summary="后台设置提交保存",
+     *     description="后台设置提交保存",
+     *     @OA\Response(
+     *          response="1",
+     *          @OA\JsonContent(example={"code": 1,"msg": "保存成功!","data": ""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "保存成功!","data": ""})
+     *     ),
+     * )
+     */
+    public function adminPut()
+    {
+        $adminSettings = $this->request->param('admin_settings/a');
+
+        $routeModel = new RouteModel();
+        if (!empty($adminSettings['admin_password'])) {
+            $routeModel->setRoute($adminSettings['admin_password'] . '$', 'admin/Index/index', [], 2, 5000);
+        } else {
+            $routeModel->deleteRoute('admin/Index/index', []);
+        }
+
+        $routeModel->getRoutes(true);
+
+        if (!empty($adminSettings['admin_theme'])) {
+            $result = cmf_set_dynamic_config([
+                'template' => [
+                    'cmf_admin_default_theme' => $adminSettings['admin_theme']
+                ]
+            ]);
+
+            if ($result === false) {
+                $this->error('配置写入失败!');
+            }
+        }
+
+        cmf_set_option('admin_settings', $adminSettings);
+
+        $this->success(lang('EDIT_SUCCESS'));
+
+    }
+
+    /**
      * 上传设置
      * @throws \think\exception\DbException
      * @OA\Get(

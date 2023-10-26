@@ -57,6 +57,7 @@ Route::resource('admin/roles', 'admin/Role');
 
 Route::delete('admin/setting/cache$', 'admin/Setting/clearCache');
 Route::put('admin/setting/site$', 'admin/Setting/sitePut');
+Route::put('admin/setting/admin$', 'admin/Setting/adminPut');
 Route::put('admin/setting/upload$', 'admin/Setting/uploadPut');
 Route::put('admin/setting/storage$', 'admin/Setting/storagePut');
 Route::put('admin/setting/password$', 'admin/Setting/passwordPut');

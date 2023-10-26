@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh_CN" style="overflow: hidden;">
+<php>
+    $_admin_setting=cmf_get_option('admin_settings');
+</php>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <!-- Set render engine for 360 browser -->
     <meta name="renderer" content="webkit">
     <meta charset="utf-8">
-    <title>ThinkCMF {:lang('ADMIN_CENTER')}</title>
+    <title>{$_admin_setting.admin_name|default='ThinkCMF'} {:lang('ADMIN_CENTER')}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- HTML5 shim for IE8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -187,7 +190,10 @@
     </if>
 
 </head>
-<php>$is_mobile=cmf_is_mobile();</php>
+<php>
+    $is_mobile=cmf_is_mobile();
+
+</php>
 <body style="min-width:{$is_mobile?'auto':'900px'};overflow: hidden;">
 <div id="loading"><i class="loadingicon"></i><span>{:lang('LOADING')}</span></div>
 <div id="right-tools-wrapper">
@@ -200,9 +206,17 @@
         <div class="navbar-header">
             <a href="{:url('admin/Index/index')}" class="navbar-brand"
                style="min-width: 199px;text-align: center;font-weight: bold;">
-                <img src="__TMPL__/public/assets/images/logo.svg" class="navbar-brand-logo"
-                     style="height: 22px;display: inline-block;vertical-align: middle;border-radius: 4px;"/>
-                <span style="display: inline-block;vertical-align: middle;" class="navbar-brand-name">ThinkCMF</span>
+                <empty name="$_admin_setting.admin_name">
+                    <img src="__TMPL__/public/assets/images/logo.svg" class="navbar-brand-logo"
+                         style="height: 22px;display: inline-block;vertical-align: middle;border-radius: 4px;"/>
+                    <span style="display: inline-block;vertical-align: middle;" class="navbar-brand-name">
+                        ThinkCMF
+                    </span>
+                    <else/>
+                    <span style="display: inline-block;vertical-align: middle;" class="navbar-brand-name">
+                        {$_admin_setting.admin_name}
+                    </span>
+                </empty>
             </a>
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
                 <span class="icon-bar"></span>

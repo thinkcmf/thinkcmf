@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
+<php>
+    $_admin_setting=cmf_get_option('admin_settings');
+</php>
 <head>
     <meta charset="UTF-8"/>
-    <title>ThinkCMF</title>
+    <title>{$_admin_setting.admin_name|default='ThinkCMF'}</title>
     <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge"/>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta name="robots" content="noindex,nofollow">
@@ -33,7 +36,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
-                <h1 class="text-center">ThinkCMF</h1>
+                <h1 class="text-center">{$_admin_setting.admin_name|default='ThinkCMF'}</h1>
                 <form class="js-ajax-form" action="{:url('public/doLogin')}" method="post">
                     <div class="form-group">
                         <input type="text" id="input_username" class="form-control input-lg" name="username"
