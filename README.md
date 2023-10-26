@@ -173,8 +173,10 @@ https://gitee.com/thinkcmf/docker
 - [ ] 完善多语言功能
 - [ ] 后台模板全面升级为`bootstrap5`
 - [x] 升级`FontAwesome`图标到`v6.4.2`
-- [x] 修复API用户ID获取问题
+- [ ] 修复API用户ID获取问题
 - [x] 优化API跨域处理
+- [x] 优化插件安装卸载更新提示
+- [x] 优化应用安装卸载更新提示
  
 #### 8.0.0
 * 升级到`ThinkPHP8.0`
