@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace api\admin\controller;
 
+use app\admin\model\NavMenuModel;
 use app\admin\model\RecycleBinModel;
 use app\admin\model\NavItemModel;
 use app\admin\model\NavModel;
@@ -233,4 +234,41 @@ class NavController extends RestAdminBaseController
         $this->success(lang("DELETE_SUCCESS"));
     }
 
+
+    /**
+     * 获取共享nav模板结构
+     * @throws \think\exception\DbException
+     * @OA\Get(
+     *     tags={"admin"},
+     *     path="/admin/navs/select/navs",
+     *     summary="获取共享nav模板结构",
+     *     description="获取共享nav模板结构",
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
+     *              "list":{
+     *                  {"id": 1,"is_main": 1,"name": "主导航","remark": "主导航"}
+     *              },
+     *              "total":1
+     *          }})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error!","data":""})
+     *     ),
+     * )
+     */
+    public function selectNavs(){
+        $navMenuModel = new NavMenuModel();
+        $navs = array_merge([[
+            "name"      => '首页',
+            "url"       => '/',
+            "rule"      => base64_encode('home'),
+            "parent_id" => 0,
+            "id"        => 0,
+        ]],$navMenuModel->selectNavs());
+
+        $this->success("success", ["navs"=>$navs]);
+    }
 }
