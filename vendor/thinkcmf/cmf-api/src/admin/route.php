@@ -25,6 +25,7 @@ Route::post('admin/menus/lang/export$', 'admin/Menu/exportMenuLang');
 Route::post('admin/menus/list/order$', 'admin/Menu/listOrder');
 Route::get('admin/home/menus$', 'admin/Menu/menus');
 Route::resource('admin/menus', 'admin/Menu');
+Route::post('admin/menus/import', 'admin/Menu/importMenus');
 
 Route::put('admin/my/info$', 'admin/My/infoPut');
 
