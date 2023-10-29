@@ -16,9 +16,10 @@ use app\admin\model\SlideModel;
 
 class EmailService
 {
-    public static function send($address, $subject, $message, $attachments = [])
+    public static function send($address, $subject, $message, $attachments = [], $adminId = 0)
     {
-        $adminId     = cmf_get_current_admin_id();
+
+        $adminId = $adminId == 0 ? cmf_get_current_admin_id() : $adminId;
         $smtpSetting = cmf_get_option('admin_smtp_setting_' . $adminId);
         if (empty($smtpSetting)) {
             return ["error" => 1, "message" => '没有邮箱配置！'];
@@ -52,15 +53,15 @@ class EmailService
         $mail->Host = $smtpSetting['host'];
         //by Rainfer
         // 设置SMTPSecure。
-        $Secure           = $smtpSetting['smtp_secure'];
+        $Secure = $smtpSetting['smtp_secure'];
         $mail->SMTPSecure = empty($Secure) ? '' : $Secure;
         // 设置SMTP服务器端口。
-        $port       = $smtpSetting['port'];
+        $port = $smtpSetting['port'];
         $mail->Port = empty($port) ? "25" : $port;
         // 设置为"需要验证"
-        $mail->SMTPAuth    = true;
+        $mail->SMTPAuth = true;
         $mail->SMTPAutoTLS = false;
-        $mail->Timeout     = 10;
+        $mail->Timeout = 10;
         // 设置用户名和密码。
         $mail->Username = $smtpSetting['username'];
         $mail->Password = $smtpSetting['password'];
