@@ -25,6 +25,7 @@ Route::post('admin/menus/lang/export$', 'admin/Menu/exportMenuLang');
 Route::post('admin/menus/list/order$', 'admin/Menu/listOrder');
 Route::get('admin/home/menus$', 'admin/Menu/menus');
 Route::resource('admin/menus', 'admin/Menu');
+Route::post('admin/menus/import', 'admin/Menu/importMenus');
 
 Route::put('admin/my/info$', 'admin/My/infoPut');
 
@@ -34,6 +35,7 @@ Route::resource('admin/nav/menus', 'admin/NavMenu');
 Route::post('admin/nav/menus/:id/toggle$', 'admin/NavMenu/toggle')->pattern(['id' => '\d+',]);
 Route::post('admin/nav/menus/:id/status/:status$', 'admin/NavMenu/status')->pattern(['id' => '\d+', 'status' => '\d+',]);
 Route::post('admin/nav/menus/list/order$', 'admin/NavMenu/listOrder');
+Route::get('admin/navs/select/navs', 'admin/Nav/selectNavs');
 
 Route::get('admin/plugins$', 'admin/Plugin/index');
 Route::post('admin/plugins/:id/status/:status$', 'admin/Plugin/status')->pattern(['id' => '\d+', 'status' => '\d+',]);

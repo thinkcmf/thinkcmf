@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace api\admin\controller;
 
+use app\admin\logic\MenuLogic;
 use app\admin\model\AdminMenuModel;
 use app\admin\model\AuthRuleModel;
 use app\admin\service\AdminMenuService;
@@ -424,6 +425,68 @@ class MenuController extends RestAdminBaseController
     {
         $this->_exportAppMenuDefaultLang();
         $this->success('操作成功');
+    }
+
+    /**
+     * 导入新后台菜单
+     * @throws \think\exception\DbException
+     * @OA\Post  (
+     *     tags={"admin"},
+     *     path="/admin/menus/import",
+     *     summary="导入新后台菜单",
+     *     description="导入新后台菜单",
+     *     @OA\RequestBody(
+     *         description="请求参数",
+     *         @OA\MediaType(
+     *             mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(ref="#/components/schemas/AdminMenuImportRequest")
+     *         ),
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/AdminMenuImportRequest")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "操作成功!","data":""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error！","data":""})
+     *     ),
+     * )
+     */
+    public function importMenus()
+    {
+        $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
+
+        array_push($apps, 'admin', 'user');
+
+        $apps = array_values(array_unique($apps));
+
+        $app = $this->request->param('app', '');
+        if (empty($app)) {
+            $app = $apps[0];
+        }
+
+
+        if (!in_array($app, $apps)) {
+            $this->error('应用' . $app . '不存在!');
+        }
+
+        $newMenus  = MenuLogic::importMenus($app);
+        $index     = array_search($app, $apps);
+        $nextIndex = $index + 1;
+        $nextIndex = $nextIndex >= count($apps) ? 0 : $nextIndex;
+        $next_app = "";
+        if ($nextIndex) {
+            $next_app = $apps[$nextIndex];
+        }
+
+        Cache::clear('admin_menus');// 删除后台菜单缓存
+
+        $this->success('操作成功',["app"=>$app,"new_menus"=>$newMenus,"next_app"=>$next_app]);
     }
 
 }
