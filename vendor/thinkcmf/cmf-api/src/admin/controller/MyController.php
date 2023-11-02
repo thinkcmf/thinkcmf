@@ -8,6 +8,8 @@
 // +----------------------------------------------------------------------
 namespace api\admin\controller;
 
+use app\admin\model\RoleModel;
+use app\admin\model\RoleUserModel;
 use app\admin\model\UserModel;
 use app\admin\service\EmailService;
 use cmf\controller\RestAdminBaseController;
@@ -44,7 +46,10 @@ class MyController extends RestAdminBaseController
         $id = $this->getUserId();
         $user = UserModel::where("id", $id)->find();
 
-        $this->success('success', ['user' => $user]);
+        $roles   = RoleModel::where('status', 1)->order("id DESC")->select();
+        $roleIds = RoleUserModel::where("user_id", $id)->column("role_id");
+
+        $this->success('success', ['user' => $user, 'role_ids' => $roleIds, 'roles' => $roles]);
     }
 
     /**
