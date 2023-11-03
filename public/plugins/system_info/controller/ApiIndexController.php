@@ -12,13 +12,13 @@ namespace plugins\system_info\controller;
 //Demo插件英文名，改成你的插件英文就行了
 
 
-use cmf\controller\PluginRestAdminBaseController;
+use cmf\controller\PluginRestBaseController;
 use think\facade\Db;
 
 /**
  * Class AdminIndexController.
  */
-class ApiAdminIndexController extends PluginRestAdminBaseController
+class ApiIndexController extends PluginRestBaseController
 {
     /**
      * 获取后台系统信息
