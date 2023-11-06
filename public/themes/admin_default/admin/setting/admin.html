@@ -1,91 +1,83 @@
-<include file="public@header"/>
-</head>
-<body>
-<div class="wrap js-check-wrap">
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#A" data-toggle="tab">后台设置</a></li>
-    </ul>
-    <form class="form-horizontal js-ajax-form margin-top-20" role="form" action="admin/setting/admin" method="PUT">
-        <fieldset>
-            <div class="tabbable">
-                <div class="tab-content">
-                    <div class="tab-pane active" id="A">
-                        <div class="form-group">
-                            <label for="input-site-name" class="col-sm-2 control-label">后台名称</label>
-                            <div class="col-md-8 col-sm-10">
-                                <input type="text" class="form-control" id="input-site-name" name="admin_settings[admin_name]"
-                                       value="{$admin_settings.admin_name|default=''}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="input-admin_url_password" class="col-sm-2 control-label">
-                                {:lang('Admin URL Password')}
-                                <a href="http://www.thinkcmf.com/faq.html?url=https://www.kancloud.cn/thinkcmf/faq/493509"
-                                   title="查看帮助手册"
-                                   data-toggle="tooltip"
-                                   target="_blank"><i class="fa fa-question-circle"></i></a>
-                            </label>
-                            <div class="col-md-8 col-sm-10">
-                                <input type="text" class="form-control" id="input-admin_url_password"
-                                       name="admin_settings[admin_password]"
-                                       value="{$admin_settings.admin_password|default=''}"
-                                       id="js-site-admin-url-password">
-                                <p class="help-block">英文字母数字，不能为纯数字</p>
-                                <p class="help-block" style="color: red;">
-                                    设置加密码后必须通过以下地址访问后台,请劳记此地址，为了安全，您也可以定期更换此加密码!</p>
-                                <php>
-                                    $root=cmf_get_root();
-                                    $root=empty($root)?'':'/'.$root;
-                                    $site_domain = cmf_get_domain().$root;
-                                </php>
-                                <p class="help-block">后台登录地址：<span id="js-site-admin-url">{$site_domain}/{$admin_settings.admin_password|default='admin'}</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="input-site_admin_theme" class="col-sm-2 control-label">{:lang('WEBSITE_ADMIN_THEME')}</label>
-                            <div class="col-md-8 col-sm-10">
-                                <php>
-                                    $site_admin_theme=empty($admin_settings['admin_theme'])?'':$admin_settings['admin_theme'];
-                                </php>
-                                <select class="form-control" name="admin_settings[admin_theme]"
-                                        id="input-site_admin_theme">
-                                    <foreach name="admin_themes" item="vo">
-                                        <php>$admin_theme_selected = $site_admin_theme == $vo ? "selected" : "";</php>
-                                        <option value="{$vo}" {$admin_theme_selected}>{$vo}</option>
-                                    </foreach>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="input-site_adminstyle" class="col-sm-2 control-label">{:lang('WEBSITE_ADMIN_THEME_STYLE')}</label>
-                            <div class="col-md-8 col-sm-10">
-                                <php>
-                                    $site_admin_style=empty($admin_settings['admin_style'])?cmf_get_admin_style('arcoadmin'):$admin_settings['admin_style'];
-                                </php>
-                                <select class="form-control" name="admin_settings[admin_style]"
-                                        id="input-site_adminstyle">
-                                    <foreach name="admin_styles" item="vo">
-                                        <php>$admin_style_selected = $site_admin_style == $vo ? "selected" : "";</php>
-                                        <option value="{$vo}" {$admin_style_selected}>{$vo}</option>
-                                    </foreach>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="1">
-                                    <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
-                                </button>
-                            </div>
-                        </div>
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a class="nav-link active">后台设置</a></li>
+        </ul>
+        <form class="js-ajax-form margin-top-20" role="form" action="admin/setting/admin" method="PUT">
+            <div class="row mb-3">
+                <label for="input-site-name" class="col-sm-2 col-form-label text-sm-end">后台名称</label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="text" class="form-control" id="input-site-name"
+                           name="admin_settings[admin_name]"
+                           value="{$admin_settings.admin_name|default=''}">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="input-admin_url_password" class="col-sm-2 col-form-label text-sm-end">
+                    {:lang('Admin URL Password')}
+                    <a href="http://www.thinkcmf.com/faq.html?url=https://www.kancloud.cn/thinkcmf/faq/493509"
+                       title="查看帮助手册"
+                       data-toggle="tooltip"
+                       target="_blank"><i class="fa fa-question-circle"></i></a>
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="text" class="form-control" id="input-admin_url_password"
+                           name="admin_settings[admin_password]"
+                           value="{$admin_settings.admin_password|default=''}"
+                           id="js-site-admin-url-password">
+                    <div class="form-text">英文字母数字，不能为纯数字</div>
+                    <div class="form-text" style="color: red;">
+                        设置加密码后必须通过以下地址访问后台,请劳记此地址，为了安全，您也可以定期更换此加密码!</div>
+                    <php>
+                        $root=cmf_get_root();
+                        $root=empty($root)?'':'/'.$root;
+                        $site_domain = cmf_get_domain().$root;
+                    </php>
+                    <div class="form-text">后台登录地址：<span id="js-site-admin-url">{$site_domain}/{$admin_settings.admin_password|default='admin'}</span>
                     </div>
                 </div>
             </div>
-        </fieldset>
-    </form>
+            <div class="row mb-3">
+                <label for="input-site_admin_theme" class="col-sm-2 col-form-label text-sm-end">{:lang('WEBSITE_ADMIN_THEME')}</label>
+                <div class="col-md-8 col-sm-10">
+                    <php>
+                        $site_admin_theme=empty($admin_settings['admin_theme'])?'':$admin_settings['admin_theme'];
+                    </php>
+                    <select class="form-control" name="admin_settings[admin_theme]"
+                            id="input-site_admin_theme">
+                        <foreach name="admin_themes" item="vo">
+                            <php>$admin_theme_selected = $site_admin_theme == $vo ? "selected" : "";
+                            </php>
+                            <option value="{$vo}" {$admin_theme_selected}>{$vo}</option>
+                        </foreach>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="input-site_adminstyle" class="col-sm-2 col-form-label text-sm-end">{:lang('WEBSITE_ADMIN_THEME_STYLE')}</label>
+                <div class="col-md-8 col-sm-10">
+                    <php>
+                        $site_admin_style=empty($admin_settings['admin_style'])?cmf_get_admin_style('arcoadmin'):$admin_settings['admin_style'];
+                    </php>
+                    <select class="form-control" name="admin_settings[admin_style]"
+                            id="input-site_adminstyle">
+                        <foreach name="admin_styles" item="vo">
+                            <php>$admin_style_selected = $site_admin_style == $vo ? "selected" : "";
+                            </php>
+                            <option value="{$vo}" {$admin_style_selected}>{$vo}</option>
+                        </foreach>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="offset-md-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="1">
+                        <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
+                    </button>
+                </div>
+            </div>
+        </form>
 
-</div>
-<script type="text/javascript" src="__STATIC__/js/admin.js?v={$_static_version}"></script>
-</body>
-</html>
+    </div>
+</block>
