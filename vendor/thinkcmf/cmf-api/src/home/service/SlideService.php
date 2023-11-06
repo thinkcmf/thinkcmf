@@ -32,6 +32,7 @@ class SlideService
             ->where($map)
             ->find()
             ->hidden(['delete_time','status','items.status']);
+        $data->append(['items']);
         return $data;
     }
 }
