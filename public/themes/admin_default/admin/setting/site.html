@@ -1,32 +1,47 @@
-<include file="public@header"/>
-</head>
-<body>
-<div class="wrap js-check-wrap">
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#A" data-toggle="tab">{:lang('WEB_SITE_INFOS')}</a></li>
-        <li><a href="#B" data-toggle="tab">{:lang('SEO_SETTING')}</a></li>
-        <!--<li><a href="#C" data-toggle="tab">{:lang('URL_SETTING')}</a></li>-->
-        <!--<li><a href="#E" data-toggle="tab">{:lang('COMMENT_SETTING')}</a></li>-->
-        <li><a href="#F" data-toggle="tab">{:lang('User Register Setting')}</a></li>
-        <li><a href="#G" data-toggle="tab">{:lang('CDN Setting')}</a></li>
-    </ul>
-    <form class="form-horizontal js-ajax-form margin-top-20" role="form" action="admin/setting/site" method="PUT">
-        <fieldset>
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="javascript:" data-bs-target="#A" data-bs-toggle="tab">
+                    {:lang('WEB_SITE_INFOS')}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:" data-bs-target="#B" data-bs-toggle="tab">
+                    {:lang('SEO_SETTING')}
+                </a>
+            </li>
+            <!--<li><a href="#C" data-bs-toggle="tab">{:lang('URL_SETTING')}</a></li>-->
+            <!--<li><a href="#E" data-bs-toggle="tab">{:lang('COMMENT_SETTING')}</a></li>-->
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:" data-bs-target="#F" data-bs-toggle="tab">
+                    {:lang('User Register Setting')}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:" data-bs-target="#G" data-bs-toggle="tab">
+                    {:lang('CDN Setting')}
+                </a>
+            </li>
+        </ul>
+        <form class="form-horizontal js-ajax-form margin-top-20" role="form" action="admin/setting/site" method="PUT">
             <div class="tabbable">
                 <div class="tab-content">
                     <div class="tab-pane active" id="A">
-                        <div class="form-group">
-                            <label for="input-site-name" class="col-sm-2 control-label"><span
-                                    class="form-required">*</span>{:lang('WEBSITE_NAME')}</label>
+                        <div class="row mb-3">
+                            <label for="input-site-name" class="col-sm-2 col-form-label text-sm-end">
+                                <span class="form-required">*</span>{:lang('WEBSITE_NAME')}
+                            </label>
                             <div class="col-md-8 col-sm-10">
-                                <input type="text" class="form-control" id="input-site-name" name="options[site_name]"
+                                <input type="text" class="form-control" id="input-site-name"
+                                       name="options[site_name]"
                                        value="{$site_info.site_name|default=''}">
                             </div>
                         </div>
-
                         <!--
-                        <div class="form-group">
-                            <label for="input-mobile_tpl_enabled" class="col-sm-2 control-label">{:lang('ENABLE_MOBILE_THEME')}</label>
+                        <div class="row mb-3">
+                            <label for="input-mobile_tpl_enabled" class="col-sm-2 col-form-label text-sm-end">{:lang('ENABLE_MOBILE_THEME')}</label>
                             <div class="col-md-8 col-sm-10">
                                 <php>$mobile_tpl_enabled_checked=empty($mobile_tpl_enabled)?'':'checked';</php>
                                 <div class="checkbox">
@@ -36,8 +51,9 @@
                         </div>
                         -->
                         <if condition="APP_DEBUG && false">
-                            <div class="form-group">
-                                <label for="input-default_app" class="col-sm-2 control-label">默认应用</label>
+                            <div class="row mb-3">
+                                <label for="input-default_app"
+                                       class="col-sm-2 col-form-label text-sm-end">默认应用</label>
                                 <div class="col-md-8 col-sm-10">
                                     <php>
                                         $site_default_app=empty($cmf_settings['default_app'])?'demo':$cmf_settings['default_app'];
@@ -54,8 +70,8 @@
                             </div>
                         </if>
                         <!--
-                        <div class="form-group">
-                            <label for="input-html_cache_on" class="col-sm-2 control-label">{:lang('HTML_CACHE')}</label>
+                        <div class="row mb-3">
+                            <label for="input-html_cache_on" class="col-sm-2 col-form-label text-sm-end">{:lang('HTML_CACHE')}</label>
                             <div class="col-md-8 col-sm-10">
                                 <php>$html_cache_on_checked=empty($html_cache_on)?'':'checked';</php>
                                 <div class="checkbox">
@@ -64,42 +80,45 @@
                             </div>
                         </div>
                         -->
-                        <div class="form-group">
-                            <label for="input-site_icp" class="col-sm-2 control-label">{:lang('WEBSITE_ICP')}</label>
+                        <div class="row mb-3">
+                            <label for="input-site_icp"
+                                   class="col-sm-2 col-form-label text-sm-end">{:lang('WEBSITE_ICP')}</label>
                             <div class="col-md-8 col-sm-10">
                                 <input type="text" class="form-control" id="input-site_icp" name="options[site_icp]"
                                        value="{$site_info.site_icp|default=''}">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="input-site_icp" class="col-sm-2 control-label">{:lang('WEBSITE_GWA')}</label>
+                        <div class="row mb-3">
+                            <label for="input-site_icp"
+                                   class="col-sm-2 col-form-label text-sm-end">{:lang('WEBSITE_GWA')}</label>
                             <div class="col-md-8 col-sm-10">
                                 <input type="text" class="form-control" id="input-site_gwa" name="options[site_gwa]"
                                        value="{$site_info.site_gwa|default=''}">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="input-site_admin_email" class="col-sm-2 control-label">{:lang('WEBMASTER_EMAIL')}</label>
+                        <div class="row mb-3">
+                            <label for="input-site_admin_email" class="col-sm-2 col-form-label text-sm-end">{:lang('WEBMASTER_EMAIL')}</label>
                             <div class="col-md-8 col-sm-10">
                                 <input type="text" class="form-control" id="input-site_admin_email"
                                        name="options[site_admin_email]"
                                        value="{$site_info.site_admin_email|default=''}">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="input-site_analytics" class="col-sm-2 control-label">{:lang('WEBSITE_STATISTICAL_CODE')}</label>
+                        <div class="row mb-3">
+                            <label for="input-site_analytics" class="col-sm-2 col-form-label text-sm-end">{:lang('WEBSITE_STATISTICAL_CODE')}</label>
                             <div class="col-md-8 col-sm-10">
-                                <textarea class="form-control" id="input-site_analytics" name="options[site_analytics]">{$site_info.site_analytics|default=''}</textarea>
+                                    <textarea class="form-control" id="input-site_analytics"
+                                              name="options[site_analytics]">{$site_info.site_analytics|default=''}</textarea>
                             </div>
                         </div>
-                        <!--<div class="form-group">-->
-                        <!--<label for="input-site_copyright" class="col-sm-2 control-label">{:lang('WEBSITE_COPYRIGHT_INFOMATION')}</label>-->
+                        <!--<div class="row mb-3">-->
+                        <!--<label for="input-site_copyright" class="col-sm-2 col-form-label text-sm-end">{:lang('WEBSITE_COPYRIGHT_INFOMATION')}</label>-->
                         <!--<div class="col-md-8 col-sm-10">-->
                         <!--<input type="text" class="form-control" id="input-site_copyright" name="options[site_copyright]" value="{$site_info.site_copyright|default=''}">-->
                         <!--</div>-->
                         <!--</div>-->
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
+                        <div class="row mb-3">
+                            <div class="offset-md-2 col-sm-10">
                                 <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="1">
                                     <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
                                 </button>
@@ -107,30 +126,31 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="B">
-                        <div class="form-group">
-                            <label for="input-site_seo_title" class="col-sm-2 control-label">{:lang('WEBSITE_SEO_TITLE')}</label>
+                        <div class="row mb-3">
+                            <label for="input-site_seo_title" class="col-sm-2 col-form-label text-sm-end">{:lang('WEBSITE_SEO_TITLE')}</label>
                             <div class="col-md-8 col-sm-10">
                                 <input type="text" class="form-control" id="input-site_seo_title"
-                                       name="options[site_seo_title]" value="{$site_info.site_seo_title|default=''}">
+                                       name="options[site_seo_title]"
+                                       value="{$site_info.site_seo_title|default=''}">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="input-site_seo_keywords" class="col-sm-2 control-label">{:lang('WEBSITE_SEO_KEYWORDS')}</label>
+                        <div class="row mb-3">
+                            <label for="input-site_seo_keywords" class="col-sm-2 col-form-label text-sm-end">{:lang('WEBSITE_SEO_KEYWORDS')}</label>
                             <div class="col-md-8 col-sm-10">
                                 <input type="text" class="form-control" id="input-site_seo_keywords"
                                        name="options[site_seo_keywords]"
                                        value="{$site_info.site_seo_keywords|default=''}">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="input-site_seo_description" class="col-sm-2 control-label">{:lang('WEBSITE_SEO_DESCRIPTION')}</label>
+                        <div class="row mb-3">
+                            <label for="input-site_seo_description" class="col-sm-2 col-form-label text-sm-end">{:lang('WEBSITE_SEO_DESCRIPTION')}</label>
                             <div class="col-md-8 col-sm-10">
                                 <textarea class="form-control" id="input-site_seo_description"
                                           name="options[site_seo_description]">{$site_info.site_seo_description|default=''}</textarea>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
+                        <div class="row mb-3">
+                            <div class="offset-md-2 col-sm-10">
                                 <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">
                                     <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
                                 </button>
@@ -138,27 +158,30 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="F">
-                        <div class="form-group">
-                            <label for="input-banned_usernames" class="col-sm-2 control-label">{:lang('User Register Verify')}</label>
+                        <div class="row mb-3">
+                            <label for="input-banned_usernames" class="col-sm-2 col-form-label text-sm-end">
+                                {:lang('User Register Verify')}
+                            </label>
                             <div class="col-md-8 col-sm-10">
                                 <select class="form-control" name="cmf_settings[open_registration]">
                                     <option value="0">{:lang('YES')}</option>
                                     <php>
-                                        $open_registration_selected = empty($cmf_settings['open_registration'])?'':'selected';
+                                        $open_registration_selected =
+                                        empty($cmf_settings['open_registration'])?'':'selected';
                                     </php>
                                     <option value="1" {$open_registration_selected}>{:lang('NO')}</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group" style="display: none;">
-                            <label for="input-banned_usernames" class="col-sm-2 control-label">{:lang('SPECAIL_USERNAME')}</label>
+                        <div class="row mb-3" style="display: none;">
+                            <label for="input-banned_usernames" class="col-sm-2 col-form-label text-sm-end">{:lang('SPECAIL_USERNAME')}</label>
                             <div class="col-md-8 col-sm-10">
                                 <textarea class="form-control" id="input-banned_usernames"
                                           name="cmf_settings[banned_usernames]">{$cmf_settings.banned_usernames|default=''}</textarea>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
+                        <div class="row mb-3">
+                            <div class="offset-md-2 col-sm-10">
                                 <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">
                                     <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
                                 </button>
@@ -166,8 +189,10 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="G">
-                        <div class="form-group">
-                            <label for="input-cdn_static_root" class="col-sm-2 control-label">{:lang('CDN Root')}</label>
+                        <div class="row mb-3">
+                            <label for="input-cdn_static_root" class="col-sm-2 col-form-label text-sm-end">
+                                {:lang('CDN Root')}
+                            </label>
                             <div class="col-md-8 col-sm-10">
                                 <input type="text" class="form-control" id="input-cdn_static_root"
                                        name="cdn_settings[cdn_static_root]"
@@ -183,8 +208,8 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
+                        <div class="row mb-3">
+                            <div class="offset-md-2 col-sm-10">
                                 <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">
                                     <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
                                 </button>
@@ -193,10 +218,6 @@
                     </div>
                 </div>
             </div>
-        </fieldset>
-    </form>
-
-</div>
-<script type="text/javascript" src="__STATIC__/js/admin.js?v={$_static_version}"></script>
-</body>
-</html>
+        </form>
+    </div>
+</block>
