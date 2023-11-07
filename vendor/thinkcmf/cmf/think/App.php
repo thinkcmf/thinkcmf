@@ -189,16 +189,16 @@ class App extends Container
             $this->runtimePath = RUNTIME_PATH;
         }
 
-        if (is_file($this->appPath . 'provider.php')) {
-            $this->bind(include $this->appPath . 'provider.php');
-        }
-
         // 加载cmf-app，cmf-api provider
         $appRootNamespace   = $this->getRootNamespace();
         $rootPath           = $this->rootPath;
         $vendorProviderFile = "{$rootPath}vendor/thinkcmf/cmf-{$appRootNamespace}/src/provider.php";
         if (is_file($vendorProviderFile)) {
             $this->bind(include $vendorProviderFile);
+        }
+
+        if (is_file($this->appPath . 'provider.php')) {
+            $this->bind(include $this->appPath . 'provider.php');
         }
 
         // 加载应用 provider
