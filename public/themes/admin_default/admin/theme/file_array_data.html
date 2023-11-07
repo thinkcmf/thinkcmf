@@ -12,27 +12,7 @@
             <php>
                 $allow_lang_list=cmf_allow_lang_list();
                 $content_lang=input('param.admin_content_lang',session('admin_content_lang'));
-                $content_lang_text=$content_lang?$content_lang:'默认语言';
             </php>
-            <div class="position-absolute top-0 end-0">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                        {$content_lang_text} <span class="caret"></span>
-                    </button>
-                    <php>
-                        $get_params=input('get.');
-                    </php>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <foreach name="$allow_lang_list" item="lang">
-                            <php>
-                                $get_params['admin_content_lang']=$lang;
-                            </php>
-                            <li><a class="dropdown-item" href="?{:http_build_query($get_params)}">{$lang}</a></li>
-                        </foreach>
-                    </ul>
-                </div>
-            </div>
         </div>
         <form method="post" class="js-ajax-form margin-top-20">
             <table class="table table-hover table-bordered table-list">
