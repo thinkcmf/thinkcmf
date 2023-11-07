@@ -55,7 +55,7 @@
             });
 
             $.ajax({
-                url: GV.API_ROOT['api'] + "admin/theme/widgets/sort",
+                url: GV.API_ROOT['api'] + "admin/theme/widgets/sort?admin_content_lang=" + $('.widgets-group').data('admin_content_lang'),
                 type: 'POST',
                 dataType: 'json',
                 data: widgetIds,

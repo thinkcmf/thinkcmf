@@ -480,11 +480,28 @@ class ThemeController extends RestAdminBaseController
     public function fileSettingPost()
     {
         if ($this->request->isPost()) {
-            $files = $this->request->param('files/a');
+            $files       = $this->request->param('files/a');
+            $contentLang = $this->request->param('admin_content_lang', session('admin_content_lang'));
             if (!empty($files) && is_array($files)) {
                 foreach ($files as $id => $post) {
-                    $file = ThemeFileModel::field('theme,more')->where('id', $id)->find();
+                    $file = ThemeFileModel::field('theme,more,action,file')->where('id', $id)->find();
                     $more = $file['more'];
+                    if (!empty($contentLang) && $contentLang != $this->app->lang->defaultLangSet()) {
+                        $findThemeFileI18n = ThemeFileI18nModel::where('file_id', $id)->where('lang', $contentLang)->find();
+                        if (!empty($findThemeFileI18n)) {
+                            $more = $findThemeFileI18n['more'];
+                        } else {
+                            ThemeFileI18nModel::create([
+                                'file_id' => $id,
+                                'theme'   => $file['theme'],
+                                'lang'    => $contentLang,
+                                'action'  => $file['action'],
+                                'file'    => $file['file'],
+                                'more'    => $more
+                            ]);
+                        }
+                    }
+
                     if (isset($post['vars'])) {
                         $messages = [];
                         $rules    = [];
@@ -572,7 +589,11 @@ class ThemeController extends RestAdminBaseController
                     }
 
                     $more = json_encode($more);
-                    ThemeFileModel::where('id', $id)->update(['more' => $more]);
+                    if (!empty($contentLang) && $contentLang != $this->app->lang->defaultLangSet()) {
+                        ThemeFileI18nModel::where('file_id', $id)->where('lang', $contentLang)->update(['more' => $more]);
+                    } else {
+                        ThemeFileModel::where('id', $id)->update(['more' => $more]);
+                    }
                 }
             }
             cmf_clear_cache();
@@ -761,13 +782,30 @@ class ThemeController extends RestAdminBaseController
         $widgetId    = $this->request->param('widget_id', '');
         $blockName   = $this->request->param('block_name', '');
         $fileId      = $this->request->param('file_id', 0, 'intval');
-        $contentLang = $this->request->param('content_lang', '');
+        $contentLang = $this->request->param('admin_content_lang', '');
         $widget      = $this->request->param('widget/a');
         $vars        = empty($widget['vars']) ? [] : $widget['vars'];
         $cssVars     = empty($widget['css']) ? [] : $widget['css'];
 
         $file      = ThemeFileModel::where('id', $fileId)->find();
         $oldMore   = $file['more'];
+
+        if (!empty($contentLang) && $contentLang != $this->app->lang->defaultLangSet()) {
+            $findThemeFileI18n = ThemeFileI18nModel::where('file_id', $fileId)->where('lang', $contentLang)->find();
+            if (!empty($findThemeFileI18n)) {
+                $oldMore = $findThemeFileI18n['more'];
+            } else {
+                ThemeFileI18nModel::create([
+                    'file_id' => $fileId,
+                    'theme'   => $file['theme'],
+                    'lang'    => $contentLang,
+                    'action'  => $file['action'],
+                    'file'    => $file['file'],
+                    'more'    => $oldMore
+                ]);
+            }
+        }
+
         $oldWidget = $oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId];
 
         $theme          = $file['theme'];
@@ -805,19 +843,7 @@ class ThemeController extends RestAdminBaseController
 
         if (!empty($contentLang) && $contentLang != $this->app->lang->defaultLangSet()) {
             $findThemeFileI18n = ThemeFileI18nModel::where('file_id', $fileId)->where('lang', $contentLang)->find();
-            if (empty($findThemeFileI18n)) {
-                ThemeFileI18nModel::create([
-                    'file_id' => $fileId,
-                    'theme'   => $theme,
-                    'lang'    => $contentLang,
-                    'action'  => $file['action'],
-                    'file'    => $file['file'],
-                    'more'    => $oldMore
-                ]);
-            } else {
-                $findThemeFileI18n->save(['more' => $oldMore]);
-            }
-
+            $findThemeFileI18n->save(['more' => $oldMore]);
         } else {
             ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
         }
@@ -854,13 +880,31 @@ class ThemeController extends RestAdminBaseController
      */
     public function widgetsSort()
     {
-        $files   = $this->request->param();
-        $widgets = [];
-
+        $files       = $this->request->post();
+        $widgets     = [];
+        $contentLang = $this->request->param('admin_content_lang', session('admin_content_lang'));
         foreach ($files as $fileId => $widgetsBlocks) {
-            $fileId     = str_replace('file', '', $fileId);
+            $fileId = str_replace('file', '', $fileId);
+
             $file       = ThemeFileModel::where('id', $fileId)->find();
             $configMore = $file['more'];
+
+            if (!empty($contentLang) && $contentLang != $this->app->lang->defaultLangSet()) {
+                $findThemeFileI18n = ThemeFileI18nModel::where('file_id', $fileId)->where('lang', $contentLang)->find();
+                if (!empty($findThemeFileI18n)) {
+                    $configMore = $findThemeFileI18n['more'];
+                } else {
+                    ThemeFileI18nModel::create([
+                        'file_id' => $fileId,
+                        'theme'   => $file['theme'],
+                        'lang'    => $contentLang,
+                        'action'  => $file['action'],
+                        'file'    => $file['file'],
+                        'more'    => $configMore
+                    ]);
+                }
+            }
+
             if (!empty($configMore['widgets_blocks'])) {
                 foreach ($configMore['widgets_blocks'] as $widgetsBlockName => $widgetsBlock) {
                     if (!empty($configMore['widgets_blocks'][$widgetsBlockName]['widgets'])) {
@@ -873,9 +917,15 @@ class ThemeController extends RestAdminBaseController
         }
 
         foreach ($files as $fileId => $widgetsBlocks) {
-            $fileId     = str_replace('file', '', $fileId);
-            $file       = ThemeFileModel::where('id', $fileId)->find();
-            $configMore = $file['more'];
+            $fileId = str_replace('file', '', $fileId);
+
+            if (!empty($contentLang) && $contentLang != $this->app->lang->defaultLangSet()) {
+                $findThemeFileI18n = ThemeFileI18nModel::where('file_id', $fileId)->where('lang', $contentLang)->find();
+                $configMore        = $findThemeFileI18n['more'];
+            } else {
+                $file       = ThemeFileModel::where('id', $fileId)->find();
+                $configMore = $file['more'];
+            }
 
             foreach ($widgetsBlocks as $widgetsBlockName => $widgetIds) {
                 $mWidgets = [];
@@ -899,7 +949,11 @@ class ThemeController extends RestAdminBaseController
 
             $configMore['edited_by_designer'] = 1;
             $more                             = json_encode($configMore);
-            ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
+            if (!empty($contentLang) && $contentLang != $this->app->lang->defaultLangSet()) {
+                ThemeFileI18nModel::where('file_id', $fileId)->where('lang', $contentLang)->update(['more' => $more]);
+            } else {
+                ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
+            }
         }
         cmf_clear_cache();
         $this->success('排序成功！');
@@ -1196,21 +1250,36 @@ class ThemeController extends RestAdminBaseController
         if (!$this->request->isPost()) {
             $this->error(lang('illegal request'));
         }
-        $tab        = $this->request->param('tab', 'widget');
-        $varName    = $this->request->param('var');
-        $widgetName = $this->request->param('widget', '');
-        $widgetId   = $this->request->param('widget_id', ''); //自由控件编辑
-        $blockName  = $this->request->param('block_name', '');//自由控件编辑
-        $fileId     = $this->request->param('file_id', 0, 'intval');
-        $itemIndex  = $this->request->param('item_index', '');
+        $tab         = $this->request->param('tab', 'widget');
+        $varName     = $this->request->param('var');
+        $widgetName  = $this->request->param('widget', '');
+        $widgetId    = $this->request->param('widget_id', ''); //自由控件编辑
+        $blockName   = $this->request->param('block_name', '');//自由控件编辑
+        $fileId      = $this->request->param('file_id', 0, 'intval');
+        $itemIndex   = $this->request->param('item_index', '');
+        $contentLang = $this->request->param('admin_content_lang', session('admin_content_lang'));
 
         $file = ThemeFileModel::where('id', $fileId)->find();
 
         if ($this->request->isPost()) {
-
             $post = $this->request->param();
-
             $more = $file['more'];
+
+            if (!empty($contentLang) && $contentLang != $this->app->lang->defaultLangSet()) {
+                $findThemeFileI18n = ThemeFileI18nModel::where('file_id', $fileId)->where('lang', $contentLang)->find();
+                if (!empty($findThemeFileI18n)) {
+                    $more = $findThemeFileI18n['more'];
+                } else {
+                    ThemeFileI18nModel::create([
+                        'file_id' => $fileId,
+                        'theme'   => $file['theme'],
+                        'lang'    => $contentLang,
+                        'action'  => $file['action'],
+                        'file'    => $file['file'],
+                        'more'    => $more
+                    ]);
+                }
+            }
 
             if ($tab == 'var') {
                 if (isset($more['vars'][$varName])) {
@@ -1305,6 +1374,11 @@ class ThemeController extends RestAdminBaseController
 
             if ($tab == 'block_widget') {
                 $widget = $file->fillBlockWidgetValue($blockName, $widgetId);
+                if (!empty($contentLang) && $contentLang != $this->app->lang->defaultLangSet()) {
+                    if (!empty($findThemeFileI18n)) {
+                        $widget = $findThemeFileI18n->fillBlockWidgetValue($blockName, $widgetId);
+                    }
+                }
                 if (!empty($widget['vars']) && is_array($widget['vars'])) {
                     if (isset($widget['vars'][$varName])) {
                         $widgetVar = $widget['vars'][$varName];
@@ -1350,7 +1424,11 @@ class ThemeController extends RestAdminBaseController
             }
 
             $more = json_encode($more);
-            ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
+            if (!empty($contentLang) && $contentLang != $this->app->lang->defaultLangSet()) {
+                ThemeFileI18nModel::where('file_id', $fileId)->where('lang', $contentLang)->update(['more' => $more]);
+            } else {
+                ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
+            }
             cmf_clear_cache();
             $this->success(lang('EDIT_SUCCESS'));
 
@@ -1531,21 +1609,38 @@ class ThemeController extends RestAdminBaseController
         if (!$this->request->isDelete()) {
             $this->error(lang('illegal request'));
         }
-        $tab        = $this->request->param('tab', 'widget');
-        $varName    = $this->request->param('var');
-        $widgetName = $this->request->param('widget', '');
-        $fileId     = $this->request->param('file_id', 0, 'intval');
-        $widgetId   = $this->request->param('widget_id', ''); //自由控件编辑
-        $blockName  = $this->request->param('block_name', '');//自由控件编辑
-        $itemIndex  = $this->request->param('item_index', '');
+        $tab         = $this->request->param('tab', 'widget');
+        $varName     = $this->request->param('var');
+        $widgetName  = $this->request->param('widget', '');
+        $fileId      = $this->request->param('file_id', 0, 'intval');
+        $widgetId    = $this->request->param('widget_id', ''); //自由控件编辑
+        $blockName   = $this->request->param('block_name', '');//自由控件编辑
+        $itemIndex   = $this->request->param('item_index', '');
+        $contentLang = $this->request->param('admin_content_lang', session('admin_content_lang'));
 
         if ($itemIndex === '') {
             $this->error('未指定删除元素!');
         }
 
         $file = ThemeFileModel::where('id', $fileId)->find();
-
         $more = $file['more'];
+
+        if (!empty($contentLang) && $contentLang != $this->app->lang->defaultLangSet()) {
+            $findThemeFileI18n = ThemeFileI18nModel::where('file_id', $fileId)->where('lang', $contentLang)->find();
+            if (!empty($findThemeFileI18n)) {
+                $more = $findThemeFileI18n['more'];
+            } else {
+                ThemeFileI18nModel::create([
+                    'file_id' => $fileId,
+                    'theme'   => $file['theme'],
+                    'lang'    => $contentLang,
+                    'action'  => $file['action'],
+                    'file'    => $file['file'],
+                    'more'    => $more
+                ]);
+            }
+        }
+
         if ($tab == 'var') {
             foreach ($more['vars'] as $mVarName => $mVar) {
 
@@ -1598,7 +1693,11 @@ class ThemeController extends RestAdminBaseController
         }
 
         $more = json_encode($more);
-        ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
+        if (!empty($contentLang) && $contentLang != $this->app->lang->defaultLangSet()) {
+            ThemeFileI18nModel::where('file_id', $fileId)->where('lang', $contentLang)->update(['more' => $more]);
+        } else {
+            ThemeFileModel::where('id', $fileId)->update(['more' => $more]);
+        }
         cmf_clear_cache();
         $this->success(lang('DELETE_SUCCESS'));
     }

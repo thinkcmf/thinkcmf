@@ -25,5 +25,32 @@ class ThemeFileI18nModel extends Model
         'draft_more' => 'array',
     ];
 
+    public function fillBlockWidgetValue($blockName, $widgetId)
+    {
+        $oldMore = $this['more'];
+        $widget  = [];
+        if (isset($oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId])) {
+            $widgetWithValue = $oldMore['widgets_blocks'][$blockName]['widgets'][$widgetId];
+            $theme           = $this['theme'];
+            $widgetManifest  = file_get_contents(WEB_ROOT . "themes/$theme/public/widgets/{$widgetWithValue['name']}/manifest.json");
+            $widget          = json_decode($widgetManifest, true);
+
+            foreach ($widgetWithValue as $key => $value) {
+                if ($key == 'vars') {
+                    foreach ($value as $varName => $varValue) {
+                        if (isset($widget['vars'][$varName])) {
+                            $widget['vars'][$varName]['value'] = $varValue;
+                        }
+                    }
+                } else {
+                    $widget[$key] = $value;
+                }
+            }
+
+        }
+
+        return $widget;
+    }
+
 
 }

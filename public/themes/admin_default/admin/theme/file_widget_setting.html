@@ -41,30 +41,56 @@
 <block name="main">
     <notempty name="has_file">
         <div class="wrap">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active"
-                       href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'widget'])}">
-                        组件
-                    </a>
-                </li>
-                <notempty name="file.more.vars">
+            <div class="position-relative">
+                <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link"
-                           href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'var'])}">
-                            设置
+                        <a class="nav-link active"
+                           href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'widget'])}">
+                            组件
                         </a>
                     </li>
-                </notempty>
-                <notempty name="has_public_var">
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'public_var'])}">
-                            全局设置
-                        </a>
-                    </li>
-                </notempty>
-            </ul>
+                    <notempty name="file.more.vars">
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'var'])}">
+                                设置
+                            </a>
+                        </li>
+                    </notempty>
+                    <notempty name="has_public_var">
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'public_var'])}">
+                                全局设置
+                            </a>
+                        </li>
+                    </notempty>
+                </ul>
+                <php>
+                    $allow_lang_list=cmf_allow_lang_list();
+                    $content_lang=input('param.admin_content_lang',session('admin_content_lang'));
+                    $content_lang=$content_lang?$content_lang:'默认语言';
+                </php>
+                <div class="position-absolute top-0 end-0">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            {$content_lang} <span class="caret"></span>
+                        </button>
+                        <php>
+                            $get_params=input('get.');
+                        </php>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <foreach name="$allow_lang_list" item="lang">
+                                <php>
+                                    $get_params['admin_content_lang']=$lang;
+                                </php>
+                                <li><a class="dropdown-item" href="?{:http_build_query($get_params)}">{$lang}</a></li>
+                            </foreach>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
             <form method="post" class="js-ajax-form  margin-top-20" action="admin/theme/{$theme}/file/setting">
 
@@ -93,7 +119,8 @@
                                 </div>
                                 <ul class="list-group list-group-flush widgets-group"
                                     data-file_id="{$file.id}"
-                                    data-block_name="{$widgetsBlockName}">
+                                    data-block_name="{$widgetsBlockName}"
+                                    data-admin_content_lang="{:input('param.admin_content_lang',session('admin_content_lang'))}">
                                     <notempty name="widgetsBlock.widgets">
                                         <foreach name="widgetsBlock.widgets" item="widget">
                                             <li class="list-group-item list-group-item-action widgets-group-item"
@@ -113,7 +140,6 @@
                                         <else/>
                                         <!--                                    <li class="list-group-item">什么都没有~</li>-->
                                     </notempty>
-
                                 </ul>
                             </div>
                         </foreach>
@@ -125,7 +151,7 @@
                         <notempty name="file['more']['widgets']">
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                 <foreach name="file['more']['widgets']" item="widget" key="widgetName" index="index">
-                                    <div class="card">
+                                    <div class="card margin-top-20">
                                         <div class="card-header">
                                             <!--<a role="button" data-toggle="collapse" data-parent="#accordion"-->
                                             <!--href="#collapse-{$widgetName}">-->
@@ -133,7 +159,7 @@
                                             <!--</a>-->
                                             <input class="form-control-widget-title" type="text" value="{$widget.title}"
                                                    name="files[{$file.id}][widget][{$widgetName}][title]">
-                                            <label class="checkbox-inline pull-right">
+                                            <label class="checkbox-inline float-end">
                                                 <php>$display_checked=empty($widget['display'])?'':'checked';</php>
                                                 <input type="checkbox"
                                                        name="files[{$file.id}][widget][{$widgetName}][display]"
@@ -142,15 +168,12 @@
                                                 显示
                                             </label>
                                         </div>
-                                        <div id="collapse-{$widgetName}" class="panel-collapse collapse in"
-                                             role="tabpanel">
-                                            <div class="card-body">
-                                                {:_parse_vars($widget.vars,'files['.$file['id'].'][widget_vars]['.$widgetName.']',1,$widgetName,$file['id'])}
-                                                <notempty name="file.is_public">
-                                                    <span class="pull-right badge text-bg-success">公共组件</span>
-                                                    <!--<a class="pull-right" title="公共组件" data-toggle="tooltip"><i class="fa fa-question-circle"></i></a>-->
-                                                </notempty>
-                                            </div>
+                                        <div class="card-body">
+                                            {:_parse_vars($widget.vars,'files['.$file['id'].'][widget_vars]['.$widgetName.']',1,$widgetName,$file['id'])}
+                                            <notempty name="file.is_public">
+                                                <span class="pull-right badge text-bg-success">公共组件</span>
+                                                <!--<a class="pull-right" title="公共组件" data-toggle="tooltip"><i class="fa fa-question-circle"></i></a>-->
+                                            </notempty>
                                         </div>
                                     </div>
                                 </foreach>
@@ -161,6 +184,7 @@
                     <else/>
                 </notempty>
                 <div class="form-group text-center" style="display: none;">
+                    <input type="hidden" name="admin_content_lang" value="{:input('param.admin_content_lang',session('admin_content_lang'))}"/>
                     <input type="hidden" name="id" value="{$file.id|default=''}">
                     <button type="submit" class="btn btn-primary js-ajax-submit" id="submit-btn"
                             data-success="successCallback">

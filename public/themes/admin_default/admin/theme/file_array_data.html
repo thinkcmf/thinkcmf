@@ -1,12 +1,39 @@
 <extend name="public@base5"/>
 <block name="main">
     <div class="wrap js-check-wrap">
-        <ul class="nav nav-tabs">
-            <li class="nav-item"><a class="nav-link active">所有数据</a></li>
-            <li class="nav-item">
-                <a class="nav-link" href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">添加数据</a>
-            </li>
-        </ul>
+        <div class="position-relative">
+            <ul class="nav nav-tabs">
+                <li class="nav-item"><a class="nav-link active">所有数据</a></li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">添加数据</a>
+                </li>
+            </ul>
+            <php>
+                $allow_lang_list=cmf_allow_lang_list();
+                $content_lang=input('param.admin_content_lang',session('admin_content_lang'));
+                $content_lang_text=$content_lang?$content_lang:'默认语言';
+            </php>
+            <div class="position-absolute top-0 end-0">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        {$content_lang_text} <span class="caret"></span>
+                    </button>
+                    <php>
+                        $get_params=input('get.');
+                    </php>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <foreach name="$allow_lang_list" item="lang">
+                            <php>
+                                $get_params['admin_content_lang']=$lang;
+                            </php>
+                            <li><a class="dropdown-item" href="?{:http_build_query($get_params)}">{$lang}</a></li>
+                        </foreach>
+                    </ul>
+                </div>
+            </div>
+        </div>
         <form method="post" class="js-ajax-form margin-top-20">
             <table class="table table-hover table-bordered table-list">
                 <thead>
@@ -42,7 +69,7 @@
                             </a>
                             <a class="btn btn-xs btn-danger js-ajax-delete"
                                href="javascript:"
-                               data-href="admin/theme/file/{:str_replace('_','/',$tab)}/array?{:http_build_query(['var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name,'item_index'=>$itemKey])}"
+                               data-href="admin/theme/file/{:str_replace('_','/',$tab)}/array?{:http_build_query(['var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name,'item_index'=>$itemKey,'admin_content_lang'=>$content_lang])}"
                                title="{:lang('DELETE')}" data-toggle="tooltip">
                                 <i class="fa fa-trash fa-fw"></i>
                             </a>

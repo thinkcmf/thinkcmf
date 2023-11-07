@@ -1,44 +1,52 @@
 <extend name="public@base5"/>
 <block name="head">
-<include file="theme/functions"/>
+    <include file="theme/functions"/>
 </block>
 <block name="main">
-<div class="wrap">
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link" href="{:url('Theme/fileArrayData',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">所有数据</a>
-        </li>
-        <heq name="item_index" value="">
-            <li class="nav-item"><a class="nav-link active">添加数据</a></li>
-            <else/>
-            <li class="nav-item">
-                <a class="nav-link" href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">添加数据</a>
-            </li>
-            <li class="nav-item"><a class="nav-link active">编辑数据</a></li>
-        </heq>
-    </ul>
-    <form method="post" class="js-ajax-form margin-top-20"
-          action="admin/theme/file/{:str_replace('_','/',$tab)}/array">
-        {:_parse_vars($array_item,'item',2)}
-        <div style="display: none;">
-            <input type="hidden" name="file_id" value="{$file_id}">
-            <notempty name="$widget">
-                <input type="hidden" name="widget" value="{$widget}">
-            </notempty>
-            <notempty name="$widget_id">
-                <input type="hidden" name="widget_id" value="{$widget_id}">
-            </notempty>
-            <notempty name="$block_name">
-                <input type="hidden" name="block_name" value="{$block_name}">
-            </notempty>
-            <input type="hidden" name="var" value="{$var}">
-            <input type="hidden" name="item_index" value="{$item_index}">
-            <button type="submit" class="btn btn-primary js-ajax-submit" id="submit-btn">
-                <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
-            </button>
+    <div class="wrap">
+        <div class="position-relative">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{:url('Theme/fileArrayData',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">所有数据</a>
+                </li>
+                <heq name="item_index" value="">
+                    <li class="nav-item"><a class="nav-link active">添加数据</a></li>
+                    <else/>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">添加数据</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link active">编辑数据</a></li>
+                </heq>
+            </ul>
+            <php>
+                $content_lang=input('param.admin_content_lang',session('admin_content_lang'));
+            </php>
         </div>
-    </form>
-</div>
+        <form method="post" class="js-ajax-form margin-top-20"
+              action="admin/theme/file/{:str_replace('_','/',$tab)}/array">
+            {:_parse_vars($array_item,'item',2)}
+            <div style="display: none;">
+                <input type="hidden" name="file_id" value="{$file_id}">
+                <notempty name="$widget">
+                    <input type="hidden" name="widget" value="{$widget}">
+                </notempty>
+                <notempty name="$widget_id">
+                    <input type="hidden" name="widget_id" value="{$widget_id}">
+                </notempty>
+                <notempty name="$block_name">
+                    <input type="hidden" name="block_name" value="{$block_name}">
+                </notempty>
+                <input type="hidden" name="var" value="{$var}">
+                <input type="hidden" name="item_index" value="{$item_index}">
+                <input type="hidden" name="admin_content_lang" value="{:input('param.admin_content_lang',session('admin_content_lang'))}"/>
+                <button type="submit" class="btn btn-primary js-ajax-submit" id="submit-btn">
+                    <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
+                </button>
+            </div>
+        </form>
+    </div>
 </block>
 <block name="scripts">
     <include file="theme/scripts"/>
