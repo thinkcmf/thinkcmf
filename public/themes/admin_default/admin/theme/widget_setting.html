@@ -69,8 +69,7 @@
                         </div>
                     </div>
                     <div style="display: none;">
-                        <input type="hidden" name="admin_content_lang"
-                               value="{:input('param.admin_content_lang',session('admin_content_lang'))}"/>
+                        <input type="hidden" name="admin_content_lang" value="{:cmf_current_home_lang()}"/>
                         <input type="hidden" name="file_id" value="{$file_id}"/>
                         <input type="hidden" name="widget_id" value="{$widget_id}"/>
                         <input type="hidden" name="block_name" value="{$block_name}"/>

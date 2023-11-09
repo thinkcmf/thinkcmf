@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
+use app\admin\model\ThemeFileI18nModel;
 use think\facade\Db;
 use app\admin\model\ThemeModel;
 
@@ -50,7 +51,8 @@ class HomeBaseController extends BaseController
 
         $this->view->engine()->config([
             'view_base'          => WEB_ROOT . $themePath . '/',
-            'tpl_replace_string' => $viewReplaceStr
+            'tpl_replace_string' => $viewReplaceStr,
+            'cache_prefix'       => cmf_current_lang() . '_',
         ]);
 
 //        $themeErrorTmpl = "{$themePath}/error.html";
@@ -191,8 +193,20 @@ hello;
         $widgetsBlocks  = [];
         $widgetsInBlock = [];
 
+        $currentLang = cmf_current_home_lang();
+        $loadI18n    = false;
+        if (!empty($currentLang) && $currentLang != $this->app->lang->defaultLangSet()) {
+            $loadI18n = true;
+        }
+
         foreach ($files as $file) {
             $oldMore = json_decode($file['more'], true);
+            if ($loadI18n) {
+                $findThemeFileI18n = ThemeFileI18nModel::where('file_id', $file['id'])->where('lang', $currentLang)->find();
+                if (!empty($findThemeFileI18n)) {
+                    $oldMore = $findThemeFileI18n['more'];
+                }
+            }
             if (!empty($oldMore['vars'])) {
                 foreach ($oldMore['vars'] as $varName => $var) {
                     $vars[$varName] = $var['value'];

@@ -1398,6 +1398,33 @@ function cmf_current_lang()
 }
 
 /**
+ * 判断当前的语言包，并返回语言包名
+ * @return string  语言包名
+ */
+function cmf_current_home_lang()
+{
+    $langSet = session('current_home_lang');
+    if (empty($langSet)) {
+        return app()->lang->getLangSet();
+    }
+    return $langSet;
+}
+
+
+/**
+ * 判断当前的语言包，并返回语言包名
+ * @return string  语言包名
+ */
+function cmf_current_admin_lang()
+{
+    $langSet = session('current_admin_lang');
+    if (empty($langSet)) {
+        return app()->lang->getLangSet();
+    }
+    return $langSet;
+}
+
+/**
  * 获取前台语言包列表
  * @return array  语言包列表
  */

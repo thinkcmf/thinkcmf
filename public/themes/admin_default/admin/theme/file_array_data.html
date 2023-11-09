@@ -10,8 +10,7 @@
                 </li>
             </ul>
             <php>
-                $allow_lang_list=cmf_allow_lang_list();
-                $content_lang=input('param.admin_content_lang',session('admin_content_lang'));
+                $content_lang=cmf_current_home_lang();
             </php>
         </div>
         <form method="post" class="js-ajax-form margin-top-20">

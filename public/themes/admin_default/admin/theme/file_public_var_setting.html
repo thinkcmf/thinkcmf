@@ -29,30 +29,6 @@
                     </li>
                 </notempty>
             </ul>
-            <php>
-                $allow_lang_list=cmf_allow_lang_list();
-                $content_lang=input('param.admin_content_lang',session('admin_content_lang'));
-                $content_lang=$content_lang?$content_lang:'默认语言';
-            </php>
-            <div class="position-absolute top-0 end-0">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                        {$content_lang} <span class="caret"></span>
-                    </button>
-                    <php>
-                        $get_params=input('get.');
-                    </php>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <foreach name="$allow_lang_list" item="lang">
-                            <php>
-                                $get_params['admin_content_lang']=$lang;
-                            </php>
-                            <li><a class="dropdown-item" href="?{:http_build_query($get_params)}">{$lang}</a></li>
-                        </foreach>
-                    </ul>
-                </div>
-            </div>
         </div>
 
         <form method="post" class="js-ajax-form  margin-top-20" action="admin/theme/{$theme}/file/setting">
@@ -65,7 +41,7 @@
                 </if>
             </foreach>
             <div style="display: none;">
-                <input type="hidden" name="admin_content_lang" value="{$content_lang}"/>
+                <input type="hidden" name="admin_content_lang" value="{:cmf_current_home_lang()}"/>
                 <button type="submit" class="btn btn-primary js-ajax-submit" id="submit-btn"
                         data-success="successCallback">
                     <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}

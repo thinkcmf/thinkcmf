@@ -20,9 +20,6 @@
                     <li class="nav-item"><a class="nav-link active">编辑数据</a></li>
                 </heq>
             </ul>
-            <php>
-                $content_lang=input('param.admin_content_lang',session('admin_content_lang'));
-            </php>
         </div>
         <form method="post" class="js-ajax-form margin-top-20"
               action="admin/theme/file/{:str_replace('_','/',$tab)}/array">
@@ -40,7 +37,7 @@
                 </notempty>
                 <input type="hidden" name="var" value="{$var}">
                 <input type="hidden" name="item_index" value="{$item_index}">
-                <input type="hidden" name="admin_content_lang" value="{:input('param.admin_content_lang',session('admin_content_lang'))}"/>
+                <input type="hidden" name="admin_content_lang" value="{:cmf_current_home_lang()}"/>
                 <button type="submit" class="btn btn-primary js-ajax-submit" id="submit-btn">
                     <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
                 </button>

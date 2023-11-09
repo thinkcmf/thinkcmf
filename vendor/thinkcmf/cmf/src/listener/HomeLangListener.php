@@ -77,6 +77,7 @@ class HomeLangListener
             ]);
         }
 
+        session('current_home_lang', $langSet);
         // 监听home_lang_load
         hook('home_lang_load', ['lang' => $langSet]);
     }

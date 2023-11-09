@@ -481,7 +481,7 @@ class ThemeController extends RestAdminBaseController
     {
         if ($this->request->isPost()) {
             $files       = $this->request->param('files/a');
-            $contentLang = $this->request->param('admin_content_lang', session('admin_content_lang'));
+            $contentLang = $this->request->param('admin_content_lang', cmf_current_home_lang());
             if (!empty($files) && is_array($files)) {
                 foreach ($files as $id => $post) {
                     $file = ThemeFileModel::field('theme,more,action,file')->where('id', $id)->find();
@@ -782,7 +782,7 @@ class ThemeController extends RestAdminBaseController
         $widgetId    = $this->request->param('widget_id', '');
         $blockName   = $this->request->param('block_name', '');
         $fileId      = $this->request->param('file_id', 0, 'intval');
-        $contentLang = $this->request->param('admin_content_lang', '');
+        $contentLang = $this->request->param('admin_content_lang', cmf_current_home_lang());
         $widget      = $this->request->param('widget/a');
         $vars        = empty($widget['vars']) ? [] : $widget['vars'];
         $cssVars     = empty($widget['css']) ? [] : $widget['css'];
@@ -882,7 +882,7 @@ class ThemeController extends RestAdminBaseController
     {
         $files       = $this->request->post();
         $widgets     = [];
-        $contentLang = $this->request->param('admin_content_lang', session('admin_content_lang'));
+        $contentLang = $this->request->param('admin_content_lang', cmf_current_home_lang());
         foreach ($files as $fileId => $widgetsBlocks) {
             $fileId = str_replace('file', '', $fileId);
 
@@ -1257,7 +1257,7 @@ class ThemeController extends RestAdminBaseController
         $blockName   = $this->request->param('block_name', '');//自由控件编辑
         $fileId      = $this->request->param('file_id', 0, 'intval');
         $itemIndex   = $this->request->param('item_index', '');
-        $contentLang = $this->request->param('admin_content_lang', session('admin_content_lang'));
+        $contentLang = $this->request->param('admin_content_lang', cmf_current_home_lang());
 
         $file = ThemeFileModel::where('id', $fileId)->find();
 
@@ -1616,7 +1616,7 @@ class ThemeController extends RestAdminBaseController
         $widgetId    = $this->request->param('widget_id', ''); //自由控件编辑
         $blockName   = $this->request->param('block_name', '');//自由控件编辑
         $itemIndex   = $this->request->param('item_index', '');
-        $contentLang = $this->request->param('admin_content_lang', session('admin_content_lang'));
+        $contentLang = $this->request->param('admin_content_lang', cmf_current_home_lang());
 
         if ($itemIndex === '') {
             $this->error('未指定删除元素!');

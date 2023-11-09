@@ -262,8 +262,7 @@ class ThemeController extends AdminBaseController
     {
         $tab         = $this->request->param('tab', 'widget');
         $fileId      = $this->request->param('file_id', 0, 'intval');
-        $contentLang = $this->request->param('admin_content_lang', session('admin_content_lang'));
-        session('admin_content_lang', $contentLang);
+        $contentLang = $this->request->param('admin_content_lang', cmf_current_home_lang());
         if (empty($fileId)) {
             $file = $this->request->param('file');
             $this->assign('fileName', $file);
@@ -366,10 +365,9 @@ class ThemeController extends AdminBaseController
         $fileId      = $this->request->param('file_id', 0, 'intval');
         $widgetId    = $this->request->param('widget_id', ''); //自由控件编辑
         $blockName   = $this->request->param('block_name', '');//自由控件编辑
-        $contentLang = $this->request->param('admin_content_lang', session('admin_content_lang'));
-        session('admin_content_lang', $contentLang);
-        $file    = ThemeFileModel::where('id', $fileId)->find();
-        $oldMore = $file['more'];
+        $contentLang = $this->request->param('admin_content_lang', cmf_current_home_lang());
+        $file        = ThemeFileModel::where('id', $fileId)->find();
+        $oldMore     = $file['more'];
 
         if (!empty($contentLang) && $contentLang != $this->app->lang->defaultLangSet()) {
             $findThemeFileI18n = ThemeFileI18nModel::where('file_id', $fileId)->where('lang', $contentLang)->find();
@@ -475,7 +473,7 @@ class ThemeController extends AdminBaseController
         $widgetId    = $this->request->param('widget_id', ''); //自由控件编辑
         $blockName   = $this->request->param('block_name', '');//自由控件编辑
         $itemIndex   = $this->request->param('item_index', '');
-        $contentLang = $this->request->param('admin_content_lang', session('admin_content_lang'));
+        $contentLang = $this->request->param('admin_content_lang', cmf_current_home_lang());
         $file        = ThemeFileModel::where('id', $fileId)->find();
         $oldMore     = $file['more'];
 
@@ -1232,9 +1230,8 @@ class ThemeController extends AdminBaseController
         $widgetId    = $this->request->param('widget_id', '');
         $blockName   = $this->request->param('block_name', '');
         $fileId      = $this->request->param('file_id', 0, 'intval');
-        $contentLang = $this->request->param('admin_content_lang', session('admin_content_lang'));
-        session('admin_content_lang', $contentLang);
-        $file = ThemeFileModel::where('id', $fileId)->find();
+        $contentLang = $this->request->param('admin_content_lang', cmf_current_home_lang());
+        $file        = ThemeFileModel::where('id', $fileId)->find();
 
         if (!empty($contentLang) && $contentLang != $this->app->lang->defaultLangSet()) {
             $findThemeFileI18n = ThemeFileI18nModel::where('file_id', $fileId)->where('lang', $contentLang)->find();

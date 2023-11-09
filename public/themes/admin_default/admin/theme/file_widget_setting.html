@@ -66,30 +66,6 @@
                         </li>
                     </notempty>
                 </ul>
-                <php>
-                    $allow_lang_list=cmf_allow_lang_list();
-                    $content_lang=input('param.admin_content_lang',session('admin_content_lang'));
-                    $content_lang=$content_lang?$content_lang:'默认语言';
-                </php>
-                <div class="position-absolute top-0 end-0">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                            {$content_lang} <span class="caret"></span>
-                        </button>
-                        <php>
-                            $get_params=input('get.');
-                        </php>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <foreach name="$allow_lang_list" item="lang">
-                                <php>
-                                    $get_params['admin_content_lang']=$lang;
-                                </php>
-                                <li><a class="dropdown-item" href="?{:http_build_query($get_params)}">{$lang}</a></li>
-                            </foreach>
-                        </ul>
-                    </div>
-                </div>
             </div>
 
             <form method="post" class="js-ajax-form  margin-top-20" action="admin/theme/{$theme}/file/setting">
@@ -120,7 +96,7 @@
                                 <ul class="list-group list-group-flush widgets-group"
                                     data-file_id="{$file.id}"
                                     data-block_name="{$widgetsBlockName}"
-                                    data-admin_content_lang="{:input('param.admin_content_lang',session('admin_content_lang'))}">
+                                    data-admin_content_lang="{:cmf_current_home_lang()}">
                                     <notempty name="widgetsBlock.widgets">
                                         <foreach name="widgetsBlock.widgets" item="widget">
                                             <li class="list-group-item list-group-item-action widgets-group-item"
@@ -184,7 +160,7 @@
                     <else/>
                 </notempty>
                 <div class="form-group text-center" style="display: none;">
-                    <input type="hidden" name="admin_content_lang" value="{:input('param.admin_content_lang',session('admin_content_lang'))}"/>
+                    <input type="hidden" name="admin_content_lang" value="{:cmf_current_home_lang()}"/>
                     <input type="hidden" name="id" value="{$file.id|default=''}">
                     <button type="submit" class="btn btn-primary js-ajax-submit" id="submit-btn"
                             data-success="successCallback">

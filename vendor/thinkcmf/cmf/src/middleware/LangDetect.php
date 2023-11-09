@@ -53,7 +53,7 @@ class LangDetect
         $langSet = '';
 
         switch ($this->config['multi_lang_mode']) {
-            case 1:
+            case 1: // URL模式
             {
                 $pathInfo    = $request->pathinfo();
                 $pathInfoExt = $request->ext();
@@ -80,11 +80,13 @@ class LangDetect
                     }
 
                     $request->setPathinfo($newPathInfo);
+                } else {
+                    $langSet = $this->config['default_lang'];
                 }
 
                 break;
             }
-            case 2:
+            case 2: // 域名模式
             {
                 $domain    = $request->domain();
                 $domainArr = explode('.', $domain);
@@ -109,7 +111,6 @@ class LangDetect
         }
 
         $this->detect($request);
-
 
         return $next($request);
     }
