@@ -137,6 +137,14 @@ hello;
         $cmfDefaultTheme = cmf_get_current_theme();
         $themePath       = WEB_ROOT . "{$cmfThemePath}{$cmfDefaultTheme}/";
 
+        $allowLangList = cmf_allow_lang_list();
+        if (count($allowLangList) > 1) {
+            $langSet = cmf_current_lang();
+            $this->app->lang->load([
+                $themePath . "public/lang/$langSet.php",
+            ]);
+        }
+
         // 基础视图目录
         $module = isset($module) ? $module : $this->app->http->getName();
         $path   = $themePath . ($module ? $module . DIRECTORY_SEPARATOR : '');

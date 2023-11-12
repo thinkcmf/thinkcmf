@@ -50,25 +50,27 @@
                 <!--                </li>-->
             </ul>
 
-<!--            <form class="d-flex" role="search">-->
-<!--                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
-<!--                <button class="btn btn-outline-success" type="submit">Search</button>-->
-<!--            </form>-->
+            <!--            <form class="d-flex" role="search">-->
+            <!--                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
+            <!--                <button class="btn btn-outline-success" type="submit">Search</button>-->
+            <!--            </form>-->
             <php>
                 $allow_lang_list=cmf_allow_lang_list();
                 $current_lang=cmf_current_home_lang();
             </php>
-            <div class="dropdown">
-                <button class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                    {$current_lang} <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-left">
-                    <foreach name="$allow_lang_list" item="lang">
-                        <li><a class="dropdown-item" href="__ROOT__/{$lang}">{$lang}</a></li>
-                    </foreach>
-                </ul>
-            </div>
+            <if condition="count($allow_lang_list) gt 1">
+                <div class="dropdown">
+                    <button class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        {$current_lang} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-left">
+                        <foreach name="$allow_lang_list" item="lang">
+                            <li><a class="dropdown-item" href="__ROOT__/{$lang}">{$lang}</a></li>
+                        </foreach>
+                    </ul>
+                </div>
+            </if>
         </div>
     </div>
 </widget>
