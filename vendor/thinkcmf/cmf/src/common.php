@@ -1854,8 +1854,12 @@ function cmf_lang_url(string $langSet = ''): string
     switch ($langConfig['multi_lang_mode']) {
         case 1: // URL模式
         {
-            if (!empty($langConfig['lang_alias'][$langSet])) {
-                $langSet = $langConfig['lang_alias'][$langSet];
+            if ($langSet == $langConfig['default_lang']) {
+                $langSet = '';
+            } else {
+                if (!empty($langConfig['lang_alias'][$langSet])) {
+                    $langSet = $langConfig['lang_alias'][$langSet];
+                }
             }
 
             $url = rtrim(cmf_get_root() . "/$langSet", '/') . "/$url";
