@@ -66,7 +66,7 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-left">
                         <foreach name="$allow_lang_list" item="lang">
-                            <li><a class="dropdown-item" href="__ROOT__/{$lang}">{$lang}</a></li>
+                            <li><a class="dropdown-item" href="{:cmf_lang_url($lang)}">{$lang}</a></li>
                         </foreach>
                     </ul>
                 </div>

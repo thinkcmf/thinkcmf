@@ -1827,6 +1827,59 @@ function cmf_url_encode($url, $params)
 }
 
 /**
+ * 生成当前请求地址的多语言链接
+ * @param string $langSet
+ * @return string
+ */
+function cmf_lang_url(string $langSet = ''): string
+{
+    $request  = request();
+    $pathInfo = $request->pathinfo();
+    $query    = $request->get();
+    $url      = $pathInfo;
+    if (!empty($query)) {
+        $url .= '?' . http_build_query($query);
+    }
+
+    $langConfig = app()->lang->getConfig();
+
+    if (empty($langConfig['multi_lang_mode'])) {
+        $langConfig['multi_lang_mode'] = 1;
+    }
+
+    if (empty($langSet)) {
+        $langSet = $langConfig['default_lang'];
+    }
+
+    switch ($langConfig['multi_lang_mode']) {
+        case 1: // URL模式
+        {
+            if (!empty($langConfig['lang_alias'][$langSet])) {
+                $langSet = $langConfig['lang_alias'][$langSet];
+            }
+
+            $url = rtrim(cmf_get_root() . "/$langSet", '/') . "/$url";
+            break;
+        }
+        case 2: // 域名模式
+        {
+            $domain = $request->host();
+            if (!empty($langConfig['lang_domain_list'])) {
+                $langDomainList = array_flip($langConfig['lang_domain_list']);
+                if (!empty($langDomainList[$langSet])) {
+                    $domain = $langDomainList[$langSet];
+                }
+            }
+
+            $url = $request->scheme() . "://$domain" . cmf_get_root() . "/$url";
+            break;
+        }
+    }
+
+    return $url;
+}
+
+/**
  * CMF Url生成
  * @param string       $url    路由地址
  * @param string|array $vars   变量

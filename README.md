@@ -4,7 +4,6 @@ ThinkCMF 8.0.1 开发版
 
 **`8.0.1`正在紧张开发中，请不要用于正式环境！实际项目请下载最新正式版`8.0.0`**
 
-
 ### 主要特性
 
 * `MIT`开源协议,让你飞得更高,行得更远
@@ -71,6 +70,7 @@ ThinkCMF 8.0.1 开发版
 - [x] 支持`.env`环境配置
 
 ### 即将废弃
+
 * `app`模式下后台所有`非GET`请求提交接口,请后台模板开发者尽快升级到`API`接口
 
 ### 开发手册
@@ -131,36 +131,45 @@ https://gitee.com/thinkcmf/docker
 "thinkcmf/cmf-appstore": "^2.0",
 "thinkcmf/cmf-root": "^2.0"
 ```
+
 2. `composer update`
 3. 后台所有非ajax的`POST`请求，改为`GET`请求
 4. 如自定义后台模板未用`admin.js`,请注意所有POST请求时在`header`中增加`XX-Device-Type`和`Authorization`
 5. 把`data/config/template.php`中`cmf_admin_default_theme`后台模板改为`admin_default`
 
 #### 6.0.8升级到6.0.9
+
 1. `composer update`
 
 #### 6.0.7升级到6.0.8
+
 1. `composer update`
 
 #### 6.0.6升级到6.0.7
+
 1. `composer update`
 
 #### 6.0.5升级到6.0.6
+
 1. `composer update`
 
 #### 6.0.4升级到6.0.5
+
 1. 根目录`composer.json`的`require-dev`属性值请更新
 2. `composer update`
 
 #### 6.0.3升级到6.0.4
+
 1. 安装静态资源包`composer require thinkcmf/cmf-root`
 2. 根目录`composer.json`的`minimum-stability`,`require`,`config`属性值请更新
 3. `composer update`
 
 #### 6.0.2升级到6.0.3
+
 1. `composer update`
 
 #### 6.0.1升级到6.0.2
+
 1. composer.json文件里的`autoload.psr-4.themes\\`改为`public/themes`
 2. 安装应用市场包`composer require thinkcmf/cmf-appstore`
 3. `public/themes`,`public/static`静态文件也有更新
@@ -170,18 +179,21 @@ https://gitee.com/thinkcmf/docker
 ### 更新日志
 
 #### 8.0.1 coding~
+
 - [ ] 完善多语言功能
 - [ ] 后台模板全面升级为`bootstrap5`
 - [x] 升级`FontAwesome`图标到`v6.4.2`
 - [x] 增加后台设置统一入口
+- [x] 增加`cmf_lang_url`函数
 - [x] 优化API跨域处理
 - [x] 优化插件安装卸载更新提示
 - [x] 优化应用安装卸载更新提示
 - [x] 优化自由模板组件解析
 - [x] 修复插件API基类validate报错
 - [ ] 修复API用户ID获取问题
- 
+
 #### 8.0.0
+
 * 升级到`ThinkPHP8.0`
 * 增加后台管理本地文件上传
 * 增加`admin.js`对`RESTful API`支持
@@ -195,8 +207,8 @@ https://gitee.com/thinkcmf/docker
 * 增加后台模板支持`bootstrap5`
 * 完善前台默认模板`default`
 
-
 #### 6.0.9
+
 * 增强前台模板自由控件功能支持拖拽
 * 增加后台API权限管理
 * 增加后台API导入
@@ -214,6 +226,7 @@ https://gitee.com/thinkcmf/docker
 * 优化权限认证
 
 #### 6.0.8
+
 * 更新TP到`6.0.14`
 * 增加应用轻量级命令行第三方库支持
 * 增加注册登录和验证码界面第三方验证码支持
@@ -229,8 +242,8 @@ https://gitee.com/thinkcmf/docker
 * 修复幻灯片页面管理报错
 * 补全缺失语言包
 
-
 #### 6.0.7
+
 * 升级到`tp6.0.13`
 * 增加安装时检查API配置
 * 增加前台模板自由控件功能
@@ -244,6 +257,7 @@ https://gitee.com/thinkcmf/docker
 * 修复`tree类`相关bug
 
 #### 6.0.6
+
 * 后台模板设计增强，支持多终端
 * 增加命令行卸载应用
 * 增加网页卸载应用
@@ -257,6 +271,7 @@ https://gitee.com/thinkcmf/docker
 * 修复邮件验证码获取用户信息错误
 
 #### 6.0.5
+
 * 增加数据库迁移
 * 增加模板在线安装
 * 增加轻量级命令行工具`php think cli`
@@ -268,6 +283,7 @@ https://gitee.com/thinkcmf/docker
 * 独立`Docker`容器为单独仓库
 
 #### 6.0.4
+
 * 调整PHP版本最低限制为`7.4.0`
 * 增加应用在线安装
 * 增加应用管理
@@ -286,6 +302,7 @@ https://gitee.com/thinkcmf/docker
 * 修复插件更新无法删除旧钩子
 
 #### 6.0.3
+
 * 自定义分页类
 * 优化后台模板设计
 * 优化后台菜单导入
@@ -294,6 +311,7 @@ https://gitee.com/thinkcmf/docker
 * 修复插件模板异常类引入错误
 
 #### 6.0.2
+
 * 增加插件市场支持插件在线安装
 * 增加后台不存在模板文件检测并切换到默认模板
 * 移动swagger功能到插件
@@ -308,6 +326,7 @@ https://gitee.com/thinkcmf/docker
 * 优化后台菜单导入
 
 #### 6.0.1
+
 * 兼容php8.0
 * 升级到`tp6.0.7`
 * 增加插件后台基类`admin_init`钩子
@@ -321,6 +340,7 @@ https://gitee.com/thinkcmf/docker
 * 修复头像上传报错
 
 #### 6.0.0
+
 * 升级到ThinkPHP6.0
 * API增加Swagger支持
 * 增加`.env`环境配置支持
