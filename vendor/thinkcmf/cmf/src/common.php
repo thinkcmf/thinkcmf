@@ -1828,17 +1828,22 @@ function cmf_url_encode($url, $params)
 
 /**
  * 生成当前请求地址的多语言链接
- * @param string $langSet
+ * @param string $langSet 语言包
+ * @param string $url     不带语言的URL
  * @return string
  */
-function cmf_lang_url(string $langSet = ''): string
+function cmf_lang_url(string $langSet = '', string $url = ''): string
 {
-    $request  = request();
-    $pathInfo = $request->pathinfo();
-    $query    = $request->get();
-    $url      = $pathInfo;
-    if (!empty($query)) {
-        $url .= '?' . http_build_query($query);
+    $request = request();
+    if (empty($url)) {
+        $pathInfo = $request->pathinfo();
+        $query    = $request->get();
+        $url      = $pathInfo;
+        if (!empty($query)) {
+            $url .= '?' . http_build_query($query);
+        }
+    } else {
+        $url = trim($url, '/');
     }
 
     $langConfig = app()->lang->getConfig();
