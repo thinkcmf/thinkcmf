@@ -1445,6 +1445,19 @@ function cmf_admin_allow_lang_list(): array
 }
 
 /**
+ * 判断是否开启前台多语言
+ * @return bool
+ */
+function cmf_home_multi_lang(): bool
+{
+    $langConfig = app()->lang->getConfig();
+    if(!empty($langConfig['home_multi_lang'])&&!empty($langConfig['allow_lang_list'])&&count($langConfig['allow_lang_list'])>1){
+        return true;
+    }
+    return false;
+}
+
+/**
  * 获取多语言设置
  * @return array  多语言设置
  */
