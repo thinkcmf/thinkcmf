@@ -608,6 +608,7 @@ hello;
                 $array = $this->parseAttr($match[0]);
                 $name  = $array['name'];
                 if (empty($widgetsBlocks[$name])) {
+                    $content = str_replace($match[0], "", $content);
                     continue;
                 }
 
