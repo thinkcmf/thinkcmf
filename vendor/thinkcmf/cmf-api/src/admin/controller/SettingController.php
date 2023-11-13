@@ -363,6 +363,9 @@ class SettingController extends RestAdminBaseController
         $langDomainList     = [];
         $acceptLanguageList = [];
 
+        // 多语言模式;1:pathinfo前缀;2:域名;
+        $multiLangMode = empty($langSetting['multi_lang_mode']) || $langSetting['multi_lang_mode'] == 1 ? 1 : 2;
+
         if (empty($langSetting['allow_lang_list'])) {
             $allowLangList                  = [$defaultLang];
             $langSetting['allow_lang_list'] = [[
@@ -400,6 +403,10 @@ class SettingController extends RestAdminBaseController
                         $this->error('前台语言域名不能重复！');
                     }
                     $langDomainList[$allowLang['domain']] = $allowLang['lang'];
+                } else {
+                    if ($multiLangMode == 2) {
+                        $this->error('域名模式下语言域名不能为空！');
+                    }
                 }
             }
         }
@@ -434,7 +441,7 @@ class SettingController extends RestAdminBaseController
                 // 后台多语言开关
                 'admin_multi_lang'      => empty($langSetting['admin_multi_lang']) ? 0 : 1,
                 // 多语言模式;1:pathinfo前缀;2:域名;
-                'multi_lang_mode'       => empty($langSetting['multi_lang_mode']) || $langSetting['multi_lang_mode'] == 1 ? 1 : 2,
+                'multi_lang_mode'       => $multiLangMode,
                 // 默认语言
                 'default_lang'          => $defaultLang,
                 // 允许的语言列表
