@@ -13,6 +13,7 @@ namespace cmf\controller;
 use think\App;
 use think\exception\ValidateException;
 use think\Request;
+use think\Validate;
 
 class PluginRestBaseController extends RestBaseController
 {
@@ -68,40 +69,34 @@ class PluginRestBaseController extends RestBaseController
     protected function validate($data, $validate, $message = [], $batch = false, $callback = null)
     {
         if (is_array($validate)) {
-            $v = $this->app->validate();
+            $v = new Validate();
             $v->rule($validate);
         } else {
             if (strpos($validate, '.')) {
                 // 支持场景
-                list($validate, $scene) = explode('.', $validate);
+                [$validate, $scene] = explode('.', $validate);
             }
-            $v = $this->app->validate('\\plugins\\' . cmf_parse_name($this->plugin->getName()) . '\\validate\\' . $validate . 'Validate');
+            $class = false !== strpos($validate, '\\') ? $validate : '\\plugins\\' . cmf_parse_name($this->plugin->getName()) . '\\validate\\' . $validate . 'Validate';
+            $v     = new $class();
             if (!empty($scene)) {
                 $v->scene($scene);
             }
         }
+
+        $v->message($message);
 
         // 是否批量验证
         if ($batch || $this->batchValidate) {
             $v->batch(true);
         }
 
-        if (is_array($message)) {
-            $v->message($message);
+        $result = $v->failException(false)->check($data);
+
+        if (!$result) {
+            $result = $v->getError();
         }
 
-        if ($callback && is_callable($callback)) {
-            call_user_func_array($callback, [$v, &$data]);
-        }
-
-        if (!$v->check($data)) {
-            if ($this->failException) {
-                throw new ValidateException($v->getError());
-            }
-            return $v->getError();
-        }
-
-        return true;
+        return $result;
     }
 
     /**
