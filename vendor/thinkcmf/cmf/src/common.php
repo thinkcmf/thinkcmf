@@ -1866,7 +1866,7 @@ function cmf_lang_url(string $langSet = '', string $url = ''): string
     }
 
     if (empty($langSet)) {
-        $langSet = $langConfig['default_lang'];
+        $langSet = app()->lang->getLangSet();
     }
 
     switch ($langConfig['multi_lang_mode']) {
