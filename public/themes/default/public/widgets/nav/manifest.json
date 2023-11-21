@@ -17,6 +17,20 @@
             "type": "text",
             "tip": "",
             "rule": []
+        },
+        "nav_id": {
+            "title": "导航ID",
+            "value": "",
+            "type": "text",
+            "dataSource": {
+                "api": "admin/Nav/index",
+                "multi": false
+            },
+            "placeholder": "请选择导航",
+            "tip": "",
+            "rule": {
+                "require": true
+            }
         }
     }
 }

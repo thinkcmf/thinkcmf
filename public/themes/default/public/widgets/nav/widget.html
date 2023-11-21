@@ -8,7 +8,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <navigation nav-id="" root="" id="main-navigation" class="nav navbar-nav navbar-nav-custom"
+                <php>$_nav_id=empty($widget['vars']['nav_id'])?0:$widget['vars']['nav_id'];</php>
+                <navigation nav-id="$_nav_id" root="" id="main-navigation" class="nav navbar-nav navbar-nav-custom"
                             max-level="0">
                     <navigationMenu>
                         <if condition="$level gt 1">
