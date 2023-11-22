@@ -1451,7 +1451,20 @@ function cmf_admin_allow_lang_list(): array
 function cmf_home_multi_lang(): bool
 {
     $langConfig = app()->lang->getConfig();
-    if(!empty($langConfig['home_multi_lang'])&&!empty($langConfig['allow_lang_list'])&&count($langConfig['allow_lang_list'])>1){
+    if (!empty($langConfig['home_multi_lang']) && !empty($langConfig['allow_lang_list']) && count($langConfig['allow_lang_list']) > 1) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * 判断是否开启后台多语言
+ * @return bool
+ */
+function cmf_admin_multi_lang(): bool
+{
+    $langConfig = app()->lang->getConfig();
+    if (!empty($langConfig['admin_multi_lang']) && !empty($langConfig['admin_allow_lang_list']) && count($langConfig['admin_allow_lang_list']) > 1) {
         return true;
     }
     return false;

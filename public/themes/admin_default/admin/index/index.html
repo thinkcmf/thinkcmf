@@ -18,7 +18,8 @@
     <link href="__TMPL__/public/assets/simpleboot/css/simplebootadmin.css" rel="stylesheet">
     <link href="__TMPL__/public/assets/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="__TMPL__/public/assets/fontawesome/css/v4-shims.min.css" rel="stylesheet" type="text/css">
-    <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style('arcoadmin')}/simplebootadminindex.min.css" rel="stylesheet">
+    <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style('arcoadmin')}/simplebootadminindex.min.css"
+          rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
@@ -253,6 +254,26 @@
                         <i class="fa fa-refresh right_tool_icon"></i>
                     </a>
                 </li>
+                <if condition="cmf_admin_multi_lang()">
+                    <php>
+                        $admin_allow_lang_list=cmf_admin_allow_lang_list();
+                        $current_lang=cmf_current_admin_lang();
+                    </php>
+                    <li class="light-blue dropdown" style="border-left:none;">
+                        <a href="javacript:void(0);" title=""
+                           style="font-size: 16px"
+                           data-toggle="dropdown" class="dropdown-toggle">
+                            <i class="fa fa-language right_tool_icon"></i>
+                        </a>
+                        <ul class="pull-right dropdown-menu dropdown-caret dropdown-closer">
+                            <foreach name="$admin_allow_lang_list" item="lang">
+                                <li>
+                                    <a href="{:url('admin/Index/index')}?lang={$lang}">{$lang}</a>
+                                </li>
+                            </foreach>
+                        </ul>
+                    </li>
+                </if>
                 <li class="light-blue dropdown" style="border-left:none;">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
                         <if condition="isset($admin['avatar']) && $admin['avatar']">
@@ -264,8 +285,8 @@
                                  alt="{$admin.user_login|default=''}">
                         </if>
                         <span class="user-info">
-								{:lang('WELCOME_USER',array('user_nickname' => empty($admin['user_nickname'] )? $admin['user_login'] : $admin['user_nickname']))}
-							</span>
+								{:empty($admin['user_nickname'] ) ? $admin['user_login'] : $admin['user_nickname']}
+						</span>
                         <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
