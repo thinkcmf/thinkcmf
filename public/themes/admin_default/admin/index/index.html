@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh_CN" style="overflow: hidden;">
+<html style="overflow: hidden;">
 <php>
     $_admin_setting=cmf_get_option('admin_settings');
 </php>
@@ -197,11 +197,6 @@
 </php>
 <body style="min-width:{$is_mobile?'auto':'900px'};overflow: hidden;">
 <div id="loading"><i class="loadingicon"></i><span>{:lang('LOADING')}</span></div>
-<div id="right-tools-wrapper">
-    <!--<span id="right_tools_clearcache" title="清除缓存" onclick="javascript:openapp('{:url('admin/Setting/clearcache')}','right_tool_clearcache','清除缓存');"><i class="fa fa-trash-o right_tool_icon"></i></span>-->
-    <!--<span id="refresh-wrapper" title="{:lang('REFRESH_CURRENT_PAGE')}"><i-->
-    <!--class="fa fa-refresh right_tool_icon"></i></span>-->
-</div>
 <div class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -232,7 +227,7 @@
                 <div id="task-content">
                     <ul class="nav navbar-nav cmf-component-tab" id="task-content-inner">
                         <li class="cmf-component-tabitem noclose" app-id="0" app-url="{:url('Main/index')}"
-                            app-name="首页">
+                            app-name="{:lang('HOME')}">
                             <a class="cmf-tabs-item-text">{:lang('HOME')}</a>
                         </li>
                     </ul>
@@ -318,20 +313,6 @@
                data-toggle="tooltip">
                 <i class="fa fa-home"></i>
             </a>
-            <!--
-            <if condition="cmf_auth_check(cmf_get_current_admin_id(),'portal/AdminCategory/index')">
-                <a class="btn btn-sm btn-success" href="javascript:openapp('{:url('portal/AdminCategory/index')}','index_termlist','文章分类管理');" title="文章分类管理">
-                    <i class="fa fa-th"></i>
-                </a>
-            </if>
-
-            <if condition="cmf_auth_check(cmf_get_current_admin_id(),'portal/AdminArticle/index')">
-                <a class="btn btn-sm btn-info" href="javascript:openapp('{:url('portal/AdminArticle/index')}','index_postlist','文章管理');" title="文章管理">
-                    <i class="fa fa-pencil"></i>
-                </a>
-            </if>
-            -->
-
             <if condition="cmf_auth_check(cmf_get_current_admin_id(),'user/AdminAsset/index')">
                 <a class="btn btn-sm btn-info"
                    href="javascript:openapp('{:url('user/AdminAsset/index')}','userAdminAssetindex','{:lang('USER_ADMINASSET_INDEX')}',true);"
@@ -380,7 +361,6 @@
                 {:getsubmenu($submenus)}
             </ul>
         </div>
-
     </div>
 
     <div class="main-content">

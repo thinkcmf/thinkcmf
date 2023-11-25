@@ -15,7 +15,7 @@
                 <tr>
                     <th width="40">ID</th>
                     <th align="left">{:lang('ROLE_NAME')}</th>
-                    <th align="left">类型</th>
+                    <th align="left">{:lang('Type')}</th>
                     <th align="left">{:lang('ROLE_DESCRIPTION')}</th>
                     <th width="60" align="left">{:lang('STATUS')}</th>
                     <th width="120">{:lang('ACTIONS')}</th>
@@ -28,8 +28,8 @@
                         <td>{$vo.name}</td>
                         <td>
                             <switch name="$vo.type">
-                                <case value="admin">管理员</case>
-                                <case value="user">用户</case>
+                                <case value="admin">{:lang('Admin')}</case>
+                                <case value="user">{:lang('User')}</case>
                                 <default>{$vo.type}</default>
                             </switch>
                         </td>
@@ -87,7 +87,7 @@
         function openAuthorizeDialog(obj) {
             var $obj = $(obj);
             var href = $obj.data('href');
-            parent.openIframeLayer(href, '角色授权', {
+            parent.openIframeLayer(href, "{:lang('ROLE_SETTING')}", {
                 area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '95%'],
                 offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
                 // btn: ['确定', '取消'],

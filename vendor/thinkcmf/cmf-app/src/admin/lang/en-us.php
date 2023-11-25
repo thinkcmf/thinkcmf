@@ -88,9 +88,9 @@ return [
     'WEBSITE_SITE_NAME_REQUIRED_MESSAGE' => '请输入网站名称！',
     'WEBSITE_SITE_HOST_REQUIRED_MESSAGE' => '请输入网站域名！',
     //用户
-    'ROLE_NAME'                          => '角色名称',
-    'ROLE_DESCRIPTION'                   => '角色描述',
-    'ROLE_SETTING'                       => '权限设置',
+    'ROLE_NAME'                          => 'Role Name',
+    'ROLE_DESCRIPTION'                   => 'Role Description',
+    'ROLE_SETTING'                       => 'Authorization',
     //后台菜单管理
     'APP'                                => '应用',
     'ADD_SUB_MENU'                       => 'Add Sub Menu',
@@ -113,5 +113,10 @@ return [
     'APP_CONTROLLER_ACTION'              => 'URL Action',
     'User Register Verify'               => 'User Register Verify',
     'CDN Root'                           => 'CDN Root',
+    'System Hook'                        => 'System Hook',
+    'App Hook'                           => 'App Hook',
+    'Theme Hook'                         => 'Theme Hook',
+    'Admin Theme Hook'                   => 'Admin Theme Hook',
+    'View Help Manual'                   => 'View Help Manual',
 ];
 

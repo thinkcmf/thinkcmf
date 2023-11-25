@@ -61,9 +61,15 @@ class IndexController extends AdminBaseController
         $menusTmp = array();
         foreach ($result as $item) {
             //去掉/ _ 全部小写。作为索引。
-            $indexTmp            = $item['app'] . $item['controller'] . $item['action'];
-            $indexTmp            = preg_replace("/[\\/|_]/", "", $indexTmp);
-            $indexTmp            = strtolower($indexTmp);
+            $indexTmp = $item['app'] . $item['controller'] . $item['action'];
+            $indexTmp = preg_replace("/[\\/|_]/", "", $indexTmp);
+            $indexTmp = strtolower($indexTmp);
+
+            $lang         = strtoupper("{$item['app']}_{$item['controller']}_{$item['action']}");
+            $name         = lang($lang);
+            $name         = $name == $lang ? $item['name'] : $name;
+            $item['name'] = $name;
+
             $menusTmp[$indexTmp] = $item;
         }
         $this->assign("menus_js_var", json_encode($menusTmp));

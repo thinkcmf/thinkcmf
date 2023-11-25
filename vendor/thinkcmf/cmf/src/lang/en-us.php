@@ -56,4 +56,8 @@ return [
     'NO_DATA'                 => 'No data!',
     'MOBILE'                  => 'Mobile',
     'NAME'                    => 'Name',
+    'Admin'                   => 'Admin',
+    'User'                    => 'User',
+    'Content'                 => 'Content',
+    'Send'                    => 'Send',
 ];

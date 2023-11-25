@@ -3,8 +3,8 @@
     <div class="wrap js-check-wrap">
         <form action="admin/hooks/plugins/list/order" method="post" class="js-ajax-form">
             <php>
-                $types = ["1"=>'系统钩子','2'=>'应用钩子','3'=>'模板钩子','4'=>'后台模板钩子'];
-                $status=array("1"=>'开启',"0"=>'禁用',"3"=>'未安装');
+                $types = ["1"=>lang('System Hook'),'2'=>lang('App Hook'),'3'=>lang('Theme Hook'),'4'=>lang('Admin Theme Hook')];
+                $status=array("1"=>lang('ENABLED'),"0"=>lang('DISABLED'),"3"=>lang('Not Installed'));
             </php>
             <div class="table-actions">
                 <button type="submit" class="btn btn-primary btn-sm js-ajax-submit"

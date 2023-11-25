@@ -136,6 +136,11 @@ return [
     'Updated successfully'               => '更新成功！',
     'Uninstall successful'               => '卸载成功！',
     'Uninstall failed'                   => '卸载失败！',
-    'NOT_ALLOWED_UNINSTALL_THEME_ERROR'  => '当前使用中的模板不可以卸载！'
+    'NOT_ALLOWED_UNINSTALL_THEME_ERROR'  => '当前使用中的模板不可以卸载！',
+    'System Hook'                        => '系统钩子',
+    'App Hook'                           => '应用钩子',
+    'Theme Hook'                         => '模板钩子',
+    'Admin Theme Hook'                   => '后台模板钩子',
+    'View Help Manual'                   => '查看帮助手册',
 ];
 

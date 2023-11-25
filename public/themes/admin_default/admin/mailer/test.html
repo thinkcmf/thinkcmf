@@ -4,7 +4,7 @@
         <form method="post" class="js-ajax-form" action="admin/mail/test">
             <div class="row mb-3">
                 <label for="input-to" class="col-sm-2 col-form-label text-sm-end">
-                    收件箱<span class="form-required">*</span>
+                    {:lang('Recipient')}<span class="form-required">*</span>
                 </label>
                 <div class="col-md-8 col-sm-10">
                     <input type="text" class="form-control" id="input-to" name="to">
@@ -12,7 +12,7 @@
             </div>
             <div class="row mb-3">
                 <label for="input-subject" class="col-sm-2 col-form-label text-sm-end">
-                    标题<span class="form-required">*</span>
+                    {:lang('Title')}<span class="form-required">*</span>
                 </label>
                 <div class="col-md-8 col-sm-10">
                     <input type="text" class="form-control" id="input-subject" name="subject">
@@ -20,7 +20,7 @@
             </div>
             <div class="row mb-3">
                 <label for="input-content" class="col-sm-2 col-form-label text-sm-end">
-                    内容<span class="form-required">*</span>
+                    {:lang('Content')}<span class="form-required">*</span>
                 </label>
                 <div class="col-md-8 col-sm-10">
                     <textarea class="form-control" id="input-content" name="content"></textarea>
@@ -29,7 +29,7 @@
             <div class="row mb-3">
                 <div class="col-sm-12 text-center">
                     <button type="submit" class="btn btn-primary js-ajax-submit">
-                        <i class="fa fa-paper-plane"></i> 发送
+                        <i class="fa fa-paper-plane"></i> {:lang('Send')}
                     </button>
                 </div>
             </div>
