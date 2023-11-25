@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 return [
     'ADMIN_CENTER'                       => 'Admin Center',
+    'Admin Name'                         => 'Admin Name',
     'WELCOME_USER'                       => 'Welcome, {:user_nickname}',
     'REFRESH_CURRENT_PAGE'               => 'Refresh Current Page',
     'CLOSE_TOP_MENU'                     => 'Close Top menu',

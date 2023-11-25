@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 return [
     'ADMIN_CENTER'                       => '后台管理中心',
+    'Admin Name'                         => '后台名称',
     'WELCOME_USER'                       => '欢迎, {:user_nickname}',
     'REFRESH_CURRENT_PAGE'               => '刷新当前页面',
     'CLOSE_TOP_MENU'                     => '关闭顶部菜单',
@@ -51,7 +52,6 @@ return [
     'UPLOAD_MAX_FILESIZE'                => '上传附件限制',
     'MAX_EXECUTION_TIME'                 => '执行时间限制',
     'DISK_FREE_SPACE'                    => '剩余空间',
-    'SECONDS'                            => '秒',
     'UNKNOWN'                            => '未知',
     'NO_NOTICE'                          => '没有通知啦',
     'OLD_PASSWORD'                       => '原始密码',
@@ -137,7 +137,5 @@ return [
     'Uninstall successful'               => '卸载成功！',
     'Uninstall failed'                   => '卸载失败！',
     'NOT_ALLOWED_UNINSTALL_THEME_ERROR'  => '当前使用中的模板不可以卸载！'
-
-
 ];
 

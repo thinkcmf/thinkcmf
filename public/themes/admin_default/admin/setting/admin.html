@@ -2,11 +2,11 @@
 <block name="main">
     <div class="wrap js-check-wrap">
         <ul class="nav nav-tabs">
-            <li class="nav-item"><a class="nav-link active">后台设置</a></li>
+            <li class="nav-item"><a class="nav-link active">{:lang('ADMIN_SETTING_ADMIN')}</a></li>
         </ul>
         <form class="js-ajax-form margin-top-20" role="form" action="admin/setting/admin" method="PUT">
             <div class="row mb-3">
-                <label for="input-site-name" class="col-sm-2 col-form-label text-sm-end">后台名称</label>
+                <label for="input-site-name" class="col-sm-2 col-form-label text-sm-end">{:lang('Admin Name')}</label>
                 <div class="col-md-8 col-sm-10">
                     <input type="text" class="form-control" id="input-site-name"
                            name="admin_settings[admin_name]"
@@ -24,17 +24,18 @@
                 <div class="col-md-8 col-sm-10">
                     <input type="text" class="form-control" id="input-admin_url_password"
                            name="admin_settings[admin_password]"
-                           value="{$admin_settings.admin_password|default=''}"
-                           id="js-site-admin-url-password">
+                           value="{$admin_settings.admin_password|default=''}"/>
                     <div class="form-text">英文字母数字，不能为纯数字</div>
                     <div class="form-text" style="color: red;">
-                        设置加密码后必须通过以下地址访问后台,请劳记此地址，为了安全，您也可以定期更换此加密码!</div>
+                        设置加密码后必须通过以下地址访问后台,请劳记此地址，为了安全，您也可以定期更换此加密码!
+                    </div>
                     <php>
                         $root=cmf_get_root();
                         $root=empty($root)?'':'/'.$root;
                         $site_domain = cmf_get_domain().$root;
                     </php>
-                    <div class="form-text">后台登录地址：<span id="js-site-admin-url">{$site_domain}/{$admin_settings.admin_password|default='admin'}</span>
+                    <div class="form-text">
+                        后台登录地址：<span id="js-site-admin-url">{$site_domain}/{$admin_settings.admin_password|default='admin'}</span>
                     </div>
                 </div>
             </div>

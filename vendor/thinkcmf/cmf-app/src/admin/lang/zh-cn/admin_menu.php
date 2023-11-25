@@ -41,6 +41,7 @@ return [
     'ADMIN_NAVCAT_DEFAULT1'             => '前台菜单',
     'ADMIN_NAVCAT_EDIT_POST'            => '提交编辑',
     'ADMIN_NAVCAT_INDEX'                => '菜单分类',
+    'ADMIN_PLUGIN_DEFAULT'              => '应用中心',
     'ADMIN_PLUGIN_INDEX'                => '插件管理',
     'ADMIN_PLUGIN_INSTALL'              => '插件安装',
     'ADMIN_PLUGIN_SETTING'              => '插件设置',
@@ -65,6 +66,8 @@ return [
     'ADMIN_SETTING_PASSWORD'            => '修改密码',
     'ADMIN_SETTING_PASSWORD_POST'       => '提交修改',
     'ADMIN_SETTING_SITE'                => '网站信息',
+    'ADMIN_SETTING_ADMIN'               => '后台设置',
+    'ADMIN_SETTING_LANG'                => '多语言设置',
     'ADMIN_SETTING_SITE_POST'           => '提交修改',
     'ADMIN_SETTING_UPLOAD'              => '上传设置',
     'ADMIN_SETTING_UPLOAD_POST'         => '上传设置提交',
@@ -149,5 +152,6 @@ return [
     'ADMIN_APP_INDEX'                   => '应用管理',
     'ADMIN_APPSTORE_APPS'               => '应用市场',
     'ADMIN_APPSTORE_THEMES'             => '模板市场',
+    'ADMIN_DEV_INDEX'                   => '开发面板',
 
 ];
