@@ -14,17 +14,17 @@
                 <div class="col-md-9">
                     <table class="table table-bordered">
                         <tr>
-                            <th width="100">标题<span class="form-required">*</span></th>
+                            <th width="100">{:lang('Title')}<span class="form-required">*</span></th>
                             <td>
                                 <input class="form-control" type="text" name="title" id="title"
-                                       required value="" placeholder="请输入标题"/>
+                                       required value="" placeholder=""/>
                             </td>
                         </tr>
                         <tr>
                             <th>{:lang('Url')}</th>
                             <td>
                                 <input class="form-control" type="text" name="url" id="keywords" value=""
-                                       placeholder="请输入链接">
+                                       placeholder="">
                             </td>
                         </tr>
                         <tr>
@@ -44,10 +44,10 @@
                                        placeholder="{:lang('Description')}"></td>
                         </tr>
                         <tr>
-                            <th>幻灯片内容</th>
+                            <th>{:lang('Content')}</th>
                             <td>
                             <textarea class="form-control" name="content" id="description"
-                                      style="min-height: 100px;" placeholder="请填写幻灯片内容"></textarea>
+                                      style="min-height: 100px;" placeholder=""></textarea>
                             </td>
                         </tr>
                     </table>

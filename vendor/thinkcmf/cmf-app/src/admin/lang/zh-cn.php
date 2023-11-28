@@ -142,5 +142,8 @@ return [
     'Theme Hook'                         => '模板钩子',
     'Admin Theme Hook'                   => '后台模板钩子',
     'View Help Manual'                   => '查看帮助手册',
+    'Manage Plugins'                     => '管理插件',
+    'Email Signature'                    => '邮箱签名',
+
 ];
 

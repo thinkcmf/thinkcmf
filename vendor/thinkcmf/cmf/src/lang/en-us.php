@@ -38,6 +38,7 @@ return [
     'LOADING'                 => 'Loading...',
     'LOGOUT'                  => 'Logout',
     'OK'                      => 'Ok',
+    'Cancel'                  => 'Cancel',
     'STATUS'                  => 'Status',
     'ACTIONS'                 => 'Actions',
     'SORT'                    => 'Sort',

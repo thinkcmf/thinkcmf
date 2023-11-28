@@ -38,6 +38,7 @@ return [
     'LOADING'                 => '正在加载...',
     'LOGOUT'                  => '退出',
     'OK'                      => '确定',
+    'Cancel'                  => '取消',
     'STATUS'                  => '状态',
     'ACTIONS'                 => '操作',
     'SORT'                    => '排序',

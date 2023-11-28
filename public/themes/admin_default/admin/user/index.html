@@ -22,8 +22,8 @@
                                value="{:input('request.user_email/s','')}" placeholder="{:lang('EMAIL')}">
                     </div>
                     <div class="col-12">
-                        <input type="submit" class="btn btn-primary" value="搜索"/>
-                        <a class="btn btn-danger" href="{:url('User/index')}">清空</a>
+                        <input type="submit" class="btn btn-primary" value="{:lang('Search')}"/>
+                        <a class="btn btn-danger" href="{:url('User/index')}">{:lang('Clear')}</a>
                     </div>
                 </form>
             </div>
@@ -48,8 +48,9 @@
                 <tr>
                     <td>{$vo.id}</td>
                     <td>
-                        <if condition="$vo['user_url']"><a href="{$vo.user_url}" target="_blank"
-                                                           title="{$vo.signature}">{$vo.user_login}</a>
+                        <if condition="$vo['user_url']">
+                            <a href="{$vo.user_url}" target="_blank"
+                               title="{$vo.signature}">{$vo.user_login}</a>
                             <else/>
                             {$vo.user_login}
                         </if>

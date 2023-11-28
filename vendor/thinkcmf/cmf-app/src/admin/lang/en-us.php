@@ -118,5 +118,7 @@ return [
     'Theme Hook'                         => 'Theme Hook',
     'Admin Theme Hook'                   => 'Admin Theme Hook',
     'View Help Manual'                   => 'View Help Manual',
+    'Manage Plugins'                     => 'Manage Plugins',
+    'Email Signature'                    => 'Email Signature'
 ];
 

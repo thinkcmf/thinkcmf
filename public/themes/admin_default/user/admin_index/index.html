@@ -8,17 +8,17 @@
         </ul>
         <div class="card margin-top-20">
             <div class="card-body">
-                <form class="row row-cols-lg-auto gap-1 g-3 align-items-center" method="get"
+                <form class="row gap-1 g-3 align-items-center" method="get"
                       action="{:url('user/AdminIndex/index')}">
-                    <div class="col-12">
+                    <div class="col-2">
                         <input class="form-control" type="text" name="uid" value="{:input('request.uid')}"
                                placeholder="{:lang('User ID')}">
                     </div>
-                    <div class="col-12">
+                    <div class="col-4">
                         <input class="form-control" type="text" name="keyword" value="{:input('request.keyword')}"
-                               placeholder="用户名/昵称/邮箱/手机">
+                               placeholder="{:lang('USERNAME')}/{:lang('Nickname')}/{:lang('EMAIL')}/{:lang('MOBILE')}">
                     </div>
-                    <div class="col-12">
+                    <div class="col-2">
                         <input type="submit" class="btn btn-primary" value="{:lang('Search')}"/>
                         <a class="btn btn-danger" href="{:url('user/AdminIndex/index')}">{:lang('Clear')}</a>
                     </div>
@@ -31,7 +31,7 @@
                 <tr>
                     <th>ID</th>
                     <th>{:lang('USERNAME')}</th>
-                    <th>{:lang('NICENAME')}</th>
+                    <th>{:lang('Nickname')}</th>
                     <th>{:lang('AVATAR')}</th>
                     <th>{:lang('EMAIL')}</th>
                     <th>{:lang('MOBILE')}</th>

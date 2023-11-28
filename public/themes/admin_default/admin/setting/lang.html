@@ -5,13 +5,13 @@
             <div class="col-md-4">
                 <div class="input-group">
                     <div class="input-group-text">
-                        <label class="form-check-label" for="default-lang-check{key}">默认</label>&nbsp;
+                        <label class="form-check-label" for="default-lang-check{key}">{:lang('Default')}</label>&nbsp;
                         <input class="form-check-input mt-0 default-lang-check"
                                id="default-lang-check{key}"
                                name="default_lang" type="radio">
                     </div>
                     <div class="input-group-text">
-                        <label class="form-check-label" for="allow_lang_list-{key}-enable">启用</label>&nbsp;
+                        <label class="form-check-label" for="allow_lang_list-{key}-enable">{:lang('ENABLED')}</label>&nbsp;
                         <input class="form-check-input mt-0"
                                name="allow_lang_list[{key}][enable]" type="checkbox"
                                value="1"
@@ -40,12 +40,12 @@
             <div class="col-md-4">
                 <div class="input-group">
                     <div class="input-group-text">
-                        <label class="form-check-label">默认:</label>&nbsp;
+                        <label class="form-check-label">{:lang('Default')}</label>&nbsp;
                         <input class="form-check-input mt-0 admin-default-lang-check"
                                name="admin_default_lang" type="radio" value="">
                     </div>
                     <div class="input-group-text">
-                        <label class="form-check-label" for="admin_allow_lang_list-{key}-enable">启用</label>&nbsp;
+                        <label class="form-check-label" for="admin_allow_lang_list-{key}-enable">{:lang('ENABLED')}</label>&nbsp;
                         <input class="form-check-input mt-0"
                                name="admin_allow_lang_list[{key}][enable]" type="checkbox"
                                value="1"
@@ -111,7 +111,7 @@
                                 <div class="col-md-4">
                                     <div class="input-group">
                                         <div class="input-group-text">
-                                            <label class="form-check-label" for="default-lang-check{$key}">默认</label>&nbsp;
+                                            <label class="form-check-label" for="default-lang-check{$key}">{:lang('Default')}</label>&nbsp;
                                             <input class="form-check-input mt-0 default-lang-check"
                                                    name="default_lang" type="radio"
                                                    id="default-lang-check{$key}"
@@ -119,7 +119,7 @@
                                                    value="{$allow_lang.lang}">
                                         </div>
                                         <div class="input-group-text">
-                                            <label class="form-check-label" for="allow_lang_list-{$key}-enable">启用</label>&nbsp;
+                                            <label class="form-check-label" for="allow_lang_list-{$key}-enable">{:lang('ENABLED')}</label>&nbsp;
                                             <input class="form-check-input mt-0"
                                                    name="allow_lang_list[{$key}][enable]" type="checkbox"
                                                    value="1"
@@ -148,7 +148,7 @@
                         </foreach>
                     </notempty>
                     <div>
-                        <a class="btn btn-secondary" id="home-lang-add-btn">+ 添加</a>
+                        <a class="btn btn-secondary" id="home-lang-add-btn">+ {:lang('ADD')}</a>
                     </div>
                 </div>
             </div>
@@ -180,14 +180,14 @@
                                 <div class="col-md-4">
                                     <div class="input-group">
                                         <div class="input-group-text">
-                                            <label class="form-check-label">默认:</label>&nbsp;
+                                            <label class="form-check-label">{:lang('Default')}</label>&nbsp;
                                             <input class="form-check-input mt-0 admin-default-lang-check"
                                                    name="admin_default_lang" type="radio"
                                                    {$admin_default_lang==$allow_lang.lang?'checked':''}
                                                    value="{$allow_lang.lang}">
                                         </div>
                                         <div class="input-group-text">
-                                            <label class="form-check-label" for="admin_allow_lang_list-{$key}-enable">启用</label>&nbsp;
+                                            <label class="form-check-label" for="admin_allow_lang_list-{$key}-enable">{:lang('ENABLED')}</label>&nbsp;
                                             <input class="form-check-input mt-0"
                                                    name="admin_allow_lang_list[{$key}][enable]" type="checkbox"
                                                    value="1"
@@ -206,7 +206,7 @@
                         </foreach>
                     </notempty>
                     <div>
-                        <a class="btn btn-secondary" id="admin-lang-add-btn">+ 添加</a>
+                        <a class="btn btn-secondary" id="admin-lang-add-btn">+ {:lang('ADD')}</a>
                     </div>
                 </div>
             </div>

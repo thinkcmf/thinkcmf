@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 return [
     'USERNAME'                      => 'Username',
-    'NICENAME'                      => 'Nicename',
+    'Nickname'                      => 'Nickname',
     'AVATAR'                        => 'Avatar',
     'EMAIL'                         => 'Email',
     'REGISTRATION_TIME'             => 'Registration Time',
@@ -27,10 +27,10 @@ return [
     'ACTIVATE_USER_CONFIRM_MESSAGE' => 'Are you sure you want to enable this user?',
     'THIRD_PARTY_USER'              => 'Third Party User',
     'NOT_FILLED'                    => 'Not Filled',
-    'USER_FROM'                     => '来源',
-    'BINGDING_ACCOUNT'              => '绑定账号',
-    'FIRST_LOGIN_TIME'              => '首次登录时间',
-    'LOGIN_TIMES'                   => '登录次数',
+    'USER_FROM'                     => 'From',
+    'BINGDING_ACCOUNT'              => 'Associated account',
+    'FIRST_LOGIN_TIME'              => 'First Login Time',
+    'LOGIN_TIMES'                   => 'Login Times',
     'USERNAME_OR_EMAIL_EMPTY'       => '用户名不能为空！',
     'PASSWORD_REQUIRED'             => '密码不能为空！',
     'CAPTCHA_REQUIRED'              => '验证码不能为空！',
