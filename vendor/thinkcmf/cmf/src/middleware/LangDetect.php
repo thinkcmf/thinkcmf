@@ -110,7 +110,7 @@ class LangDetect
             $this->saveToCookie($this->app->cookie, $langSet);
         }
 
-        $this->detect($request);
+        $this->detect($request,$langSet);
 
         return $next($request);
     }
@@ -121,23 +121,23 @@ class LangDetect
      * @param Request $request
      * @return string
      */
-    protected function detect(Request $request): string
+    protected function detect(Request $request,$langSet): string
     {
         // 自动侦测设置获取语言选择
-        $langSet = '';
-        if ($request->get($this->config['detect_var'])) {
-            // url中设置了语言变量
-            $langSet = $request->get($this->config['detect_var']);
-        } elseif ($request->header($this->config['header_var'])) {
-            // Header中设置了语言变量
-            $langSet = $request->header($this->config['header_var']);
-        } elseif ($request->cookie($this->config['cookie_var'])) {
-            // Cookie中设置了语言变量
-            $langSet = $request->cookie($this->config['cookie_var']);
-        } elseif ($request->server('HTTP_ACCEPT_LANGUAGE')) {
-            // 自动侦测浏览器语言
-            $langSet = $request->server('HTTP_ACCEPT_LANGUAGE');
-        }
+//        $langSet = '';
+//        if ($request->get($this->config['detect_var'])) {
+//            // url中设置了语言变量
+//            $langSet = $request->get($this->config['detect_var']);
+//        } elseif ($request->header($this->config['header_var'])) {
+//            // Header中设置了语言变量
+//            $langSet = $request->header($this->config['header_var']);
+//        } elseif ($request->cookie($this->config['cookie_var'])) {
+//            // Cookie中设置了语言变量
+//            $langSet = $request->cookie($this->config['cookie_var']);
+//        } elseif ($request->server('HTTP_ACCEPT_LANGUAGE')) {
+//            // 自动侦测浏览器语言
+//            $langSet = $request->server('HTTP_ACCEPT_LANGUAGE');
+//        }
 
         if (preg_match('/^([a-z\d\-]+)/i', $langSet, $matches)) {
             $langSet = strtolower($matches[1]);
