@@ -45,7 +45,8 @@
                                name="admin_default_lang" type="radio" value="">
                     </div>
                     <div class="input-group-text">
-                        <label class="form-check-label" for="admin_allow_lang_list-{key}-enable">{:lang('ENABLED')}</label>&nbsp;
+                        <label class="form-check-label"
+                               for="admin_allow_lang_list-{key}-enable">{:lang('ENABLED')}</label>&nbsp;
                         <input class="form-check-input mt-0"
                                name="admin_allow_lang_list[{key}][enable]" type="checkbox"
                                value="1"
@@ -71,35 +72,35 @@
         <form method="put" class="js-ajax-form margin-top-20" action="admin/setting/lang">
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label text-sm-end">
-                    前台多语言模式
+                    {:lang('Home multi-language mode')}
                 </label>
                 <div class="col-md-8 col-sm-10">
                     <select class="form-control" name="multi_lang_mode">
-                        <option value="1">URL模式</option>
+                        <option value="1">{:lang('URL Mode')}</option>
                         <php>
                             $multi_lang_mode=empty($lang_setting['multi_lang_mode'])?1:$lang_setting['multi_lang_mode'];
                         </php>
-                        <option value="2" {$multi_lang_mode==2?'selected':''}>域名模式</option>
+                        <option value="2" {$multi_lang_mode==2?'selected':''}>{:lang('Domain Mode')}</option>
                     </select>
                 </div>
             </div>
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label text-sm-end">
-                    前台多语言
+                    {:lang('Home multi-language')}
                 </label>
                 <div class="col-md-8 col-sm-10">
                     <select class="form-control" name="home_multi_lang">
-                        <option value="0">关闭</option>
+                        <option value="0">{:lang('DISABLED')}</option>
                         <php>
                             $home_multi_lang=empty($lang_setting['home_multi_lang'])?0:$lang_setting['home_multi_lang'];
                         </php>
-                        <option value="1" {$home_multi_lang==1?'selected':''}>开启</option>
+                        <option value="1" {$home_multi_lang==1?'selected':''}>{:lang('ENABLED')}</option>
                     </select>
                 </div>
             </div>
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label text-sm-end">
-                    前台语言列表
+                    {:lang('Home Lang List')}
                 </label>
                 <div class="col-md-8 col-sm-10 ">
                     <php>
@@ -154,21 +155,21 @@
             </div>
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label text-sm-end">
-                    后台多语言
+                    {:lang('Admin multi-language')}
                 </label>
                 <div class="col-md-8 col-sm-10">
                     <select class="form-control" name="admin_multi_lang">
-                        <option value="0">关闭</option>
+                        <option value="0">{:lang('DISABLED')}</option>
                         <php>
                             $admin_multi_lang=empty($lang_setting['admin_multi_lang'])?0:$lang_setting['admin_multi_lang'];
                         </php>
-                        <option value="1" {$admin_multi_lang==1?'selected':''}>开启</option>
+                        <option value="1" {$admin_multi_lang==1?'selected':''}>{:lang('ENABLED')}</option>
                     </select>
                 </div>
             </div>
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label text-sm-end">
-                    后台语言列表
+                    {:lang('Admin Lang List')}
                 </label>
                 <div class="col-md-8 col-sm-10">
                     <php>

@@ -81,7 +81,7 @@ return [
     'WEBSITE_SEO_KEYWORDS'               => 'SEO关键字',
     'WEBSITE_SEO_DESCRIPTION'            => 'SEO描述',
     'SECONDS'                            => '秒',
-    'SPECAIL_USERNAME'                   => '特殊用户名',
+    'SPECIAL_USERNAME'                   => '特殊用户名',
     'WEBSITE_SITE_NAME_REQUIRED_MESSAGE' => '请输入网站名称！',
     'WEBSITE_SITE_HOST_REQUIRED_MESSAGE' => '请输入网站域名！',
     'ROLE_NAME'                          => '角色名称',
@@ -144,6 +144,15 @@ return [
     'View Help Manual'                   => '查看帮助手册',
     'Manage Plugins'                     => '管理插件',
     'Email Signature'                    => '邮箱签名',
-
+    'ADMIN_URL_PASSWORD_HELP_TEXT'       => '英文字母数字，不能为纯数字',
+    'ADMIN_URL_PASSWORD_SAFE_TIP_TEXT'   => '设置加密码后必须通过以下地址访问后台,请劳记此地址，为了安全，您也可以定期更换此加密码!',
+    'Admin login address'                => '后台登录地址',
+    'Home multi-language mode'           => '前台多语言模式',
+    'Home multi-language'                => '前台多语言',
+    'Home Lang List'                     => '前台语言列表',
+    'Admin multi-language'               => '后台多语言',
+    'Admin Lang List'                    => '后台多语言列表',
+    'URL Mode'                           => 'URL模式',
+    'Domain Mode'                        => '域名'
 ];
 

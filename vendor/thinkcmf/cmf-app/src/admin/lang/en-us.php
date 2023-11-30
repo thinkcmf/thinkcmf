@@ -84,7 +84,7 @@ return [
     'WEBSITE_SEO_KEYWORDS'               => 'SEO Keywords',
     'WEBSITE_SEO_DESCRIPTION'            => 'SEO Description',
     'SECONDS'                            => '秒',
-    'SPECAIL_USERNAME'                   => '特殊用户名',
+    'SPECIAL_USERNAME'                   => '特殊用户名',
     'WEBSITE_SITE_NAME_REQUIRED_MESSAGE' => '请输入网站名称！',
     'WEBSITE_SITE_HOST_REQUIRED_MESSAGE' => '请输入网站域名！',
     //用户
@@ -119,6 +119,17 @@ return [
     'Admin Theme Hook'                   => 'Admin Theme Hook',
     'View Help Manual'                   => 'View Help Manual',
     'Manage Plugins'                     => 'Manage Plugins',
-    'Email Signature'                    => 'Email Signature'
+    'Email Signature'                    => 'Email Signature',
+    'ADMIN_URL_PASSWORD_HELP_TEXT'       => 'Alphanumeric,Not just numbers',
+    'ADMIN_URL_PASSWORD_SAFE_TIP_TEXT'   => 'After setting the password, you must access the admin backend through the following url. Please remember this address. For security, you can also change this password regularly!',
+    'Admin login address'                => 'Admin login address',
+    'Home multi-language mode'           => 'Home multi-language mode',
+    'Home multi-language'                => 'Home multi-language',
+    'Home Lang List'                     => 'Home Lang List',
+    'Admin multi-language'               => 'Admin multi-language',
+    'Admin Lang List'                    => 'Admin Lang List',
+    'URL Mode'                           => 'URL Mode',
+    'Domain Mode'                        => 'Domain Mode'
 ];
+
 

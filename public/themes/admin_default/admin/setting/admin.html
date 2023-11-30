@@ -25,9 +25,9 @@
                     <input type="text" class="form-control" id="input-admin_url_password"
                            name="admin_settings[admin_password]"
                            value="{$admin_settings.admin_password|default=''}"/>
-                    <div class="form-text">英文字母数字，不能为纯数字</div>
+                    <div class="form-text">{:lang('ADMIN_URL_PASSWORD_HELP_TEXT')}</div>
                     <div class="form-text" style="color: red;">
-                        设置加密码后必须通过以下地址访问后台,请劳记此地址，为了安全，您也可以定期更换此加密码!
+                        {:lang('ADMIN_URL_PASSWORD_SAFE_TIP_TEXT')}
                     </div>
                     <php>
                         $root=cmf_get_root();
@@ -35,7 +35,7 @@
                         $site_domain = cmf_get_domain().$root;
                     </php>
                     <div class="form-text">
-                        后台登录地址：<span id="js-site-admin-url">{$site_domain}/{$admin_settings.admin_password|default='admin'}</span>
+                        {:lang('Admin login address')}: <span id="js-site-admin-url">{$site_domain}/{$admin_settings.admin_password|default='admin'}</span>
                     </div>
                 </div>
             </div>
