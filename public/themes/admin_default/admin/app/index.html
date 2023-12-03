@@ -78,7 +78,7 @@
 <block name="scripts">
     <script>
         function doOpenUninstallAppDialog(name) {
-            parent.openIframeLayer("{:url('App/uninstall')}?name=" + name, '应用卸载', {
+            parent.openIframeLayer("{:url('App/uninstall')}?name=" + name, "{:lang('App uninstall')}", {
                 area: ['450px', '600px'],
                 end: function () {
                     window.location.reload();

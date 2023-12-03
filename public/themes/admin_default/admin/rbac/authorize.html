@@ -11,7 +11,7 @@
                 <a class="nav-link active" href="{:url('Rbac/authorize',['id'=>$role_id])}">{:lang('ADMIN_RBAC_AUTHORIZE')}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{:url('Rbac/apiAuthorize',['id'=>$role_id])}">后台API授权</a>
+                <a class="nav-link" href="{:url('Rbac/apiAuthorize',['id'=>$role_id])}">{:lang('ADMIN_RBAC_APIAUTHORIZE')}</a>
             </li>
         </ul>
         <form class="js-ajax-form margin-top-20" action="admin/roles/{$role_id}/authorize" method="put">
@@ -24,7 +24,7 @@
             </div>
             <div class="form-actions text-center">
                 <input type="hidden" name="roleId" value="{$roleId}"/>
-                <button class="btn btn-primary js-ajax-submit" type="submit" data-msg="您确定要为此管理员授权？">授权
+                <button class="btn btn-primary js-ajax-submit" type="submit" data-msg="您确定要为此管理员授权？">{:lang('Authorize')}
                 </button>
             </div>
         </form>

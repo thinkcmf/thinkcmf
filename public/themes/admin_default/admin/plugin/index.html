@@ -13,16 +13,16 @@
             <li class="nav-item">
                 <a class="nav-link"
                    href="http://www.thinkcmf.com/faq.html?url=https://www.kancloud.cn/thinkcmf/faq/493510"
-                   target="_blank">插件离线安装<i
-                        class="fa fa-question-circle"></i></a>
+                   target="_blank">{:lang('Plugin offline installation')}<i class="fa fa-question-circle"></i>
+                </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="http://www.thinkcmf.com/topic/index/index/cat/9.html"
-                   target="_blank">插件交流</a>
+                   target="_blank">{:lang('Plugin discussion')}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="https://www.thinkcmf.com/docs/cmf8/#/%E6%8F%92%E4%BB%B6"
-                   target="_blank">插件文档</a>
+                   target="_blank">{:lang('Plugin doc')}</a>
             </li>
         </ul>
         <form method="post" class="js-ajax-form margin-top-20">
@@ -73,7 +73,7 @@
                                 <a class="btn btn-xs btn-primary js-ajax-dialog-btn"
                                    href="javascript:void(0);"
                                    data-href="admin/plugins/{$vo.name}"
-                                   data-msg="确定安装该插件吗？"
+                                   data-msg="{:lang('INSTALL_PLUGIN_CONFIRM_MSG')}"
                                    title="{:lang('Install')}" data-toggle="tooltip">
                                     <i class="fa fa-plus-circle fa-fw"></i></a>
                                 <else/>
@@ -81,16 +81,16 @@
                                 <if condition="!empty($vo['has_admin']) && $vo['status']==1">
                                     <a class="btn btn-xs btn-info"
                                        href="javascript:parent.openapp('{:cmf_plugin_url($vo['name'].'://AdminIndex/index')}','plugin_{$vo.name}','{$vo.title}')"
-                                       title="管理" data-toggle="tooltip">
+                                       title="{:lang('Manage')}" data-toggle="tooltip">
                                         <i class="fa fa-window-maximize fa-fw"></i>
                                     </a>
                                     <else/>
                                     <a class="btn btn-xs btn-info disabled" href="javascript:;"
-                                       title="管理" data-toggle="tooltip">
+                                       title="{:lang('Manage')}" data-toggle="tooltip">
                                         <i class="fa fa-window-maximize fa-fw"></i>
                                     </a>
                                 </if>
-                                <span class="dropdown dropdown-hide-arrow" title="设置" data-toggle="tooltip">
+                                <span class="dropdown dropdown-hide-arrow" title="{:lang('Setting')}" data-toggle="tooltip">
                                     <span class="btn btn-primary btn-xs dropdown-toggle" data-bs-toggle="dropdown"
                                        role="button" aria-expanded="false1">
                                         <i class="fa fa-cog fa-fw"></i>
@@ -102,7 +102,7 @@
                                                     <a class="dropdown-item"
                                                        data-href="{:url('Plugin/setting',array('id'=>$vo['id']))}"
                                                        href="javascript:;" onclick="openPluginSettingDialog(this)">
-                                                        <i class="fa fa-cog fa-fw"></i> 插件设置
+                                                        <i class="fa fa-cog fa-fw"></i> {:lang('Plugin Setting')}
                                                     </a>
                                                 </li>
                                                 <else/>
@@ -110,7 +110,7 @@
                                                     <a class="dropdown-item"
                                                        data-href="{:cmf_plugin_url($vo['name'].'://AdminIndex/setting')}"
                                                        href="javascript:;" onclick="openPluginSettingDialog(this)">
-                                                        <i class="fa fa-cog fa-fw"></i> 插件设置
+                                                        <i class="fa fa-cog fa-fw"></i> {:lang('Plugin Setting')}
                                                     </a>
                                                 </li>
                                             </empty>
@@ -119,7 +119,7 @@
                                             <a class="dropdown-item"
                                                data-href="{:url('admin/Plugin/hooks',['id'=>$vo.id])}"
                                                href="javascript:;" onclick="openPluginHooksDialog(this)">
-                                                <i class="fa fa-sort-numeric-asc fa-fw"></i> 执行顺序
+                                                <i class="fa fa-sort-numeric-asc fa-fw"></i> {:lang('Execution order')}
                                             </a>
                                         </li>
                                     </ul>
@@ -129,7 +129,8 @@
                                    href="javascript:void(0);"
                                    data-method="put"
                                    data-href="admin/plugins/{$vo.name}"
-                                   data-msg="确定更新该插件吗？" title="{:lang('Update')}" data-toggle="tooltip">
+                                   data-msg="{:lang('UPDATE_PLUGIN_CONFIRM_MSG')}"
+                                   title="{:lang('Update')}" data-toggle="tooltip">
                                     <i class="fa fa-refresh fa-fw"></i>
                                 </a>
 
@@ -137,7 +138,7 @@
                                     <a class="btn btn-xs btn-success js-ajax-dialog-btn"
                                        href="javascript:void(0);"
                                        data-href="admin/plugins/{$vo.id}/status/1"
-                                       data-msg="确定启用该插件吗？"
+                                       data-msg="{:lang('ENABLE_PLUGIN_CONFIRM_MSG')}"
                                        title="{:lang('Enable')}" data-toggle="tooltip">
                                         <i class="fa fa-toggle-on fa-fw"></i>
                                     </a>
@@ -145,14 +146,14 @@
                                     <a class="btn btn-xs btn-warning js-ajax-dialog-btn"
                                        href="javascript:void(0);"
                                        data-href="admin/plugins/{$vo.id}/status/0"
-                                       data-msg="确定禁用该插件吗？"
+                                       data-msg="{:lang('Are you sure you want to disable this plugin?')}"
                                        title="{:lang('Disable')}" data-toggle="tooltip">
                                         <i class="fa fa-toggle-off fa-fw"></i></a>
                                 </if>
                                 <a class="btn btn-xs btn-danger js-ajax-delete"
                                    href="javascript:void(0);"
                                    data-href="admin/plugins/{$vo.id}"
-                                   data-msg="确定卸载该插件吗？"
+                                   data-msg="{:lang('UNINSTALL_PLUGIN_CONFIRM_MSG')}"
                                    title="{:lang('Uninstall')}" data-toggle="tooltip">
                                     <i class="fa fa-trash fa-fw"></i></a>
                             </if>
@@ -169,7 +170,7 @@
         function openPluginSettingDialog(obj) {
             var $obj = $(obj);
             var href = $obj.data('href');
-            parent.openIframeLayer(href, '插件设置', {
+            parent.openIframeLayer(href, "{:lang('Plugin Setting')}", {
                 area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '95%'],
                 offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
                 // btn: ['确定', '取消'],
@@ -187,7 +188,7 @@
         function openPluginHooksDialog(obj) {
             var $obj = $(obj);
             var href = $obj.data('href');
-            parent.openIframeLayer(href, '插件钩子', {
+            parent.openIframeLayer(href, "{:lang('Plugin hooks')}", {
                 area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '95%'],
                 offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
                 // btn: ['确定', '取消'],

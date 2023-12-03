@@ -116,6 +116,7 @@ return [
     'ADMIN_NAVCAT_DELETE'               => '删除分类',
     'ADMIN_NAVCAT_EDIT'                 => '编辑分类',
     'ADMIN_RBAC_AUTHORIZE'              => '权限设置',
+    'ADMIN_RBAC_APIAUTHORIZE'           => '后台API授权',
     'ADMIN_RBAC_MEMBER'                 => '成员管理',
     'ADMIN_RBAC_ROLEADD'                => '添加角色',
     'ADMIN_RBAC_ROLEDELETE'             => '删除角色',
