@@ -4,36 +4,36 @@
         <php>$app_name=input('param.name');</php>
         <if condition="in_array($app_name,['demo','portal'])">
             <div class="alert alert-danger">
-                应用<code>{$app_name}</code>的所有数据都将被删除，且无法恢复！<br>
+                {:lang('UNINSTALL_APP_DANGER_MSG',['app_name'=>"<code>$app_name</code>"])}<br>
             </div>
             <div class="alert alert-danger">
-                您确定要卸载此应用<code>{$app_name}</code>吗？<br>
+                {:lang('UNINSTALL_APP_CONFIRM_MSG',['app_name'=>"<code>$app_name</code>"])}<br>
             </div>
             <div class="alert alert-danger">
-                如果您确定要卸载此应用<code>{$app_name}</code>，请填写如下信息：<br>
+                {:lang('UNINSTALL_APP_MSG',['app_name'=>"<code>$app_name</code>"])}<br>
             </div>
             <form method="delete" class="row g-3 js-ajax-form" action="admin/apps">
                 <div class="col-12">
                     <label for="input-confirm_name" class="form-label">
-                        应用名<span class="form-required">*</span>
+                        {:lang('App Name')}<span class="form-required">*</span>
                     </label>
                     <input type="text" class="form-control"
                            id="input-confirm_name" name="confirm_name"
-                           placeholder="请输入应用的名称{$app_name}">
+                           placeholder="{:lang('Please enter the name of the app',['app_name'=>$app_name])}">
                 </div>
                 <div class="col-12">
                     <label for="input-url" class="form-label">
-                        网站创始人后台登录密码<span class="form-required">*</span>
+                        {:lang('Website founder password')}<span class="form-required">*</span>
                     </label>
                     <input type="password" class="form-control"
                            id="input-url" name="password"
-                           placeholder="请输入您的后台登录密码">
-                    <div class="form-text">为了安全，我们需要再次验证您的登录密码！</div>
+                           placeholder="{:lang('Please enter the website founder password')}">
                 </div>
                 <div class="col-12 d-grid">
                     <input type="hidden" name="name" value="{$app_name}"/>
                     <button type="submit" class="btn btn-danger js-ajax-submit btn-block"
-                            data-msg="您需要再次确认卸载应用{$app_name},并知晓严重性！">确认卸载应用{$app_name},并知晓严重性
+                            data-msg="{:lang('UNINSTALL_APP_LAST_DANGER_MSG',['app_name'=>$app_name])}">
+                        {:lang('Uninstall app')}
                     </button>
                 </div>
             </form>

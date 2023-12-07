@@ -85,4 +85,5 @@ return [
     'Upload successful'       => '上传成功！',
     'Admin'                   => '管理员',
     'User'                    => '用户',
+    'Restore'                 => '还原'
 ];

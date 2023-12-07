@@ -462,7 +462,7 @@
     function openDevTips() {
         consoleOpened = true;
         if (openDevTipsTimes < 20) {
-            console.log('打开开发者面板,请执行:')
+            console.log('{:lang("Open the dev panel, please execute")}')
             console.log("$('#dev-menu-button').show();openapp('/admin/dev/index.html','index_dev','开发面板',true);");
         } else {
             clearInterval(openDevTipsTimer);

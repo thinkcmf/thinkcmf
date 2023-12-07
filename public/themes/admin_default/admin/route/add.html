@@ -18,7 +18,7 @@
                     <div class="input-group">
                         <input type="text" id="input-full_url" name="full_url" class="form-control">
                         <span class="input-group-btn"><a class="btn btn-primary"
-                                                         href="javascript:doSelectUrl();">选择规则</a></span>
+                                                         href="javascript:doSelectUrl();">{:lang('Select rules')}</a></span>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,8 @@
                 </label>
                 <div class="col-md-8 col-sm-10">
                     <input type="text" class="form-control" id="input-url" name="url">
-                    <div class="form-text"><span id="url-vars"></span> {:lang('SHORT_URL_HELP_BLOCK_TEXT')}</div>
+                    <div class="form-text">{:lang('SHORT_URL_HELP_BLOCK_TEXT')}</div>
+                    <div class="form-text"><span id="url-vars"></span></div>
                 </div>
             </div>
             <div class="row mb-3">
@@ -54,7 +55,7 @@
     <script>
         function doSelectUrl() {
             var selectedCategoriesId = $('#js-categories-id-input').val();
-            parent.openIframeLayer("{:url('Route/select')}?ids=" + selectedCategoriesId, '请选择URL', {
+            parent.openIframeLayer("{:url('Route/select')}?ids=" + selectedCategoriesId, "{:lang('Please select a URL')}", {
                 area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '90%'],
                 offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
                 btn: ['确定', '取消'],
@@ -66,7 +67,7 @@
                     if (selectedUrl) {
                         $('#input-full_url').val(selectedUrl.action);
                         $('#input-url').val(selectedUrl.url);
-                        var helpBlock = selectedUrl.vars ? "URL参数有" + selectedUrl.vars + ',' : '';
+                        var helpBlock = selectedUrl.vars ? "{:lang('URL parameters are xx',['vars'=>'[vars]'])}".replace('[vars]', selectedUrl.vars) : '';
                         $('#url-vars').text(helpBlock);
                     }
                     parent.layer.close(index); //如果设定了yes回调，需进行手工关闭

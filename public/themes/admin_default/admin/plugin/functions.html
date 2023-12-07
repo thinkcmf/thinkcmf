@@ -271,8 +271,8 @@
                 <div class="col-md-8 col-sm-10">
                     <div class="input-group">
                         <input class="form-control" id="js-{$key}-input" type="text" name="config[{$key}]" value="{$form['value']}"
-                               style="width: 300px;display: inline-block;" title="文件名称">
-                        <a class="btn btn-primary" href="javascript:uploadOne('文件上传','#js-{$key}-input','file');">上传文件</a>
+                               style="width: 300px;display: inline-block;" title="{:lang('File name')}">
+                        <a class="btn btn-primary" href="javascript:uploadOne('{:lang('Upload File')}','#js-{$key}-input','file');">{:lang('Upload File')}</a>
                     </div>
                     <present name="form.tip">
                         <div class="form-text">{$form.tip}</div>
@@ -291,7 +291,7 @@
                 <div class="col-md-8 col-sm-10">
                     <input class="form-control" name="config[{$key}]" id="{$key}" value="{$form.value}"
                            onclick="doSelectLocation(this)"
-                           data-title="请选择{$form.title|default=''}">
+                           data-title="{$form.title|default=''}">
                     <present name="form.tip">
                         <div class="form-text">{$form.tip}</div>
                     </present>

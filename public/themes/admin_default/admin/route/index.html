@@ -2,7 +2,8 @@
 <block name="main">
     <div class="wrap js-check-wrap">
         <ul class="nav nav-tabs">
-            <li class="nav-item"><a class="nav-link active" href="{:url('Route/index')}">{:lang('ADMIN_ROUTE_INDEX')}</a></li>
+            <li class="nav-item"><a class="nav-link active"
+                                    href="{:url('Route/index')}">{:lang('ADMIN_ROUTE_INDEX')}</a></li>
             <li class="nav-item"><a class="nav-link" href="{:url('Route/add')}">{:lang('ADMIN_ROUTE_ADD')}</a></li>
         </ul>
         <form class="js-ajax-form" action="admin/routes/list/order" method="post">
@@ -27,7 +28,7 @@
                 <tbody>
                 <php>
                     $statuses=array('0'=>lang('Disabled'),"1"=>lang('Enabled'));
-                    $types=array('1'=>"自定义","2"=>"别名定义");
+                    $types=array('1'=>lang('ROUTE_TYPE_1'),"2"=>lang('ROUTE_TYPE_2'));
                 </php>
                 <foreach name="routes" item="vo">
                     <tr>
@@ -41,10 +42,10 @@
                         <td>
                             <eq name="vo.type" value="2">
                                 <span class="badge text-bg-danger" data-toggle="tooltip"
-                                      title="别名定义规则,无法编辑,排序">{$types[$vo['type']]}</span>
+                                      title="{:lang('ROUTE_TYPE_2_TIP')}">{$types[$vo['type']]}</span>
                                 <else/>
                                 <span class="badge text-bg-success" data-toggle="tooltip"
-                                      title="自定义规则,可以编辑,排序">{$types[$vo['type']]}</span>
+                                      title="{:lang('ROUTE_TYPE_1_TIP')}">{$types[$vo['type']]}</span>
                             </eq>
                         </td>
                         <td>
@@ -72,7 +73,8 @@
                                        href="javascript:"
                                        data-href="admin/routes/{$vo.id}/status/0"
                                        data-toggle="tooltip"
-                                       data-msg="确定禁用吗？" title="{:lang('Disable')}">
+                                       data-msg="{:lang('Are you sure you want to disable it?')}"
+                                       title="{:lang('Disable')}">
                                         <i class="fa fa-toggle-off fa-fw"></i>
                                     </a>
                                     <else/>
@@ -80,7 +82,7 @@
                                        href="javascript:"
                                        data-href="admin/routes/{$vo.id}/status/1"
                                        data-toggle="tooltip"
-                                       data-msg="确定启用吗？"
+                                       data-msg="{:lang('Are you sure you want to enable it?')}"
                                        title="{:lang('Enable')}">
                                         <i class="fa fa-toggle-on fa-fw"></i>
                                     </a>

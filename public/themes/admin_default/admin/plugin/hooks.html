@@ -3,14 +3,19 @@
     <div class="wrap js-check-wrap">
         <form action="" method="post">
             <php>
-                $types = ["1"=>lang('System Hook'),'2'=>lang('App Hook'),'3'=>lang('Theme Hook'),'4'=>lang('Admin Theme Hook')];
+                $types = [
+                '1'=>lang('System Hook'),
+                '2'=>lang('App Hook'),
+                '3'=>lang('Theme Hook'),
+                '4'=>lang('Admin Theme Hook')
+                ];
             </php>
             <table class="table table-hover table-bordered">
                 <thead>
                 <tr>
                     <th>{:lang('NAME')}</th>
                     <th>{:lang('Type')}</th>
-                    <th>执行插件</th>
+                    <th>{:lang('Whether to execute multiple plugins')}</th>
                     <th>{:lang('Description')}</th>
                     <th width="70">{:lang('ACTIONS')}</th>
                 </tr>
@@ -20,12 +25,12 @@
                     <tr>
                         <td><b>{$vo.name}</b>:<span class="badge text-bg-success">{$vo.hook}</span></td>
                         <td>{$types[$vo.type]}</td>
-                        <td>{$vo.once?'首个插件':'多个插件'}</td>
+                        <td>{$vo.once?lang('First plugin'):lang('Multiple plugins')}</td>
                         <td>{$vo.description}</td>
                         <td>
                             <a class="btn btn-xs btn-primary"
-                               href="javascript:parent.openIframeLayer('{:url('Hook/plugins',['hook'=>$vo['hook']])}','钩子{$vo.name}插件管理',{});"
-                               title="设置执行顺序" data-toggle="tooltip">
+                               href="javascript:parent.openIframeLayer('{:url('Hook/plugins',['hook'=>$vo['hook']])}','{:lang('Hook x plugin management')}',{});"
+                               title="{:lang('Set execution order')}" data-toggle="tooltip">
                                 <i class="fa fa-sort-numeric-asc fa-fw"></i>
                             </a>
                         </td>
