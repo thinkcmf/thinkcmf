@@ -1499,12 +1499,12 @@ function cmf_lang_config(): array
 }
 
 /**
- * 获取惟一订单号
+ * 获取订单号
  * @return string
  */
 function cmf_get_order_sn()
 {
-    return date('Ymd') . substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+    return date('Ymd') . substr(implode('', array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
 }
 
 /**
