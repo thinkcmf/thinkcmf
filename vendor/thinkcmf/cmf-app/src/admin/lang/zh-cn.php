@@ -202,7 +202,17 @@ return [
     'ROUTE_TYPE_2_TIP'                          => '别名定义规则,无法编辑,排序',
     'Are you sure you want to disable it?'      => '确定禁用吗？',
     'Are you sure you want to enable it?'       => '确定启用吗？',
-    'Route Parameters'                                => '参数',
-    'Route Suggestion'=>'建议优化'
+    'Route Parameters'                          => '参数',
+    'Route Suggestion'                          => '建议优化',
+    'Thumbnail'                                 => '缩略图',
+    '_blank'                                    => '新窗口',
+    '_self'                                     => '当前窗口',
+    '_parent'                                   => '父窗口',
+    '_top'                                      => '主窗口',
+    'Edit current page'                         => '编辑当前页',
+    'Refresh current page'                      => '刷新当前页',
+    'All data'                                  => '所有数据',
+    'Add data'                                  => '添加数据',
+    'Edit data'                                 => '编辑数据'
 ];
 

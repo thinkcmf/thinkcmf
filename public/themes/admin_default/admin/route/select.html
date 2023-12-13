@@ -28,11 +28,11 @@
 
         if ($actionArr[2] == 'index') {
         $actionArr[1] = cmf_parse_name($actionArr[1]);
-        return empty($params) ? $actionArr[1].'$' : ($actionArr[1] . '/' . implode('/', $urlDepr1Params) /*. '或' .
+        return empty($params) ? $actionArr[1].'$' : ($actionArr[1] . '/' . implode('/', $urlDepr1Params) /*. ' ' .
         $actionArr[1] . '-' . implode('-', $urlDepr2Params)*/);
         } else {
         $actionArr[2] = cmf_parse_name($actionArr[2]);
-        return empty($params) ? $actionArr[2].'$' : ($actionArr[2] . '/' . implode('/', $urlDepr1Params) /*. '或' .
+        return empty($params) ? $actionArr[2].'$' : ($actionArr[2] . '/' . implode('/', $urlDepr1Params) /*. ' ' .
         $actionArr[2] . '-' . implode('-', $urlDepr2Params)*/);
         }
 

@@ -8,16 +8,16 @@
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a class="nav-link"
-                       href="{:url('Theme/fileArrayData',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">所有数据</a>
+                       href="{:url('Theme/fileArrayData',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">{:lang('All data')}</a>
                 </li>
                 <heq name="item_index" value="">
                     <li class="nav-item"><a class="nav-link active">添加数据</a></li>
                     <else/>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">添加数据</a>
+                           href="{:url('Theme/fileArrayDataEdit',['tab'=>$tab,'var'=>$var,'file_id'=>$file_id,'widget'=>$widget,'widget_id'=>$widget_id,'block_name'=>$block_name])}">{:lang('Add data')}</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link active">编辑数据</a></li>
+                    <li class="nav-item"><a class="nav-link active">{:lang('Edit data')}</a></li>
                 </heq>
             </ul>
         </div>

@@ -64,13 +64,13 @@
                 <div class="col-md-3">
                     <table class="table table-bordered">
                         <tr>
-                            <th><b>缩略图</b></th>
+                            <th><b>{:lang('Thumbnail')}</b></th>
                         </tr>
                         <tr>
                             <td>
                                 <div style="text-align: center;">
                                     <input type="hidden" name="image" id="thumb" value="{$result.image|default=''}">
-                                    <a href="javascript:uploadOneImage('图片上传','#thumb');">
+                                    <a href="javascript:uploadOneImage('{:lang('Upload Image')}','#thumb');">
                                         <if condition="empty($result['image'])">
                                             <img src="__TMPL__/public/assets/images/default-thumbnail.png"
                                                  id="thumb-preview" width="135" style="cursor: hand"/>
@@ -81,7 +81,7 @@
                                     </a>
                                     <input type="button" class="btn btn-sm"
                                            onclick="$('#thumb-preview').attr('src','__TMPL__/public/assets/images/default-thumbnail.png');$('#thumb').val('');return false;"
-                                           value="取消图片">
+                                           value="{:lang('Cancel')}">
                                 </div>
                             </td>
                         </tr>

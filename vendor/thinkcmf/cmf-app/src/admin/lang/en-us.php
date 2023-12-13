@@ -176,8 +176,8 @@ return [
     'Are you sure you want to disable it?'      => 'Are you sure you want to disable it?',
     'Are you sure you want to enable it?'       => 'Are you sure you want to enable it?',
     'Route Parameters'                          => 'Parameters',
-    'Route Suggestion'                          => 'Suggestion'
-
+    'Route Suggestion'                          => 'Suggestion',
+    'Thumbnail'                                 => 'Thumbnail',
 ];
 
 
