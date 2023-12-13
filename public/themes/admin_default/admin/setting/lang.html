@@ -18,17 +18,17 @@
                                id="allow_lang_list-{key}-enable" checked>
                     </div>
                     <input type="text" class="form-control allow_lang_list-lang-input"
-                           name="allow_lang_list[{key}][lang]" placeholder="语言包名" required>
+                           name="allow_lang_list[{key}][lang]" placeholder="{:lang('Lang')}" required>
                 </div>
             </div>
             <div class="col-md-3">
                 <input type="text" class="form-control allow_lang_list-alias-input" name="allow_lang_list[{key}][alias]"
-                       placeholder="语言别名">
+                       placeholder="{:lang('Lang Alias')}">
             </div>
             <div class="col-md-3">
                 <input type="text" class="form-control allow_lang_list-domain-input"
                        name="allow_lang_list[{key}][domain]"
-                       placeholder="语言域名">
+                       placeholder="{:lang('Lang Domain')}">
             </div>
             <div class="col-md-1">
                 <a class="btn btn-secondary home-lang-delete-btn"><i class="fa fa-trash"></i></a>
@@ -53,7 +53,7 @@
                                id="admin_allow_lang_list-{key}-enable" checked>
                     </div>
                     <input type="text" class="form-control admin_allow_lang_list-lang-input"
-                           name="admin_allow_lang_list[{key}][lang]" value="" placeholder="语言包名" required>
+                           name="admin_allow_lang_list[{key}][lang]" value="" placeholder="{:lang('Lang')}" required>
                 </div>
             </div>
             <div class="col-md-1">
@@ -129,18 +129,18 @@
                                         </div>
                                         <input type="text" class="form-control allow_lang_list-lang-input"
                                                name="allow_lang_list[{$key}][lang]" value="{$allow_lang.lang}"
-                                               placeholder="语言包名" required>
+                                               placeholder="{:lang('Lang')}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <input type="text" class="form-control allow_lang_list-alias-input"
                                            name="allow_lang_list[{$key}][alias]" value="{$allow_lang.alias}"
-                                           placeholder="语言别名">
+                                           placeholder="{:lang('Lang Alias')}">
                                 </div>
                                 <div class="col-md-3">
                                     <input type="text" class="form-control allow_lang_list-domain-input"
                                            name="allow_lang_list[{$key}][domain]" value="{$allow_lang.domain}"
-                                           placeholder="语言域名">
+                                           placeholder="{:lang('Lang Domain')}">
                                 </div>
                                 <div class="col-md-1">
                                     <a class="btn btn-secondary home-lang-delete-btn"><i class="fa fa-trash"></i></a>
@@ -197,7 +197,7 @@
                                         </div>
                                         <input type="text" class="form-control admin_allow_lang_list-lang-input"
                                                name="admin_allow_lang_list[{$key}][lang]" value="{$allow_lang.lang}"
-                                               placeholder="语言包名" required>
+                                               placeholder="{:lang('Lang')}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-1">

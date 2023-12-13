@@ -8,11 +8,11 @@
         </ul>
         <form method="put" class="js-ajax-form margin-top-20" role="form" action="admin/setting/upload">
             <div class="row mb-3">
-                <label class="form-label">最大同时上传文件数</label>
+                <label class="form-label">{:lang('Maximum number of files uploaded simultaneously')}</label>
                 <div class="row">
                     <div class="col-md-4">
-                        <input type="text" class="form-control" name="max_files" title="最大同时上传文件数"
-                               placeholder="最大同时上传文件数"
+                        <input type="text" class="form-control" name="max_files" title="{:lang('Maximum number of files uploaded simultaneously')}"
+                               placeholder="{:lang('Maximum number of files uploaded simultaneously')}"
                                value="{$upload_setting.max_files|default=20}">
                     </div>
                     <div class="col-md-4">
@@ -21,12 +21,12 @@
                 <p class="help-block">多文件上传时,用户能最大同时上传文件数,默认20个</p>
             </div>
             <div class="row mb-3">
-                <label class="form-label">文件分块上传分块大小</label>
+                <label class="form-label">文件上传分块大小</label>
                 <div class="row">
                     <div class="col-md-4">
                         <input type="text" class="form-control" name="chunk_size"
-                               title="文件分块上传分块大小KB,1M=1024KB"
-                               placeholder="文件分块上传分块大小KB,1M=1024KB"
+                               title="文件上传分块大小KB,1M=1024KB"
+                               placeholder="文件上传分块大小KB,1M=1024KB"
                                value="{$upload_setting.chunk_size|default=512}">
                     </div>
                     <div class="col-md-4">

@@ -34,14 +34,14 @@ class StorageController extends AdminBaseController
 
         if (empty($storage)) {
             $storage['type']     = 'Local';
-            $storage['storages'] = ['Local' => ['name' => '本地']];
+            $storage['storages'] = ['Local' => ['name' => lang('Local')]];
         } else {
             if (empty($storage['type'])) {
                 $storage['type'] = 'Local';
             }
 
             if (empty($storage['storages']['Local'])) {
-                $storage['storages']['Local'] = ['name' => '本地'];
+                $storage['storages']['Local'] = ['name' => lang('Local')];
             }
         }
 
