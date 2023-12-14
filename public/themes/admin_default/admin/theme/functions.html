@@ -72,7 +72,7 @@
                         <input type="hidden" name="{$inputName}[{$varName}]" class="form-control"
                                value="{$vars[$varName]['value']}" id="js-{$widget}{$varName}-input">
                         <div>
-                            <a href="javascript:doUploadOneImage('图片上传','#js-{$widget}{$varName}-input');">
+                            <a href="javascript:doUploadOneImage('{:lang('Upload Image')}','#js-{$widget}{$varName}-input');">
                                 <if condition="empty($vars[$varName]['value'])">
                                     <img src="__TMPL__/public/assets/images/default-thumbnail.png"
                                          id="js-{$widget}{$varName}-input-preview"
@@ -88,7 +88,7 @@
                                 <button id="js-{$widget}{$varName}-button-remove"
                                         defaultImage="__TMPL__/public/assets/images/default-thumbnail.png"
                                         class="removeImage btn btn-sm" type="button"
-                                        onclick="removeImage('{$widget}{$varName}')">取消图片
+                                        onclick="removeImage('{$widget}{$varName}')">{:lang('Cancel')}
                                 </button>
                             </if>
                         </div>
@@ -128,7 +128,7 @@
                                    value="{$vars[$varName]['value']}" id="js-{$widget}{$varName}-input-file"
                                    placeholder="{:lang($placeholder)}">
                             <span class="input-group-addon"> <a
-                                    href="javascript:doUploadOne('图片上传','#js-{$widget}{$varName}-input-file','file');">上传</a></span>
+                                    href="javascript:doUploadOne('{:lang('Upload Image')}','#js-{$widget}{$varName}-input-file','file');">{:lang('Upload Image')}</a></span>
                         </div>
                         <present name="var.tip">
                             <div class="form-text">{:lang($var.tip)}</div>
@@ -151,11 +151,11 @@
                         <php>
                             $arrayValueText=is_array($var['value'])&&count($var['value'])>0?count($var['value']).'条数据,点击添加更多...':'';
                         </php>
-                        <textarea class="form-control" placeholder="点击添加数据"
+                        <textarea class="form-control" placeholder=""
                                   onclick="doEditArrayData(this)"
                                   data-var="{$varName}"
                                   data-widget="{$widget}"
-                                  data-title="编辑{$var.title}"
+                                  data-title="{$var.title}"
                                   data-file_id="{$file_id}">{$arrayValueText}</textarea>
                         <present name="var.tip">
                             <div class="form-text">{:lang($var.tip)}</div>

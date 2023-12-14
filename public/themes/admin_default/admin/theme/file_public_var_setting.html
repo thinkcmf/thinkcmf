@@ -9,14 +9,14 @@
                 <li class="nav-item">
                     <a class="nav-link"
                        href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'widget'])}">
-                        组件
+                        {:lang('Widget')}
                     </a>
                 </li>
                 <notempty name="file.more.vars">
                     <li class="nav-item">
                         <a class="nav-link"
                            href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'var'])}">
-                            设置
+                            {:lang('SETTING')}
                         </a>
                     </li>
                 </notempty>
@@ -24,7 +24,7 @@
                     <li class="nav-item">
                         <a class="nav-link active"
                            href="{:url('Theme/fileSetting',['file'=>$fileName,'theme'=>$theme,'tab'=>'public_var'])}">
-                            全局设置
+                            {:lang('Global Settings')}
                         </a>
                     </li>
                 </notempty>

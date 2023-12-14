@@ -218,7 +218,11 @@ return [
     'Lang'                                            => '语言包',
     'Lang Alias'                                      => '语言别名',
     'Lang Domain'                                     => '语言域名',
-    'Maximum number of files uploaded simultaneously' => '最大同时上传文件数'
-
+    'Maximum number of files uploaded simultaneously' => '最大同时上传文件数',
+    'Widget'                                          => '组件',
+    'Global Settings'                                 => '全局设置',
+    'File Name'                                       => '文件名',
+    'File Path'                                       => '文件路径',
+    'Controller Action'                               => '操作名'
 ];
 
