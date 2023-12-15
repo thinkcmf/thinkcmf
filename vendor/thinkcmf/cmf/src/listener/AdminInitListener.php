@@ -30,96 +30,96 @@ class AdminInitListener
         /**--start LangListener--------------------------------------*/
         $request = request();
         $langSet = $this->detect($request);
-
-        $this->app->lang->load([
-            root_path() . "vendor/thinkcmf/cmf/src/lang/{$langSet}.php",
-        ]);
-
-        // 加载应用公共语言包
-        $apps = cmf_scan_dir($this->app->getAppPath() . '*', GLOB_ONLYDIR);
-        foreach ($apps as $app) {
-            $this->app->lang->load([
-                $this->app->getAppPath() . $app . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'common.php',
-            ]);
-        }
-        /**--end LangListener--------------------------------------*/
-
-        /**--start InitAppHookListener--------------------------------------*/
-        $appName = $this->app->http->getName();
-
-        if (!is_dir($this->app->getAppPath() . $appName) && !is_dir(root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}")) {
-            return;
-        }
-
-        // 加载核心应用语言包
-        $this->app->lang->load([
-            root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}/lang/{$langSet}.php",
-        ]);
-
-        // 加载应用语言包
-        $this->app->lang->load([
-            $this->app->getAppPath() . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . '.php',
-        ]);
-
-        /**--start AdminMenuLangListener--------------------------------------*/
-        $langFiles = [];
-
-        // 加载核心应用后台菜单语言包
-        $coreApps = ['admin', 'user'];
-        foreach ($coreApps as $appName) {
-            $langFiles[] = root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}/lang/{$langSet}/admin_menu.php";
-        }
-
-        // 加载应用后台菜单语言包
-        $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
-        foreach ($apps as $appName) {
-            $langFiles[] = APP_PATH . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'admin_menu.php';
-        }
-
-        $plugins = db('plugin')->where('status', 1)->select();
-        if (!$plugins->isEmpty()) {
-            foreach ($plugins as $plugin) {
-                $pluginDir   = cmf_parse_name($plugin['name']);
-                $langFiles[] = WEB_ROOT . "plugins/$pluginDir/lang/$langSet/admin_menu.php";
-            }
-        }
-
-        // 加后台菜单动态语言包
-        $defaultLangDir = $this->app->lang->defaultLangSet();
-        $langFiles[]    = CMF_DATA . "lang/" . $defaultLangDir . "/admin_menu.php";
-
-        $this->app->lang->load($langFiles);
-        /**--end AdminMenuLangListener--------------------------------------*/
-
-        /**--start AdminLangListener--------------------------------------*/
-        $appName = app()->http->getName();
-
-        // 加载核心应用后台语言包
-        $coreApps  = ['admin', 'user'];
-        $langFiles = [];
-        if (in_array($appName, $coreApps)) {
-            $langFiles[] = root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}/lang/{$langSet}/admin.php";
-        }
-
-        // 加载应用后台菜单语言包
-        $langFiles[] = $this->app->getAppPath() . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'admin_menu.php';
-
-
-        /**--end AdminLangListener--------------------------------------*/
-
-        $param = $request->param();
-        if (!empty($param['_plugin'])) {
-            $plugin = $param['_plugin'];
-            // 加载插件语言包
-            $langFiles[] = WEB_ROOT . "plugins/$plugin/lang/$langSet.php";
-            $langFiles[] = WEB_ROOT . "plugins/$plugin/lang/$langSet/admin.php";
-        }
-
-        $this->app->lang->load($langFiles);
-
         session('current_admin_lang', $langSet);
-        // 监听admin_lang_loaded
-        hook('admin_lang_loaded', ['lang' => $langSet]);
+
+        // 监听admin_lang_load
+        $adminLangLoadResults = hook('admin_lang_load', ['lang' => $langSet]);
+        if (empty($adminLangLoadResults)) {
+            $this->app->lang->load([
+                root_path() . "vendor/thinkcmf/cmf/src/lang/{$langSet}.php",
+            ]);
+
+            // 加载应用公共语言包
+            $apps = cmf_scan_dir($this->app->getAppPath() . '*', GLOB_ONLYDIR);
+            foreach ($apps as $app) {
+                $this->app->lang->load([
+                    $this->app->getAppPath() . $app . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'common.php',
+                ]);
+            }
+            /**--end LangListener--------------------------------------*/
+
+            /**--start InitAppHookListener--------------------------------------*/
+            $appName = $this->app->http->getName();
+
+            if (!is_dir($this->app->getAppPath() . $appName) && !is_dir(root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}")) {
+                return;
+            }
+
+            // 加载核心应用语言包
+            $this->app->lang->load([
+                root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}/lang/{$langSet}.php",
+            ]);
+
+            // 加载应用语言包
+            $this->app->lang->load([
+                $this->app->getAppPath() . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . '.php',
+            ]);
+
+            /**--start AdminMenuLangListener--------------------------------------*/
+            $langFiles = [];
+
+            // 加载核心应用后台菜单语言包
+            $coreApps = ['admin', 'user'];
+            foreach ($coreApps as $appName) {
+                $langFiles[] = root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}/lang/{$langSet}/admin_menu.php";
+            }
+
+            // 加载应用后台菜单语言包
+            $apps = cmf_scan_dir(APP_PATH . '*', GLOB_ONLYDIR);
+            foreach ($apps as $appName) {
+                $langFiles[] = APP_PATH . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'admin_menu.php';
+            }
+
+            $plugins = db('plugin')->where('status', 1)->select();
+            if (!$plugins->isEmpty()) {
+                foreach ($plugins as $plugin) {
+                    $pluginDir   = cmf_parse_name($plugin['name']);
+                    $langFiles[] = WEB_ROOT . "plugins/$pluginDir/lang/$langSet/admin_menu.php";
+                }
+            }
+
+            // 加后台菜单动态语言包
+            $defaultLangDir = $this->app->lang->defaultLangSet();
+            $langFiles[]    = CMF_DATA . "lang/" . $defaultLangDir . "/admin_menu.php";
+
+            $this->app->lang->load($langFiles);
+            /**--end AdminMenuLangListener--------------------------------------*/
+
+            /**--start AdminLangListener--------------------------------------*/
+            $appName = app()->http->getName();
+
+            // 加载核心应用后台语言包
+            $coreApps  = ['admin', 'user'];
+            $langFiles = [];
+            if (in_array($appName, $coreApps)) {
+                $langFiles[] = root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}/lang/{$langSet}/admin.php";
+            }
+
+            // 加载应用后台菜单语言包
+            $langFiles[] = $this->app->getAppPath() . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'admin_menu.php';
+
+            /**--end AdminLangListener--------------------------------------*/
+
+            $param = $request->param();
+            if (!empty($param['_plugin'])) {
+                $plugin = $param['_plugin'];
+                // 加载插件语言包
+                $langFiles[] = WEB_ROOT . "plugins/$plugin/lang/$langSet.php";
+                $langFiles[] = WEB_ROOT . "plugins/$plugin/lang/$langSet/admin.php";
+            }
+
+            $this->app->lang->load($langFiles);
+        }
     }
 
     /**

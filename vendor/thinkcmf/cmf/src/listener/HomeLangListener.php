@@ -20,65 +20,65 @@ class HomeLangListener
         /**--start LangListener--------------------------------------*/
         $this->app = app();
         $langSet   = $this->app->lang->getLangSet();
+        session('current_home_lang', $langSet);
 
-        $this->app->lang->load([
-            root_path() . "vendor/thinkcmf/cmf/src/lang/{$langSet}.php",
-        ]);
-
-        // 加载应用公共语言包
-        $apps = cmf_scan_dir($this->app->getAppPath() . '*', GLOB_ONLYDIR);
-        foreach ($apps as $app) {
+        $homeLangLoadResults = hook('home_lang_load', ['lang' => $langSet]);
+        if (empty($homeLangLoadResults)) {
             $this->app->lang->load([
-                $this->app->getAppPath() . $app . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'common.php',
+                root_path() . "vendor/thinkcmf/cmf/src/lang/{$langSet}.php",
             ]);
-        }
-        /**--end LangListener--------------------------------------*/
 
-        /**--start InitAppHookListener--------------------------------------*/
-        $this->app = app();
-        $appName   = $this->app->http->getName();
+            // 加载应用公共语言包
+            $apps = cmf_scan_dir($this->app->getAppPath() . '*', GLOB_ONLYDIR);
+            foreach ($apps as $app) {
+                $this->app->lang->load([
+                    $this->app->getAppPath() . $app . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'common.php',
+                ]);
+            }
+            /**--end LangListener--------------------------------------*/
 
-        if (!is_dir($this->app->getAppPath() . $appName) && !is_dir(root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}")) {
-            return;
-        }
+            /**--start InitAppHookListener--------------------------------------*/
+            $this->app = app();
+            $appName   = $this->app->http->getName();
 
-        $langSet = $this->app->lang->getLangSet();
+            if (!is_dir($this->app->getAppPath() . $appName) && !is_dir(root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}")) {
+                return;
+            }
 
-        // 加载核心应用语言包
-        $this->app->lang->load([
-            root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}/lang/{$langSet}.php",
-        ]);
+            $langSet = $this->app->lang->getLangSet();
 
-        // 加载应用语言包
-        $this->app->lang->load([
-            $this->app->getAppPath() . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . '.php',
-        ]);
+            // 加载核心应用语言包
+            $this->app->lang->load([
+                root_path() . "vendor/thinkcmf/cmf-app/src/{$appName}/lang/{$langSet}.php",
+            ]);
 
-        $app       = app();
-        $langSet   = $app->lang->getLangSet();
-        $langFiles = [];
-
-        // 加载应用前台语言包
-        $apps = cmf_scan_dir($app->getAppPath() . '*', GLOB_ONLYDIR);
-        foreach ($apps as $appName) {
-            $langFiles[] = $app->getAppPath() . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'home.php';
-        }
-
-        $app->lang->load($langFiles);
-
-        $request = request();
-        $param   = $request->param();
-        if (!empty($param['_plugin'])) {
-            $plugin = $param['_plugin'];
             // 加载应用语言包
             $this->app->lang->load([
-                WEB_ROOT . "plugins/$plugin/lang/$langSet.php",
-                WEB_ROOT . "plugins/$plugin/lang/$langSet/home.php",
+                $this->app->getAppPath() . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . '.php',
             ]);
-        }
 
-        session('current_home_lang', $langSet);
-        // 监听home_lang_loaded
-        hook('home_lang_loaded', ['lang' => $langSet]);
+            $app       = app();
+            $langSet   = $app->lang->getLangSet();
+            $langFiles = [];
+
+            // 加载应用前台语言包
+            $apps = cmf_scan_dir($app->getAppPath() . '*', GLOB_ONLYDIR);
+            foreach ($apps as $appName) {
+                $langFiles[] = $app->getAppPath() . $appName . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $langSet . DIRECTORY_SEPARATOR . 'home.php';
+            }
+
+            $app->lang->load($langFiles);
+
+            $request = request();
+            $param   = $request->param();
+            if (!empty($param['_plugin'])) {
+                $plugin = $param['_plugin'];
+                // 加载应用语言包
+                $this->app->lang->load([
+                    WEB_ROOT . "plugins/$plugin/lang/$langSet.php",
+                    WEB_ROOT . "plugins/$plugin/lang/$langSet/home.php",
+                ]);
+            }
+        }
     }
 }
