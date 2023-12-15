@@ -79,11 +79,14 @@ return [
     'no access'               => '您没有访问权限！',
     'You are not logged in'   => '您还没有登录！',
     'Sort update successful'  => '排序更新成功！',
-    'Sort update faild'       => '排序更新失败！',
+    'Sort update failed'       => '排序更新失败！',
     'illegal request'         => '非法请求！',
     'illegal data'            => '非法数据！',
     'Upload successful'       => '上传成功！',
     'Admin'                   => '管理员',
     'User'                    => '用户',
-    'Restore'                 => '还原'
+    'Restore'                 => '还原',
+    'Attributes'              => '属性',
+    'Cascading Style Sheets'  => '样式',
+    'Thumbnail'               => '缩略图',
 ];

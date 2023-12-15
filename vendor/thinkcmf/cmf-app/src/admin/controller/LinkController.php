@@ -15,7 +15,13 @@ use app\admin\model\LinkModel;
 
 class LinkController extends AdminBaseController
 {
-    protected $targets = ["_blank" => "新标签页打开", "_self" => "本窗口打开"];
+    protected $targets = [];
+
+    protected function initialize()
+    {
+        parent::initialize();
+        $this->targets = ["_blank" => lang('_blank'), "_self" => lang('_self')];
+    }
 
     /**
      * 友情链接管理

@@ -31,8 +31,8 @@
                     </td>
                     <td>
                         <a class="btn btn-xs btn-primary"
-                           href="javascript:parent.openIframeLayer('{:url('slideItem/index',array('slide_id'=>$vo['id']))}','管理 {$vo.name} 页面',{});"
-                           title="管理页面" data-toggle="tooltip">
+                           href="javascript:parent.openIframeLayer('{:url('slideItem/index',array('slide_id'=>$vo['id']))}','{:lang('Slide Pages')}',{});"
+                           title="{:lang('Slide Pages')}" data-toggle="tooltip">
                             <i class="fa fa-list fa-fw"></i>
                         </a>
                         <a class="btn btn-xs btn-success" href="{:url('Slide/edit',array('id'=>$vo['id']))}"

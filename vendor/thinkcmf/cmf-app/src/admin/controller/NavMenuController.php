@@ -297,7 +297,7 @@ class NavMenuController extends AdminBaseController
         if ($status) {
             $this->success(lang('Sort update successful'));
         } else {
-            $this->error(lang('Sort update faild'));
+            $this->error(lang('Sort update failed'));
         }
     }
 
