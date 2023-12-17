@@ -21,12 +21,12 @@
                 <p class="help-block">多文件上传时,用户能最大同时上传文件数,默认20个</p>
             </div>
             <div class="row mb-3">
-                <label class="form-label">文件上传分块大小</label>
+                <label class="form-label">{:lang('Upload chunk size')}</label>
                 <div class="row">
                     <div class="col-md-4">
                         <input type="text" class="form-control" name="chunk_size"
-                               title="文件上传分块大小KB,1M=1024KB"
-                               placeholder="文件上传分块大小KB,1M=1024KB"
+                               title="512KB,1M=1024KB"
+                               placeholder="512KB,1M=1024KB"
                                value="{$upload_setting.chunk_size|default=512}">
                     </div>
                     <div class="col-md-4">
@@ -40,7 +40,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <input type="text" class="form-control" name="file_types[image][upload_max_filesize]"
-                               title="允许上传大小KB,1M=1024KB" placeholder="允许上传大小KB,1M=1024KB"
+                               title="10240KB,1M=1024KB" placeholder="10240KB,1M=1024KB"
                                value="{$upload_setting.file_types.image.upload_max_filesize|default=10240}">
                     </div>
                     <div class="col-md-4">
@@ -110,7 +110,8 @@
                     </div>
                 </div>
                 <p class="help-block">
-                    允许上传大小默认为10240KB,1M=1024KB，允许上传格式默认为除以上文档类型以外的其它常用文件,如：txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar</p>
+                    允许上传大小默认为10240KB,1M=1024KB，允许上传格式默认为除以上文档类型以外的其它常用文件,如：txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar
+                </p>
             </div>
             <div class="row mb-3">
                 <div class="col-sm-10">

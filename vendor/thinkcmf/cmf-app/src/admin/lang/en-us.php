@@ -79,7 +79,7 @@ return [
     'WEBSITE_GWA'                               => 'China GWA',
     'WEBMASTER_EMAIL'                           => 'Webmaster Email',
     'WEBSITE_STATISTICAL_CODE'                  => 'Statistical Code',
-    'WEBSITE_COPYRIGHT_INFOMATION'              => 'Website Copyright',
+    'WEBSITE_COPYRIGHT_INFORMATION'             => 'Website Copyright',
     'WEBSITE_SEO_TITLE'                         => 'SEO Title',
     'WEBSITE_SEO_KEYWORDS'                      => 'SEO Keywords',
     'WEBSITE_SEO_DESCRIPTION'                   => 'SEO Description',
@@ -178,6 +178,15 @@ return [
     'Route Parameters'                          => 'Parameters',
     'Route Suggestion'                          => 'Suggestion',
     'Thumbnail'                                 => 'Thumbnail',
+    'HIDE_SLIDE_ITEM_CONFIRM_MSG'               => 'Are you sure you want to hide this slideshow?',
+    'SHOW_SLIDE_ITEM_CONFIRM_MSG'               => 'Are you sure you want to show this slideshow?',
+    'CDN_ROOT_HELP_TEXT'                        => "It cannot end with /; after setting this address, please place the static resource files under ThinkCMF below it;
+The static resource files under ThinkCMF roughly include the following (if you customize it, please add it yourself):
+themes/admin_default/public/assets
+static
+themes/default/public/assets
+For example, before cdn is set up: the access address of jquery is /static/js/jquery.js,
+After setting the cdn, its access address is: static resource cdn address/static/js/jquery.js"
 ];
 
 

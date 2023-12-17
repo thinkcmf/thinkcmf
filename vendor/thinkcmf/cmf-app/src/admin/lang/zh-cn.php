@@ -76,7 +76,7 @@ return [
     'WEBSITE_GWA'                                     => '公安网备',
     'WEBMASTER_EMAIL'                                 => '站长邮箱',
     'WEBSITE_STATISTICAL_CODE'                        => '统计代码',
-    'WEBSITE_COPYRIGHT_INFOMATION'                    => '版权信息',
+    'WEBSITE_COPYRIGHT_INFORMATION'                   => '版权信息',
     'WEBSITE_SEO_TITLE'                               => 'SEO标题',
     'WEBSITE_SEO_KEYWORDS'                            => 'SEO关键字',
     'WEBSITE_SEO_DESCRIPTION'                         => 'SEO描述',
@@ -223,6 +223,19 @@ return [
     'Global Settings'                                 => '全局设置',
     'File Name'                                       => '文件名',
     'File Path'                                       => '文件路径',
-    'Controller Action'                               => '操作名'
+    'Controller Action'                               => '操作名',
+    'Slide Pages'                                     => '管理页面',
+    'HIDE_SLIDE_ITEM_CONFIRM_MSG'                     => '确定隐藏此幻灯片吗？',
+    'SHOW_SLIDE_ITEM_CONFIRM_MSG'                     => '确定显示此幻灯片吗？',
+    'Upload chunk size'                               => '文件上传分块大小',
+    'CDN_ROOT_HELP_TEXT'                              => "不能以/结尾；设置这个地址后，请将ThinkCMF下的静态资源文件放在其下面；
+ThinkCMF下的静态资源文件大致包含以下(如果你自定义后，请自行增加)：
+themes/admin_default/public/assets
+static
+themes/default/public/assets
+例如未设置cdn前：jquery的访问地址是/static/js/jquery.js, 
+设置cdn是后它的访问地址就是：静态资源cdn地址/static/js/jquery.js",
+    'Untitled'                                        => '无标题',
+    'Public widget'                                   => '公共组件'
 ];
 
