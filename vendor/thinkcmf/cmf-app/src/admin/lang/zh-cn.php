@@ -236,6 +236,17 @@ themes/default/public/assets
 例如未设置cdn前：jquery的访问地址是/static/js/jquery.js, 
 设置cdn是后它的访问地址就是：静态资源cdn地址/static/js/jquery.js",
     'Untitled'                                        => '无标题',
-    'Public widget'                                   => '公共组件'
+    'Public widget'                                   => '公共组件',
+    'UPLOAD_SETTING_CHUNK_SIZE_HELP_TEXT'             => '文件上传采用分块上传,文件分块大小默认512KB,可以根据服务器最大上传限制设置此数值',
+    'Image file'                                      => '图片文件',
+    'File extensions, separated by commas'            => '扩展名,以英文逗号分隔',
+    'UPLOAD_SETTING_IMAGE_FILE_HELP_TEXT'             => '允许上传大小默认为10240KB,1M=1024KB，允许上传格式默认为jpg,jpeg,png,gif,bmp',
+    'UPLOAD_SETTING_MAX_UPLOAD_FILES_HELP_TEXT'       => '多文件上传时,用户能最大同时上传文件数,默认20个',
+    'Video file'                                      => '视频文件',
+    'UPLOAD_SETTING_VIDEO_FILE_HELP_TEXT'             => '允许上传大小默认为102400KB,1M=1024KB，允许上传格式默认为mp4,avi,wmv,rm,rmvb,mkv',
+    'Audio file'                                      => '音频文件',
+    'UPLOAD_SETTING_AUDIO_FILE_HELP_TEXT'             => '允许上传大小默认为10240KB,1M=1024KB，允许上传格式默认为mp3,wma,wav',
+    'Attachment'                                      => '附件',
+    'UPLOAD_SETTING_ATTACHMENT_HELP_TEXT'             => '允许上传大小默认为10240KB,1M=1024KB，允许上传格式默认为txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar'
 ];
 

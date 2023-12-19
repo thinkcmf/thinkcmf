@@ -11,14 +11,15 @@
                 <label class="form-label">{:lang('Maximum number of files uploaded simultaneously')}</label>
                 <div class="row">
                     <div class="col-md-4">
-                        <input type="text" class="form-control" name="max_files" title="{:lang('Maximum number of files uploaded simultaneously')}"
+                        <input type="text" class="form-control" name="max_files"
+                               title="{:lang('Maximum number of files uploaded simultaneously')}"
                                placeholder="{:lang('Maximum number of files uploaded simultaneously')}"
                                value="{$upload_setting.max_files|default=20}">
                     </div>
                     <div class="col-md-4">
                     </div>
                 </div>
-                <p class="help-block">多文件上传时,用户能最大同时上传文件数,默认20个</p>
+                <p class="help-block">{:lang('UPLOAD_SETTING_MAX_UPLOAD_FILES_HELP_TEXT')}</p>
             </div>
             <div class="row mb-3">
                 <label class="form-label">{:lang('Upload chunk size')}</label>
@@ -32,11 +33,10 @@
                     <div class="col-md-4">
                     </div>
                 </div>
-                <p class="help-block">
-                    文件上传采用分块上传,文件分块大小默认512KB,可以根据服务器最大上传限制设置此数值</p>
+                <p class="help-block">{:lang('UPLOAD_SETTING_CHUNK_SIZE_HELP_TEXT')}</p>
             </div>
             <div class="row mb-3">
-                <label class="form-label">图片文件</label>
+                <label class="form-label">{:lang('Image file')}</label>
                 <div class="row">
                     <div class="col-md-4">
                         <input type="text" class="form-control" name="file_types[image][upload_max_filesize]"
@@ -46,71 +46,71 @@
                     <div class="col-md-4">
                         <input type="text" class="form-control"
                                name="file_types[image][extensions]"
-                               title="扩展名,以英文逗号分隔"
-                               placeholder="扩展名,以英文逗号分隔"
+                               title="{:lang('File extensions, separated by commas')}"
+                               placeholder="{:lang('File extensions, separated by commas')}"
                                value="{$upload_setting.file_types.image.extensions|default='jpg,jpeg,png,gif,bmp'}">
                     </div>
                 </div>
-                <p class="help-block">允许上传大小默认为10240KB,1M=1024KB，允许上传格式默认为jpg,jpeg,png,gif,bmp</p>
+                <p class="help-block">{:lang('UPLOAD_SETTING_IMAGE_FILE_HELP_TEXT')}</p>
             </div>
             <div class="row mb-3">
-                <label class="form-label">视频文件</label>
+                <label class="form-label">{:lang('Video file')}</label>
                 <div class="row">
                     <div class="col-md-4">
                         <input type="text" class="form-control"
                                name="file_types[video][upload_max_filesize]"
-                               title="允许上传大小KB,1M=1024KB"
-                               placeholder="允许上传大小KB,1M=1024KB"
+                               title="10240KB,1M=1024KB"
+                               placeholder="10240KB,1M=1024KB"
                                value="{$upload_setting.file_types.video.upload_max_filesize|default=10240}">
                     </div>
                     <div class="col-md-4">
                         <input type="text" class="form-control"
                                name="file_types[video][extensions]"
-                               title="扩展名,以英文逗号分隔"
-                               placeholder="扩展名,以英文逗号分隔"
+                               title="{:lang('File extensions, separated by commas')}"
+                               placeholder="{:lang('File extensions, separated by commas')}"
                                value="{$upload_setting.file_types.video.extensions|default='mp4,avi,wmv,rm,rmvb,mkv'}">
                     </div>
                 </div>
-                <p class="help-block">允许上传大小默认为102400KB,1M=1024KB，允许上传格式默认为mp4,avi,wmv,rm,rmvb,mkv</p>
+                <p class="help-block">{:lang('UPLOAD_SETTING_VIDEO_FILE_HELP_TEXT')}</p>
             </div>
             <div class="row mb-3">
-                <label class="form-label">音频文件</label>
+                <label class="form-label">{:lang('Audio file')}</label>
                 <div class="row">
                     <div class="col-md-4">
                         <input type="text" class="form-control"
                                name="file_types[audio][upload_max_filesize]"
-                               title="允许上传大小KB,1M=1024KB"
-                               placeholder="允许上传大小KB,1M=1024KB"
+                               title="10240KB,1M=1024KB"
+                               placeholder="10240KB,1M=1024KB"
                                value="{$upload_setting.file_types.audio.upload_max_filesize|default=10240}">
                     </div>
                     <div class="col-md-4">
                         <input type="text" class="form-control"
                                name="file_types[audio][extensions]"
-                               title="扩展名,以英文逗号分隔"
-                               placeholder="扩展名,以英文逗号分隔"
+                               title="{:lang('File extensions, separated by commas')}"
+                               placeholder="{:lang('File extensions, separated by commas')}"
                                value="{$upload_setting.file_types.audio.extensions|default='mp3,wma,wav'}">
                     </div>
                 </div>
-                <p class="help-block">允许上传大小默认为10240KB,1M=1024KB，允许上传格式默认为mp3,wma,wav</p>
+                <p class="help-block"></p>
             </div>
             <div class="row mb-3">
-                <label class="form-label">附件</label>
+                <label class="form-label">{:lang('Attachment')}</label>
                 <div class="row">
                     <div class="col-md-4">
                         <input type="text" class="form-control" name="file_types[file][upload_max_filesize]"
-                               title="允许上传大小KB,1M=1024KB" placeholder="允许上传大小KB,1M=1024KB"
+                               title="10240KB,1M=1024KB" placeholder="10240KB,1M=1024KB"
                                value="{$upload_setting.file_types.file.upload_max_filesize|default=10240}">
                     </div>
                     <div class="col-md-4">
                         <input type="text" class="form-control"
                                name="file_types[file][extensions]"
-                               title="扩展名,以英文逗号分隔"
-                               placeholder="扩展名,以英文逗号分隔"
+                               title="{:lang('File extensions, separated by commas')}"
+                               placeholder="{:lang('File extensions, separated by commas')}"
                                value="{$upload_setting.file_types.file.extensions|default='txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar'}">
                     </div>
                 </div>
                 <p class="help-block">
-                    允许上传大小默认为10240KB,1M=1024KB，允许上传格式默认为除以上文档类型以外的其它常用文件,如：txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar
+                    {:lang('UPLOAD_SETTING_ATTACHMENT_HELP_TEXT')}
                 </p>
             </div>
             <div class="row mb-3">

@@ -186,7 +186,15 @@ themes/admin_default/public/assets
 static
 themes/default/public/assets
 For example, before cdn is set up: the access address of jquery is /static/js/jquery.js,
-After setting the cdn, its access address is: static resource cdn address/static/js/jquery.js"
+After setting the cdn, its access address is: static resource cdn address/static/js/jquery.js",
+    'UPLOAD_SETTING_CHUNK_SIZE_HELP_TEXT'       => 'The default file block size is 512KB. This value can be set according to the maximum upload limit of the server.',
+    'UPLOAD_SETTING_IMAGE_FILE_HELP_TEXT'       => 'The allowed upload size defaults to 10240KB, 1M=1024KB, and the allowed upload format defaults to jpg, jpeg, png, gif, bmp',
+    'UPLOAD_SETTING_MAX_UPLOAD_FILES_HELP_TEXT' => 'When uploading multiple files, the maximum number of files a user can upload simultaneously is 20 by default.',
+    'UPLOAD_SETTING_VIDEO_FILE_HELP_TEXT'       => 'The allowed upload size defaults to 102400KB, 1M=1024KB, and the allowed upload formats default to mp4, avi, wmv, rm, rmvb, mkv',
+    'UPLOAD_SETTING_AUDIO_FILE_HELP_TEXT'       => 'The allowed upload size defaults to 10240KB, 1M=1024KB, and the allowed upload format defaults to mp3, wma, wav',
+    'UPLOAD_SETTING_ATTACHMENT_HELP_TEXT'       => 'The allowed upload size defaults to 10240KB, 1M=1024KB, and the allowed upload formats default to txt, pdf, doc, docx, xls, xlsx, ppt, pptx, zip, rar'
+
+
 ];
 
 
