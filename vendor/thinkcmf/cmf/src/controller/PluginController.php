@@ -11,6 +11,7 @@
 namespace cmf\controller;
 
 use think\facade\App;
+use think\facade\Request;
 
 class PluginController
 {
@@ -28,7 +29,8 @@ class PluginController
         }
 
         $pluginControllerClass = "plugins\\{$_plugin}\\controller\\{$_controller}Controller";;
-
+        Request::setAction($_action);
+        Request::setController($_controller);
         $vars = [];
         return App::invokeMethod([$pluginControllerClass, $_action], $vars);
     }
