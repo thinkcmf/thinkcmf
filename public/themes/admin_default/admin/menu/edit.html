@@ -20,7 +20,7 @@
                 <label for="input-parent_id" class="col-sm-2 col-form-label text-sm-end"><span class="form-required">*</span>{:lang('Parent')}</label>
                 <div class="col-md-8 col-sm-10">
                     <select class="form-control" name="parent_id" id="input-parent_id">
-                        <option value="0">作为一级菜单</option>
+                        <option value="0">{:lang('Root Menu')}</option>
                         {$select_category}
                     </select>
                 </div>
@@ -32,13 +32,13 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="input-app" class="col-sm-2 col-form-label text-sm-end"><span class="form-required">*</span>应用</label>
+                <label for="input-app" class="col-sm-2 col-form-label text-sm-end"><span class="form-required">*</span>{:lang('App')}</label>
                 <div class="col-md-8 col-sm-10">
                     <input type="text" class="form-control" id="input-app" name="app" value="{$data.app}">
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="input-controller" class="col-sm-2 col-form-label text-sm-end"><span class="form-required">*</span>控制器</label>
+                <label for="input-controller" class="col-sm-2 col-form-label text-sm-end"><span class="form-required">*</span>{:lang('Controller')}</label>
                 <div class="col-md-8 col-sm-10">
                     <input type="text" class="form-control" id="input-controller" name="controller"
                            value="{$data.controller}">
@@ -46,27 +46,33 @@
             </div>
             <div class="row mb-3">
                 <label for="input-action" class="col-sm-2 col-form-label text-sm-end"><span
-                        class="form-required">*</span>方法</label>
+                        class="form-required">*</span>{:lang('Controller Action')}</label>
                 <div class="col-md-8 col-sm-10">
                     <input type="text" class="form-control" id="input-action" name="action" value="{$data.action}">
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="input-param" class="col-sm-2 col-form-label text-sm-end">参数</label>
+                <label for="input-param" class="col-sm-2 col-form-label text-sm-end">{:lang('Params')}</label>
                 <div class="col-md-8 col-sm-10">
                     <input type="text" class="form-control" id="input-param" name="param" value="{$data.param}">
-                    <p class="help-block">例:id=3&amp;p=3</p>
+                    <p class="help-block">id=3&amp;p=3</p>
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="input-icon" class="col-sm-2 col-form-label text-sm-end">{:lang('Icon')}</label>
                 <div class="col-md-8 col-sm-10">
-                    <input type="text" class="form-control" id="input-icon" name="icon" value="{$data.icon}">
-                    <p class="help-block">
-                        <a href="http://www.thinkcmf.com/font/font_awesome/icons.html" target="_blank">选择图标</a>
-                        如 <span class="badge text-bg-primary">fa fa-user</span> <span class="badge text-bg-primary">fa-regular fa-calendar-days</span> <span class="badge text-bg-primary">fa-solid fa-align-justify</span>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="input-icon" name="icon" value="{$data.icon}">
+                        <span class="input-group-btn">
+                            <a class="btn btn-primary" href="http://www.thinkcmf.com/font/font_awesome/icons.html"
+                               target="_blank">{:lang('Select icon')}</a>
+                        </span>
+                    </div>
+                    <div class="form-text">
+                        <span class="badge text-bg-primary">fa fa-user</span> <span class="badge text-bg-primary">fa-regular fa-calendar-days</span>
+                        <span class="badge text-bg-primary">fa-solid fa-align-justify</span>
                         <span class="badge text-bg-primary">fa-brands fa-alipay</span>
-                    </p>
+                    </div>
                 </div>
             </div>
             <div class="row mb-3">
@@ -79,9 +85,9 @@
                 <label for="input-status" class="col-sm-2 col-form-label text-sm-end">{:lang('Status')}</label>
                 <div class="col-md-8 col-sm-10" id="input-status">
                     <select class="form-control" name="status">
-                        <option value="1">在左侧菜单显示</option>
+                        <option value="1">{:lang('ADMIN_MENU_STATUS_1_TEXT')}</option>
                         <php>$status_selected=empty($data['status'])?"selected":"";</php>
-                        <option value="0" {$status_selected}>在左侧菜单隐藏</option>
+                        <option value="0" {$status_selected}>{:lang('ADMIN_MENU_STATUS_0_TEXT')}</option>
                     </select>
                 </div>
             </div>
@@ -89,11 +95,11 @@
                 <label for="input-type" class="col-sm-2 col-form-label text-sm-end">{:lang('Type')}</label>
                 <div class="col-md-8 col-sm-10">
                     <select class="form-control" name="type" id="input-type">
-                        <option value="1">有界面可访问菜单</option>
+                        <option value="1">{:lang('ADMIN_MENU_TYPE_1_TEXT')}</option>
                         <php>$type2_selected=$data['type']==2?"selected":"";</php>
-                        <option value="2" {$type2_selected}>无界面可访问菜单</option>
+                        <option value="2" {$type2_selected}>{:lang('ADMIN_MENU_TYPE_2_TEXT')}</option>
                         <php>$type_selected=$data['type']==0?"selected":"";</php>
-                        <option value="0" {$type_selected}>只作为菜单</option>
+                        <option value="0" {$type_selected}>{:lang('ADMIN_MENU_TYPE_0_TEXT')}</option>
                     </select>
                 </div>
             </div>

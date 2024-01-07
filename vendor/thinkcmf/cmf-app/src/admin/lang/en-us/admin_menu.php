@@ -26,7 +26,7 @@ return [
     'ADMIN_MENU_BACKUP_MENU'            => '备份菜单',
     'ADMIN_MENU_EDIT'                   => 'Edit Menu',
     'ADMIN_MENU_EDIT_POST'              => '提交编辑',
-    'ADMIN_MENU_EXPORT_MENU_LANG'       => '导出后台菜单多语言包',
+    'ADMIN_MENU_EXPORT_MENU_LANG'       => 'Export Admin Menu Language package',
     'ADMIN_MENU_GETACTIONS'             => 'Import New Menus',
     'ADMIN_MENU_INDEX'                  => 'Admin Menus',
     'ADMIN_MENU_LISTORDERS'             => 'Admin Menus Sort',

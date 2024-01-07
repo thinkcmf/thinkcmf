@@ -247,6 +247,16 @@ themes/default/public/assets
     'Audio file'                                      => '音频文件',
     'UPLOAD_SETTING_AUDIO_FILE_HELP_TEXT'             => '允许上传大小默认为10240KB,1M=1024KB，允许上传格式默认为mp3,wma,wav',
     'Attachment'                                      => '附件',
-    'UPLOAD_SETTING_ATTACHMENT_HELP_TEXT'             => '允许上传大小默认为10240KB,1M=1024KB，允许上传格式默认为txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar'
+    'UPLOAD_SETTING_ATTACHMENT_HELP_TEXT'             => '允许上传大小默认为10240KB,1M=1024KB，允许上传格式默认为txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar',
+    'Root Menu'                                       => '作为一级菜单',
+    'ADMIN_MENU_STATUS_0_TEXT'                        => '在左侧菜单隐藏',
+    'ADMIN_MENU_STATUS_1_TEXT'                        => '在左侧菜单显示',
+    'ADMIN_MENU_TYPE_0_TEXT'                          => '只作为菜单',
+    'ADMIN_MENU_TYPE_1_TEXT'                          => '有界面可访问菜单',
+    'ADMIN_MENU_TYPE_2_TEXT'                          => '无界面可访问菜单',
+    'Next App'                                        => '下一个应用',
+    'App menu imported successful'                    => '应用{:app}菜单导入成功！',
+    'App has no new menu to import'                   => '应用{:app}没有新菜单导入！',
+    'Import successful'                               => '导入成功！',
 ];
 

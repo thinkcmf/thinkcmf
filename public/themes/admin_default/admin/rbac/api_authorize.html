@@ -80,7 +80,7 @@
         });
 
         function openApiImportDialog() {
-            parent.openIframeLayer("{:url('Api/import')}", '导入API', {
+            parent.openIframeLayer("{:url('Api/import')}", "{:lang('Import API')}", {
                 end: function () {
                     window.location.reload();
                 }

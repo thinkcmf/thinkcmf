@@ -63,4 +63,5 @@ return [
     'Send'                    => 'Send',
     'Restore'                 => 'Restore',
     'Cascading Style Sheets'  => 'Styles',
+    'Controller Action'       => 'Action'
 ];

@@ -59,8 +59,8 @@ return [
     //setting
     'OLD_PASSWORD'                              => 'Old password',
     'NEW_PASSWORD'                              => 'New password',
-    'CONFIRM_PASSWORD'                          => '重复新密码',
-    'CACHE_CLEARED'                             => '缓存已更新！',
+    'CONFIRM_PASSWORD'                          => 'Repeat password',
+    'CACHE_CLEARED'                             => 'Cache cleared!',
     'WEB_SITE_INFOS'                            => 'Website Info',
     'SEO_SETTING'                               => 'SEO Setting',
     'URL_SETTING'                               => 'URL Setting',
@@ -144,6 +144,8 @@ return [
     'Authorize'                                 => 'Authorize',
     'Import API'                                => 'Import API',
     'App uninstall'                             => 'App uninstall',
+    'INSTALL_APP_CONFIRM_MSG'                   => 'Are you sure you want to install the app?',
+    'UPDATE_APP_CONFIRM_MSG'                    => 'Are you sure you want to update this app?',
     'UNINSTALL_APP_CONFIRM_MSG'                 => 'Are you sure you want to uninstall this app {:app_name}?',
     'UNINSTALL_APP_DANGER_MSG'                  => 'All data of the app {:app_name} will be deleted and cannot be restored!',
     'UNINSTALL_APP_MSG'                         => 'If you are sure you want to uninstall this app {:app_name}, please fill in the following information:',
@@ -192,9 +194,15 @@ After setting the cdn, its access address is: static resource cdn address/static
     'UPLOAD_SETTING_MAX_UPLOAD_FILES_HELP_TEXT' => 'When uploading multiple files, the maximum number of files a user can upload simultaneously is 20 by default.',
     'UPLOAD_SETTING_VIDEO_FILE_HELP_TEXT'       => 'The allowed upload size defaults to 102400KB, 1M=1024KB, and the allowed upload formats default to mp4, avi, wmv, rm, rmvb, mkv',
     'UPLOAD_SETTING_AUDIO_FILE_HELP_TEXT'       => 'The allowed upload size defaults to 10240KB, 1M=1024KB, and the allowed upload format defaults to mp3, wma, wav',
-    'UPLOAD_SETTING_ATTACHMENT_HELP_TEXT'       => 'The allowed upload size defaults to 10240KB, 1M=1024KB, and the allowed upload formats default to txt, pdf, doc, docx, xls, xlsx, ppt, pptx, zip, rar'
-
-
+    'UPLOAD_SETTING_ATTACHMENT_HELP_TEXT'       => 'The allowed upload size defaults to 10240KB, 1M=1024KB, and the allowed upload formats default to txt, pdf, doc, docx, xls, xlsx, ppt, pptx, zip, rar',
+    'ADMIN_MENU_STATUS_0_TEXT'                  => 'Hide in left menu',
+    'ADMIN_MENU_STATUS_1_TEXT'                  => 'Show in left menu',
+    'ADMIN_MENU_TYPE_0_TEXT'                    => 'only as menu',
+    'ADMIN_MENU_TYPE_1_TEXT'                    => 'Interface accessible menu',
+    'ADMIN_MENU_TYPE_2_TEXT'                    => 'No interface, accessible',
+    'App menu imported successful'              => 'App {:app}\'s menu imported successful!',
+    'App has no new menu to import'             => 'The app {:app} has no new menu to import!',
+    'Import successful'                         => 'Import successful!',
 ];
 
 
