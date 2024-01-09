@@ -201,6 +201,8 @@ After setting the cdn, its access address is: static resource cdn address/static
     'App has no new menu to import'             => 'The app {:app} has no new menu to import!',
     'Import successful'                         => 'Import successful!',
     'UNINSTALL_APP_EXEC_COMMAND_MSG'            => 'For safety, please execute the following command on the command line:',
+    'NO_EMAIL_SETTINGS_WARNING_MSG'             => 'The email config is not completed and the email cannot be sent!',
+    'NO_FILE_INFO_EXT_WARNING_MSG'              => 'The php_fileinfo extension is not enabled and files cannot be uploaded normally!'
 ];
 
 

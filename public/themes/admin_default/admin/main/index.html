@@ -180,9 +180,9 @@
                 <div class="alert alert-danger alert-dismissible in" role="alert"
                      style="margin-bottom: 0;">
                     <a class="cmf-alert-close float-end" href="javascript:"><i class="fa fa-close"></i></a>
-                    <strong><i class="fa fa-times-circle alert-icon"></i></strong> 邮箱配置未完成,无法进行邮件发送!
+                    <strong><i class="fa fa-times-circle alert-icon"></i></strong> {:lang('NO_EMAIL_SETTINGS_WARNING_MSG')}
                     <a href="javascript:" class="badge text-bg-success" data-dismiss="alert" aria-label="Close"
-                       onclick="parent.openapp('{:url('Mailer/index')}','admin_mailer_index','邮箱配置');">现在设置</a>
+                       onclick="parent.openapp('{:url('Mailer/index')}','admin_mailer_index','{:lang('ADMIN_MAILER_INDEX')}');">{:lang('Set now')}</a>
                 </div>
             </div>
         </empty>
@@ -191,7 +191,7 @@
             <div class="grid-item col-md-12">
                 <div class="alert alert-danger alert-dismissible in" role="alert" style="margin-bottom: 0;">
                     <a class="cmf-alert-close float-end" href="javascript:"><i class="fa fa-close"></i></a>
-                    <strong><i class="fa fa-times-circle alert-icon"></i></strong> php_fileinfo扩展没有开启，无法正常上传文件！
+                    <strong><i class="fa fa-times-circle alert-icon"></i></strong> {:lang('NO_FILE_INFO_EXT_WARNING_MSG')}
                 </div>
             </div>
         </if>

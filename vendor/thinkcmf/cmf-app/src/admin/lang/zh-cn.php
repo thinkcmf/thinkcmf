@@ -49,9 +49,9 @@ return [
     'Dev manual'                                      => '开发手册',
     'ThinkCMF Dev manual'                             => '完全开发手册',
     'FAQ manual'                                      => '常见问题手册',
-    'Theme dev tutorial'                                      => '模板开发教程',
-    'API Dev manual'                             => 'API开发手册',
-    'Read now'=>'立即阅读',
+    'Theme dev tutorial'                              => '模板开发教程',
+    'API Dev manual'                                  => 'API开发手册',
+    'Read now'                                        => '立即阅读',
     'Team members'                                    => '团队成员',
     'OPERATING_SYSTEM'                                => '操作系统',
     'OPERATING_ENVIRONMENT'                           => '运行环境',
@@ -273,5 +273,8 @@ themes/default/public/assets
     'Go to install'                                   => '去安装',
     'Install Swagger plugin'                          => '安装Swagger插件',
     'UNINSTALL_APP_EXEC_COMMAND_MSG'                  => '为了安全请在命令行执行下面命令：',
+    'NO_EMAIL_SETTINGS_WARNING_MSG'                   => '邮箱配置未完成,无法进行邮件发送!',
+    'NO_FILE_INFO_EXT_WARNING_MSG'                    => 'php_fileinfo扩展没有开启，无法正常上传文件！',
+    'Set now'                                         => '现在设置'
 ];
 
