@@ -39,11 +39,8 @@ return [
     'USER_HAVE_NOT_LOGIN'                       => '该用户还没登陆过',
     //main
     'SYSTEM_INFORMATIONS'                       => '系统信息',
-    'SYSTEM_NOTIFICATIONS'                      => '系统通知',
+    'SYSTEM_NOTIFICATIONS'                      => 'System Notification',
     'INITIATE_TEAM'                             => '发起团队',
-    'CONTRIBUTORS'                              => '贡献者',
-    'CONTACT_EMAIL'                             => '联系邮箱',
-    'TEAM_MEMBERS'                              => '团队成员',
     'OPERATING_SYSTEM'                          => '操作系统',
     'OPERATING_ENVIRONMENT'                     => '运行环境',
     'PHP_RUN_MODE'                              => 'PHP运行方式',
@@ -203,6 +200,7 @@ After setting the cdn, its access address is: static resource cdn address/static
     'App menu imported successful'              => 'App {:app}\'s menu imported successful!',
     'App has no new menu to import'             => 'The app {:app} has no new menu to import!',
     'Import successful'                         => 'Import successful!',
+    'UNINSTALL_APP_EXEC_COMMAND_MSG'            => 'For safety, please execute the following command on the command line:',
 ];
 
 

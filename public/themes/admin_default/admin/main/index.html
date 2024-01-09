@@ -8,67 +8,93 @@
         <case value="CmfHub">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="panel-title">交流方式</h3>
+                    <h3 class="panel-title">{:lang('Get help')}</h3>
                 </div>
                 <div class="card-body home-info">
-                    <ul class="list-unstyled">
-                        <li>
-                            <em>官网</em> <span><a href="http://www.thinkcmf.com"
-                                                   target="_blank">www.thinkcmf.com</a></span>
-                        </li>
-                        <li><em>QQ 群</em> <span>100828313,316669417</span></li>
-                        <li><em>联系邮箱</em> <span>catman@thinkcmf.com</span></li>
-                    </ul>
+                    <table>
+                        <tr>
+                            <td>
+                                <b class="title">{:lang('Official website')}</b>
+                            </td>
+                            <td>
+                                <a href="http://www.thinkcmf.com" target="_blank">www.thinkcmf.com</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b class="title">{:lang('QQ Group')}</b>
+                            </td>
+                            <td>
+                                100828313,316669417
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b class="title">{:lang('Contact email')}</b>
+                            </td>
+                            <td>
+                                catman@thinkcmf.com
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </case>
         <case value="CmfDocuments">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="panel-title">开发手册</h3>
+                    <h3 class="panel-title">{:lang('Dev manual')}</h3>
                 </div>
                 <div class="card-body home-info">
-                    <ul class="list-unstyled">
-                        <li>
-                            <em>完全开发手册</em>
-                            <span>
+                    <table>
+                        <tr>
+                            <td>
+                                <b class="title">{:lang('ThinkCMF Dev manual')}</b>
+                            </td>
+                            <td>
                                 <a class="badge text-bg-success" href="https://www.thinkcmf.com/docs/cmf8/"
-                                   target="_blank">立即阅读</a>
-                            </span>
-                        </li>
-                        <li>
-                            <em>常见问题手册</em>
-                            <span>
+                                   target="_blank">{:lang('Read now')}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b class="title">{:lang('FAQ manual')}</b>
+                            </td>
+                            <td>
                                 <a class="badge text-bg-success" href="http://www.thinkcmf.com/faq.html"
-                                   target="_blank">立即阅读</a>
-                            </span>
-                        </li>
-                        <li>
-                            <em>模板开发教程</em>
-                            <span>
+                                   target="_blank">{:lang('Read now')}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b class="title">{:lang('Theme dev tutorial')}</b>
+                            </td>
+                            <td>
                                 <a class="badge text-bg-success" href="http://www.thinkcmf.com/theme_tutorial.html"
-                                   target="_blank">立即阅读</a>
-                            </span>
-                        </li>
-                        <li>
-                            <em>API开发手册</em>
-                            <span>
+                                   target="_blank">{:lang('Read now')}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b class="title">{:lang('API Dev manual')}</b>
+                            </td>
+                            <td>
                                 <a class="badge text-bg-success" href="https://www.thinkcmf.com/docs/cmf8/#/API"
-                                   target="_blank">立即阅读</a>
-                            </span>
-                        </li>
-                    </ul>
+                                   target="_blank">{:lang('Read now')}</a>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </case>
         <case value="MainContributors">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="panel-title">主要贡献者</h3>
+                    <h3 class="panel-title">{:lang('Major contributors')}</h3>
                 </div>
                 <div class="card-body home-info main_contributors">
                     <ul class="list-inline">
-                        <li>加载中...</li>
+                        <li>{:lang('Loading...')}</li>
                     </ul>
                 </div>
             </div>
@@ -76,11 +102,11 @@
         <case value="Contributors">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="panel-title">贡献者</h3>
+                    <h3 class="panel-title">{:lang('Contributors')}</h3>
                 </div>
                 <div class="card-body home-info contributors">
                     <ul class="list-inline">
-                        <li>加载中...</li>
+                        <li>{:lang('Loading...')}</li>
                     </ul>
                 </div>
             </div>
@@ -92,12 +118,17 @@
     </php>
 
     <style>
-        .card-header h3{
+        .card-header h3 {
             margin: 0;
             font-size: 1rem;
         }
+
         .wrap {
             margin: -10px;
+        }
+
+        .home-info .title {
+            margin-right: 0.5rem;
         }
 
         .home-info li em {
@@ -178,7 +209,7 @@
                         <ul id="thinkcmf-notices" class="list-unstyled">
                             <li>
                                 <img src="__TMPL__/public/assets/images/loading.gif" style="vertical-align: middle;"/>
-                                <span style="display: inline-block; vertical-align: middle;">加载中...</span>
+                                <span style="display: inline-block; vertical-align: middle;">{:lang('Loading...')}</span>
                             </li>
                         </ul>
                     </div>

@@ -5,15 +5,15 @@
             <div class="offset-md-3 col-md-6">
                 <div class="card" style="margin: 10% 0">
                     <div class="card-header">
-                        <b>请安装或启用Swagger插件</b>
+                        <b>{:lang('Please install and enable the Swagger plugin.')}</b>
                     </div>
                     <div class="card-body">
                         <div style="line-height: 60px;">
-                            请安装或启用Swagger插件
+                            {:lang('Please install and enable the Swagger plugin.')}
                         </div>
                         <div>
                             <a href="javascript: openInstallSwaggerDialog();"
-                               class="btn btn-primary pull-right">去安装</a>
+                               class="btn btn-primary pull-right">{:lang('Go to install')}</a>
                             <div class="clearfix"></div>
                         </div>
                     </div>
@@ -25,7 +25,7 @@
 <block name="scripts">
     <script>
         function openInstallSwaggerDialog() {
-            parent.openIframeLayer("{:url('admin/Plugin/index')}", '安装Swagger插件', {
+            parent.openIframeLayer("{:url('admin/Plugin/index')}", "{:lang('Install Swagger plugin')}", {
                 end: function () {
                     window.location.reload();
                 }
