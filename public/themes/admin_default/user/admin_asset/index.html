@@ -6,17 +6,17 @@
                 <a class="nav-link active" href="{:url('AdminAsset/index')}">{:lang('USER_ADMINASSET_INDEX')}</a>
             </li>
         </ul>
-        <php>$status=['不可用', '可用'];</php>
+        <php>$statuses=[lang('Unavailable'), lang('Available')];</php>
         <table class="table table-hover table-bordered margin-top-20">
             <thead>
             <tr>
                 <th width="50">ID</th>
-                <th>用户</th>
-                <th>文件大小</th>
-                <th>文件名</th>
-                <th>图像</th>
-                <th>文件路径</th>
-                <th>状态</th>
+                <th>{:lang('User')}</th>
+                <th>{:lang('File size')}</th>
+                <th>{:lang('File name')}</th>
+                <th>{:lang('Thumbnail')}</th>
+                <th>{:lang('File path')}</th>
+                <th>{:lang('STATUS')}</th>
                 <th width="60">{:lang('ACTIONS')}</th>
             </tr>
             </thead>
@@ -28,7 +28,7 @@
                 <tr>
                     <td>{$vo.id}</td>
                     <td>
-                        用户ID:{$vo.user_id} {$vo.user_login} {$vo.user_nickname}
+                        ID:{$vo.user_id} {$vo.user_login} {$vo.user_nickname}
                     </td>
                     <td>{$vo.file_size/1024|round}KB</td>
                     <td>{$vo.filename}</td>
@@ -42,10 +42,12 @@
                     <td>
                         {$vo.file_path}
                         <if condition="!file_exists('upload/'.$vo['file_path'])">
-                            <span style='color:red;'>&nbsp;&nbsp(文件丢失)</span>
+                            <span style='color:red;'>&nbsp;&nbsp({:lang('File missing')})</span>
                         </if>
                     </td>
-                    <td>{$status[$vo['status']]}</td>
+                    <td>
+                        {$statuses[$vo['status']]}
+                    </td>
                     <td>
                         <a class="btn btn-xs btn-danger js-ajax-delete"
                            href="javascript:"

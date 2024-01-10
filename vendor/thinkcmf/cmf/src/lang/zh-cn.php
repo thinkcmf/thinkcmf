@@ -95,6 +95,14 @@ return [
     'Params'                  => '参数',
     'Select icon'             => '选择图标',
     'Loading...'              => '加载中...',
-
-
+    'File size'               => '文件大小',
+    'File name'               => '文件名',
+    'File path'               => '文件路径',
+    'File missing'            => '文件丢失',
+    'Available'               => '可用',
+    'Unavailable'             => '不可用',
+    'Day'                     => '天',
+    'Hour'                    => '小时',
+    'Forever'                 => '永久',
+    'X times'                 => '{:times} times'
 ];

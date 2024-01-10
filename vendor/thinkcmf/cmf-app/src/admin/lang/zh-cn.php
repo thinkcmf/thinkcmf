@@ -231,8 +231,6 @@ return [
     'Maximum number of files uploaded simultaneously' => '最大同时上传文件数',
     'Widget'                                          => '组件',
     'Global Settings'                                 => '全局设置',
-    'File Name'                                       => '文件名',
-    'File Path'                                       => '文件路径',
     'Controller Action'                               => '操作名',
     'Slide Pages'                                     => '管理页面',
     'HIDE_SLIDE_ITEM_CONFIRM_MSG'                     => '确定隐藏此幻灯片吗？',

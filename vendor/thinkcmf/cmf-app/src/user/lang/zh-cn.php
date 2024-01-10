@@ -65,6 +65,12 @@ return [
     'User ID'                       => '用户ID',
     'UPLOAD_TYPE_SETTING_ERROR'     => '上传文件类型配置错误！',
     'Collection succeeded'          => '收藏成功！',
-    'No such user found'            => '查无此人！'
+    'No such user found'            => '查无此人！',
+    'User action'                   => '用户操作',
+    'Points change'                 => '积分更改',
+    'Coin change'                   => '金币更改',
+    'Number of rewards/period'      => '奖励次数/周期',
+    'Not limited'                   => '不限',
+    'X times'                       => '{:times}次'
 
 ];
