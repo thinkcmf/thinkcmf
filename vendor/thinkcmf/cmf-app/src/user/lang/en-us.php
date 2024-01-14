@@ -62,5 +62,6 @@ return [
     'change_success'                => 'Change success!',
     'password_repeat_wrong'         => 'password repeat wrong',
     'old_password_is_wrong'         => 'The old password is wrong!',
-
-];
+    'SCORE_CHANGE_HELP_TEXT'        => 'The points change when the user operates and can be negative',
+    'COIN_CHANGE_HELP_TEXT'         => 'Gold coins change when the user operates and can be negative',
+    ];

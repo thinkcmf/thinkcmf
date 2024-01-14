@@ -23,6 +23,8 @@ class AssetController extends AdminBaseController
 {
     public function initialize()
     {
+        // 监听admin_init
+        hook('admin_init');
         $adminId = cmf_get_current_admin_id();
         $userId  = cmf_get_current_user_id();
         if (empty($adminId) && empty($userId)) {

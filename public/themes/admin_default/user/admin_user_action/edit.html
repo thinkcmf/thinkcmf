@@ -11,44 +11,44 @@
     </ul>
     <form method="PUT" class="js-ajax-form margin-top-20" action="admin/user/actions/{$id}">
         <div class="row mb-3">
-            <label for="input-score" class="col-sm-2 col-form-label text-sm-end">积分</label>
+            <label for="input-score" class="col-sm-2 col-form-label text-sm-end">{:lang('Score change')}</label>
             <div class="col-md-8 col-sm-10">
                 <input type="text" class="form-control" id="input-score" name="score" value="{$score}">
-                <div class="form-text">用户操作时积分更改，可以为负</div>
+                <div class="form-text">{:lang('SCORE_CHANGE_HELP_TEXT')}</div>
             </div>
         </div>
         <div class="row mb-3">
-            <label for="input-coin" class="col-sm-2 col-form-label text-sm-end">金币</label>
+            <label for="input-coin" class="col-sm-2 col-form-label text-sm-end">{:lang('Coin change')}</label>
             <div class="col-md-8 col-sm-10">
                 <input type="text" class="form-control" id="input-coin" name="coin" value="{$coin}">
-                <div class="form-text">用户操作时金币更改，可以为负</div>
+                <div class="form-text">{:lang('COIN_CHANGE_HELP_TEXT')}</div>
             </div>
         </div>
         <div class="row mb-3">
-            <label for="input-cycle_type" class="col-sm-2 col-form-label text-sm-end">周期类型</label>
-            <div class="col-md-8 col-sm-10">
-                <select name="cycle_type" id="input-cycle_type" class="form-control">
-                    <option value="0">不限</option>
-                    <option value="1">天</option>
-                    <option value="2">小时</option>
-                    <option value="3">永久</option>
-                </select>
-                <div class="form-text">用户操作时奖励周期类型</div>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label for="input-cycle_time" class="col-sm-2 col-form-label text-sm-end">周期时间</label>
-            <div class="col-md-8 col-sm-10">
-                <input type="text" class="form-control" id="input-cycle_time" name="cycle_time" value="{$cycle_time}">
-                <div class="form-text">用户操作时奖励周期时间</div>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label for="input-reward_number" class="col-sm-2 col-form-label text-sm-end">奖励次数</label>
+            <label for="input-reward_number" class="col-sm-2 col-form-label text-sm-end">{:lang('Number of rewards')}</label>
             <div class="col-md-8 col-sm-10">
                 <input type="text" class="form-control" id="input-reward_number" name="reward_number"
                        value="{$reward_number}">
-                <div class="form-text">用户操作时奖励次数</div>
+                <div class="form-text"></div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="input-cycle_time" class="col-sm-2 col-form-label text-sm-end">{:lang('Reward cycle')}</label>
+            <div class="col-md-8 col-sm-10">
+                <input type="text" class="form-control" id="input-cycle_time" name="cycle_time" value="{$cycle_time}">
+                <div class="form-text"></div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="input-cycle_type" class="col-sm-2 col-form-label text-sm-end">{:lang('Reward cycle type')}</label>
+            <div class="col-md-8 col-sm-10">
+                <select name="cycle_type" id="input-cycle_type" class="form-control">
+                    <option value="0">{:lang('Not limited')}</option>
+                    <option value="1">{:lang('Day')}</option>
+                    <option value="2">{:lang('Hour')}</option>
+                    <option value="3">{:lang('Forever')}</option>
+                </select>
+                <div class="form-text"></div>
             </div>
         </div>
         <div class="row mb-3">

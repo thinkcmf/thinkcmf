@@ -29,14 +29,14 @@
 
 <div class="wrap " style="padding:10px;">
     <ul class="nav nav-tabs">
-        <li class="{$tab=='local'?'active':''}"><a href="#wrapper" data-toggle="tab">上传文件</a></li>
-        <li class="{$tab=='url'?'active':''}"><a href="#B" data-toggle="tab">网络文件</a></li>
+        <li class="{$tab=='local'?'active':''}"><a href="#wrapper" data-toggle="tab">{:lang('Upload File')}</a></li>
+        <li class="{$tab=='url'?'active':''}"><a href="#B" data-toggle="tab">{:lang('Network file')}</a></li>
         <notempty name="has_cloud_storage">
             <php>
                 $url_params=input('param.');
                 $url_params['tab']='cloud';
             </php>
-            <li><a href="{:url('user/Asset/webuploader',$url_params)}">上传到云存储</a></li>
+            <li><a href="{:url('user/Asset/webuploader',$url_params)}">{:lang('Upload to cloud storage')}</a></li>
         </notempty>
         <!--<li class=""><a href="#explorer" data-toggle="tab">文件管理</a></li>-->
     </ul>
@@ -50,8 +50,8 @@
                         <div class="queueList">
                             <div id="dndArea" class="placeholder">
                                 <div id="filePicker"></div>
-                                <p>或将文件拖到这里，单次最多可选{$max_files}个文件</p>
-                                <p>如果开启云存储后，大文件请在云存储里上传</p>
+                                <p>{:lang('UPLOAD_FILE_HELP_TEXT',['max_files'=>$max_files])}</p>
+                                <p>{:lang('CLOUD_STORAGE_OPENED_TIP')}</p>
                             </div>
                         </div>
                         <div class="statusBar" style="display:none;">
@@ -62,7 +62,7 @@
                             <div class="info"></div>
                             <div class="btns">
                                 <div id="filePicker2"></div>
-                                <div class="uploadBtn">开始上传</div>
+                                <div class="uploadBtn">{:lang('Start upload')}</div>
                             </div>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
             </div>
             <div class="tab-pane {$tab=='url'?'active':''}" id="B">
                 <div style="padding: 10px 0;">
-                    <label>请输入网络地址:</label>
+                    <label>{:lang('Please enter the file url:')}</label>
                     <div class="bk3"></div>
                     <input type="hidden" id="img_name" value="">
                     <input type="text" id="info" name="info[filename]" class="input form-control" value=""
@@ -264,7 +264,7 @@
             uploader = WebUploader.create({
                 pick: {
                     id: '#filePicker',
-                    label: '点击选择文件',
+                    label: "{:lang('Select file')}",
                     multiple: multi,
                 },
                 timeout: 0,
