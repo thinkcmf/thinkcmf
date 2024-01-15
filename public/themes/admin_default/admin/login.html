@@ -23,7 +23,7 @@
     <![endif]-->
     <script>
         if (window.parent !== window.self) {
-            document.write              = '';
+            document.write = '';
             window.parent.location.href = window.self.location.href;
             setTimeout(function () {
                 document.body.innerHTML = '';
@@ -52,7 +52,8 @@
 
                     <div class="form-group">
                         <div style="position: relative;">
-                            <input type="text" name="captcha" placeholder="{:lang('Captcha')}" class="form-control input-lg captcha">
+                            <input type="text" name="captcha" placeholder="{:lang('Captcha')}"
+                                   class="form-control input-lg captcha">
                             <captcha height="38" width="150" font-size="18"
                                      style="cursor: pointer;position:absolute;right:2px;top:1px;"/>
                         </div>
@@ -60,7 +61,8 @@
 
                     <div class="form-group">
                         <input type="hidden" name="redirect" value="">
-                        <button class="btn btn-lg btn-primary btn-block js-ajax-submit" type="submit" style="margin-left: 0px"
+                        <button class="btn btn-lg btn-primary btn-block js-ajax-submit" type="submit"
+                                style="margin-left: 0px"
                                 data-loadingmsg="{:lang('LOADING')}" data-success_refresh="successRefreshCallback">
                             {:lang('LOGIN')}
                         </button>
@@ -72,20 +74,37 @@
 
     </div>
 </div>
-<php>$_static_version='1.0.4';</php>
+<php>
+    $_static_version='1.0.4';
+    $is_mobile=cmf_is_mobile();
+</php>
 <script type="text/javascript">
     //全局变量
     var GV = {
         ROOT: "__ROOT__/",
         WEB_ROOT: "__WEB_ROOT__/",
         JS_ROOT: "static/js/",
-        APP: ''/*当前应用名*/
+        APP: ''/*当前应用名*/,
+        IS_MOBILE: {$is_mobile? 'true' : 'false'},
+        lang: function (langKey, params) {
+            var lang = {
+                LOGIN_INVALID_TIPS: "{:lang('LOGIN_INVALID_TIPS')}",
+                'Please select at least one': "{:lang('Please select at least one')}",
+                Close: "{:lang('CLOSE')}",
+                'You sure you want to delete it?': "{:lang('You sure you want to delete it?')}",
+                'OK': "{:lang('OK')}",
+                'Are you sure you want to do this?':"{:lang('Are you sure you want to do this?')}"
+            };
+
+            return typeof lang[langKey] === 'undefined' ? langKey : lang[langKey];
+
+        }
     };
 </script>
 <script src="__TMPL__/public/assets/js/jquery-1.10.2.min.js?v={$_static_version}"></script>
 <script src="__STATIC__/js/wind.js?v={$_static_version}"></script>
 <script>
-    Wind.alias({noty:'__TMPL__/public/assets/js/noty-2.4.1.js'})
+    Wind.alias({noty: '__TMPL__/public/assets/js/noty-2.4.1.js'})
 </script>
 <script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
 <script>
@@ -93,7 +112,7 @@
         document.getElementById('input_username').focus();
     })();
 
-    function  successRefreshCallback(data, statusText, xhr, $form){
+    function successRefreshCallback(data, statusText, xhr, $form) {
         localStorage.setItem('token', data.data.token);
         if (data.url) {
             //返回带跳转地址

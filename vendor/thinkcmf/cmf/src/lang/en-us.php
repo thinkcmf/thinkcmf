@@ -66,5 +66,6 @@ return [
     'Controller Action'        => 'Action',
     'UPLOAD_FILE_HELP_TEXT'    => 'Or drag files here, up to {:max_files} files can be selected at a time',
     'CLOUD_STORAGE_OPENED_TIP' => 'If cloud storage is turned on, please upload large files in cloud storage.',
+    'LOGIN_INVALID_TIPS'       => 'Login invalid, please login again!'
 
 ];

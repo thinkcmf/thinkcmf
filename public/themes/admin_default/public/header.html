@@ -38,7 +38,20 @@
             JS_ROOT: "static/js/",
             API_ROOT: {api: '__WEB_ROOT__/api/'},
             APP: '{$_app}'/*当前应用名*/,
-            IS_MOBILE: {$is_mobile? 'true' : 'false'}
+            IS_MOBILE: {$is_mobile? 'true' : 'false'},
+            lang: function (langKey, params) {
+                var lang = {
+                    LOGIN_INVALID_TIPS: "{:lang('LOGIN_INVALID_TIPS')}",
+                    'Please select at least one': "{:lang('Please select at least one')}",
+                    Close: "{:lang('CLOSE')}",
+                    'You sure you want to delete it?': "{:lang('You sure you want to delete it?')}",
+                    'OK': "{:lang('OK')}",
+                    'Are you sure you want to do this?':"{:lang('Are you sure you want to do this?')}"
+                };
+
+                return typeof lang[langKey] === 'undefined' ? langKey : lang[langKey];
+
+            }
         };
     </script>
     <script src="__TMPL__/public/assets/js/jquery-1.12.4.min.js"></script>

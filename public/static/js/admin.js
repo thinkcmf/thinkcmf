@@ -1,8 +1,9 @@
-Wind.use('noty', function () {});
+Wind.use('noty', function () {
+});
 
 function _loginExpiredNoty() {
     noty({
-        text: "登录失效，请退出重新登录！",
+        text: GV.lang('LOGIN_INVALID_TIPS'),
         type: 'error',
         layout: 'topCenter',
         modal: true,
@@ -121,7 +122,7 @@ function _loginExpiredNoty() {
                     if (form.find('input.js-check:checked').length) {
                         btn.data('subcheck', false);
                     } else {
-                        $('<span class="tips_error">请至少选择一项</span>').appendTo(btn.parent()).fadeIn('fast');
+                        $('<span class="tips_error">' + GV.lang("Please select at least one") + '</span>').appendTo(btn.parent()).fadeIn('fast');
                         return false;
                     }
                 }
@@ -133,7 +134,7 @@ function _loginExpiredNoty() {
                         id: 'warning',
                         icon: 'warning',
                         content: msg,
-                        cancelVal: '关闭',
+                        cancelVal: GV.lang('Close'),
                         cancel: function () {
                             //btn.data('subcheck', false);
                             //btn.click();
@@ -341,7 +342,7 @@ function _loginExpiredNoty() {
                                     id: 'warning',
                                     icon: 'warning',
                                     content: statusText,
-                                    cancelVal: '关闭',
+                                    cancelVal: GV.lang('Close'),
                                     cancel: function () {
                                         reloadPage(window);
                                     },
@@ -392,13 +393,13 @@ function _loginExpiredNoty() {
                 art.dialog({
                     title: false,
                     icon: 'question',
-                    content: msg ? msg : '确定要删除吗？',
+                    content: msg ? msg : GV.lang('You sure you want to delete it?'),
                     follow: $_this,
                     close: function () {
                         $_this.focus(); //关闭时让触发弹窗的元素获取焦点
                         return true;
                     },
-                    okVal: "确定",
+                    okVal: GV.lang('OK'),
                     ok: function () {
                         var apiNamespace = $this.data('api');
                         var method = 'post';
@@ -465,7 +466,7 @@ function _loginExpiredNoty() {
                             }
                         })
                     },
-                    cancelVal: '关闭',
+                    cancelVal: GV.lang('Close'),
                     cancel: true
                 });
             });
@@ -485,7 +486,7 @@ function _loginExpiredNoty() {
                 waitMsg = $this.data('wait-msg');
             url = url ? url : $this.attr('href');
             if (!msg) {
-                msg = "您确定要进行此操作吗？";
+                msg = GV.lang('Are you sure you want to do this?');
             }
             art.dialog({
                 title: false,
@@ -583,7 +584,7 @@ function _loginExpiredNoty() {
 
                     })
                 },
-                cancelVal: '关闭',
+                cancelVal: GV.lang('Close'),
                 cancel: true
             });
         });
@@ -925,7 +926,7 @@ function _loginExpiredNoty() {
                     $_this.focus(); //关闭时让触发弹窗的元素获取焦点
                     return true;
                 },
-                cancelVal: '关闭',
+                cancelVal: GV.lang('Close'),
                 cancel: true
             });
         });
@@ -1068,7 +1069,7 @@ function openUploadDialog(dialog_title, callback, extra_params, multi, filetype,
 
     openIn = openIn ? openIn : window;
     openIn.openIframeLayer(GV.ROOT + 'user/Asset/webuploader?' + params, dialog_title, {
-        btn: ['确定'], area: ['600px', '450px'], yes: function (index, layero) {
+        btn: [GV.lang('OK')], area: ['600px', '450px'], yes: function (index, layero) {
             if (typeof callback == 'function') {
                 // var body = openIn.layer.getChildFrame('body', index);
                 //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
@@ -1332,7 +1333,7 @@ function openUploadPrivateDialog(dialog_title, callback, extra_params, multi, fi
 
     openIn = openIn ? openIn : window;
     openIn.openIframeLayer(GV.ROOT + 'user/Asset/upload?' + params, dialog_title, {
-        btn: ['确定'], area: ['600px', '450px'], yes: function (index, layero) {
+        btn: [GV.lang('OK')], area: ['600px', '450px'], yes: function (index, layero) {
             if (typeof callback == 'function') {
                 // var body = openIn.layer.getChildFrame('body', index);
                 //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
