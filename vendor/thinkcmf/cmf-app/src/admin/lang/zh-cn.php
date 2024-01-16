@@ -273,6 +273,9 @@ themes/default/public/assets
     'UNINSTALL_APP_EXEC_COMMAND_MSG'                  => '为了安全请在命令行执行下面命令：',
     'NO_EMAIL_SETTINGS_WARNING_MSG'                   => '邮箱配置未完成,无法进行邮件发送!',
     'NO_FILE_INFO_EXT_WARNING_MSG'                    => 'php_fileinfo扩展没有开启，无法正常上传文件！',
-    'Set now'                                         => '现在设置'
+    'Set now'                                         => '现在设置',
+    'UPDATE_THEME_CONFIRM_MSG'                        => '确定更新此模板吗？',
+    'ENABLE_THEME_CONFIRM_MSG'                        => '确定使用此模板吗？',
+    'UNINSTALL_THEME_CONFIRM_MSG'                     => '您设置的模板数据将被删除，确定卸载此模板吗？',
 ];
 

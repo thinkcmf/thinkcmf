@@ -52,7 +52,7 @@
                                href="javascript:"
                                data-method="put"
                                data-href="admin/themes/{$vo.theme}"
-                               data-msg="确定更新此模板吗？"
+                               data-msg="{:lang('UPDATE_THEME_CONFIRM_MSG')}"
                                title="{:lang('Update')}" data-toggle="tooltip">
                                 <i class="fa fa-refresh fa-fw"></i>
                             </a>
@@ -65,7 +65,7 @@
                                 <a class="btn btn-xs btn-success js-ajax-dialog-btn"
                                    href="javascript:"
                                    data-href="admin/themes/{$vo.theme}/active"
-                                   data-msg="确定使用此模板吗？"
+                                   data-msg="{:lang('ENABLE_THEME_CONFIRM_MSG')}"
                                    title="{:lang('Enable')}" data-toggle="tooltip">
                                     <i class="fa fa-toggle-on fa-fw"></i>
                                 </a>
@@ -80,7 +80,7 @@
                                 <a class="btn btn-xs btn-danger js-ajax-delete"
                                    href="javascript:"
                                    data-href="admin/themes/{$vo.theme}"
-                                   data-msg="您设置的模板数据将被删除，<br>确定卸载此模板吗？"
+                                   data-msg="{:lang('UNINSTALL_THEME_CONFIRM_MSG')}"
                                    title="{:lang('Uninstall')}" data-toggle="tooltip">
                                     <i class="fa fa-trash fa-fw"></i>
                                 </a>

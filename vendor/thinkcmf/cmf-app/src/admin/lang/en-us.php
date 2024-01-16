@@ -202,7 +202,10 @@ After setting the cdn, its access address is: static resource cdn address/static
     'Import successful'                         => 'Import successful!',
     'UNINSTALL_APP_EXEC_COMMAND_MSG'            => 'For safety, please execute the following command on the command line:',
     'NO_EMAIL_SETTINGS_WARNING_MSG'             => 'The email config is not completed and the email cannot be sent!',
-    'NO_FILE_INFO_EXT_WARNING_MSG'              => 'The php_fileinfo extension is not enabled and files cannot be uploaded normally!'
+    'NO_FILE_INFO_EXT_WARNING_MSG'              => 'The php_fileinfo extension is not enabled and files cannot be uploaded normally!',
+    'UPDATE_THEME_CONFIRM_MSG'                  => 'Are you sure you want to update this theme?',
+    'ENABLE_THEME_CONFIRM_MSG'                  => 'Are you sure you want to enable this theme?',
+    'UNINSTALL_THEME_CONFIRM_MSG'               => 'The theme data you set will be deleted. Are you sure you want to uninstall this theme?',
 ];
 
 

@@ -153,7 +153,7 @@
             {
                 area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '90%'],
                 offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
-                btn: ['确定', '取消'],
+                btn: ["{:lang('OK')}", "{:lang('CANCEL')}"],
                 yes: function (index, layero) {
                     var iframeWin = parent.window[layero.find('iframe')[0]['name']];
                     var result = iframeWin.confirm();
@@ -184,7 +184,7 @@
             {
                 area: GV.IS_MOBILE ? ['100%', '100%'] : ['600px', '100%'],
                 offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
-                btn: ["{:lang('SAVE')}", '取消'],
+                btn: ["{:lang('SAVE')}", "{:lang('CANCEL')}"],
                 yes: function (index, layero) {
                     var iframeWin = parent.window[layero.find('iframe')[0]['name']];
                     var result = iframeWin.confirm();
@@ -213,7 +213,7 @@
             {
                 area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '90%'],
                 offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
-                btn: ['确定', '取消'],
+                btn: ["{:lang('OK')}", "{:lang('CANCEL')}"],
                 yes: function (index, layero) {
                     var iframeWin = parent.window[layero.find('iframe')[0]['name']];
                     var location = iframeWin.confirm();
