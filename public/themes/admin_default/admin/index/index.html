@@ -463,7 +463,7 @@
         consoleOpened = true;
         if (openDevTipsTimes < 20) {
             console.log('{:lang("Open the dev panel, please execute")}')
-            console.log("$('#dev-menu-button').show();openapp('/admin/dev/index.html','index_dev','开发面板',true);");
+            console.log("$('#dev-menu-button').show();openapp('/admin/dev/index.html','index_dev','{:lang('ADMIN_DEV_INDEX')}',true);");
         } else {
             clearInterval(openDevTipsTimer);
         }

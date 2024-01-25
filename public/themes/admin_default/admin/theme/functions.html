@@ -111,7 +111,7 @@
                     <div class="controls">
                         <input type="text" name="{$inputName}[{$varName}_text_]" class="form-control"
                                onclick="doSelectLocation(this)"
-                               data-title="请选择{:lang($var.title)}"
+                               data-title="{:lang($var.title)}"
                                value="{$vars[$varName]['valueText']|default=''}"
                                placeholder="{:lang($placeholder)}">
                         <input type="hidden" name="{$inputName}[{$varName}]" class="form-control"
@@ -149,7 +149,7 @@
                 <case value="array">
                     <div class="controls">
                         <php>
-                            $arrayValueText=is_array($var['value'])&&count($var['value'])>0?count($var['value']).'条数据,点击添加更多...':'';
+                            $arrayValueText=is_array($var['value'])&&count($var['value'])>0?lang('x pieces of data, click to add more',['count'=>count($var['value'])]):'';
                         </php>
                         <textarea class="form-control" placeholder=""
                                   onclick="doEditArrayData(this)"
