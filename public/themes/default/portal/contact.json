@@ -32,6 +32,16 @@
 
                 }
             },
+            "body_left": {
+                "title": "主体左",
+                "widgets": {
+                }
+            },
+            "body_right": {
+                "title": "主体右",
+                "widgets": {
+                }
+            },
             "footer": {
                 "title": "底部",
                 "widgets": {

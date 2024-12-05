@@ -16,6 +16,11 @@
                     }
                 }
             },
+            "body": {
+                "title": "主体",
+                "widgets": {
+                }
+            },
             "body_left": {
                 "title": "主体左",
                 "widgets": {
