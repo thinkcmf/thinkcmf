@@ -11,6 +11,7 @@
 namespace cmf\controller;
 
 use cmf\model\UserTokenModel;
+use cmf\traits\GetHeaderToken;
 use think\App;
 use think\exception\HttpResponseException;
 use think\facade\Db;
@@ -85,6 +86,8 @@ class RestBaseController
         }
     }
 
+    use GetHeaderToken;
+
     // 初始化
     protected function initialize()
     {
@@ -93,13 +96,7 @@ class RestBaseController
 
     private function _initUser()
     {
-        $token = $this->request->header('Authorization', '');
-        if (substr($token, 0, 7) === 'Bearer ') {
-            $token = substr($token, 7);
-        }
-        if (empty($token)) {
-            $token = $this->request->header('XX-Token');
-        }
+        $token = $this->getHeaderToken();
         $deviceType = $this->request->header('XX-Device-Type');
 
         if (empty($deviceType)) {

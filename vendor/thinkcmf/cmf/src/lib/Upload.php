@@ -10,6 +10,7 @@
 // +---------------------------------------------------------------------
 namespace cmf\lib;
 
+use cmf\traits\GetHeaderToken;
 use think\exception\HttpResponseException;
 use think\File;
 use app\user\model\AssetModel;
@@ -32,6 +33,8 @@ class Upload
     {
         $this->request = request();
     }
+
+    use GetHeaderToken;
 
     public function getError()
     {
@@ -138,13 +141,7 @@ class Upload
         $userId  = cmf_get_current_user_id();
         $userId  = empty($adminId) ? $userId : $adminId;
         if (empty($userId)) {
-            $token = $this->request->header('Authorization');
-            if (substr($token, 0, 7) === 'Bearer ') {
-                $token = substr($token, 7);
-            }
-            if (empty($token)) {
-                $token = $this->request->header('XX-Token');
-            }
+            $token = $this->getHeaderToken();
 
             $userId = Db::name('user_token')->where('token', $token)->field('user_id,token')->value('user_id');
         }

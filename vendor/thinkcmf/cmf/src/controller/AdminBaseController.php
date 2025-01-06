@@ -11,9 +11,11 @@
 namespace cmf\controller;
 
 use app\admin\model\UserModel;
+use cmf\traits\GetHeaderToken;
 
 class AdminBaseController extends BaseController
 {
+    use GetHeaderToken;
 
     protected function initialize()
     {
@@ -23,10 +25,7 @@ class AdminBaseController extends BaseController
         $sessionAdminId = session('ADMIN_ID');
         if (!empty($sessionAdminId)) {
             if ($this->request->isPost()) {
-                $token = $this->request->header('Authorization', '');
-                if (empty($token)) {
-                    $token = $this->request->header('XX-Token');
-                }
+                $token = $this->getHeaderToken();
                 if (empty($token) || $token !== session('token')) {
                     session('ADMIN_ID', null);
                     $this->error('鉴权失败,请在Header中传入token',url('admin/Public/login'),['code'=>'10002']);
