@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -461,7 +461,7 @@ abstract class Rule
      */
     public function append(array $append = [])
     {
-        $this->option['append'] = $append;
+        $this->option['append'] = array_merge($this->option['append'] ?? [], $append);
 
         return $this;
     }
@@ -492,7 +492,7 @@ abstract class Rule
     public function middleware(string | array | Closure $middleware, ...$params)
     {
         if (empty($params) && is_array($middleware)) {
-            $this->option['middleware'] = $middleware;
+            $this->option['middleware'] = array_merge($this->option['middleware'] ?? [], $middleware);
         } else {
             foreach ((array) $middleware as $item) {
                 $this->option['middleware'][] = [$item, $params];

@@ -108,6 +108,18 @@ class ValidateRule
     }
 
     /**
+     * 添加验证因子集
+     * @access protected
+     * @param  array     $rules  验证规则
+     * @param  array    $msg   提示信息
+     * @return ValidateRuleSet
+     */
+    public static function ruleSet(array $rules, array $msg = [])
+    {
+        return ValidateRuleSet::rules($rules, $msg);
+    }
+
+    /**
      * 获取验证规则
      * @access public
      * @return array

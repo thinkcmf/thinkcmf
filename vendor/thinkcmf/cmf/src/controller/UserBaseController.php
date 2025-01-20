@@ -17,6 +17,12 @@ class UserBaseController extends HomeBaseController
     {
         parent::initialize();
         $this->checkUserLogin();
+
+        $lastTime    = session('last_time');
+        $currentTime = time();
+        if (empty($lastTime) || $lastTime + 60 < $currentTime) {
+            session('last_time', $currentTime);
+        }
     }
 
 

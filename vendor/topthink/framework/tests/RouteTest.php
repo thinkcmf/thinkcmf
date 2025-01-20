@@ -6,7 +6,6 @@ use Closure;
 use Mockery as m;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
-use think\exception\RouteNotFoundException;
 use think\helper\Str;
 use think\Request;
 use think\response\Redirect;
@@ -76,53 +75,21 @@ class RouteTest extends TestCase
         $this->assertEquals('get-foo', $response->getContent());
     }
 
-    // public function testOptionsRequest()
-    // {
-    //     $this->route->get('foo', function () {
-    //         return 'get-foo';
-    //     });
-    //
-    //     $this->route->put('foo', function () {
-    //         return 'put-foo';
-    //     });
-    //
-    //     $this->route->group(function () {
-    //         $this->route->post('foo', function () {
-    //             return 'post-foo';
-    //         });
-    //     });
-    //     $this->route->group('abc', function () {
-    //         $this->route->post('foo/:id', function () {
-    //             return 'post-abc-foo';
-    //         });
-    //     });
-    //
-    //     $this->route->post('foo/:id', function () {
-    //         return 'post-abc-foo';
-    //     });
-    //
-    //     $this->route->resource('bar', 'SomeClass');
-    //
-    //     $request  = $this->makeRequest('foo', 'options');
-    //     $response = $this->route->dispatch($request);
-    //     $this->assertEquals(204, $response->getCode());
-    //     $this->assertEquals('GET, PUT, POST', $response->getHeader('Allow'));
-    //
-    //     $request  = $this->makeRequest('bar', 'options');
-    //     $response = $this->route->dispatch($request);
-    //     $this->assertEquals(204, $response->getCode());
-    //     $this->assertEquals('GET, POST', $response->getHeader('Allow'));
-    //
-    //     $request  = $this->makeRequest('bar/1', 'options');
-    //     $response = $this->route->dispatch($request);
-    //     $this->assertEquals(204, $response->getCode());
-    //     $this->assertEquals('GET, PUT, DELETE', $response->getHeader('Allow'));
-    //
-    //     $request  = $this->makeRequest('xxxx', 'options');
-    //     $response = $this->route->dispatch($request);
-    //     $this->assertEquals(204, $response->getCode());
-    //     $this->assertEquals('GET, POST, PUT, DELETE', $response->getHeader('Allow'));
-    // }
+    public function testGroup()
+    {
+        $this->route->group(function () {
+            $this->route->group('foo', function () {
+                $this->route->post('bar', function () {
+                    return 'hello,world!';
+                });
+            });
+        });
+
+        $request  = $this->makeRequest('foo/bar', 'post');
+        $response = $this->route->dispatch($request);
+        $this->assertEquals(200, $response->getCode());
+        $this->assertEquals('hello,world!', $response->getContent());
+    }
 
     public function testAllowCrossDomain()
     {

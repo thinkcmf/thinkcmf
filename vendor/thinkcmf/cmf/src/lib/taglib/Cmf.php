@@ -81,11 +81,11 @@ parse;
                 unset($tag['name']);
                 $attrs = [];
 
-                if ($designingTheme) {
-                    if (!isset($tag['class'])) {
-                        $attrs[] = 'class="__cmf_widget_in_block"';
-                    }
+                if (!isset($tag['class'])) {
+                    $attrs[] = 'class="__cmf_widget_in_block"';
+                }
 
+                if ($designingTheme) {
                     $attrs[] = 'data-cmf_theme_file_id="<?php echo $_theme_file_id;?>"';
                     $attrs[] = 'data-cmf_widget_id="<?php echo $_widget_id;?>"';
                 }
@@ -103,7 +103,7 @@ parse;
                         $attrValue = "{$attrValue}";
                     }
 
-                    if ($attrName == 'class' && $designingTheme) {
+                    if ($attrName == 'class'/* && $designingTheme*/) {
                         $attrValue = '__cmf_widget_in_block ' . $attrValue;
                     }
 
@@ -112,13 +112,15 @@ parse;
 <?php 
 if(isset(\$widget['css'])){
     foreach(\$widget['css'] as \$cssAttrName=>\$cssValue){
-        echo \$cssAttrName.':'.\$cssValue.';';
+        if(\$cssValue!=0){
+           echo \$cssAttrName.':'.\$cssValue.';';
+        }
     }
 }
 ?>
 hello;
 
-                        $attrValue = $attrValue . ';' . str_replace("\n", '', $styles);
+                        $attrValue = ltrim($attrValue . ';' . str_replace("\n", '', $styles), ';');
                     }
 
                     $attrs[] = $attrName . '="' . $attrValue . '"';

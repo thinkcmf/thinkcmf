@@ -25,18 +25,18 @@
             "email": "wuwu@wuwuseo.com"
         }
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.0.0",
+        "php": ">=8.1.0",
         "ext-json": "*",
         "ext-curl": "*",
         "ext-pdo": "*",
         "ext-mbstring": "*",
         "ext-zip": "*",
-        "thinkcmf/cmf-app": "^8.0.0",
-        "thinkcmf/cmf-install": "^8.0.0",
-        "thinkcmf/cmf-api": "^8.0.0",
+        "thinkcmf/cmf-app": "8.0.x-dev",
+        "thinkcmf/cmf-install": "^8.0",
+        "thinkcmf/cmf-api": "8.0.x-dev",
         "thinkcmf/cmf-appstore": "^2.0",
         "thinkcmf/cmf-root": "^2.0"
     },

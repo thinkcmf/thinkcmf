@@ -22,6 +22,13 @@ class AdminBaseController extends BaseController
         parent::initialize();
         $sessionAdminId = session('ADMIN_ID');
         if (!empty($sessionAdminId)) {
+            
+            $lastTime    = session('last_time');
+            $currentTime = time();
+            if (empty($lastTime) || $lastTime + 60 < $currentTime) {
+                session('last_time', $currentTime);
+            }
+            
             if ($this->request->isPost()) {
                 $token = $this->request->header('Authorization', '');
                 if (empty($token)) {

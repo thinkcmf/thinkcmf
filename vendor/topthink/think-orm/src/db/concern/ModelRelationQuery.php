@@ -669,6 +669,10 @@ trait ModelRelationQuery
             $this->options
         );
 
+        if ($this->suffix) {
+            $result->setSuffix($this->suffix);
+        }
+            
         // 模型数据处理
         foreach ($this->options['filter'] as $filter) {
             call_user_func_array($filter, [$result, $this->options]);
@@ -710,7 +714,7 @@ trait ModelRelationQuery
         }
 
         foreach (['hidden', 'visible', 'append'] as $name) {
-            if (isset($this->options[$name])) {
+            if (!empty($this->options[$name])) {
                 [$value, $merge] = $this->options[$name];
                 $result->$name($value, $merge);
             }

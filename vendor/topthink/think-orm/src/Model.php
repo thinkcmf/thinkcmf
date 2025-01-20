@@ -23,7 +23,7 @@ use think\db\BaseQuery as Query;
 /**
  * Class Model.
  *
- * @mixin Query
+ * @mixin \think\db\Query
  *
  * @method static void  onAfterRead(Model $model)     after_read事件定义
  * @method static mixed onBeforeInsert(Model $model)  before_insert事件定义
@@ -392,7 +392,7 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
      */
     public function getSuffix(): string
     {
-        return $this->suffix ?: '';
+        return $this->suffix ?? '';
     }
 
     /**
@@ -1171,6 +1171,10 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
             return call_user_func_array(static::$macro[static::class][$method]->bindTo($this, static::class), $args);
         }
 
+        if ($this->exists && strtolower($method) == 'withattr') {
+            return call_user_func_array([$this, 'withFieldAttr'], $args);
+        }
+        
         return call_user_func_array([$this->db(), $method], $args);
     }
 

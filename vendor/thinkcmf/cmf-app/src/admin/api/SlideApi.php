@@ -33,7 +33,7 @@ class SlideApi
                 if (!empty($param['keyword'])) {
                     $query->where('name', 'like', "%{$param['keyword']}%");
                 }
-            })->select();
+            })->where('delete_time',0)->select();
     }
 
 }

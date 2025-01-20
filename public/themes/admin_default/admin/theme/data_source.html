@@ -16,39 +16,41 @@
             <form method="get" action="{:url('Theme/dataSource')}" id="search-form">
                 <div class="row">
                     <foreach name="filters" item="filter" key="filterName">
-                        <switch name="filter.type">
-                            <case value="text">
-                                <div class="col-xs-3">
-                                    <div class="form-group">
-                                        <label class="sr-only">{$filter.title|default=''}</label>
-                                        <input type="text" class="form-control" name="{$filterName}"
-                                               placeholder="{$filter.placeholder|default=''}"
-                                               value="{$form[$filterName]|default=''}">
+                        <notempty name="filter">
+                            <switch name="filter.type">
+                                <case value="text">
+                                    <div class="col-xs-3">
+                                        <div class="form-group">
+                                            <label class="sr-only">{$filter.title|default=''}</label>
+                                            <input type="text" class="form-control" name="{$filterName}"
+                                                   placeholder="{$filter.placeholder|default=''}"
+                                                   value="{$form[$filterName]|default=''}">
+                                        </div>
                                     </div>
-                                </div>
-                            </case>
-                            <case value="select">
-                                <div class="col-xs-3">
-                                    <div class="form-group">
-                                        <label class="sr-only">{$filter.title|default=''}</label>
-                                        <select class="form-control" name="{$filterName}">
-                                            <notempty name="filter.placeholder">
-                                                <option value="">{$filter.placeholder|default=''}</option>
-                                            </notempty>
-                                            <foreach name="filter.options" item="option">
-                                                <php>
-                                                    $option_selected='';
-                                                    if(isset($form[$filterName]) && $form[$filterName]==$option['id']){
-                                                    $option_selected='selected';
-                                                    };
-                                                </php>
-                                                <option value="{$option.id}" {$option_selected}>{$option.name}</option>
-                                            </foreach>
-                                        </select>
+                                </case>
+                                <case value="select">
+                                    <div class="col-xs-3">
+                                        <div class="form-group">
+                                            <label class="sr-only">{$filter.title|default=''}</label>
+                                            <select class="form-control" name="{$filterName}">
+                                                <notempty name="filter.placeholder">
+                                                    <option value="">{$filter.placeholder|default=''}</option>
+                                                </notempty>
+                                                <foreach name="filter.options" item="option">
+                                                    <php>
+                                                        $option_selected='';
+                                                        if(isset($form[$filterName]) && $form[$filterName]==$option['id']){
+                                                        $option_selected='selected';
+                                                        };
+                                                    </php>
+                                                    <option value="{$option.id}" {$option_selected}>{$option.name}</option>
+                                                </foreach>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                            </case>
-                        </switch>
+                                </case>
+                            </switch>
+                        </notempty>
                     </foreach>
                     <div class="col-xs-3">
                         <input type="hidden" value="{$data_source}" name="data_source">

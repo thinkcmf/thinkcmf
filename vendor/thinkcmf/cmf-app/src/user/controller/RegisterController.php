@@ -108,6 +108,7 @@ class RegisterController extends HomeBaseController
             }
             $sessionLoginHttpReferer = session('login_http_referer');
             $redirect                = empty($sessionLoginHttpReferer) ? cmf_get_root() . '/' : $sessionLoginHttpReferer;
+            hook('user_register', ['user' => $user, 'code' => $log]);
             switch ($log) {
                 case 0:
                     $this->success(lang('注册成功！'), $redirect);

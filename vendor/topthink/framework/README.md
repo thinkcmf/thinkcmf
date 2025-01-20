@@ -12,7 +12,8 @@
 
 - 基于 PHP`8.0+`重构
 - 升级`PSR`依赖
-- 依赖`think-orm`3.0 版本
+- 依赖`think-orm`3.0+ 版本
+- 全新的`think-dumper`支持远程调试
 - `6.0`/`6.1`无缝升级
 
 > ThinkPHP8 的运行环境要求 PHP8.0+

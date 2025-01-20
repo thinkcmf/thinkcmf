@@ -700,7 +700,7 @@ class ThemeController extends RestAdminBaseController
             ],
             "margin-bottom" => [
                 "title" => "下边距",
-                "value" => "15px",
+                "value" => "0",
                 "type"  => "text",
                 "tip"   => "支持单位,如px(像素),em(字符),rem;例子:10px,2em,1rem",
             ],
