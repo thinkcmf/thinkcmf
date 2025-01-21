@@ -1233,20 +1233,20 @@
         },
         {
             "name": "xia/migration",
-            "version": "v6.0.4",
-            "version_normalized": "6.0.4.0",
+            "version": "v6.0.5",
+            "version_normalized": "6.0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/iygwei/artisan.git",
-                "reference": "e2eb507ac1a1a82eae14f71ab7d07a9d837f9a81"
+                "reference": "e0394339c163f86f78c0f5235549e6636b0fa494"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/iygwei/artisan/zipball/e2eb507ac1a1a82eae14f71ab7d07a9d837f9a81",
-                "reference": "e2eb507ac1a1a82eae14f71ab7d07a9d837f9a81",
+                "url": "https://api.github.com/repos/iygwei/artisan/zipball/e0394339c163f86f78c0f5235549e6636b0fa494",
+                "reference": "e0394339c163f86f78c0f5235549e6636b0fa494",
                 "shasum": ""
             },
-            "time": "2024-11-15T02:49:00+00:00",
+            "time": "2025-01-21T04:06:40+00:00",
             "type": "library",
             "extra": {
                 "think": {
@@ -1274,7 +1274,7 @@
             ],
             "support": {
                 "issues": "https://github.com/iygwei/artisan/issues",
-                "source": "https://github.com/iygwei/artisan/tree/v6.0.4"
+                "source": "https://github.com/iygwei/artisan/tree/v6.0.5"
             },
             "install-path": "../xia/migration"
         }

@@ -1,6 +1,6 @@
 {
     "name": "thinkcmf/thinkcmf",
-    "description": "ThinkCMF based on ThinkPHP 8.0 , it is a free and open source Content Management Framework(CMF)",
+    "description": "ThinkCMF based on ThinkPHP 8.x , it is a free and open source Content Management Framework(CMF)",
     "type": "project",
     "keywords": [
         "cmf",

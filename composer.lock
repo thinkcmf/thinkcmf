@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "105142b15cd76e046cc03be0db510a66",
+    "content-hash": "a4324b6b450222b7eb195e3a944a4b86",
     "packages": [
         {
             "name": "chamilo/pclzip",
@@ -1119,16 +1119,16 @@
         },
         {
             "name": "xia/migration",
-            "version": "v6.0.4",
+            "version": "v6.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/iygwei/artisan.git",
-                "reference": "e2eb507ac1a1a82eae14f71ab7d07a9d837f9a81"
+                "reference": "e0394339c163f86f78c0f5235549e6636b0fa494"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/iygwei/artisan/zipball/e2eb507ac1a1a82eae14f71ab7d07a9d837f9a81",
-                "reference": "e2eb507ac1a1a82eae14f71ab7d07a9d837f9a81",
+                "url": "https://api.github.com/repos/iygwei/artisan/zipball/e0394339c163f86f78c0f5235549e6636b0fa494",
+                "reference": "e0394339c163f86f78c0f5235549e6636b0fa494",
                 "shasum": ""
             },
             "type": "library",
@@ -1157,9 +1157,9 @@
             ],
             "support": {
                 "issues": "https://github.com/iygwei/artisan/issues",
-                "source": "https://github.com/iygwei/artisan/tree/v6.0.4"
+                "source": "https://github.com/iygwei/artisan/tree/v6.0.5"
             },
-            "time": "2024-11-15T02:49:00+00:00"
+            "time": "2025-01-21T04:06:40+00:00"
         }
     ],
     "packages-dev": [
@@ -1224,7 +1224,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.0.0",
+        "php": ">=8.1.0",
         "ext-json": "*",
         "ext-curl": "*",
         "ext-pdo": "*",

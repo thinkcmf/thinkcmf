@@ -128,7 +128,7 @@ class Migrate
     {
         $this->app = app();
         if ($this->appName) {
-            $path = $this->app->getAppPath() . $this->appName . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'migrations';
+            $path = APP_PATH . $this->appName . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'migrations';
         } elseif ($this->pluginName) {
             $path = WEB_ROOT . 'plugins' . DIRECTORY_SEPARATOR . cmf_parse_name($this->pluginName) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'migrations';
         } else {

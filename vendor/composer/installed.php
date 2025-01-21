@@ -233,9 +233,9 @@
             'dev_requirement' => false,
         ),
         'xia/migration' => array(
-            'pretty_version' => 'v6.0.4',
-            'version' => '6.0.4.0',
-            'reference' => 'e2eb507ac1a1a82eae14f71ab7d07a9d837f9a81',
+            'pretty_version' => 'v6.0.5',
+            'version' => '6.0.5.0',
+            'reference' => 'e0394339c163f86f78c0f5235549e6636b0fa494',
             'type' => 'library',
             'install_path' => __DIR__ . '/../xia/migration',
             'aliases' => array(),
