@@ -89,7 +89,7 @@ https://www.thinkcmf.com/docs/cmf8
 
 ### 最低环境要求
 
-> PHP 8.1
+> PHP 8.1  
 > MySQL 5.5   
 > 打开rewrite
 
