@@ -83,13 +83,13 @@ https://www.thinkcmf.com/docs/cmf8
 
 ### 环境推荐
 
-> PHP 8.1     
+> PHP 8.2     
 > MySQL 5.7+   
 > 打开rewrite
 
 ### 最低环境要求
 
-> PHP 8.0 (swagger插件要求PHP8.1)   
+> PHP 8.1
 > MySQL 5.5   
 > 打开rewrite
 
