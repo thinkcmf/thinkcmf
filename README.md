@@ -183,6 +183,7 @@ https://gitee.com/thinkcmf/docker
 
 #### 8.1.0 coding~
 
+* 升级到`ThinkPHP8.1`
 * 优化多语言识别流程
 * 修复模板文件列表设计报错
 * 修复模板卸载不删除多语言数据
