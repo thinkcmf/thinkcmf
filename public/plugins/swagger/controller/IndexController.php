@@ -30,6 +30,8 @@ class IndexController extends PluginBaseController
     {
         if (APP_DEBUG || cmf_get_current_admin_id() > 0) {
             header('Content-Type: application/json');
+            // 增加跨域请求 应用于前后分离项目
+            header('Access-Control-Allow-Origin:*');
             $api      = OpenApi::generate();
             $response = Response::create(json_decode($api->toJson(), true), 'json');
             throw new HttpResponseException($response);
