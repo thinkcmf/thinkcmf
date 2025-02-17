@@ -2063,5 +2063,81 @@ class ThemeController extends RestAdminBaseController
         }
     }
 
+    /**
+     * 获取模板文件全局自由控件列表
+     * @throws \think\exception\DbException
+     * @OA\Get(
+     *     tags={"admin"},
+     *     path="/admin/theme/file/public/widgets",
+     *     summary="获取模板文件全局自由控件列表",
+     *     description="获取模板文件全局自由控件列表",
+     *     @OA\Parameter(
+     *         name="theme",
+     *         in="query",
+     *         example="demo",
+     *         description="模板名,如demo,simpleboot3",
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="file",
+     *         in="query",
+     *         example="portal/index",
+     *         description="模板文件ID或模板文件名,如1,portal/index",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "success","data":{
+     *                 "widgets":{{"id":179,"is_public":1,"list_order":0,"theme":"demo","name":"模板全局配置","action":"public/Config","file":"public/config","description":"模板全局配置文件"}}
+     *             }})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "error!","data":""})
+     *     ),
+     * )
+     */
+    public function filePublicWidgets()
+    {
+        $file   = $this->request->param('file');
+        if (!is_numeric($file)) {
+            $theme    = $this->request->param('theme');
+            $file     = ThemeFileModel::where(['file' => $file, 'theme' => $theme])->find();
+        } else {
+            $fileId   = $file;
+            $file     = ThemeFileModel::where('id', $fileId)->find();
+        }
+
+
+        if (empty($file)) {
+            $this->error('未找到模板文件！');
+        } else {
+            $theme      = $file['theme'];
+            $publicFile = ThemeFileModel::where(['file' => 'public/config', 'theme' => $theme])->find();
+            $widgets    = [];
+            if (!empty($publicFile)) {
+                $more = $publicFile['more'];
+                if (!empty($more['widgets_blocks']['public'])) {
+                    $widgetBlock = $more['widgets_blocks']['public'];
+                    if (!empty($widgetBlock['widgets'])) {
+                        foreach ($widgetBlock['widgets'] as $widgetId => $widget) {
+                            $widgets[$widgetId] = $widget;
+                        }
+                    }
+                }
+            }
+
+            $this->success('success', [
+                'widgets' => $widgets
+            ]);
+        }
+    }
+
 
 }
