@@ -34,4 +34,8 @@ Route::post('user/comments$', 'user/Comments/setComments');//添加评论
 
 Route::delete('user/favorites/:id$', 'user/Favorites/unsetFavorites');  //删除收藏
 Route::delete('user/comments/:id$', 'user/Comments/delComments'); //删除评论
+Route::delete('user/comments/:id$', 'user/Comments/delComments'); //删除评论
+
+Route::post('admin/user/upload/one', 'user/AdminUpload/one'); //上传
+Route::post('user/upload/one', 'user/Upload/one'); //上传
 

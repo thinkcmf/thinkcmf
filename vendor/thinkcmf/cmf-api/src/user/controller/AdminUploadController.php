@@ -9,13 +9,13 @@
 
 namespace api\user\controller;
 
-use cmf\controller\RestUserBaseController;
+use cmf\controller\RestAdminBaseController;
 use api\user\traits\UploadTrait;
 
-class UploadController extends RestUserBaseController
+class UploadController extends RestAdminBaseController
 {
     /**
-     * 用户上传
+     * 后台上传
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
