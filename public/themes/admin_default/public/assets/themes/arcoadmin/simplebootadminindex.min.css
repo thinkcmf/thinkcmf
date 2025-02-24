@@ -516,11 +516,10 @@ ul, ol {
     right: 6px;
     text-decoration: none;
     cursor: pointer;
-    display: none;
 }
 
 .cmf-component-tabclose-icon {
-    color: #4E5969
+    color: #2b1110;
 }
 
 .task-changebt {
