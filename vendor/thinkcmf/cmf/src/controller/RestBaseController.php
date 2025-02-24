@@ -61,7 +61,7 @@ class RestBaseController
      * RestBaseController constructor.
      * @param App|null $app
      */
-    public function __construct(App $app = null)
+    public function __construct(?App $app = null)
     {
         $this->app     = $app ?: app();
         $this->request = $this->app->request;
