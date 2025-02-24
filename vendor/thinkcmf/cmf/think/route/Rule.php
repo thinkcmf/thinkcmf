@@ -368,7 +368,7 @@ abstract class Rule
      * @param  bool                  $exception 是否抛出异常
      * @return $this
      */
-    public function model(array|string|Closure $var, string|Closure $model = null, bool $exception = true)
+    public function model(array|string|Closure $var, mixed $model = null, bool $exception = true)
     {
         if ($var instanceof Closure) {
             $this->option['model'][] = $var;
@@ -405,7 +405,7 @@ abstract class Rule
      * @param  bool   $batch 批量验证
      * @return $this
      */
-    public function validate($validate, string $scene = null, array $message = [], bool $batch = false)
+    public function validate($validate, ?string $scene = null, array $message = [], bool $batch = false)
     {
         $this->option['validate'] = [$validate, $scene, $message, $batch];
 

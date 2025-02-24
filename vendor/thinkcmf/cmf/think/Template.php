@@ -206,7 +206,7 @@ class Template
      * @param callable $callback 解析规则
      * @return void
      */
-    public function extend(string $rule, callable $callback = null): void
+    public function extend(string $rule, ?callable $callback = null): void
     {
         $this->extend[$rule] = $callback;
     }
@@ -985,7 +985,7 @@ hello;
      * @param string $name 不为空时返回指定的属性名
      * @return array
      */
-    public function parseAttr(string $str, string $name = null): array
+    public function parseAttr(string $str, ?string $name = null): array
     {
         $regex = '/\s+(?>(?P<name>[\w-]+)\s*)=(?>\s*)([\"\'])(?P<value>(?:(?!\\2).)*)\\2/is';
         $array = [];

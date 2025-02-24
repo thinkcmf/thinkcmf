@@ -182,7 +182,7 @@ class Route
         $this->group->removeSlash($this->removeSlash);
     }
 
-    public function config(string $name = null)
+    public function config(?string $name = null)
     {
         if (is_null($name)) {
             return $this->config;
@@ -271,7 +271,7 @@ class Route
      * @param string $name 分组标识
      * @return RuleGroup
      */
-    public function getGroup(string $name = null)
+    public function getGroup(?string $name = null)
     {
         return $name ? $this->ruleName->getGroup($name) : $this->group;
     }
@@ -309,7 +309,7 @@ class Route
      * @param mixed        $rule 路由规则
      * @return Domain
      */
-    public function domain($name, $rule = null): Domain
+    public function domain($name, mixed $rule = null): Domain
     {
         // 支持多个域名使用相同路由规则
         $domainName = is_array($name) ? array_shift($name) : $name;
@@ -363,7 +363,7 @@ class Route
      * @param string $domain 域名
      * @return $this
      */
-    public function bind(string $bind, string $domain = null)
+    public function bind(string $bind, ?string $domain = null)
     {
         $domain = is_null($domain) ? '-' : $domain;
 
@@ -388,7 +388,7 @@ class Route
      * @param string $domain 域名
      * @return string|null
      */
-    public function getDomainBind(string $domain = null)
+    public function getDomainBind(?string $domain = null)
     {
         if (is_null($domain)) {
             $domain = $this->host;
@@ -425,7 +425,7 @@ class Route
      * @param string $method 请求类型
      * @return array
      */
-    public function getName(string $name = null, string $domain = null, string $method = '*'): array
+    public function getName(?string $name = null, ?string $domain = null, string $method = '*'): array
     {
         return $this->ruleName->getName($name, $domain, $method);
     }
@@ -461,7 +461,7 @@ class Route
      * @param RuleItem $ruleItem RuleItem对象
      * @return void
      */
-    public function setRule(string $rule, RuleItem $ruleItem = null): void
+    public function setRule(string $rule, ?RuleItem $ruleItem = null): void
     {
         $this->ruleName->setRule($rule, $ruleItem);
     }
@@ -509,7 +509,7 @@ class Route
      * @param string $method 请求类型
      * @return RuleItem
      */
-    public function rule(string $rule, $route = null, string $method = '*'): RuleItem
+    public function rule(string $rule, mixed $route = null, string $method = '*'): RuleItem
     {
         if ($route instanceof Response) {
             // 兼容之前的路由到响应对象，感觉不需要，使用场景很少，闭包就能实现
@@ -545,7 +545,7 @@ class Route
      * @param mixed           $route 分组路由
      * @return RuleGroup
      */
-    public function group($name, $route = null): RuleGroup
+    public function group($name, mixed $route = null): RuleGroup
     {
         if ($name instanceof Closure) {
             $route = $name;
@@ -721,7 +721,7 @@ class Route
      * @param string $name 方法名称
      * @return array|null
      */
-    public function getRest(string $name = null)
+    public function getRest(?string $name = null)
     {
         if (is_null($name)) {
             return $this->rest;
