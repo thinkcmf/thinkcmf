@@ -6,6 +6,7 @@
 
 namespace OpenApi\Analysers;
 
+use OpenApi\Annotations as OA;
 use OpenApi\Context;
 use OpenApi\Generator;
 
@@ -20,6 +21,11 @@ class DocBlockAnnotationFactory implements AnnotationFactoryInterface
     public function __construct(?DocBlockParser $docBlockParser = null)
     {
         $this->docBlockParser = $docBlockParser ?: new DocBlockParser();
+    }
+
+    public function isSupported(): bool
+    {
+        return DocBlockParser::isEnabled();
     }
 
     public function setGenerator(Generator $generator): void
@@ -50,7 +56,19 @@ class DocBlockAnnotationFactory implements AnnotationFactoryInterface
         $this->docBlockParser->setAliases($aliases);
 
         if (method_exists($reflector, 'getDocComment') && ($comment = $reflector->getDocComment())) {
-            return $this->docBlockParser->fromComment($comment, $context);
+            $annotations = [];
+            foreach ($this->docBlockParser->fromComment($comment, $context) as $instance) {
+                if ($instance instanceof OA\AbstractAnnotation) {
+                    $annotations[] = $instance;
+                } else {
+                    if ($context->is('other') === false) {
+                        $context->other = [];
+                    }
+                    $context->other[] = $instance;
+                }
+            }
+
+            return $annotations;
         }
 
         return [];

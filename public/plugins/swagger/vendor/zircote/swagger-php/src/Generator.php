@@ -48,13 +48,13 @@ class Generator
     protected $namespaces;
 
     /** @var AnalyserInterface|null The configured analyzer. */
-    protected $analyser;
+    protected $analyser = null;
 
     /** @var array<string,mixed> */
     protected $config = [];
 
-    /** @var array<ProcessorInterface|callable>|null List of configured processors. */
-    protected $processors = null;
+    /** @var Pipeline|null */
+    protected $processorPipeline = null;
 
     /** @var LoggerInterface|null PSR logger. */
     protected $logger = null;
@@ -102,7 +102,7 @@ class Generator
                                         if (!$loaded && $namespace === 'OpenApi\\Annotations\\') {
                                             if (in_array(strtolower(substr($class, 20)), ['definition', 'path'])) {
                                                 // Detected an 2.x annotation?
-                                                throw new \Exception('The annotation @SWG\\' . substr($class, 20) . '() is deprecated. Found in ' . Generator::$context . "\nFor more information read the migration guide: https://github.com/zircote/swagger-php/blob/master/docs/Migrating-to-v3.md");
+                                                throw new OpenApiException('The annotation @SWG\\' . substr($class, 20) . '() is deprecated. Found in ' . Generator::$context . "\nFor more information read the migration guide: https://github.com/zircote/swagger-php/blob/master/docs/Migrating-to-v3.md");
                                             }
                                         }
 
@@ -124,9 +124,6 @@ class Generator
         };
     }
 
-    /**
-     * @param mixed $value
-     */
     public static function isDefault($value): bool
     {
         return $value === Generator::UNDEFINED;
@@ -222,12 +219,24 @@ class Generator
                 $value = 'true' == $value;
             }
 
+            if ($isList = ('[]' == substr($key, -2))) {
+                $key = substr($key, 0, -2);
+            }
             $token = explode('.', $key);
             if (2 == count($token)) {
                 // 'operationId.hash' => false
-                $normalised[$token[0]][$token[1]] = $value;
+                // namespaced / processor
+                if ($isList) {
+                    $normalised[$token[0]][$token[1]][] = $value;
+                } else {
+                    $normalised[$token[0]][$token[1]] = $value;
+                }
             } else {
-                $normalised[$key] = $value;
+                if ($isList) {
+                    $normalised[$key][] = $value;
+                } else {
+                    $normalised[$key] = $value;
+                }
             }
         }
 
@@ -246,13 +255,10 @@ class Generator
         return $this;
     }
 
-    /**
-     * @return array<ProcessorInterface|callable>
-     */
-    public function getProcessors(): array
+    public function getProcessorPipeline(): Pipeline
     {
-        if (null === $this->processors) {
-            $this->processors = [
+        if (null === $this->processorPipeline) {
+            $this->processorPipeline = new Pipeline([
                 new Processors\DocBlockDescriptions(),
                 new Processors\MergeIntoOpenApi(),
                 new Processors\MergeIntoComponents(),
@@ -261,6 +267,7 @@ class Generator
                 new Processors\ExpandTraits(),
                 new Processors\ExpandEnums(),
                 new Processors\AugmentSchemas(),
+                new Processors\AugmentRequestBody(),
                 new Processors\AugmentProperties(),
                 new Processors\BuildPaths(),
                 new Processors\AugmentParameters(),
@@ -269,34 +276,68 @@ class Generator
                 new Processors\MergeXmlContent(),
                 new Processors\OperationId(),
                 new Processors\CleanUnmerged(),
-            ];
+                new Processors\PathFilter(),
+                new Processors\CleanUnusedComponents(),
+                new Processors\AugmentTags(),
+            ]);
         }
 
         $config = $this->getConfig();
-        foreach ($this->processors as $processor) {
-            $rc = new \ReflectionClass($processor);
+        $walker = function (callable $pipe) use ($config) {
+            $rc = new \ReflectionClass($pipe);
 
             // apply config
             $processorKey = lcfirst($rc->getShortName());
             if (array_key_exists($processorKey, $config)) {
                 foreach ($config[$processorKey] as $name => $value) {
                     $setter = 'set' . ucfirst($name);
-                    if (method_exists($processor, $setter)) {
-                        $processor->{$setter}($value);
+                    if (method_exists($pipe, $setter)) {
+                        $pipe->{$setter}($value);
                     }
                 }
             }
-        }
+        };
 
-        return $this->processors;
+        return $this->processorPipeline->walk($walker);
+    }
+
+    public function setProcessorPipeline(?Pipeline $processor): Generator
+    {
+        $this->processorPipeline = $processor;
+
+        return $this;
+    }
+
+    /**
+     * Chainable method that allows to modify the processor pipeline.
+     *
+     * @param callable $with callable with the current processor pipeline passed in
+     */
+    public function withProcessor(callable $with): Generator
+    {
+        $with($this->getProcessorPipeline());
+
+        return $this;
+    }
+
+    /**
+     * @return array<ProcessorInterface|callable>
+     *
+     * @deprecated
+     */
+    public function getProcessors(): array
+    {
+        return $this->getProcessorPipeline()->pipes();
     }
 
     /**
      * @param array<ProcessorInterface|callable>|null $processors
+     *
+     * @deprecated
      */
     public function setProcessors(?array $processors): Generator
     {
-        $this->processors = $processors;
+        $this->processorPipeline = null !== $processors ? new Pipeline($processors) : null;
 
         return $this;
     }
@@ -304,42 +345,33 @@ class Generator
     /**
      * @param callable|ProcessorInterface $processor
      * @param class-string|null           $before
+     *
+     * @deprecated
      */
     public function addProcessor($processor, ?string $before = null): Generator
     {
-        $processors = $this->getProcessors();
+        $processors = $this->processorPipeline ?: $this->getProcessorPipeline();
         if (!$before) {
-            $processors[] = $processor;
+            $processors->add($processor);
         } else {
-            $tmp = [];
-            foreach ($processors as $current) {
-                if ($current instanceof $before) {
-                    $tmp[] = $processor;
-                }
-                $tmp[] = $current;
-            }
-            $processors = $tmp;
+            $processors->insert($processor, $before);
         }
 
-        $this->setProcessors($processors);
+        $this->processorPipeline = $processors;
 
         return $this;
     }
 
     /**
      * @param callable|ProcessorInterface $processor
+     *
+     * @deprecated
      */
     public function removeProcessor($processor, bool $silent = false): Generator
     {
-        $processors = $this->getProcessors();
-        if (false === ($key = array_search($processor, $processors, true))) {
-            if ($silent) {
-                return $this;
-            }
-            throw new \InvalidArgumentException('Processor not found');
-        }
-        unset($processors[$key]);
-        $this->setProcessors($processors);
+        $processors = $this->processorPipeline ?: $this->getProcessorPipeline();
+        $processors->remove($processor);
+        $this->processorPipeline = $processors;
 
         return $this;
     }
@@ -350,6 +382,8 @@ class Generator
      * @param ProcessorInterface|callable $processor the new processor
      * @param null|callable               $matcher   Optional matcher callable to identify the processor to replace.
      *                                               If none given, matching is based on the processors class.
+     *
+     * @deprecated
      */
     public function updateProcessor($processor, ?callable $matcher = null): Generator
     {
@@ -392,18 +426,24 @@ class Generator
                 'namespaces' => self::DEFAULT_NAMESPACES,
                 'analyser' => null,
                 'analysis' => null,
+                'processor' => null,
                 'processors' => null,
+                'config' => [],
                 'logger' => null,
                 'validate' => true,
                 'version' => null,
             ];
+
+        $processorPipeline = $config['processor'] ??
+            ($config['processors'] ? new Pipeline($config['processors']) : null);
 
         return (new Generator($config['logger']))
             ->setVersion($config['version'])
             ->setAliases($config['aliases'])
             ->setNamespaces($config['namespaces'])
             ->setAnalyser($config['analyser'])
-            ->setProcessors($config['processors'])
+            ->setProcessorPipeline($processorPipeline)
+            ->setConfig($config['config'])
             ->generate($sources, $config['analysis'], $config['validate']);
     }
 
@@ -448,17 +488,21 @@ class Generator
             'version' => $this->getVersion(),
             'logger' => $this->getLogger(),
         ]);
+
         $analysis = $analysis ?: new Analysis([], $rootContext);
+        $analysis->context = $analysis->context ?: $rootContext;
 
         $this->configStack->push($this);
         try {
             $this->scanSources($sources, $analysis, $rootContext);
 
             // post-processing
-            $analysis->process($this->getProcessors());
+            $this->getProcessorPipeline()->process($analysis);
 
             if ($analysis->openapi) {
-                $analysis->openapi->openapi = $this->version ?: $analysis->openapi->openapi;
+                // overwrite default/annotated version
+                $analysis->openapi->openapi = $this->getVersion() ?: $analysis->openapi->openapi;
+                // update context to provide the same to validation/serialisation code
                 $rootContext->version = $analysis->openapi->openapi;
             }
 

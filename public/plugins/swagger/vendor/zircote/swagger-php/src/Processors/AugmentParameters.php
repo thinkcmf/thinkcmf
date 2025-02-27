@@ -11,11 +11,14 @@ use OpenApi\Annotations as OA;
 use OpenApi\Generator;
 use OpenApi\Processors\Concerns\DocblockTrait;
 
+/**
+ * Augments shared and operations parameters from docblock comments.
+ */
 class AugmentParameters implements ProcessorInterface
 {
     use DocblockTrait;
 
-    protected $augmentOperationParameters;
+    protected $augmentOperationParameters = true;
 
     public function __construct(bool $augmentOperationParameters = true)
     {
@@ -29,12 +32,12 @@ class AugmentParameters implements ProcessorInterface
 
     /**
      * If set to <code>true</code> try to find operation parameter descriptions in the operation docblock.
-     *
-     * @param bool $augmentOperationParameters
      */
-    public function setAugmentOperationParameters(bool $augmentOperationParameters): void
+    public function setAugmentOperationParameters(bool $augmentOperationParameters): AugmentParameters
     {
         $this->augmentOperationParameters = $augmentOperationParameters;
+
+        return $this;
     }
 
     public function __invoke(Analysis $analysis)
