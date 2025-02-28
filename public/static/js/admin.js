@@ -705,12 +705,15 @@ function _loginExpiredNoty() {
 
                 } else {
                     //非全选状态
+                    check_items.prop('checked', false);
+                    check_wrap.find(total_check_all).prop('checked', false);
                     check_items.removeProp('checked');
 
                     check_wrap.find(total_check_all).removeProp('checked');
 
                     //另一方向的全选框取消全选状态
                     var direction_invert = check_all_direction === 'x' ? 'y' : 'x';
+                    check_wrap.find($('input.js-check-all[data-direction="' + direction_invert + '"]')).prop('checked', false);
                     check_wrap.find($('input.js-check-all[data-direction="' + direction_invert + '"]')).removeProp('checked');
                 }
 
@@ -727,6 +730,7 @@ function _loginExpiredNoty() {
                     }
 
                 } else {
+                    check_all.prop('checked', false);
                     check_all.removeProp('checked');
                 }
 
