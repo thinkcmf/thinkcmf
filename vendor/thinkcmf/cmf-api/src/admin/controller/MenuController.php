@@ -488,5 +488,44 @@ class MenuController extends RestAdminBaseController
 
         $this->success('操作成功',["app"=>$app,"new_menus"=>$newMenus,"next_app"=>$next_app]);
     }
-
+    /**
+     * 切换菜单显示状态
+     * @throws \think\exception\DbException
+     * @OA\Post(
+     *     tags={"admin"},
+     *     path="/admin/menus/{id}/toggle",
+     *     summary="切换菜单显示状态",
+     *     description="切换菜单显示状态",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="菜单id",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="1",
+     *          description="success",
+     *          @OA\JsonContent(example={"code": 1,"msg": "操作成功!","data":""})
+     *     ),
+     *     @OA\Response(
+     *          response="0",
+     *          @OA\JsonContent(example={"code": 0,"msg": "菜单不存在！","data":""})
+     *     ),
+     * )
+     */
+    public function toggle()
+    {
+        $id    = $this->request->param('id', 0, 'intval');
+        $menu = AdminMenuModel::find($id);
+        if (empty($menu)) {
+            $this->error('菜单不存在！');
+        } else {
+            $status = empty($menu['status']) ? 1 : 0;
+            $menu->save(['status' => $status]);
+            $this->success('操作成功！');
+        }
+    }
 }
