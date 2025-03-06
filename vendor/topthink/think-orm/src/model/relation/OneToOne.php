@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -16,8 +16,9 @@ use Closure;
 use think\db\BaseQuery as Query;
 use think\db\exception\DbException as Exception;
 use think\db\exception\InvalidArgumentException;
+use think\Entity;
 use think\helper\Str;
-use think\Model;
+use think\model\contract\Modelable as Model;
 use think\model\Relation;
 
 /**
@@ -91,9 +92,9 @@ abstract class OneToOne extends Relation
         }
 
         // 预载入封装
-        $joinTable  = $this->query->getTable();
-        $joinAlias  = Str::snake($relation);
-        $joinType   = $joinType ?: $this->joinType;
+        $joinTable = $this->query->getTable();
+        $joinAlias = Str::snake($relation);
+        $joinType  = $joinType ?: $this->joinType;
 
         $query->via($joinAlias);
 
@@ -210,7 +211,7 @@ abstract class OneToOne extends Relation
      *
      * @return Model|false
      */
-    public function save(array|Model $data, bool $replace = true)
+    public function save(array | Model $data, bool $replace = true)
     {
         $model = $this->make();
 
@@ -224,7 +225,7 @@ abstract class OneToOne extends Relation
      *
      * @return Model
      */
-    public function make(array|Model $data = []): Model
+    public function make(array | Model $data = []): Model
     {
         if ($data instanceof Model) {
             $data = $data->getData();
@@ -271,36 +272,48 @@ abstract class OneToOne extends Relation
      */
     protected function match(string $model, string $relation, Model $result): void
     {
-        // 重新组装模型数据
-        foreach ($result->getData() as $key => $val) {
-            if (str_contains($key, '__')) {
-                [$name, $attr] = explode('__', $key, 2);
-                if ($name == Str::snake($relation)) {
-                    $list[$relation][$attr] = $val;
-                    unset($result->$key);
+        if ($result instanceof Entity) {
+            $data = $result->getRelation($relation);
+            if (!empty($data)) {
+                if ($this->bindAttr) {
+                    $result->bindRelationAttr($data, $this->bindAttr);
+                } else {
+                    $relationModel = (new $model())->newInstance($data);
+                    $result->setRelation($relation, $relationModel);
                 }
             }
-        }
-
-        if (isset($list[$relation])) {
-            $array = array_unique($list[$relation]);
-
-            if (count($array) == 1 && null === current($array)) {
-                $relationModel = null;
-            } else {
-                $relationModel = new $model($list[$relation]);
-                $relationModel->setParent(clone $result);
-                $relationModel->exists(true);
-            }
-
-            if (!empty($this->bindAttr)) {
-                $this->bindAttr($result, $relationModel);
-            }
         } else {
-            $relationModel = null;
-        }
+            // 重新组装模型数据
+            foreach ($result->getData() as $key => $val) {
+                if (str_contains($key, '__')) {
+                    [$name, $attr] = explode('__', $key, 2);
+                    if (Str::snake($relation) == $name) {
+                        $list[$relation][$attr] = $val;
+                        unset($result->$key);
+                    }
+                }
+            }
 
-        $result->setRelation($relation, $relationModel);
+            if (isset($list[$relation])) {
+                $array = array_unique($list[$relation]);
+
+                if (count($array) == 1 && null === current($array)) {
+                    $relationModel = null;
+                } else {
+                    $relationModel = new $model($list[$relation]);
+                    $relationModel->setParent(clone $result);
+                    $relationModel->exists(true);
+                }
+
+                if (!empty($this->bindAttr)) {
+                    $this->bindAttr($result, $relationModel);
+                }
+            } else {
+                $relationModel = null;
+            }
+
+            $result->setRelation($relation, $relationModel);
+        }
     }
 
     /**
@@ -315,26 +328,30 @@ abstract class OneToOne extends Relation
      */
     protected function bindAttr(Model $result, ?Model $model = null): void
     {
-        foreach ($this->bindAttr as $key => $attr) {
-            if (is_numeric($key)) {
-                if (!is_string($attr)) {
-                    throw new InvalidArgumentException('bind attr must be string:' . $key);
+        if ($result instanceof Entity && $model) {
+            $result->bindRelationAttr($model, $this->bindAttr);
+        } else {
+            foreach ($this->bindAttr as $key => $attr) {
+                if (is_numeric($key)) {
+                    if (!is_string($attr)) {
+                        throw new InvalidArgumentException('bind attr must be string:' . $key);
+                    }
+
+                    $key = $attr;
                 }
 
-                $key = $attr;
-            }
+                if (null !== $result->getOrigin($key)) {
+                    throw new Exception('bind attr has exists:' . $key);
+                }
 
-            if (null !== $result->getOrigin($key)) {
-                throw new Exception('bind attr has exists:' . $key);
-            }
+                if ($attr instanceof Closure) {
+                    $value = $attr($model, $key, $result);
+                } else {
+                    $value = $model?->getAttr($attr);
+                }
 
-            if ($attr instanceof Closure) {
-                $value = $attr($model, $key, $result);
-            } else {
-                $value = $model?->getAttr($attr);
+                $result->setAttr($key, $value);
             }
-
-            $result->setAttr($key, $value);
         }
     }
 

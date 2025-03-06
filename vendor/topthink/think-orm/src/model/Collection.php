@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace think\model;
 
 use think\Collection as BaseCollection;
-use think\Model;
+use think\model\contract\Modelable as Model;
 use think\Paginator;
 
 /**
@@ -170,7 +170,7 @@ class Collection extends BaseCollection
      *
      * @return $this
      */
-    public function setParent(Model $parent)
+    public function setParent($parent)
     {
         $this->each(function (Model $model) use ($parent) {
             $model->setParent($parent);

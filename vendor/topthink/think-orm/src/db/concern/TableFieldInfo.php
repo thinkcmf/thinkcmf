@@ -3,13 +3,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think\db\concern;
 
@@ -27,11 +27,11 @@ trait TableFieldInfo
      */
     public function getTableFields(string $tableName = ''): array
     {
-        if ('' == $tableName) {
-            $tableName = $this->getTable();
+        if ('' == $tableName && !empty($this->options['field_type'])) {
+            return array_keys($this->options['field_type']);
         }
 
-        return $this->connection->getTableFields($tableName);
+        return $this->connection->getTableFields($tableName ?: $this->getTable());
     }
 
     /**
@@ -58,6 +58,11 @@ trait TableFieldInfo
         }
 
         return $this->connection->getFieldsType($this->getTable());
+    }
+
+    public function getType(): array
+    {
+        return $this->getFieldsType();
     }
 
     /**

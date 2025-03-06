@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -19,8 +19,9 @@ use PDOStatement;
 use think\db\exception\BindParamException;
 use think\db\exception\DbEventException;
 use think\db\exception\DbException;
+use think\db\exception\DuplicateException;
 use think\db\exception\PDOException;
-use think\Model;
+use think\model\contract\Modelable as Model;
 
 /**
  * 数据库连接基础类.
@@ -833,6 +834,9 @@ abstract class PDOConnection extends Connection
             }
 
             if ($e instanceof \PDOException) {
+                if (str_contains($e->getMessage(),'1062 Duplicate entry')) {
+                    throw new DuplicateException($e, $this->config, $this->getLastsql());
+                }
                 throw new PDOException($e, $this->config, $this->getLastsql());
             } else {
                 throw $e;

@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -15,11 +15,13 @@ namespace think\db;
 
 use Closure;
 use Psr\SimpleCache\CacheInterface;
+use ReflectionFunction;
 use think\Collection;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException as Exception;
 use think\db\exception\ModelNotFoundException;
 use think\helper\Str;
+use think\Model;
 use think\Paginator;
 
 /**
@@ -32,7 +34,6 @@ abstract class BaseQuery
     use concern\ModelRelationQuery;
     use concern\ParamsBind;
     use concern\ResultOperation;
-    use concern\Transaction;
     use concern\WhereQuery;
 
     /**
@@ -177,10 +178,6 @@ abstract class BaseQuery
             $query->lazyFields($this->options['lazy_fields']);
         }
 
-        if (isset($this->options['alias'])) {
-            $query->alias($this->options['alias']);
-        }
-
         return $query;
     }
 
@@ -280,15 +277,15 @@ abstract class BaseQuery
     }
 
     /**
-     * 得到当前或者指定名称的数据表.
+     * 得到当前数据表名称.
      * @param bool $alias 是否返回数据表别名
      *
-     * @return string|array|Raw
+     * @return string
      */
     public function getTable(bool $alias = false)
     {
         if (isset($this->options['table'])) {
-            $table =  $this->options['table'];
+            $table = $this->options['table'];
             if ($alias && is_string($table) && !empty($this->options['alias'][$table])) {
                 return $this->options['alias'][$table];
             }
@@ -308,6 +305,20 @@ abstract class BaseQuery
     public function setFieldType(array $type)
     {
         $this->options['field_type'] = $type;
+
+        return $this;
+    }
+
+    /**
+     * 设置字段类型信息.
+     *
+     * @param array $schema 字段类型信息
+     *
+     * @return $this
+     */
+    public function schema(array $schema)
+    {
+        $this->options['field_type'] = $schema;
 
         return $this;
     }
@@ -1385,8 +1396,16 @@ abstract class BaseQuery
             $this->parsePkWhere($data);
         }
 
-        if (empty($this->options['where']) && $this->model) {
-            $this->where($this->model->getWhere());
+        if (empty($this->options['where'])) {
+            if ($this->model && $this->model instanceof Model) {
+                $this->where($this->model->getWhere());
+            } elseif (!empty($this->options['key'])) {
+                if (is_array($this->pk)) {
+                    $this->where($this->options['key']);
+                } else {
+                    $this->where($this->pk, '=', $this->options['key']);
+                }
+            }
         }
 
         if (true !== $data && empty($this->options['where']) && empty($this->options['scope'])) {
@@ -1415,7 +1434,11 @@ abstract class BaseQuery
      *
      * @param array $data 主键数据
      *
-     * @return \think\model\Collection|\think\Collection
+     * @throws Exception
+     * @throws ModelNotFoundException
+     * @throws DataNotFoundException
+     *
+     * @return Collection|array|static[]
      */
     public function select(array $data = []): Collection
     {
@@ -1446,13 +1469,13 @@ abstract class BaseQuery
      * 查找单条记录.
      *
      * @param mixed   $data 主键数据
-     * @param ?Closure $closure 闭包数据
+     * @param Closure $closure 闭包数据
      *
      * @throws Exception
      * @throws ModelNotFoundException
      * @throws DataNotFoundException
      *
-     * @return static|\think\Model|array|null
+     * @return mixed
      */
     public function find($data = null, ?Closure $closure = null)
     {
@@ -1560,7 +1583,14 @@ abstract class BaseQuery
         $pk       = $this->getPk();
         $isUpdate = false;
         // 如果存在主键数据 则自动作为更新条件
-        if (is_string($pk) && isset($data[$pk])) {
+        if (!empty($this->options['key'])) {
+            if (is_array($pk)) {
+                $this->where($this->options['key']);
+            } else {
+                $this->where($pk, '=', $this->options['key']);
+            }
+            $isUpdate = true;
+        } elseif (is_string($pk) && isset($data[$pk])) {
             $this->where($pk, '=', $data[$pk]);
             $this->options['key'] = $data[$pk];
             unset($data[$pk]);
@@ -1627,5 +1657,37 @@ abstract class BaseQuery
     protected function getModelUpdateCondition(array $options)
     {
         return $options['where']['AND'] ?? null;
+    }
+
+    /**
+     * 获取当前的查询标识.
+     *
+     * @return string
+     */
+    public function getQueryGuid(): string
+    {
+        $data  = $this->options;
+        unset($data['scope'], $data['default_model']);
+        $data['database'] = $this->getConfig('database');
+        $data['table']    = $this->getTable();
+        foreach (['AND', 'OR', 'XOR'] as $logic) {
+            if (isset($data['where'][$logic])) {
+                foreach ($data['where'][$logic] as $key => $val) {
+                    if ($val instanceof Closure) {
+                        $reflection = new ReflectionFunction($val);
+                        $properties = $reflection->getStaticVariables();
+                        if (empty($properties)) {
+                            $name = $reflection->getName() . $reflection->getStartLine() . '-' . $reflection->getEndLine();
+                        } else {
+                            $name = var_export($properties, true);
+                        }
+                        $data['Closure'][] = $name;
+                        unset($data['where'][$logic][$key]);
+                    }
+                }
+            }
+        }
+
+        return md5(serialize(var_export($data, true)) . serialize($this->getBind(false)));
     }
 }

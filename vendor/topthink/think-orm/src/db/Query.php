@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -13,9 +13,7 @@ declare (strict_types = 1);
 
 namespace think\db;
 
-use Closure;
 use PDOStatement;
-use ReflectionFunction;
 use think\db\exception\DbException as Exception;
 
 /**
@@ -24,8 +22,8 @@ use think\db\exception\DbException as Exception;
 class Query extends BaseQuery
 {
     use concern\JoinAndViewQuery;
-    use concern\ParamsBind;
     use concern\TableFieldInfo;
+    use concern\Transaction;
 
     /**
      * 表达式方式指定Field排序.
@@ -365,12 +363,20 @@ class Query extends BaseQuery
      *
      * @param string $field 字段名
      * @param float  $step  增长值
+     * @param int    $lazyTime 延迟时间（秒）
      *
      * @return $this
      */
-    public function inc(string $field, float $step = 1)
+    public function inc(string $field, float $step = 1, int $lazyTime = 0)
     {
-        $this->options['data'][$field] = ['INC', $step];
+        if ($lazyTime > 0) {
+            $step = $this->lazyWrite($field, 'inc', $step, $lazyTime);
+            if (false === $step) {
+                return $this;
+            }
+        }
+
+        $this->options['data'][$field] = new Express('+', $step);
 
         return $this;
     }
@@ -380,12 +386,21 @@ class Query extends BaseQuery
      *
      * @param string $field 字段名
      * @param float  $step  增长值
+     * @param int    $lazyTime 延迟时间（秒）
      *
      * @return $this
      */
-    public function dec(string $field, float $step = 1)
+    public function dec(string $field, float $step = 1, int $lazyTime = 0)
     {
-        $this->options['data'][$field] = ['DEC', $step];
+        if ($lazyTime > 0) {
+            $step = $this->lazyWrite($field, 'dec', $step, $lazyTime);
+            if (false === $step) {
+                return $this;
+            }
+            return $this->inc($field, $step);
+        }
+
+        $this->options['data'][$field] = new Express('-', $step);
 
         return $this;
     }
@@ -410,15 +425,7 @@ class Query extends BaseQuery
             throw new Exception('miss update condition');
         }
 
-        if ($lazyTime > 0) {
-            $guid = $this->getLazyFieldCacheKey($field);
-            $step = $this->lazyWrite('inc', $guid, $step, $lazyTime);
-            if (false === $step) {
-                return true;
-            }
-        }
-
-        return $this->inc($field, $step)->update();
+        return $this->inc($field, $step, $lazyTime)->update();
     }
 
     /**
@@ -441,30 +448,22 @@ class Query extends BaseQuery
             throw new Exception('miss update condition');
         }
 
-        if ($lazyTime > 0) {
-            $guid = $this->getLazyFieldCacheKey($field);
-            $step = $this->lazyWrite('dec', $guid, $step, $lazyTime);
-            if (false === $step) {
-                return true;
-            }
-            return $this->inc($field, $step)->update();
-        }
-
-        return $this->dec($field, $step)->update();
+        return $this->dec($field, $step, $lazyTime)->update();
     }
 
     /**
      * 延时更新检查 返回false表示需要延时
      * 否则返回实际写入的数值
-     * @access protected
+     * @access public
+     * @param  string  $field    字段名
      * @param  string  $type     自增或者自减
-     * @param  string  $guid     写入标识
      * @param  float   $step     写入步进值
      * @param  int     $lazyTime 延时时间(s)
      * @return false|integer
      */
-    protected function lazyWrite(string $type, string $guid, float $step, int $lazyTime)
+    public function lazyWrite(string $field, string $type, float $step, int $lazyTime)
     {
+        $guid  = $this->getLazyFieldCacheKey($field);
         $cache = $this->getCache();
         if (!$cache->has($guid . '_time')) {
             // 计时开始
@@ -508,41 +507,6 @@ class Query extends BaseQuery
     protected function getLazyFieldCacheKey(string $field, $id = null): string
     {
         return 'lazy_' . $this->getTable() . '_' . $field . '_' . ($id ?: $this->getKey());
-    }
-
-    /**
-     * 获取当前的查询标识.
-     *
-     * @param mixed $data 要序列化的数据
-     *
-     * @return string
-     */
-    public function getQueryGuid($data = null): string
-    {
-        if (null === $data) {
-            $data          = $this->options;
-            $data['table'] = $this->getConfig('database') . var_export($this->getTable(), true);
-            unset($data['scope'], $data['default_model']);
-            foreach (['AND', 'OR', 'XOR'] as $logic) {
-                if (isset($data['where'][$logic])) {
-                    foreach ($data['where'][$logic] as $key => $val) {
-                        if ($val instanceof Closure) {
-                            $reflection = new ReflectionFunction($val);
-                            $properties = $reflection->getStaticVariables();
-                            if (empty($properties)) {
-                                $name = $reflection->getName() . $reflection->getStartLine() . '-' . $reflection->getEndLine();
-                            } else {
-                                $name = var_export($properties, true);
-                            }
-                            $data['Closure'][] = $name;
-                            unset($data['where'][$logic][$key]);
-                        }
-                    }
-                }
-            }
-        }
-
-        return md5(serialize(var_export($data, true)) . serialize($this->getBind(false)));
     }
 
     /**

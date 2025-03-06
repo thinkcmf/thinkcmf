@@ -4,7 +4,7 @@ declare (strict_types = 1);
 
 namespace think\model\contract;
 
-use think\Model;
+use think\model\contract\Modelable as Model;
 
 interface FieldTypeTransform
 {

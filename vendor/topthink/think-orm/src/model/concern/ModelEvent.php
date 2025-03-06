@@ -3,13 +3,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think\model\concern;
 
@@ -82,7 +82,8 @@ trait ModelEvent
             return true;
         }
 
-        $call = 'on' . Str::studly($event);
+        $call  = 'on' . Str::studly($event);
+        $model = $this->entity ?: $this;
 
         try {
             if ($this->eventObserver) {
@@ -93,9 +94,9 @@ trait ModelEvent
             }
 
             if (method_exists($observer, $call)) {
-                $result = $this->invoke([$observer, $call], [$this]);
+                $result = $this->invoke([$observer, $call], [$model]);
             } elseif (is_object(self::$event) && method_exists(self::$event, 'trigger')) {
-                $result = self::$event->trigger(static::class . '.' . $event, $this);
+                $result = self::$event->trigger(static::class . '.' . $event, $model);
                 $result = empty($result) ? true : end($result);
             } else {
                 $result = true;
