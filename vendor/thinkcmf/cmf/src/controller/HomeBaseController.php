@@ -88,8 +88,7 @@ class HomeBaseController extends BaseController
             $app        = $this->app->http->getName();
             $controller = $this->request->controller();
             $action     = $this->request->action();
-
-            $output = <<<hello
+            $output     = <<<hello
 <script>
 var _themeDesign=true;
 var _themeTest="test";
@@ -200,6 +199,7 @@ hello;
         $widgets        = [];
         $widgetsBlocks  = [];
         $widgetsInBlock = [];
+        $config         = [];
 
         $currentLang = cmf_current_home_lang();
         $loadI18n    = false;
@@ -209,12 +209,20 @@ hello;
 
         foreach ($files as $file) {
             $oldMore = json_decode($file['more'], true);
+
+            if ($file['is_public'] && !empty($oldMore['vars'])) {
+                foreach ($oldMore['vars'] as $varName => $var) {
+                    $config[$varName] = $var['value'];
+                }
+            }
+
             if ($loadI18n) {
                 $findThemeFileI18n = ThemeFileI18nModel::where('file_id', $file['id'])->where('lang', $currentLang)->find();
                 if (!empty($findThemeFileI18n)) {
                     $oldMore = $findThemeFileI18n['more'];
                 }
             }
+
             if (!empty($oldMore['vars'])) {
                 foreach ($oldMore['vars'] as $varName => $var) {
                     $vars[$varName] = $var['value'];
@@ -223,7 +231,6 @@ hello;
 
             if (!empty($oldMore['widgets'])) {
                 foreach ($oldMore['widgets'] as $widgetName => $widget) {
-
                     $widgetVars = [];
                     if (!empty($widget['vars'])) {
                         foreach ($widget['vars'] as $varName => $var) {
@@ -248,7 +255,6 @@ hello;
             }
 
             if (!empty($oldMore['widgets_blocks'])) {
-//               print_r($file);
                 if (!empty($oldMore['widgets_blocks'])) {
                     foreach ($oldMore['widgets_blocks'] as $widgetsBlockName => $widgetsBlock) {
                         $widgetsBlock['_file_id'] = $file['id'];
@@ -277,8 +283,8 @@ hello;
             }
         }
 
-
         return [
+            'theme_config'         => $config,
             'theme_vars'           => $vars,
             'theme_widgets'        => $widgets,
             'theme_widgets_blocks' => $widgetsBlocks,

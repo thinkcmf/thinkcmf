@@ -24,12 +24,12 @@ class AdminSlideSaveRequest
     /**
      * @OA\Property(
      *     type="string",
-     *     example="这是第一张幻灯片的描述",
-     *     description="描述"
+     *     example="这是第一张幻灯片的备注",
+     *     description="备注"
      * )
      * @var string
      */
-    public $description;
+    public $remark;
 
 
 }

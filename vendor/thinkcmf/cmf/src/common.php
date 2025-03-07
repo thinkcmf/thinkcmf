@@ -37,20 +37,23 @@ function url(string $url = '', array $vars = [], $suffix = true, $domain = false
 
 /**
  * 调用模块的操作方法 参数格式 [模块/控制器/]操作
- * @param string       $url          调用地址
- * @param string|array $vars         调用参数 支持字符串和数组
- * @param string       $layer        要调用的控制层名称
- * @param bool         $appendSuffix 是否添加类名后缀
+ * @param string       $url           调用地址
+ * @param string|array $vars          调用参数 支持字符串和数组
+ * @param string       $layer         要调用的控制层名称
+ * @param bool         $appendSuffix  是否添加类名后缀
+ * @param string       $rootNamespace 根命名空间
  * @return mixed
  */
-function action($url, $vars = [], $layer = 'controller', $appendSuffix = false)
+function action($url, $vars = [], $layer = 'controller', $appendSuffix = false, $rootNamespace = '')
 {
-    $app           = app();
-    $rootNamespace = $app->getRootNamespace();
-    $urlArr        = explode('/', $url);
-    $appName       = $urlArr[0];
-    $controller    = cmf_parse_name($urlArr[1], 1, true);
-    $action        = $urlArr[2];
+    if (empty($rootNamespace)) {
+        $rootNamespace = $app->getRootNamespace();
+    }
+    $app        = app();
+    $urlArr     = explode('/', $url);
+    $appName    = $urlArr[0];
+    $controller = cmf_parse_name($urlArr[1], 1, true);
+    $action     = $urlArr[2];
 
     return $app->invokeMethod(["{$rootNamespace}\\$appName\\$layer\\$controller" . ucfirst($layer), $action], $vars);
 }
@@ -1261,6 +1264,24 @@ function cmf_plugin_url($url, $vars = [], $domain = false)
 }
 
 /**
+ * 检查插件是否启用
+ * @param $pluginName
+ * @return bool
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\DbException
+ * @throws \think\db\exception\ModelNotFoundException
+ */
+function cmf_plugin_is_enabled($pluginName)
+{
+    $pluginName = cmf_parse_name($pluginName, 1);
+    $findPlugin = db('plugin')->field('status')->where('name', $pluginName)->find();
+    if (!empty($findPlugin['status'])) {
+        return true;
+    }
+    return false;
+}
+
+/**
  * 检查权限
  * @param $userId   int        要检查权限的用户 ID
  * @param $name     string|array  需要验证的规则列表,支持逗号分隔的权限规则或索引数组
@@ -2419,7 +2440,7 @@ function cmf_get_app_config_file($app, $file)
             $configFile = CMF_ROOT . "vendor/thinkcmf/cmf-swoole/src/{$file}.php";
             break;
         default:
-            $configFile = app_path() . $app . "/{$file}.php";
+            $configFile = APP_PATH . $app . "/{$file}.php";
             if (!file_exists($configFile)) {
                 $configFile = CMF_ROOT . "vendor/thinkcmf/cmf-app/src/{$app}/{$file}.php";
             }

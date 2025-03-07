@@ -163,7 +163,7 @@ class NavMenuModel extends Model
 
                                 if (!empty($navApi['api'])) {
                                     try {
-                                        $navData = action($app . '/' . $navApi['api'], [], 'api');
+                                        $navData = action($app . '/' . $navApi['api'], [], 'api',false,'app');
                                     } catch (Exception $e) {
                                         $navData = null;
                                     }

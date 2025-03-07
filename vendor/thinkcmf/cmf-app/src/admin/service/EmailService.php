@@ -16,10 +16,15 @@ use app\admin\model\SlideModel;
 
 class EmailService
 {
-    public static function send($address, $subject, $message, $attachments = [], $adminId = 0)
+    public static function send($address, $subject, $message, $attachments = [], $params = [])
     {
+        $adminId = cmf_get_current_admin_id();
+        if (is_int($params)) { //兼容老用法
+            $adminId = $params;
+        } elseif (!empty($params['admin_id'])) {
+            $adminId = $params['admin_id'];
+        }
 
-        $adminId     = $adminId == 0 ? cmf_get_current_admin_id() : $adminId;
         $smtpSetting = cmf_get_option('admin_smtp_setting_' . $adminId);
         if (empty($smtpSetting)) {
             return ["error" => 1, "message" => '没有邮箱配置！'];
@@ -34,8 +39,15 @@ class EmailService
         $mail->CharSet = 'UTF-8';
         // 添加收件人地址，可以多次使用来添加多个收件人
         $mail->AddAddress($address);
+        if (!empty($params['CCs'])) {
+            foreach ($params['CCs'] as $CC) {
+                if (is_string($CC)) {
+                    $mail->addCC($CC);
+                }
+            }
+        }
         // 设置邮件正文
-        $mail->Body = $message . htmlspecialchars_decode($smtpSetting['signature']);
+        $mail->Body = $message . (empty($smtpSetting['signature']) ? '' : htmlspecialchars_decode($smtpSetting['signature']));
         // 设置邮件头的From字段。
         $mail->From = $smtpSetting['from'];
         // 设置发件人名字
