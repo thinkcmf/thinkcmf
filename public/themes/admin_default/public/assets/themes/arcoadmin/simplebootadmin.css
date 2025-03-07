@@ -1,27 +1,31 @@
-body,html{
-	background-color: #f2f3f5;
+body, html {
+    background-color: #f2f3f5;
 }
 
-body{
-	padding: 20px;
+body {
+    padding: 20px;
 }
 
-body.mobile{
-	padding: 5px;
+body.mobile {
+    padding: 10px;
 }
 
-.main-iframe-wrap.wrap{
-	background: transparent;
-	padding: 0;
-	margin: -10px;
+.mobile .wrap {
+    padding: 10px;
+}
+
+.main-iframe-wrap.wrap {
+    background: transparent;
+    padding: 0;
+    margin: -10px;
 }
 
 .main-iframe-wrap .panel-default > .panel-heading {
-	background-color: #fff;
+    background-color: #fff;
 }
 
-.main-iframe-wrap .grid-item>.alert-danger{
-	border-color: #ffd5cc;
+.main-iframe-wrap .grid-item > .alert-danger {
+    border-color: #ffd5cc;
 }
 
 

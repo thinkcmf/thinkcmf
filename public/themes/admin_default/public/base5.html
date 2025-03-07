@@ -7,12 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style('arcoadmin')}/bootstrap5/bootstrap.min.css" rel="stylesheet">
+    <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style('arcoadmin')}/bootstrap5/bootstrap.min.css"
+          rel="stylesheet">
     <link href="__TMPL__/public/assets/simpleboot/css/simplebootadmin.css" rel="stylesheet">
     <link href="__TMPL__/public/assets/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="__TMPL__/public/assets/fontawesome/css/v4-shims.min.css" rel="stylesheet" type="text/css">
     <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style('arcoadmin')}/simplebootadmin.css" rel="stylesheet">
     <php>
+        $admin_id=cmf_get_current_admin_id();
         $_is_mobile=cmf_is_mobile();
         $_static_version='1.0.5';
         $cmf_version=cmf_version();
@@ -38,7 +40,7 @@
                     Close: "{:lang('CLOSE')}",
                     'You sure you want to delete it?': "{:lang('You sure you want to delete it?')}",
                     'OK': "{:lang('OK')}",
-                    'Are you sure you want to do this?':"{:lang('Are you sure you want to do this?')}"
+                    'Are you sure you want to do this?': "{:lang('Are you sure you want to do this?')}"
                 };
 
                 return typeof lang[langKey] === 'undefined' ? langKey : lang[langKey];
@@ -52,7 +54,7 @@
     <script src="__TMPL__/public/assets/js/bootstrap5/bootstrap.min.js"></script>
     <script src="__STATIC__/js/wind.js"></script>
     <script>
-        Wind.alias({noty:'__TMPL__/public/assets/js/noty-2.4.1.js'})
+        Wind.alias({noty: '__TMPL__/public/assets/js/noty-2.4.1.js'})
     </script>
     <script>
         Wind.css('artDialog');
@@ -76,7 +78,6 @@
             }
         </style>
     </if>
-
     <block name="head"></block>
 </head>
 <body class="{$_is_mobile?'mobile':''}">

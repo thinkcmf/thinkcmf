@@ -19,6 +19,17 @@
     <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style('arcoadmin')}/simplebootadminindex.min.css"
           rel="stylesheet">
     <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden;
+            display: flex;
+            align-items: stretch;
+            flex-direction: column;
+        }
+
         /*-----------------导航hack--------------------*/
         .nav-list > li.open {
             position: relative;
@@ -51,7 +62,8 @@
         /*----------------导航hack--------------------*/
     </style>
     <php>
-        $_static_version='1.0.0';
+        $_current_admin_id=cmf_get_current_admin_id();
+        $_static_version='1.0.3';
     </php>
     <script>
         //全局变量
@@ -69,11 +81,9 @@
                     Close: "{:lang('CLOSE')}",
                     'You sure you want to delete it?': "{:lang('You sure you want to delete it?')}",
                     'OK': "{:lang('OK')}",
-                    'Are you sure you want to do this?':"{:lang('Are you sure you want to do this?')}"
+                    'Are you sure you want to do this?': "{:lang('Are you sure you want to do this?')}"
                 };
-
                 return typeof lang[langKey] === 'undefined' ? langKey : lang[langKey];
-
             }
         };
     </script>
@@ -328,7 +338,7 @@
     <div class="offcanvas-body p-0">
         <div>
             <div class="sidebar-shortcuts">
-                <a class="btn btn-sm btn-default" href="__ROOT__/"
+                <a class="btn btn-sm btn-outline-light" href="__ROOT__/"
                    title="{:lang('WEBSITE_HOME_PAGE')}"
                    target="_blank"
                    data-toggle="tooltip">
@@ -388,11 +398,11 @@
     </div>
 </div>
 
-<div class="main-container container-fluid">
+<div class="main-container container-fluid" style="flex: 1;">
     <empty name="$_is_mobile">
         <div class="sidebar" id="sidebar">
             <div class="sidebar-shortcuts" id="sidebar-shortcuts">
-                <a class="btn btn-sm btn-default" href="__ROOT__/"
+                <a class="btn btn-sm btn-outline-light" href="__ROOT__/"
                    title="{:lang('WEBSITE_HOME_PAGE')}"
                    target="_blank"
                    data-toggle="tooltip">

@@ -10,17 +10,24 @@
                 </php>
                 <ul class="list-unstyled">
                     <if condition="isset($widget['vars']['hottest_articles_category_id'])">
-                        <portal:articles limit="5" order="post.post_hits DESC"
+                        <portal:articlesI18n limit="5" order="post.post_hits DESC"
                                          categoryIds="$widget.vars.hottest_articles_category_id">
                             <php>$top=$key<3?"top3":"";</php>
+                            <php>
+                                $_m_category_id=0;
+                                $_m_categories=$vo['categories'];
+                                if(!empty($_m_categories[0])){
+                                $_m_category_id=$_m_categories[0]['id'];
+                                }
+                            </php>
                             <li class="{$top}">
                                 <i>{$key+1}</i>
                                 <a title="{$vo.post_title}"
-                                   href="{:cmf_url('portal/Article/index',array('id'=>$vo['id'],'cid'=>$vo.category_id))}">
+                                   href="{:cmf_url('portal/Article/index',array('id'=>$vo['post_id'],'cid'=>$_m_category_id))}">
                                     {$vo.post_title}
                                 </a>
                             </li>
-                        </portal:articles>
+                        </portal:articlesI18n>
                     </if>
                 </ul>
             </div>

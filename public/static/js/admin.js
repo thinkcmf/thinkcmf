@@ -36,7 +36,7 @@ function _loginExpiredNoty() {
 ;(function () {
     //全局ajax处理
     var headers = {'XX-Device-Type': 'web'};
-    var token = localStorage.getItem('token');
+    var token   = localStorage.getItem('token');
     if (token) {
         headers['Authorization'] = token;
     }
@@ -778,7 +778,8 @@ function _loginExpiredNoty() {
                 minView: 'decade',
                 startView: 'decade',
                 todayBtn: 1,
-                autoclose: true
+                autoclose: true,
+                fontAwesome: true,
             });
         });
     }
@@ -793,7 +794,8 @@ function _loginExpiredNoty() {
                 format: 'yyyy-mm-dd',
                 minView: 'month',
                 todayBtn: 1,
-                autoclose: true
+                autoclose: true,
+                fontAwesome: true,
             });
         });
     }
@@ -809,7 +811,8 @@ function _loginExpiredNoty() {
                 minView: 'year',
                 startView: 'decade',
                 todayBtn: 1,
-                autoclose: true
+                autoclose: true,
+                fontAwesome: true,
             });
         });
     }
@@ -823,7 +826,8 @@ function _loginExpiredNoty() {
                 language: 'zh-CN',
                 format: 'yyyy-mm-dd hh:ii',
                 todayBtn: 1,
-                autoclose: true
+                autoclose: true,
+                fontAwesome: true,
             });
         });
     }

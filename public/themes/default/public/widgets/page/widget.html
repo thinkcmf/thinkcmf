@@ -1,11 +1,11 @@
 <widget tag="div">
     <div class="container">
-        <notempty name="page">
+        <notempty name="page_i18n">
             <div class="tc-box article-box">
-                <h2>{$page.post_title|default=''}</h2>
+                <h2>{$page_i18n.post_title|default=''}</h2>
                 <hr>
                 <div id="article_content">
-                    {$page.post_content|default=''}
+                    {$page_i18n.post_content|default=''}
                 </div>
             </div>
         </notempty>

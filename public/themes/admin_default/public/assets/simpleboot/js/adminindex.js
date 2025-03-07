@@ -6,16 +6,16 @@ var $navWraper = $("#nav-wrapper");
 var $content;
 $(function () {
     $mainIframe = $("#mainiframe");
-    $content = $("#content");
+    // $content = $("#content");
     $loading = $("#loading");
     var headerHeight = $('.navbar-expand-lg').height();
-    $content.height($(window).height() - headerHeight);
+    // $content.height($(window).height() - headerHeight);
 
-    $navWraper.height($(window).height() - headerHeight - 40);
+    // $navWraper.height($(window).height() - headerHeight - 40);
     $navWraper.css("overflow", "auto");
     $(window).resize(function () {
-        $navWraper.height($(window).height() - headerHeight - 40);
-        $content.height($(window).height() - headerHeight);
+        // $navWraper.height($(window).height() - headerHeight - 40);
+        // $content.height($(window).height() - headerHeight);
         calcTaskContentWidth();
     });
 
@@ -138,6 +138,7 @@ function openapp(url, appId, appname, refresh) {
     //     window.location.href = url;
     //     return;
     // }
+    var $app;
     if (GV.IS_MOBILE) {
         const myOffcanvasEl = document.querySelector('#offcanvasNavbar')
         if (myOffcanvasEl) {
@@ -146,8 +147,13 @@ function openapp(url, appId, appname, refresh) {
                 myOffcanvas.hide();
             }
         }
+        $app = $("#task-content-inner li[app-id='0']");
+        refresh = true;
+        appId = 0;
+    } else {
+        $app = $("#task-content-inner li[app-id='" + appId + "']");
     }
-    var $app = $("#task-content-inner li[app-id='" + appId + "']");
+
     $("#task-content-inner .active").removeClass("active");
     if ($app.length == 0) {
         var task = $(task_item_tpl).attr("app-id", appId).attr("app-url", url).attr("app-name", appname).addClass("active");

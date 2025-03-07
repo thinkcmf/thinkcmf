@@ -10,13 +10,21 @@
                 $last_news_limit=4;
                 try{
             </php>
-            <portal:articles limit="$last_news_limit" order="post.published_time DESC"
+            <portal:articlesI18n limit="$last_news_limit" order="post.published_time DESC"
+                                 relation="categories"
                              categoryIds="$widget.vars.last_news_category_id">
+                <php>
+                    $_m_category_id=0;
+                    $_m_categories=$vo['categories'];
+                    if(!empty($_m_categories[0])){
+                    $_m_category_id=$_m_categories[0]['id'];
+                    }
+                </php>
                 <div class="col-md-3">
                     <div class="tc-gridbox">
                         <div class="header">
                             <div class="item-image">
-                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.post_id,'cid'=>$_m_category_id))}">
                                     <present name="vo.more.thumbnail">
                                         <empty name="vo.more.thumbnail">
                                             <img src="__TMPL__/public/assets/images/default-thumbnail.png"
@@ -35,19 +43,15 @@
                                 </a>
                             </div>
                             <h3>
-                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">{$vo.post_title}</a>
+                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.post_id,'cid'=>$_m_category_id))}">{$vo.post_title}</a>
                             </h3>
-                            <!--                            <hr>-->
                         </div>
-                        <!--                        <div class="body">-->
-                        <!--                            <p>-->
-                        <!--                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id,'cid'=>$vo.category_id))}">{$vo.post_excerpt}</a>-->
-                        <!--                            </p>-->
-                        <!--                        </div>-->
                     </div>
                 </div>
-            </portal:articles>
-            <php>}catch(\Exception $e){</php>
+            </portal:articlesI18n>
+            <php>}catch(\Exception $e){
+                echo $e->getTraceAsString();
+                echo $e->getMessage();</php>
             <div class="alert alert-danger" role="alert">
                 此组件运行发生错误，请检查是否设置正确或已在后台应用中心安装门户应用！<br>
                 {:lang('您也可以隐藏此组件！')}

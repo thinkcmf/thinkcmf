@@ -10,17 +10,11 @@
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta name="robots" content="noindex,nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <!-- HTML5 shim for IE8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <![endif]-->
-    <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style('arcoadmin')}/bootstrap.min.css" rel="stylesheet">
+    <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style('arcoadmin')}/bootstrap5/bootstrap.min.css"
+          rel="stylesheet">
     <link href="__TMPL__/public/assets/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="__TMPL__/public/assets/fontawesome/css/v4-shims.min.css" rel="stylesheet" type="text/css">
     <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style('arcoadmin')}/login.css" rel="stylesheet">
-    <!--[if lt IE 9]>
-    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
     <script>
         if (window.parent !== window.self) {
             document.write = '';
@@ -35,34 +29,33 @@
 <div class="wrap">
     <div class="container">
         <div class="row">
-            <div class="col-md-4 col-md-offset-4">
+            <div class="col-md-4 offset-md-4">
                 <h1 class="text-center">{$_admin_setting.admin_name|default='ThinkCMF'}</h1>
                 <form class="js-ajax-form" action="{:url('public/doLogin')}" method="post">
-                    <div class="form-group">
-                        <input type="text" id="input_username" class="form-control input-lg" name="username"
+                    <div class="mb-3">
+                        <input type="text" id="input_username" class="form-control form-control-lg" name="username"
                                placeholder="{:lang('USERNAME_OR_EMAIL')}" title="{:lang('USERNAME_OR_EMAIL')}"
                                value="{:cookie('admin_username')}" data-rule-required="true" data-msg-required="">
                     </div>
-
-                    <div class="form-group">
-                        <input type="password" id="input_password" class="form-control input-lg" name="password"
+                    <div class="mb-3">
+                        <input type="password" id="input_password" class="form-control form-control-lg" name="password"
                                placeholder="{:lang('PASSWORD')}" title="{:lang('PASSWORD')}" data-rule-required="true"
                                data-msg-required="">
                     </div>
 
-                    <div class="form-group">
+                    <div class="mb-3">
                         <div style="position: relative;">
                             <input type="text" name="captcha" placeholder="{:lang('Captcha')}"
-                                   class="form-control input-lg captcha">
-                            <captcha height="38" width="150" font-size="18"
-                                     style="cursor: pointer;position:absolute;right:2px;top:1px;"/>
+                                   class="form-control form-control-lg captcha">
+                            <captcha height="46" width="150" font-size="18"
+                                     style="cursor: pointer;position:absolute;right:2px;top:1px;border-radius: 0 var(--bs-border-radius-lg) var(--bs-border-radius-lg) 0;"/>
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="mb-3 d-grid gap-2">
                         <input type="hidden" name="redirect" value="">
                         <button class="btn btn-lg btn-primary btn-block js-ajax-submit" type="submit"
-                                style="margin-left: 0px"
+                                style="margin-left: 0"
                                 data-loadingmsg="{:lang('LOADING')}" data-success_refresh="successRefreshCallback">
                             {:lang('LOGIN')}
                         </button>
@@ -101,7 +94,7 @@
         }
     };
 </script>
-<script src="__TMPL__/public/assets/js/jquery-1.10.2.min.js?v={$_static_version}"></script>
+<script src="__TMPL__/public/assets/js/jquery-3.6.4.min.js?v={$_static_version}"></script>
 <script src="__STATIC__/js/wind.js?v={$_static_version}"></script>
 <script>
     Wind.alias({noty: '__TMPL__/public/assets/js/noty-2.4.1.js'})

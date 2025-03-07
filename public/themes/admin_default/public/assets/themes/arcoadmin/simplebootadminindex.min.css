@@ -1,3 +1,7 @@
+body {
+    background: #f2f3f5;
+}
+
 .sidebar {
     position: absolute;
     top: 0;
@@ -386,9 +390,10 @@
     margin-top: 0;
     margin-right: 0;
     margin-left: 200px;
+    height: 100%;
 }
 
-.mobile .main-content{
+.mobile .main-content {
     margin-left: 0;
 }
 
@@ -396,6 +401,7 @@
     padding: 8px 20px 24px;
     margin: 0;
     background: #f2f3f5;
+    height: 100%;
 }
 
 .main-container {
@@ -407,7 +413,8 @@
     padding-right: 0;
     padding-left: 0;
     margin-right: 0;
-    margin-left: 0
+    margin-left: 0;
+    background: #fff;
 }
 
 .navbar {
@@ -496,7 +503,7 @@ ul, ol {
     font-size: 14px;
 }
 
-.cmf-component-tabitem:hover{
+.cmf-component-tabitem:hover {
     background-color: #e9ebee;
 }
 
@@ -609,7 +616,7 @@ ul, ol {
 
 #nav-wrapper {
     position: relative;
-    height: 100%
+    height: calc(100% - 41px)
 }
 
 .nav-list > li.open {
@@ -730,3 +737,6 @@ ul, ol {
     color: #4E5969;
 }
 
+.mobile .navbar-brand {
+    padding-left: 10px;
+}

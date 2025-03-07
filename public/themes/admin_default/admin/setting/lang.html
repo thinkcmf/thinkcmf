@@ -118,49 +118,53 @@
                     </php>
                     <notempty name="lang_setting.allow_lang_list">
                         <foreach name="lang_setting.allow_lang_list" item="allow_lang">
-                            <div class="row g-2 mb-2 home-lang-row">
-                                <div class="col-md-4">
-                                    <div class="input-group">
-                                        <div class="input-group-text">
-                                            <label class="form-check-label" for="default-lang-check{$key}">{:lang('Default')}</label>&nbsp;
-                                            <input class="form-check-input mt-0 default-lang-check"
-                                                   name="default_lang" type="radio"
-                                                   id="default-lang-check{$key}"
-                                                   {$default_lang==$allow_lang.lang?'checked':''}
-                                                   value="{$allow_lang.lang}">
+                            <notempty name="$allow_lang.lang">
+                                <div class="row g-2 mb-2 home-lang-row">
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <div class="input-group-text">
+                                                <label class="form-check-label" for="default-lang-check{$key}">{:lang('Default')}</label>&nbsp;
+                                                <input class="form-check-input mt-0 default-lang-check"
+                                                       name="default_lang" type="radio"
+                                                       id="default-lang-check{$key}"
+                                                       {$default_lang==$allow_lang.lang?'checked':''}
+                                                       value="{$allow_lang.lang}">
+                                            </div>
+                                            <div class="input-group-text">
+                                                <label class="form-check-label" for="allow_lang_list-{$key}-enable">{:lang('ENABLED')}</label>&nbsp;
+                                                <input class="form-check-input mt-0"
+                                                       name="allow_lang_list[{$key}][enable]" type="checkbox"
+                                                       value="1"
+                                                       id="allow_lang_list-{$key}-enable"
+                                                       {:empty($allow_lang.enable)?'':'checked'}>
+                                            </div>
+                                            <input type="text" class="form-control allow_lang_list-lang-input"
+                                                   name="allow_lang_list[{$key}][lang]" value="{$allow_lang.lang}"
+                                                   placeholder="{:lang('Lang')}" required>
                                         </div>
-                                        <div class="input-group-text">
-                                            <label class="form-check-label" for="allow_lang_list-{$key}-enable">{:lang('ENABLED')}</label>&nbsp;
-                                            <input class="form-check-input mt-0"
-                                                   name="allow_lang_list[{$key}][enable]" type="checkbox"
-                                                   value="1"
-                                                   id="allow_lang_list-{$key}-enable"
-                                                   {:empty($allow_lang.enable)?'':'checked'}>
-                                        </div>
-                                        <input type="text" class="form-control allow_lang_list-lang-input"
-                                               name="allow_lang_list[{$key}][lang]" value="{$allow_lang.lang}"
-                                               placeholder="{:lang('Lang')}" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control allow_lang_list-alias-input"
+                                               name="allow_lang_list[{$key}][alias]" value="{$allow_lang.alias}"
+                                               placeholder="{:lang('Lang Alias')}">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control allow_lang_list-domain-input"
+                                               name="allow_lang_list[{$key}][domain]" value="{$allow_lang.domain}"
+                                               placeholder="{:lang('Lang Domain')}">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control allow_lang_list-domain-input"
+                                               name="allow_lang_list[{$key}][name]"
+                                               value="{$allow_lang.name|default=''}"
+                                               placeholder="{:lang('Name')}">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <a class="btn btn-secondary home-lang-delete-btn"><i
+                                                class="fa fa-trash"></i></a>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control allow_lang_list-alias-input"
-                                           name="allow_lang_list[{$key}][alias]" value="{$allow_lang.alias}"
-                                           placeholder="{:lang('Lang Alias')}">
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control allow_lang_list-domain-input"
-                                           name="allow_lang_list[{$key}][domain]" value="{$allow_lang.domain}"
-                                           placeholder="{:lang('Lang Domain')}">
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control allow_lang_list-domain-input"
-                                           name="allow_lang_list[{$key}][name]" value="{$allow_lang.name|default=''}"
-                                           placeholder="{:lang('Name')}">
-                                </div>
-                                <div class="col-md-1">
-                                    <a class="btn btn-secondary home-lang-delete-btn"><i class="fa fa-trash"></i></a>
-                                </div>
-                            </div>
+                            </notempty>
                         </foreach>
                     </notempty>
                     <div>
@@ -192,38 +196,41 @@
                     </php>
                     <notempty name="lang_setting.admin_allow_lang_list">
                         <foreach name="lang_setting.admin_allow_lang_list" item="allow_lang">
-                            <div class="row g-2 mb-2 admin-lang-row">
-                                <div class="col-md-4">
-                                    <div class="input-group">
-                                        <div class="input-group-text">
-                                            <label class="form-check-label">{:lang('Default')}</label>&nbsp;
-                                            <input class="form-check-input mt-0 admin-default-lang-check"
-                                                   name="admin_default_lang" type="radio"
-                                                   {$admin_default_lang==$allow_lang.lang?'checked':''}
-                                                   value="{$allow_lang.lang}">
+                            <notempty name="$allow_lang.lang">
+                                <div class="row g-2 mb-2 admin-lang-row">
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <div class="input-group-text">
+                                                <label class="form-check-label">{:lang('Default')}</label>&nbsp;
+                                                <input class="form-check-input mt-0 admin-default-lang-check"
+                                                       name="admin_default_lang" type="radio"
+                                                       {$admin_default_lang==$allow_lang.lang?'checked':''}
+                                                       value="{$allow_lang.lang}">
+                                            </div>
+                                            <div class="input-group-text">
+                                                <label class="form-check-label" for="admin_allow_lang_list-{$key}-enable">{:lang('ENABLED')}</label>&nbsp;
+                                                <input class="form-check-input mt-0"
+                                                       name="admin_allow_lang_list[{$key}][enable]" type="checkbox"
+                                                       value="1"
+                                                       id="admin_allow_lang_list-{$key}-enable"
+                                                       {:empty($allow_lang.enable)?'':'checked'}>
+                                            </div>
+                                            <input type="text" class="form-control admin_allow_lang_list-lang-input"
+                                                   name="admin_allow_lang_list[{$key}][lang]" value="{$allow_lang.lang}"
+                                                   placeholder="{:lang('Lang')}" required>
                                         </div>
-                                        <div class="input-group-text">
-                                            <label class="form-check-label" for="admin_allow_lang_list-{$key}-enable">{:lang('ENABLED')}</label>&nbsp;
-                                            <input class="form-check-input mt-0"
-                                                   name="admin_allow_lang_list[{$key}][enable]" type="checkbox"
-                                                   value="1"
-                                                   id="admin_allow_lang_list-{$key}-enable"
-                                                   {:empty($allow_lang.enable)?'':'checked'}>
-                                        </div>
-                                        <input type="text" class="form-control admin_allow_lang_list-lang-input"
-                                               name="admin_allow_lang_list[{$key}][lang]" value="{$allow_lang.lang}"
-                                               placeholder="{:lang('Lang')}" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control allow_lang_list-domain-input"
+                                               name="admin_allow_lang_list[{$key}][name]"
+                                               value="{$allow_lang.name|default=''}"
+                                               placeholder="{:lang('Name')}">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <a class="btn btn-secondary admin-lang-delete-btn"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control allow_lang_list-domain-input"
-                                           name="admin_allow_lang_list[{$key}][name]" value="{$allow_lang.name|default=''}"
-                                           placeholder="{:lang('Name')}">
-                                </div>
-                                <div class="col-md-1">
-                                    <a class="btn btn-secondary admin-lang-delete-btn"><i class="fa fa-trash"></i></a>
-                                </div>
-                            </div>
+                            </notempty>
                         </foreach>
                     </notempty>
                     <div>
@@ -245,8 +252,8 @@
 <block name="scripts">
     <script>
         $('#home-lang-add-btn').click(function () {
-            var tpl = $('#home-lang-item-tpl').html();
-            tpl = tpl.replace(/\{key\}/g, new Date().getTime());
+            var tpl  = $('#home-lang-item-tpl').html();
+            tpl      = tpl.replace(/\{key\}/g, new Date().getTime());
             var $tpl = $(tpl);
             $(this).parent().before($tpl);
         });
@@ -256,8 +263,8 @@
         });
 
         $('#admin-lang-add-btn').click(function () {
-            var tpl = $('#admin-lang-item-tpl').html();
-            tpl = tpl.replace(/\{key\}/g, new Date().getTime());
+            var tpl  = $('#admin-lang-item-tpl').html();
+            tpl      = tpl.replace(/\{key\}/g, new Date().getTime());
             var $tpl = $(tpl);
             $(this).parent().before($tpl);
         });

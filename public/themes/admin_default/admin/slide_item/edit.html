@@ -82,6 +82,7 @@
                                     <input type="button" class="btn btn-sm"
                                            onclick="$('#thumb-preview').attr('src','__TMPL__/public/assets/images/default-thumbnail.png');$('#thumb').val('');return false;"
                                            value="{:lang('Cancel')}">
+                                    <a href="{:cmf_get_file_download_url($result.image)}" target="_blank">下载</a>
                                 </div>
                             </td>
                         </tr>
