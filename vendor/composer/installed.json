@@ -422,29 +422,23 @@
         },
         {
             "name": "psr/log",
-            "version": "3.0.1",
-            "version_normalized": "3.0.1.0",
+            "version": "3.0.2",
+            "version_normalized": "3.0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "79dff0b268932c640297f5208d6298f71855c03e"
+                "reference": "f16e1d5863e37f8d8c2a01719f5b34baa2b714d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/79dff0b268932c640297f5208d6298f71855c03e",
-                "reference": "79dff0b268932c640297f5208d6298f71855c03e",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/php-fig/log/zipball/f16e1d5863e37f8d8c2a01719f5b34baa2b714d3",
+                "reference": "f16e1d5863e37f8d8c2a01719f5b34baa2b714d3",
+                "shasum": ""
             },
             "require": {
                 "php": ">=8.0.0"
             },
-            "time": "2024-08-21T13:31:24+00:00",
+            "time": "2024-09-11T13:17:53+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -475,7 +469,7 @@
                 "psr-3"
             ],
             "support": {
-                "source": "https://github.com/php-fig/log/tree/3.0.1"
+                "source": "https://github.com/php-fig/log/tree/3.0.2"
             },
             "install-path": "../psr/log"
         },
@@ -1205,24 +1199,24 @@
         },
         {
             "name": "topthink/think-validate",
-            "version": "v3.0.3",
-            "version_normalized": "3.0.3.0",
+            "version": "v3.0.4",
+            "version_normalized": "3.0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-validate.git",
-                "reference": "2729f938952a01e9d0e1a17d742b07fcf960ae31"
+                "reference": "c39979efcce84230b65210026c378d250a67c911"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-validate/zipball/2729f938952a01e9d0e1a17d742b07fcf960ae31",
-                "reference": "2729f938952a01e9d0e1a17d742b07fcf960ae31",
+                "url": "https://api.github.com/repos/top-think/think-validate/zipball/c39979efcce84230b65210026c378d250a67c911",
+                "reference": "c39979efcce84230b65210026c378d250a67c911",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.0",
                 "topthink/think-container": ">=3.0"
             },
-            "time": "2025-01-07T08:18:42+00:00",
+            "time": "2025-02-18T03:15:32+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1246,7 +1240,7 @@
             "description": "think validate",
             "support": {
                 "issues": "https://github.com/top-think/think-validate/issues",
-                "source": "https://github.com/top-think/think-validate/tree/v3.0.3"
+                "source": "https://github.com/top-think/think-validate/tree/v3.0.4"
             },
             "install-path": "../topthink/think-validate"
         },
