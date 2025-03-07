@@ -368,7 +368,7 @@ abstract class Rule
      * @param  bool                  $exception 是否抛出异常
      * @return $this
      */
-    public function model(array|string|Closure $var, string|Closure $model = null, bool $exception = true)
+    public function model(array|string|Closure $var, mixed $model = null, bool $exception = true)
     {
         if ($var instanceof Closure) {
             $this->option['model'][] = $var;
@@ -405,7 +405,7 @@ abstract class Rule
      * @param  bool   $batch 批量验证
      * @return $this
      */
-    public function validate($validate, string $scene = null, array $message = [], bool $batch = false)
+    public function validate($validate, ?string $scene = null, array $message = [], bool $batch = false)
     {
         $this->option['validate'] = [$validate, $scene, $message, $batch];
 
@@ -652,14 +652,14 @@ abstract class Rule
             $result = new $route($request, $this, $route, $this->vars);
         } elseif ($route instanceof Closure) {
             // 执行闭包
-            $result = new CallbackDispatch($request, $this, $route, $this->vars);
+            $result = new CallbackDispatch($request, $this, $route, $this->vars, $option);
         } elseif (str_contains($route, '@') || str_contains($route, '::') || str_contains($route, '\\')) {
             // 路由到类的方法
             $route  = str_replace('::', '@', $route);
-            $result = $this->dispatchMethod($request, $route);
+            $result = $this->dispatchMethod($request, $route, $option);
         } else {
             // 路由到控制器/操作
-            $result = $this->dispatchController($request, $route);
+            $result = $this->dispatchController($request, $route, $option);
         }
 
         return $result;
@@ -672,7 +672,7 @@ abstract class Rule
      * @param  string  $route 路由地址
      * @return CallbackDispatch
      */
-    protected function dispatchMethod(Request $request, string $route): CallbackDispatch
+    protected function dispatchMethod(Request $request, string $route, array $option = []): CallbackDispatch
     {
         $path = $this->parseUrlPath($route);
 
@@ -690,7 +690,7 @@ abstract class Rule
                 }
             }
         }
-        return new CallbackDispatch($request, $this, $method, $params);
+        return new CallbackDispatch($request, $this, $method, $params, $option);
     }
 
     /**
@@ -700,7 +700,7 @@ abstract class Rule
      * @param  string  $route 路由地址
      * @return ControllerDispatch
      */
-    protected function dispatchController(Request $request, string $route): ControllerDispatch
+    protected function dispatchController(Request $request, string $route, array $option = []): ControllerDispatch
     {
         $path = $this->parseUrlPath($route);
 
@@ -709,7 +709,7 @@ abstract class Rule
         $app        = !empty($path) ? array_pop($path) : null;
 
         // 路由到模块/控制器/操作
-        return new ControllerDispatch($request, $this, [$app, $controller, $action], $this->vars);
+        return new ControllerDispatch($request, $this, [$app, $controller, $action], $this->vars, $option);
     }
 
     /**

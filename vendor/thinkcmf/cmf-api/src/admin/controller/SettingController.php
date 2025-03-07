@@ -85,6 +85,9 @@ class SettingController extends RestAdminBaseController
         }
 
         $siteInfo = cmf_get_option('site_info');
+        if (isset($siteInfo['site_analytics'])) {
+            $siteInfo['site_analytics'] = htmlspecialchars_decode($siteInfo['site_analytics']);
+        }
         $this->success("success", [
             'site_info'      => $siteInfo,
             'admin_styles'   => array_values($adminStyles),

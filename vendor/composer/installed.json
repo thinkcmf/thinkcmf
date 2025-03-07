@@ -231,7 +231,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/2f5c94fe7493efc213f643c23b1b1c249d40f47e",
                 "reference": "2f5c94fe7493efc213f643c23b1b1c249d40f47e",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "ext-ctype": "*",
@@ -416,23 +422,29 @@
         },
         {
             "name": "psr/log",
-            "version": "3.0.2",
-            "version_normalized": "3.0.2.0",
+            "version": "3.0.1",
+            "version_normalized": "3.0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "f16e1d5863e37f8d8c2a01719f5b34baa2b714d3"
+                "reference": "79dff0b268932c640297f5208d6298f71855c03e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/f16e1d5863e37f8d8c2a01719f5b34baa2b714d3",
-                "reference": "f16e1d5863e37f8d8c2a01719f5b34baa2b714d3",
-                "shasum": ""
+                "url": "https://api.github.com/repos/php-fig/log/zipball/79dff0b268932c640297f5208d6298f71855c03e",
+                "reference": "79dff0b268932c640297f5208d6298f71855c03e",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": ">=8.0.0"
             },
-            "time": "2024-09-11T13:17:53+00:00",
+            "time": "2024-08-21T13:31:24+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -463,7 +475,7 @@
                 "psr-3"
             ],
             "support": {
-                "source": "https://github.com/php-fig/log/tree/3.0.2"
+                "source": "https://github.com/php-fig/log/tree/3.0.1"
             },
             "install-path": "../psr/log"
         },
@@ -1071,18 +1083,24 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v3.0.34",
-            "version_normalized": "3.0.34.0",
+            "version": "v4.0.3",
+            "version_normalized": "4.0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "715e55da149fe32a12d68ef10e5b00e70bd3dbec"
+                "reference": "0c951d1eb08b48211d31079a616164e195028e44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/715e55da149fe32a12d68ef10e5b00e70bd3dbec",
-                "reference": "715e55da149fe32a12d68ef10e5b00e70bd3dbec",
-                "shasum": ""
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/0c951d1eb08b48211d31079a616164e195028e44",
+                "reference": "0c951d1eb08b48211d31079a616164e195028e44",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "ext-json": "*",
@@ -1098,11 +1116,12 @@
             "suggest": {
                 "ext-mongodb": "provide mongodb support"
             },
-            "time": "2025-01-14T06:03:33+00:00",
+            "time": "2025-02-13T06:09:45+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
                 "files": [
+                    "src/helper.php",
                     "stubs/load_stubs.php"
                 ],
                 "psr-4": {
@@ -1126,7 +1145,7 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/think-orm/issues",
-                "source": "https://github.com/top-think/think-orm/tree/v3.0.34"
+                "source": "https://github.com/top-think/think-orm/tree/v4.0.3"
             },
             "install-path": "../topthink/think-orm"
         },
@@ -1233,20 +1252,29 @@
         },
         {
             "name": "xia/migration",
-            "version": "v6.0.5",
-            "version_normalized": "6.0.5.0",
+            "version": "v6.0.6",
+            "version_normalized": "6.0.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/iygwei/artisan.git",
-                "reference": "e0394339c163f86f78c0f5235549e6636b0fa494"
+                "reference": "de8cece104a5c04a7024f8c6c13e15e495b29487"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/iygwei/artisan/zipball/e0394339c163f86f78c0f5235549e6636b0fa494",
-                "reference": "e0394339c163f86f78c0f5235549e6636b0fa494",
-                "shasum": ""
+                "url": "https://api.github.com/repos/iygwei/artisan/zipball/de8cece104a5c04a7024f8c6c13e15e495b29487",
+                "reference": "de8cece104a5c04a7024f8c6c13e15e495b29487",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
-            "time": "2025-01-21T04:06:40+00:00",
+            "require": {
+                "php": ">=8.1"
+            },
+            "time": "2025-03-04T03:34:26+00:00",
             "type": "library",
             "extra": {
                 "think": {
@@ -1274,7 +1302,7 @@
             ],
             "support": {
                 "issues": "https://github.com/iygwei/artisan/issues",
-                "source": "https://github.com/iygwei/artisan/tree/v6.0.5"
+                "source": "https://github.com/iygwei/artisan/tree/v6.0.6"
             },
             "install-path": "../xia/migration"
         }

@@ -56,6 +56,7 @@ class Serializer
         OA\ServerVariable::class,
         OA\Tag::class,
         OA\Trace::class,
+        OA\Webhook::class,
         OA\Xml::class,
         OA\XmlContent::class,
     ];
@@ -71,7 +72,7 @@ class Serializer
     public function deserialize(string $jsonString, string $className): OA\AbstractAnnotation
     {
         if (!$this->isValidAnnotationClass($className)) {
-            throw new \Exception($className . ' is not defined in OpenApi PHP Annotations');
+            throw new OpenApiException($className . ' is not defined in OpenApi PHP Annotations');
         }
 
         return $this->doDeserialize(json_decode($jsonString), $className, new Context(['generated' => true]));
@@ -83,7 +84,7 @@ class Serializer
     public function deserializeFile(string $filename, string $format = 'json', string $className = OA\OpenApi::class): OA\AbstractAnnotation
     {
         if (!$this->isValidAnnotationClass($className)) {
-            throw new \Exception($className . ' is not a valid OpenApi PHP Annotations');
+            throw new OpenApiException($className . ' is not a valid OpenApi PHP Annotations');
         }
 
         $contents = file_get_contents($filename);
@@ -127,10 +128,6 @@ class Serializer
 
     /**
      * Deserialize the annotation's property.
-     *
-     * @param mixed $value
-     *
-     * @return mixed
      */
     protected function doDeserializeProperty(OA\AbstractAnnotation $annotation, string $property, $value, Context $context)
     {

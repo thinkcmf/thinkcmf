@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -17,9 +17,9 @@ use BackedEnum;
 use Closure;
 use InvalidArgumentException;
 use Stringable;
+use think\db\Express;
 use think\db\Raw;
 use think\helper\Str;
-use think\Model;
 use think\model\contract\EnumTransform;
 use think\model\contract\FieldTypeTransform;
 use think\model\Relation;
@@ -156,6 +156,13 @@ trait Attribute
     protected $insert = [];
 
     /**
+     * 主键值.
+     *
+     * @var int|string
+     */
+    protected $key;
+
+    /**
      * 获取模型对象的主键.
      *
      * @return string|array
@@ -163,6 +170,28 @@ trait Attribute
     public function getPk()
     {
         return $this->pk;
+    }
+
+    /**
+     * 设置模型的字段信息.
+     *
+     * @param array $schema
+     * @return $this
+     */
+    public function schema(array $schema)
+    {
+        $this->schema = $schema;
+        return $this;
+    }
+
+    public function isJsonAssoc(): bool
+    {
+        return $this->jsonAssoc;
+    }
+
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
@@ -185,6 +214,16 @@ trait Attribute
         return false;
     }
 
+    public function setKey($value)
+    {
+        $pk = $this->getPk();
+
+        $this->key    = $value;
+        $this->exists = true;
+
+        return $this;
+    }
+
     /**
      * 获取模型对象的主键值
      *
@@ -192,11 +231,24 @@ trait Attribute
      */
     public function getKey()
     {
+        if ($this->key) {
+            return $this->key;
+        }
+
         $pk = $this->getPk();
 
         if (is_string($pk) && array_key_exists($pk, $this->data)) {
-            return $this->data[$pk];
+            $this->key = $this->data[$pk];
+        } elseif (is_array($pk)) {
+            $data = [];
+            foreach ($pk as $name) {
+                if (array_key_exists($name, $this->data)) {
+                    $data[$name] = $this->data[$name];
+                }
+            }
+            $this->key = $data;
         }
+        return $this->key ?? null;
     }
 
     /**
@@ -234,7 +286,7 @@ trait Attribute
      *
      * @return string
      */
-    protected function getRealFieldName(string $name): string
+    public function getRealFieldName(string $name): string
     {
         if ($this->convertNameToCamel || !$this->strict) {
             return Str::snake($name);
@@ -254,10 +306,14 @@ trait Attribute
      */
     public function data(array | object $data, bool $set = false, array $allow = [])
     {
-        if ($data instanceof Model) {
+        if ($data instanceof self) {
             $data = $data->getData();
         } elseif (is_object($data)) {
             $data = get_object_vars($data);
+        }
+
+        if (empty($data)) {
+            return $this;
         }
 
         // 清空数据
@@ -334,6 +390,12 @@ trait Attribute
         return array_key_exists($fieldName, $this->origin) ? $this->origin[$fieldName] : null;
     }
 
+    public function origin(array $origin)
+    {
+        $this->origin = $origin;
+        return $this;
+    }
+
     /**
      * 获取当前对象数据 如果不存在指定字段返回false.
      *
@@ -367,14 +429,14 @@ trait Attribute
      *
      * @return array
      */
-    public function getChangedData(): array
+    public function getChangedData(array $data = []): array
     {
-        $data = $this->force ? $this->data : array_udiff_assoc($this->data, $this->origin, function ($a, $b) {
+        $data = $this->force ? $data : array_udiff_assoc($data, $this->origin, function ($a, $b) {
             if ((empty($a) || empty($b)) && $a !== $b) {
                 return 1;
             }
 
-            if ($b instanceof Raw) {
+            if ($b instanceof Raw || $b instanceof Express) {
                 return 0;
             }
 
@@ -538,7 +600,7 @@ trait Attribute
             if ($this->mapping) {
                 $name = array_search($name, $this->mapping) ?: $name;
             }
-            $value    = $this->getData($name);
+            $value = $this->getData($name);
         } catch (InvalidArgumentException $e) {
             $relation = $this->isRelationAttr($name);
             $value    = null;
@@ -577,7 +639,7 @@ trait Attribute
                 $value = $this->getJsonValue($fieldName, $value);
             } else {
                 $closure = $this->withAttr[$fieldName];
-                if ($closure instanceof \Closure) {
+                if ($closure instanceof Closure) {
                     $value = $closure($value, $this->data, $this);
                 }
             }

@@ -2,7 +2,7 @@
 
 namespace plugins\swagger\swagger;
 
-use OpenApi\Annotations as OA;
+
 /**
  * @OA\Info(
  *     title="ThinkCMF API",
@@ -69,8 +69,4 @@ use OpenApi\Annotations as OA;
  */
 class OpenApiSpec
 {
-    public static function test()
-    {
-        echo "test";
-    }
 }

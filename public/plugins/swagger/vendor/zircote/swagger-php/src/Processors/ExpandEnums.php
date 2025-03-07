@@ -9,6 +9,7 @@ namespace OpenApi\Processors;
 use OpenApi\Analysis;
 use OpenApi\Annotations as OA;
 use OpenApi\Generator;
+use OpenApi\OpenApiException;
 
 /**
  * Expands PHP enums.
@@ -41,15 +42,18 @@ class ExpandEnums implements ProcessorInterface
 
                 $schemaType = $schema->type;
                 $enumType = null;
-                if ($re->isBacked() && ($backingType = $re->getBackingType()) && $backingType instanceof \ReflectionNamedType) {
-                    $enumType = $backingType->getName();
+                if ($re->isBacked()) {
+                    $backingType = $re->getBackingType();
+                    if ($backingType instanceof \ReflectionNamedType) {
+                        $enumType = $backingType->getName();
+                    }
                 }
 
                 // no (or invalid) schema type means name
                 $useName = Generator::isDefault($schemaType) || ($enumType && $this->native2spec($enumType) != $schemaType);
 
                 $schema->enum = array_map(function ($case) use ($useName) {
-                    return $useName ? $case->name : $case->getBackingValue();
+                    return ($useName || !($case instanceof \ReflectionEnumBackedCase)) ? $case->name : $case->getBackingValue();
                 }, $re->getCases());
 
                 $schema->type = $useName ? 'string' : $enumType;
@@ -74,12 +78,24 @@ class ExpandEnums implements ProcessorInterface
                 if (is_a($schema->enum, \UnitEnum::class, true)) {
                     $cases = $schema->enum::cases();
                 } else {
-                    throw new \InvalidArgumentException("Unexpected enum value, requires specifying the Enum class string: $schema->enum");
+                    throw new OpenApiException("Unexpected enum value, requires specifying the Enum class string: $schema->enum");
                 }
             } else {
                 // might be an array of \UnitEnum::class, string, int, etc...
                 assert(is_array($schema->enum));
-                $cases = $schema->enum;
+
+                $cases = [];
+
+                // transform each Enum cases into UnitEnum
+                foreach ($schema->enum as $enum) {
+                    if (is_string($enum) && function_exists('enum_exists') && enum_exists($enum)) {
+                        foreach ($enum::cases() as $case) {
+                            $cases[] = $case;
+                        }
+                    } else {
+                        $cases[] = $enum;
+                    }
+                }
             }
 
             $enums = [];

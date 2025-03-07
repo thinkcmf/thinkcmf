@@ -28,6 +28,7 @@
             "think\\": "src"
         },
         "files": [
+            "src/helper.php",
             "stubs/load_stubs.php"
         ]
     },

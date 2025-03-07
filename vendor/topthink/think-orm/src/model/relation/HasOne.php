@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -15,7 +15,8 @@ namespace think\model\relation;
 
 use Closure;
 use think\db\BaseQuery as Query;
-use think\Model;
+use think\Entity;
+use think\model\contract\Modelable as Model;
 
 /**
  * HasOne 关联类.
@@ -91,7 +92,7 @@ class HasOne extends OneToOne
      *
      * @return string
      */
-    public function getRelationCountQuery(?Closure $closure = null, string $aggregate = 'count', string $field = '*', ?string &$name = null): string
+    public function getRelationCountQuery(?Closure $closure = null, string $aggregate = 'count', string $field = '*',  ? string &$name = null) : string
     {
         if ($closure) {
             $closure($this->query, $name);
@@ -114,7 +115,7 @@ class HasOne extends OneToOne
      *
      * @return int
      */
-    public function relationCount(Model $result, ?Closure $closure = null, string $aggregate = 'count', string $field = '*', ?string &$name = null)
+    public function relationCount(Model $result, ?Closure $closure = null, string $aggregate = 'count', string $field = '*',  ? string &$name = null)
     {
         $localKey = $this->localKey;
 
@@ -142,7 +143,7 @@ class HasOne extends OneToOne
      *
      * @return Query
      */
-    public function has(string $operator = '>=', int $count = 1, string $id = '*', string $joinType = '', ?Query $query = null): Query
+    public function has(string $operator = '>=', int $count = 1, string $id = '*', string $joinType = '', ?Query $query = null) : Query
     {
         $table      = $this->query->getTable();
         $model      = class_basename($this->parent);
@@ -253,12 +254,16 @@ class HasOne extends OneToOne
                     $relationModel->exists(true);
                 }
                 // 设置关联属性
-                $result->setRelation($relation, $relationModel);
+                if ($relationModel instanceof Entity && !empty($this->bindAttr)) {
+                    $result->bindRelationAttr($relationModel, $this->bindAttr);
+                } else {
+                    $result->setRelation($relation, $relationModel);
 
-                if (!empty($this->bindAttr)) {
-                    // 绑定关联属性
-                    $this->bindAttr($result, $relationModel);
-                    $result->hidden([$relation], true);
+                    if (!empty($this->bindAttr)) {
+                        // 绑定关联属性
+                        $this->bindAttr($result, $relationModel);
+                        $result->hidden([$relation], true);
+                    }
                 }
             }
         }
@@ -296,19 +301,23 @@ class HasOne extends OneToOne
             $relationModel->exists(true);
         }
 
-        // 设置关联属性
-        $result->setRelation($relation, $relationModel);
-
         // 动态绑定参数
         $bindAttr = $this->query->getOptions('bind_attr');
         if ($bindAttr) {
             $this->bind($bindAttr);
         }
+        // 设置关联属性
+        if ($relationModel instanceof Entity && !empty($this->bindAttr)) {
+            $result->bindRelationAttr($relationModel, $this->bindAttr);
+        } else {
+            $result->setRelation($relation, $relationModel);
 
-        if (!empty($this->bindAttr)) {
-            // 绑定关联属性
-            $this->bindAttr($result, $relationModel);
-            $result->hidden([$relation], true);
+            if (!empty($this->bindAttr)) {
+                // 绑定关联属性
+                $this->bindAttr($result, $relationModel);
+                $result->hidden([$relation], true);
+            }
+
         }
     }
 

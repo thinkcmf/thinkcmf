@@ -9,17 +9,17 @@
 
 namespace api\user\controller;
 
-use cmf\controller\RestUserBaseController;
+use cmf\controller\RestAdminBaseController;
 use api\user\traits\UploadTrait;
 use OpenApi\Annotations as OA;
 
-class UploadController extends RestUserBaseController
+class AdminUploadController extends RestAdminBaseController
 {
     /**
-     * 用户上传
+     * 后台上传
      * @OA\Post(
      *      tags={"user"},
-     *      path="/user/upload/one",
+     *      path="/admin/user/upload/one",
      *      @OA\Parameter(
      *         name="filetype",
      *         description="文件类型（默认图片）",
@@ -64,4 +64,5 @@ class UploadController extends RestUserBaseController
     }
 
     use UploadTrait;
+
 }

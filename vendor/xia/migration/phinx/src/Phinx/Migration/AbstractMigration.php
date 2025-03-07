@@ -66,7 +66,7 @@ abstract class AbstractMigration implements MigrationInterface
     protected $tables = [];
 
 
-    final public function __construct($environment, $version, InputInterface $input = null, OutputInterface $output = null)
+    final public function __construct($environment, $version, ?InputInterface $input = null,  ?OutputInterface $output = null)
     {
         $this->environment = $environment;
         $this->version = $version;

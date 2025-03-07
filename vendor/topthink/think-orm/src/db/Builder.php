@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -83,6 +83,16 @@ class Builder extends BaseBuilder
             } elseif (!str_contains($key, '.') && !in_array($key, $fields, true)) {
                 if ($options['strict']) {
                     throw new Exception('fields not exists:[' . $key . ']');
+                }
+            } elseif ($val instanceof Express) {
+                if ($val->getLazyTime() && in_array($val->getType(), ['+', '-'])) {
+                    $step = $query->lazyWrite($key, $val->getType() == '+' ? 'inc' : 'dec', $val->getStep(), $val->getLazyTime());
+                    if (false === $step) {
+                        continue;
+                    }
+                    $result[$item] = $item . ' + ' . $step;
+                } else {
+                    $result[$item] = $item . $this->parseExpress($query, $val);
                 }
             } elseif (is_array($val) && !empty($val) && is_string($val[0])) {
                 if (in_array(strtoupper($val[0]), ['INC', 'DEC'])) {
@@ -578,6 +588,19 @@ class Builder extends BaseBuilder
         }
 
         return $sql;
+    }
+
+    /**
+     * 分析Express对象
+     *
+     * @param Query $query 查询对象
+     * @param Express  $express  Express对象
+     *
+     * @return string
+     */
+    protected function parseExpress(Query $query, Express $express): string
+    {
+        return $express->getValue();
     }
 
     /**

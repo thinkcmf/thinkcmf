@@ -3,19 +3,20 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace think\model\concern;
 
 use DateTime;
 use DateTimeInterface;
 use Stringable;
+use think\model\contract\Typeable;
 
 /**
  * 自动时间戳.
@@ -167,7 +168,9 @@ trait TimeStamp
                 $value = $this->formatDateTime('Y-m-d H:i:s.u');
                 break;
             default:
-                if (str_contains($type, '\\')) {
+                if (is_subclass_of($type, Typeable::class)) {
+                    $value = $type::from('now', $this)->value();
+                } elseif (str_contains($type, '\\')) {
                     // 对象数据写入
                     $obj = new $type();
                     if ($obj instanceof Stringable) {

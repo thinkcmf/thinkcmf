@@ -46,7 +46,6 @@
     "require": {
         "php": ">=7.2",
         "ext-json": "*",
-        "doctrine/annotations": "^1.7 || ^2.0",
         "psr/log": "^1.1 || ^2.0 || ^3.0",
         "symfony/deprecation-contracts": "^2 || ^3",
         "symfony/finder": ">=2.2",
@@ -59,10 +58,14 @@
     },
     "require-dev": {
         "composer/package-versions-deprecated": "^1.11",
-        "friendsofphp/php-cs-fixer": "^2.17 || ^3.0",
+        "doctrine/annotations": "^1.7 || ^2.0",
+        "friendsofphp/php-cs-fixer": "^2.17 || 3.62.0",
         "phpstan/phpstan": "^1.6",
         "phpunit/phpunit": ">=8",
         "vimeo/psalm": "^4.23"
+    },
+    "suggest": {
+        "doctrine/annotations": "^1.7 || ^2.0"
     },
     "autoload-dev": {
         "exclude-from-classmap": [
@@ -81,7 +84,9 @@
         "testlegacy": "Run tests using the legacy TokenAnalyser",
         "testall": "Run all tests (test + testlegacy)",
         "analyse": "Run static analysis (phpstan/psalm)",
-        "spectral": "Run spectral lint over all .yaml files in the Examples folder",
+        "spectral-examples": "Run spectral lint over all .yaml files in the Examples folder",
+        "spectral-scratch": "Run spectral lint over all .yaml files in the tests/Fixtures/Scratch folder",
+        "spectral": "Run all spectral tests",
         "docs:gen": "Rebuild reference documentation",
         "docs:dev": "Run dev server for local development of gh-pages",
         "docs:build": "Re-build static gh-pages"
@@ -102,7 +107,12 @@
             "export XDEBUG_MODE=off && phpstan analyse --memory-limit=2G",
             "export XDEBUG_MODE=off && psalm"
         ],
-        "spectral": "for ff in `find Examples -name '*.yaml'`; do spectral lint $ff; done",
+        "spectral-examples": "for ff in `find Examples -name '*.yaml'`; do spectral lint $ff; done",
+        "spectral-scratch": "for ff in `find tests/Fixtures/Scratch -name '*.yaml'`; do spectral lint $ff; done",
+        "spectral": [
+            "@spectral-examples",
+            "@spectral-scratch"
+        ],
         "docs:gen": [
             "@php tools/refgen.php",
             "@php tools/procgen.php"

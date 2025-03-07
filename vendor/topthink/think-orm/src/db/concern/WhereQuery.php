@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -30,13 +30,11 @@ trait WhereQuery
      */
     public function where($field, $op = null, $condition = null)
     {
-        if ($field instanceof $this) {
+        if ($field instanceof self) {
             $this->parseQueryWhere($field);
-
             return $this;
         } elseif (true === $field || 1 === $field) {
             $this->options['where']['AND'][] = true;
-
             return $this;
         } elseif (empty($field)) {
             return $this;
@@ -56,6 +54,7 @@ trait WhereQuery
                 return $query->parseWhereExp($logic, $field, $op, $condition, $param);
             });
         }
+
         return $this->parseWhereExp($logic, $field, $op, $condition, $param);
     }
 
@@ -71,7 +70,6 @@ trait WhereQuery
         $this->options['where'] = $query->getOptions('where') ?? [];
 
         $via = $query->getOptions('via');
-
         if ($via) {
             foreach ($this->options['where'] as $logic => &$where) {
                 foreach ($where as $key => &$val) {
@@ -129,6 +127,7 @@ trait WhereQuery
                 return $query->parseWhereExp($logic, $field, $op, $condition, $param);
             });
         }
+
         return $this->parseWhereExp($logic, $field, $op, $condition, $param);
     }
 

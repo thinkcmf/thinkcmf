@@ -47,7 +47,7 @@ class View extends Manager
      * @param string $type 模板引擎类型
      * @return $this
      */
-    public function engine(string $type = null)
+    public function engine(?string $type = null)
     {
         return $this->driver($type);
     }
@@ -88,7 +88,7 @@ class View extends Manager
      * @param mixed        $value 变量值
      * @return $this
      */
-    public function assign($name, $value = null)
+    public function assign($name, mixed $value = null)
     {
         if (is_array($name)) {
             $this->data = array_merge($this->data, $name);
@@ -105,7 +105,7 @@ class View extends Manager
      * @param Callable $filter 过滤方法或闭包
      * @return $this
      */
-    public function filter(callable $filter = null)
+    public function filter(?callable $filter = null)
     {
         $this->filter = $filter;
         return $this;

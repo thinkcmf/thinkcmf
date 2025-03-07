@@ -493,7 +493,6 @@ ul, ol {
     right: 6px;
     text-decoration: none;
     cursor: pointer;
-    display: none;
 }
 
 .cmf-component-tabitem:hover .cmf-component-tabclose {
@@ -502,7 +501,7 @@ ul, ol {
 }
 
 .cmf-component-tabclose-icon {
-    color: #fff
+    color: #2b1110;
 }
 
 .task-changebt {
@@ -659,11 +658,16 @@ ul, ol {
     color: #ed7669
 }
 
+.cmf-component-tabitem.active {
+    font-weight: bold;
+    background-color: #e9ebee;
+}
+
 .cmf-tabs-item-text {
     font-family: 'Microsoft Yahei', verdana;
     font-size: 12px;
     font-weight: blod;
-    line-height: 30px;
+    line-height: 54px;
     color: #010101;
     white-space: nowrap;
     text-overflow: ellipsis;

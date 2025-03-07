@@ -6,24 +6,27 @@
 
 namespace OpenApi\Attributes;
 
+use OpenApi\Annotations\Examples;
 use OpenApi\Generator;
+use OpenApi\Annotations as OA;
 
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD | \Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
-class Schema extends \OpenApi\Annotations\Schema
+class Schema extends OA\Schema
 {
     /**
-     * @param string|class-string|object|null                 $ref
-     * @param string[]                                        $required
-     * @param Property[]                                      $properties
-     * @param int|float                                       $maximum
-     * @param int|float                                       $minimum
-     * @param string[]|int[]|float[]|\UnitEnum[]|class-string $enum
-     * @param array<Schema|\OpenApi\Annotations\Schema>       $allOf
-     * @param array<Schema|\OpenApi\Annotations\Schema>       $anyOf
-     * @param array<Schema|\OpenApi\Annotations\Schema>       $oneOf
-     * @param mixed                                           $const
-     * @param array<string,mixed>|null                        $x
-     * @param Attachable[]|null                               $attachables
+     * @param string|non-empty-array<string>|null                           $type
+     * @param string|class-string|object|null                               $ref
+     * @param string[]                                                      $required
+     * @param Property[]                                                    $properties
+     * @param int|float                                                     $maximum
+     * @param int|float                                                     $minimum
+     * @param array<string|int|float|bool|\UnitEnum|null>|class-string|null $enum
+     * @param array<Examples>                                               $examples
+     * @param array<Schema|OA\Schema>                                       $allOf
+     * @param array<Schema|OA\Schema>                                       $anyOf
+     * @param array<Schema|OA\Schema>                                       $oneOf
+     * @param array<string,mixed>|null                                      $x
+     * @param Attachable[]|null                                             $attachables
      */
     public function __construct(
         // schema
@@ -35,15 +38,15 @@ class Schema extends \OpenApi\Annotations\Schema
         ?int $minProperties = null,
         ?array $required = null,
         ?array $properties = null,
-        ?string $type = null,
+        string|array|null $type = null,
         ?string $format = null,
         ?Items $items = null,
         ?string $collectionFormat = null,
         mixed $default = Generator::UNDEFINED,
         $maximum = null,
-        ?bool $exclusiveMaximum = null,
+        bool|int|float|null $exclusiveMaximum = null,
         $minimum = null,
-        ?bool $exclusiveMinimum = null,
+        bool|int|float|null $exclusiveMinimum = null,
         ?int $maxLength = null,
         ?int $minLength = null,
         ?int $maxItems = null,
@@ -57,13 +60,14 @@ class Schema extends \OpenApi\Annotations\Schema
         ?Xml $xml = null,
         ?ExternalDocumentation $externalDocs = null,
         mixed $example = Generator::UNDEFINED,
+        ?array $examples = null,
         ?bool $nullable = null,
         ?bool $deprecated = null,
         ?array $allOf = null,
         ?array $anyOf = null,
         ?array $oneOf = null,
         AdditionalProperties|bool|null $additionalProperties = null,
-        $const = Generator::UNDEFINED,
+        mixed $const = Generator::UNDEFINED,
         // annotation
         ?array $x = null,
         ?array $attachables = null
@@ -105,7 +109,7 @@ class Schema extends \OpenApi\Annotations\Schema
             'const' => $const,
             'x' => $x ?? Generator::UNDEFINED,
             'attachables' => $attachables ?? Generator::UNDEFINED,
-            'value' => $this->combine($items, $discriminator, $externalDocs, $attachables),
+            'value' => $this->combine($items, $discriminator, $externalDocs, $examples, $attachables),
         ]);
     }
 }
