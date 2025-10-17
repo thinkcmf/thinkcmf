@@ -8,10 +8,10 @@
     <div class="wrap js-check-wrap">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" href="{:url('Rbac/authorize',['id'=>$role_id])}">{:lang('ADMIN_RBAC_AUTHORIZE')}</a>
+                <a class="nav-link active" href="{:url('AdminRbac/authorize',['id'=>$role_id])}">{:lang('USER_RBAC_AUTHORIZE')}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{:url('Rbac/apiAuthorize',['id'=>$role_id])}">{:lang('ADMIN_RBAC_APIAUTHORIZE')}</a>
+                <a class="nav-link" href="{:url('AdminRbac/apiAuthorize',['id'=>$role_id])}">{:lang('USER_RBAC_APIAUTHORIZE')}</a>
             </li>
         </ul>
         <form class="js-ajax-form margin-top-20" action="admin/roles/{$role_id}/authorize" method="put">

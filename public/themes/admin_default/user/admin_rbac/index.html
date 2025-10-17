@@ -3,10 +3,10 @@
     <div class="wrap js-check-wrap">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" href="{:url('Rbac/index')}">{:lang('ADMIN_RBAC_INDEX')}</a>
+                <a class="nav-link active" href="{:url('AdminRbac/index')}">{:lang('USER_RBAC_INDEX')}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{:url('Rbac/roleAdd')}">{:lang('ADMIN_RBAC_ROLEADD')}</a>
+                <a class="nav-link" href="{:url('AdminRbac/roleAdd')}">{:lang('USER_RBAC_ROLEADD')}</a>
             </li>
         </ul>
         <form action="" method="post" class="margin-top-20">
@@ -59,11 +59,11 @@
                                 <else/>
                                 <a class="btn btn-xs btn-primary" href="javascript:"
                                    onclick="openAuthorizeDialog(this)"
-                                   data-href="{:url('Rbac/authorize',array('id'=>$vo['id']))}"
+                                   data-href="{:url('AdminRbac/authorize',array('id'=>$vo['id']))}"
                                    title="{:lang('ROLE_SETTING')}" data-toggle="tooltip">
                                     <i class="fa fa-cog fa-fw"></i>
                                 </a>
-                                <a class="btn btn-xs btn-success" href="{:url('Rbac/roleEdit',array('id'=>$vo['id']))}"
+                                <a class="btn btn-xs btn-success" href="{:url('AdminRbac/roleEdit',array('id'=>$vo['id']))}"
                                    title="{:lang('EDIT')}" data-toggle="tooltip">
                                     <i class="fa fa-edit fa-fw"></i>
                                 </a>
