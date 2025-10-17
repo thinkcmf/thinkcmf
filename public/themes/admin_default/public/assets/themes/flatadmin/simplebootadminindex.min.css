@@ -386,12 +386,14 @@
     margin-top: 0;
     margin-right: 0;
     margin-left: 200px;
+    height: 100%;
 }
 
 .page-content {
     padding: 8px 20px 24px;
     margin: 0;
     background: #fff;
+    height: 100%;
 }
 
 .main-container {
