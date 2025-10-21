@@ -23,6 +23,10 @@
         {
             "name": "55",
             "email": "wuwu@wuwuseo.com"
+        },
+        {
+          "name": "Powerless",
+          "email": "wzxaini9@163.com"
         }
     ],
     "minimum-stability": "dev",
