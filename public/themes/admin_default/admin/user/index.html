@@ -121,7 +121,7 @@
                             </a>
                             <a class="btn btn-xs btn-danger js-ajax-delete"
                                href="javascript:"
-                               data-href="admin/users/{$vo.id}" title="{:lang('DELETE')}" data-toggle="tooltip">
+                               data-href='{:url("User/delete",array("id"=>$vo["id"]))}' title="{:lang('DELETE')}" data-toggle="tooltip">
                                 <i class="fa fa-trash fa-fw"></i>
                             </a>
                         </if>

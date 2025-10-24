@@ -12,7 +12,7 @@
                 <a class="nav-link active">{:lang('ADMIN_USER_EDIT')}</a>
             </li>
         </ul>
-        <form method="PUT" class="js-ajax-form margin-top-20" action="admin/users/{$id}">
+        <form method="POST" class="js-ajax-form margin-top-20" action="{:url('User/editPost')}">
             <div class="row mb-3">
                 <label for="input-user_login" class="col-sm-2 col-form-label text-sm-end"><span class="form-required">*</span>{:lang('USERNAME')}</label>
                 <div class="col-md-8 col-sm-10">
