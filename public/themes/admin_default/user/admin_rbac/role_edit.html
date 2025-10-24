@@ -12,7 +12,7 @@
                 <a class="nav-link active">{:lang('USER_RBAC_ROLEEDIT')}</a>
             </li>
         </ul>
-        <form class="js-ajax-form margin-top-20" action="admin/roles/{$data.id}" method="PUT">
+        <form class="js-ajax-form margin-top-20" action="{:url('AdminRbac/roleEditPost')}" method="POST">
             <div class="row mb-3">
                 <label for="input-name" class="col-sm-2 col-form-label text-sm-end"><span class="form-required">*</span>{:lang('ROLE_NAME')}</label>
                 <div class="col-md-8 col-sm-10">
