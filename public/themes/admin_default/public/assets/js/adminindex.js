@@ -8,7 +8,7 @@ $(function () {
     $mainIframe      = $("#mainiframe");
     $content         = $("#content");
     $loading         = $("#loading");
-    var headerHeight = 54;
+    var headerHeight = $('.navbar-expand-lg').height();
     $content.height($(window).height() - headerHeight);
 
     $navWraper.height($(window).height() - headerHeight - 40);
@@ -41,8 +41,7 @@ $(function () {
     });
 
     $("#task-next").click(function () {
-        var marginLeft   = $taskContentInner.css("margin-left");
-        marginLeft       = marginLeft.replace("px", "");
+        var marginLeft = parseInt($taskContentInner.css("margin-left")) || 0;
         var contentInner = $("#task-content-inner").width();
         var contentWidth = $("#task-content").width();
         var lessWidth    = contentWidth - contentInner;
@@ -53,12 +52,14 @@ $(function () {
     });
 
     $("#task-pre").click(function () {
-        var marginLeft = $taskContentInner.css("margin-left");
-        marginLeft     = parseInt(marginLeft.replace("px", ""));
-        marginLeft     = marginLeft + tabwidth > 0 ? 0 : marginLeft + tabwidth;
-        // $taskContentInner.css("margin-left", marginLeft + "px");
-        $taskContentInner.stop();
-        $taskContentInner.animate({"margin-left": marginLeft + "px"}, 300, 'swing');
+        var marginLeft = parseInt($taskContentInner.css("margin-left")) || 0;
+
+        // 只有在左移了的情况下才能继续右移（即margin-left为负值时）
+        if (marginLeft < 0) {
+            var newMarginLeft = Math.min(0, marginLeft + tabwidth); // 最大为0
+            $taskContentInner.stop();
+            $taskContentInner.animate({"margin-left": newMarginLeft + "px"}, 300, 'swing');
+        }
     });
 
     $("#refresh-wrapper").click(function () {
@@ -92,8 +93,8 @@ $(function () {
 
 function calcTaskContentWidth() {
     var width = $("#task-content-inner").width();
-    if (($(document).width() - 318 - tabwidth - 30 * 2) < width) {
-        $("#task-content").width($(document).width() - 318 - tabwidth - 30 * 2);
+    if (($(document).width() - 318 - tabwidth - 10 * 2) < width) {
+        $("#task-content").width($(document).width() - 318 - tabwidth -10 * 2);
         $("#task-next,#task-pre").show();
         $('#close-all-tabs-btn').show();
     } else {
