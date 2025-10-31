@@ -1,0 +1,126 @@
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="{:url('Rbac/authorize',['id'=>$role_id])}">{:lang('ADMIN_RBAC_AUTHORIZE')}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="{:url('Rbac/apiAuthorize',['id'=>$role_id])}">{:lang('ADMIN_RBAC_APIAUTHORIZE')}</a>
+            </li>
+        </ul>
+        <form class="js-ajax-form margin-top-20" action="admin/roles/{$role_id}/api/authorize" method="put">
+            <div>
+                <button class="btn btn-xs btn-primary js-ajax-submit"
+                        data-msg="{:lang('AUTHORIZE_FOR_ADMIN_CONFIRM_MSG')}" type="submit">
+                    {:lang('Authorize')}
+                </button>
+                <a href="javascript:openApiImportDialog()" class="btn btn-xs btn-success">{:lang('Import API')}</a>
+            </div>
+            <div class="accordion margin-top-10" id="accordion" role="tablist" aria-multiselectable="true">
+                <foreach name="tags_admin_apis" item="tag_admin_apis" key="tag" index="tags_admin_apis_index">
+                    <div class="accordion-item">
+                        <div class="accordion-header" id="heading{$tags_admin_apis_index}">
+                            <a class="accordion-button"
+                               role="button" data-bs-toggle="collapse" data-parent="#accordion1"
+                               data-bs-target="#collapse{$tags_admin_apis_index}" aria-expanded="true"
+                               aria-controls="collapse{$tags_admin_apis_index}">
+                                {$tag|default=lang('Ungrouped')}
+                            </a>
+                        </div>
+                        <div id="collapse{$tags_admin_apis_index}" class="accordion-collapse collapse show"
+                             role="tabpanel"
+                             aria-labelledby="heading{$tags_admin_apis_index}">
+                            <table class="table js-check-wrap table-hover" style="table-layout: fixed;margin: 0;">
+                                <thead>
+                                <tr>
+                                    <th width="30"><input type="checkbox" class="js-check-all" data-direction="x"
+                                                          data-checklist="js-check-x{$tags_admin_apis_index}"></th>
+                                    <th>{:lang('Name')}</th>
+                                    <th>API</th>
+                                    <th>{:lang('Remark')}</th>
+                                </tr>
+                                </thead>
+                                <foreach name="tag_admin_apis" item="admin_api">
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" class="js-check" data-yid="js-check-y"
+                                                   data-xid="js-check-x{$tags_admin_apis_index}" name="ids[]"
+                                                   value="{$admin_api.id}" {$admin_api._checked?'checked':''}>
+                                        </td>
+                                        <td>{$admin_api.name}</td>
+                                        <td>{$admin_api.url}</td>
+                                        <td>{$admin_api.remark}</td>
+                                    </tr>
+                                </foreach>
+                            </table>
+                        </div>
+                    </div>
+                </foreach>
+            </div>
+            <div class="form-actions text-center mt-3">
+                <input type="hidden" name="role_id" value="{$role_id}"/>
+                <button class="btn btn-primary js-ajax-submit" type="submit"
+                        data-msg="{:lang('AUTHORIZE_FOR_ADMIN_CONFIRM_MSG')}">
+                    {:lang('Authorize')}
+                </button>
+            </div>
+        </form>
+    </div>
+</block>
+<block name="scripts">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Wind.css('treeTable');
+            Wind.use('treeTable', function () {
+                $("#authrule-tree").treeTable({
+                    indent: 20
+                });
+            });
+        });
+
+        function openApiImportDialog() {
+            parent.openIframeLayer("{:url('Api/import')}", "{:lang('Import API')}", {
+                end: function () {
+                    window.location.reload();
+                }
+            });
+        }
+
+        $('.js-check-wrap').each(function () {
+            $(this).find('.js-check:eq(0)').change();
+        });
+
+        function checknode(obj) {
+            var chk = $("input[type='checkbox']");
+            var count = chk.length;
+
+            var num = chk.index(obj);
+            var level_top = level_bottom = chk.eq(num).attr('level');
+            for (var i = num; i >= 0; i--) {
+                var le = chk.eq(i).attr('level');
+                if (le < level_top) {
+                    chk.eq(i).prop("checked", true);
+                    var level_top = level_top - 1;
+                }
+            }
+            for (var j = num + 1; j < count; j++) {
+                var le = chk.eq(j).attr('level');
+                if (chk.eq(num).prop("checked")) {
+
+                    if (le > level_bottom) {
+                        chk.eq(j).prop("checked", true);
+                    } else if (le == level_bottom) {
+                        break;
+                    }
+                } else {
+                    if (le > level_bottom) {
+                        chk.eq(j).prop("checked", false);
+                    } else if (le == level_bottom) {
+                        break;
+                    }
+                }
+            }
+        }
+    </script>
+</block>

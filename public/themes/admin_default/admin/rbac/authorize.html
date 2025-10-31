@@ -1,0 +1,79 @@
+<extend name="public@base5"/>
+<block name="head">
+    <style>.expander {
+        margin-left: -20px;
+    }</style>
+</block>
+<block name="main">
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="{:url('Rbac/authorize',['id'=>$role_id])}">{:lang('ADMIN_RBAC_AUTHORIZE')}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{:url('Rbac/apiAuthorize',['id'=>$role_id])}">{:lang('ADMIN_RBAC_APIAUTHORIZE')}</a>
+            </li>
+        </ul>
+        <form class="js-ajax-form margin-top-20" action="admin/roles/{$role_id}/authorize" method="put">
+            <div class="table_full">
+                <table class="table table-bordered" id="authrule-tree">
+                    <tbody>
+                    {$category}
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-actions text-center">
+                <input type="hidden" name="roleId" value="{$roleId}"/>
+                <button class="btn btn-primary js-ajax-submit" type="submit" data-msg="{:lang('AUTHORIZE_FOR_ADMIN_CONFIRM_MSG')}">{:lang('Authorize')}
+                </button>
+            </div>
+        </form>
+    </div>
+</block>
+<block name="scripts">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Wind.css('treeTable');
+            Wind.use('treeTable', function () {
+                $("#authrule-tree").treeTable({
+                    indent: 20
+                });
+            });
+            $("#authrule-tree input[name='menuId[]']").each(function () {
+                $(this).attr('name', 'ids[]');
+            })
+        });
+
+        function checknode(obj) {
+            var chk = $("input[type='checkbox']");
+            var count = chk.length;
+
+            var num = chk.index(obj);
+            var level_top = level_bottom = chk.eq(num).attr('level');
+            for (var i = num; i >= 0; i--) {
+                var le = chk.eq(i).attr('level');
+                if (le < level_top) {
+                    chk.eq(i).prop("checked", true);
+                    var level_top = level_top - 1;
+                }
+            }
+            for (var j = num + 1; j < count; j++) {
+                var le = chk.eq(j).attr('level');
+                if (chk.eq(num).prop("checked")) {
+
+                    if (le > level_bottom) {
+                        chk.eq(j).prop("checked", true);
+                    } else if (le == level_bottom) {
+                        break;
+                    }
+                } else {
+                    if (le > level_bottom) {
+                        chk.eq(j).prop("checked", false);
+                    } else if (le == level_bottom) {
+                        break;
+                    }
+                }
+            }
+        }
+    </script>
+</block>
