@@ -1,0 +1,41 @@
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="{:url('AdminSign/index')}">{:lang('User Register Setting')}</a>
+            </li>
+        </ul>
+        <form method="post" class="js-ajax-form margin-top-20" action="{:url('AdminSign/indexPost')}">
+            <div class="row mb-3">
+                <label for="input-banned_usernames" class="col-sm-2 col-form-label text-sm-end">
+                    {:lang('User Register Verify')}
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <select class="form-control" name="cmf_settings[open_registration]">
+                        <option value="0">{:lang('YES')}</option>
+                        <php>
+                            $open_registration_selected =
+                            empty($cmf_settings['open_registration'])?'':'selected';
+                        </php>
+                        <option value="1" {$open_registration_selected}>{:lang('NO')}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="input-banned_usernames" class="col-sm-2 col-form-label text-sm-end">{:lang('SPECIAL_USERNAME')}</label>
+                <div class="col-md-8 col-sm-10">
+                                <textarea class="form-control" id="input-banned_usernames"
+                                          name="cmf_settings[banned_usernames]">{$cmf_settings.banned_usernames|default=''}</textarea>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="offset-md-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">
+                        <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</block>

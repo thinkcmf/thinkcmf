@@ -1226,64 +1226,45 @@ Wind.ready(function () {
  *wind core
  */
 (function (win) {
-    var root      = win.GV.WEB_ROOT + win.GV.JS_ROOT || location.origin + '/public/js/', //在wind.js加载之前定义GV.JS_ROOT
+    var root      = win.GV.WEB_ROOT + win.GV.JS_ROOT || location.origin + '/public/static/js/', //在wind.js加载之前定义GV.JS_ROOT
         ver       = '',
         //定义常用JS组件别名，使用别名加载
         alias     = {
-            datePicker: 'datePicker/datePicker',
-            jquery: 'jquery',
-            colorPicker: 'colorPicker/colorPicker',
-            tabs: 'tabs/tabs',
-            swfobject: 'swfobject',
+            // 核心基础库
+            jquery: 'jquery-3.6.4.min',
             imgready: 'imgready',
 
-            //jquery util plugs
+            // UI 组件
+            tabs: 'tabs/tabs',
+            layer: 'layer/layer',
+            dragula: 'dragula/dragula.min',
+
+            // jQuery 插件
             ajaxForm: 'ajaxForm',
             cookie: 'cookie',
-            treeview: 'treeview',
             treeTable: 'treeTable/treeTable',
             draggable: 'draggable',
             validate: 'jquery.validate/jquery.validate',
             'validate-extends': 'jquery.validate/additional-methods',
             artDialog: 'artDialog/artDialog',
             iframeTools: 'artDialog/iframeTools',
-            xd: 'xd',//Iframe跨域通信
-
-            noty: 'noty/noty-2.4.1',
-            noty3: 'noty3/noty.min',
-            jcrop: 'jcrop/js/jcrop',
-            ajaxfileupload: 'ajaxfileupload',
-
-            layer: 'layer/layer',
-            plupload: 'plupload/plupload.full.min',
-
-            echarts: 'echarts/echarts.min',
-            viewer: 'viewer/viewer',
-            colorpicker:'colorpicker/js/colorpicker',
+            xd: 'xd', // Iframe跨域通信
             mousewheel: 'jquery.mousewheel/jquery.mousewheel.min',
+
+            // 第三方插件
+            noty: 'noty-2.4.1',
             bootstrapDatetimePicker: 'bootstrap-datetimepicker/js/bootstrap-datetimepicker',
-            dragula: 'dragula/dragula.min',
             imagesloaded: 'masonry/imagesloaded.pkgd.min',
-            masonry: 'masonry/masonry.pkgd.min',
-            masonry3: 'masonry/masonry-3.3.2.pkgd',
-            ueditor:'ueditor/ueditor.all.min'
+            masonry: 'masonry/masonry.pkgd.min'
         },
         //CSS路径
         alias_css = {
-            colorPicker: 'colorPicker/style',
-            artDialog: 'artDialog/skins/default',
-            datePicker: 'datePicker/style',
-            treeTable: 'treeTable/treeTable',
-            jcrop: 'jcrop/css/jquery.Jcrop.min',
-
-            layer: 'layer/skin/default/layer',
-            viewer: 'viewer/viewer',
-            noty3: 'noty3/noty',
-            colorpicker: 'colorpicker/css/colorpicker',
             animate: 'animate/animate',
+            artDialog: 'artDialog/skins/default',
             bootstrapDatetimePicker: 'bootstrap-datetimepicker/css/bootstrap-datetimepicker',
             dragula: 'dragula/dragula.min',
-            ueditor:'ueditor/themes/default/css/ueditor'
+            layer: 'layer/theme/default/layer',
+            treeTable: 'treeTable/treeTable',
         };
 
     //add suffix and version

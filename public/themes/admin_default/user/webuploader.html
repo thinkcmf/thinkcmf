@@ -1,6 +1,7 @@
-<include file="public@header"/>
-<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/webuploader/webuploader.css">
-<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/webuploader/image-upload/style.css">
+<include file="public@base5"/>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/webuploader/webuploader.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/webuploader/image-upload/style.css">
+<script src="__STATIC__/js/webuploader/webuploader.min.js"></script>
 <style>
     .state-complete .progress {
         display: none;
@@ -26,11 +27,10 @@
 </style>
 </head>
 <body class="body_none">
-
 <div class="wrap " style="padding:10px;">
     <ul class="nav nav-tabs">
-        <li class="{$tab=='local'?'active':''}"><a href="#wrapper" data-toggle="tab">{:lang('Upload File')}</a></li>
-        <li class="{$tab=='url'?'active':''}"><a href="#B" data-toggle="tab">{:lang('Network file')}</a></li>
+        <li class="nav-item {$tab=='local'?'active':''}"><a class="nav-link" href="#wrapper" data-toggle="tab">{:lang('Upload File')}</a></li>
+        <li class="nav-item {$tab=='url'?'active':''}"><a class="nav-link" href="#network" data-toggle="tab">{:lang('Network file')}</a></li>
         <notempty name="has_cloud_storage">
             <php>
                 $url_params=input('param.');
@@ -38,12 +38,10 @@
             </php>
             <li><a href="{:url('user/Asset/webuploader',$url_params)}">{:lang('Upload to cloud storage')}</a></li>
         </notempty>
-        <!--<li class=""><a href="#explorer" data-toggle="tab">文件管理</a></li>-->
     </ul>
     <div class="tabbable">
         <div class="tab-content ">
             <div class="tab-pane {$tab=='local'?'active':''}" id="wrapper">
-
                 <div id="container">
                     <!--头部，相册选择和格式选择-->
                     <div id="uploader">
@@ -68,13 +66,12 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane {$tab=='url'?'active':''}" id="B">
+            <div class="tab-pane {$tab=='url'?'active':''}" id="network">
                 <div style="padding: 10px 0;">
                     <label>{:lang('Please enter the file url:')}</label>
                     <div class="bk3"></div>
                     <input type="hidden" id="img_name" value="">
-                    <input type="text" id="info" name="info[filename]" class="input form-control" value=""
-                           placeholder="http://">
+                    <input type="text" id="info" name="info[filename]" class="input form-control" value="" placeholder="http://">
                 </div>
             </div>
             <div class="tab-pane" id="explorer">
@@ -87,14 +84,8 @@
 
 </div>
 
-<script src="__ROOT__/static/js/admin.js?v={$_static_version}"></script>
-<script src="__ROOT__/static/js/webuploader/webuploader.min.js"></script>
-
-
 <script type="text/javascript">
-
     var httpUrl = "{:cmf_get_asset_url('')}";
-
     function get_selected_files() {
         var files = [];
 
@@ -109,7 +100,7 @@
             file.name = "";//jQuery(".filelist li .title").eq(i).html();
             files.push(file);
         } else {
-            var number = jQuery(".filelist li").size();
+            var number = jQuery(".filelist li").length;
             for (var i = 0; i < number; i++) {
 
                 var file = new Object();
@@ -135,7 +126,6 @@
     var maxFiles = {$max_files};//允许上传多少文件
 
     var fileErrorMsg = {};
-
 
     (function ($) {
         // 当domReady的时候开始初始化
@@ -462,30 +452,10 @@
                         });
                     } else {
                         $wrap.css('filter', 'progid:DXImageTransform.Microsoft.BasicImage(rotation=' + (~~((file.rotation / 90) % 4 + 4) % 4) + ')');
-                        // use jquery animate to rotation
-                        // $({
-                        //     rotation: rotation
-                        // }).animate({
-                        //     rotation: file.rotation
-                        // }, {
-                        //     easing: 'linear',
-                        //     step: function( now ) {
-                        //         now = now * Math.PI / 180;
-
-                        //         var cos = Math.cos( now ),
-                        //             sin = Math.sin( now );
-
-                        //         $wrap.css( 'filter', "progid:DXImageTransform.Microsoft.Matrix(M11=" + cos + ",M12=" + (-sin) + ",M21=" + sin + ",M22=" + cos + ",SizingMethod='auto expand')");
-                        //     }
-                        // });
                     }
-
-
                 });
-
                 $li.appendTo($queue);
             }
-
             // 负责view的销毁
             function removeFile(file) {
                 var $li = $('#' + file.id);
@@ -494,7 +464,6 @@
                 updateTotalProgress();
                 $li.off().find('.file-panel').off().end().remove();
             }
-
             function updateTotalProgress() {
                 var loaded = 0,
                     total = 0,
@@ -741,8 +710,35 @@
         });
 
     })(jQuery);
+    document.addEventListener('DOMContentLoaded', function() {
+        // 手动实现 tab 切换功能
+        const tabLinks = document.querySelectorAll('[data-toggle="tab"]');
 
+        tabLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
 
+                // 获取目标面板 ID
+                const targetId = this.getAttribute('href');
+
+                // 隐藏所有 tab 面板
+                document.querySelectorAll('.tab-pane').forEach(panel => {
+                    panel.classList.remove('active');
+                });
+
+                // 显示目标面板
+                document.querySelector(targetId).classList.add('active');
+
+                // 更新导航项的 active 状态
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                // 设置当前链接的父级为 active
+                this.closest('.nav-item').classList.add('active');
+            });
+        });
+    });
 </script>
 </body>
 </html>

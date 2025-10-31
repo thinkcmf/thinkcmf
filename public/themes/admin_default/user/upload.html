@@ -1,6 +1,7 @@
-<include file="public@header"/>
+<include file="public@base5"/>
 <link rel="stylesheet" type="text/css" href="__ROOT__/static/js/webuploader/webuploader.css">
 <link rel="stylesheet" type="text/css" href="__ROOT__/static/js/webuploader/image-upload/style.css">
+<script src="__ROOT__/static/js/webuploader/webuploader.min.js"></script>
 <style>
     .state-complete .progress {
         display: none;
@@ -22,7 +23,6 @@
 </style>
 </head>
 <body class="body_none">
-
 <div class="wrap " style="padding:5px;">
     <div class="tabbable">
         <div class="tab-content ">
@@ -65,15 +65,8 @@
     </div>
 
 </div>
-
-<script src="__ROOT__/static/js/admin.js?v={$_static_version}"></script>
-<script src="__ROOT__/static/js/webuploader/webuploader.min.js"></script>
-
-
 <script type="text/javascript">
-
     var httpUrl = "{:cmf_get_asset_url('')}";
-
     function get_selected_files() {
         var files = [];
 
@@ -88,7 +81,7 @@
             file.name        = "";//jQuery(".filelist li .title").eq(i).html();
             files.push(file);
         } else {
-            var number = jQuery(".filelist li").size();
+            var number = jQuery(".filelist li").length;
             for (var i = 0; i < number; i++) {
 
                 var file         = new Object();
