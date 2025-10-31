@@ -30,7 +30,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 offset-md-4">
-                <h1 class="text-center">{$_admin_setting.admin_name|default='ThinkCMF'}</h1>
+                <h1 class="text-center"><b style="text-shadow:1px 0px 0px #fff,-1px 0px 0px #fff,0px 1px 0px #fff,0px -1px 0px #fff; ">{$_admin_setting.admin_name|default='ThinkCMF'}</b></h1>
                 <form class="js-ajax-form" action="{:url('public/doLogin')}" method="post">
                     <div class="mb-3">
                         <input type="text" id="input_username" class="form-control form-control-lg" name="username"
@@ -94,10 +94,10 @@
         }
     };
 </script>
-<script src="__TMPL__/public/assets/js/jquery-3.6.4.min.js?v={$_static_version}"></script>
+<script src="__STATIC__/js/jquery-3.6.4.min.js?v={$_static_version}"></script>
 <script src="__STATIC__/js/wind.js?v={$_static_version}"></script>
 <script>
-    Wind.alias({noty: '__TMPL__/public/assets/js/noty-2.4.1.js'})
+    Wind.alias({noty: '__STATIC__/js//noty-2.4.1.js'})
 </script>
 <script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
 <script>
