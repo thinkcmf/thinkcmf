@@ -9,7 +9,7 @@
 				<a class="nav-link active" href="{:url('User/add')}">{:lang('ADMIN_USER_ADD')}</a>
 			</li>
 		</ul>
-		<form method="post" class="js-ajax-form margin-top-20" action="{:url('User/addPost')}">
+        <form class="form-horizontal js-ajax-form margin-top-20" role="form" action="admin/user/save" method="PUT">
 			<div class="row mb-3">
 				<label for="input-user_login" class="col-sm-2 col-form-label text-sm-end"><span class="form-required">*</span>{:lang('USERNAME')}</label>
 				<div class="col-md-8 col-sm-10">
